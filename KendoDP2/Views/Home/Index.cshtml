@@ -1,29 +1,76 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Dashboard IWIW", "statistics and more"));}
 
-
-    <div class="featured">
-        <div class="content-wrapper">
-            <hgroup class="title">
-                <h1>@ViewBag.Title.</h1>
-                <h2>@ViewBag.Message</h2>
-            </hgroup>
-			<p>
-                To learn more about ASP.NET MVC visit
-                <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
-                The page features <mark>videos, tutorials, and samples</mark> to help you get the most from ASP.NET MVC.
-                If you have any questions about ASP.NET MVC visit
-                <a href="http://forums.asp.net/1146.aspx/1?MVC" title="ASP.NET MVC Forum">our forums</a>.
-            </p>
+<div id="dashboard">
+    <!-- BEGIN DASHBOARD STATS -->
+    <div class="row-fluid">
+        <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
+            <div class="dashboard-stat blue">
+                <div class="visual">
+                    <i class="icon-comments"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        1349
+                    </div>
+                    <div class="desc">
+                        New Feedbacks
+                    </div>
+                </div>
+                <a class="more" href="#">View more <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+        <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
+            <div class="dashboard-stat green">
+                <div class="visual">
+                    <i class="icon-shopping-cart"></i>
+                </div>
+                <div class="details">
+                    <div class="number">549</div>
+                    <div class="desc">New Orders</div>
+                </div>
+                <a class="more" href="#">View more <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+        <div class="span3 responsive" data-tablet="span6  fix-offset" data-desktop="span3">
+            <div class="dashboard-stat purple">
+                <div class="visual">
+                    <i class="icon-globe"></i>
+                </div>
+                <div class="details">
+                    <div class="number">+89%</div>
+                    <div class="desc">Brand Popularity</div>
+                </div>
+                <a class="more" href="#">View more <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
+        </div>
+        <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
+            <div class="dashboard-stat yellow">
+                <div class="visual">
+                    <i class="icon-bar-chart"></i>
+                </div>
+                <div class="details">
+                    <div class="number">12,5M$</div>
+                    <div class="desc">Total Profit</div>
+                </div>
+                <a class="more" href="#">View more <i class="m-icon-swapright m-icon-white"></i>
+                </a>
+            </div>
         </div>
     </div>
-    
+</div>
+    <!-- END DASHBOARD STATS -->
+    <div class="clearfix"></div>
 
-<h3>Kendo UI PanelBar</h3>
-<br />
+    <h3>Kendo UI PanelBar</h3>
+    <br />
 
-@(Html.Kendo().PanelBar()
+    @(Html.Kendo().PanelBar()
     .Name("IntroPanelBar")
     .Items(items =>
     {
@@ -32,25 +79,31 @@
             .Selected(true)
             .Expanded(true)
             .Content(@<text>
-                <p style="padding:0 1em">ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
+    <p style="padding: 0 1em">
+        ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
                 enables a clean separation of concerns and that gives you full control over markup
                 for enjoyable, agile development. ASP.NET MVC includes many features that enable
                 fast, TDD-friendly development for creating sophisticated applications that use
                 the latest web standards.
-                <a href="http://go.microsoft.com/fwlink/?LinkId=245151">Learn more…</a></p>
-            </text>);
+                <a href="http://go.microsoft.com/fwlink/?LinkId=245151">Learn more…</a>
+    </p>
+    </text>);
         items.Add()
             .Text("Add NuGet packages and jump-start your coding")
             .Content(@<text>
-                <p style="padding:0 1em">NuGet makes it easy to install and update free libraries and tools.
-                <a href="http://go.microsoft.com/fwlink/?LinkId=245153">Learn more…</a></p>
-            </text>);
+    <p style="padding: 0 1em">
+        NuGet makes it easy to install and update free libraries and tools.
+                <a href="http://go.microsoft.com/fwlink/?LinkId=245153">Learn more…</a>
+    </p>
+    </text>);
         items.Add()
             .Text("Find Web Hosting")
             .Content(@<text>
-                <p style="padding:0 1em">You can easily find a web hosting company that offers the right mix of features
+    <p style="padding: 0 1em">
+        You can easily find a web hosting company that offers the right mix of features
                 and price for your applications.
-                <a href="http://go.microsoft.com/fwlink/?LinkId=245157">Learn more…</a></p>
-            </text>);
+                <a href="http://go.microsoft.com/fwlink/?LinkId=245157">Learn more…</a>
+    </p>
+</text>);
     })
 )
