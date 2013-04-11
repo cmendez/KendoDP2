@@ -7,7 +7,6 @@ using System.Web;
 
 namespace KendoDP2.Models.Seguridad
 {
-    [Table("Rol")]
     public class Rol : DBObject
     {
         public string Nombre { get; set; }

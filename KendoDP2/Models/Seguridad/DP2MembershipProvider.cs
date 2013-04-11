@@ -152,7 +152,8 @@ namespace KendoDP2.Models.Seguridad
             {
                 var usuarios = from user in db.TablaUsuarios.Dbset
                                where user.Username.Equals(username, StringComparison.CurrentCultureIgnoreCase) &&
-                                user.Password.Equals(password, StringComparison.CurrentCultureIgnoreCase)
+                                 user.Password.Equals(password, StringComparison.CurrentCultureIgnoreCase) &&
+                                 !user.IsEliminado
                                select user;
                 if (usuarios.ToArray().Length > 0)
                     return true;

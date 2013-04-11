@@ -71,10 +71,15 @@ namespace KendoDP2.Models.Generic
             }
         }
 
-        public T FindByAttributeStringAsSingle(string name, string value)
+        /*
+         * Busca un elemento usando un atributo de tipo string como busqueda. 
+         * name: Nombre del atributo en la clase misma. Por ejemplo, Username de la clase Usuario
+         * value: Valor a buscar.
+         */
+        public T FindByAttributeStringAsSingle(string name, string value, bool incluyeEliminadoLogico = false)
         {
             var query = Dbset.SqlQuery("select * from " + classType.Name + " where " + name + " = '" + value + "'");
-            var elementos = query.ToList();
+            var elementos = query.ToList().Where(x => !x.IsEliminado || incluyeEliminadoLogico).ToList();
             return elementos.Count > 0 ? elementos[0] : null;
         }
 

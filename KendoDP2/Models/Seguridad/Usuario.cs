@@ -7,7 +7,6 @@ using System.Web;
 
 namespace KendoDP2.Models.Seguridad
 {
-    [Table("Usuario")]
     public class Usuario : DBObject
     {
         public string Username { get; set; }
