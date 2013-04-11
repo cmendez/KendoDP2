@@ -15,7 +15,7 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<Usuario> TablaUsuarios { get; set; }
         
         public DP2Context()
-            : base("Server=9b60ba48-d1f0-4481-9114-a19d01035a96.sqlserver.sequelizer.com;Database=db9b60ba48d1f044819114a19d01035a96;User ID=nooadgkzovbzpkrr;Password=sRs7Ga3UmBzfcVpWN7DiiwWyZ8gJeVgYxmKSXyvENVWNXt4UHppM4FG542gH3rPy;")
+            //: base("Server=9b60ba48-d1f0-4481-9114-a19d01035a96.sqlserver.sequelizer.com;Database=db9b60ba48d1f044819114a19d01035a96;User ID=nooadgkzovbzpkrr;Password=sRs7Ga3UmBzfcVpWN7DiiwWyZ8gJeVgYxmKSXyvENVWNXt4UHppM4FG542gH3rPy;")
         {
             TablaRoles = new DBGenericRequester<Rol>(this, Roles);
             TablaUsuarios = new DBGenericRequester<Usuario>(this, Usuarios);
@@ -49,13 +49,4 @@ namespace KendoDP2.Models.Generic
 
     }
 
-    
-    //public class DP2ContextInitializer : DropCreateDatabaseIfModelChanges<DP2Context>
-    //public class DP2ContextInitializer : DropCreateDatabaseAlways<DP2Context>
-    public class DP2ContextInitializer : CreateDatabaseIfNotExists<DP2Context>
-    {
-        protected override void Seed(DP2Context context){
-            context.Seed();
-        }
-    }
 }
