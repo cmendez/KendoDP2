@@ -15,7 +15,7 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<Usuario> TablaUsuarios { get; set; }
         
         public DP2Context()
-            //: base("Data Source=inti.lab.inf.pucp.edu.pe;Initial Catalog=inf2450881h4;Persist Security Info=True;User ID=inf2450881h4dba;Password=zapatilla")
+            : base("Server=9b60ba48-d1f0-4481-9114-a19d01035a96.sqlserver.sequelizer.com;Database=db9b60ba48d1f044819114a19d01035a96;User ID=nooadgkzovbzpkrr;Password=sRs7Ga3UmBzfcVpWN7DiiwWyZ8gJeVgYxmKSXyvENVWNXt4UHppM4FG542gH3rPy;")
         {
             TablaRoles = new DBGenericRequester<Rol>(this, Roles);
             TablaUsuarios = new DBGenericRequester<Usuario>(this, Usuarios);
@@ -49,12 +49,11 @@ namespace KendoDP2.Models.Generic
 
     }
 
-    /*
-     * Elegir una de las dos siguientes lineas. La primera es para limpiar la BD cada vez que el modelo cambia. La segunda es para limpiar la BD
-     * siempre que se corra la aplicacion. En ambos casos, al limpiar la BD se realiza el seed.
-     */
-   public class DP2ContextInitializer : DropCreateDatabaseIfModelChanges<DP2Context>{
-   //public class DP2ContextInitializer : DropCreateDatabaseAlways<DP2Context>{
+    
+    //public class DP2ContextInitializer : DropCreateDatabaseIfModelChanges<DP2Context>
+    //public class DP2ContextInitializer : DropCreateDatabaseAlways<DP2Context>
+    public class DP2ContextInitializer : CreateDatabaseIfNotExists<DP2Context>
+    {
         protected override void Seed(DP2Context context){
             context.Seed();
         }
