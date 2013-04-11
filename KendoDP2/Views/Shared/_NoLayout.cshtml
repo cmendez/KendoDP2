@@ -41,61 +41,9 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	<link href="@Url.Content("~/Content/assets/plugins/bootstrap-daterangepicker/daterangepicker.css")" rel="stylesheet" type="text/css" />
 	<link href="@Url.Content("~/Content/assets/plugins/fullcalendar/fullcalendar/bootstrap-fullcalendar.css")" rel="stylesheet" type="text/css"/>
 	<link href="@Url.Content("~/Content/assets/plugins/jqvmap/jqvmap/jqvmap.css")" rel="stylesheet" type="text/css" media="screen"/>
+    <link href="@Url.Content("~/Content/assets/css/pages/login.css")" rel="stylesheet" type="text/css"/>
 	<!-- END PAGE LEVEL STYLES -->
 	<link rel="shortcut icon" href="favicon.ico" />
 </head>
-	<body class="fixed-top">
-	<!-- BEGIN HEADER -->
-	<div class="header navbar navbar-inverse navbar-fixed-top">
-		<!-- BEGIN TOP NAVIGATION BAR -->
-		@{Html.RenderPartial("_NavigationBar");}
-		<!-- END TOP NAVIGATION BAR -->
-	</div>
-	<!-- END HEADER -->
-	<!-- BEGIN CONTAINER -->
-	<div class="page-container row-fluid">
-		<!-- BEGIN SIDEBAR -->
-		@{Html.RenderPartial("_Sidebar");}
-		<!-- END SIDEBAR -->
-		<!-- BEGIN PAGE -->
-		<div class="page-content">
-			<!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
-			<div id="portlet-config" class="modal hide">
-				<div class="modal-header">
-					<button data-dismiss="modal" class="close" type="button"></button>
-					<h3>Widget Settings</h3>
-				</div>
-				<div class="modal-body">
-					Widget settings form goes here
-				</div>
-			</div>
-			<!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
-			<!-- BEGIN PAGE CONTAINER-->
-            <div class="container-fluid">
-			@RenderBody()
-            </div>
-			<!-- END PAGE CONTAINER-->		
-		</div>
-		<!-- END PAGE -->
-	</div>
-	<!-- END CONTAINER -->
-	<!-- BEGIN FOOTER -->
-	@{Html.RenderPartial("_Footer");}
-	<!-- END FOOTER -->
-	@{Html.RenderPartial("_CustomJavascripts");}
-	<script>
-	    
-		jQuery(document).ready(function() {		
-			App.init(); // initlayout and core plugins
-			Index.init();
-			//Index.initJQVMAP(); // init index page's custom scripts
-			Index.initCalendar(); // init index page's custom scripts
-			Index.initCharts(); // init index page's custom scripts
-			Index.initChat();
-			Index.initDashboardDaterange();
-			Index.initIntro();
-		});
-	</script>
-	<!-- END JAVASCRIPTS -->
-</body>
+    @RenderBody()
 </html>

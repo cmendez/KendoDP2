@@ -1,5 +1,7 @@
-﻿using System;
+﻿using KendoDP2.Models.Generic;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -39,7 +41,8 @@ namespace KendoDP2
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-
+            // Se registra el inicializador de base de datos.
+            Database.SetInitializer<DP2Context>(new DP2ContextInitializer());
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
         }

@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace KendoDP2.Models.Generic
 {
-    public abstract class DBOject
+    public abstract class DBObject
     {
         [Key]
         public int ID { get; set; }

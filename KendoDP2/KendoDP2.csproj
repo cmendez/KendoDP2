@@ -175,12 +175,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Carrera\CarreraAreaRegistration.cs" />
+    <Compile Include="Areas\Configuracion\ConfiguracionAreaRegistration.cs" />
+    <Compile Include="Areas\Evaluaciones\EvaluacionesAreaRegistration.cs" />
+    <Compile Include="Areas\Personal\PersonalAreaRegistration.cs" />
+    <Compile Include="Areas\Reclutamiento\ReclutamientoAreaRegistration.cs" />
+    <Compile Include="Areas\Reportes\ReportesAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Models\Generic\DBGenericRequester.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Generic\DBOject.cs" />
+    <Compile Include="Models\Generic\DBObject.cs" />
+    <Compile Include="Models\Generic\DP2Context.cs" />
+    <Compile Include="Models\Generic\DP2MembershipProvider.cs" />
+    <Compile Include="Models\Generic\Rol.cs" />
+    <Compile Include="Models\Generic\DP2RolProvider.cs" />
+    <Compile Include="Models\Generic\Usuario.cs" />
     <Compile Include="Models\Helpers\PageTitle.cs" />
+    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1678,6 +1691,12 @@
     <Content Include="Content\assets\plugins\select2\select2.jquery.json" />
     <Content Include="Content\assets\plugins\select2\select2_locale_en.js.template" />
     <Content Include="Content\assets\plugins\uniform\README.textile" />
+    <Content Include="Areas\Reclutamiento\Views\Web.config" />
+    <Content Include="Areas\Configuracion\Views\Web.config" />
+    <Content Include="Areas\Reportes\Views\Web.config" />
+    <Content Include="Areas\Carrera\Views\Web.config" />
+    <Content Include="Areas\Evaluaciones\Views\Web.config" />
+    <Content Include="Areas\Personal\Views\Web.config" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -1777,7 +1796,9 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -1809,9 +1830,30 @@
     <Content Include="Views\Shared\_NavigationBar.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Shared\Titulo.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Shared\_NoLayout.cshtml" />
+    <Content Include="Views\Shared\_CustomJavascripts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Carrera\Controllers\" />
+    <Folder Include="Areas\Carrera\Models\" />
+    <Folder Include="Areas\Carrera\Views\Shared\" />
+    <Folder Include="Areas\Configuracion\Controllers\" />
+    <Folder Include="Areas\Configuracion\Models\" />
+    <Folder Include="Areas\Configuracion\Views\Shared\" />
+    <Folder Include="Areas\Evaluaciones\Controllers\" />
+    <Folder Include="Areas\Evaluaciones\Models\" />
+    <Folder Include="Areas\Evaluaciones\Views\Shared\" />
+    <Folder Include="Areas\Personal\Controllers\" />
+    <Folder Include="Areas\Personal\Models\" />
+    <Folder Include="Areas\Personal\Views\Shared\" />
+    <Folder Include="Areas\Reclutamiento\Controllers\" />
+    <Folder Include="Areas\Reclutamiento\Models\" />
+    <Folder Include="Areas\Reclutamiento\Views\Shared\" />
+    <Folder Include="Areas\Reportes\Controllers\" />
+    <Folder Include="Areas\Reportes\Models\" />
+    <Folder Include="Areas\Reportes\Views\Shared\" />
     <Folder Include="Content\assets\plugins\jquery-file-upload\server\php\files\thumbnail\" />
   </ItemGroup>
   <ItemGroup>
