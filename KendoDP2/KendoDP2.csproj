@@ -188,12 +188,12 @@
     </Compile>
     <Compile Include="Models\Generic\DBObject.cs" />
     <Compile Include="Models\Generic\DP2Context.cs" />
-    <Compile Include="Models\Generic\DP2MembershipProvider.cs" />
-    <Compile Include="Models\Generic\Rol.cs" />
-    <Compile Include="Models\Generic\DP2RolProvider.cs" />
-    <Compile Include="Models\Generic\Usuario.cs" />
+    <Compile Include="Models\Seguridad\DP2MembershipProvider.cs" />
+    <Compile Include="Models\Seguridad\Rol.cs" />
+    <Compile Include="Models\Seguridad\DP2RolProvider.cs" />
+    <Compile Include="Models\Seguridad\Usuario.cs" />
     <Compile Include="Models\Helpers\PageTitle.cs" />
-    <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\Seguridad\LoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
