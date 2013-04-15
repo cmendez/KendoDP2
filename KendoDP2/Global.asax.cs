@@ -46,17 +46,25 @@ namespace KendoDP2
             Thread.CurrentThread.CurrentCulture = new CultureInfo("es-MX");
             AreaRegistration.RegisterAllAreas();
             // Se registra el inicializador de base de datos.
-            Database.SetInitializer<DP2Context>(new DP2ContextInitializer());
+            if (System.Diagnostics.Debugger.IsAttached) {
+                Database.SetInitializer<DP2Context>(new DP2ContextInitializerDEBUG());
+            } else {
+                Database.SetInitializer<DP2Context>(new DP2ContextInitializerRELEASE());
+            }
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
         }
     }
-#if DEBUG
-    public class DP2ContextInitializer : DropCreateDatabaseIfModelChanges<DP2Context>
-    //public class DP2ContextInitializer : DropCreateDatabaseAlways<DP2Context>
-#else
-    public class DP2ContextInitializer : CreateDatabaseIfNotExists<DP2Context>
-#endif
+
+    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
+    public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
+    {
+        protected override void Seed(DP2Context context)
+        {
+            context.Seed();
+        }
+    }
+    public class DP2ContextInitializerRELEASE : CreateDatabaseIfNotExists<DP2Context>
     {
         protected override void Seed(DP2Context context)
         {
