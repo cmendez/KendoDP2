@@ -16,21 +16,33 @@
         }
     )
     .ToolBar(toolbar => toolbar.Create().Text("Registrar"))
-    .Editable(editable => editable.Mode(GridEditMode.InLine).DisplayDeleteConfirmation("¿Está seguro que desea eliminar este registro?"))
+    .Editable(editable => editable
+        .Mode(GridEditMode.PopUp)
+        .DisplayDeleteConfirmation("¿Está seguro que desea eliminar este registro?")
+        .Window(w => w.Title("Editar"))
+    )
     .Pageable(paper => paper.Refresh(true))
     .Filterable()
     .Sortable()
     .Scrollable()
     .DataSource(dataSource => dataSource
         .Ajax()
+        .PageSize(20)
         .Model(model => model.Id(p => p.ID))
         .Create(update => update.Action("EditingInline_Create", "Competencias"))
         .Read(read => read.Action("EditingInline_Read", "Competencias"))
         .Update(update => update.Action("EditingInline_Update", "Competencias"))
         .Destroy(update => update.Action("EditingInline_Destroy", "Competencias"))
+    ).Events(events => events
+        .Edit("_edit")
     )
 
 )
 
+<script type="text/javascript">
+    function _edit(e) {
+        
+    }
+</script>
 
 
