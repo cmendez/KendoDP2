@@ -513,6 +513,7 @@
     <Content Include="Content\assets\img\loading.gif" />
     <Content Include="Content\assets\img\logo-big.png" />
     <Content Include="Content\assets\img\logo.png" />
+    <Content Include="Content\assets\img\logo2-big.png" />
     <Content Include="Content\assets\img\menu-toggler.png" />
     <Content Include="Content\assets\img\overlay-icon.png" />
     <Content Include="Content\assets\img\photo1.jpg" />
