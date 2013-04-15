@@ -40,7 +40,7 @@ namespace KendoDP2.Models.Generic
         // NO TOCAR
         
         public DP2Context()
-            : base("Server=ec642b83-026e-4057-8c23-a1a10059cc52.sqlserver.sequelizer.com;Database=dbec642b83026e40578c23a1a10059cc52;User ID=lrdktorkhzszhcue;Password=4iwqoAP4EswHtKP55Nif7sWPDPTtRSbpTiGdSr38an3AkgfPqXaL5QnJuQUFQvkU;")
+            : base("Server=028dd9f3-89c5-4933-a0b8-a1a10067f573.sqlserver.sequelizer.com;Database=db028dd9f389c54933a0b8a1a10067f573;User ID=hcuebpeptecskimj;Password=Jdd3Swtc56RcEurMbgjdr4KNLw2UKBm8mx6Lrrc3VUnf2ifxZyQqjzeNzwqvDFzB;")
         {
             RegistrarTablas();
         }
