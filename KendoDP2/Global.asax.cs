@@ -15,9 +15,13 @@ namespace KendoDP2
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
+    
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        public static bool IsDebug = false;
+        public static string ConnectionString = "Server=028dd9f3-89c5-4933-a0b8-a1a10067f573.sqlserver.sequelizer.com;Database=db028dd9f389c54933a0b8a1a10067f573;User ID=hcuebpeptecskimj;Password=Jdd3Swtc56RcEurMbgjdr4KNLw2UKBm8mx6Lrrc3VUnf2ifxZyQqjzeNzwqvDFzB;"; 
+        
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
@@ -46,7 +50,7 @@ namespace KendoDP2
             Thread.CurrentThread.CurrentCulture = new CultureInfo("es-MX");
             AreaRegistration.RegisterAllAreas();
             // Se registra el inicializador de base de datos.
-            if (System.Diagnostics.Debugger.IsAttached) {
+            if (IsDebug) {
                 Database.SetInitializer<DP2Context>(new DP2ContextInitializerDEBUG());
             } else {
                 Database.SetInitializer<DP2Context>(new DP2ContextInitializerRELEASE());
