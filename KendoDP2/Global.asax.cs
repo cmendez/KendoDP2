@@ -52,9 +52,9 @@ namespace KendoDP2
         }
     }
 
-    public class DP2ContextInitializer : DropCreateDatabaseIfModelChanges<DP2Context>
+    //public class DP2ContextInitializer : DropCreateDatabaseIfModelChanges<DP2Context>
     //public class DP2ContextInitializer : DropCreateDatabaseAlways<DP2Context>
-    //public class DP2ContextInitializer : CreateDatabaseIfNotExists<DP2Context>
+    public class DP2ContextInitializer : CreateDatabaseIfNotExists<DP2Context>
     {
         protected override void Seed(DP2Context context)
         {
