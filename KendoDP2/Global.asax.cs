@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -40,6 +42,8 @@ namespace KendoDP2
 
         protected void Application_Start()
         {
+            //Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-ES");
+            //Thread.CurrentThread.CurrentCulture = new CultureInfo("es-ES");
             AreaRegistration.RegisterAllAreas();
             // Se registra el inicializador de base de datos.
             Database.SetInitializer<DP2Context>(new DP2ContextInitializer());

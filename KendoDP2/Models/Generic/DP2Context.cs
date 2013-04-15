@@ -1,4 +1,5 @@
-﻿using KendoDP2.Models.Seguridad;
+﻿using KendoDP2.Areas.Evaluacion360.Models;
+using KendoDP2.Models.Seguridad;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -11,15 +12,29 @@ namespace KendoDP2.Models.Generic
     public partial class DP2Context : DbContext
     {
         // Toquenlo
-        private DbSet<Rol> Roles { get; set; }
-        private DbSet<Usuario> Usuarios { get; set; }
+        // Area Seguridad
+        public DbSet<Rol> Roles { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
+
         public DBGenericRequester<Rol> TablaRoles { get; set; }
         public DBGenericRequester<Usuario> TablaUsuarios { get; set; }
 
+        // Area Evaluacion360
+        public DbSet<Competencia> Competencias { get; set; }
+
+        public DBGenericRequester<Competencia> TablaCompetencias { get; set; }
+
+       
+
         private void RegistrarTablas()
         {
+            // Area Seguridad
             TablaRoles = new DBGenericRequester<Rol>(this, Roles);
             TablaUsuarios = new DBGenericRequester<Usuario>(this, Usuarios);
+
+            // Area Evaluacion360
+            TablaCompetencias = new DBGenericRequester<Competencia>(this, Competencias);
+
         }
 
         // NO TOCAR

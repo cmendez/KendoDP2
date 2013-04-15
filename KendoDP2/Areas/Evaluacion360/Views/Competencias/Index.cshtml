@@ -1,0 +1,36 @@
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Evaluacion360.Models
+@{
+    ViewBag.SidebarSelectedSubOption = ViewBag.Title = "Competencias";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Competencias", "Administre las competencias de la empresa"));}
+
+@(Html.Kendo().Grid<CompetenciaDTO>()
+    .Name("CompetenciasGrid")
+    .Columns(columns =>
+        {
+            columns.Bound(p => p.Nombre);
+            columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
+        }
+    )
+    .ToolBar(toolbar => toolbar.Create())
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+    .Pageable(paper => paper.Refresh(true))
+    .Filterable()
+    .Sortable()
+    .Scrollable()
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Model(model => model.Id(p => p.ID))
+        .Create(update => update.Action("EditingInline_Create", "Competencias"))
+        .Read(read => read.Action("EditingInline_Read", "Competencias"))
+        .Update(update => update.Action("EditingInline_Update", "Competencias"))
+        .Destroy(update => update.Action("EditingInline_Destroy", "Competencias"))
+    )
+
+)
+
+
+

@@ -1,22 +1,22 @@
 ﻿using System.Web.Mvc;
 
-namespace KendoDP2.Areas.Evaluaciones
+namespace KendoDP2.Areas.Evaluacion360
 {
-    public class EvaluacionesAreaRegistration : AreaRegistration
+    public class Evaluacion360AreaRegistration : AreaRegistration
     {
         public override string AreaName
         {
             get
             {
-                return "Evaluaciones";
+                return "Evaluacion360";
             }
         }
 
         public override void RegisterArea(AreaRegistrationContext context)
         {
             context.MapRoute(
-                "Evaluaciones_default",
-                "Evaluaciones/{controller}/{action}/{id}",
+                "Evaluacion360_default",
+                "Evaluacion360/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }
             );
         }

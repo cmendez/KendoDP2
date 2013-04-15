@@ -1,4 +1,20 @@
-﻿<div class="page-sidebar nav-collapse collapse">
+﻿@helper GetOptionClass(string desiredText) {
+    if (((string)ViewBag.SidebarSelectedOption).Equals(desiredText)) {
+        @: start active
+    } else {
+        @:
+    }
+}
+
+@helper GetSubOptionClass(string desiredText) {
+    if (((string)ViewBag.SidebarSelectedSubOption).Equals(desiredText)) {
+        @: active
+    } else {
+        @:
+    }
+}
+
+<div class="page-sidebar nav-collapse collapse">
 			<!-- BEGIN SIDEBAR MENU -->        	
 			<ul>
 				<li>
@@ -17,13 +33,31 @@
 					</form>
 					<!-- END RESPONSIVE QUICK SEARCH FORM -->
 				</li>
-				<li class="start active ">
-					<a href="index.html">
-					<i class="icon-home"></i> 
-					<span class="title">Dashboard</span>
-					<span class="selected"></span>
+				<li class="@GetOptionClass("Inicio")">
+					<a href="@Url.Action("Index", "Home", new {Area = "" })">
+					    <i class="icon-home"></i> 
+					    <span class="title">Inicio</span>
+					    <span class="selected"></span>
 					</a>
 				</li>
+                <li class="@GetOptionClass("Evaluacion360")">
+                    <a href="javascript:;">
+                        <i class="icon-pencil"></i> 
+                        <span class="title">Evaluación 360</span>
+                        <span class="arrow "></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="@GetSubOptionClass("Competencias")">
+                            <a href="@Url.Action("Index", "Competencias", new {area = "Evaluacion360" })">
+                                <i class="icon-plus-sign"></i>
+                                Competencias
+                            </a>
+                        </li>
+                    </ul>
+                    
+
+                    
+                </li>
 				<li class="">
 					<a href="javascript:;">
 					<i class="icon-cogs"></i> 

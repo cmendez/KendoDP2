@@ -12,6 +12,11 @@ namespace KendoDP2.Controllers
 {
     public class HomeController : Controller
     {
+        public HomeController() : base()
+        {
+            ViewBag.SidebarSelectedOption = "Inicio";
+        }
+
         [Authorize(Roles = "Administrador")]
         public ActionResult Index()
         {
