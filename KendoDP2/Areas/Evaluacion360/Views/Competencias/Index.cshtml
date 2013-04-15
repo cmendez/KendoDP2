@@ -12,11 +12,11 @@
     .Columns(columns =>
         {
             columns.Bound(p => p.Nombre);
-            columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
+            columns.Command(command => { command.Edit().Text("Editar").UpdateText("Actualizar").CancelText("Cancelar"); command.Destroy().Text("Eliminar"); }).Width(200);
         }
     )
-    .ToolBar(toolbar => toolbar.Create())
-    .Editable(editable => editable.Mode(GridEditMode.InLine))
+    .ToolBar(toolbar => toolbar.Create().Text("Registrar"))
+    .Editable(editable => editable.Mode(GridEditMode.InLine).DisplayDeleteConfirmation("¿Está seguro que desea eliminar este registro?"))
     .Pageable(paper => paper.Refresh(true))
     .Filterable()
     .Sortable()

@@ -558,6 +558,7 @@
     <Content Include="Content\assets\img\sidebar-toggler.png" />
     <Content Include="Content\assets\img\syncfusion-icons-white.png" />
     <Content Include="Content\assets\img\syncfusion-icons.png" />
+    <Content Include="Content\assets\img\logo2.png" />
     <Content Include="Content\assets\plugins\bootstrap-colorpicker\css\colorpicker.css" />
     <Content Include="Content\assets\plugins\bootstrap-colorpicker\img\alpha.png" />
     <Content Include="Content\assets\plugins\bootstrap-colorpicker\img\hue.png" />
@@ -1371,6 +1372,7 @@
     <Content Include="Content\assets\scripts\ui-nestable.js" />
     <Content Include="Content\assets\scripts\ui-sliders.js" />
     <Content Include="Content\assets\scripts\ui-tree.js" />
+    <Content Include="Content\intl\kendo.es-MX.js" />
     <Content Include="Content\kendo\2013.1.319\Black\editor.png" />
     <Content Include="Content\kendo\2013.1.319\Black\imagebrowser.png" />
     <Content Include="Content\kendo\2013.1.319\Black\loading-image.gif" />

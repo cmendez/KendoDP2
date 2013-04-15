@@ -110,7 +110,7 @@
 								<a href="inbox.html?a=view">
 								<span class="photo"><img src="@Url.Content("~/Content/assets/img/avatar1.jpg")" alt="" /></span>
 								<span class="subject">
-								<span class="from">Bob Nilson</span>
+								<span class="from">@User.Identity.Name</span>
 								<span class="time">2 hrs</span>
 								</span>
 								<span class="message">
@@ -211,7 +211,7 @@
 					<li class="dropdown user">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 						<img alt="" src="@Url.Content("~/Content/assets/img/avatar1_small.jpg")" />
-						<span class="username">Bob Nilson</span>
+						<span class="username">@User.Identity.Name</span>
 						<i class="icon-angle-down"></i>
 						</a>
 						<ul class="dropdown-menu">

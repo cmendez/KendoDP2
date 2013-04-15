@@ -42,8 +42,8 @@ namespace KendoDP2
 
         protected void Application_Start()
         {
-            //Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-ES");
-            //Thread.CurrentThread.CurrentCulture = new CultureInfo("es-ES");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-MX");
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("es-MX");
             AreaRegistration.RegisterAllAreas();
             // Se registra el inicializador de base de datos.
             Database.SetInitializer<DP2Context>(new DP2ContextInitializer());
