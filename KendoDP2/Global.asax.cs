@@ -51,10 +51,12 @@ namespace KendoDP2
             RegisterRoutes(RouteTable.Routes);
         }
     }
-
-    //public class DP2ContextInitializer : DropCreateDatabaseIfModelChanges<DP2Context>
+#if DEBUG
+    public class DP2ContextInitializer : DropCreateDatabaseIfModelChanges<DP2Context>
     //public class DP2ContextInitializer : DropCreateDatabaseAlways<DP2Context>
+#else
     public class DP2ContextInitializer : CreateDatabaseIfNotExists<DP2Context>
+#endif
     {
         protected override void Seed(DP2Context context)
         {
