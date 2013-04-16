@@ -4381,3 +4381,8 @@ Horezantal Menu(new in v1.2)
 .header .hor-menu .search-form form input:-ms-input-placeholder { /* Internet Explorer 10+ */
     color: #999;
 }
+
+/* DP2 */
+.information-container {
+    margin-top: 10px;
+}

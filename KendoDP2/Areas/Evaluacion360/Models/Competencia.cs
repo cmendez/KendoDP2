@@ -10,9 +10,15 @@ namespace KendoDP2.Areas.Evaluacion360.Models
     public class Competencia : DBObject
     {
         public string Nombre { get; set; }
+        public virtual ICollection<Capacidad> Capacidades { get; set; }
 
         public Competencia() { }
         
+        public Competencia(string nombre)
+        {
+            Nombre = nombre;
+        }
+
         public Competencia(CompetenciaDTO dto)
         {
             LoadFromDTO(dto);

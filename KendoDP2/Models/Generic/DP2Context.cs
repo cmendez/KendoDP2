@@ -21,8 +21,12 @@ namespace KendoDP2.Models.Generic
 
         // Area Evaluacion360
         public DbSet<Competencia> InternalCompetencias { get; set; }
+        public DbSet<Capacidad> InternalCapacidades { get; set; }
+        public DbSet<NivelCapacidad> InternalNivelCapacidades { get; set; }
 
         public DBGenericRequester<Competencia> TablaCompetencias { get; set; }
+        public DBGenericRequester<Capacidad> TablaCapacidades { get; set; }
+        public DBGenericRequester<NivelCapacidad> TablaNivelCapacidades { get; set; }
 
         private void RegistrarTablas()
         {
@@ -32,7 +36,11 @@ namespace KendoDP2.Models.Generic
 
             // Area Evaluacion360
             TablaCompetencias = new DBGenericRequester<Competencia>(this, InternalCompetencias);
+            TablaCapacidades = new DBGenericRequester<Capacidad>(this, InternalCapacidades);
+            TablaNivelCapacidades = new DBGenericRequester<NivelCapacidad>(this, InternalNivelCapacidades);
         }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //Seeds
         public void Seed()
@@ -40,8 +48,12 @@ namespace KendoDP2.Models.Generic
             // Area Seguridad
             SeedRol();
             SeedUsuario();
+            // Area Evaluacion360
+            SeedCompetencias();
+            SeedNivelCapacidad();
         }
-        
+
+        // Area Seguridad
         private void SeedRol()
         {
             TablaRoles.AddElement(new Rol("Administrador"));
@@ -55,6 +67,23 @@ namespace KendoDP2.Models.Generic
             TablaUsuarios.AddElement(new Usuario("admin", "admin", administrador));
             TablaUsuarios.AddElement(new Usuario("anonimo", "anonimo", invitado));
         }
+
+        // Area Evaluacion360
+
+        private void SeedCompetencias()
+        {
+            TablaCompetencias.AddElement(new Competencia("Ser chiquito"));
+            TablaCompetencias.AddElement(new Competencia("Ser grande"));
+            TablaCompetencias.AddElement(new Competencia("Ser kiwi"));
+        }
+
+        private void SeedNivelCapacidad()
+        {
+            for (int i = 1; i <= 3; i++)
+                TablaNivelCapacidades.AddElement(new NivelCapacidad(i));
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // No tocar por nada del mundo las lineas de abajo, si no esterilizo a quien lo haga.
         public DP2Context()
