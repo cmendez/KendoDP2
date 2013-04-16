@@ -9,38 +9,39 @@ using System.Web;
 
 namespace KendoDP2.Models.Generic
 {
+
     public partial class DP2Context : DbContext
     {
-        // Toquenlo
         // Area Seguridad
-        public DbSet<Rol> Roles { get; set; }
-        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Rol> InternalRoles { get; set; }
+        public DbSet<Usuario> InternalUsuarios { get; set; }
 
         public DBGenericRequester<Rol> TablaRoles { get; set; }
         public DBGenericRequester<Usuario> TablaUsuarios { get; set; }
 
         // Area Evaluacion360
-        public DbSet<Competencia> Competencias { get; set; }
+        public DbSet<Competencia> InternalCompetencias { get; set; }
 
         public DBGenericRequester<Competencia> TablaCompetencias { get; set; }
-
-       
 
         private void RegistrarTablas()
         {
             // Area Seguridad
-            TablaRoles = new DBGenericRequester<Rol>(this, Roles);
-            TablaUsuarios = new DBGenericRequester<Usuario>(this, Usuarios);
+            TablaRoles = new DBGenericRequester<Rol>(this, InternalRoles);
+            TablaUsuarios = new DBGenericRequester<Usuario>(this, InternalUsuarios);
 
             // Area Evaluacion360
-            TablaCompetencias = new DBGenericRequester<Competencia>(this, Competencias);
-
+            TablaCompetencias = new DBGenericRequester<Competencia>(this, InternalCompetencias);
         }
 
-        // NO TOCAR
+        //Seeds
+        public void Seed()
+        {
+            // Area Seguridad
+            SeedRol();
+            SeedUsuario();
+        }
         
-        //SEEDS, si pueden tocar, pero no mucho
-
         private void SeedRol()
         {
             TablaRoles.AddElement(new Rol("Administrador"));
@@ -49,19 +50,13 @@ namespace KendoDP2.Models.Generic
 
         private void SeedUsuario()
         {
-            var administrador = TablaRoles.FindByAttributeStringAsSingle("Nombre", "Administrador");
-            var invitado = TablaRoles.FindByAttributeStringAsSingle("Nombre", "Invitado");
-            TablaUsuarios.AddElement(new Usuario("a", "b", administrador));
-            TablaUsuarios.AddElement(new Usuario("c", "d", invitado));
+            var administrador = TablaRoles.One(p => p.Nombre.Equals("Administrador"));
+            var invitado = TablaRoles.One(p => p.Nombre.Equals("Invitado"));
+            TablaUsuarios.AddElement(new Usuario("admin", "admin", administrador));
+            TablaUsuarios.AddElement(new Usuario("anonimo", "anonimo", invitado));
         }
 
-        // Colocar aqui todos los seeds.
-        public void Seed(){
-            SeedRol();
-            SeedUsuario();
-        }
-
-        // No tocar
+        // No tocar por nada del mundo las lineas de abajo, si no esterilizo a quien lo haga.
         public DP2Context()
            : base(KendoDP2.MvcApplication.IsDebug ? "DebugDB" : KendoDP2.MvcApplication.ConnectionString)
         {
@@ -74,4 +69,20 @@ namespace KendoDP2.Models.Generic
         }
     }
 
+    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
+    public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
+    {
+        protected override void Seed(DP2Context context)
+        {
+            context.Seed();
+        }
+    }
+    public class DP2ContextInitializerRELEASE : CreateDatabaseIfNotExists<DP2Context>
+    {
+        protected override void Seed(DP2Context context)
+        {
+            context.Seed();
+        }
+    }
 }
+

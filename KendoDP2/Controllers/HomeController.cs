@@ -17,7 +17,7 @@ namespace KendoDP2.Controllers
             ViewBag.SidebarSelectedOption = "Inicio";
         }
 
-        [Authorize(Roles = "Administrador")]
+        [Authorize()]
         public ActionResult Index()
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";

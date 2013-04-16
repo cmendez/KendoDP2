@@ -32,7 +32,7 @@ namespace KendoDP2.Models.Generic
             if (!isEliminadoFisico)
             {
                 elemento_a_eliminar.IsEliminado = true;
-                ModifyElement(elemento_a_eliminar, ID);
+                ModifyElement(elemento_a_eliminar);
             }
             else
             {
@@ -55,6 +55,34 @@ namespace KendoDP2.Models.Generic
         }
 
         /*
+         * Ejecuta Where. Si se desea obtener algun eliminado logico, se debe especificar aparte.
+         */
+        public List<T> Where(Func<T, bool> predicate, bool incluyeEliminadoLogico = false)
+        {
+            try
+            {
+                return Dbset.Where(predicate).Where(p => !p.IsEliminado || incluyeEliminadoLogico).ToList();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        /*
+         * Retorna un elemento que cumpla cierta condicion
+         */
+        public T One(Func<T, bool> predicate, bool incluyeEliminadoLogico = false)
+        {
+            try
+            {
+                return Dbset.Where(predicate).Where(p => !p.IsEliminado || incluyeEliminadoLogico).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        /*
          * Busca un elemento por su ID.
          */
         public T FindByID(int ID, bool incluyeEliminadoLogico = true)
@@ -72,24 +100,15 @@ namespace KendoDP2.Models.Generic
         }
 
         /*
-         * Busca un elemento usando un atributo de tipo string como busqueda. 
-         * name: Nombre del atributo en la clase misma. Por ejemplo, Username de la clase Usuario
-         * value: Valor a buscar.
-         */
-        public T FindByAttributeStringAsSingle(string name, string value, bool incluyeEliminadoLogico = false)
-        {
-            var query = Dbset.SqlQuery("select * from " + classType.Name + " where " + name + " = '" + value + "'");
-            var elementos = query.ToList().Where(x => !x.IsEliminado || incluyeEliminadoLogico).ToList();
-            return elementos.Count > 0 ? elementos[0] : null;
-        }
-
-        /*
          * Modifica en la base de datos el elemento dado por ID. El objeto camposCambiados debe tener null en todo campo que no cambia. El resto de campos
-         * debe tener su nuevo valor.
+         * debe tener su nuevo valor. No se puede modificar el ID.
          */
-        public void ModifyElement(T camposCambiados, int ID)
+        public void ModifyElement(T camposCambiados)
         {
-            var elemento_db = Dbset.Find(ID);
+            if (!(camposCambiados.ID >= 1))
+                throw new Exception("El campo ID no puede ser null");
+        
+            var elemento_db = Dbset.Find(camposCambiados.ID);
             if (elemento_db == null) throw new Exception("No existe el ID en la BD");
             foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(camposCambiados))
             {
@@ -112,30 +131,5 @@ namespace KendoDP2.Models.Generic
             return element.ID;
         }
 
-        /*
-         * Busca todos los elementos cuyos campos sean iguales a los especificados. Se especifican los campos enviando un objeto
-         * del mismo tipo que se busca y se ponen en null todos los campos que no seran utilizados.
-         */
-        public List<T> BuscarElementosPorCampos(T campos)
-        {
-            string where = string.Empty;
-            bool first_line = true;
-            foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(campos))
-            {
-                if (property.GetValue(campos) != null)
-                {
-                    var value = property.GetValue(campos);
-                    if (first_line)
-                        first_line = false;
-                    else where += " And ";
-                    if (property.GetType() == where.GetType()) //query de un string
-                        where += property.Name + ".StartsWith(\"" + (string)value + "\")";
-                    else //query de cualquier otro tipo de dato
-                        where += property.Name + " = " + value;
-                }
-            }
-            var elementos = Dbset.SqlQuery("select * from " + campos.GetType().Name + " where " + where);
-            return elementos.ToList();
-        }
     }
 }

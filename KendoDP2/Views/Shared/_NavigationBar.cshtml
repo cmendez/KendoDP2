@@ -16,12 +16,13 @@
 					<li class="dropdown" id="header_notification_bar">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-warning-sign"></i>
-						<span class="badge">6</span>
+						<span class="badge">0</span>
 						</a>
 						<ul class="dropdown-menu extended notification">
 							<li>
-								<p>You have 14 new notifications</p>
+								<p>Usted tiene 0 notificaciones</p>
 							</li>
+                            <!--
 							<li>
 								<a href="#">
 								<span class="label label-success"><i class="icon-plus"></i></span>
@@ -64,8 +65,9 @@
 								<span class="time">5 hrs</span>
 								</a>
 							</li>
+                            -->
 							<li class="external">
-								<a href="#">See all notifications <i class="m-icon-swapright"></i></a>
+								<a href="#">Ver todas las notifiaciones <i class="m-icon-swapright"></i></a>
 							</li>
 						</ul>
 					</li>
@@ -74,13 +76,13 @@
 					<li class="dropdown" id="header_inbox_bar">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-envelope-alt"></i>
-						<span class="badge">5</span>
+						<span class="badge">0</span>
 						</a>
 						<ul class="dropdown-menu extended inbox">
 							<li>
-								<p>You have 12 new messages</p>
+								<p>Usted tiene 0 mensajes nuevos</p>
 							</li>
-							<li>
+							<!--li>
 								<a href="inbox.html?a=view">
 								<span class="photo"><img src="@Url.Content("~/Content/assets/img/avatar2.jpg")" alt="" /></span>
 								<span class="subject">
@@ -118,9 +120,9 @@
 								auctor nibh...
 								</span>  
 								</a>
-							</li>
+							</li-->
 							<li class="external">
-								<a href="inbox.html">See all messages <i class="m-icon-swapright"></i></a>
+								<a href="#">Ver todos los mensajes <i class="m-icon-swapright"></i></a>
 							</li>
 						</ul>
 					</li>
@@ -129,13 +131,13 @@
 					<li class="dropdown" id="header_task_bar">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-tasks"></i>
-						<span class="badge">5</span>
+						<span class="badge">0</span>
 						</a>
 						<ul class="dropdown-menu extended tasks">
 							<li>
-								<p>You have 12 pending tasks</p>
+								<p>Usted tiene 0 tareas pendientes</p>
 							</li>
-							<li>
+							<!--li>
 								<a href="#">
 								<span class="task">
 								<span class="desc">New release v1.2</span>
@@ -200,9 +202,9 @@
 								<span style="width: 85%;" class="bar"></span>
 								</span>
 								</a>
-							</li>
+							</li-->
 							<li class="external">
-								<a href="#">See all tasks <i class="m-icon-swapright"></i></a>
+								<a href="#">Ver todas las tareas <i class="m-icon-swapright"></i></a>
 							</li>
 						</ul>
 					</li>
@@ -215,12 +217,12 @@
 						<i class="icon-angle-down"></i>
 						</a>
 						<ul class="dropdown-menu">
-							<li><a href="extra_profile.html"><i class="icon-user"></i> Mi perfil</a></li>
-							<li><a href="calendar.html"><i class="icon-calendar"></i> Mi calendario</a></li>
-							<li><a href="inbox.html"><i class="icon-envelope"></i> Mis mensajes</a></li>
+							<li><a href="#"><i class="icon-user"></i> Mi perfil</a></li>
+							<li><a href="#"><i class="icon-calendar"></i> Mi calendario</a></li>
+							<li><a href="#"><i class="icon-envelope"></i> Mis mensajes</a></li>
 							<li><a href="#"><i class="icon-tasks"></i> Mis tareas</a></li>
 							<li class="divider"></li>
-							<li><a href="@Url.Action("Logout", "Home")"><i class="icon-key"></i> Salir</a></li>
+							<li><a href="@Url.Action("Logout", "Home", new {Area = ""})"><i class="icon-key"></i> Salir</a></li>
 						</ul>
 					</li>
 					<!-- END USER LOGIN DROPDOWN -->

@@ -10,6 +10,7 @@ using KendoDP2.Areas.Evaluacion360.Models;
 
 namespace KendoDP2.Areas.Evaluacion360.Controllers
 {
+    [Authorize()]
     public class CompetenciasController : Controller
     {
         public CompetenciasController()
@@ -22,7 +23,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         {
             return View();
         }
-
+        
         public ActionResult EditingInline_Read([DataSourceRequest] DataSourceRequest request)
         {
             using (DP2Context context = new DP2Context())
@@ -48,7 +49,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             using (DP2Context context = new DP2Context())
             {
                 Competencia c = context.TablaCompetencias.FindByID(competencia.ID).LoadFromDTO(competencia);
-                context.TablaCompetencias.ModifyElement(c, c.ID);
+                context.TablaCompetencias.ModifyElement(c);
                 return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
         }
