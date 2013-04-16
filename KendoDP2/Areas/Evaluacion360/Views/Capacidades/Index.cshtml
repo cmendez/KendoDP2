@@ -31,7 +31,10 @@
                 )
             </div>
             <div class="span9 responsive">
-                <a href="#" class="btn"><i class="icon-plus"></i> Agregar nuevo nivel</a>
+                <a href="javascript:doNuevoNivel();" class="btn"><i class="icon-plus"></i> Agregar nuevo nivel</a>
+                <a href="javascript:doEliminarNivel();" class="btn"><i class="icon-plus"></i> Eliminar último nivel</a>
+                <a href="@Url.Action("AgregarNuevoNivel", "Capacidades", new { Area = "Evaluacion360" })" id="link-crear-nuevo-nivel" class="hidden"></a>
+                <a href="@Url.Action("EliminarUltimoNivel", "Capacidades", new { Area = "Evaluacion360" })" id="link-eliminar-nivel" class="hidden"></a>
             </div>
         </div>
         
@@ -98,12 +101,23 @@
 <script type="text/javascript">
     var last = -1;
     function comboCompetenciasSelection(e) {
-        console.log(19);
         var dataItem = this.dataItem(e.item.index());
         var ID = dataItem.ID;
         if (last != -1)
             $("#competencias-container-" + last).hide();
         $("#competencias-container-" + ID).show();
         last = ID;
+    }
+
+    function doNuevoNivel() {
+        if (window.confirm("¿Está seguro que desea crear un nuevo nivel para las capacidades?")) {
+            $("a#link-crear-nuevo-nivel")[0].click();
+        }
+    }
+
+    function doEliminarNivel() {
+        if (window.confirm("¿Está seguro que desea eliminar el último nivel para las capacidades?")) {
+            $("a#link-eliminar-nivel")[0].click();
+        }
     }
 </script>

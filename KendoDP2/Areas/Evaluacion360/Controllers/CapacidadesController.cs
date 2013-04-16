@@ -29,8 +29,34 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
-        
+        // Botones de niveles
 
+        public ActionResult EliminarUltimoNivel()
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                var niveles = context.TablaNivelCapacidades.GetAll();
+                if (niveles.Count > 0)
+                {
+                    NivelCapacidad ultimo = niveles[niveles.Count - 1];
+                    context.TablaNivelCapacidades.RemoveElementByID(ultimo.ID);
+                }
+                return RedirectToAction("Index");
+            }
+        }
+
+        public ActionResult AgregarNuevoNivel()
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                var niveles = context.TablaNivelCapacidades.GetAll();
+                int numeroNivel = (niveles.Count > 0 ? niveles.Max(n => n.Nivel) : 0) + 1;
+                context.TablaNivelCapacidades.AddElement(new NivelCapacidad(numeroNivel));
+                return RedirectToAction("Index");
+            }
+        }
+        
+        // Grid capacidades
         public ActionResult EditingInline_Read([DataSourceRequest] DataSourceRequest request, int nivelID, int competenciaID)
         {
             using (DP2Context context = new DP2Context())
