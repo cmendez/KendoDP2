@@ -9,6 +9,7 @@ namespace KendoDP2.Models.Helpers
     {
         public List<SidebarOption> Opciones { get; set; }
 
+        // Puedes encontar iconos en http://fortawesome.github.io/Font-Awesome/
         public SidebarNavigator()
         {
             Opciones = new List<SidebarOption>();
