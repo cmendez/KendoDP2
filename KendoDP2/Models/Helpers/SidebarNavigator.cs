@@ -12,14 +12,18 @@ namespace KendoDP2.Models.Helpers
         public SidebarNavigator()
         {
             Opciones = new List<SidebarOption>();
+            // Agregue aqui  las opciones y subopciones del navegador de la barra de menu
+
             // Inicio
-            Opciones.Add(new SidebarOption("", "Home", "Index", "Inicio", "icon-home", new List<SidebarSuboption>()));
+            Opciones.Add(new SidebarOption("", "Home", "Index", "Inicio", "icon-home"));
 
             // Evaluacion 360
-            Opciones.Add(new SidebarOption("Evaluacion360", null, null, "Evaluación 360°", "icon-pencil", new List<SidebarSuboption>(new SidebarSuboption[]{
-                new SidebarSuboption("Competencias", "Competencias", "Index", "Competencias", "icon-plus-sign"),
-                new SidebarSuboption("Capacidades", "Capacidades", "Index", "Capacidades", "icon-check")
+            Opciones.Add(new SidebarOption("Evaluacion360", "Evaluación 360°", "icon-pencil", new List<SidebarSuboption>(new SidebarSuboption[]{
+                new SidebarSuboption("Competencias", "Competencias", "Index", "icon-plus-sign"),
+                new SidebarSuboption("Capacidades", "Capacidades", "Index", "icon-check")
             })));
+            // Configuracion
+            //Opciones.Add(new SidebarOption("Configuracion", "Configuracion", "Index", "Configuracion", "icon-cogs", new List<SidebarSuboption>()));
         }
     }
 
@@ -28,16 +32,17 @@ namespace KendoDP2.Models.Helpers
         public string Area { get; set; }
         public string Controller { get; set; }
         public string Method { get; set; }
-        public string Text { get; set; }
+        public string Title { get; set; }
         public string Icon { get; set; }
         public List<SidebarSuboption> Suboptions { get; set; }
 
-        public SidebarOption(string area, string text, string icon) : this(area, null, null, text, icon, new List<SidebarSuboption>()) { }
+        public SidebarOption(string area, string text, string icon, List<SidebarSuboption> suboptions) : this(area, null, null, text, icon, suboptions) { }
+        public SidebarOption(string area, string controller, string method, string text, string icon) : this(area, controller, method, text, icon, new List<SidebarSuboption>()) { }
 
-        public SidebarOption(string area, string controller, string method, string text, string icon, List<SidebarSuboption> suboptions)
+        private SidebarOption(string area, string controller, string method, string text, string icon, List<SidebarSuboption> suboptions)
         {
             Area = area;
-            Text = text;
+            Title = text;
             Icon = icon;
             Suboptions = suboptions;
             Controller = controller;
@@ -50,12 +55,10 @@ namespace KendoDP2.Models.Helpers
         public string Title { get; set; }
         public string Controller { get; set; }
         public string Method { get; set; }
-        public string Text { get; set; }
         public string Icon { get; set; }
-        public SidebarSuboption(string title, string controller, string method, string text, string icon)
+        public SidebarSuboption(string title, string controller, string method, string icon)
         {
             Title = title;
-            Text = text;
             Icon = icon;
             Controller = controller;
             Method = method;

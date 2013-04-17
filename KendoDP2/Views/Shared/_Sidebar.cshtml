@@ -10,7 +10,7 @@
             <li class="@GetOptionArea(option.Area)">
 		        <a href="@Url.Action(option.Method, option.Controller, new {Area = option.Area })">
 			        <i class="@option.Icon"></i> 
-				    <span class="title">@option.Text</span>
+				    <span class="title">@option.Title</span>
 				    <span class="selected"></span>
 			    </a>
 		    </li>   
@@ -19,7 +19,7 @@
             <li class="@GetOptionArea(option.Area)">
                  <a href="javascript:;">
                         <i class="@option.Icon"></i> 
-                        <span class="title">@option.Text</span>
+                        <span class="title">@option.Title</span>
                         <span class="arrow "></span>
                     </a>
                     <ul class="sub-menu">
@@ -27,7 +27,7 @@
                             <li class="@GetTitle(@subopt.Title)">
                                 <a href="@Url.Action(subopt.Method, subopt.Controller, new {Area = option.Area })">
                                     <i class="@subopt.Icon"></i>
-                                    @subopt.Text
+                                    @subopt.Title
                                 </a>
                             </li>
                     
