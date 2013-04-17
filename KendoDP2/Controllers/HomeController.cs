@@ -14,7 +14,7 @@ namespace KendoDP2.Controllers
     {
         public HomeController() : base()
         {
-            ViewBag.SidebarSelectedOption = "Inicio";
+            ViewBag.Area = "";
         }
 
         [Authorize()]

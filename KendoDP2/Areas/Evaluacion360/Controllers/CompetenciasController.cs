@@ -16,7 +16,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         public CompetenciasController()
             : base()
         {
-            ViewBag.SidebarSelectedOption = "Evaluacion360";
+            ViewBag.Area = "Evaluacion360";
         }
         
         public ActionResult Index()

@@ -199,6 +199,7 @@
     </Compile>
     <Compile Include="Models\Generic\DBObject.cs" />
     <Compile Include="Models\Generic\DP2Context.cs" />
+    <Compile Include="Models\Helpers\SidebarNavigator.cs" />
     <Compile Include="Models\Seguridad\DP2MembershipProvider.cs" />
     <Compile Include="Models\Seguridad\Rol.cs" />
     <Compile Include="Models\Seguridad\DP2RolProvider.cs" />
