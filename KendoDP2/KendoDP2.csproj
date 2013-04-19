@@ -183,6 +183,8 @@
   <ItemGroup>
     <Compile Include="App_Start\DontDropDbJustCreateTablesIfModelChangedStart.cs" />
     <Compile Include="Areas\Configuracion\ConfiguracionAreaRegistration.cs" />
+    <Compile Include="Areas\Configuracion\Controllers\PeriodosController.cs" />
+    <Compile Include="Areas\Configuracion\Models\Periodo.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\CapacidadesController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\CompetenciasController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\WSCompetenciasController.cs" />
@@ -1714,6 +1716,7 @@
     <Content Include="Areas\Evaluacion360\Views\Web.config" />
     <Content Include="Areas\Evaluacion360\Views\Competencias\Index.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\Capacidades\Index.cshtml" />
+    <Content Include="Areas\Configuracion\Views\Periodos\Index.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -1853,8 +1856,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Configuracion\Controllers\" />
-    <Folder Include="Areas\Configuracion\Models\" />
     <Folder Include="Areas\Configuracion\Views\Shared\" />
     <Folder Include="Areas\Evaluacion360\Views\Shared\" />
     <Folder Include="Areas\Personal\Controllers\" />

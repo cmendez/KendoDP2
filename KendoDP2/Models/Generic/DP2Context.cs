@@ -1,4 +1,5 @@
-﻿using KendoDP2.Areas.Evaluacion360.Models;
+﻿using KendoDP2.Areas.Configuracion.Models;
+using KendoDP2.Areas.Evaluacion360.Models;
 using KendoDP2.Models.Seguridad;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,11 @@ namespace KendoDP2.Models.Generic
 
     public partial class DP2Context : DbContext
     {
+        // Area Configuracion
+        public DbSet<Periodo> InternalPeriodos { get; set; }
+
+        public DBGenericRequester<Periodo> TablaPeriodos { get; set; }
+
         // Area Seguridad
         public DbSet<Rol> InternalRoles { get; set; }
         public DbSet<Usuario> InternalUsuarios { get; set; }
@@ -30,6 +36,9 @@ namespace KendoDP2.Models.Generic
 
         private void RegistrarTablas()
         {
+            // Area Configuracion
+            TablaPeriodos = new DBGenericRequester<Periodo>(this, InternalPeriodos);
+
             // Area Seguridad
             TablaRoles = new DBGenericRequester<Rol>(this, InternalRoles);
             TablaUsuarios = new DBGenericRequester<Usuario>(this, InternalUsuarios);
@@ -45,12 +54,20 @@ namespace KendoDP2.Models.Generic
         //Seeds
         public void Seed()
         {
+            // Area Configuracion
+            SeedPeriodos();
             // Area Seguridad
             SeedRol();
             SeedUsuario();
             // Area Evaluacion360
             SeedCompetencias();
             SeedNivelCapacidad();
+        }
+
+        // Area Configuracion
+        private void SeedPeriodos()
+        {
+            TablaPeriodos.AddElement(new Periodo("Periodo inicial", DateTime.Now));
         }
 
         // Area Seguridad
@@ -98,8 +115,8 @@ namespace KendoDP2.Models.Generic
         }
     }
 
-    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
-    public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
+    public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
+    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
     {
         protected override void Seed(DP2Context context)
         {

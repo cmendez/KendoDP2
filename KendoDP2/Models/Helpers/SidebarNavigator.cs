@@ -24,7 +24,9 @@ namespace KendoDP2.Models.Helpers
                 new SidebarSuboption("Capacidades", "Capacidades", "Index", "icon-check")
             })));
             // Configuracion
-            //Opciones.Add(new SidebarOption("Configuracion", "Configuracion", "Index", "Configuracion", "icon-cogs", new List<SidebarSuboption>()));
+            Opciones.Add(new SidebarOption("Configuracion", "Configuración", "icon-wrench", new List<SidebarSuboption>(new SidebarSuboption[]{
+                new SidebarSuboption("Periodos", "Periodos", "Index", "icon-time")
+            })));
         }
     }
 

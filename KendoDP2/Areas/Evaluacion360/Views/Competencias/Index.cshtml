@@ -32,7 +32,7 @@
             .Pageable(paper => paper.Refresh(true))
             .Filterable()
             .Sortable()
-            .Scrollable()
+            .Scrollable(w => w.Height(330))
             .DataSource(dataSource => dataSource
                 .Ajax()
                 .PageSize(20)

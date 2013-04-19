@@ -31,8 +31,8 @@
                 )
             </div>
             <div class="span9 responsive">
-                <a href="javascript:doNuevoNivel();" class="btn"><i class="icon-plus"></i> Agregar nuevo nivel</a>
-                <a href="javascript:doEliminarNivel();" class="btn"><i class="icon-plus"></i> Eliminar último nivel</a>
+                <a href="javascript:doNuevoNivel();" class="btn"><i class="icon-plus"></i> Agregar un nuevo nivel</a>
+                <a href="javascript:doEliminarNivel();" class="btn"><i class="icon-trash"></i> Eliminar el último nivel</a>
                 <a href="@Url.Action("AgregarNuevoNivel", "Capacidades", new { Area = "Evaluacion360" })" id="link-crear-nuevo-nivel" class="hidden"></a>
                 <a href="@Url.Action("EliminarUltimoNivel", "Capacidades", new { Area = "Evaluacion360" })" id="link-eliminar-nivel" class="hidden"></a>
             </div>
@@ -71,7 +71,7 @@
                                     .Pageable(paper => paper.Refresh(true))
                                     .Filterable()
                                     .Sortable()
-                                    .Scrollable()
+                                    .Scrollable(w => w.Height(330))
                                     .DataSource(dataSource => dataSource
                                         .Ajax()
                                         .PageSize(20)

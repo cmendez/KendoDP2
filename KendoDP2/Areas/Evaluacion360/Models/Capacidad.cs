@@ -26,6 +26,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
             LoadFromDTO(c);
         }
         public Capacidad LoadFromDTO(CapacidadDTO c){
+            ID = c.ID;
             Nombre = c.Nombre;
             NivelCapacidadID = c.NivelCapacidadID;
             CompetenciaID = c.CompetenciaID;
