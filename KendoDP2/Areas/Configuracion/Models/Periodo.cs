@@ -54,6 +54,10 @@ namespace KendoDP2.Areas.Configuracion.Models
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? FechaFin { get; set; }
 
+        [DisplayName("Fecha de fin")]
+        [ScaffoldColumn(false)]
+        public string FechaFinDisplay { get; set; }
+
         public PeriodoDTO() { }
         public PeriodoDTO(Periodo p)
         {
@@ -61,6 +65,8 @@ namespace KendoDP2.Areas.Configuracion.Models
             Nombre = p.Nombre;
             FechaInicio = p.FechaInicio;
             FechaFin = p.FechaFin;
+            FechaFinDisplay = FechaFin == null ? "Activo" : FechaFin.GetValueOrDefault().ToString("dd/MM/yyyy");
         }
+
     }
 }
