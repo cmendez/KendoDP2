@@ -44,7 +44,7 @@ namespace KendoDP2.Models.Generic
         /* 
          * Retorna todos los elementos en la tabla.
          */
-        public List<T> GetAll(bool incluyeEliminadoLogico = false)
+        public List<T> All(bool incluyeEliminadoLogico = false)
         {
             var res = Dbset.ToList();
             if (res == null) return new List<T>();

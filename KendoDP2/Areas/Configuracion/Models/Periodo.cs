@@ -1,4 +1,5 @@
-﻿using KendoDP2.Models.Generic;
+﻿using KendoDP2.Areas.Evaluacion360.Models;
+using KendoDP2.Models.Generic;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,6 +14,8 @@ namespace KendoDP2.Areas.Configuracion.Models
         public string Nombre { get; set; }
         public DateTime? FechaInicio { get; set; }
         public DateTime? FechaFin { get; set; }
+
+        public virtual ICollection<Capacidad> Capacidades { get; set; }
 
         public Periodo() { }
         public Periodo(string nombre, DateTime fechaInicio)
@@ -34,6 +37,10 @@ namespace KendoDP2.Areas.Configuracion.Models
         public PeriodoDTO ToDTO()
         {
             return new PeriodoDTO(this);
+        }
+
+        public static Periodo GetUltimoPeriodo(DP2Context context){
+            return context.TablaPeriodos.All().OrderByDescending(x => x.FechaInicio).First();
         }
     }
 

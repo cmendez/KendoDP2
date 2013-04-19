@@ -1,10 +1,12 @@
 ﻿@using Kendo.Mvc.UI
 @using KendoDP2.Areas.Evaluacion360.Models
+
 @{
     ViewBag.Title = "Capacidades";
     Layout = "~/Views/Shared/_Layout.cshtml";
     IList<CompetenciaDTO> competencias = ViewBag.competencias;
     IList<NivelCapacidad> niveles = ViewBag.niveles;
+    IList<KendoDP2.Areas.Configuracion.Models.PeriodoDTO> periodos = ViewBag.periodos;
 }
 
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Capacidades", "Administre las capacidades de cada competencia"));}
@@ -19,18 +21,33 @@
         <div class="row-fluid">
             <div class="span3 responsive">
                 @(Html.Kendo().ComboBox()
+                    .Name("ComboPeriodos")
+                    .Placeholder("Seleccione el periodo...")
+                    .DataTextField("Nombre")
+                    .DataValueField("ID")
+                    .Filter("contains")
+                    .BindTo(periodos)
+                    .Suggest(true)
+                    .HtmlAttributes(new { style = "width:100%" })
+                    .Events(e => e.Close("comboCompetenciasSelection"))
+                    .SelectedIndex(0)
+                )
+            </div>
+            <div class="span3 responsive">
+                @(Html.Kendo().ComboBox()
                     .Name("ComboCompetencias")
-                    .Placeholder("Seleccione la competencia")
+                    .Placeholder("Seleccione la competencia...")
                     .DataTextField("Nombre")
                     .DataValueField("ID")
                     .Filter("contains")
                     .BindTo(competencias)
                     .Suggest(true)
                     .HtmlAttributes(new { style = "width:100%" })
-                    .Events(e => e.Select("comboCompetenciasSelection"))
+                    .Events(e => e.Close("comboCompetenciasSelection"))
+                    .SelectedIndex(0)
                 )
             </div>
-            <div class="span9 responsive">
+            <div class="span6 responsive">
                 <a href="javascript:doNuevoNivel();" class="btn"><i class="icon-plus"></i> Agregar un nuevo nivel</a>
                 <a href="javascript:doEliminarNivel();" class="btn"><i class="icon-trash"></i> Eliminar el último nivel</a>
                 <a href="@Url.Action("AgregarNuevoNivel", "Capacidades", new { Area = "Evaluacion360" })" id="link-crear-nuevo-nivel" class="hidden"></a>
@@ -39,74 +56,93 @@
         </div>
         
         <div class="row-fluid information-container">
-            @foreach(var competencia in competencias){
-                <div id="competencias-container-@competencia.ID" class="hidden">
-                    <div class="tabbable tabbable-custom tabs-left">
-                    <!-- Only required for left/right tabs -->
-                    <ul class="nav nav-tabs tabs-left">
-                        @for (int i = 1; i <= niveles.Count; i++)
-                        {
-                            <li class="@(i == 1 ? "active" : "")"><a href="#tab_@(i)_@(competencia.ID)" data-toggle="tab">Nivel @i</a></li>
-                        }
-                    </ul>
-                    <div class="tab-content">
-                        @for (int i = 0; i < niveles.Count; i++)
-                        {
-                            <div class="tab-pane @(i == 0 ? "active" : "")" id="tab_@(i+1)_@(competencia.ID)">
-                                @(Html.Kendo().Grid<CapacidadDTO>()
-                                    .Name("CapacidadGrid-" + niveles[i].Nivel + "-" + competencia.ID)
-                                    .Columns(columns =>
-                                        {
-                                            columns.Bound(p => p.Nombre);
-                                            columns.Bound(p => p.Peso);
-                                            columns.Command(command => {command.Destroy().Text("Eliminar"); }).Width(200);
-                                        }
-                                    )
-                                    .ToolBar(toolbar => { toolbar.Create().Text("Registrar"); toolbar.Save().SaveText("Guardar cambios").CancelText("Cancelar cambios"); })
-                                    .Editable(editable => editable
-                                        .Mode(GridEditMode.InCell)
-                                        .DisplayDeleteConfirmation("Recuerde que debe guardar los cambios para hacer efectiva la eliminación.")
-                                        .Window(w => w.Title("Ingrese los datos"))
-                                    )
-                                    .Pageable(paper => paper.Refresh(true))
-                                    .Filterable()
-                                    .Sortable()
-                                    .Scrollable(w => w.Height(330))
-                                    .DataSource(dataSource => dataSource
-                                        .Ajax()
-                                        .PageSize(20)
+            @foreach(var periodo in periodos){
+                foreach(var competencia in competencias){
+                    <div id="competencias-container-@(competencia.ID)-@(periodo.ID)" class="hidden">
+                        <div class="tabbable tabbable-custom tabs-left">
+                        <!-- Only required for left/right tabs -->
+                        <ul class="nav nav-tabs tabs-left">
+                            @for (int i = 1; i <= niveles.Count; i++)
+                            {
+                                <li class="@(i == 1 ? "active" : "")"><a href="#tab_@(i)_@(competencia.ID)_@(periodo.ID)" data-toggle="tab">Nivel @i</a></li>
+                            }
+                        </ul>
+                        <div class="tab-content">
+                            @for (int i = 0; i < niveles.Count; i++)
+                            {
+                                <div class="tab-pane @(i == 0 ? "active" : "")" id="tab_@(i+1)_@(competencia.ID)_@(periodo.ID)">
+                                    @(Html.Kendo().Grid<CapacidadDTO>()
+                                        .Name("CapacidadGrid-" + niveles[i].Nivel + "-" + competencia.ID + "-" + periodo.ID)
+                                        .Columns(columns =>
+                                            {
+                                                columns.Bound(p => p.Nombre).ClientFooterTemplate("<strong>Suma:</strong> #=count#");
+                                                columns.Bound(p => p.Peso).ClientFooterTemplate("<strong>Suma:</strong> #=sum#");
+                                                columns.Command(command => { command.Destroy().Text("Eliminar"); }).Width(200);
+                                            }
+                                        )
+                                        .ToolBar(toolbar => { toolbar.Create().Text("Registrar"); toolbar.Save().SaveText("Guardar cambios").CancelText("Cancelar cambios"); })
+                                        .Editable(editable => editable
+                                            .Mode(GridEditMode.InCell)
+                                            .DisplayDeleteConfirmation("Recuerde que debe guardar los cambios para hacer efectiva la eliminación.")
+                                            .Window(w => w.Title("Ingrese los datos"))
+                                        )
+                                        .Pageable(e => e.Refresh(true))
+                                        .Filterable()
+                                        .Sortable()
+                                        .Scrollable(w => w.Height(330))
+                                        .DataSource(dataSource => dataSource
+                                            .Ajax()
+                                            .PageSize(20)
+                                            .Aggregates(a =>
+                                            {
+                                                a.Add(p => p.Nombre).Count();
+                                                a.Add(p => p.Peso).Sum();
+                                            })
                                             .Model(model =>
                                             {
                                                 model.Id(p => p.ID);
                                                 model.Field(p => p.NivelCapacidadID).DefaultValue(niveles[i].ID);
                                                 model.Field(p => p.CompetenciaID).DefaultValue(competencia.ID);
+                                                model.Field(p => p.PeriodoID).DefaultValue(periodo.ID);
                                             })
-                                        .Create(update => update.Action("EditingInline_Create", "Capacidades"))
-                                        .Read(read => read.Action("EditingInline_Read", "Capacidades", new { nivelID = niveles[i].ID, competenciaID = competencia.ID }))
-                                        .Update(update => update.Action("EditingInline_Update", "Capacidades"))
-                                        .Destroy(update => update.Action("EditingInline_Destroy", "Capacidades"))
+                                            .Create(update => update.Action("EditingInline_Create", "Capacidades"))
+                                            .Read(read => read.Action("EditingInline_Read", "Capacidades", new { nivelID = niveles[i].ID, competenciaID = competencia.ID, periodoID = periodo.ID }))
+                                            .Update(update => update.Action("EditingInline_Update", "Capacidades"))
+                                            .Destroy(update => update.Action("EditingInline_Destroy", "Capacidades"))
+                                            .Events(e => e.RequestEnd("afterRequest"))
+                                        ).Events(e => e.SaveChanges("onSave"))
                                     )
-                                )
+                                </div>
+                            }
                             </div>
-                        }
                         </div>
-                    </div>
 
-                </div>
+                    </div>
+                }
             }
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
-    var last = -1;
-    function comboCompetenciasSelection(e) {
-        var dataItem = this.dataItem(e.item.index());
-        var ID = dataItem.ID;
-        if (last != -1)
-            $("#competencias-container-" + last).hide();
-        $("#competencias-container-" + ID).show();
-        last = ID;
+    $(document).ready(function ready() {
+        comboCompetenciasSelection();
+    });
+
+    var last_container = null;
+    function comboCompetenciasSelection() {
+        var comboCompetencias = $("#ComboCompetencias").data("kendoComboBox");
+        var comboPeriodos = $("#ComboPeriodos").data("kendoComboBox");
+        if (comboCompetencias.selectedIndex == -1 || comboPeriodos.selectedIndex == -1)
+            return;
+
+        var competenciaID = comboCompetencias.dataItem(comboCompetencias.selectedIndex).ID;
+        var periodoID = comboPeriodos.dataItem(comboPeriodos.selectedIndex).ID;
+        
+        if (last_container != null)
+            last_container.hide();
+        last_container = $("#competencias-container-" + competenciaID + "-" + periodoID);
+        last_container.show();
     }
 
     function doNuevoNivel() {
@@ -120,4 +156,26 @@
             $("a#link-eliminar-nivel")[0].click();
         }
     }
+
+    function getSumaPeso(data) {
+        var sumaPeso = 0;
+        for (var i = 0; i < data.length; i++) {
+            sumaPeso += data[i].Peso;
+        }
+        return sumaPeso;
+    }
+
+    function onSave(e) {
+        var sumaPeso = getSumaPeso(e.sender._data);
+        if (sumaPeso != 100) {
+            alert("La suma de los pesos no es 100, es " + sumaPeso + ".");
+            e.preventDefault();
+        }
+    }
+
+    function afterRequest(e) {
+        if (e.type == 'create')
+            e.sender.read();
+    }
+    
 </script>

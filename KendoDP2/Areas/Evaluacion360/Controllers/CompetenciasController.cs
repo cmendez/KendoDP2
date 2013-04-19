@@ -28,7 +28,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                return Json(context.TablaCompetencias.GetAll().Select(p => p.ToDTO()).ToDataSourceResult(request));
+                return Json(context.TablaCompetencias.All().Select(p => p.ToDTO()).ToDataSourceResult(request));
             }
         }
 

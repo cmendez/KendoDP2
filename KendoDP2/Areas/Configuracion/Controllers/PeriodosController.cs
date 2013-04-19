@@ -23,7 +23,7 @@ namespace KendoDP2.Areas.Configuracion.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                ViewBag.periodos = context.TablaPeriodos.GetAll();
+                ViewBag.periodos = context.TablaPeriodos.All();
                 return View();
             }
         }
@@ -33,7 +33,7 @@ namespace KendoDP2.Areas.Configuracion.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                List<PeriodoDTO> periodos = context.TablaPeriodos.GetAll().Select(p => p.ToDTO()).OrderByDescending(x => x.FechaInicio).ToList();
+                List<PeriodoDTO> periodos = context.TablaPeriodos.All().Select(p => p.ToDTO()).OrderByDescending(x => x.FechaInicio).ToList();
                 return Json(periodos.ToDataSourceResult(request));
             }
         }
@@ -44,8 +44,8 @@ namespace KendoDP2.Areas.Configuracion.Controllers
             using (DP2Context context = new DP2Context())
             {
                 DateTime now = DateTime.Now;
-                
-                Periodo anterior = context.TablaPeriodos.GetAll().OrderByDescending(x => x.FechaInicio).First();
+
+                Periodo anterior = Periodo.GetUltimoPeriodo(context);
                 anterior.FechaFin = now;
                 context.TablaPeriodos.ModifyElement(anterior);
 
@@ -71,17 +71,17 @@ namespace KendoDP2.Areas.Configuracion.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                if (context.TablaPeriodos.GetAll().Count == 1)
+                if (context.TablaPeriodos.All().Count == 1)
                 {
                     ModelState.AddModelError("Destroy", "No se puede dejar la empresa sin periodos");
                     return Json(ModelState.ToDataSourceResult());
                 }
                 else
                 {
-                    Periodo ultimo = context.TablaPeriodos.GetAll().OrderByDescending(x => x.FechaInicio).First();
+                    Periodo ultimo = Periodo.GetUltimoPeriodo(context);
                     context.TablaPeriodos.RemoveElementByID(ultimo.ID);
-                    
-                    ultimo = context.TablaPeriodos.GetAll().OrderByDescending(x => x.FechaInicio).First();
+
+                    ultimo = Periodo.GetUltimoPeriodo(context);
                     ultimo.FechaFin = null;
                     context.TablaPeriodos.ModifyElement(ultimo);
                     return Json(new { success = true });

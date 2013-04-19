@@ -1,4 +1,5 @@
-﻿using KendoDP2.Models.Generic;
+﻿using KendoDP2.Areas.Configuracion.Models;
+using KendoDP2.Models.Generic;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -17,6 +18,9 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         public int CompetenciaID { get; set; }
         public virtual Competencia Competencia { get; set; }
 
+        public int PeriodoID { get; set; }
+        public virtual Periodo Periodo { get; set; }
+
         public int Peso { get; set; }
 
         public Capacidad() { }
@@ -31,6 +35,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
             NivelCapacidadID = c.NivelCapacidadID;
             CompetenciaID = c.CompetenciaID;
             Peso = c.Peso;
+            PeriodoID = c.PeriodoID;
             return this;
         }
         public CapacidadDTO ToDTO()
@@ -47,11 +52,14 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         [Required]
         [ScaffoldColumn(false)]
         public int CompetenciaID { get; set; }
+        [Required]
+        [ScaffoldColumn(false)]
+        public int PeriodoID { get; set; }
         [ScaffoldColumn(false)]
         public int ID { get; set; }
         [Required]
         public string Nombre { get; set; }
-        [Range(1,100)]
+        [Range(0,100)]
         public int Peso { get; set; }
 
         public CapacidadDTO() { }
@@ -63,6 +71,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
             Nombre = c.Nombre;
             Peso = c.Peso;
             CompetenciaID = c.CompetenciaID;
+            PeriodoID = c.PeriodoID;
         }
     }
 }

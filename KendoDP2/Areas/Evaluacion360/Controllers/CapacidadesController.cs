@@ -23,8 +23,9 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                ViewBag.competencias = context.TablaCompetencias.GetAll().Select(c => c.ToDTO()).ToList();
-                ViewBag.niveles = context.TablaNivelCapacidades.GetAll();
+                ViewBag.competencias = context.TablaCompetencias.All().Select(c => c.ToDTO()).ToList();
+                ViewBag.niveles = context.TablaNivelCapacidades.All();
+                ViewBag.periodos = context.TablaPeriodos.All().Select(c => c.ToDTO()).ToList();
                 return View();
             }
         }
@@ -35,7 +36,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                var niveles = context.TablaNivelCapacidades.GetAll();
+                var niveles = context.TablaNivelCapacidades.All();
                 if (niveles.Count > 0)
                 {
                     NivelCapacidad ultimo = niveles[niveles.Count - 1];
@@ -49,7 +50,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                var niveles = context.TablaNivelCapacidades.GetAll();
+                var niveles = context.TablaNivelCapacidades.All();
                 int numeroNivel = (niveles.Count > 0 ? niveles.Max(n => n.Nivel) : 0) + 1;
                 context.TablaNivelCapacidades.AddElement(new NivelCapacidad(numeroNivel));
                 return RedirectToAction("Index");
@@ -57,11 +58,11 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         }
         
         // Grid capacidades
-        public ActionResult EditingInline_Read([DataSourceRequest] DataSourceRequest request, int nivelID, int competenciaID)
+        public ActionResult EditingInline_Read([DataSourceRequest] DataSourceRequest request, int nivelID, int competenciaID, int periodoID)
         {
             using (DP2Context context = new DP2Context())
             {
-                return Json(context.TablaCapacidades.Where(c => c.NivelCapacidadID == nivelID && c.CompetenciaID == competenciaID).Select(p => p.ToDTO()).ToDataSourceResult(request));
+                return Json(context.TablaCapacidades.Where(c => c.NivelCapacidadID == nivelID && c.CompetenciaID == competenciaID && c.PeriodoID == periodoID).Select(p => p.ToDTO()).ToDataSourceResult(request));
             }
         }
 
