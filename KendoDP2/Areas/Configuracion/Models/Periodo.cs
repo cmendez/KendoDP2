@@ -15,8 +15,6 @@ namespace KendoDP2.Areas.Configuracion.Models
         public DateTime? FechaInicio { get; set; }
         public DateTime? FechaFin { get; set; }
 
-        public virtual ICollection<Capacidad> Capacidades { get; set; }
-
         public Periodo() { }
         public Periodo(string nombre, DateTime fechaInicio)
         {

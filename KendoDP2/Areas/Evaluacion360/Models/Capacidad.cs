@@ -18,9 +18,6 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         public int CompetenciaID { get; set; }
         public virtual Competencia Competencia { get; set; }
 
-        public int PeriodoID { get; set; }
-        public virtual Periodo Periodo { get; set; }
-
         public int Peso { get; set; }
 
         public Capacidad() { }
@@ -35,7 +32,6 @@ namespace KendoDP2.Areas.Evaluacion360.Models
             NivelCapacidadID = c.NivelCapacidadID;
             CompetenciaID = c.CompetenciaID;
             Peso = c.Peso;
-            PeriodoID = c.PeriodoID;
             return this;
         }
         public CapacidadDTO ToDTO()
@@ -52,9 +48,6 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         [Required]
         [ScaffoldColumn(false)]
         public int CompetenciaID { get; set; }
-        [Required]
-        [ScaffoldColumn(false)]
-        public int PeriodoID { get; set; }
         [ScaffoldColumn(false)]
         public int ID { get; set; }
         [Required]
@@ -71,7 +64,6 @@ namespace KendoDP2.Areas.Evaluacion360.Models
             Nombre = c.Nombre;
             Peso = c.Peso;
             CompetenciaID = c.CompetenciaID;
-            PeriodoID = c.PeriodoID;
         }
     }
 }
