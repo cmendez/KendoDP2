@@ -4,6 +4,7 @@ using KendoDP2.Models.Seguridad;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
@@ -128,6 +129,15 @@ namespace KendoDP2.Models.Generic
         protected override void Seed(DP2Context context)
         {
             context.Seed();
+        }
+    }
+
+    public class Configuration : DbMigrationsConfiguration<DP2Context>
+    {
+        public Configuration()
+        {
+            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
     }
 }
