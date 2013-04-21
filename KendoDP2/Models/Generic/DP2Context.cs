@@ -30,10 +30,12 @@ namespace KendoDP2.Models.Generic
         public DbSet<Competencia> InternalCompetencias { get; set; }
         public DbSet<Capacidad> InternalCapacidades { get; set; }
         public DbSet<NivelCapacidad> InternalNivelCapacidades { get; set; }
+        public DbSet<Evaluacion> InternalEvaluaciones { get; set; }
 
         public DBGenericRequester<Competencia> TablaCompetencias { get; set; }
         public DBGenericRequester<Capacidad> TablaCapacidades { get; set; }
         public DBGenericRequester<NivelCapacidad> TablaNivelCapacidades { get; set; }
+        public DBGenericRequester<Evaluacion> TablaEvaluaciones { get; set; }
 
         private void RegistrarTablas()
         {
@@ -48,6 +50,7 @@ namespace KendoDP2.Models.Generic
             TablaCompetencias = new DBGenericRequester<Competencia>(this, InternalCompetencias);
             TablaCapacidades = new DBGenericRequester<Capacidad>(this, InternalCapacidades);
             TablaNivelCapacidades = new DBGenericRequester<NivelCapacidad>(this, InternalNivelCapacidades);
+            TablaEvaluaciones = new DBGenericRequester<Evaluacion>(this, InternalEvaluaciones);
         }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
