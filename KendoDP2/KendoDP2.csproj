@@ -191,7 +191,10 @@
     <Compile Include="Areas\Evaluacion360\Evaluacion360AreaRegistration.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Capacidad.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Competencia.cs" />
+    <Compile Include="Areas\Evaluacion360\Models\Evaluacion.cs" />
+    <Compile Include="Areas\Evaluacion360\Models\Evaluador.cs" />
     <Compile Include="Areas\Evaluacion360\Models\NivelCapacidad.cs" />
+    <Compile Include="Areas\Evaluacion360\Models\TipoEvaluador.cs" />
     <Compile Include="Areas\Personal\PersonalAreaRegistration.cs" />
     <Compile Include="Areas\Reclutamiento\ReclutamientoAreaRegistration.cs" />
     <Compile Include="Areas\Reportes\ReportesAreaRegistration.cs" />
