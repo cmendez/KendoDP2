@@ -1,0 +1,77 @@
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Evaluacion360.Models
+@using KendoDP2.Areas.Personal.Models
+
+@{
+    ViewBag.Title = "Proceso de evaluación";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IList<ProcesoEvaluacionDTO> procesosEvaluacion = ViewBag.procesosEvaluacion;
+    IList<ColaboradorDTO> colaboradores = ViewBag.colaboradores;
+    SelectList lista = new SelectList(colaboradores, "ID", "NombreCompleto");
+}
+
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Procesos de evalución", "Administre los procesos de evaluación de la empresa"));}
+
+<div class="portlet box green">
+    <div class="portlet-title">
+        <h4><i class="icon-reorder"></i>Procesos de evaluación</h4>
+        <div class="tools">
+	        <a href="javascript:;" class="collapse"></a>
+        </div>
+	</div>
+    <div class="portlet-body">
+        
+        @(Html.Kendo().Grid<ProcesoEvaluacionDTO>()
+            .Name("ProcesosDeEvaluacionGrid")
+            .Columns(columns =>
+                {
+                    columns.ForeignKey((p => p.AutorizadorID), lista);
+                    columns.Bound(p => p.Nombre);
+                    columns.Bound(p => p.FechaCierre);
+                    columns.Command(command => { 
+                        command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar"); 
+                        command.Destroy().Text("Eliminar");
+                        command.Custom("Evaluados").Text("Evaluados");
+                    }).Width(300);
+                }
+            )
+            .ToolBar(toolbar => toolbar.Create().Text("Registrar"))
+            .Editable(editable => editable
+                .Mode(GridEditMode.PopUp)
+                .DisplayDeleteConfirmation("¿Está seguro que desea eliminar este registro?")
+                .Window(w => w.Title("Ingrese los datos"))
+            )
+            .Pageable(paper => paper.Refresh(true))
+            .Filterable()
+            .Sortable()
+            .Scrollable(w => w.Height(330))
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .PageSize(20)
+                .ServerOperation(false)
+                .Events(events => events.Error("error_handler"))
+                .Model(model => { model.Id(p => p.ID); })
+                .Create(update => update.Action("EditingInline_Create", "ProcesoEvaluacion"))
+                .Read(read => read.Action("EditingInline_Read", "ProcesoEvaluacion"))
+                .Update(update => update.Action("EditingInline_Update", "ProcesoEvaluacion"))
+                .Destroy(update => update.Action("EditingInline_Destroy", "ProcesoEvaluacion"))
+            )
+        )
+    </div>
+</div>
+
+<script type="text/javascript">
+    function error_handler(e) {    
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function() {
+                        message += this + "\n";
+                    });
+                }
+            });        
+            alert(message);
+        }
+    }
+</script>

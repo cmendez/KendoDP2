@@ -21,11 +21,12 @@ namespace KendoDP2.Models.Helpers
             // Evaluacion 360
             Opciones.Add(new SidebarOption("Evaluacion360", "Evaluación 360°", "icon-pencil", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption("Competencias", "Competencias", "Index", "icon-plus-sign"),
-                new SidebarSuboption("Capacidades", "Capacidades", "Index", "icon-check")
+                new SidebarSuboption("Capacidades", "Capacidades", "Index", "icon-check"),
+                new SidebarSuboption("Procesos de evaluación", "ProcesoEvaluacion", "Index", "icon-road")
             })));
             // Configuracion
             Opciones.Add(new SidebarOption("Configuracion", "Configuración", "icon-wrench", new List<SidebarSuboption>(new SidebarSuboption[]{
-                new SidebarSuboption("Periodos", "Periodos", "Index", "icon-time")
+                new SidebarSuboption("Períodos", "Periodos", "Index", "icon-time")
             })));
         }
     }

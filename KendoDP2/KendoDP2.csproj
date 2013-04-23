@@ -187,14 +187,17 @@
     <Compile Include="Areas\Configuracion\Models\Periodo.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\CapacidadesController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\CompetenciasController.cs" />
+    <Compile Include="Areas\Evaluacion360\Controllers\ProcesoEvaluacionController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\WSCompetenciasController.cs" />
     <Compile Include="Areas\Evaluacion360\Evaluacion360AreaRegistration.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Capacidad.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Competencia.cs" />
-    <Compile Include="Areas\Evaluacion360\Models\Evaluacion.cs" />
+    <Compile Include="Areas\Evaluacion360\Models\ProcesoEvaluacion.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Evaluador.cs" />
     <Compile Include="Areas\Evaluacion360\Models\NivelCapacidad.cs" />
     <Compile Include="Areas\Evaluacion360\Models\TipoEvaluador.cs" />
+    <Compile Include="Areas\Personal\Models\Colaborador.cs" />
+    <Compile Include="Areas\Personal\Models\Persona.cs" />
     <Compile Include="Areas\Personal\PersonalAreaRegistration.cs" />
     <Compile Include="Areas\Reclutamiento\ReclutamientoAreaRegistration.cs" />
     <Compile Include="Areas\Reportes\ReportesAreaRegistration.cs" />
@@ -1720,6 +1723,7 @@
     <Content Include="Areas\Evaluacion360\Views\Competencias\Index.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\Capacidades\Index.cshtml" />
     <Content Include="Areas\Configuracion\Views\Periodos\Index.cshtml" />
+    <Content Include="Areas\Evaluacion360\Views\ProcesoEvaluacion\Index.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -1862,7 +1866,6 @@
     <Folder Include="Areas\Configuracion\Views\Shared\" />
     <Folder Include="Areas\Evaluacion360\Views\Shared\" />
     <Folder Include="Areas\Personal\Controllers\" />
-    <Folder Include="Areas\Personal\Models\" />
     <Folder Include="Areas\Personal\Views\Shared\" />
     <Folder Include="Areas\Reclutamiento\Controllers\" />
     <Folder Include="Areas\Reclutamiento\Models\" />

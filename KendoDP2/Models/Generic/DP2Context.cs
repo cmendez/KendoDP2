@@ -1,5 +1,6 @@
 ﻿using KendoDP2.Areas.Configuracion.Models;
 using KendoDP2.Areas.Evaluacion360.Models;
+using KendoDP2.Areas.Personal.Models;
 using KendoDP2.Models.Seguridad;
 using System;
 using System.Collections.Generic;
@@ -30,12 +31,19 @@ namespace KendoDP2.Models.Generic
         public DbSet<Competencia> InternalCompetencias { get; set; }
         public DbSet<Capacidad> InternalCapacidades { get; set; }
         public DbSet<NivelCapacidad> InternalNivelCapacidades { get; set; }
-        public DbSet<Evaluacion> InternalEvaluaciones { get; set; }
+        public DbSet<ProcesoEvaluacion> InternalProcesoEvaluaciones { get; set; }
 
         public DBGenericRequester<Competencia> TablaCompetencias { get; set; }
         public DBGenericRequester<Capacidad> TablaCapacidades { get; set; }
         public DBGenericRequester<NivelCapacidad> TablaNivelCapacidades { get; set; }
-        public DBGenericRequester<Evaluacion> TablaEvaluaciones { get; set; }
+        public DBGenericRequester<ProcesoEvaluacion> TablaProcesoEvaluaciones { get; set; }
+
+        // Area Personal
+        public DbSet<Persona> InternalPersonas { get; set; }
+        public DbSet<Colaborador> InternalColaboradores { get; set; }
+
+        public DBGenericRequester<Persona> TablaPersonas { get; set; }
+        public DBGenericRequester<Colaborador> TablaColaboradores { get; set; }
 
         private void RegistrarTablas()
         {
@@ -50,7 +58,11 @@ namespace KendoDP2.Models.Generic
             TablaCompetencias = new DBGenericRequester<Competencia>(this, InternalCompetencias);
             TablaCapacidades = new DBGenericRequester<Capacidad>(this, InternalCapacidades);
             TablaNivelCapacidades = new DBGenericRequester<NivelCapacidad>(this, InternalNivelCapacidades);
-            TablaEvaluaciones = new DBGenericRequester<Evaluacion>(this, InternalEvaluaciones);
+            TablaProcesoEvaluaciones = new DBGenericRequester<ProcesoEvaluacion>(this, InternalProcesoEvaluaciones);
+        
+            // Area Personal
+            TablaPersonas = new DBGenericRequester<Persona>(this, InternalPersonas);
+            TablaColaboradores = new DBGenericRequester<Colaborador>(this, InternalColaboradores);
         }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,27 +73,29 @@ namespace KendoDP2.Models.Generic
             // Area Configuracion
             SeedPeriodos();
             // Area Seguridad
-            SeedRol();
-            SeedUsuario();
+            SeedRoles();
+            SeedUsuarios();
             // Area Evaluacion360
             SeedCompetencias();
-            SeedNivelCapacidad();
+            SeedNivelCapacidades();
+            // Area Personal
+            SeedColaboradores();
         }
 
         // Area Configuracion
         private void SeedPeriodos()
         {
-            TablaPeriodos.AddElement(new Periodo("Periodo inicial", DateTime.Now));
+            TablaPeriodos.AddElement(new Periodo("Período inicial", DateTime.Now));
         }
 
         // Area Seguridad
-        private void SeedRol()
+        private void SeedRoles()
         {
             TablaRoles.AddElement(new Rol("Administrador"));
             TablaRoles.AddElement(new Rol("Invitado"));
         }
 
-        private void SeedUsuario()
+        private void SeedUsuarios()
         {
             var administrador = TablaRoles.One(p => p.Nombre.Equals("Administrador"));
             var invitado = TablaRoles.One(p => p.Nombre.Equals("Invitado"));
@@ -98,10 +112,18 @@ namespace KendoDP2.Models.Generic
             TablaCompetencias.AddElement(new Competencia("Ser kiwi"));
         }
 
-        private void SeedNivelCapacidad()
+        private void SeedNivelCapacidades()
         {
             for (int i = 1; i <= 3; i++)
                 TablaNivelCapacidades.AddElement(new NivelCapacidad(i));
+        }
+
+        // Area Personal
+
+        private void SeedColaboradores()
+        {
+            // TODO(Modulo 1): mejorar seed o borrarlo
+            TablaColaboradores.AddElement(new Colaborador("Fortino Mario Alonso", "Moreno", "Reyes"));
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

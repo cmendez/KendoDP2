@@ -73,7 +73,7 @@ namespace KendoDP2.Areas.Configuracion.Controllers
             {
                 if (context.TablaPeriodos.All().Count == 1)
                 {
-                    ModelState.AddModelError("Destroy", "No se puede dejar la empresa sin periodos");
+                    ModelState.AddModelError("Destroy", "No se puede dejar la empresa sin períodos");
                     return Json(ModelState.ToDataSourceResult());
                 }
                 else
