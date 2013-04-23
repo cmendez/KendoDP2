@@ -20,6 +20,7 @@ namespace KendoDP2.Models.Helpers
 
             // Evaluacion 360
             Opciones.Add(new SidebarOption("Evaluacion360", "Evaluación 360°", "icon-pencil", new List<SidebarSuboption>(new SidebarSuboption[]{
+                new SidebarSuboption("Por perfil", "Configuracion360", "Index", "icon-group"),
                 new SidebarSuboption("Competencias", "Competencias", "Index", "icon-plus-sign"),
                 new SidebarSuboption("Capacidades", "Capacidades", "Index", "icon-check")
             })));

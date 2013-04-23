@@ -10,10 +10,17 @@ namespace KendoDP2.Areas.Evaluacion360.Models
     public class Competencia : DBObject
     {
         public string Nombre { get; set; }
+        public int NroDeNiveles { get; set; }
         public virtual ICollection<Capacidad> Capacidades { get; set; }
 
         public Competencia() { }
-        
+
+        public Competencia(string nombre, int nroDeNiveles)
+        {
+            Nombre = nombre;
+            NroDeNiveles = nroDeNiveles;
+        }
+
         public Competencia(string nombre)
         {
             Nombre = nombre;
@@ -28,6 +35,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         {
             ID = dto.ID;
             Nombre = dto.Nombre;
+            NroDeNiveles = 3; //Por defecto siempre es 3
             return this;
         }
 
@@ -51,6 +59,21 @@ namespace KendoDP2.Areas.Evaluacion360.Models
             ID = c.ID;
         }
         public CompetenciaDTO() { }
+    }
+
+    public class CompetenciaConTotalNivelesDTO
+    { 
+        public string Nombre { get; set; }
+        public int TotalNiveles { get; set; }
+        public int ID { get; set; }
+
+        public CompetenciaConTotalNivelesDTO(Competencia c)
+        {
+            TotalNiveles = c.NroDeNiveles;
+            Nombre = c.Nombre;
+            ID = c.ID;
+        }
+        public CompetenciaConTotalNivelesDTO() { }        
     }
 
 }
