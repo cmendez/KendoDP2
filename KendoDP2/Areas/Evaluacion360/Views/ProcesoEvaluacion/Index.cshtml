@@ -10,7 +10,7 @@
     SelectList lista = new SelectList(colaboradores, "ID", "NombreCompleto");
 }
 
-@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Procesos de evalución", "Administre los procesos de evaluación de la empresa"));}
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Procesos de evaluación", "Administre los procesos de evaluación de la empresa"));}
 
 <div class="portlet box green">
     <div class="portlet-title">
@@ -20,15 +20,15 @@
         </div>
 	</div>
     <div class="portlet-body">
-        @(Html.Kendo().DropDownList().Name("color").DataTextField("NombreCompleto").DataValueField("ID").BindTo(colaboradores))
         @(Html.Kendo().Grid<ProcesoEvaluacionDTO>()
             .Name("ProcesosDeEvaluacionGrid")
             .Columns(columns =>
                 {
-                    columns.ForeignKey((p => p.AutorizadorID), lista);
                     columns.Bound(p => p.Nombre);
                     columns.Bound(p => p.FechaCierre);
-                    columns.Command(command => { 
+                    columns.ForeignKey((p => p.AutorizadorID), lista);
+                    columns.Command(command =>
+                    { 
                         command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar"); 
                         command.Destroy().Text("Eliminar");
                         command.Custom("Evaluados").Text("Evaluados");
