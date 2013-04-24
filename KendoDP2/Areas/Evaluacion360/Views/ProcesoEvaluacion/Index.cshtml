@@ -20,7 +20,7 @@
         </div>
 	</div>
     <div class="portlet-body">
-        
+        @(Html.Kendo().DropDownList().Name("color").DataTextField("NombreCompleto").DataValueField("ID").BindTo(colaboradores))
         @(Html.Kendo().Grid<ProcesoEvaluacionDTO>()
             .Name("ProcesosDeEvaluacionGrid")
             .Columns(columns =>
@@ -74,4 +74,6 @@
             alert(message);
         }
     }
+
 </script>
+

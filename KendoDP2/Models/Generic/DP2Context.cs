@@ -124,6 +124,7 @@ namespace KendoDP2.Models.Generic
         {
             // TODO(Modulo 1): mejorar seed o borrarlo
             TablaColaboradores.AddElement(new Colaborador("Fortino Mario Alonso", "Moreno", "Reyes"));
+            TablaColaboradores.AddElement(new Colaborador("Walter Joao Carlos", "Mitta", "Tucto"));
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
