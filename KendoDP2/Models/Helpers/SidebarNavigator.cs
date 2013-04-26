@@ -24,6 +24,12 @@ namespace KendoDP2.Models.Helpers
                 new SidebarSuboption("Capacidades", "Capacidades", "Index", "icon-check"),
                 new SidebarSuboption("Procesos de evaluación", "ProcesoEvaluacion", "Index", "icon-road")
             })));
+
+            // Objetivos
+            Opciones.Add(new SidebarOption("Objetivos", "Objetivos", "icon-bookmark", new List<SidebarSuboption>(new SidebarSuboption[]{
+               new SidebarSuboption("Objetivos de la empresa", "Objetivosempresa", "Index", "icon-ok")
+            })));
+
             // Configuracion
             Opciones.Add(new SidebarOption("Configuracion", "Configuración", "icon-wrench", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption("Períodos", "Periodos", "Index", "icon-time")
