@@ -104,13 +104,9 @@ namespace KendoDP2.Models.Generic
         public Periodo CrearPeriodoConBSC(string nombrePeriodo, DateTime fecha)
         {
             Periodo p = new Periodo(nombrePeriodo, fecha);
-            BSC b = new BSC();
             TablaPeriodos.AddElement(p);
-            TablaBSC.AddElement(b);
-            p.BSCID = b.ID;
-            b.PeriodoID = p.ID;
+            p.BSC = new BSC { PeriodoID = p.ID };
             TablaPeriodos.ModifyElement(p);
-            TablaBSC.ModifyElement(b);
             return p;
         }
 
@@ -130,7 +126,6 @@ namespace KendoDP2.Models.Generic
         {
             var administrador = TablaRoles.One(p => p.Nombre.Equals("Administrador"));
             var invitado = TablaRoles.One(p => p.Nombre.Equals("Invitado"));
-            TablaUsuarios.AddElement(new Usuario("admin", "admin", administrador));
             TablaUsuarios.AddElement(new Usuario("anonimo", "anonimo", invitado));
         }
 
@@ -164,8 +159,8 @@ namespace KendoDP2.Models.Generic
         private void SeedColaboradores()
         {
             // TODO(Modulo 1): mejorar seed o borrarlo
-            TablaColaboradores.AddElement(new Colaborador("Fortino Mario Alonso", "Moreno", "Reyes"));
-            TablaColaboradores.AddElement(new Colaborador("Walter Joao Carlos", "Mitta", "Tucto"));
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Fortino Mario Alonso", ApellidoPaterno = "Moreno", ApellidoMaterno = "Reyes", Username = "admin", Password = "admin" });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Walter Joao Carlos", ApellidoPaterno = "Mitta", ApellidoMaterno = "Tucto", Username = "wallace", Password = "wallace" });
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -185,8 +180,8 @@ namespace KendoDP2.Models.Generic
         }
     }
 
-    public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
-    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
+    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
+    public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
     {
         protected override void Seed(DP2Context context)
         {

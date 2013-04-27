@@ -17,7 +17,8 @@ namespace KendoDP2.Areas.Configuracion.Models
         public DateTime? FechaInicio { get; set; }
         public DateTime? FechaFin { get; set; }
 
-        public int BSCID { get; set; }
+        public int? BSCID { get; set; }
+        public virtual BSC BSC { get; set; }
 
         public Periodo() { }
 
@@ -36,6 +37,7 @@ namespace KendoDP2.Areas.Configuracion.Models
             FechaInicio = periodo.FechaInicio;
             FechaFin = periodo.FechaFin;
             Nombre = periodo.Nombre;
+            BSCID = periodo.BSCID;
             return this;
         }
         public PeriodoDTO ToDTO()
@@ -80,7 +82,7 @@ namespace KendoDP2.Areas.Configuracion.Models
             FechaInicio = p.FechaInicio;
             FechaFin = p.FechaFin;
             FechaFinDisplay = FechaFin == null ? "Activo" : FechaFin.GetValueOrDefault().ToString("dd/MM/yyyy");
-            BSCID = p.BSCID;
+            BSCID = p.BSC == null ? 0 : p.BSC.ID;
         }
 
     }

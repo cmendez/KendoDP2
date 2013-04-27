@@ -9,6 +9,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     IList<PeriodoDTO> periodos = ViewBag.periodos;
     IList<TipoObjetivoBSC> tipoObjetivosBSC = ViewBag.tipoObjetivosBSC;
+    IList<ColaboradorDTO> colaboradores = ViewBag.colaboradores;
 }
 
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Objetivos BSC de la empresa", "Administre el BSC de la empresa."));}
@@ -49,8 +50,48 @@
                     <div class="tab-content">
                         @for (int j = 0; j < tipoObjetivosBSC.Count(); j++)
                         {
-                            <div class="tab-pane @(j == 0 ? "active" : "")" id ="tab-@(periodos[i].ID)-(@tipoObjetivosBSC[j].ID)">
-
+                            <div class="tab-pane @(j == 0 ? "active" : "")" id ="tab-@(periodos[i].ID)-@(tipoObjetivosBSC[j].ID)">
+                            @(Html.Kendo().Grid<ObjetivoDTO>()
+                                    .Name("ObjetivoGrid-" + periodos[i].ID + "-" + tipoObjetivosBSC[j].ID)
+                                    .Columns(columns =>
+                                        {
+                                            columns.Bound(p => p.Nombre).ClientFooterTemplate("<strong>Cantidad:</strong> #=count#");
+                                            columns.Bound(p => p.Peso).ClientFooterTemplate("<strong>Suma:</strong> #=sum#");
+                                            columns.ForeignKey(p => p.CreadorID, new SelectList(colaboradores, "ID", "NombreCompleto"));
+                                            columns.Command(command => { command.Destroy().Text("Eliminar"); }).Width(200);
+                                        }
+                                    )
+                                    .ToolBar(toolbar => { toolbar.Create().Text("Registrar"); toolbar.Save().SaveText("Guardar cambios").CancelText("Cancelar cambios"); })
+                                    .Editable(editable => editable
+                                        .Mode(GridEditMode.InCell)
+                                        .DisplayDeleteConfirmation("Recuerde que debe guardar los cambios para hacer efectiva la eliminación.")
+                                        .Window(w => w.Title("Ingrese los datos"))
+                                    )
+                                    .Pageable(e => e.Refresh(true))
+                                    .Filterable()
+                                    .Sortable()
+                                    .Scrollable(w => w.Height(330))
+                                    .DataSource(dataSource => dataSource
+                                        .Ajax()
+                                        .PageSize(20)
+                                        .Aggregates(a =>
+                                        {
+                                            a.Add(p => p.Nombre).Count();
+                                            a.Add(p => p.Peso).Sum();
+                                        })
+                                        .Model(model =>
+                                        {
+                                            model.Id(p => p.ID);
+                                            model.Field(p => p.TipoObjetivoBSCID).DefaultValue(tipoObjetivosBSC[j].ID);
+                                            model.Field(p => p.BSCID).DefaultValue(periodos[i].BSCID);
+                                        })
+                                        .Create(update => update.Action("Create", "ObjetivosEmpresa"))
+                                        .Read(read => read.Action("Read", "ObjetivosEmpresa", new { tipoObjetivoBSCID = tipoObjetivosBSC[j].ID, BSCID = periodos[i].BSCID }))
+                                        .Update(update => update.Action("Update", "ObjetivosEmpresa"))
+                                        .Destroy(update => update.Action("Destroy", "ObjetivosEmpresa"))
+                                        .Events(e => e.RequestEnd("afterRequest"))
+                                    ).Events(e => e.SaveChanges("onSave"))
+                                )
                             </div>
                         }
                     </div>
@@ -61,7 +102,40 @@
 </div>
 
 <script type="text/javascript">
+    var last_container = null;
     function onDropDownListPeriodosChange(e) {
-        console.log(e);
+        var dropDownListPeriodos = $("#DropDownListPeriodos").data("kendoDropDownList");
+        if (dropDownListPeriodos.selectedIndex == -1)
+            return;
+
+        var periodoID = dropDownListPeriodos.dataItem(dropDownListPeriodos.selectedIndex).ID;
+
+        if (last_container != null)
+            last_container.hide();
+        last_container = $("#tabs-for-periodo-" + periodoID);
+        last_container.show();
     }
+
+
+    function getSumaPeso(data) {
+        var sumaPeso = 0;
+        for (var i = 0; i < data.length; i++) {
+            sumaPeso += data[i].Peso;
+        }
+        return sumaPeso;
+    }
+
+    function onSave(e) {
+        var sumaPeso = getSumaPeso(e.sender._data);
+        if (sumaPeso != 100) {
+            alert("La suma de los pesos no es 100, es " + sumaPeso + ".");
+            e.preventDefault();
+        }
+    }
+
+    function afterRequest(e) {
+        if (e.type == 'create')
+            e.sender.read();
+    }
+    
 </script>

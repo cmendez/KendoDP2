@@ -13,7 +13,6 @@ namespace KendoDP2.Areas.Personal.Models
         public string Telefono { get; set; }
         public DateTime? FechaNacimiento { get; set; }
 
-        //public virtual ICollection<BSC> BSCs { get; set; }
         public virtual ICollection<Objetivo> Objetivos { get; set; }
         
         public Colaborador() { }

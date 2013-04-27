@@ -20,9 +20,8 @@ namespace KendoDP2.Areas.Objetivos.Models
         public double NoteFinalProcesosInternos { get; set; }
 
         public int PeriodoID { get; set; }
-
-        //public int ResponsableID { get; set; }
-        //public virtual Colaborador Responsable { get; set; }
+        [Required]
+        public virtual Periodo Periodo { get; set; }
 
         public BSC() { }
         
