@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KendoDP2.Areas.Objetivos.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +13,9 @@ namespace KendoDP2.Areas.Personal.Models
         public string Telefono { get; set; }
         public DateTime? FechaNacimiento { get; set; }
 
+        //public virtual ICollection<BSC> BSCs { get; set; }
+        public virtual ICollection<Objetivo> Objetivos { get; set; }
+        
         public Colaborador() { }
         public Colaborador(string nombres, string apellidoPaterno, string apellidoMaterno)
         {

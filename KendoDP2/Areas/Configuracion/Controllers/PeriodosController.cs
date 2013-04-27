@@ -49,8 +49,7 @@ namespace KendoDP2.Areas.Configuracion.Controllers
                 anterior.FechaFin = now;
                 context.TablaPeriodos.ModifyElement(anterior);
 
-                Periodo p = new Periodo(periodo.Nombre, now);
-                context.TablaPeriodos.AddElement(p);
+                Periodo p = context.CrearPeriodoConBSC(periodo.Nombre, now);
                 return Json(new[] { p.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
         }

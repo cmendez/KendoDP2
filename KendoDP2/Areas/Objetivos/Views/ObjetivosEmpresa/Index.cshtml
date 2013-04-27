@@ -1,12 +1,14 @@
 ﻿@using Kendo.Mvc.UI
 @using KendoDP2.Areas.Evaluacion360.Models
 @using KendoDP2.Areas.Configuracion.Models
+@using KendoDP2.Areas.Objetivos.Models
 @using KendoDP2.Areas.Personal.Models
 
 @{
     ViewBag.Title = "Objetivos de la empresa";
     Layout = "~/Views/Shared/_Layout.cshtml";
     IList<PeriodoDTO> periodos = ViewBag.periodos;
+    IList<TipoObjetivoBSC> tipoObjetivosBSC = ViewBag.tipoObjetivosBSC;
 }
 
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Objetivos BSC de la empresa", "Administre el BSC de la empresa."));}
@@ -37,32 +39,20 @@
             {
                 <div id = "tabs-for-periodo-@periodos[i].ID" class="tabbable tabbable-custom @(i == 0 ? "active" : "")">
                     <ul class="nav nav-tabs">
-                        <li class="active">
-                            <a href="#tab-@(periodos[i].ID)-0" data-toggle="tab">Cliente</a>
-                        </li>
-                        <li>
-                            <a href="#tab-@(periodos[i].ID)-1" data-toggle="tab">Aprendizaje y crecimiento</a>
-                        </li>
-                        <li>
-                            <a href="#tab-@(periodos[i].ID)-2" data-toggle="tab">Financiero</a>
-                        </li>
-                        <li>
-                            <a href="#tab-@(periodos[i].ID)-3" data-toggle="tab">Procesos de negocio interno</a>
-                        </li>
+                        @for (int j = 0; j < tipoObjetivosBSC.Count(); j++)
+                        {
+                            <li class="@(j == 0 ? "active" : "")">
+                                <a href="#tab-@(periodos[i].ID)-@(tipoObjetivosBSC[j].ID)" data-toggle="tab">@tipoObjetivosBSC[j].Nombre</a>
+                            </li>    
+                        }
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane active" id ="tab-@(periodos[i].ID)-0">
+                        @for (int j = 0; j < tipoObjetivosBSC.Count(); j++)
+                        {
+                            <div class="tab-pane @(j == 0 ? "active" : "")" id ="tab-@(periodos[i].ID)-(@tipoObjetivosBSC[j].ID)">
 
-                        </div>
-                        <div class="tab-pane" id ="tab-@(periodos[i].ID)-1">
-
-                        </div>
-                        <div class="tab-pane" id ="tab-@(periodos[i].ID)-2">
-
-                        </div>
-                        <div class="tab-pane" id ="tab-@(periodos[i].ID)-3">
-
-                        </div>
+                            </div>
+                        }
                     </div>
                 </div>
             }  

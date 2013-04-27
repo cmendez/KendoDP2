@@ -1,9 +1,11 @@
 ﻿using KendoDP2.Areas.Evaluacion360.Models;
+using KendoDP2.Areas.Objetivos.Models;
 using KendoDP2.Models.Generic;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -15,13 +17,17 @@ namespace KendoDP2.Areas.Configuracion.Models
         public DateTime? FechaInicio { get; set; }
         public DateTime? FechaFin { get; set; }
 
+        public int BSCID { get; set; }
+
         public Periodo() { }
+
         public Periodo(string nombre, DateTime fechaInicio)
         {
             Nombre = nombre;
             FechaInicio = fechaInicio;
             FechaFin = null;
         }
+
         public Periodo(PeriodoDTO periodo){
             LoadFromDTO(periodo);
         }
@@ -63,6 +69,9 @@ namespace KendoDP2.Areas.Configuracion.Models
         [ScaffoldColumn(false)]
         public string FechaFinDisplay { get; set; }
 
+        [ScaffoldColumn(false)]
+        public int BSCID { get; set; }
+
         public PeriodoDTO() { }
         public PeriodoDTO(Periodo p)
         {
@@ -71,6 +80,7 @@ namespace KendoDP2.Areas.Configuracion.Models
             FechaInicio = p.FechaInicio;
             FechaFin = p.FechaFin;
             FechaFinDisplay = FechaFin == null ? "Activo" : FechaFin.GetValueOrDefault().ToString("dd/MM/yyyy");
+            BSCID = p.BSCID;
         }
 
     }

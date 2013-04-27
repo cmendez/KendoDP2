@@ -19,7 +19,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         {
             using (DP2Context context = new DP2Context()) {
                 ViewBag.periodos = context.TablaPeriodos.All().Select(p => p.ToDTO()).ToList();
-
+                ViewBag.tipoObjetivosBSC = context.TablaTipoObjetivoBSC.All();
                 return View();
             }
         }

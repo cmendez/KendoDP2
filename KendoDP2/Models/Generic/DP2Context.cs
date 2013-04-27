@@ -1,5 +1,6 @@
 ﻿using KendoDP2.Areas.Configuracion.Models;
 using KendoDP2.Areas.Evaluacion360.Models;
+using KendoDP2.Areas.Objetivos.Models;
 using KendoDP2.Areas.Personal.Models;
 using KendoDP2.Models.Seguridad;
 using System;
@@ -38,6 +39,15 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<NivelCapacidad> TablaNivelCapacidades { get; set; }
         public DBGenericRequester<ProcesoEvaluacion> TablaProcesoEvaluaciones { get; set; }
 
+        // Area Objetivos
+        public DbSet<Objetivo> InternalObjetivos { get; set; }
+        public DbSet<TipoObjetivoBSC> InternalTipoObjetivoBSC { get; set; }
+        public DbSet<BSC> InternalBSC { get; set; }
+
+        public DBGenericRequester<Objetivo> TablaObjetivos { get; set; }
+        public DBGenericRequester<TipoObjetivoBSC> TablaTipoObjetivoBSC { get; set; }
+        public DBGenericRequester<BSC> TablaBSC { get; set; }
+
         // Area Personal
         public DbSet<Persona> InternalPersonas { get; set; }
         public DbSet<Colaborador> InternalColaboradores { get; set; }
@@ -60,6 +70,11 @@ namespace KendoDP2.Models.Generic
             TablaNivelCapacidades = new DBGenericRequester<NivelCapacidad>(this, InternalNivelCapacidades);
             TablaProcesoEvaluaciones = new DBGenericRequester<ProcesoEvaluacion>(this, InternalProcesoEvaluaciones);
         
+            // Area Objetivos
+            TablaBSC = new DBGenericRequester<BSC>(this, InternalBSC);
+            TablaObjetivos = new DBGenericRequester<Objetivo>(this, InternalObjetivos);
+            TablaTipoObjetivoBSC = new DBGenericRequester<TipoObjetivoBSC>(this, InternalTipoObjetivoBSC);
+
             // Area Personal
             TablaPersonas = new DBGenericRequester<Persona>(this, InternalPersonas);
             TablaColaboradores = new DBGenericRequester<Colaborador>(this, InternalColaboradores);
@@ -78,14 +93,30 @@ namespace KendoDP2.Models.Generic
             // Area Evaluacion360
             SeedCompetencias();
             SeedNivelCapacidades();
+            // Area Objetivos
+            SeedTipoObjetivoBSC();
             // Area Personal
             SeedColaboradores();
         }
 
         // Area Configuracion
+
+        public Periodo CrearPeriodoConBSC(string nombrePeriodo, DateTime fecha)
+        {
+            Periodo p = new Periodo(nombrePeriodo, fecha);
+            BSC b = new BSC();
+            TablaPeriodos.AddElement(p);
+            TablaBSC.AddElement(b);
+            p.BSCID = b.ID;
+            b.PeriodoID = p.ID;
+            TablaPeriodos.ModifyElement(p);
+            TablaBSC.ModifyElement(b);
+            return p;
+        }
+
         private void SeedPeriodos()
         {
-            TablaPeriodos.AddElement(new Periodo("Período inicial", DateTime.Now));
+            CrearPeriodoConBSC("Período inicial", DateTime.Now);
         }
 
         // Area Seguridad
@@ -118,6 +149,16 @@ namespace KendoDP2.Models.Generic
                 TablaNivelCapacidades.AddElement(new NivelCapacidad(i));
         }
 
+        // Area Objetivos
+        
+        private void SeedTipoObjetivoBSC()
+        {
+            TablaTipoObjetivoBSC.AddElement(new TipoObjetivoBSC(TipoObjetivoBSCConstants.Financiero));
+            TablaTipoObjetivoBSC.AddElement(new TipoObjetivoBSC(TipoObjetivoBSCConstants.AprendizajeCrecimiento));
+            TablaTipoObjetivoBSC.AddElement(new TipoObjetivoBSC(TipoObjetivoBSCConstants.Cliente));
+            TablaTipoObjetivoBSC.AddElement(new TipoObjetivoBSC(TipoObjetivoBSCConstants.ProcesosInternos));
+        }
+
         // Area Personal
 
         private void SeedColaboradores()
@@ -139,11 +180,13 @@ namespace KendoDP2.Models.Generic
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            modelBuilder.Conventions.Remove<OneToOneConstraintIntroductionConvention>();
         }
     }
 
-    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
-    public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
+    public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
+    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
     {
         protected override void Seed(DP2Context context)
         {
