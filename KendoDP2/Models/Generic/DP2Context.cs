@@ -18,8 +18,10 @@ namespace KendoDP2.Models.Generic
     {
         // Area Configuracion
         public DbSet<Periodo> InternalPeriodos { get; set; }
+        public DbSet<Pais> InternalPaises { get; set; }
 
         public DBGenericRequester<Periodo> TablaPeriodos { get; set; }
+        public DBGenericRequester<Pais> TablaPaises { get; set; }
 
         // Area Seguridad
         public DbSet<Rol> InternalRoles { get; set; }
@@ -51,14 +53,22 @@ namespace KendoDP2.Models.Generic
         // Area Personal
         public DbSet<Persona> InternalPersonas { get; set; }
         public DbSet<Colaborador> InternalColaboradores { get; set; }
-
+        public DbSet<EstadosColaborador> InternalEstadosColaboradores { get; set; }
+        //no se si esta bien xD       
+        public DbSet<TipoDocumento> InternalTiposDocumentos { get; set; }
+        public DbSet<GradoAcademico> InternalGradosAcademicos { get; set; }
+        
         public DBGenericRequester<Persona> TablaPersonas { get; set; }
         public DBGenericRequester<Colaborador> TablaColaboradores { get; set; }
+        public DBGenericRequester<EstadosColaborador> TablaEstadosColaboradores { get; set; }
+        public DBGenericRequester<TipoDocumento> TablaTiposDocumentos { get; set; }
+        public DBGenericRequester<GradoAcademico> TablaGradosAcademicos { get; set; }
 
         private void RegistrarTablas()
         {
             // Area Configuracion
             TablaPeriodos = new DBGenericRequester<Periodo>(this, InternalPeriodos);
+            TablaPaises = new DBGenericRequester<Pais>(this, InternalPaises);
 
             // Area Seguridad
             TablaRoles = new DBGenericRequester<Rol>(this, InternalRoles);
@@ -78,6 +88,10 @@ namespace KendoDP2.Models.Generic
             // Area Personal
             TablaPersonas = new DBGenericRequester<Persona>(this, InternalPersonas);
             TablaColaboradores = new DBGenericRequester<Colaborador>(this, InternalColaboradores);
+            TablaEstadosColaboradores = new DBGenericRequester<EstadosColaborador>(this, InternalEstadosColaboradores);
+            TablaGradosAcademicos = new DBGenericRequester<GradoAcademico>(this, InternalGradosAcademicos);
+            TablaTiposDocumentos = new DBGenericRequester<TipoDocumento>(this, InternalTiposDocumentos);
+            
         }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,6 +111,7 @@ namespace KendoDP2.Models.Generic
             SeedTipoObjetivoBSC();
             // Area Personal
             SeedColaboradores();
+            SeedTiposDocumentos();
         }
 
         // Area Configuracion
@@ -163,6 +178,11 @@ namespace KendoDP2.Models.Generic
             TablaColaboradores.AddElement(new Colaborador { Nombres = "Walter Joao Carlos", ApellidoPaterno = "Mitta", ApellidoMaterno = "Tucto", Username = "wallace", Password = "wallace" });
         }
 
+        public void SeedTiposDocumentos()
+        {
+            TablaTiposDocumentos.AddElement(new TipoDocumento { Descripcion = "Pasaporte" });
+            TablaTiposDocumentos.AddElement(new TipoDocumento { Descripcion = "DNI" });
+        }
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // No tocar por nada del mundo las lineas de abajo, si no esterilizo a quien lo haga.
