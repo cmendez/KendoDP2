@@ -19,7 +19,7 @@ namespace KendoDP2.Models.Seguridad
             Password = password;
             Roles = new List<Rol>();
             Roles.Add(rol);
-            //rol.Usuarios.Add(this);
+            rol.Usuarios.Add(this);
         }
 
         public UsuarioDTO ToDTO()
