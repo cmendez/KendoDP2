@@ -22,8 +22,27 @@ namespace KendoDP2.Models.Seguridad
             //rol.Usuarios.Add(this);
         }
 
+        public UsuarioDTO ToDTO()
+        {
+            return new UsuarioDTO(this);
+        }
+
         public Usuario()
         {
+        }
+    }
+
+    public class UsuarioDTO
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+        
+        public UsuarioDTO() { }
+        
+        public UsuarioDTO(Usuario u)
+        {
+            Username = u.Username;
+            Password = u.Password;
         }
     }
 }

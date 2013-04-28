@@ -207,6 +207,7 @@
     <Compile Include="Areas\Reclutamiento\ReclutamientoAreaRegistration.cs" />
     <Compile Include="Areas\Reportes\ReportesAreaRegistration.cs" />
     <Compile Include="Areas\Seguridad\Controllers\RolesController.cs" />
+    <Compile Include="Areas\Seguridad\Controllers\WSUsuariosController.cs" />
     <Compile Include="Areas\Seguridad\SeguridadAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\WSLoginController.cs" />
