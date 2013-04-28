@@ -31,6 +31,7 @@
                     .BindTo(periodos)
                     .HtmlAttributes(new { style = "width:100%" })
                     .Events(e => e.Change("onDropDownListPeriodosChange"))
+                    .SelectedIndex(0)
                 )
             </div>
         </div>
@@ -38,7 +39,7 @@
         <div class="row-fluid information-container">
            @for(int i = 0; i < periodos.Count(); i++)
             {
-                <div id = "tabs-for-periodo-@periodos[i].ID" class="tabbable tabbable-custom @(i == 0 ? "active" : "")">
+                <div id = "tabs-for-periodo-@periodos[i].ID" class="tabbable tabbable-custom @(i == 0 ? "" : "hidden")">
                     <ul class="nav nav-tabs">
                         @for (int j = 0; j < tipoObjetivosBSC.Count(); j++)
                         {
@@ -84,6 +85,7 @@
                                             model.Id(p => p.ID);
                                             model.Field(p => p.TipoObjetivoBSCID).DefaultValue(tipoObjetivosBSC[j].ID);
                                             model.Field(p => p.BSCID).DefaultValue(periodos[i].BSCID);
+                                            model.Field(p => p.CreadorID).Editable(false);
                                         })
                                         .Create(update => update.Action("Create", "ObjetivosEmpresa"))
                                         .Read(read => read.Action("Read", "ObjetivosEmpresa", new { tipoObjetivoBSCID = tipoObjetivosBSC[j].ID, BSCID = periodos[i].BSCID }))
@@ -103,15 +105,18 @@
 
 <script type="text/javascript">
     var last_container = null;
+
+    $(document).ready(function () {
+        var dropDownListPeriodos = $("#DropDownListPeriodos").data("kendoDropDownList");
+        var periodoID = dropDownListPeriodos.dataItem(dropDownListPeriodos.selectedIndex).ID;
+        last_container = $("#tabs-for-periodo-" + periodoID);
+    });
+
     function onDropDownListPeriodosChange(e) {
         var dropDownListPeriodos = $("#DropDownListPeriodos").data("kendoDropDownList");
-        if (dropDownListPeriodos.selectedIndex == -1)
-            return;
-
         var periodoID = dropDownListPeriodos.dataItem(dropDownListPeriodos.selectedIndex).ID;
 
-        if (last_container != null)
-            last_container.hide();
+        last_container.hide();
         last_container = $("#tabs-for-periodo-" + periodoID);
         last_container.show();
     }
