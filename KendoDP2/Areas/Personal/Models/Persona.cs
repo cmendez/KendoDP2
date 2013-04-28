@@ -1,8 +1,9 @@
-﻿using KendoDP2.Models.Seguridad;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using KendoDP2.Models.Seguridad;
+
 
 namespace KendoDP2.Areas.Personal.Models
 {
