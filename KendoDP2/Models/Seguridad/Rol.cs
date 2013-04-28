@@ -45,8 +45,6 @@ namespace KendoDP2.Models.Seguridad
         {
             ID = dto.ID;
             Nombre = dto.Nombre;
-            Usuarios = dto.Usuarios;
-            Navegacion = dto.Navegacion;
             return this;
         }
 
@@ -67,21 +65,13 @@ namespace KendoDP2.Models.Seguridad
         [StringLength(200)]
         public string Nombre { get; set; }
 
-        public List<Usuario> Usuarios { get; set; }
-
-        public List<SidebarOption> Navegacion { get; set; }
-
         public RolDTO(Rol r)
         {
             Nombre = r.Nombre;
-            Usuarios = r.Usuarios;
-            Navegacion = r.Navegacion;
         }
         public RolDTO()
         {
             Nombre = String.Empty;
-            Usuarios = new List<Usuario>();
-            Navegacion = new List<SidebarOption>();
         }
     }
 }

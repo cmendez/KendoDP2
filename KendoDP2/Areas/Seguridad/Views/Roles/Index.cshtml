@@ -20,6 +20,7 @@
             .Name("RolGrid")
             .Columns(columns =>
                 {
+                    columns.Bound(p => p.ID);
                     columns.Bound(p => p.Nombre);
                     columns.Command(command => { command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar"); command.Destroy().Text("Eliminar"); }).Width(200);
                 }
@@ -38,10 +39,10 @@
                 .Ajax()
                 .PageSize(20)
                 .Model(model => model.Id(p => p.ID))
-                .Create(update => update.Action("EditingInline_Create", "Seguridad"))
-                .Read(read => read.Action("EditingInline_Read", "Seguridad"))
-                .Update(update => update.Action("EditingInline_Update", "Seguridad"))
-                .Destroy(update => update.Action("EditingInline_Destroy", "Seguridad"))
+                .Create(update => update.Action("Create", "Roles"))
+                .Read(read => read.Action("Read", "Roles"))
+                .Update(update => update.Action("Update", "Roles"))
+                .Destroy(update => update.Action("Destroy", "Roles"))
                 )
         )
      

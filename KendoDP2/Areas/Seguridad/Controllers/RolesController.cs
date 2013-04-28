@@ -23,16 +23,17 @@ namespace KendoDP2.Areas.Seguridad.Controllers
             return View();
         }
 
-        public ActionResult EditingInline_Read([DataSourceRequest] DataSourceRequest request)
+        public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
             using (DP2Context context = new DP2Context())
             {
-                return Json(context.TablaRoles.All().Select(p => p.ToDTO()).ToDataSourceResult(request));
+                var x = Json(context.TablaRoles.All().Select(p => p.ToDTO()).ToDataSourceResult(request));
+                return x;
             }
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult EditingInline_Create([DataSourceRequest] DataSourceRequest request, RolDTO rol)
+        public ActionResult Create([DataSourceRequest] DataSourceRequest request, RolDTO rol)
         {
             using (DP2Context context = new DP2Context())
             {
@@ -43,7 +44,7 @@ namespace KendoDP2.Areas.Seguridad.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult EditingInline_Update([DataSourceRequest] DataSourceRequest request, RolDTO rol)
+        public ActionResult Update([DataSourceRequest] DataSourceRequest request, RolDTO rol)
         {
             using (DP2Context context = new DP2Context())
             {
@@ -54,7 +55,7 @@ namespace KendoDP2.Areas.Seguridad.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult EditingInline_Destroy([DataSourceRequest] DataSourceRequest request, RolDTO rol)
+        public ActionResult Destroy([DataSourceRequest] DataSourceRequest request, RolDTO rol)
         {
             using (DP2Context context = new DP2Context())
             {
