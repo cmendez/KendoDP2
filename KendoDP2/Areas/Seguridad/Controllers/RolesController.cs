@@ -1,25 +1,22 @@
-﻿using System;
+﻿using Kendo.Mvc.UI;
+using Kendo.Mvc.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Kendo.Mvc.UI;
 using KendoDP2.Models.Generic;
 using KendoDP2.Models.Seguridad;
-using Kendo.Mvc.Extensions;
 
-namespace KendoDP2.Controllers
+namespace KendoDP2.Areas.Seguridad.Controllers
 {
     [Authorize()]
-    public class SeguridadController : Controller
+    public class RolesController : Controller
     {
-        public SeguridadController(): base()
+        public RolesController()
         {
             ViewBag.Area = "Seguridad";
         }
-
-        //
-        // GET: /Seguridad/
 
         public ActionResult Index()
         {
@@ -65,5 +62,7 @@ namespace KendoDP2.Controllers
                 return Json(ModelState.ToDataSourceResult());
             }
         }
+
+
     }
 }

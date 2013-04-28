@@ -21,7 +21,9 @@ namespace KendoDP2.Models.Helpers
             Opciones.Add(new SidebarOption("", "Home", "Index", "Inicio", "icon-home"));
             
             //Seguridad
-            Opciones.Add(new SidebarOption("", "Seguridad", "Index", "Seguridad", "icon-user-md"));
+            Opciones.Add(new SidebarOption("Seguridad", "Seguridad", "icon-user-mid", new List<SidebarSuboption>(new SidebarSuboption[]{
+                new SidebarSuboption("Roles", "Roles", "Index", "icon-user-mid")
+            })));
 
             // Evaluacion 360
             Opciones.Add(new SidebarOption("Evaluacion360", "Evaluación 360°", "icon-pencil", new List<SidebarSuboption>(new SidebarSuboption[]{

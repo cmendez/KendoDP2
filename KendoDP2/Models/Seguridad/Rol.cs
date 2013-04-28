@@ -64,8 +64,7 @@ namespace KendoDP2.Models.Seguridad
         public int ID { get; set; }
 
         [Required]
-        [StringLength(200, ErrorMessage = "Solo se permite una longitud de 200 caracteres para un Rol")]
-        [DataType(DataType.Text, ErrorMessage = "Solo se admite caracteres")]
+        [StringLength(200)]
         public string Nombre { get; set; }
 
         public List<Usuario> Usuarios { get; set; }
