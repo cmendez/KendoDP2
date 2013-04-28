@@ -13,5 +13,23 @@ namespace KendoDP2.Areas.Personal.Models
         public string ApellidoMaterno { get; set; }
 
         public Persona() { }
+
+        public PersonaDTO ToDTO()
+        {
+            return new PersonaDTO(this);
+        }
+    }
+
+    public class PersonaDTO
+    {
+        public int ID { get; set; }
+        public string NombreCompleto { get; set; }
+
+        public PersonaDTO() { }
+        public PersonaDTO(Persona p)
+        {
+            ID = p.ID;
+            NombreCompleto = p.ApellidoPaterno + " " + p.ApellidoMaterno + ", " + p.Nombres;
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿<div class="navbar-inner">
 			<div class="container-fluid">
 				<!-- BEGIN LOGO -->
-				<a class="brand" href="index.html">
+				<a class="brand" href="@Url.Action("Index", "Home", new { Area = "" } )">
 				<img src="@Url.Content("~/Content/assets/img/logo2.png")" alt="logo" />
 				</a>
 				<!-- END LOGO -->
@@ -82,45 +82,6 @@
 							<li>
 								<p>Usted tiene 0 mensajes nuevos</p>
 							</li>
-							<!--li>
-								<a href="inbox.html?a=view">
-								<span class="photo"><img src="@Url.Content("~/Content/assets/img/avatar2.jpg")" alt="" /></span>
-								<span class="subject">
-								<span class="from">Lisa Wong</span>
-								<span class="time">Just Now</span>
-								</span>
-								<span class="message">
-								Vivamus sed auctor nibh congue nibh. auctor nibh
-								auctor nibh...
-								</span>  
-								</a>
-							</li>
-							<li>
-								<a href="inbox.html?a=view">
-								<span class="photo"><img src="@Url.Content("~/Content/assets/img/avatar3.jpg")" alt="" /></span>
-								<span class="subject">
-								<span class="from">Richard Doe</span>
-								<span class="time">16 mins</span>
-								</span>
-								<span class="message">
-								Vivamus sed congue nibh auctor nibh congue nibh. auctor nibh
-								auctor nibh...
-								</span>  
-								</a>
-							</li>
-							<li>
-								<a href="inbox.html?a=view">
-								<span class="photo"><img src="@Url.Content("~/Content/assets/img/avatar1.jpg")" alt="" /></span>
-								<span class="subject">
-								<span class="from">@User.Identity.Name</span>
-								<span class="time">2 hrs</span>
-								</span>
-								<span class="message">
-								Vivamus sed nibh auctor nibh congue nibh. auctor nibh
-								auctor nibh...
-								</span>  
-								</a>
-							</li-->
 							<li class="external">
 								<a href="#">Ver todos los mensajes <i class="m-icon-swapright"></i></a>
 							</li>
@@ -137,72 +98,6 @@
 							<li>
 								<p>Usted tiene 0 tareas pendientes</p>
 							</li>
-							<!--li>
-								<a href="#">
-								<span class="task">
-								<span class="desc">New release v1.2</span>
-								<span class="percent">30%</span>
-								</span>
-								<span class="progress progress-success ">
-								<span style="width: 30%;" class="bar"></span>
-								</span>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-								<span class="task">
-								<span class="desc">Application deployment</span>
-								<span class="percent">65%</span>
-								</span>
-								<span class="progress progress-danger progress-striped active">
-								<span style="width: 65%;" class="bar"></span>
-								</span>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-								<span class="task">
-								<span class="desc">Mobile app release</span>
-								<span class="percent">98%</span>
-								</span>
-								<span class="progress progress-success">
-								<span style="width: 98%;" class="bar"></span>
-								</span>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-								<span class="task">
-								<span class="desc">Database migration</span>
-								<span class="percent">10%</span>
-								</span>
-								<span class="progress progress-warning progress-striped">
-								<span style="width: 10%;" class="bar"></span>
-								</span>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-								<span class="task">
-								<span class="desc">Web server upgrade</span>
-								<span class="percent">58%</span>
-								</span>
-								<span class="progress progress-info">
-								<span style="width: 58%;" class="bar"></span>
-								</span>
-								</a>
-							</li>
-							<li>
-								<a href="#">
-								<span class="task">
-								<span class="desc">Mobile development</span>
-								<span class="percent">85%</span>
-								</span>
-								<span class="progress progress-success">
-								<span style="width: 85%;" class="bar"></span>
-								</span>
-								</a>
-							</li-->
 							<li class="external">
 								<a href="#">Ver todas las tareas <i class="m-icon-swapright"></i></a>
 							</li>
@@ -213,7 +108,7 @@
 					<li class="dropdown user">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 						<img alt="" src="@Url.Content("~/Content/assets/img/avatar1_small.jpg")" />
-						<span class="username">@User.Identity.Name</span>
+						<span class="username">@KendoDP2.Models.Seguridad.DP2MembershipProvider.GetPersonaFromUsername(User.Identity.Name).NombreCompleto</span>
 						<i class="icon-angle-down"></i>
 						</a>
 						<ul class="dropdown-menu">

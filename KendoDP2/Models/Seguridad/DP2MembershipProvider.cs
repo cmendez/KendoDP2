@@ -1,4 +1,5 @@
-﻿using KendoDP2.Models.Generic;
+﻿using KendoDP2.Areas.Personal.Models;
+using KendoDP2.Models.Generic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -161,5 +162,14 @@ namespace KendoDP2.Models.Seguridad
                     return false;
             }
         }
+
+        public static PersonaDTO GetPersonaFromUsername(string username)
+        {
+            using (DP2Context db = new DP2Context())
+            {
+                return db.TablaPersonas.One(p => p.Username.Equals(username)).ToDTO();
+            }
+        }
+
     }
 }
