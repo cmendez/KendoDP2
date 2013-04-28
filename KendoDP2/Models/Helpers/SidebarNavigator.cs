@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using KendoDP2.Models.Generic;
 
 namespace KendoDP2.Models.Helpers
 {
@@ -13,15 +12,11 @@ namespace KendoDP2.Models.Helpers
         // Puedes encontar iconos en http://fortawesome.github.io/Font-Awesome/
         public SidebarNavigator()
         {
-
             Opciones = new List<SidebarOption>();
             // Agregue aqui  las opciones y subopciones del navegador de la barra de menu
 
             // Inicio
             Opciones.Add(new SidebarOption("", "Home", "Index", "Inicio", "icon-home"));
-            
-            //Seguridad
-            Opciones.Add(new SidebarOption("", "Seguridad", "Index", "Seguridad", "icon-user-md"));
 
             // Evaluacion 360
             Opciones.Add(new SidebarOption("Evaluacion360", "Evaluación 360°", "icon-pencil", new List<SidebarSuboption>(new SidebarSuboption[]{
@@ -42,7 +37,7 @@ namespace KendoDP2.Models.Helpers
         }
     }
 
-    public class SidebarOption : DBObject
+    public class SidebarOption
     {
         public string Area { get; set; }
         public string Controller { get; set; }
@@ -51,9 +46,9 @@ namespace KendoDP2.Models.Helpers
         public string Icon { get; set; }
         public List<SidebarSuboption> Suboptions { get; set; }
 
-        public SidebarOption() { }
         public SidebarOption(string area, string text, string icon, List<SidebarSuboption> suboptions) : this(area, null, null, text, icon, suboptions) { }
         public SidebarOption(string area, string controller, string method, string text, string icon) : this(area, controller, method, text, icon, new List<SidebarSuboption>()) { }
+
         private SidebarOption(string area, string controller, string method, string text, string icon, List<SidebarSuboption> suboptions)
         {
             Area = area;
@@ -65,7 +60,7 @@ namespace KendoDP2.Models.Helpers
         }
     }
 
-    public class SidebarSuboption : DBObject
+    public class SidebarSuboption
     {
         public string Title { get; set; }
         public string Controller { get; set; }
