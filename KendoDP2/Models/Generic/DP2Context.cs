@@ -115,8 +115,8 @@ namespace KendoDP2.Models.Generic
             // Area Objetivos
             SeedTipoObjetivoBSC();
             // Area Personal
-            SeedColaboradores();
             SeedTiposDocumentos();
+            SeedColaboradores();
         }
 
         // Area Configuracion
@@ -207,8 +207,8 @@ namespace KendoDP2.Models.Generic
         private void SeedColaboradores()
         {
             // TODO(Modulo 1): mejorar seed o borrarlo
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Fortino Mario Alonso", ApellidoPaterno = "Moreno", ApellidoMaterno = "Reyes", Username = "admin", Password = "admin" });
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Walter Joao Carlos", ApellidoPaterno = "Mitta", ApellidoMaterno = "Tucto", Username = "wallace", Password = "wallace" });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Fortino Mario Alonso", ApellidoPaterno = "Moreno", ApellidoMaterno = "Reyes", Username = "admin", Password = "admin", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Walter Joao Carlos", ApellidoPaterno = "Mitta", ApellidoMaterno = "Tucto", Username = "wallace", Password = "wallace", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID });
         }
 
         public void SeedTiposDocumentos()
@@ -233,8 +233,8 @@ namespace KendoDP2.Models.Generic
         }
     }
 
-    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
-    public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
+    public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
+    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
     {
         protected override void Seed(DP2Context context)
         {

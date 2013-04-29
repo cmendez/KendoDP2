@@ -7,12 +7,12 @@ using KendoDP2.Models.Generic;
 
 namespace KendoDP2.Areas.Personal.Controllers
 {
-    public class ColaboradorController : Controller
+    public class ColaboradoresController : Controller
     {
         //
         // GET: /Personal/Colaborador/
 
-        public ColaboradorController()
+        public ColaboradoresController()
         {
             ViewBag.Area = "Personal";
         }

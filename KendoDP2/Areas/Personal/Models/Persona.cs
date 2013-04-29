@@ -17,7 +17,7 @@ namespace KendoDP2.Areas.Personal.Models
         public string NumeroDocumento { get; set; }
         public string CentroEstudios { get; set; }
         public string CorreoElectronico { get; set; }
-        public int GradoAcademicoID { get; set; }
+        public int? GradoAcademicoID { get; set; }
         public virtual GradoAcademico GradoAcademico { get; set; }
        
         public int TipoDocumentoID { get; set; }
@@ -25,8 +25,6 @@ namespace KendoDP2.Areas.Personal.Models
         
         public byte[] CurriculumVitae { get; set; }
 
-
-        
         public Persona() { }
 
         public PersonaDTO ToDTO()

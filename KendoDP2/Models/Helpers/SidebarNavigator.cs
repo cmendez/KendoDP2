@@ -41,6 +41,11 @@ namespace KendoDP2.Models.Helpers
             Opciones.Add(new SidebarOption("Configuracion", "Configuración", "icon-wrench", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption("Períodos", "Periodos", "Index", "icon-time")
             })));
+
+            // Personal
+            Opciones.Add(new SidebarOption("Personal", "Personal", "icon-wrench", new List<SidebarSuboption>(new SidebarSuboption[]{
+                new SidebarSuboption("Colaboradores", "Colaboradores", "Index", "icon-time")
+            })));
         }
     }
 

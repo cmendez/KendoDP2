@@ -11,8 +11,6 @@ namespace KendoDP2.Areas.Configuracion.Models
 {
     public class Pais : DBObject
     {
-        [Required]
-        [MaxLength(30)]
         public string Nombre { get; set; }
 
         public Pais() { }

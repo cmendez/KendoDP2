@@ -23,13 +23,13 @@ namespace KendoDP2.Areas.Personal.Models
         //public virtual ICollection<ColaboradorXPuesto> ColaboradoresPuesto { get; set; }
         //public int ColaboradorXPuestoID { get; set; }
         
-        public int EstadosColaboradorID { get; set; }
+        public int? EstadosColaboradorID { get; set; }
         public virtual EstadosColaborador EstadoColaborador { get; set; }
 
-        public int PaisID { get; set; }
+        public int? PaisID { get; set; }
         public virtual Pais Pais { get; set; }
 
-        public Byte[] ImagenColaborador { get; set; }
+        public byte[] ImagenColaborador { get; set; }
         
         public Colaborador() { }
 
@@ -140,10 +140,10 @@ namespace KendoDP2.Areas.Personal.Models
         public int EstadoColaboradorID { get; set; }
 
         [DisplayName("CurriculumVitae")]
-        public Byte[] CurriculumVitae { get; set; }
+        public byte[] CurriculumVitae { get; set; }
 
         [DisplayName("Imagen")]
-        public Byte[] ImagenColaborador { get; set; }
+        public byte[] ImagenColaborador { get; set; }
 
         [DisplayName("Centro de estudios")]
         public string CentroEstudios { get; set; }
@@ -164,7 +164,7 @@ namespace KendoDP2.Areas.Personal.Models
         public int PuestoID { get; set; }
         
         [DisplayName("Sueldo")]
-        public double sueldo { get; set; }
+        public int Sueldo { get; set; }
 
 
         public ColaboradorDTO() { }
@@ -173,15 +173,15 @@ namespace KendoDP2.Areas.Personal.Models
         {
             NombreCompleto = c.ApellidoPaterno + " " + c.ApellidoMaterno + ", " + c.Nombres;
             ID = c.ID;
-            GradoAcademicoID = c.GradoAcademicoID;
-            PaisID = c.PaisID;
+            GradoAcademicoID = c.GradoAcademicoID.GetValueOrDefault();
+            PaisID = c.PaisID.GetValueOrDefault();
             Nombre = c.Nombres;
             ApellidoPaterno = c.ApellidoPaterno;
             ApellidoMaterno = c.ApellidoMaterno;
             TipoDocumentoID = c.TipoDocumentoID;
             CorreoElectronico = c.CorreoElectronico;
             CentroEstudios = c.CentroEstudios;
-            EstadoColaboradorID = c.EstadosColaboradorID;
+            EstadoColaboradorID = c.EstadosColaboradorID.GetValueOrDefault();
             NumeroDocumento = c.NumeroDocumento;
             Direccion = c.Direccion;
             Telefono = c.Telefono;
@@ -191,7 +191,7 @@ namespace KendoDP2.Areas.Personal.Models
             FechaIngreso = c.FechaIngresoEmpresa.GetValueOrDefault().ToShortDateString();
             AreaID = 1;
             PuestoID = 1;
-            sueldo = 3300;
+            Sueldo = 3300;
 
 
          }

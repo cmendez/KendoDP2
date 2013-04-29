@@ -203,7 +203,7 @@
     <Compile Include="Areas\Objetivos\Models\TipoObjetivoBSC.cs" />
     <Compile Include="Areas\Objetivos\ObjetivosAreaRegistration.cs" />
     <Compile Include="Areas\Organizacion\OrganizacionAreaRegistration.cs" />
-    <Compile Include="Areas\Personal\Controllers\ColaboradorController.cs" />
+    <Compile Include="Areas\Personal\Controllers\ColaboradoresController.cs" />
     <Compile Include="Areas\Personal\Models\ColaboradorXPuesto.cs" />
     <Compile Include="Areas\Personal\Models\EstadosColaborador.cs" />
     <Compile Include="Areas\Personal\Models\GradoAcademico.cs" />
@@ -1746,6 +1746,7 @@
     <Content Include="Areas\Seguridad\Views\Web.config" />
     <Content Include="Areas\Seguridad\Views\Roles\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Web.config" />
+    <Content Include="Areas\Personal\Views\Colaboradores\Index.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
