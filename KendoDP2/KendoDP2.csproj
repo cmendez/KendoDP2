@@ -1742,7 +1742,6 @@
     <Content Include="Areas\Evaluacion360\Views\ProcesoEvaluacion\Index.cshtml" />
     <Content Include="Areas\Objetivos\Views\Web.config" />
     <Content Include="Areas\Objetivos\Views\ObjetivosEmpresa\Index.cshtml" />
-    <Content Include="Areas\Personal\Views\Shared\ColaboradorIndex.cshtml" />
     <Content Include="Areas\Seguridad\Views\Web.config" />
     <Content Include="Areas\Seguridad\Views\Roles\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Web.config" />
@@ -1889,6 +1888,7 @@
     <Folder Include="Areas\Configuracion\Views\Shared\" />
     <Folder Include="Areas\Evaluacion360\Views\Shared\" />
     <Folder Include="Areas\Objetivos\Views\Shared\" />
+    <Folder Include="Areas\Personal\Views\Shared\" />
     <Folder Include="Areas\Reclutamiento\Controllers\" />
     <Folder Include="Areas\Reclutamiento\Models\" />
     <Folder Include="Areas\Reclutamiento\Views\Shared\" />
