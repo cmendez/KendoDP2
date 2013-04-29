@@ -202,6 +202,7 @@
     <Compile Include="Areas\Objetivos\Models\BSC.cs" />
     <Compile Include="Areas\Objetivos\Models\TipoObjetivoBSC.cs" />
     <Compile Include="Areas\Objetivos\ObjetivosAreaRegistration.cs" />
+    <Compile Include="Areas\Organizacion\OrganizacionAreaRegistration.cs" />
     <Compile Include="Areas\Personal\Controllers\ColaboradorController.cs" />
     <Compile Include="Areas\Personal\Models\ColaboradorXPuesto.cs" />
     <Compile Include="Areas\Personal\Models\EstadosColaborador.cs" />
@@ -212,7 +213,11 @@
     <Compile Include="Areas\Personal\PersonalAreaRegistration.cs" />
     <Compile Include="Areas\Reclutamiento\ReclutamientoAreaRegistration.cs" />
     <Compile Include="Areas\Reportes\ReportesAreaRegistration.cs" />
+    <Compile Include="Areas\Seguridad\Controllers\RolesController.cs" />
+    <Compile Include="Areas\Seguridad\Controllers\WSUsuariosController.cs" />
+    <Compile Include="Areas\Seguridad\SeguridadAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\WSLoginController.cs" />
     <Compile Include="Models\Generic\DBGenericRequester.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -221,11 +226,11 @@
     <Compile Include="Models\Generic\DP2Context.cs" />
     <Compile Include="Models\Helpers\SidebarNavigator.cs" />
     <Compile Include="Models\Seguridad\DP2MembershipProvider.cs" />
-    <Compile Include="Models\Seguridad\Rol.cs" />
     <Compile Include="Models\Seguridad\DP2RolProvider.cs" />
-    <Compile Include="Models\Seguridad\Usuario.cs" />
     <Compile Include="Models\Helpers\PageTitle.cs" />
     <Compile Include="Models\Seguridad\LoginModel.cs" />
+    <Compile Include="Models\Seguridad\Rol.cs" />
+    <Compile Include="Models\Seguridad\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1738,6 +1743,9 @@
     <Content Include="Areas\Objetivos\Views\Web.config" />
     <Content Include="Areas\Objetivos\Views\ObjetivosEmpresa\Index.cshtml" />
     <Content Include="Areas\Personal\Views\Shared\ColaboradorIndex.cshtml" />
+    <Content Include="Areas\Seguridad\Views\Web.config" />
+    <Content Include="Areas\Seguridad\Views\Roles\Index.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Web.config" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -1886,6 +1894,8 @@
     <Folder Include="Areas\Reportes\Controllers\" />
     <Folder Include="Areas\Reportes\Models\" />
     <Folder Include="Areas\Reportes\Views\Shared\" />
+    <Folder Include="Areas\Seguridad\Models\" />
+    <Folder Include="Areas\Seguridad\Views\Shared\" />
     <Folder Include="Content\assets\plugins\jquery-file-upload\server\php\files\thumbnail\" />
   </ItemGroup>
   <ItemGroup>
