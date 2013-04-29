@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using KendoDP2.Models.Generic;
@@ -17,8 +18,40 @@ namespace KendoDP2.Areas.Personal.Models
         {
             Descripcion = descripcion;
         }
+
+        public GradoAcademico(GradoAcademicoDTO g)
+        {
+            LoadFromDTO(g);
+        }
+
+        public GradoAcademico LoadFromDTO(GradoAcademicoDTO g)
+        {
+            Descripcion = g.Descripcion;
+         
+            return this;
+        }
+        
+        public GradoAcademicoDTO ToDTO()
+        {
+            return new GradoAcademicoDTO(this);
+        }
     
     }
 
+    public class GradoAcademicoDTO
+    {
+        [ScaffoldColumn(false)]
+        public int ID { get; set; }
+
+        public string Descripcion { get; set; }
+
+        public GradoAcademicoDTO() { }
+
+        public GradoAcademicoDTO(GradoAcademico g)
+        {
+            Descripcion = g.Descripcion;
+        }
+    }
+    
    
 }

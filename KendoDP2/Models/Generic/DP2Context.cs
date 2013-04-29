@@ -11,6 +11,7 @@ using System.Linq;
 using System.Web;
 using KendoDP2.Models.Helpers;
 using KendoDP2.Models.Seguridad;
+using KendoDP2.Areas.Organizacion.Models;
 
 namespace KendoDP2.Models.Generic
 {
@@ -23,6 +24,13 @@ namespace KendoDP2.Models.Generic
 
         public DBGenericRequester<Periodo> TablaPeriodos { get; set; }
         public DBGenericRequester<Pais> TablaPaises { get; set; }
+
+        // Area Organizacion
+        public DbSet<Area> InternalAreas { get; set; }
+        public DbSet<Puesto> InternalPuestos { get; set; }
+
+        public DBGenericRequester<Area> TablaAreas { get; set; }
+        public DBGenericRequester<Puesto> TablaPuestos { get; set; }
 
         // Area Seguridad
         public DbSet<Rol> InternalRoles { get; set; }
@@ -57,21 +65,26 @@ namespace KendoDP2.Models.Generic
         public DbSet<Persona> InternalPersonas { get; set; }
         public DbSet<Colaborador> InternalColaboradores { get; set; }
         public DbSet<EstadosColaborador> InternalEstadosColaboradores { get; set; }
-        //no se si esta bien xD       
         public DbSet<TipoDocumento> InternalTiposDocumentos { get; set; }
         public DbSet<GradoAcademico> InternalGradosAcademicos { get; set; }
-        
+        public DbSet<ColaboradorXPuesto> InternalColaboradoresXPuestos { get; set; }
+  
         public DBGenericRequester<Persona> TablaPersonas { get; set; }
         public DBGenericRequester<Colaborador> TablaColaboradores { get; set; }
         public DBGenericRequester<EstadosColaborador> TablaEstadosColaboradores { get; set; }
         public DBGenericRequester<TipoDocumento> TablaTiposDocumentos { get; set; }
         public DBGenericRequester<GradoAcademico> TablaGradosAcademicos { get; set; }
+        public DBGenericRequester<ColaboradorXPuesto> TablaColaboradoresXPuestos { get; set; }
 
         private void RegistrarTablas()
         {
             // Area Configuracion
             TablaPeriodos = new DBGenericRequester<Periodo>(this, InternalPeriodos);
             TablaPaises = new DBGenericRequester<Pais>(this, InternalPaises);
+
+            // Area Organizacion
+            TablaAreas = new DBGenericRequester<Area>(this, InternalAreas);
+            TablaPuestos = new DBGenericRequester<Puesto>(this, InternalPuestos);
 
             // Area Seguridad
             TablaRoles = new DBGenericRequester<Rol>(this, InternalRoles);
@@ -95,7 +108,7 @@ namespace KendoDP2.Models.Generic
             TablaEstadosColaboradores = new DBGenericRequester<EstadosColaborador>(this, InternalEstadosColaboradores);
             TablaGradosAcademicos = new DBGenericRequester<GradoAcademico>(this, InternalGradosAcademicos);
             TablaTiposDocumentos = new DBGenericRequester<TipoDocumento>(this, InternalTiposDocumentos);
-            
+            TablaColaboradoresXPuestos = new DBGenericRequester<ColaboradorXPuesto>(this, InternalColaboradoresXPuestos);
         }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,6 +118,7 @@ namespace KendoDP2.Models.Generic
         {
             // Area Configuracion
             SeedPeriodos();
+            SeedPaises();
             // Area Seguridad
             SeedSidebarNavigator();
             SeedRoles();
@@ -117,6 +131,8 @@ namespace KendoDP2.Models.Generic
             // Area Personal
             SeedTiposDocumentos();
             SeedColaboradores();
+            SeedEstadosColaborador();
+            SeedGradosAcademicos();
         }
 
         // Area Configuracion
@@ -133,6 +149,16 @@ namespace KendoDP2.Models.Generic
         private void SeedPeriodos()
         {
             CrearPeriodoConBSC("Período inicial", DateTime.Now);
+        }
+
+        private void SeedPaises()
+        {
+            TablaPaises.AddElement(new Pais { Nombre = "Perú" });
+            TablaPaises.AddElement(new Pais { Nombre = "Estados Unidos" });
+            TablaPaises.AddElement(new Pais { Nombre = "Argentina" });
+            TablaPaises.AddElement(new Pais { Nombre = "España" });
+            TablaPaises.AddElement(new Pais { Nombre = "Brazil" });
+            TablaPaises.AddElement(new Pais { Nombre = "Canadá" });
         }
 
         // Area Seguridad
@@ -211,11 +237,30 @@ namespace KendoDP2.Models.Generic
             TablaColaboradores.AddElement(new Colaborador { Nombres = "Walter Joao Carlos", ApellidoPaterno = "Mitta", ApellidoMaterno = "Tucto", Username = "wallace", Password = "wallace", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID });
         }
 
-        public void SeedTiposDocumentos()
+        private void SeedTiposDocumentos()
         {
             TablaTiposDocumentos.AddElement(new TipoDocumento { Descripcion = "Pasaporte" });
             TablaTiposDocumentos.AddElement(new TipoDocumento { Descripcion = "DNI" });
         }
+
+        private void SeedEstadosColaborador()
+        {
+            TablaEstadosColaboradores.AddElement(new EstadosColaborador { Descripcion = "Contratado" });
+            TablaEstadosColaboradores.AddElement(new EstadosColaborador { Descripcion = "Despedido" });
+            TablaEstadosColaboradores.AddElement(new EstadosColaborador { Descripcion = "Inactivo" });
+        }
+
+        private void SeedGradosAcademicos()
+        {
+            TablaGradosAcademicos.AddElement(new GradoAcademico { Descripcion = "Bachiller" });
+            TablaGradosAcademicos.AddElement(new GradoAcademico { Descripcion = "Técnico" });
+            TablaGradosAcademicos.AddElement(new GradoAcademico { Descripcion = "Estudiante" });
+            TablaGradosAcademicos.AddElement(new GradoAcademico { Descripcion = "Licenciado" });
+            TablaGradosAcademicos.AddElement(new GradoAcademico { Descripcion = "Master" });
+            TablaGradosAcademicos.AddElement(new GradoAcademico { Descripcion = "Doctor" });
+        }
+
+        
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // No tocar por nada del mundo las lineas de abajo, si no esterilizo a quien lo haga.

@@ -1,10 +1,16 @@
 ﻿@using Kendo.Mvc.UI
 @using KendoDP2.Areas.Personal.Models
+@using KendoDP2.Areas.Configuracion.Models
 
 @model KendoDP2.Areas.Personal.Models.ColaboradorDTO
 @{
     Model.TipoDocumentoID = 1;
     IList<TipoDocumentoDTO> tipoDocumentos = ViewBag.tipoDocumentos;
+    IList<GradoAcademicoDTO> gradoAcademico = ViewBag.gradoAcademico;
+    IList<EstadosColaboradorDTO> estadosColaborador = ViewBag.estadosColaborador;
+    IList<PaisDTO> pais = ViewBag.pais;
+    
+        
 }
 
 @using (Html.BeginForm())
@@ -68,6 +74,7 @@
                                     .BindTo(tipoDocumentos)
                                     .HtmlAttributes(new { style = "width:100%" })
                                     .Value(Model.TipoDocumentoID + "");
+                                    
                           string html = x.ToString();
                           html = html.Replace("jQuery(function(){", "");
                           html = html.Replace("});});", "});");
@@ -106,11 +113,22 @@
                     <div class="span5">
                         <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.PaisID)</div>
                     </div>
-                    <div class="span7">
-                        <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.PaisID)
-                            @Html.ValidationMessageFor(model => model.PaisID)
-                        </div>
+                    <div class="span7 responsive">
+
+                        @{var y = Html.Kendo().DropDownList()
+                                    .Name("DropDownPais")
+                                    .DataTextField("Nombre")
+                                    .DataValueField("ID")
+                                    .BindTo(pais)
+                                    .HtmlAttributes(new { style = "width:100%" })
+                                    .Value(Model.PaisID + "");
+                          string html2 = y.ToString();
+                          html2 = html2.Replace("jQuery(function(){", "");
+                          html2 = html2.Replace("});});", "});");
+                        }
+                        @Html.Raw(html2.ToString())
+
+
                     </div>
                 </div>
 
@@ -167,37 +185,33 @@
                     <div class="span5">
                         <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.GradoAcademicoID)</div>
                     </div>
-                    <div class="span7">
-                        <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.GradoAcademicoID)
-                            @Html.ValidationMessageFor(model => model.GradoAcademicoID)
-                        </div>
+                    <div class="span7 responsive">
+                         @{var z = Html.Kendo().DropDownList()
+                                    .Name("DropDownGradoAcademico")
+                                    .DataTextField("Descripcion")
+                                    .DataValueField("ID")
+                                    .BindTo(gradoAcademico)
+                                    .HtmlAttributes(new { style = "width:100%" })
+                                    .Value(Model.GradoAcademicoID + "");
+                          string html3 = z.ToString();
+                          html3 = html3.Replace("jQuery(function(){", "");
+                          html3 = html3.Replace("});});", "});");
+                        }
+                        @Html.Raw(html3.ToString())
                     </div>
                 </div>
 
-                <div class="row-fluid">
-                    <div class="span5">
-                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.EstadoColaboradorID)</div>
-                    </div>
-                    <div class="span7">
-                        <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.EstadoColaboradorID)
-                            @Html.ValidationMessageFor(model => model.EstadoColaboradorID)
-                        </div>
-                    </div>
-                </div>
-
-           
+                         
         
             </div>
             <!-- fin contenedor superior izquierdo: campos -->
             <!-- contenedor superior derecho: foto -->
             <div class="span4">
 
-                @Html.Label("Imagen:", new { style = "font-weight: bold;" })
+                @(Html.Label("Imagen:", new { style = "font-weight: bold;" }))
             
                 @(Html.Kendo().Upload()
-                .Name("foto").HtmlAttributes(new { style = "width: 100%;" })
+                .Name("ImagenColaborador").HtmlAttributes(new { style = "width: 100%;" })
             )
             </div>
             <!-- fin contenedor superior derecho: foto -->
@@ -211,7 +225,7 @@
                 @Html.Label("Información Puesto Laboral:", new { style = "font-weight: bold;" })
             </div>
             <div class="span6">
-                @Html.Label("Información Puesto Laboral:", new { style = "font-weight: bold;" })
+                @Html.Label("Información General:", new { style = "font-weight: bold;" })
             </div>
         </div>
         
@@ -269,49 +283,31 @@
         <div class="span4">
              <div class="row-fluid">
                 <div class="span5">
-                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.FechaIngreso)</div>
+                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.EstadoColaboradorID)</div>
                 </div>
-                <div class="span7">
-                    <div class="editor-field" style="width: 100%; text-align: left;">
-                        @Html.EditorFor(model => model.FechaIngreso)
-                        @Html.ValidationMessageFor(model => model.FechaIngreso)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span5">
-                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.AreaID)</div>
-                </div>
-                <div class="span7">
-                    <div class="editor-field" style="width: 100%; text-align: left;">
-                        @Html.EditorFor(model => model.AreaID)
-                        @Html.ValidationMessageFor(model => model.AreaID)
-                    </div>
+                <div class="span7 responsive">
+                     @{var w = Html.Kendo().DropDownList()
+                                    .Name("DropDownEstadoColaborador")
+                                    .DataTextField("Descripcion")
+                                    .DataValueField("ID")
+                                    .BindTo(estadosColaborador)
+                                    .HtmlAttributes(new { style = "width:100%" })
+                                    .Value(Model.EstadoColaboradorID + "");
+                          string html4 = w.ToString();
+                          html4 = html4.Replace("jQuery(function(){", "");
+                          html4 = html4.Replace("});});", "});");
+                        }
+                        @Html.Raw(html4.ToString())
                 </div>
             </div>
 
             <div class="row-fluid">
                 <div class="span5">
-                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.PuestoID)</div>
+                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.CurriculumVitae)</div>
                 </div>
                 <div class="span7">
-                    <div class="editor-field" style="width: 100%; text-align: left;">
-                        @Html.EditorFor(model => model.PuestoID)
-                        @Html.ValidationMessageFor(model => model.PuestoID)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span5">
-                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Sueldo)</div>
-                </div>
-                <div class="span7">
-                    <div class="editor-field" style="width: 100%; text-align: left;">
-                        @Html.EditorFor(model => model.Sueldo)
-                        @Html.ValidationMessageFor(model => model.Sueldo)
-                    </div>
+                    @(Html.Kendo().Upload()
+                    .Name("CurriculumVitae").HtmlAttributes(new { style = "width: 100%;" }))
                 </div>
             </div>
 
@@ -322,22 +318,3 @@
     <!-- fin contenedor inferior: campos -->
 }        
 
-<script type="text/javascript">
-    var last_container = null;
-
-    $(document).ready(function () {
-        var dropDownListTipoDocumentos = $("#DropDownListTipoDocumento").data("kendoDropDownList");
-        var tipoDocumentoID = dropDownListTipoDocumentos.dataItem(dropDownListTipoDocumentos.selectedIndex).ID;
-        last_container = $("#tabs-for-TipoDocumento-" + tipoDocumentoID);
-    });
-
-    function onDropDownListTipoDocumentosChange(e) {
-        var dropDownListTipoDocumentos = $("#DropDownListTipoDocumento").data("kendoDropDownList");
-        var tipoDocumentoID = dropDownListTipoDocumentos.dataItem(dropDownListTipoDocumentos.selectedIndex).ID;
-
-        last_container.hide();
-        last_container = $("#tabs-for-TipoDocumento-" + tipoDocumentoID);
-        last_container.show();
-    }
-
-   </script>

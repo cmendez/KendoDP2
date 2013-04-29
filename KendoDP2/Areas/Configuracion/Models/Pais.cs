@@ -19,5 +19,41 @@ namespace KendoDP2.Areas.Configuracion.Models
         {
             Nombre = nombre;
         }
+
+        public Pais(PaisDTO p)
+        {
+            LoadFromDTO(p);
+        }
+
+        public Pais LoadFromDTO(PaisDTO p)
+        {
+            Nombre = p.Nombre;
+         
+            return this;
+        }
+        
+        public PaisDTO ToDTO()
+        {
+            return new PaisDTO(this);
+        }
+                      
+    }
+
+    public class PaisDTO
+    {
+        
+        [ScaffoldColumn(false)]
+        public int ID { get; set; }
+
+
+        public string Nombre { get; set; }
+
+        public PaisDTO() { }
+
+        public PaisDTO(Pais p)
+        {
+            Nombre = p.Nombre;
+        }
+    
     }
 }

@@ -19,7 +19,6 @@ namespace KendoDP2.Areas.Personal.Models
             Descripcion = descripcion;
         }
 
-
         public TipoDocumento(TipoDocumentoDTO t)
         {
             LoadFromDTO(t);
@@ -31,15 +30,12 @@ namespace KendoDP2.Areas.Personal.Models
          
             return this;
         }
-
-
+        
         public TipoDocumentoDTO ToDTO()
         {
             return new TipoDocumentoDTO(this);
         }
-
-
-
+        
     }
 
     public class TipoDocumentoDTO

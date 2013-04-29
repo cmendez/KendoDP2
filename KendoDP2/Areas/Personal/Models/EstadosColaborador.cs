@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using KendoDP2.Models.Generic;
@@ -19,6 +20,39 @@ namespace KendoDP2.Areas.Personal.Models
             Descripcion = descripcion;
         }
 
+         public EstadosColaborador(EstadosColaboradorDTO e)
+        {
+            LoadFromDTO(e);
+        }
+
+        public EstadosColaborador LoadFromDTO(EstadosColaboradorDTO e)
+        {
+            Descripcion = e.Descripcion;
+         
+            return this;
+        }
+        
+        public EstadosColaboradorDTO ToDTO()
+        {
+            return new EstadosColaboradorDTO(this);
+        }
+
+
+    }
+
+    public class EstadosColaboradorDTO
+    {
+        [ScaffoldColumn(false)]
+        public int ID { get; set; }
+
+        public string Descripcion { get; set; }
+
+        public EstadosColaboradorDTO() { }
+
+        public EstadosColaboradorDTO(EstadosColaborador e)
+        {
+            Descripcion = e.Descripcion;
+        }
 
     }
 }

@@ -204,9 +204,11 @@
     <Compile Include="Areas\Objetivos\ObjetivosAreaRegistration.cs" />
     <Compile Include="Areas\Organizacion\OrganizacionAreaRegistration.cs" />
     <Compile Include="Areas\Personal\Controllers\ColaboradoresController.cs" />
+    <Compile Include="Areas\Organizacion\Models\Area.cs" />
     <Compile Include="Areas\Personal\Models\ColaboradorXPuesto.cs" />
     <Compile Include="Areas\Personal\Models\EstadosColaborador.cs" />
     <Compile Include="Areas\Personal\Models\GradoAcademico.cs" />
+    <Compile Include="Areas\Organizacion\Models\Puesto.cs" />
     <Compile Include="Areas\Personal\Models\TipoDocumento.cs" />
     <Compile Include="Areas\Personal\Models\Colaborador.cs" />
     <Compile Include="Areas\Personal\Models\Persona.cs" />
@@ -1889,7 +1891,6 @@
     <Folder Include="Areas\Configuracion\Views\Shared\" />
     <Folder Include="Areas\Evaluacion360\Views\Shared\" />
     <Folder Include="Areas\Objetivos\Views\Shared\" />
-    <Folder Include="Areas\Personal\Views\Shared\" />
     <Folder Include="Areas\Reclutamiento\Controllers\" />
     <Folder Include="Areas\Reclutamiento\Models\" />
     <Folder Include="Areas\Reclutamiento\Views\Shared\" />

@@ -50,7 +50,7 @@
                     .Ajax()
                     .PageSize(20)
                     .Model(model => model.Id(p => p.ID))
-                    .Create(update => update.Action("EditingInline_Create", "Colaboradores"))
+                    .Create(update => update.Action("Create", "Colaboradores"))
                     .Read(read => read.Action("EditingInline_Read", "Colaboradores"))
                     .Update(update => update.Action("EditingInline_Update", "Colaboradores"))
                     .Destroy(update => update.Action("EditingInline_Destroy", "ProcesoEvaluacion"))

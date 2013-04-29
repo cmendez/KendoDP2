@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using KendoDP2.Areas.Organizacion.Models;
 using KendoDP2.Models.Generic;
 
 namespace KendoDP2.Areas.Personal.Models
 {
     public class ColaboradorXPuesto: DBObject
     {
-        //public int AreaID { get; set; }
         public int PuestoID { get; set; }
         public int ColaboradorID { get; set; }
         public int Sueldo { get; set; }
@@ -17,7 +17,7 @@ namespace KendoDP2.Areas.Personal.Models
         public string Comentarios { get; set; }
 
         public virtual Colaborador Colaborador { get; set; }
-       
+        public virtual Puesto Puesto { get; set; }
 
 
 

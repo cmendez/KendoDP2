@@ -7,6 +7,7 @@ using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
 using KendoDP2.Areas.Personal.Models;
 using KendoDP2.Models.Generic;
+using KendoDP2.Areas.Organizacion.Models;
 
 namespace KendoDP2.Areas.Personal.Controllers
 {
@@ -24,23 +25,42 @@ namespace KendoDP2.Areas.Personal.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-
                 ViewBag.colaboradores = context.TablaColaboradores.All().Select(p => p.ToDTO()).ToList();
                 ViewBag.tipoDocumentos = context.TablaTiposDocumentos.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.estadosColaborador = context.TablaEstadosColaboradores.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.pais = context.TablaPaises.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.gradoAcademico = context.TablaGradosAcademicos.All().Select(p => p.ToDTO()).ToList();
                 return View();
             }
 
         }
 
-       // [AcceptVerbs(HttpVerbs.Post)]
-        //public ActionResult Create([DataSourceRequest] DataSourceRequest request, ColaboradorDTO colaborador)
-        //{
-         //   using (DP2Context context = new DP2Context())
-         //   {
-         //       Colaborador c = new Colaborador(colaborador);
-         //       context.TablaColaboradores.AddElement(c);
-          //      return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState)); 
-         //   }
-       // }
+        // Grid periodos
+        public ActionResult EditingInline_Read([DataSourceRequest] DataSourceRequest request)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                List<ColaboradorDTO> colaboradores = context.TablaColaboradores.All().Select(p => p.ToDTO()).OrderBy(x => x.ID).ToList();
+                return Json(colaboradores.ToDataSourceResult(request));
+            }
+        }
+
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Create([DataSourceRequest] DataSourceRequest request, ColaboradorDTO colaborador)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                Colaborador c = new Colaborador(colaborador);
+                context.TablaColaboradores.AddElement(c);
+                
+                Puesto p = context.TablaPuestos.FindByID(colaborador.PuestoID);
+                ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo };
+                c.ColaboradoresPuesto.Add(cruce);
+                p.ColaboradorPuestos.Add(cruce);
+                context.TablaColaboradoresXPuestos.AddElement(cruce);
+                return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState)); 
+            }
+        }
     }
 }
