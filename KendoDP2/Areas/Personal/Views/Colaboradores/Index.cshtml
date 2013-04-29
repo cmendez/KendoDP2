@@ -26,7 +26,6 @@
                         columns.Bound(p => p.ApellidoPaterno);
                         columns.Bound(p => p.ApellidoMaterno);                                             
                         columns.Command(command => { command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar");}).Width(100);
-                        
                     }
                 )
                 .ToolBar(toolbar => {
@@ -34,6 +33,7 @@
                 })
                 .Editable(editable => editable
                     .Mode(GridEditMode.PopUp)
+                    .TemplateName("EditorColaborador")
                     .Window(w => w.Title("Ingrese los datos"))
                 )
                 .Pageable(paper => paper.Refresh(true))
