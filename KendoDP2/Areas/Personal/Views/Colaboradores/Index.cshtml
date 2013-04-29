@@ -25,7 +25,10 @@
                         columns.Bound(p => p.Nombre);
                         columns.Bound(p => p.ApellidoPaterno);
                         columns.Bound(p => p.ApellidoMaterno);
-                        columns.Command(command => { command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar"); }).Width(100);
+                        columns.Command(command => { command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar");
+                                                     command.Destroy().Text("Eliminar");
+                                                   }).Width(100);
+                        
                     }
                 )
                 .ToolBar(toolbar =>
@@ -35,6 +38,7 @@
                 .Editable(editable => editable
                     .Mode(GridEditMode.PopUp)
                     .TemplateName("EditorColaborador")
+                    .DisplayDeleteConfirmation("¿Está seguro que desea eliminar este registro?")
                     .Window(w => { w.Title("Ingrese los datos"); w.Width(600); })
 
                 )
@@ -49,6 +53,7 @@
                     .Create(update => update.Action("EditingInline_Create", "Colaboradores"))
                     .Read(read => read.Action("EditingInline_Read", "Colaboradores"))
                     .Update(update => update.Action("EditingInline_Update", "Colaboradores"))
+                    .Destroy(update => update.Action("EditingInline_Destroy", "ProcesoEvaluacion"))
                 )
                )
         </div>

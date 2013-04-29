@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using KendoDP2.Models.Generic;
@@ -43,7 +44,9 @@ namespace KendoDP2.Areas.Personal.Models
 
     public class TipoDocumentoDTO
     {
+        [ScaffoldColumn(false)]
         public int ID {get; set;}
+        
         public string Descripcion { get; set; }
 
         public TipoDocumentoDTO() { }

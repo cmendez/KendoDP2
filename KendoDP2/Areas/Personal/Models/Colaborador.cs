@@ -125,6 +125,7 @@ namespace KendoDP2.Areas.Personal.Models
         public int PaisID { get; set; }
                 
         [DisplayName("Fecha de Nacimiento")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public string FechaNacimiento { get; set; }
 
         [DisplayName("Tipo de Documento")]
@@ -156,6 +157,7 @@ namespace KendoDP2.Areas.Personal.Models
         public string CorreoElectronico { get; set; }
         
         [DisplayName("Ingreso Empresa")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public string FechaIngreso { get; set; }
 
         [DisplayName("Área")]
