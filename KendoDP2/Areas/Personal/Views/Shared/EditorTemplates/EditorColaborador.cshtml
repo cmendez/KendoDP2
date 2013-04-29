@@ -60,14 +60,18 @@
                 </div>
                 <div class="span7 responsive">
 
-                    @(Html.Kendo().DropDownList()
-                    .Name("DropDownListTipoDocumento")
-                    .DataTextField("Descripcion")
-                    .DataValueField("ID")
-                    .BindTo(tipoDocumentos)
-                    .Events(e => e.Change("onDropDownListTipoDocumentoChange"))
-                     )
-             
+                    @{var x = Html.Kendo().DropDownList()
+                                .Name("DropDownListTipoDocumento")
+                                .DataTextField("Descripcion")
+                                .DataValueField("ID")
+                                .BindTo(tipoDocumentos)
+                                .HtmlAttributes(new { style = "width:100%" })
+                                .SelectedIndex(0);
+                      string html = x.ToString();
+                      html = html.Replace("jQuery(function(){", "");
+                      html = html.Replace("});});", "});");
+                    }
+                    @Html.Raw(html.ToString())
 
                 </div>
             </div>
