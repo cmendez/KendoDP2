@@ -24,17 +24,19 @@
                         columns.Bound(p => p.ID);
                         columns.Bound(p => p.Nombre);
                         columns.Bound(p => p.ApellidoPaterno);
-                        columns.Bound(p => p.ApellidoMaterno);                                             
-                        columns.Command(command => { command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar");}).Width(100);
+                        columns.Bound(p => p.ApellidoMaterno);
+                        columns.Command(command => { command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar"); }).Width(100);
                     }
                 )
-                .ToolBar(toolbar => {
+                .ToolBar(toolbar =>
+                {
                     toolbar.Create().Text("Registrar");
                 })
                 .Editable(editable => editable
                     .Mode(GridEditMode.PopUp)
                     .TemplateName("EditorColaborador")
-                    .Window(w => w.Title("Ingrese los datos"))
+                    .Window(w => { w.Title("Ingrese los datos"); w.Width(600); })
+
                 )
                 .Pageable(paper => paper.Refresh(true))
                 .Filterable()
