@@ -66,7 +66,7 @@
                                 .DataValueField("ID")
                                 .BindTo(tipoDocumentos)
                                 .HtmlAttributes(new { style = "width:100%" })
-                                .SelectedIndex(0);
+                                .Value(Model.TipoDocumentoID + "");
                       string html = x.ToString();
                       html = html.Replace("jQuery(function(){", "");
                       html = html.Replace("});});", "});");
