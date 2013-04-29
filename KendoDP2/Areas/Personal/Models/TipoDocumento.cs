@@ -17,5 +17,40 @@ namespace KendoDP2.Areas.Personal.Models
         {
             Descripcion = descripcion;
         }
+
+
+        public TipoDocumento(TipoDocumentoDTO t)
+        {
+            LoadFromDTO(t);
+        }
+
+        public TipoDocumento LoadFromDTO(TipoDocumentoDTO t)
+        {
+            Descripcion = t.Descripcion;
+         
+            return this;
+        }
+
+
+        public TipoDocumentoDTO ToDTO()
+        {
+            return new TipoDocumentoDTO(this);
+        }
+
+
+
+    }
+
+    public class TipoDocumentoDTO
+    {
+        public int ID {get; set;}
+        public string Descripcion { get; set; }
+
+        public TipoDocumentoDTO() { }
+
+        public TipoDocumentoDTO(TipoDocumento t)
+        {
+            Descripcion = t.Descripcion;
+        }
     }
 }

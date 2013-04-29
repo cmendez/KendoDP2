@@ -1,4 +1,10 @@
-﻿@model KendoDP2.Areas.Personal.Models.ColaboradorDTO
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Personal.Models
+
+@model KendoDP2.Areas.Personal.Models.ColaboradorDTO
+@{
+    IList<TipoDocumentoDTO> tipoDocumentos = ViewBag.tipoDocumentos;
+}
 
 @using (Html.BeginForm())
 {
@@ -8,6 +14,8 @@
     
     <div class="row-fluid" style="width:600px;">
         <!-- contenedor superior izquierdo: campos -->
+        @Html.Label("Datos Personales:")
+
         <div class="span8">
             <div class="row-fluid">
                 <div class="span5">
@@ -50,11 +58,19 @@
                 <div class="span5">
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.TipoDocumentoID)</div>
                 </div>
-                <div class="span7">
-                    <div class="editor-field" style="width: 100%; text-align: left;">
-                        @Html.EditorFor(model => model.TipoDocumentoID)
-                        @Html.ValidationMessageFor(model => model.TipoDocumentoID)
-                    </div>
+                <div class="span7 responsive">
+
+                    @(Html.Kendo().DropDownList()
+                    .Name("DropDownListTipoDocumento")
+                    .DataTextField("Descripcion")
+                    .DataValueField("ID")
+                    .BindTo(tipoDocumentos)
+                    .HtmlAttributes(new { style = "width:100%" })
+                    .Events(e => e.Change("onDropDownListTipoDocumentoChange"))
+                    .SelectedIndex(0)
+                     )
+             
+
                 </div>
             </div>
 
@@ -168,7 +184,29 @@
                 </div>
             </div>
 
-            <div class="row-fluid">
+           
+        
+        </div>
+        <!-- fin contenedor superior izquierdo: campos -->
+        <!-- contenedor superior derecho: foto -->
+        <div class="span4">
+
+            @Html.Label("Imagen:")
+            
+            @(Html.Kendo().Upload()
+            .Name("foto")
+        )
+        </div>
+        <!-- fin contenedor superior derecho: foto -->
+    </div>
+    
+    <!-- contenedor inferior: campos -->
+    <div class="row-fluid">
+        <div class="span9">
+            
+            @Html.Label("Información Puesto Laboral:")
+
+             <div class="row-fluid">
                 <div class="span5">
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.FechaIngreso)</div>
                 </div>
@@ -215,21 +253,29 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- fin contenedor superior izquierdo: campos -->
-        <!-- contenedor superior derecho: foto -->
-        <div class="span4">
-            ... aca va la foto bien boni moni momi
-        </div>
-        <!-- fin contenedor superior derecho: foto -->
-    </div>
-    
-    <!-- contenedor inferior: campos -->
-    <div class="row-fluid">
-        <div class="span9">
-            ... aca van los otros campos
+
+
         </div>
     </div>
     <!-- fin contenedor inferior: campos -->
-        
-}
+}        
+
+<script type="text/javascript">
+    var last_container = null;
+
+    $(document).ready(function () {
+        var dropDownListTipoDocumentos = $("#DropDownListTipoDocumento").data("kendoDropDownList");
+        var tipoDocumentoID = dropDownListTipoDocumentos.dataItem(dropDownListTipoDocumentos.selectedIndex).ID;
+        last_container = $("#tabs-for-TipoDocumento-" + tipoDocumentoID);
+    });
+
+    function onDropDownListTipoDocumentosChange(e) {
+        var dropDownListTipoDocumentos = $("#DropDownListTipoDocumento").data("kendoDropDownList");
+        var tipoDocumentoID = dropDownListTipoDocumentos.dataItem(dropDownListTipoDocumentos.selectedIndex).ID;
+
+        last_container.hide();
+        last_container = $("#tabs-for-TipoDocumento-" + tipoDocumentoID);
+        last_container.show();
+    }
+
+   </script>

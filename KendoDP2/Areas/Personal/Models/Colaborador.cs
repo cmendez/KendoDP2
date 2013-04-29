@@ -105,11 +105,11 @@ namespace KendoDP2.Areas.Personal.Models
         [StringLength(40)]
         public string Nombre { get; set; }
         
-        [DisplayName("Apellido Paterno (*)")]
+        [DisplayName("Apellido Paterno")]
         [StringLength(30)]
         public string ApellidoPaterno { get; set; }
 
-        [DisplayName("Apellido Materno (*)")]
+        [DisplayName("Apellido Materno")]
         [StringLength(30)]
         public string ApellidoMaterno { get; set; }
 
@@ -127,10 +127,10 @@ namespace KendoDP2.Areas.Personal.Models
         [DisplayName("Fecha de Nacimiento")]
         public string FechaNacimiento { get; set; }
 
-        [DisplayName("Tipo de Documento (*)")]
+        [DisplayName("Tipo de Documento")]
         public int TipoDocumentoID { get; set; }
 
-        [DisplayName("Número de Documento (*)")]
+        [DisplayName("Número de Documento")]
         [StringLength(20)]
         public string NumeroDocumento { get; set; }
 
