@@ -100,7 +100,8 @@ namespace KendoDP2.Areas.Personal.Models
         public string NombreCompleto { get; set; }
         public int ID { get; set; }
         
-        [DisplayName("Nombre (*)")]
+        [Required]
+        [DisplayName("Nombre")]
         [StringLength(40)]
         public string Nombre { get; set; }
         
