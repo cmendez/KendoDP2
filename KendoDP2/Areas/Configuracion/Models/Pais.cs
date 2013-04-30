@@ -5,6 +5,7 @@ using System.Web;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using KendoDP2.Models.Generic;
+using KendoDP2.Areas.Personal.Models;
 
 
 namespace KendoDP2.Areas.Configuracion.Models
@@ -12,6 +13,7 @@ namespace KendoDP2.Areas.Configuracion.Models
     public class Pais : DBObject
     {
         public string Nombre { get; set; }
+        public virtual List<Colaborador> Colaboradores { get; set; }
 
         public Pais() { }
 

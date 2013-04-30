@@ -26,7 +26,7 @@ namespace KendoDP2.Areas.Personal.Models
         public int? EstadosColaboradorID { get; set; }
         public virtual EstadosColaborador EstadoColaborador { get; set; }
 
-        public int? PaisID { get; set; }
+        public int PaisID { get; set; }
         public virtual Pais Pais { get; set; }
 
         public byte[] ImagenColaborador { get; set; }
@@ -183,7 +183,7 @@ namespace KendoDP2.Areas.Personal.Models
             NombreCompleto = c.ApellidoPaterno + " " + c.ApellidoMaterno + ", " + c.Nombres;
             ID = c.ID;
             GradoAcademicoID = c.GradoAcademicoID.GetValueOrDefault();
-            PaisID = c.PaisID.GetValueOrDefault();
+            PaisID = c.PaisID;
             Nombre = c.Nombres;
             ApellidoPaterno = c.ApellidoPaterno;
             ApellidoMaterno = c.ApellidoMaterno;
