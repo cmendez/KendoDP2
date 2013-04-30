@@ -10,9 +10,9 @@ namespace KendoDP2.Areas.Organizacion.Models
 {
     public class Area : DBObject
     {
-        public string Nombre;
-        public string Descripcion;
-        public int? AreaSuperiorID;
+        public string Nombre { get; set; }
+        public string Descripcion { get; set; }
+        public int? AreaSuperiorID { get; set; }
 
         public virtual Area AreaSuperior { get; set; }
         public virtual ICollection<Puesto> Puestos { get; set; }

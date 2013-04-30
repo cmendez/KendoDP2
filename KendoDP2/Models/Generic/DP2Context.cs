@@ -119,6 +119,9 @@ namespace KendoDP2.Models.Generic
             // Area Configuracion
             SeedPeriodos();
             SeedPaises();
+            // Area Organizacion
+            SeedAreas();
+            SeedPuestos();
             // Area Seguridad
             SeedSidebarNavigator();
             SeedRoles();
@@ -131,11 +134,8 @@ namespace KendoDP2.Models.Generic
             // Area Personal
             SeedTiposDocumentos();
             SeedEstadosColaborador();
-            SeedColaboradores();
             SeedGradosAcademicos();
-            // Area Organizacion
-            SeedAreas();
-            SeedPuestos();
+            SeedColaboradores();
         }
 
         // Area Configuracion
@@ -267,7 +267,8 @@ namespace KendoDP2.Models.Generic
 
         private void SeedAreas()
         {
-            TablaAreas.AddElement(new Area { Nombre = "La gran Área", Descripcion = "El área más grande" });
+            Area area1 = new Area { Nombre = "La gran Área", Descripcion = "El área más grande" };
+            TablaAreas.AddElement(area1);
             TablaAreas.AddElement(new Area { Nombre = "Gerencia general", Descripcion = "Debajo de la gran área"});
         }
 

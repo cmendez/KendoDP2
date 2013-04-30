@@ -11,11 +11,11 @@ namespace KendoDP2.Areas.Organizacion.Models
 {
     public class Puesto : DBObject
     {
-        public string Nombre;
-        public string Descripcion;
+        public string Nombre { get; set; }
+        public string Descripcion { get; set; }
 
         public int AreaID { get; set; }
-        public int? PuestoSuperiorID;
+        public int? PuestoSuperiorID { get; set; }
 
         public Area Area { get; set; }       
         public virtual Puesto PuestoSuperior { get; set; }
