@@ -30,6 +30,8 @@ namespace KendoDP2.Areas.Personal.Controllers
                 ViewBag.estadosColaborador = context.TablaEstadosColaboradores.All().Select(p => p.ToDTO()).ToList();
                 ViewBag.pais = context.TablaPaises.All().Select(p => p.ToDTO()).ToList();
                 ViewBag.gradoAcademico = context.TablaGradosAcademicos.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.areas = context.TablaAreas.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).ToList();
                 return View();
             }
 
