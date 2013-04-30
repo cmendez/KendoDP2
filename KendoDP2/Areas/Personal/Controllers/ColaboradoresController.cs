@@ -30,6 +30,8 @@ namespace KendoDP2.Areas.Personal.Controllers
                 ViewBag.estadosColaborador = context.TablaEstadosColaboradores.All().Select(p => p.ToDTO()).ToList();
                 ViewBag.pais = context.TablaPaises.All().Select(p => p.ToDTO()).ToList();
                 ViewBag.gradoAcademico = context.TablaGradosAcademicos.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.areas = context.TablaAreas.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).ToList();
                 return View();
             }
 
@@ -63,5 +65,27 @@ namespace KendoDP2.Areas.Personal.Controllers
                 return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState)); 
             }
         }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditingInline_Update([DataSourceRequest] DataSourceRequest request, ColaboradorDTO colaborador)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                Colaborador c = context.TablaColaboradores.FindByID(colaborador.ID).LoadFromDTO(colaborador);
+                context.TablaColaboradores.ModifyElement(c);
+                return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditingInline_Destroy([DataSourceRequest] DataSourceRequest request, ColaboradorDTO colaborador)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                context.TablaColaboradores.RemoveElementByID(colaborador.ID);
+                return Json(ModelState.ToDataSourceResult());
+            }
+        }
+
     }
 }

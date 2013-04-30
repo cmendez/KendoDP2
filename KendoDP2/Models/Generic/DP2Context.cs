@@ -130,9 +130,12 @@ namespace KendoDP2.Models.Generic
             SeedTipoObjetivoBSC();
             // Area Personal
             SeedTiposDocumentos();
-            SeedColaboradores();
             SeedEstadosColaborador();
+            SeedColaboradores();
             SeedGradosAcademicos();
+            // Area Organizacion
+            SeedAreas();
+            SeedPuestos();
         }
 
         // Area Configuracion
@@ -233,8 +236,8 @@ namespace KendoDP2.Models.Generic
         private void SeedColaboradores()
         {
             // TODO(Modulo 1): mejorar seed o borrarlo
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Fortino Mario Alonso", ApellidoPaterno = "Moreno", ApellidoMaterno = "Reyes", Username = "admin", Password = "admin", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1 });
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Walter Joao Carlos", ApellidoPaterno = "Mitta", ApellidoMaterno = "Tucto", Username = "wallace", Password = "wallace", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1 });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Fortino Mario Alonso", ApellidoPaterno = "Moreno", ApellidoMaterno = "Reyes", Username = "admin", Password = "admin", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Walter Joao Carlos", ApellidoPaterno = "Mitta", ApellidoMaterno = "Tucto", Username = "wallace", Password = "wallace", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
         }
 
         private void SeedTiposDocumentos()
@@ -260,10 +263,26 @@ namespace KendoDP2.Models.Generic
             TablaGradosAcademicos.AddElement(new GradoAcademico { Descripcion = "Doctor" });
         }
 
+        // Area Organizacion
+
+        private void SeedAreas()
+        {
+            TablaAreas.AddElement(new Area { Nombre = "La gran Área", Descripcion = "El área más grande" });
+            TablaAreas.AddElement(new Area { Nombre = "Gerencia general", Descripcion = "Debajo de la gran área"});
+        }
+
+        private void SeedPuestos()
+        {
+            TablaPuestos.AddElement(new Puesto { Nombre = "Presidente", Descripcion = "Jefe de proyecto", AreaID = TablaAreas.One(a => a.Nombre.Equals("La gran Área")).ID });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Gerente general", Descripcion = "Por ahí", AreaID = TablaAreas.One(a => a.Nombre.Equals("Gerencia general")).ID });
+        }
+
+
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // No tocar por nada del mundo las lineas de abajo, si no esterilizo a quien lo haga.
+        // - Entendido.
         public DP2Context()
            : base(KendoDP2.MvcApplication.IsDebug ? "DebugDB" : KendoDP2.MvcApplication.ConnectionString)
         {
@@ -278,8 +297,8 @@ namespace KendoDP2.Models.Generic
         }
     }
 
-    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
-    public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
+    public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
+    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
     {
         protected override void Seed(DP2Context context)
         {

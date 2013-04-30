@@ -1891,6 +1891,7 @@
     <Folder Include="Areas\Configuracion\Views\Shared\" />
     <Folder Include="Areas\Evaluacion360\Views\Shared\" />
     <Folder Include="Areas\Objetivos\Views\Shared\" />
+    <Folder Include="Areas\Organizacion\NewFolder1\" />
     <Folder Include="Areas\Reclutamiento\Controllers\" />
     <Folder Include="Areas\Reclutamiento\Models\" />
     <Folder Include="Areas\Reclutamiento\Views\Shared\" />
