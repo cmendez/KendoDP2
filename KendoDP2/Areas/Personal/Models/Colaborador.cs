@@ -88,7 +88,7 @@ namespace KendoDP2.Areas.Personal.Models
         }
 
 
-        public ColaboradorDTO ToDTO()
+        new public ColaboradorDTO ToDTO()
         {
             return new ColaboradorDTO(this);
         }

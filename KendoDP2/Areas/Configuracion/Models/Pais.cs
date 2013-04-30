@@ -30,7 +30,7 @@ namespace KendoDP2.Areas.Configuracion.Models
         public Pais LoadFromDTO(PaisDTO p)
         {
             Nombre = p.Nombre;
-         
+            ID = p.ID;
             return this;
         }
         
@@ -54,6 +54,7 @@ namespace KendoDP2.Areas.Configuracion.Models
 
         public PaisDTO(Pais p)
         {
+            ID = p.ID;
             Nombre = p.Nombre;
         }
     
