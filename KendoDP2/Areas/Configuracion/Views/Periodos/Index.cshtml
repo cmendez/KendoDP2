@@ -1,14 +1,14 @@
 ﻿@using Kendo.Mvc.UI
 @using KendoDP2.Areas.Configuracion.Models
 @{
-    ViewBag.Title = "Periodos";
+    ViewBag.Title = "Períodos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Periodos", "Administre los periodos de la empresa"));}
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Períodos", "Administre los períodos de la empresa"));}
 
 <div class="portlet box green">
     <div class="portlet-title">
-        <h4><i class="icon-reorder"></i>Periodos</h4>
+        <h4><i class="icon-reorder"></i>Períodos</h4>
         <div class="tools">
 	        <a href="javascript:;" class="collapse"></a>
         </div>
@@ -28,7 +28,7 @@
                 )
                 .ToolBar(toolbar => {
                     toolbar.Create().Text("Registrar");
-                    toolbar.Custom().Text("Eliminar el último periodo").Url("javascript:doEliminarPeriodo();");
+                    toolbar.Custom().Text("Eliminar el último período").Url("javascript:doEliminarPeriodo();");
                 })
                 .Editable(editable => editable
                     .Mode(GridEditMode.PopUp)
@@ -56,7 +56,7 @@
     function doEliminarPeriodo() {
         var source = $('#PeriodosGrid').data('kendoGrid').dataSource;
         if (source._total == 1)
-            alert("No puede tener menos de 1 periodo.");
+            alert("No puede tener menos de 1 período.");
         else if (confirm("¿Está consciente de que este cambio puede alterar el correcto funcionamiento de su empresa?"))
             $.ajax({
                 url: '@Url.Action("EditingInline_Destroy", "Periodos", new { Area = "Configuracion" })',
@@ -66,7 +66,7 @@
                     source.read();
                 },
                 error: function () {
-                    alert("No se pudo realizar la operación");
+                    alert("No se pudo realizar la operación.");
                 }
             });
     }
