@@ -98,6 +98,7 @@ namespace KendoDP2.Areas.Personal.Models
     {
        
         public string NombreCompleto { get; set; }
+        [DisplayName("Código")]
         public int ID { get; set; }
         
         [Required]
