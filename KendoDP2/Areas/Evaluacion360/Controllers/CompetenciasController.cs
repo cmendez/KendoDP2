@@ -13,8 +13,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
     [Authorize()]
     public class CompetenciasController : Controller
     {
-        public CompetenciasController()
-            : base()
+        public CompetenciasController(): base()
         {
             ViewBag.Area = "Evaluacion360";
         }

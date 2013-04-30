@@ -47,12 +47,14 @@ namespace KendoDP2.Areas.Evaluacion360.Models
 
     public class CompetenciaDTO
     {
-        [Required]
-        [StringLength(200)]
-        public string Nombre { get; set; }
         [ScaffoldColumn(false)]
         public int ID { get; set; }
 
+        [Required]
+        [StringLength(200)]
+        [DataType(DataType.Text, ErrorMessage = "Solo se admite caracteres")]
+        public string Nombre { get; set; }
+        
         public CompetenciaDTO(Competencia c)
         {
             Nombre = c.Nombre;

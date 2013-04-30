@@ -1,0 +1,271 @@
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Personal.Models
+@using KendoDP2.Areas.Configuracion.Models
+@using KendoDP2.Areas.Organizacion.Models
+
+@model KendoDP2.Areas.Personal.Models.ColaboradorDTO
+@{
+    IList<TipoDocumentoDTO> tipoDocumentos = ViewBag.tipoDocumentos;
+    IList<GradoAcademicoDTO> gradoAcademico = ViewBag.gradoAcademico;
+    IList<EstadosColaboradorDTO> estadosColaborador = ViewBag.estadosColaborador;
+    IList<PaisDTO> pais = ViewBag.pais;
+    IList<AreaDTO> areas = ViewBag.areas;
+    IList<PuestoDTO> puestos = ViewBag.puestos;
+    
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    
+    <div  style="width:900px;">
+        <div class="row-fluid">
+            <!-- contenedor superior izquierdo: campos -->
+            @Html.Label("Datos Personales:", new { style = "font-weight: bold;" })
+
+            <div class="span7">
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Nombre)</div>
+                    </div>
+                    <div class="span7">
+                        <div class="editor-field" style="width: 100%; text-align: left;">
+                            @Html.EditorFor(model => model.Nombre)
+                            @Html.ValidationMessageFor(model => model.Nombre)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.ApellidoPaterno)</div>
+                    </div>
+                    <div class="span7">
+                        <div class="editor-field" style="width: 100%; text-align: left;">
+                            @Html.EditorFor(model => model.ApellidoPaterno)
+                            @Html.ValidationMessageFor(model => model.ApellidoPaterno)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.ApellidoMaterno)</div>
+                    </div>
+                    <div class="span7">
+                        <div class="editor-field" style="width: 100%; text-align: left;">
+                            @Html.EditorFor(model => model.ApellidoMaterno)
+                            @Html.ValidationMessageFor(model => model.ApellidoMaterno)
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.TipoDocumentoID)</div>
+                    </div>
+                    <div class="span7 responsive">
+                        @Html.DropDownListFor(model => model.TipoDocumentoID, 
+                            new SelectList(tipoDocumentos, "ID", "Descripcion"), new { style = "width:100%" })
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.NumeroDocumento)</div>
+                    </div>
+                    <div class="span7">
+                        <div class="editor-field" style="width: 100%; text-align: left;">
+                            @Html.EditorFor(model => model.NumeroDocumento)
+                            @Html.ValidationMessageFor(model => model.NumeroDocumento)
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.FechaNacimiento)</div>
+                    </div>
+                    <div class="span7">
+                        <div class="editor-field" style="width: 100%; text-align: left;">
+                            @Html.EditorFor(model => model.FechaNacimiento)
+                            @Html.ValidationMessageFor(model => model.FechaNacimiento)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.PaisID)</div>
+                    </div>
+                    <div class="span7 responsive">
+                        @Html.DropDownListFor(model => model.PaisID, new SelectList(pais, "ID", "Nombre"), new { style = "width:100%" })
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Direccion)</div>
+                    </div>
+                    <div class="span7">
+                        <div class="editor-field" style="width: 100%; text-align: left;">
+                            @Html.EditorFor(model => model.Direccion)
+                            @Html.ValidationMessageFor(model => model.Direccion)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Telefono)</div>
+                    </div>
+                    <div class="span7">
+                        <div class="editor-field" style="width: 100%; text-align: left;">
+                            @Html.EditorFor(model => model.Telefono)
+                            @Html.ValidationMessageFor(model => model.Telefono)
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.CorreoElectronico)</div>
+                    </div>
+                    <div class="span7">
+                        <div class="editor-field" style="width: 100%; text-align: left;">
+                            @Html.EditorFor(model => model.CorreoElectronico)
+                            @Html.ValidationMessageFor(model => model.CorreoElectronico)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.CentroEstudios)</div>
+                    </div>
+                    <div class="span7">
+                        <div class="editor-field" style="width: 100%; text-align: left;">
+                            @Html.EditorFor(model => model.CentroEstudios)
+                            @Html.ValidationMessageFor(model => model.CentroEstudios)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.GradoAcademicoID)</div>
+                    </div>
+                    <div class="span7 responsive">
+                        @Html.DropDownListFor(model => model.GradoAcademicoID, new SelectList(gradoAcademico, "ID", "Descripcion"), new { style = "width:100%" })
+                    </div>
+                </div>
+
+                         
+        
+            </div>
+            <!-- fin contenedor superior izquierdo: campos -->
+            <!-- contenedor superior derecho: foto -->
+            <div class="span4">
+
+                @(Html.Label("Imagen:", new { style = "font-weight: bold;" }))
+                
+                @(Html.Kendo().Upload()
+                .Name("ImagenColaborador").HtmlAttributes(new { style = "width: 100%;" })
+            )
+            </div>
+            <!-- fin contenedor superior derecho: foto -->
+
+        </div>
+    </div>
+    <!-- contenedor inferior: campos -->
+    <div style="width:900px;">
+        <div class="row-fluid" >
+            <div class="span6">
+                @Html.Label("Información Puesto Laboral:", new { style = "font-weight: bold;" })
+            </div>
+            <div class="span6">
+                @Html.Label("Información General:", new { style = "font-weight: bold;" })
+            </div>
+        </div>
+        
+        <div class="span4">
+            <div class="row-fluid">
+                <div class="span5">
+                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.FechaIngreso)</div>
+                </div>
+                <div class="span7">
+                    <div class="editor-field" style="width: 100%; text-align: left;">
+                        @Html.EditorFor(model => model.FechaIngreso)
+                        @Html.ValidationMessageFor(model => model.FechaIngreso)
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span5">
+                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.AreaID)</div>
+                </div>
+                <div class="span7 responsive">
+                      @(Html.DropDownListFor(model => model.AreaID, 
+                            new SelectList(areas, "ID", "Nombre"), new { style = "width:100%" })
+
+                )
+
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span5">
+                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.PuestoID)</div>
+                </div>
+                <div class="span7">
+                      @Html.DropDownListFor(model => model.PuestoID, 
+                            new SelectList(puestos, "ID", "Nombre"), new { style = "width:100%" })
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span5">
+                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Sueldo)</div>
+                </div>
+                <div class="span7">
+                    <div class="editor-field" style="width: 100%; text-align: left;">
+                        @Html.EditorFor(model => model.Sueldo)
+                        @Html.ValidationMessageFor(model => model.Sueldo)
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="span4">
+             <div class="row-fluid">
+                <div class="span5">
+                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.EstadoColaboradorID)</div>
+                </div>
+                <div class="span7 responsive">
+                    @Html.DropDownListFor(model => model.EstadoColaboradorID, new SelectList(estadosColaborador, "ID", "Descripcion"), new { style = "width:100%" })
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span5">
+                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.CurriculumVitae)</div>
+                </div>
+                <div class="span7">
+                    @(Html.Kendo().Upload()
+                    .Name("CurriculumVitae").HtmlAttributes(new { style = "width: 100%;" }))
+                </div>
+            </div>
+
+
+        </div>
+       
+    </div>
+    <!-- fin contenedor inferior: campos -->
+}        
+
