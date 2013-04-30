@@ -202,6 +202,8 @@
     <Compile Include="Areas\Objetivos\Models\BSC.cs" />
     <Compile Include="Areas\Objetivos\Models\TipoObjetivoBSC.cs" />
     <Compile Include="Areas\Objetivos\ObjetivosAreaRegistration.cs" />
+    <Compile Include="Areas\Organizacion\Controllers\AreaController.cs" />
+    <Compile Include="Areas\Organizacion\Controllers\PuestoController.cs" />
     <Compile Include="Areas\Organizacion\OrganizacionAreaRegistration.cs" />
     <Compile Include="Areas\Personal\Controllers\ColaboradoresController.cs" />
     <Compile Include="Areas\Organizacion\Models\Area.cs" />

@@ -57,11 +57,10 @@ namespace KendoDP2.Areas.Personal.Controllers
                 c.EstadoColaborador = context.TablaEstadosColaboradores.One(x => x.Descripcion.Equals("Contratado"));
                 context.TablaColaboradores.AddElement(c);
                 
-                /*Puesto p = context.TablaPuestos.FindByID(colaborador.PuestoID);
+                Puesto p = context.TablaPuestos.FindByID(colaborador.PuestoID);
                 ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo };
-                c.ColaboradoresPuesto.Add(cruce);
-                p.ColaboradorPuestos.Add(cruce);
-                context.TablaColaboradoresXPuestos.AddElement(cruce);*/
+                context.TablaColaboradoresXPuestos.AddElement(cruce);
+                
                 return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState)); 
             }
         }

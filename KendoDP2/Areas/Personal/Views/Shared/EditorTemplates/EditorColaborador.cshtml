@@ -210,20 +210,9 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.AreaID)</div>
                 </div>
                 <div class="span7 responsive">
-                          @{var x = Html.Kendo().DropDownList()
-                                .Name("DropDownArea")
-                                .DataTextField("Nombre")
-                                .DataValueField("ID")
-                                .BindTo(areas)
-                                .HtmlAttributes(new { style = "width:100%" })
-                                .Value(Model.AreaID + "");
-                      string html = x.ToString();
-                      html = html.Replace("jQuery(function(){", "");
-                      html = html.Replace("});});", "});");
-                    }
-                    @(Html.Raw(html.ToString())
+                      @(Html.DropDownListFor(model => model.AreaID, 
+                            new SelectList(areas, "ID", "Nombre"), new { style = "width:100%" })
 
-                    
                 )
 
                 </div>
