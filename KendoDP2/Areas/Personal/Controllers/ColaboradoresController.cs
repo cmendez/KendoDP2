@@ -63,5 +63,18 @@ namespace KendoDP2.Areas.Personal.Controllers
                 return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState)); 
             }
         }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditingInline_Update([DataSourceRequest] DataSourceRequest request, ColaboradorDTO colaborador)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                Colaborador c = context.TablaColaboradores.FindByID(colaborador.ID).LoadFromDTO(colaborador);
+                context.TablaColaboradores.ModifyElement(c);
+                return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
+            }
+        }
+
+
     }
 }
