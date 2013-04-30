@@ -133,6 +133,9 @@ namespace KendoDP2.Models.Generic
             SeedEstadosColaborador();
             SeedColaboradores();
             SeedGradosAcademicos();
+            // Area Organizacion
+            SeedAreas();
+            SeedPuestos();
         }
 
         // Area Configuracion
@@ -260,10 +263,27 @@ namespace KendoDP2.Models.Generic
             TablaGradosAcademicos.AddElement(new GradoAcademico { Descripcion = "Doctor" });
         }
 
+        // Area Organizacion
+
+        private void SeedAreas()
+        {
+            TablaAreas.AddElement(new Area { Nombre = "La gran Área", Descripcion = "El área más grande" });
+            TablaAreas.AddElement(new Area { Nombre = "Gerencia general", Descripcion = "Debajo de la gran área", AreaSuperiorID = TablaAreas.One(a => a.Nombre.Equals("La gran Área")).ID });
+        }
+
+        private void SeedPuestos()
+        {
+            TablaPuestos.AddElement(new Puesto { Nombre = "Presidente", Descripcion = "Jefe de proyecto", AreaID = TablaAreas.One(a => a.Nombre.Equals("La gran Área")).ID });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Gerente general", Descripcion = "Por ahí", AreaID = TablaAreas.One(a => a.Nombre.Equals("Gerencia general")).ID, PuestoSuperiorID = TablaPuestos.One(p => p.Nombre.Equals("Presidente")).ID });
+        }
+
+
+
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // No tocar por nada del mundo las lineas de abajo, si no esterilizo a quien lo haga.
+        // - Entendido.
         public DP2Context()
            : base(KendoDP2.MvcApplication.IsDebug ? "DebugDB" : KendoDP2.MvcApplication.ConnectionString)
         {
