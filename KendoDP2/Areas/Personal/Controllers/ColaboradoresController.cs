@@ -75,6 +75,15 @@ namespace KendoDP2.Areas.Personal.Controllers
             }
         }
 
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditingInline_Destroy([DataSourceRequest] DataSourceRequest request, ColaboradorDTO colaborador)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                context.TablaColaboradores.RemoveElementByID(colaborador.ID);
+                return Json(ModelState.ToDataSourceResult());
+            }
+        }
 
     }
 }
