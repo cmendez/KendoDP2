@@ -268,15 +268,14 @@ namespace KendoDP2.Models.Generic
         private void SeedAreas()
         {
             TablaAreas.AddElement(new Area { Nombre = "La gran Área", Descripcion = "El área más grande" });
-            TablaAreas.AddElement(new Area { Nombre = "Gerencia general", Descripcion = "Debajo de la gran área", AreaSuperiorID = TablaAreas.One(a => a.Nombre.Equals("La gran Área")).ID });
+            TablaAreas.AddElement(new Area { Nombre = "Gerencia general", Descripcion = "Debajo de la gran área"});
         }
 
         private void SeedPuestos()
         {
             TablaPuestos.AddElement(new Puesto { Nombre = "Presidente", Descripcion = "Jefe de proyecto", AreaID = TablaAreas.One(a => a.Nombre.Equals("La gran Área")).ID });
-            TablaPuestos.AddElement(new Puesto { Nombre = "Gerente general", Descripcion = "Por ahí", AreaID = TablaAreas.One(a => a.Nombre.Equals("Gerencia general")).ID, PuestoSuperiorID = TablaPuestos.One(p => p.Nombre.Equals("Presidente")).ID });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Gerente general", Descripcion = "Por ahí", AreaID = TablaAreas.One(a => a.Nombre.Equals("Gerencia general")).ID });
         }
-
 
 
         
