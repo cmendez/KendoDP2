@@ -23,7 +23,7 @@ namespace KendoDP2.Areas.Personal.Models
         public virtual ICollection<ColaboradorXPuesto> ColaboradoresPuesto { get; set; }
    //     public int ColaboradorXPuestoID { get; set; }
         
-        public int? EstadosColaboradorID { get; set; }
+        public int EstadosColaboradorID { get; set; }
         public virtual EstadosColaborador EstadoColaborador { get; set; }
 
         public int PaisID { get; set; }
@@ -190,7 +190,7 @@ namespace KendoDP2.Areas.Personal.Models
             TipoDocumentoID = c.TipoDocumentoID;
             CorreoElectronico = c.CorreoElectronico;
             CentroEstudios = c.CentroEstudios;
-            EstadoColaboradorID = c.EstadosColaboradorID.GetValueOrDefault();
+            EstadoColaboradorID = c.EstadosColaboradorID;
             NumeroDocumento = c.NumeroDocumento;
             Direccion = c.Direccion;
             Telefono = c.Telefono;
