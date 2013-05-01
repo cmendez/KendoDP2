@@ -59,8 +59,11 @@ namespace KendoDP2.Areas.Personal.Controllers
                 
                 Puesto p = context.TablaPuestos.FindByID(colaborador.PuestoID);
                 ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo };
+
+                c.ColaboradoresPuesto.Add(cruce);
+                //p.ColaboradorPuestos.Add(cruce);
                 context.TablaColaboradoresXPuestos.AddElement(cruce);
-                
+
                 return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState)); 
             }
         }

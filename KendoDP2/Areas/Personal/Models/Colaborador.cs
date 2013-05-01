@@ -21,6 +21,9 @@ namespace KendoDP2.Areas.Personal.Models
         public virtual ICollection<Objetivo> Objetivos { get; set; }
         
         public virtual ICollection<ColaboradorXPuesto> ColaboradoresPuesto { get; set; }
+
+      //  public int ColaboradorXPuestoID { get; set; }
+
         
         public int EstadosColaboradorID { get; set; }
         public virtual EstadosColaborador EstadoColaborador { get; set; }
