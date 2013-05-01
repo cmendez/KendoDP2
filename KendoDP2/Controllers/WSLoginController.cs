@@ -17,9 +17,17 @@ namespace KendoDP2.Controllers
             return View();
         }
 
+        [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Login(string username, string password)
         {
-            return Json(new DP2MembershipProvider().ValidateUser(username, password));
+            if (new DP2MembershipProvider().ValidateUser(username, password))
+            {
+                return Json(1, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(0, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }
