@@ -1,14 +1,14 @@
 ﻿@using Kendo.Mvc.UI
 @using KendoDP2.Areas.Organizacion.Models
 @{
-    ViewBag.Title = "PuestosTrabajo";
+    ViewBag.Title = "Puestos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("PuestosTrabajo", "Administre los puestos de trabajo de la empresa"));}
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Puestos", "Administre los puestos de trabajo de la empresa"));}
 
 <div class="portlet box green">
     <div class="portlet-title">
-        <h4><i class="icon-reorder"></i>PuestosTrabajo</h4>
+        <h4><i class="icon-reorder"></i>Puestos</h4>
         <div class="tools">
 	        <a href="javascript:;" class="collapse"></a>
         </div>
@@ -27,7 +27,7 @@
                        
                         columns.Command(command => { command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar");
                                                      command.Destroy().Text("Eliminar");
-                                                   }).Width(100);
+                                                   }).Width(300);
                         
                     }
                 )
@@ -37,10 +37,10 @@
                 })
                 .Editable(editable => editable
                     .Mode(GridEditMode.PopUp)
-                    .TemplateName("EditorColaborador")
+                    //aca debo agregar template
                     .DisplayDeleteConfirmation("¿Está seguro que desea eliminar este registro?")
                     .Window(w => { w.Title("Ingrese los datos"); w.Width(900); })
-
+                
                 )
                 .Pageable(paper => paper.Refresh(true))
                 .Filterable()
@@ -50,10 +50,10 @@
                     .Ajax()
                     .PageSize(20)
                     .Model(model => model.Id(p => p.ID))
-                    .Create(update => update.Action("Create", "PuestosTrabajo"))
-                    .Read(read => read.Action("EditingInline_Read", "PuestosTrabajo"))
-                    .Update(update => update.Action("EditingInline_Update", "PuestosTrabajo"))
-                    .Destroy(update => update.Action("EditingInline_Destroy", "PuestosTrabajo"))
+                    .Create(update => update.Action("Create", "Puestos"))
+                    .Read(read => read.Action("EditingInline_Read", "Puestos"))
+                    .Update(update => update.Action("EditingInline_Update", "Puestos"))
+                    .Destroy(update => update.Action("EditingInline_Destroy", "Puestos"))
                 )
                )
         </div>

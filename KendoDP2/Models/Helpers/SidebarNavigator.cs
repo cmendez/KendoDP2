@@ -48,8 +48,8 @@ namespace KendoDP2.Models.Helpers
             })));
 
             // Pako Puesto
-            Opciones.Add(new SidebarOption("Organizacion", "Organización", "icon-wrench", new List<SidebarSuboption>(new SidebarSuboption[]{
-                new SidebarSuboption("PuestosTrabajo", "PuestosTrabajo", "Index", "icon-time")
+            Opciones.Add(new SidebarOption("Organizacion", "Organización", "icon-group  ", new List<SidebarSuboption>(new SidebarSuboption[]{
+                new SidebarSuboption("Puestos", "Puestos", "Index", "icon-time")
             })));
         }
     }

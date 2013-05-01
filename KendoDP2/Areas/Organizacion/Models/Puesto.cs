@@ -76,16 +76,16 @@ namespace KendoDP2.Areas.Organizacion.Models
         [DisplayName("Descripción")]
         [MaxLength(200)]
         public string Descripcion { get; set; }
-
+        
         [Required]
-        [UIHint("GridForeignKey")]
+        //[UIHint("GridForeignKey")]
         [DisplayName("Área")]
         public int AreaID { get; set; }
 
-        [UIHint("GridForeignKey")]
+        //[UIHint("GridForeignKey")]
         [DisplayName("Puesto superior")]
         public int? PuestoSuperiorID { get; set; }
-
+        
 
         public PuestoDTO() { }
 
