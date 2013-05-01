@@ -27,7 +27,7 @@ namespace KendoDP2.Areas.Personal.Models
 
         public Persona() { }
 
-        public PersonaDTO ToDTO()
+        new public PersonaDTO ToDTO()
         {
             return new PersonaDTO(this);
         }

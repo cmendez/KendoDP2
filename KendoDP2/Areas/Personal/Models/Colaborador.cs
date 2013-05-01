@@ -14,16 +14,18 @@ namespace KendoDP2.Areas.Personal.Models
         public string Direccion { get; set; }
         public bool IsActivo { get; set; }
         public string Telefono { get; set; }
-        public DateTime? FechaNacimiento { get; set; }
-        public DateTime? FechaIngresoEmpresa {get; set;}
-        public DateTime? FechaSalidaEmpresa { get; set; }
+        public string FechaNacimiento { get; set; }
+        public string FechaIngresoEmpresa {get; set;}
+        public string FechaSalidaEmpresa { get; set; }
 
         public virtual ICollection<Objetivo> Objetivos { get; set; }
         
         public virtual ICollection<ColaboradorXPuesto> ColaboradoresPuesto { get; set; }
+
       //  public int ColaboradorXPuestoID { get; set; }
+
         
-        public int? EstadosColaboradorID { get; set; }
+        public int EstadosColaboradorID { get; set; }
         public virtual EstadosColaborador EstadoColaborador { get; set; }
 
         public int PaisID { get; set; }
@@ -32,32 +34,6 @@ namespace KendoDP2.Areas.Personal.Models
         public byte[] ImagenColaborador { get; set; }
         
         public Colaborador() { }
-
-        public Colaborador(string nombres, string apellidoPaterno, string apellidoMaterno, string direccion, DateTime fecha_nacimiento,
-                           string telefono, DateTime fecha_ingreso, string correo_electronico, string numero_documento,
-                           string centro_estudios, Byte[] imagen, Byte[] curriculum_vitae, int tipo_documentoID, int estado_colaboradorID,
-                           int paisID, bool is_activo, int grado_academicoID, DateTime fecha_salida_empresa )
-        {
-            Nombres = nombres;
-            ApellidoMaterno = apellidoMaterno;
-            ApellidoPaterno = apellidoPaterno;
-            Direccion = direccion;
-            Telefono = telefono;
-            FechaNacimiento = fecha_nacimiento;
-            FechaIngresoEmpresa = fecha_ingreso;
-            CurriculumVitae = curriculum_vitae;
-            ImagenColaborador = imagen;
-            TipoDocumentoID = tipo_documentoID;
-            NumeroDocumento = numero_documento;
-            CorreoElectronico = correo_electronico;
-            EstadosColaboradorID = estado_colaboradorID;
-            CentroEstudios = centro_estudios;
-            GradoAcademicoID = grado_academicoID;
-            PaisID = paisID;
-            IsActivo = is_activo;
-            FechaSalidaEmpresa = fecha_salida_empresa;
-        
-        }
 
         public Colaborador(ColaboradorDTO c)
         {
@@ -83,12 +59,12 @@ namespace KendoDP2.Areas.Personal.Models
             CurriculumVitae = c.CurriculumVitae;
             FechaNacimiento = c.FechaNacimiento;
             FechaIngresoEmpresa = c.FechaIngreso;
-         
+           
             return this;
         }
 
 
-        public ColaboradorDTO ToDTO()
+        new public ColaboradorDTO ToDTO()
         {
             return new ColaboradorDTO(this);
         }
@@ -98,6 +74,7 @@ namespace KendoDP2.Areas.Personal.Models
     {
        
         public string NombreCompleto { get; set; }
+        [DisplayName("Código")]
         public int ID { get; set; }
         
         [Required]
@@ -126,10 +103,7 @@ namespace KendoDP2.Areas.Personal.Models
                 
         [DisplayName("Fecha de Nacimiento")]
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime? FechaNacimiento { get; set; }
-
-        [DisplayName("Fecha de Nacimiento")]
-        public string FechaNacimientoDisplay { get; set; }
+        public string FechaNacimiento { get; set; }
 
         [DisplayName("Tipo de Documento")]
         public int TipoDocumentoID { get; set; }
@@ -161,10 +135,7 @@ namespace KendoDP2.Areas.Personal.Models
         
         [DisplayName("Ingreso Empresa")]
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime? FechaIngreso { get; set; }
-
-        [DisplayName("Ingreso Empresa")]
-        public string FechaIngresoDisplay { get; set; }
+        public string FechaIngreso { get; set; }
 
         [DisplayName("Área")]
         public int AreaID { get; set; }
@@ -190,7 +161,7 @@ namespace KendoDP2.Areas.Personal.Models
             TipoDocumentoID = c.TipoDocumentoID;
             CorreoElectronico = c.CorreoElectronico;
             CentroEstudios = c.CentroEstudios;
-            EstadoColaboradorID = c.EstadosColaboradorID.GetValueOrDefault();
+            EstadoColaboradorID = c.EstadosColaboradorID;
             NumeroDocumento = c.NumeroDocumento;
             Direccion = c.Direccion;
             Telefono = c.Telefono;
@@ -198,8 +169,6 @@ namespace KendoDP2.Areas.Personal.Models
             ImagenColaborador = c.ImagenColaborador;
             FechaNacimiento = c.FechaNacimiento;
             FechaIngreso = c.FechaIngresoEmpresa;
-            FechaNacimientoDisplay = FechaNacimiento == null ? "Activo" : FechaNacimiento.GetValueOrDefault().ToString("dd/MM/yyyy");
-            FechaIngresoDisplay = FechaIngresoDisplay == null ? "Activo" : FechaIngreso.GetValueOrDefault().ToString("dd/MM/yyyy");
 
             try {
                 ColaboradorXPuesto cruce = c.ColaboradoresPuesto.OrderByDescending(a => a.ID).First();

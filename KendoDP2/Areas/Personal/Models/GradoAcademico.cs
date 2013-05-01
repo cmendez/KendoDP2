@@ -27,7 +27,7 @@ namespace KendoDP2.Areas.Personal.Models
         public GradoAcademico LoadFromDTO(GradoAcademicoDTO g)
         {
             Descripcion = g.Descripcion;
-         
+            ID = g.ID;
             return this;
         }
         
@@ -49,6 +49,7 @@ namespace KendoDP2.Areas.Personal.Models
 
         public GradoAcademicoDTO(GradoAcademico g)
         {
+            ID = g.ID;
             Descripcion = g.Descripcion;
         }
     }

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using KendoDP2.Areas.Organizacion.Models;
 using KendoDP2.Models.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 using System.Web;
 
@@ -14,6 +16,7 @@ namespace KendoDP2.Areas.Organizacion.Models
 {
     public class Puesto : DBObject
     {
+
         //public virtual ICollection<ColaboradorXPuesto> ColaboradorPuestos { get; set; }
         public int AreaID { get; set; }
         public Area Area { get; set; }
@@ -61,30 +64,34 @@ namespace KendoDP2.Areas.Organizacion.Models
     
     }
 
-
     public class PuestoDTO
     {
-
-        public string NombreCompleto { get; set; }
+        [ScaffoldColumn(false)]
         public int ID { get; set; }
 
         [Required]
-        [DisplayName("Nombre")]
-        [StringLength(40)]
+        [MaxLength(50)]
         public string Nombre { get; set; }
 
-        [DisplayName("Descripcion")]
-        [StringLength(30)]
+        [DisplayName("Descripción")]
+        [MaxLength(200)]
         public string Descripcion { get; set; }
 
+        [Required]
+        [UIHint("GridForeignKey")]
+        [DisplayName("Área")]
+        public int AreaID { get; set; }
 
-   
+        [UIHint("GridForeignKey")]
+        [DisplayName("Puesto superior")]
+        public int? PuestoSuperiorID { get; set; }
 
 
         public PuestoDTO() { }
 
         public PuestoDTO(Puesto p)
         {
+
             Nombre = p.Nombre ;
             Descripcion = p.Descripcion;
             ID = p.ID;

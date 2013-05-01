@@ -28,7 +28,7 @@ namespace KendoDP2.Areas.Personal.Models
         public EstadosColaborador LoadFromDTO(EstadosColaboradorDTO e)
         {
             Descripcion = e.Descripcion;
-         
+            ID = e.ID;
             return this;
         }
         
@@ -51,6 +51,7 @@ namespace KendoDP2.Areas.Personal.Models
 
         public EstadosColaboradorDTO(EstadosColaborador e)
         {
+            ID = e.ID;
             Descripcion = e.Descripcion;
         }
 

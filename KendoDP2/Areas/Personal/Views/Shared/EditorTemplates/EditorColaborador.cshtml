@@ -1,16 +1,17 @@
 ﻿@using Kendo.Mvc.UI
 @using KendoDP2.Areas.Personal.Models
 @using KendoDP2.Areas.Configuracion.Models
+@using KendoDP2.Areas.Organizacion.Models
 
 @model KendoDP2.Areas.Personal.Models.ColaboradorDTO
 @{
-    Model.TipoDocumentoID = 1;
     IList<TipoDocumentoDTO> tipoDocumentos = ViewBag.tipoDocumentos;
     IList<GradoAcademicoDTO> gradoAcademico = ViewBag.gradoAcademico;
     IList<EstadosColaboradorDTO> estadosColaborador = ViewBag.estadosColaborador;
     IList<PaisDTO> pais = ViewBag.pais;
+    IList<AreaDTO> areas = ViewBag.areas;
+    IList<PuestoDTO> puestos = ViewBag.puestos;
     
-        
 }
 
 @using (Html.BeginForm())
@@ -66,21 +67,8 @@
                         <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.TipoDocumentoID)</div>
                     </div>
                     <div class="span7 responsive">
-
-                        @{var x = Html.Kendo().DropDownList()
-                                    .Name("DropDownListTipoDocumento")
-                                    .DataTextField("Descripcion")
-                                    .DataValueField("ID")
-                                    .BindTo(tipoDocumentos)
-                                    .HtmlAttributes(new { style = "width:100%" })
-                                    .Value(Model.TipoDocumentoID + "");
-                                    
-                          string html = x.ToString();
-                          html = html.Replace("jQuery(function(){", "");
-                          html = html.Replace("});});", "});");
-                        }
-                        @Html.Raw(html.ToString())
-
+                        @Html.DropDownListFor(model => model.TipoDocumentoID, 
+                            new SelectList(tipoDocumentos, "ID", "Descripcion"), new { style = "width:100%" })
                     </div>
                 </div>
 
@@ -114,21 +102,7 @@
                         <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.PaisID)</div>
                     </div>
                     <div class="span7 responsive">
-
-                        @{var y = Html.Kendo().DropDownList()
-                                    .Name("DropDownPais")
-                                    .DataTextField("Nombre")
-                                    .DataValueField("ID")
-                                    .BindTo(pais)
-                                    .HtmlAttributes(new { style = "width:100%" })
-                                    .Value("PaisID");
-                          string html2 = y.ToString();
-                          html2 = html2.Replace("jQuery(function(){", "");
-                          html2 = html2.Replace("});});", "});");
-                        }
-                        @Html.Raw(html2.ToString())
-
-
+                        @Html.DropDownListFor(model => model.PaisID, new SelectList(pais, "ID", "Nombre"), new { style = "width:100%" })
                     </div>
                 </div>
 
@@ -186,18 +160,7 @@
                         <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.GradoAcademicoID)</div>
                     </div>
                     <div class="span7 responsive">
-                         @{var z = Html.Kendo().DropDownList()
-                                    .Name("DropDownGradoAcademico")
-                                    .DataTextField("Descripcion")
-                                    .DataValueField("ID")
-                                    .BindTo(gradoAcademico)
-                                    .HtmlAttributes(new { style = "width:100%" })
-                                    .Value(Model.GradoAcademicoID + "");
-                          string html3 = z.ToString();
-                          html3 = html3.Replace("jQuery(function(){", "");
-                          html3 = html3.Replace("});});", "});");
-                        }
-                        @Html.Raw(html3.ToString())
+                        @Html.DropDownListFor(model => model.GradoAcademicoID, new SelectList(gradoAcademico, "ID", "Descripcion"), new { style = "width:100%" })
                     </div>
                 </div>
 
@@ -209,7 +172,7 @@
             <div class="span4">
 
                 @(Html.Label("Imagen:", new { style = "font-weight: bold;" }))
-            
+                
                 @(Html.Kendo().Upload()
                 .Name("ImagenColaborador").HtmlAttributes(new { style = "width: 100%;" })
             )
@@ -246,11 +209,12 @@
                 <div class="span5">
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.AreaID)</div>
                 </div>
-                <div class="span7">
-                    <div class="editor-field" style="width: 100%; text-align: left;">
-                        @Html.EditorFor(model => model.AreaID)
-                        @Html.ValidationMessageFor(model => model.AreaID)
-                    </div>
+                <div class="span7 responsive">
+                      @(Html.DropDownListFor(model => model.AreaID, 
+                            new SelectList(areas, "ID", "Nombre"), new { style = "width:100%" })
+
+                )
+
                 </div>
             </div>
 
@@ -259,10 +223,8 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.PuestoID)</div>
                 </div>
                 <div class="span7">
-                    <div class="editor-field" style="width: 100%; text-align: left;">
-                        @Html.EditorFor(model => model.PuestoID)
-                        @Html.ValidationMessageFor(model => model.PuestoID)
-                    </div>
+                      @Html.DropDownListFor(model => model.PuestoID, 
+                            new SelectList(puestos, "ID", "Nombre"), new { style = "width:100%" })
                 </div>
             </div>
 
@@ -286,18 +248,7 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.EstadoColaboradorID)</div>
                 </div>
                 <div class="span7 responsive">
-                     @{var w = Html.Kendo().DropDownList()
-                                    .Name("DropDownEstadoColaborador")
-                                    .DataTextField("Descripcion")
-                                    .DataValueField("ID")
-                                    .BindTo(estadosColaborador)
-                                    .HtmlAttributes(new { style = "width:100%" })
-                                    .Value(Model.EstadoColaboradorID + "");
-                          string html4 = w.ToString();
-                          html4 = html4.Replace("jQuery(function(){", "");
-                          html4 = html4.Replace("});});", "});");
-                        }
-                        @Html.Raw(html4.ToString())
+                    @Html.DropDownListFor(model => model.EstadoColaboradorID, new SelectList(estadosColaborador, "ID", "Descripcion"), new { style = "width:100%" })
                 </div>
             </div>
 

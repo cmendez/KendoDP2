@@ -27,7 +27,7 @@ namespace KendoDP2.Areas.Personal.Models
         public TipoDocumento LoadFromDTO(TipoDocumentoDTO t)
         {
             Descripcion = t.Descripcion;
-         
+            ID = t.ID;
             return this;
         }
         
@@ -49,6 +49,7 @@ namespace KendoDP2.Areas.Personal.Models
 
         public TipoDocumentoDTO(TipoDocumento t)
         {
+            ID = t.ID;
             Descripcion = t.Descripcion;
         }
     }

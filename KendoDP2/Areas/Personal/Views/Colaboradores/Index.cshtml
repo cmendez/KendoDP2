@@ -27,7 +27,7 @@
                         columns.Bound(p => p.ApellidoMaterno);
                         columns.Command(command => { command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar");
                                                      command.Destroy().Text("Eliminar");
-                                                   }).Width(100);
+                                                   }).Width(300);
                         
                     }
                 )
@@ -53,7 +53,7 @@
                     .Create(update => update.Action("Create", "Colaboradores"))
                     .Read(read => read.Action("EditingInline_Read", "Colaboradores"))
                     .Update(update => update.Action("EditingInline_Update", "Colaboradores"))
-                    .Destroy(update => update.Action("EditingInline_Destroy", "ProcesoEvaluacion"))
+                    .Destroy(update => update.Action("EditingInline_Destroy", "Colaboradores"))
                 )
                )
         </div>
