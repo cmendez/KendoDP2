@@ -46,11 +46,15 @@ namespace KendoDP2.Models.Generic
         public DbSet<Capacidad> InternalCapacidades { get; set; }
         public DbSet<NivelCapacidad> InternalNivelCapacidades { get; set; }
         public DbSet<ProcesoEvaluacion> InternalProcesoEvaluaciones { get; set; }
+        public DbSet<ColaboradorXProcesoEvaluacion> InternalColaboradorXProcesoEvaluaciones { get; set; }
+        public DbSet<EstadoColaboradorXProcesoEvaluacion> InternalEstadoColaboradorXProcesoEvaluaciones { get; set; }
 
         public DBGenericRequester<Competencia> TablaCompetencias { get; set; }
         public DBGenericRequester<Capacidad> TablaCapacidades { get; set; }
         public DBGenericRequester<NivelCapacidad> TablaNivelCapacidades { get; set; }
         public DBGenericRequester<ProcesoEvaluacion> TablaProcesoEvaluaciones { get; set; }
+        public DBGenericRequester<ColaboradorXProcesoEvaluacion> TablaColaboradorXProcesoEvaluaciones { get; set; }
+        public DBGenericRequester<EstadoColaboradorXProcesoEvaluacion> TablaEstadoColaboradorXProcesoEvaluaciones { get; set; }
 
         // Area Objetivos
         public DbSet<Objetivo> InternalObjetivos { get; set; }
@@ -96,6 +100,8 @@ namespace KendoDP2.Models.Generic
             TablaCapacidades = new DBGenericRequester<Capacidad>(this, InternalCapacidades);
             TablaNivelCapacidades = new DBGenericRequester<NivelCapacidad>(this, InternalNivelCapacidades);
             TablaProcesoEvaluaciones = new DBGenericRequester<ProcesoEvaluacion>(this, InternalProcesoEvaluaciones);
+            TablaEstadoColaboradorXProcesoEvaluaciones = new DBGenericRequester<EstadoColaboradorXProcesoEvaluacion>(this, InternalEstadoColaboradorXProcesoEvaluaciones);
+            TablaColaboradorXProcesoEvaluaciones = new DBGenericRequester<ColaboradorXProcesoEvaluacion>(this, InternalColaboradorXProcesoEvaluaciones);
         
             // Area Objetivos
             TablaBSC = new DBGenericRequester<BSC>(this, InternalBSC);
@@ -129,6 +135,7 @@ namespace KendoDP2.Models.Generic
             // Area Evaluacion360
             SeedCompetencias();
             SeedNivelCapacidades();
+            SeedEstadoPersonaXProcesoEvaluaciones();
             // Area Objetivos
             SeedTipoObjetivoBSC();
             // Area Personal
@@ -221,6 +228,12 @@ namespace KendoDP2.Models.Generic
                 TablaNivelCapacidades.AddElement(new NivelCapacidad(i));
         }
 
+        private void SeedEstadoPersonaXProcesoEvaluaciones()
+        {
+            TablaEstadoColaboradorXProcesoEvaluaciones.AddElement(new EstadoColaboradorXProcesoEvaluacion { Nombre = ConstantsEstadoColaboradorXProcesoEvaluacion.Pendiente });
+            TablaEstadoColaboradorXProcesoEvaluaciones.AddElement(new EstadoColaboradorXProcesoEvaluacion { Nombre = ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado });
+        }
+
         // Area Objetivos
         
         private void SeedTipoObjetivoBSC()
@@ -298,8 +311,8 @@ namespace KendoDP2.Models.Generic
         }
     }
 
-    public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
-    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
+    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
+    public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
     {
         protected override void Seed(DP2Context context)
         {

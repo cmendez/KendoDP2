@@ -9,8 +9,6 @@ using System.ComponentModel;
 
 using System.Web;
 
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace KendoDP2.Areas.Organizacion.Models
 {
