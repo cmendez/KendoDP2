@@ -1,14 +1,14 @@
 ﻿@using Kendo.Mvc.UI
-@using KendoDP2.Areas.Personal.Models
+@using KendoDP2.Areas.Organizacion.Models
 @{
-    ViewBag.Title = "Colaboradores";
+    ViewBag.Title = "Puestos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Colaboradores", "Administre los colaboradores de la empresa"));}
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Puestos", "Administre los puestos de trabajo de la empresa"));}
 
 <div class="portlet box green">
     <div class="portlet-title">
-        <h4><i class="icon-reorder"></i>Colaboradores</h4>
+        <h4><i class="icon-reorder"></i>Puestos</h4>
         <div class="tools">
 	        <a href="javascript:;" class="collapse"></a>
         </div>
@@ -17,14 +17,14 @@
     <div class="portlet-body">
 
            <div class="row-fluid">
-            @(Html.Kendo().Grid<ColaboradorDTO>()
-                .Name("ColaboradorGrid")
+            @(Html.Kendo().Grid<PuestoDTO>()
+                .Name("PuestoGrid")
                 .Columns(columns =>
                     {
                         columns.Bound(p => p.ID);
                         columns.Bound(p => p.Nombre);
-                        columns.Bound(p => p.ApellidoPaterno);
-                        columns.Bound(p => p.ApellidoMaterno);
+                        columns.Bound(p => p.Descripcion);
+                       
                         columns.Command(command => { command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar");
                                                      command.Destroy().Text("Eliminar");
                                                    }).Width(300);
@@ -37,10 +37,10 @@
                 })
                 .Editable(editable => editable
                     .Mode(GridEditMode.PopUp)
-                    .TemplateName("EditorColaborador")
+                    //aca debo agregar template
                     .DisplayDeleteConfirmation("¿Está seguro que desea eliminar este registro?")
                     .Window(w => { w.Title("Ingrese los datos"); w.Width(900); })
-
+                
                 )
                 .Pageable(paper => paper.Refresh(true))
                 .Filterable()
@@ -50,10 +50,10 @@
                     .Ajax()
                     .PageSize(20)
                     .Model(model => model.Id(p => p.ID))
-                    .Create(update => update.Action("Create", "Colaboradores"))
-                    .Read(read => read.Action("EditingInline_Read", "Colaboradores"))
-                    .Update(update => update.Action("EditingInline_Update", "Colaboradores"))
-                    .Destroy(update => update.Action("EditingInline_Destroy", "Colaboradores"))
+                    .Create(update => update.Action("Create", "Puestos"))
+                    .Read(read => read.Action("EditingInline_Read", "Puestos"))
+                    .Update(update => update.Action("EditingInline_Update", "Puestos"))
+                    .Destroy(update => update.Action("EditingInline_Destroy", "Puestos"))
                 )
                )
         </div>

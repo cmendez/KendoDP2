@@ -30,6 +30,8 @@ namespace KendoDP2.Areas.Personal.Controllers
                 ViewBag.estadosColaborador = context.TablaEstadosColaboradores.All().Select(p => p.ToDTO()).ToList();
                 ViewBag.pais = context.TablaPaises.All().Select(p => p.ToDTO()).ToList();
                 ViewBag.gradoAcademico = context.TablaGradosAcademicos.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.areas = context.TablaAreas.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).ToList();
                 return View();
             }
 
@@ -55,11 +57,13 @@ namespace KendoDP2.Areas.Personal.Controllers
                 c.EstadoColaborador = context.TablaEstadosColaboradores.One(x => x.Descripcion.Equals("Contratado"));
                 context.TablaColaboradores.AddElement(c);
                 
-                /*Puesto p = context.TablaPuestos.FindByID(colaborador.PuestoID);
+                Puesto p = context.TablaPuestos.FindByID(colaborador.PuestoID);
                 ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo };
+
                 c.ColaboradoresPuesto.Add(cruce);
-                p.ColaboradorPuestos.Add(cruce);
-                context.TablaColaboradoresXPuestos.AddElement(cruce);*/
+                //p.ColaboradorPuestos.Add(cruce);
+                context.TablaColaboradoresXPuestos.AddElement(cruce);
+
                 return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState)); 
             }
         }
@@ -75,6 +79,15 @@ namespace KendoDP2.Areas.Personal.Controllers
             }
         }
 
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditingInline_Destroy([DataSourceRequest] DataSourceRequest request, ColaboradorDTO colaborador)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                context.TablaColaboradores.RemoveElementByID(colaborador.ID);
+                return Json(ModelState.ToDataSourceResult());
+            }
+        }
 
     }
 }

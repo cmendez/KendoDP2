@@ -1,6 +1,7 @@
 ﻿@using Kendo.Mvc.UI
 @using KendoDP2.Areas.Personal.Models
 @using KendoDP2.Areas.Configuracion.Models
+@using KendoDP2.Areas.Organizacion.Models
 
 @model KendoDP2.Areas.Personal.Models.ColaboradorDTO
 @{
@@ -8,6 +9,9 @@
     IList<GradoAcademicoDTO> gradoAcademico = ViewBag.gradoAcademico;
     IList<EstadosColaboradorDTO> estadosColaborador = ViewBag.estadosColaborador;
     IList<PaisDTO> pais = ViewBag.pais;
+    IList<AreaDTO> areas = ViewBag.areas;
+    IList<PuestoDTO> puestos = ViewBag.puestos;
+    
 }
 
 @using (Html.BeginForm())
@@ -205,11 +209,12 @@
                 <div class="span5">
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.AreaID)</div>
                 </div>
-                <div class="span7">
-                    <div class="editor-field" style="width: 100%; text-align: left;">
-                        @Html.EditorFor(model => model.AreaID)
-                        @Html.ValidationMessageFor(model => model.AreaID)
-                    </div>
+                <div class="span7 responsive">
+                      @(Html.DropDownListFor(model => model.AreaID, 
+                            new SelectList(areas, "ID", "Nombre"), new { style = "width:100%" })
+
+                )
+
                 </div>
             </div>
 
@@ -218,10 +223,8 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.PuestoID)</div>
                 </div>
                 <div class="span7">
-                    <div class="editor-field" style="width: 100%; text-align: left;">
-                        @Html.EditorFor(model => model.PuestoID)
-                        @Html.ValidationMessageFor(model => model.PuestoID)
-                    </div>
+                      @Html.DropDownListFor(model => model.PuestoID, 
+                            new SelectList(puestos, "ID", "Nombre"), new { style = "width:100%" })
                 </div>
             </div>
 
