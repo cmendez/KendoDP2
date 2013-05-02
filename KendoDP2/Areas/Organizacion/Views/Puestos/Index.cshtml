@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "Puestos";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    IList<AreaDTO> areas = ViewBag.areas;
+    IList<PuestoDTO> puestos = ViewBag.puestos;
 }
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Puestos", "Administre los puestos de trabajo de la empresa"));}
 
@@ -24,7 +26,8 @@
                         columns.Bound(p => p.ID);
                         columns.Bound(p => p.Nombre);
                         columns.Bound(p => p.Descripcion);
-                       
+                        columns.ForeignKey(p => p.AreaID, new SelectList(areas, "ID", "Nombre"));
+                        columns.ForeignKey(p => p.PuestoSuperiorID, new SelectList(puestos, "ID", "Nombre"));
                         columns.Command(command => { command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar");
                                                      command.Destroy().Text("Eliminar");
                                                    }).Width(300);

@@ -27,12 +27,13 @@
                     columns.Bound(p => p.Nombre);
                     columns.Bound(p => p.FechaCierre);
                     columns.ForeignKey((p => p.AutorizadorID), lista);
+                    columns.Template(@<text></text>).Title("Evaluados").ClientTemplate(
+                        "<a class='k-button' href='" + Url.Action("ElegirEvaluados", "ProcesoEvaluacion") + "?procesoEvaluacionID=#=ID#'>Elegir evaluados</a>");
                     columns.Command(command =>
                     { 
                         command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar"); 
                         command.Destroy().Text("Eliminar");
-                        command.Custom("Evaluados").Text("Evaluados");
-                    }).Width(300);
+                    }).Width(200);
                 }
             )
             .ToolBar(toolbar => toolbar.Create().Text("Registrar"))
@@ -49,31 +50,12 @@
                 .Ajax()
                 .PageSize(20)
                 .ServerOperation(false)
-                .Events(events => events.Error("error_handler"))
                 .Model(model => { model.Id(p => p.ID); })
-                .Create(update => update.Action("EditingInline_Create", "ProcesoEvaluacion"))
-                .Read(read => read.Action("EditingInline_Read", "ProcesoEvaluacion"))
-                .Update(update => update.Action("EditingInline_Update", "ProcesoEvaluacion"))
-                .Destroy(update => update.Action("EditingInline_Destroy", "ProcesoEvaluacion"))
+                .Create(update => update.Action("Create", "ProcesoEvaluacion"))
+                .Read(read => read.Action("Read", "ProcesoEvaluacion"))
+                .Update(update => update.Action("Update", "ProcesoEvaluacion"))
+                .Destroy(update => update.Action("Destroy", "ProcesoEvaluacion"))
             )
         )
     </div>
 </div>
-
-<script type="text/javascript">
-    function error_handler(e) {    
-        if (e.errors) {
-            var message = "Errors:\n";
-            $.each(e.errors, function (key, value) {
-                if ('errors' in value) {
-                    $.each(value.errors, function() {
-                        message += this + "\n";
-                    });
-                }
-            });        
-            alert(message);
-        }
-    }
-
-</script>
-

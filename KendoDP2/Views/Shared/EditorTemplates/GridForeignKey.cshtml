@@ -8,5 +8,6 @@
     string html = x.ToString();
     html = html.Replace("jQuery(function(){", "");
     html = html.Replace("});});", "});");
+    
 }
 @Html.Raw(html.ToString())

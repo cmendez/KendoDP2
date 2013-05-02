@@ -30,7 +30,8 @@ namespace KendoDP2.Models.Helpers
                 new SidebarSuboption("Por perfil", "Configuracion360", "Index", "icon-group"),
                 new SidebarSuboption("Competencias", "Competencias", "Index", "icon-plus-sign"),
                 new SidebarSuboption("Capacidades", "Capacidades", "Index", "icon-check"),
-                new SidebarSuboption("Procesos de evaluación", "ProcesoEvaluacion", "Index", "icon-road")
+                new SidebarSuboption("Procesos de evaluación", "ProcesoEvaluacion", "Index", "icon-road"),
+                new SidebarSuboption("Evaluación de puestos de trabajo", "PuestosEvaluacion", "Index", "icon-ok-sign")
             })));
 
             // Objetivos
@@ -50,7 +51,8 @@ namespace KendoDP2.Models.Helpers
 
             // Pako Puesto
             Opciones.Add(new SidebarOption("Organizacion", "Organización", "icon-group  ", new List<SidebarSuboption>(new SidebarSuboption[]{
-                new SidebarSuboption("Puestos", "Puestos", "Index", "icon-time")
+                new SidebarSuboption("Puestos", "Puestos", "Index", "icon-time"),
+                new SidebarSuboption("Áreas", "Areas", "Index", "icon-time")
             })));
         }
     }

@@ -47,14 +47,23 @@ namespace KendoDP2.Models.Generic
         public DbSet<NivelCapacidad> InternalNivelCapacidades { get; set; }
         public DbSet<Perfil> InternalPerfiles { get; set; }
         public DbSet<ProcesoEvaluacion> InternalProcesoEvaluaciones { get; set; }
+
         public DbSet<PerfilXCompetencia> InternalPerfilXCompetencia { get; set; }
+        public DbSet<ColaboradorXProcesoEvaluacion> InternalColaboradorXProcesoEvaluaciones { get; set; }
+        public DbSet<EstadoColaboradorXProcesoEvaluacion> InternalEstadoColaboradorXProcesoEvaluaciones { get; set; }
+
 
         public DBGenericRequester<Competencia> TablaCompetencias { get; set; }
         public DBGenericRequester<Capacidad> TablaCapacidades { get; set; }
         public DBGenericRequester<NivelCapacidad> TablaNivelCapacidades { get; set; }
         public DBGenericRequester<Perfil> TablaPerfiles { get; set; } 
         public DBGenericRequester<ProcesoEvaluacion> TablaProcesoEvaluaciones { get; set; }
+
         public DBGenericRequester<PerfilXCompetencia> TablaPerfilXCompetencia { get; set; }
+
+        public DBGenericRequester<ColaboradorXProcesoEvaluacion> TablaColaboradorXProcesoEvaluaciones { get; set; }
+        public DBGenericRequester<EstadoColaboradorXProcesoEvaluacion> TablaEstadoColaboradorXProcesoEvaluaciones { get; set; }
+
 
         // Area Objetivos
         public DbSet<Objetivo> InternalObjetivos { get; set; }
@@ -106,6 +115,10 @@ namespace KendoDP2.Models.Generic
             TablaProcesoEvaluaciones = new DBGenericRequester<ProcesoEvaluacion>(this, InternalProcesoEvaluaciones);
 
             TablaPerfilXCompetencia = new DBGenericRequester<PerfilXCompetencia>(this, InternalPerfilXCompetencia);
+
+            TablaEstadoColaboradorXProcesoEvaluaciones = new DBGenericRequester<EstadoColaboradorXProcesoEvaluacion>(this, InternalEstadoColaboradorXProcesoEvaluaciones);
+            TablaColaboradorXProcesoEvaluaciones = new DBGenericRequester<ColaboradorXProcesoEvaluacion>(this, InternalColaboradorXProcesoEvaluaciones);
+
         
             // Area Objetivos
             TablaBSC = new DBGenericRequester<BSC>(this, InternalBSC);
@@ -142,6 +155,7 @@ namespace KendoDP2.Models.Generic
             SeedPerfiles();
             SeedCompetencias();
             SeedNivelCapacidades();
+            SeedEstadoPersonaXProcesoEvaluaciones();
             // Area Objetivos
             SeedTipoObjetivoBSC();
             // Area Personal
@@ -253,6 +267,12 @@ namespace KendoDP2.Models.Generic
                 TablaNivelCapacidades.AddElement(new NivelCapacidad(i));
         }
 
+        private void SeedEstadoPersonaXProcesoEvaluaciones()
+        {
+            TablaEstadoColaboradorXProcesoEvaluaciones.AddElement(new EstadoColaboradorXProcesoEvaluacion { Nombre = ConstantsEstadoColaboradorXProcesoEvaluacion.Pendiente });
+            TablaEstadoColaboradorXProcesoEvaluaciones.AddElement(new EstadoColaboradorXProcesoEvaluacion { Nombre = ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado });
+        }
+
         // Area Objetivos
         
         private void SeedTipoObjetivoBSC()
@@ -301,7 +321,7 @@ namespace KendoDP2.Models.Generic
         {
             Area area1 = new Area { Nombre = "La gran Área", Descripcion = "El área más grande" };
             TablaAreas.AddElement(area1);
-            TablaAreas.AddElement(new Area { Nombre = "Gerencia general", Descripcion = "Debajo de la gran área"});
+            TablaAreas.AddElement(new Area { Nombre = "Gerencia general", Descripcion = "Debajo de la gran área", AreaSuperiorID = TablaAreas.One(a => a.Nombre.Equals("La gran Área")).ID});
         }
 
         private void SeedPuestos()
@@ -330,8 +350,8 @@ namespace KendoDP2.Models.Generic
         }
     }
 
-    public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
-    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
+    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
+    public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
     {
         protected override void Seed(DP2Context context)
         {

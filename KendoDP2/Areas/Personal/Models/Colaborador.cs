@@ -6,6 +6,7 @@ using System.Web;
 using KendoDP2.Areas.Configuracion.Models;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using KendoDP2.Areas.Evaluacion360.Models;
 
 namespace KendoDP2.Areas.Personal.Models
 {
@@ -22,9 +23,8 @@ namespace KendoDP2.Areas.Personal.Models
         
         public virtual ICollection<ColaboradorXPuesto> ColaboradoresPuesto { get; set; }
 
-      //  public int ColaboradorXPuestoID { get; set; }
+        public virtual ICollection<ColaboradorXProcesoEvaluacion> ColaboradorXProcesoEvaluaciones { get; set; }
 
-        
         public int EstadosColaboradorID { get; set; }
         public virtual EstadosColaborador EstadoColaborador { get; set; }
 
