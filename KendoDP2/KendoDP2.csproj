@@ -202,7 +202,7 @@
     <Compile Include="Areas\Objetivos\Models\BSC.cs" />
     <Compile Include="Areas\Objetivos\Models\TipoObjetivoBSC.cs" />
     <Compile Include="Areas\Objetivos\ObjetivosAreaRegistration.cs" />
-    <Compile Include="Areas\Organizacion\Controllers\AreaController.cs" />
+    <Compile Include="Areas\Organizacion\Controllers\AreasController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\PuestoController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\PuestosController.cs" />
     <Compile Include="Areas\Organizacion\OrganizacionAreaRegistration.cs" />
@@ -1752,7 +1752,7 @@
     <Content Include="Areas\Organizacion\Views\Web.config" />
     <Content Include="Areas\Personal\Views\Colaboradores\Index.cshtml" />
     <Content Include="Areas\Personal\Views\Shared\EditorTemplates\EditorColaborador.cshtml" />
-    <Content Include="Areas\Organizacion\Views\Area\Index.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Areas\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Puestos\Index.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />

@@ -269,7 +269,7 @@ namespace KendoDP2.Models.Generic
         {
             Area area1 = new Area { Nombre = "La gran Área", Descripcion = "El área más grande" };
             TablaAreas.AddElement(area1);
-            TablaAreas.AddElement(new Area { Nombre = "Gerencia general", Descripcion = "Debajo de la gran área"});
+            TablaAreas.AddElement(new Area { Nombre = "Gerencia general", Descripcion = "Debajo de la gran área", AreaSuperiorID = TablaAreas.One(a => a.Nombre.Equals("La gran Área")).ID});
         }
 
         private void SeedPuestos()

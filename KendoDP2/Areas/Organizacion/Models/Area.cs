@@ -5,6 +5,7 @@ using System.Text;
 using KendoDP2.Models.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KendoDP2.Areas.Organizacion.Models
 {
@@ -14,7 +15,9 @@ namespace KendoDP2.Areas.Organizacion.Models
         public string Descripcion { get; set; }
         public int? AreaSuperiorID { get; set; }
 
+
         public virtual Area AreaSuperior { get; set; }
+        public virtual ICollection<Area> Areas { get; set; }
         public virtual ICollection<Puesto> Puestos { get; set; }
         
         public Area() { }
@@ -38,13 +41,18 @@ namespace KendoDP2.Areas.Organizacion.Models
         {
             return new AreaDTO(this);
         }
+
+        public AreaTreeDTO ToTreeDTO()
+        {
+            return new AreaTreeDTO(this);
+        }
     }
 
     public class AreaDTO
     {
         [ScaffoldColumn(false)]
         public int ID { get; set; }
-
+        
         [Required]
         [MaxLength(50)]
         public string Nombre { get; set; }
@@ -67,6 +75,21 @@ namespace KendoDP2.Areas.Organizacion.Models
             Descripcion = a.Descripcion;
             AreaSuperiorID = a.AreaSuperiorID;
         }
+    }
 
+    public class AreaTreeDTO
+    {
+        public int id { get; set; }
+        public string Name { get; set; }
+        public bool hasChildren { get; set; }
+
+        public AreaTreeDTO() { }
+
+        public AreaTreeDTO(Area a)
+        {
+            id = a.ID;
+            Name = a.Nombre;
+            hasChildren = a.Areas.Any();
+        }
     }
 }
