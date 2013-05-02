@@ -11,10 +11,9 @@ using KendoDP2.Areas.Organizacion.Models;
 
 namespace KendoDP2.Areas.Organizacion.Controllers
 {
+    [Authorize()]
     public class PuestosController : Controller
     {
-        //
-        // GET: /Organizacion/Puesto/
         public PuestosController()
         {
             ViewBag.Area = "Organizacion";
@@ -24,14 +23,9 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-          /*      ViewBag.colaboradores = context.TablaColaboradores.All().Select(p => p.ToDTO()).ToList();
-                ViewBag.tipoDocumentos = context.TablaTiposDocumentos.All().Select(p => p.ToDTO()).ToList();
-                ViewBag.estadosColaborador = context.TablaEstadosColaboradores.All().Select(p => p.ToDTO()).ToList();
-                ViewBag.pais = context.TablaPaises.All().Select(p => p.ToDTO()).ToList();
-                ViewBag.gradoAcademico = context.TablaGradosAcademicos.All().Select(p => p.ToDTO()).ToList();
-                ViewBag.areas = context.TablaAreas.All().Select(p => p.ToDTO()).ToList();
                 ViewBag.puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).ToList();
-            */    return View();
+                ViewBag.areas = context.TablaAreas.All().Select(p => p.ToDTO()).ToList();
+                return View();
             }
 
         }
@@ -40,7 +34,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                List<PuestoDTO> puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).OrderBy(x => x.ID).ToList();
+                List<PuestoDTO> puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).ToList();
                 return Json(puestos.ToDataSourceResult(request));
             }
         }
