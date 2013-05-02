@@ -1,6 +1,13 @@
 ﻿@model object
-           
-@(
- Html.Kendo().DropDownListFor(m => m)        
-        .BindTo((SelectList)ViewData[ViewData.TemplateInfo.GetFullHtmlFieldName("") + "_Data"])
-)
+
+@{
+    var x = Html.Kendo().DropDownList()
+          .Name(ViewData.TemplateInfo.GetFullHtmlFieldName(""))
+          .HtmlAttributes(new {style = "width: 100%;"})
+          .BindTo((SelectList)ViewData[ViewData.TemplateInfo.GetFullHtmlFieldName("") + "_Data"]);
+    string html = x.ToString();
+    html = html.Replace("jQuery(function(){", "");
+    html = html.Replace("});});", "});");
+    
+}
+@Html.Raw(html.ToString())

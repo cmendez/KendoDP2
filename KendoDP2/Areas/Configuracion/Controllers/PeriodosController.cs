@@ -49,8 +49,7 @@ namespace KendoDP2.Areas.Configuracion.Controllers
                 anterior.FechaFin = now;
                 context.TablaPeriodos.ModifyElement(anterior);
 
-                Periodo p = new Periodo(periodo.Nombre, now);
-                context.TablaPeriodos.AddElement(p);
+                Periodo p = context.CrearPeriodoConBSC(periodo.Nombre, now);
                 return Json(new[] { p.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
         }
@@ -73,7 +72,7 @@ namespace KendoDP2.Areas.Configuracion.Controllers
             {
                 if (context.TablaPeriodos.All().Count == 1)
                 {
-                    ModelState.AddModelError("Destroy", "No se puede dejar la empresa sin periodos");
+                    ModelState.AddModelError("Destroy", "No se puede dejar la empresa sin períodos");
                     return Json(ModelState.ToDataSourceResult());
                 }
                 else

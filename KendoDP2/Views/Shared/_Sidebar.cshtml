@@ -45,7 +45,7 @@
     if (((string)ViewBag.Area).Equals(desiredText)) {
         @: start active
     } else {
-        @:
+        @: 
     }
 }
 
@@ -71,13 +71,12 @@
 						<div class="input-box">
 							<a href="javascript:;" class="remove"></a>
 							<input type="text" placeholder="Buscar..." />				
-							<input type="button" class="submit" value=" " />
+							<!--input type="button" class="submit" value=" " /-->
 						</div>
 					</form>
 					<!-- END RESPONSIVE QUICK SEARCH FORM -->
 				</li>
-                @ShowNavigator()
-				
+                @ShowNavigator()				
 			</ul>
 			<!-- END SIDEBAR MENU -->
 		</div>

@@ -1,9 +1,8 @@
-﻿using KendoDP2.Models.Generic;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using KendoDP2.Models.Generic;
 
 namespace KendoDP2.Models.Seguridad
 {
@@ -23,8 +22,27 @@ namespace KendoDP2.Models.Seguridad
             rol.Usuarios.Add(this);
         }
 
+        public UsuarioDTO ToDTO()
+        {
+            return new UsuarioDTO(this);
+        }
+
         public Usuario()
         {
+        }
+    }
+
+    public class UsuarioDTO
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+        
+        public UsuarioDTO() { }
+        
+        public UsuarioDTO(Usuario u)
+        {
+            Username = u.Username;
+            Password = u.Password;
         }
     }
 }
