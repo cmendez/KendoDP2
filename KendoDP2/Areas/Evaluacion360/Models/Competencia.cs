@@ -43,6 +43,22 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         {
             return new CompetenciaDTO(this);
         }
+
+        public List<CompetenciaConNivelDTO> clasificarEnNiveles() 
+        {
+            int i = 0;
+
+            List<CompetenciaConNivelDTO> competenciasClasificadas = new List<CompetenciaConNivelDTO>();
+
+            for (i = 0; i < 3; i++)
+            {
+                competenciasClasificadas.Add(new CompetenciaConNivelDTO(this, 1, 0, false));
+                competenciasClasificadas.Add(new CompetenciaConNivelDTO(this, 2, 0, false));
+                competenciasClasificadas.Add(new CompetenciaConNivelDTO(this, 3, 0, false));
+            }
+
+            return competenciasClasificadas;
+        }
     }
 
     public class CompetenciaDTO
@@ -63,19 +79,36 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         public CompetenciaDTO() { }
     }
 
-    public class CompetenciaConTotalNivelesDTO
-    { 
-        public string Nombre { get; set; }
-        public int TotalNiveles { get; set; }
-        public int ID { get; set; }
+    public class CompetenciaConNivelDTO
+    {
 
-        public CompetenciaConTotalNivelesDTO(Competencia c)
+        public int ID { get; set; }
+        public int CompetenciaID { get; set; }
+        public string CompetenciaNombre { get; set; }
+        public int Nivel { get; set; }
+        public int Peso { get; set; }
+        public bool Seleccionado { get; set; }
+
+
+        public CompetenciaConNivelDTO(Competencia c, int nivel, int peso, bool seleccionado)
         {
-            TotalNiveles = c.NroDeNiveles;
-            Nombre = c.Nombre;
-            ID = c.ID;
+            Nivel = nivel;
+            CompetenciaNombre = c.Nombre;
+            CompetenciaID = c.ID;
+            ID = CompetenciaID * 10 + nivel;
+            Peso = peso;
+            Seleccionado = seleccionado;
         }
-        public CompetenciaConTotalNivelesDTO() { }        
+        public CompetenciaConNivelDTO(PerfilXCompetencia perfilXCompetencia)
+        {
+            Nivel = perfilXCompetencia.Nivel;
+            CompetenciaNombre = perfilXCompetencia.Competencia.Nombre;
+            ID = perfilXCompetencia.Competencia.ID * 10 + perfilXCompetencia.Nivel;
+            CompetenciaID = perfilXCompetencia.Competencia.ID;
+            Peso = perfilXCompetencia.Peso;
+            Seleccionado = true;
+        }
+        public CompetenciaConNivelDTO() { }        
     }
 
 }

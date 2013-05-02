@@ -47,12 +47,14 @@ namespace KendoDP2.Models.Generic
         public DbSet<NivelCapacidad> InternalNivelCapacidades { get; set; }
         public DbSet<Perfil> InternalPerfiles { get; set; }
         public DbSet<ProcesoEvaluacion> InternalProcesoEvaluaciones { get; set; }
+        public DbSet<PerfilXCompetencia> InternalPerfilXCompetencia { get; set; }
 
         public DBGenericRequester<Competencia> TablaCompetencias { get; set; }
         public DBGenericRequester<Capacidad> TablaCapacidades { get; set; }
         public DBGenericRequester<NivelCapacidad> TablaNivelCapacidades { get; set; }
-        public DBGenericRequester<Perfil> TablaPerfiles { get; set; }
+        public DBGenericRequester<Perfil> TablaPerfiles { get; set; } 
         public DBGenericRequester<ProcesoEvaluacion> TablaProcesoEvaluaciones { get; set; }
+        public DBGenericRequester<PerfilXCompetencia> TablaPerfilXCompetencia { get; set; }
 
         // Area Objetivos
         public DbSet<Objetivo> InternalObjetivos { get; set; }
@@ -102,6 +104,8 @@ namespace KendoDP2.Models.Generic
             TablaPerfiles = new DBGenericRequester<Perfil>(this, InternalPerfiles);
 
             TablaProcesoEvaluaciones = new DBGenericRequester<ProcesoEvaluacion>(this, InternalProcesoEvaluaciones);
+
+            TablaPerfilXCompetencia = new DBGenericRequester<PerfilXCompetencia>(this, InternalPerfilXCompetencia);
         
             // Area Objetivos
             TablaBSC = new DBGenericRequester<BSC>(this, InternalBSC);

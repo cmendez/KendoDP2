@@ -32,6 +32,63 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
+        // Grid capacidades
+        public ActionResult EditingInline_Read_competencia([DataSourceRequest] DataSourceRequest request)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+
+                List<Competencia> competencias = context.TablaCompetencias.Where(c => true);
+                //IEnumerable<CompetenciaConNivelDTO> competenciasConNivelDTO = new IEnumerable<>();
+                List<CompetenciaConNivelDTO> competenciasConNivelDTO = new List<CompetenciaConNivelDTO>();
+
+
+
+                foreach (Competencia competencia in competencias)
+                {
+                    competenciasConNivelDTO.Add(new CompetenciaConNivelDTO(competencia, 1, 0, false));
+                    competenciasConNivelDTO.Add(new CompetenciaConNivelDTO(competencia, 2, 0, false));
+                    competenciasConNivelDTO.Add(new CompetenciaConNivelDTO(competencia, 3, 0, false));
+                
+                }
+
+                //return Json(context.TablaCompetencias.Where(c => true).Select(p => p.clasificarEnNiveles()).ToDataSourceResult(request));
+                return Json(competenciasConNivelDTO.ToDataSourceResult(request));
+            }
+        }
+
+        //[AcceptVerbs(HttpVerbs.Post)]
+        //public ActionResult EditingInline_Create([DataSourceRequest] DataSourceRequest request, CapacidadDTO capacidad)
+        //{
+        //    using (DP2Context context = new DP2Context())
+        //    {
+        //        Capacidad c = new Capacidad(capacidad);
+        //        context.TablaCapacidades.AddElement(c);
+        //        return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
+        //    }
+        //}
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditingInline_Update([DataSourceRequest] DataSourceRequest request, CapacidadDTO capacidad)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                Capacidad c = context.TablaCapacidades.FindByID(capacidad.ID).LoadFromDTO(capacidad);
+                context.TablaCapacidades.ModifyElement(c);
+                return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditingInline_Destroy([DataSourceRequest] DataSourceRequest request, CapacidadDTO capacidad)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                context.TablaCapacidades.RemoveElementByID(capacidad.ID);
+                return Json(ModelState.ToDataSourceResult());
+            }
+        }
+
         //[AcceptVerbs(HttpVerbs.Post)]
         //public ActionResult EditingInline_Create([DataSourceRequest] DataSourceRequest request, CompetenciaDTO competencia)
         //{
@@ -43,8 +100,25 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         //    }
         //}
 
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditingInline_Update_competencia([DataSourceRequest] DataSourceRequest request, CompetenciaConNivelDTO competenciaConNivel)
+        {
+
+            using (DP2Context context = new DP2Context())
+            {
+                //Primero solo para un solo perfil:
+                Perfil perfilDelGerente = context.TablaPerfiles.One(p => p.Nombre.Equals("Gerente general"));
+                Competencia competencia = context.TablaCompetencias.One(c => c.ID == ( competenciaConNivel.ID / 10 ));
+
+
+                PerfilXCompetencia perfilXCompetencia = new PerfilXCompetencia(perfilDelGerente, competencia, competenciaConNivel.Nivel, competenciaConNivel.Peso);
+                context.TablaPerfilXCompetencia.AddElement(perfilXCompetencia);
+                return Json(new[] { perfilXCompetencia.aDTO() }.ToDataSourceResult(request, ModelState));
+            }
+        }
+
         //[AcceptVerbs(HttpVerbs.Post)]
-        //public ActionResult EditingInline_Update([DataSourceRequest] DataSourceRequest request, CompetenciaDTO competencia)
+        //public ActionResult EditingInline_Update_competencia([DataSourceRequest] DataSourceRequest request, CompetenciaConNivelDTO competenciaConNivel)
         //{
         //    using (DP2Context context = new DP2Context())
         //    {
