@@ -1,0 +1,28 @@
+﻿@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Áreas", "Administre las áreas de la empresa"));}
+
+<div class="portlet box green">
+    <div class="portlet-title">
+        <h4><i class="icon-reorder"></i>Áreas</h4>
+        <div class="tools">
+	        <a href="javascript:;" class="collapse"></a>
+        </div>
+	</div>
+    <div class="portlet-body">
+        @(Html.Kendo().TreeView()
+            .Name("treeview")
+            .DataImageUrlField("TreeIcon")
+            .DataTextField("Name")
+            .DataSource(dataSource => dataSource
+                .Read(read => read
+                    .Action("AreasToTree", "Areas")
+                )
+            )
+        )
+    </div>
+</div>
