@@ -12,6 +12,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         public String Nombre;
         public DateTime FechaCierre;
         public String Autorizado;
+        public int Estado;
 
     }
 }
