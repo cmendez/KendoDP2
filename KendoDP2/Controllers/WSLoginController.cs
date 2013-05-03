@@ -17,7 +17,6 @@ namespace KendoDP2.Controllers
             return View();
         }
 
-        [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Login(string username, string password)
         {
             if (new DP2MembershipProvider().ValidateUser(username, password))
