@@ -28,9 +28,12 @@ namespace KendoDP2.Models.Generic
         // Area Organizacion
         public DbSet<Area> InternalAreas { get; set; }
         public DbSet<Puesto> InternalPuestos { get; set; }
+        public DbSet<EstadosPuesto> InternalEstadosPuestos { get; set; }
 
         public DBGenericRequester<Area> TablaAreas { get; set; }
         public DBGenericRequester<Puesto> TablaPuestos { get; set; }
+        public DBGenericRequester<EstadosPuesto> TablaEstadosPuestos { get; set; }
+
 
         // Area Seguridad
         public DbSet<Rol> InternalRoles { get; set; }
@@ -89,6 +92,8 @@ namespace KendoDP2.Models.Generic
             // Area Organizacion
             TablaAreas = new DBGenericRequester<Area>(this, InternalAreas);
             TablaPuestos = new DBGenericRequester<Puesto>(this, InternalPuestos);
+            TablaEstadosPuestos = new DBGenericRequester<EstadosPuesto>(this, InternalEstadosPuestos);
+
 
             // Area Seguridad
             TablaRoles = new DBGenericRequester<Rol>(this, InternalRoles);
@@ -266,6 +271,8 @@ namespace KendoDP2.Models.Generic
             TablaEstadosColaboradores.AddElement(new EstadosColaborador { Descripcion = "Inactivo" });
         }
 
+
+
         private void SeedGradosAcademicos()
         {
             TablaGradosAcademicos.AddElement(new GradoAcademico { Descripcion = "Bachiller" });
@@ -289,6 +296,14 @@ namespace KendoDP2.Models.Generic
         {
             TablaPuestos.AddElement(new Puesto { Nombre = "Presidente", Descripcion = "Jefe de proyecto", AreaID = TablaAreas.One(a => a.Nombre.Equals("La gran Área")).ID });
             TablaPuestos.AddElement(new Puesto { Nombre = "Gerente general", Descripcion = "Por ahí", AreaID = TablaAreas.One(a => a.Nombre.Equals("Gerencia general")).ID });
+        }
+
+
+        private void SeedEstadosPuesto()
+        {
+            TablaEstadosPuestos.AddElement(new EstadosPuesto { Descripcion = "Asignado" });
+            TablaEstadosPuestos.AddElement(new EstadosPuesto { Descripcion = "Vacante" });
+            TablaEstadosPuestos.AddElement(new EstadosPuesto { Descripcion = "Inactivo" });
         }
 
 

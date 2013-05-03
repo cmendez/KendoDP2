@@ -208,6 +208,7 @@
     <Compile Include="Areas\Objetivos\ObjetivosAreaRegistration.cs" />
     <Compile Include="Areas\Organizacion\Controllers\AreasController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\PuestosController.cs" />
+    <Compile Include="Areas\Organizacion\Models\EstadosPuesto.cs" />
     <Compile Include="Areas\Organizacion\OrganizacionAreaRegistration.cs" />
     <Compile Include="Areas\Personal\Controllers\ColaboradoresController.cs" />
     <Compile Include="Areas\Organizacion\Models\Area.cs" />
