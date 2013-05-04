@@ -170,7 +170,6 @@ namespace KendoDP2.Models.Generic
             SeedAreas();
             SeedPuestos();
             // Area Seguridad
-            SeedSidebarNavigator();
             SeedRoles();
             SeedUsuarios();
             // Area Evaluacion360
@@ -213,46 +212,34 @@ namespace KendoDP2.Models.Generic
         }
 
         // Area Seguridad
-        private void SeedSidebarNavigator()
-        {
-            SidebarNavigator sn = new SidebarNavigator();
-            SidebarOption sidebar;
-            
-            foreach(SidebarOption Lso in sn.Opciones)
-            {
-                if(Lso.Suboptions.Count>0)
-                {
-                    List<SidebarSuboption> suboption = new List<SidebarSuboption>();
-
-                    foreach(SidebarSuboption SSO in Lso.Suboptions)                        
-                    {   
-                        SidebarSuboption aux =new SidebarSuboption(SSO.Title,SSO.Controller,SSO.Method,SSO.Icon);
-                        suboption.Add(aux);                    
-                    }
-                    sidebar = new SidebarOption(Lso.Area, Lso.Title, Lso.Icon, suboption);
-                }else
-                {
-                    sidebar = new SidebarOption(Lso.Area, Lso.Controller, Lso.Method, Lso.Title, Lso.Icon);
-                }
-                TablaSidebarNavigator.AddElement(sidebar);
-            }
-            
-        }
-
+        
         private void SeedRoles()
         {
-            List<SidebarOption> sidebar = TablaSidebarNavigator.All();
-            TablaRoles.AddElement(new Rol("Administrador",sidebar));
-            TablaRoles.AddElement(new Rol("Invitado"));
+            SidebarNavigator sbn = new SidebarNavigator();
+            foreach (SidebarOption so in sbn.Opciones)
+
+            {
+                if (so.Area.Length > 0)
+                {
+                    TablaRoles.AddElement(new Rol(so.ID, so.Area, null, false));
+
+                    if (so.Suboptions.Count > 0)
+                    {
+                        foreach (SidebarSuboption sub in so.Suboptions)
+                        {
+                            TablaRoles.AddElement(new Rol(sub.ID, so.Area, sub.Title, false));
+                        }
+                    }
+                }
+            }
         }
 
         private void SeedUsuarios()
         {
-            var administrador = TablaRoles.One(p => p.Nombre.Equals("Administrador"));
-            var invitado = TablaRoles.One(p => p.Nombre.Equals("Invitado"));
-            TablaUsuarios.AddElement(new Usuario("anonimo", "anonimo", invitado));
+            //var administrador = TablaRoles.One(p => p.Nombre.Equals("Administrador"));
+            //var invitado = TablaRoles.One(p => p.Nombre.Equals("Invitado"));
+            TablaUsuarios.AddElement(new Usuario("admin", "admin",TablaRoles.All()));
         }
-        
 
         // Area Evaluacion360
 
@@ -362,8 +349,8 @@ namespace KendoDP2.Models.Generic
         }
     }
 
-    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
-    public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
+    public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
+    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
     {
         protected override void Seed(DP2Context context)
         {
