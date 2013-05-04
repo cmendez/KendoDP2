@@ -8,7 +8,7 @@ using Kendo.Mvc.Extensions;
 using System.Web.Mvc;
 using KendoDP2.Areas.Evaluacion360.Models;
 using KendoDP2.Models.Seguridad;
-using KendoDP2.Areas.Personal.Models;
+using KendoDP2.Areas.Organizacion.Models;
 
 namespace KendoDP2.Areas.Evaluacion360.Controllers
 {

@@ -27,8 +27,8 @@ namespace KendoDP2.Areas.Organizacion.Models
       //  public virtual ICollection<ColaboradorXPuesto> ColaboradoresPuesto { get; set; }
       //  public int ColaboradorXPuestoID { get; set; }
         
-        public int? EstadosColaboradorID { get; set; }
-        //public virtual EstadosColaborador EstadoColaborador { get; set; }
+        public int? EstadosPuestoID { get; set; }
+        public virtual EstadosPuesto EstadoPuesto { get; set; }
 
         
         public Puesto() { }
