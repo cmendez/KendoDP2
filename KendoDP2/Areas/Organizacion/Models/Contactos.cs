@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace KendoDP2.Areas.Personal.Models
+namespace KendoDP2.Areas.Organizacion.Models
 {
     public class Contactos : DBObject
     {

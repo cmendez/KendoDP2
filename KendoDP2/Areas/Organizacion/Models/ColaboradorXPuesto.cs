@@ -5,7 +5,7 @@ using System.Web;
 using KendoDP2.Areas.Organizacion.Models;
 using KendoDP2.Models.Generic;
 
-namespace KendoDP2.Areas.Personal.Models
+namespace KendoDP2.Areas.Organizacion.Models
 {
     public class ColaboradorXPuesto: DBObject
     {

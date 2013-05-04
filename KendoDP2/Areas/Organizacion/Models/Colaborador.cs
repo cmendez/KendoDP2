@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using KendoDP2.Areas.Evaluacion360.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace KendoDP2.Areas.Personal.Models
+namespace KendoDP2.Areas.Organizacion.Models
 {
     public class Colaborador : Persona
     {

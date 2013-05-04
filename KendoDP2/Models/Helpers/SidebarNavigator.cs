@@ -43,16 +43,13 @@ namespace KendoDP2.Models.Helpers
                 new SidebarSuboption("Períodos", "Periodos", "Index", "icon-time")
             })));
 
-            // Personal
-            Opciones.Add(new SidebarOption("Personal", "Personal", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
-                new SidebarSuboption("Colaboradores", "Colaboradores", "Index", "icon-time")
+            // Organizacion
+            Opciones.Add(new SidebarOption("Organizacion", "Organizacion", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
+                new SidebarSuboption("Colaboradores", "Colaboradores", "Index", "icon-user"),
+                new SidebarSuboption("Puestos", "Puestos", "Index", "icon-tag"),
+                new SidebarSuboption("Áreas", "Areas", "Index", "icon-sitemap")
             })));
 
-            // Pako Puesto
-            Opciones.Add(new SidebarOption("Organizacion", "Organización", "icon-group  ", new List<SidebarSuboption>(new SidebarSuboption[]{
-                new SidebarSuboption("Puestos", "Puestos", "Index", "icon-time"),
-                new SidebarSuboption("Áreas", "Areas", "Index", "icon-time")
-            })));
         }
     }
 

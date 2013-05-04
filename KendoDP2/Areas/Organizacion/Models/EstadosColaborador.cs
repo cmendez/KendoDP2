@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using KendoDP2.Models.Generic;
 
-namespace KendoDP2.Areas.Personal.Models
+namespace KendoDP2.Areas.Organizacion.Models
 {
     public class EstadosColaborador: DBObject
     {
