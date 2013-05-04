@@ -21,11 +21,11 @@ namespace KendoDP2.Controllers
         {
             if (new DP2MembershipProvider().ValidateUser(username, password))
             {
-                return Json(1, JsonRequestBehavior.AllowGet);
+                return Json(new {respuesta = 1 }, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                return Json(0, JsonRequestBehavior.AllowGet);
+                return Json(new { respuesta = 0 }, JsonRequestBehavior.AllowGet);
             }
         }
     }
