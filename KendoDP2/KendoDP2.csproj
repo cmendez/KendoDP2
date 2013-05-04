@@ -213,6 +213,7 @@
     <Compile Include="Areas\Personal\Controllers\ColaboradoresController.cs" />
     <Compile Include="Areas\Organizacion\Models\Area.cs" />
     <Compile Include="Areas\Personal\Models\ColaboradorXPuesto.cs" />
+    <Compile Include="Areas\Personal\Models\Contactos.cs" />
     <Compile Include="Areas\Personal\Models\EstadosColaborador.cs" />
     <Compile Include="Areas\Personal\Models\GradoAcademico.cs" />
     <Compile Include="Areas\Organizacion\Models\Puesto.cs" />
