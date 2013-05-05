@@ -29,10 +29,12 @@ namespace KendoDP2.Models.Generic
         public DbSet<Area> InternalAreas { get; set; }
         public DbSet<Puesto> InternalPuestos { get; set; }
         public DbSet<EstadosPuesto> InternalEstadosPuestos { get; set; }
+        public DbSet<PuestoXArea> InternalPuestosXAreas { get; set; }
 
         public DBGenericRequester<Area> TablaAreas { get; set; }
         public DBGenericRequester<Puesto> TablaPuestos { get; set; }
         public DBGenericRequester<EstadosPuesto> TablaEstadosPuestos { get; set; }
+        public DBGenericRequester<PuestoXArea> TablaPuestosXAreas { get; set; }
 
 
         // Area Seguridad
@@ -93,6 +95,7 @@ namespace KendoDP2.Models.Generic
             TablaAreas = new DBGenericRequester<Area>(this, InternalAreas);
             TablaPuestos = new DBGenericRequester<Puesto>(this, InternalPuestos);
             TablaEstadosPuestos = new DBGenericRequester<EstadosPuesto>(this, InternalEstadosPuestos);
+            TablaPuestosXAreas = new DBGenericRequester<PuestoXArea>(this, InternalPuestosXAreas);
 
 
             // Area Seguridad
