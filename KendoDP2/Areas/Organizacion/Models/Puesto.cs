@@ -101,13 +101,13 @@ namespace KendoDP2.Areas.Organizacion.Models
                 PuestoXArea cruce = p.PuestosArea.OrderByDescending(a => a.ID).First();
                 AreaID = cruce.Puesto.AreaID;
                 //necesitamos obtener el Puesto Superior mediante un artificio
-                PuestoSuperiorID = 0;
+                PuestoSuperiorID = 1;
               
             }
             catch (Exception)
             {
-                AreaID = 0;
-                PuestoSuperiorID = 0;
+                AreaID = 1;
+                PuestoSuperiorID = 1;
                 
             }
 
