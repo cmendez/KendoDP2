@@ -11,7 +11,6 @@ using System.Linq;
 using System.Web;
 using KendoDP2.Models.Helpers;
 using KendoDP2.Models.Seguridad;
-using KendoDP2.Areas.Organizacion.Models;
 
 namespace KendoDP2.Models.Generic
 {
@@ -92,7 +91,7 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<BSC> TablaBSC { get; set; }
 
         // Area Personal
-        public DbSet<Persona> InternalPersonas { get; set; }
+        /*public DbSet<Persona> InternalPersonas { get; set; }
         public DbSet<Colaborador> InternalColaboradores { get; set; }
         public DbSet<EstadosColaborador> InternalEstadosColaboradores { get; set; }
         public DbSet<TipoDocumento> InternalTiposDocumentos { get; set; }
@@ -105,7 +104,7 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<TipoDocumento> TablaTiposDocumentos { get; set; }
         public DBGenericRequester<GradoAcademico> TablaGradosAcademicos { get; set; }
         public DBGenericRequester<ColaboradorXPuesto> TablaColaboradoresXPuestos { get; set; }
-
+        */
 
         private void RegistrarTablas()
         {
