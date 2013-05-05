@@ -209,6 +209,7 @@
     <Compile Include="Areas\Objetivos\ObjetivosAreaRegistration.cs" />
     <Compile Include="Areas\Organizacion\Controllers\AreasController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\PuestosController.cs" />
+    <Compile Include="Areas\Organizacion\Models\PuestoXArea.cs" />
     <Compile Include="Areas\Organizacion\Models\EstadosPuesto.cs" />
     <Compile Include="Areas\Organizacion\OrganizacionAreaRegistration.cs" />
     <Compile Include="Areas\Organizacion\Controllers\ColaboradoresController.cs" />
@@ -221,6 +222,8 @@
     <Compile Include="Areas\Organizacion\Models\TipoDocumento.cs" />
     <Compile Include="Areas\Organizacion\Models\Colaborador.cs" />
     <Compile Include="Areas\Organizacion\Models\Persona.cs" />
+    <Compile Include="Areas\Reclutamiento\Controllers\ReclutamientoController.cs" />
+    <Compile Include="Areas\Reclutamiento\Models\OfertaLaboral.cs" />
     <Compile Include="Areas\Reclutamiento\ReclutamientoAreaRegistration.cs" />
     <Compile Include="Areas\Reportes\ReportesAreaRegistration.cs" />
     <Compile Include="Areas\Seguridad\Controllers\RolesController.cs" />
@@ -1754,7 +1757,6 @@
     <Content Include="Areas\Seguridad\Views\Web.config" />
     <Content Include="Areas\Seguridad\Views\Roles\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Web.config" />
-    <Content Include="Areas\Organizacion\Views\Area\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Colaboradores\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Shared\EditorTemplates\EditorColaborador.cshtml" />
     <Content Include="Areas\Organizacion\Views\Areas\Index.cshtml" />
@@ -1905,8 +1907,6 @@
     <Folder Include="Areas\Configuracion\Views\Shared\" />
     <Folder Include="Areas\Evaluacion360\Views\Shared\" />
     <Folder Include="Areas\Objetivos\Views\Shared\" />
-    <Folder Include="Areas\Reclutamiento\Controllers\" />
-    <Folder Include="Areas\Reclutamiento\Models\" />
     <Folder Include="Areas\Reclutamiento\Views\Shared\" />
     <Folder Include="Areas\Reportes\Controllers\" />
     <Folder Include="Areas\Reportes\Models\" />

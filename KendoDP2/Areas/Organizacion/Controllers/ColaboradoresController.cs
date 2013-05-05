@@ -43,7 +43,6 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             }
         }
 
-
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create([DataSourceRequest] DataSourceRequest request, ColaboradorDTO colaborador)
         {
@@ -85,12 +84,12 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             }
         }
 
-        public JsonResult ColaboradoresToList([DataSourceRequest] DataSourceRequest request)
+        public JsonResult ColaboradoresToList()
         {
             using (DP2Context context = new DP2Context())
             {
                 var colaboradores = context.TablaColaboradores.All().Select(a => a.ToDTO()).OrderBy(a => a.NombreCompleto);
-                return Json(colaboradores.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+                return Json(colaboradores, JsonRequestBehavior.AllowGet);
             }
         }
 
