@@ -7,6 +7,7 @@ using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
 using KendoDP2.Areas.Organizacion.Models;
 using KendoDP2.Models.Generic;
+using KendoDP2.Models.Seguridad;
 
 namespace KendoDP2.Areas.Organizacion.Controllers
 {
@@ -52,7 +53,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 Colaborador c = new Colaborador(colaborador);
                 c.EstadoColaborador = context.TablaEstadosColaboradores.One(x => x.Descripcion.Equals("Contratado"));
                 context.TablaColaboradores.AddElement(c);
-                
+
                 Puesto p = context.TablaPuestos.FindByID(colaborador.PuestoID);
                 ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo };
 
@@ -60,7 +61,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 //p.ColaboradorPuestos.Add(cruce);
                 context.TablaColaboradoresXPuestos.AddElement(cruce);
 
-                return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState)); 
+                return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
         }
 
