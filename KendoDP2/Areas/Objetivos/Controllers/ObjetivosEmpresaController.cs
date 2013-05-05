@@ -70,7 +70,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             }
         }
 
-        public ActionResult ListarObjetivos()
+        public ActionResult ListarObjetivos(int idperiodo)
         {
             using (DP2Context context = new DP2Context())
             {
