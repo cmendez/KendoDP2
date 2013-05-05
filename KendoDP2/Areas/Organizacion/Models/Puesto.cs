@@ -49,7 +49,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         {
             ID = p.ID;
             Nombre = p.Nombre;
-         
+            AreaID = p.AreaID;
             return this;
         }
 
