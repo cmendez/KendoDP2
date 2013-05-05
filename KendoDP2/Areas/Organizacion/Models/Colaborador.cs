@@ -7,8 +7,9 @@ using KendoDP2.Areas.Configuracion.Models;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using KendoDP2.Areas.Evaluacion360.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace KendoDP2.Areas.Personal.Models
+namespace KendoDP2.Areas.Organizacion.Models
 {
     public class Colaborador : Persona
     {
@@ -32,7 +33,13 @@ namespace KendoDP2.Areas.Personal.Models
         public virtual Pais Pais { get; set; }
 
         public byte[] ImagenColaborador { get; set; }
-        
+
+        [InverseProperty("Contacto")]
+        public virtual ICollection<Contactos> EsContactoDe { get; set; }
+        [InverseProperty("Colaborador")]
+        public virtual ICollection<Contactos> Contactos { get; set; }
+
+
         public Colaborador() { }
 
         public Colaborador(ColaboradorDTO c)

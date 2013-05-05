@@ -69,5 +69,16 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 return Json(ModelState.ToDataSourceResult());
             }
         }
+
+        public ActionResult ListarObjetivos()
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                Objetivo ob = new Objetivo();
+                ob.Nombre = "Obejtivo1";
+                //return Json(context.TablaObjetivos.All().Select(o => o.ToDTO()).ToList(), JsonRequestBehavior.AllowGet);
+                return Json(ob.ToDTO(), JsonRequestBehavior.AllowGet);
+            }    
+        }
     }
 }

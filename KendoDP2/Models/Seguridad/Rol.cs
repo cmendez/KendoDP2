@@ -10,30 +10,50 @@ namespace KendoDP2.Models.Seguridad
 {
     public class Rol : DBObject
     {
-        public string Nombre { get; set; }
+        public string Nivel { get; set; }
+        public string Subnivel { get; set; }
+        public int Secuencia { get; set; }
 
-        public virtual List<Usuario> Usuarios { get; set; }
-        public virtual List<SidebarOption> Navegacion { get; set; }
+        public virtual ICollection<Usuario> Usuarios { get; set; }
 
-        public Rol(string nombre)
+        public Rol() { }
+
+        public Rol(int sec, string Nivel, bool activo)
         {
-            Nombre = nombre;
+            this.Secuencia = sec;
+            this.Nivel = Nivel;
+            this.Subnivel = String.Empty;
+            this.IsEliminado = activo;
             Usuarios = new List<Usuario>();
-            Navegacion = new List<SidebarOption>();
         }
 
-        public Rol(string nombre, List<SidebarOption> sidebaroption)
+        public Rol(int id,int sec, string Nivel, bool activo)
         {
-            Nombre = nombre;
+            this.ID = id;
+            this.Secuencia = sec;
+            this.Nivel = Nivel;
+            this.Subnivel = String.Empty;
+            this.IsEliminado = activo;
             Usuarios = new List<Usuario>();
-            Navegacion = new List<SidebarOption>();
-            Navegacion = sidebaroption;
         }
 
-        public Rol()
+        public Rol(int sec, string Nivel, string Subnivel, bool activo)
         {
+            this.Secuencia = sec;
+            this.Nivel = Nivel;
+            this.Subnivel = Subnivel;
+            this.IsEliminado = activo;
             Usuarios = new List<Usuario>();
-            Navegacion = new List<SidebarOption>();
+        }
+
+        public Rol(int id,int sec, string Nivel, string Subnivel, bool activo)
+        {
+            this.ID = id;
+            this.Secuencia = sec;
+            this.Nivel = Nivel;
+            this.Subnivel = Subnivel;
+            this.IsEliminado = activo;
+            Usuarios = new List<Usuario>();
         }
 
         public Rol(RolDTO dto)
@@ -44,10 +64,11 @@ namespace KendoDP2.Models.Seguridad
         public Rol LoadFromDTO(RolDTO dto)
         {
             ID = dto.ID;
-            Nombre = dto.Nombre;
+            Nivel = dto.Nivel;
+            Subnivel = dto.Subnivel;
+            IsEliminado = dto.IsEliminado;
             return this;
         }
-
 
         public RolDTO ToDTO()
         {
@@ -58,20 +79,21 @@ namespace KendoDP2.Models.Seguridad
     public class RolDTO
     {
 
-        [ScaffoldColumn(false)]
         public int ID { get; set; }
-
-        [Required]
-        [StringLength(200)]
-        public string Nombre { get; set; }
+        public string Nivel { get; set; }
+        public string Subnivel { get; set; }
+        public bool IsEliminado { get; set; }
+        public int Secuencia { get; set; }
 
         public RolDTO(Rol r)
         {
-            Nombre = r.Nombre;
+            this.Secuencia = r.Secuencia;
+            this.ID = r.ID;
+            this.Nivel = r.Nivel;
+            this.Subnivel = r.Subnivel;
+            this.IsEliminado = r.IsEliminado;
         }
-        public RolDTO()
-        {
-            Nombre = String.Empty;
-        }
+
+        public RolDTO() { }
     }
 }

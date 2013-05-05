@@ -27,13 +27,17 @@ namespace KendoDP2.Models.Helpers
             })));
 
             // Evaluacion 360
-
             Opciones.Add(new SidebarOption(3,"Evaluacion360", "Evaluación 360°", "icon-pencil", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption(31,"Competencias", "Competencias", "Index", "icon-plus-sign"),
                 new SidebarSuboption(32,"Capacidades", "Capacidades", "Index", "icon-check"),
                 new SidebarSuboption(33,"Procesos de evaluación", "ProcesoEvaluacion", "Index", "icon-road"),
-                new SidebarSuboption(34,"Evaluación de puestos de trabajo", "PuestosEvaluacion", "Index", "icon-ok-sign"),
-				new SidebarSuboption(35,"Por perfil", "Configuracion360", "Index", "icon-group")
+                new SidebarSuboption(34,"Evaluación de puestos de trabajo", "PuestosEvaluacion", "Index", "icon-ok-sign")
+            })));				
+            
+            // Administración
+            Opciones.Add(new SidebarOption("Administracion", "Administración", "icon-pencil", new List<SidebarSuboption>(new SidebarSuboption[]{
+            })));			
+
             })));
 
             // Objetivos
@@ -49,16 +53,14 @@ namespace KendoDP2.Models.Helpers
 
             // Organizacion
             Opciones.Add(new SidebarOption(6,"Personal", "Personal", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
-                new SidebarSuboption(61,"Colaboradores", "Colaboradores", "Index", "icon-time"),
+                new SidebarSuboption(61,"Colaboradores", "Colaboradores", "Index", "icon-time")
                 new SidebarSuboption(62,"Puestos", "Puestos", "Index", "icon-tag"),
                 new SidebarSuboption(63,"Áreas", "Areas", "Index", "icon-sitemap")
             })));
 
-            // Pako Puesto
             Opciones.Add(new SidebarOption(7,"Organizacion", "Organización", "icon-group  ", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption(71,"Puestos", "Puestos", "Index", "icon-time"),
                 new SidebarSuboption(72,"Áreas", "Areas", "Index", "icon-time")
-            })));
         }
     }
 

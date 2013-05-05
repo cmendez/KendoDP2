@@ -29,6 +29,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <IncludeIisSettings>false</IncludeIisSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -200,6 +201,7 @@
     <Compile Include="Areas\Evaluacion360\Models\CompetenciaXPuesto.cs" />
     <Compile Include="Areas\Evaluacion360\Models\EstadoColaboradorXProcesoEvaluacion.cs" />
     <Compile Include="Areas\Evaluacion360\Models\ColaboradorXProcesoEvaluacion.cs" />
+    <Compile Include="Areas\Evaluacion360\Models\Evaluacion.cs" />
     <Compile Include="Areas\Evaluacion360\Models\ProcesoEvaluacion.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Evaluador.cs" />
     <Compile Include="Areas\Evaluacion360\Models\NivelCapacidad.cs" />
@@ -211,20 +213,22 @@
     <Compile Include="Areas\Objetivos\ObjetivosAreaRegistration.cs" />
     <Compile Include="Areas\Organizacion\Controllers\AreasController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\PuestosController.cs" />
+    <Compile Include="Areas\Organizacion\Models\EstadosPuesto.cs" />
     <Compile Include="Areas\Organizacion\OrganizacionAreaRegistration.cs" />
-    <Compile Include="Areas\Personal\Controllers\ColaboradoresController.cs" />
+    <Compile Include="Areas\Organizacion\Controllers\ColaboradoresController.cs" />
     <Compile Include="Areas\Organizacion\Models\Area.cs" />
-    <Compile Include="Areas\Personal\Models\ColaboradorXPuesto.cs" />
-    <Compile Include="Areas\Personal\Models\EstadosColaborador.cs" />
-    <Compile Include="Areas\Personal\Models\GradoAcademico.cs" />
+    <Compile Include="Areas\Organizacion\Models\ColaboradorXPuesto.cs" />
+    <Compile Include="Areas\Organizacion\Models\Contactos.cs" />
+    <Compile Include="Areas\Organizacion\Models\EstadosColaborador.cs" />
+    <Compile Include="Areas\Organizacion\Models\GradoAcademico.cs" />
     <Compile Include="Areas\Organizacion\Models\Puesto.cs" />
-    <Compile Include="Areas\Personal\Models\TipoDocumento.cs" />
-    <Compile Include="Areas\Personal\Models\Colaborador.cs" />
-    <Compile Include="Areas\Personal\Models\Persona.cs" />
-    <Compile Include="Areas\Personal\PersonalAreaRegistration.cs" />
+    <Compile Include="Areas\Organizacion\Models\TipoDocumento.cs" />
+    <Compile Include="Areas\Organizacion\Models\Colaborador.cs" />
+    <Compile Include="Areas\Organizacion\Models\Persona.cs" />
     <Compile Include="Areas\Reclutamiento\ReclutamientoAreaRegistration.cs" />
     <Compile Include="Areas\Reportes\ReportesAreaRegistration.cs" />
     <Compile Include="Areas\Seguridad\Controllers\RolesController.cs" />
+    <Compile Include="Areas\Seguridad\Controllers\UsuariosController.cs" />
     <Compile Include="Areas\Seguridad\Controllers\WSUsuariosController.cs" />
     <Compile Include="Areas\Seguridad\SeguridadAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -1745,7 +1749,6 @@
     <Content Include="Areas\Reclutamiento\Views\Web.config" />
     <Content Include="Areas\Configuracion\Views\Web.config" />
     <Content Include="Areas\Reportes\Views\Web.config" />
-    <Content Include="Areas\Personal\Views\Web.config" />
     <Content Include="Areas\Evaluacion360\Views\Web.config" />
     <Content Include="Areas\Evaluacion360\Views\Competencias\Index.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\Capacidades\Index.cshtml" />
@@ -1760,10 +1763,13 @@
     <Content Include="Areas\Personal\Views\Shared\EditorTemplates\EditorColaborador.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\Configuracion360\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Area\Index.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Colaboradores\Index.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Shared\EditorTemplates\EditorColaborador.cshtml" />
     <Content Include="Areas\Organizacion\Views\Areas\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Puestos\Index.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\ProcesoEvaluacion\ElegirEvaluados.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\PuestosEvaluacion\Index.cshtml" />
+    <Content Include="Areas\Seguridad\Views\Usuarios\Index.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\areas_icon.png" />
     <Content Include="Images\favicon.ico" />

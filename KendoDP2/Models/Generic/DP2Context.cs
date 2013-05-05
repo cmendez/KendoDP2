@@ -1,7 +1,7 @@
 ﻿using KendoDP2.Areas.Configuracion.Models;
 using KendoDP2.Areas.Evaluacion360.Models;
 using KendoDP2.Areas.Objetivos.Models;
-using KendoDP2.Areas.Personal.Models;
+using KendoDP2.Areas.Organizacion.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -28,9 +28,23 @@ namespace KendoDP2.Models.Generic
         // Area Organizacion
         public DbSet<Area> InternalAreas { get; set; }
         public DbSet<Puesto> InternalPuestos { get; set; }
+        public DbSet<EstadosPuesto> InternalEstadosPuestos { get; set; }
+        public DbSet<Persona> InternalPersonas { get; set; }
+        public DbSet<Colaborador> InternalColaboradores { get; set; }
+        public DbSet<EstadosColaborador> InternalEstadosColaboradores { get; set; }
+        public DbSet<TipoDocumento> InternalTiposDocumentos { get; set; }
+        public DbSet<GradoAcademico> InternalGradosAcademicos { get; set; }
+        public DbSet<ColaboradorXPuesto> InternalColaboradoresXPuestos { get; set; }
 
         public DBGenericRequester<Area> TablaAreas { get; set; }
         public DBGenericRequester<Puesto> TablaPuestos { get; set; }
+        public DBGenericRequester<EstadosPuesto> TablaEstadosPuestos { get; set; }
+        public DBGenericRequester<Persona> TablaPersonas { get; set; }
+        public DBGenericRequester<Colaborador> TablaColaboradores { get; set; }
+        public DBGenericRequester<EstadosColaborador> TablaEstadosColaboradores { get; set; }
+        public DBGenericRequester<TipoDocumento> TablaTiposDocumentos { get; set; }
+        public DBGenericRequester<GradoAcademico> TablaGradosAcademicos { get; set; }
+        public DBGenericRequester<ColaboradorXPuesto> TablaColaboradoresXPuestos { get; set; }
 
         // Area Seguridad
         public DbSet<Rol> InternalRoles { get; set; }
@@ -45,7 +59,15 @@ namespace KendoDP2.Models.Generic
         public DbSet<Competencia> InternalCompetencias { get; set; }
         public DbSet<Capacidad> InternalCapacidades { get; set; }
         public DbSet<NivelCapacidad> InternalNivelCapacidades { get; set; }
+
         public DbSet<Perfil> InternalPerfiles { get; set; }
+
+
+        public DbSet<Evaluacion> InternalEvaluaciones { get; set; }
+        public DbSet<Evaluador> InternalEvaluadores { get; set; }
+        public DbSet<TipoEvaluador> InternalTipoEvaluadores { get; set; }
+
+
         public DbSet<ProcesoEvaluacion> InternalProcesoEvaluaciones { get; set; }
 
         public DbSet<PerfilXCompetencia> InternalPerfilXCompetencia { get; set; }
@@ -56,7 +78,16 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<Competencia> TablaCompetencias { get; set; }
         public DBGenericRequester<Capacidad> TablaCapacidades { get; set; }
         public DBGenericRequester<NivelCapacidad> TablaNivelCapacidades { get; set; }
+
         public DBGenericRequester<Perfil> TablaPerfiles { get; set; } 
+
+
+        public DBGenericRequester<Evaluacion> TablaEvaluaciones { get; set; }
+        public DBGenericRequester<Evaluador> TablaEvaluadores { get; set; }
+        public DBGenericRequester<TipoEvaluador> TablaTipoEvaluador { get; set; }
+        
+
+
         public DBGenericRequester<ProcesoEvaluacion> TablaProcesoEvaluaciones { get; set; }
 
         public DBGenericRequester<PerfilXCompetencia> TablaPerfilXCompetencia { get; set; }
@@ -75,19 +106,20 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<BSC> TablaBSC { get; set; }
 
         // Area Personal
-        public DbSet<Persona> InternalPersonas { get; set; }
-        public DbSet<Colaborador> InternalColaboradores { get; set; }
-        public DbSet<EstadosColaborador> InternalEstadosColaboradores { get; set; }
-        public DbSet<TipoDocumento> InternalTiposDocumentos { get; set; }
-        public DbSet<GradoAcademico> InternalGradosAcademicos { get; set; }
-        public DbSet<ColaboradorXPuesto> InternalColaboradoresXPuestos { get; set; }
+        //public DbSet<Persona> InternalPersonas { get; set; }
+        //public DbSet<Colaborador> InternalColaboradores { get; set; }
+        //public DbSet<EstadosColaborador> InternalEstadosColaboradores { get; set; }
+        //public DbSet<TipoDocumento> InternalTiposDocumentos { get; set; }
+        //public DbSet<GradoAcademico> InternalGradosAcademicos { get; set; }
+        //public DbSet<ColaboradorXPuesto> InternalColaboradoresXPuestos { get; set; }
   
-        public DBGenericRequester<Persona> TablaPersonas { get; set; }
-        public DBGenericRequester<Colaborador> TablaColaboradores { get; set; }
-        public DBGenericRequester<EstadosColaborador> TablaEstadosColaboradores { get; set; }
-        public DBGenericRequester<TipoDocumento> TablaTiposDocumentos { get; set; }
-        public DBGenericRequester<GradoAcademico> TablaGradosAcademicos { get; set; }
-        public DBGenericRequester<ColaboradorXPuesto> TablaColaboradoresXPuestos { get; set; }
+        //public DBGenericRequester<Persona> TablaPersonas { get; set; }
+        //public DBGenericRequester<Colaborador> TablaColaboradores { get; set; }
+        //public DBGenericRequester<EstadosColaborador> TablaEstadosColaboradores { get; set; }
+        //public DBGenericRequester<TipoDocumento> TablaTiposDocumentos { get; set; }
+        //public DBGenericRequester<GradoAcademico> TablaGradosAcademicos { get; set; }
+        //public DBGenericRequester<ColaboradorXPuesto> TablaColaboradoresXPuestos { get; set; }
+
 
 
         private void RegistrarTablas()
@@ -96,21 +128,34 @@ namespace KendoDP2.Models.Generic
             TablaPeriodos = new DBGenericRequester<Periodo>(this, InternalPeriodos);
             TablaPaises = new DBGenericRequester<Pais>(this, InternalPaises);
 
-            // Area Organizacion
-            TablaAreas = new DBGenericRequester<Area>(this, InternalAreas);
-            TablaPuestos = new DBGenericRequester<Puesto>(this, InternalPuestos);
-
             // Area Seguridad
             TablaRoles = new DBGenericRequester<Rol>(this, InternalRoles);
             TablaUsuarios = new DBGenericRequester<Usuario>(this, InternalUsuarios);
             TablaSidebarNavigator = new DBGenericRequester<SidebarOption>(this, InternalSidebarNavigator);
+
+            // Area Organizacion
+            TablaAreas = new DBGenericRequester<Area>(this, InternalAreas);
+            TablaPuestos = new DBGenericRequester<Puesto>(this, InternalPuestos);
+            TablaEstadosPuestos = new DBGenericRequester<EstadosPuesto>(this, InternalEstadosPuestos);
+            TablaPersonas = new DBGenericRequester<Persona>(this, InternalPersonas);
+            TablaColaboradores = new DBGenericRequester<Colaborador>(this, InternalColaboradores);
+            TablaEstadosColaboradores = new DBGenericRequester<EstadosColaborador>(this, InternalEstadosColaboradores);
+            TablaGradosAcademicos = new DBGenericRequester<GradoAcademico>(this, InternalGradosAcademicos);
+            TablaTiposDocumentos = new DBGenericRequester<TipoDocumento>(this, InternalTiposDocumentos);
+            TablaColaboradoresXPuestos = new DBGenericRequester<ColaboradorXPuesto>(this, InternalColaboradoresXPuestos);
 
             // Area Evaluacion360
             TablaCompetencias = new DBGenericRequester<Competencia>(this, InternalCompetencias);
             TablaCapacidades = new DBGenericRequester<Capacidad>(this, InternalCapacidades);
             TablaNivelCapacidades = new DBGenericRequester<NivelCapacidad>(this, InternalNivelCapacidades);
 
+
             TablaPerfiles = new DBGenericRequester<Perfil>(this, InternalPerfiles);
+
+            TablaEvaluaciones = new DBGenericRequester<Evaluacion>(this, InternalEvaluaciones);
+            TablaEvaluadores = new DBGenericRequester<Evaluador>(this, InternalEvaluadores);
+            TablaTipoEvaluador = new DBGenericRequester<TipoEvaluador>(this, InternalTipoEvaluadores);            
+
 
             TablaProcesoEvaluaciones = new DBGenericRequester<ProcesoEvaluacion>(this, InternalProcesoEvaluaciones);
 
@@ -124,6 +169,7 @@ namespace KendoDP2.Models.Generic
             TablaBSC = new DBGenericRequester<BSC>(this, InternalBSC);
             TablaObjetivos = new DBGenericRequester<Objetivo>(this, InternalObjetivos);
             TablaTipoObjetivoBSC = new DBGenericRequester<TipoObjetivoBSC>(this, InternalTipoObjetivoBSC);
+
 
             // Area Personal
             TablaPersonas = new DBGenericRequester<Persona>(this, InternalPersonas);
@@ -148,7 +194,6 @@ namespace KendoDP2.Models.Generic
             SeedAreas();
             SeedPuestos();
             // Area Seguridad
-            SeedSidebarNavigator();
             SeedRoles();
             SeedUsuarios();
             // Area Evaluacion360
@@ -158,14 +203,20 @@ namespace KendoDP2.Models.Generic
             SeedEstadoPersonaXProcesoEvaluaciones();
             // Area Objetivos
             SeedTipoObjetivoBSC();
-            // Area Personal
+            // Area Organizacion (segunda parte)
             SeedTiposDocumentos();
             SeedEstadosColaborador();
             SeedGradosAcademicos();
             SeedColaboradores();
+            SeedObjetivos();
         }
 
         // Area Configuracion
+
+        public void SeedObjetivos()
+        {
+            //TablaObjetivos.AddElement(new Objetivo {Nombre="Objetivo Financiero 1",TipoObjetivoBSCID=TablaTipoObjetivoBSC.Where( o=> o.Equals) });
+        }
 
         public Periodo CrearPeriodoConBSC(string nombrePeriodo, DateTime fecha)
         {
@@ -192,46 +243,34 @@ namespace KendoDP2.Models.Generic
         }
 
         // Area Seguridad
-        private void SeedSidebarNavigator()
-        {
-            SidebarNavigator sn = new SidebarNavigator();
-            SidebarOption sidebar;
-            
-            foreach(SidebarOption Lso in sn.Opciones)
-            {
-                if(Lso.Suboptions.Count>0)
-                {
-                    List<SidebarSuboption> suboption = new List<SidebarSuboption>();
-
-                    foreach(SidebarSuboption SSO in Lso.Suboptions)                        
-                    {   
-                        SidebarSuboption aux =new SidebarSuboption(SSO.Title,SSO.Controller,SSO.Method,SSO.Icon);
-                        suboption.Add(aux);                    
-                    }
-                    sidebar = new SidebarOption(Lso.Area, Lso.Title, Lso.Icon, suboption);
-                }else
-                {
-                    sidebar = new SidebarOption(Lso.Area, Lso.Controller, Lso.Method, Lso.Title, Lso.Icon);
-                }
-                TablaSidebarNavigator.AddElement(sidebar);
-            }
-            
-        }
-
+        
         private void SeedRoles()
         {
-            List<SidebarOption> sidebar = TablaSidebarNavigator.All();
-            TablaRoles.AddElement(new Rol("Administrador",sidebar));
-            TablaRoles.AddElement(new Rol("Invitado"));
+            SidebarNavigator sbn = new SidebarNavigator();
+            foreach (SidebarOption so in sbn.Opciones)
+
+            {
+                if (so.Area.Length > 0)
+                {
+                    TablaRoles.AddElement(new Rol(so.ID, so.Area, null, false));
+
+                    if (so.Suboptions.Count > 0)
+                    {
+                        foreach (SidebarSuboption sub in so.Suboptions)
+                        {
+                            TablaRoles.AddElement(new Rol(sub.ID, so.Area, sub.Title, false));
+                        }
+                    }
+                }
+            }
         }
 
         private void SeedUsuarios()
         {
-            var administrador = TablaRoles.One(p => p.Nombre.Equals("Administrador"));
-            var invitado = TablaRoles.One(p => p.Nombre.Equals("Invitado"));
-            TablaUsuarios.AddElement(new Usuario("anonimo", "anonimo", invitado));
+            //var administrador = TablaRoles.One(p => p.Nombre.Equals("Administrador"));
+            //var invitado = TablaRoles.One(p => p.Nombre.Equals("Invitado"));
+            TablaUsuarios.AddElement(new Usuario("admin", "admin",TablaRoles.All()));
         }
-        
 
         // Area Evaluacion360
 
@@ -305,6 +344,8 @@ namespace KendoDP2.Models.Generic
             TablaEstadosColaboradores.AddElement(new EstadosColaborador { Descripcion = "Inactivo" });
         }
 
+
+
         private void SeedGradosAcademicos()
         {
             TablaGradosAcademicos.AddElement(new GradoAcademico { Descripcion = "Bachiller" });
@@ -331,6 +372,14 @@ namespace KendoDP2.Models.Generic
         }
 
 
+        private void SeedEstadosPuesto()
+        {
+            TablaEstadosPuestos.AddElement(new EstadosPuesto { Descripcion = "Asignado" });
+            TablaEstadosPuestos.AddElement(new EstadosPuesto { Descripcion = "Vacante" });
+            TablaEstadosPuestos.AddElement(new EstadosPuesto { Descripcion = "Inactivo" });
+        }
+
+
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -350,8 +399,8 @@ namespace KendoDP2.Models.Generic
         }
     }
 
-    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
-    public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
+    public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
+    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
     {
         protected override void Seed(DP2Context context)
         {

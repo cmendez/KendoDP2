@@ -55,7 +55,7 @@ namespace KendoDP2.Models.Seguridad
                 var roles = from ur in user.Roles
                             from r in db.TablaRoles.Dbset
                             where ur.ID == r.ID
-                            select r.Nombre;
+                            select r.Nivel;
                 if (roles != null)
                     return roles.ToArray();
                 else
@@ -77,7 +77,7 @@ namespace KendoDP2.Models.Seguridad
                 var roles = from ur in user.Roles
                             from r in db.TablaRoles.Dbset
                             where ur.ID == r.ID
-                            select r.Nombre;
+                            select r.Nivel;
                 if (user != null)
                     return roles.Any(r => r.Equals(roleName, StringComparison.CurrentCultureIgnoreCase));
                 else
