@@ -1754,7 +1754,6 @@
     <Content Include="Areas\Seguridad\Views\Web.config" />
     <Content Include="Areas\Seguridad\Views\Roles\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Web.config" />
-    <Content Include="Areas\Organizacion\Views\Area\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Colaboradores\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Shared\EditorTemplates\EditorColaborador.cshtml" />
     <Content Include="Areas\Organizacion\Views\Areas\Index.cshtml" />
