@@ -10,7 +10,7 @@ using KendoDP2.Areas.Evaluacion360.Models;
 
 namespace KendoDP2.Areas.Evaluacion360.Controllers
 {
-    [Authorize(Roles = "Administrador")]
+    [Authorize()]
     public class CapacidadesController : Controller
     {
         public CapacidadesController()

@@ -4,80 +4,47 @@
 @{
     ViewBag.Title = "Roles";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    List<RolDTO> Menu = ViewBag.Menu;
 }
 
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Roles", "Administre los niveles de accesos a los roles"));}
 
 <div class="portlet box green">
     <div class="portlet-title">
-        <h4><i class="icon-reorder"></i>Niveles de Acceso</h4>
+        <h4><i class="icon-reorder"></i>Roles</h4>
         <div class="tools">
-            <a href="javascript:;" class="collapse"></a>
+	        <a href="javascript:;" class="collapse"></a>
         </div>
-    </div>
+	</div>
     <div class="portlet-body">
-        <div class="tabbable tabbable-custom tabs-left">
-            <div>
-                @using (Html.BeginForm("Index", "Roles", FormMethod.Post, new { @class = "form-vertical login-form" }))
+        @(Html.Kendo().Grid<RolDTO>()
+            .Name("RolGrid")
+            .Columns(columns =>
                 {
-                    @(Html.Kendo().DropDownList()
-                      .Name("Usuarios")
-                      .HtmlAttributes(new { style = "width: 250px" })
-                      .DataTextField("UserName")
-                      .DataValueField("ID")
-                      .DataSource(source => {
-                          source.Read(read =>
-                          {
-                              read.Action("GetUsuarios", "Roles");
-                          }); 
-                      })
-                ) 
-                    
-                    <button type="submit" class="btn green pull-right">
-                        Buscar<i class="m-icon-swapright m-icon-white"></i>
-                    </button>     
+                    columns.Bound(p => p.ID);
+                    columns.Bound(p => p.Nombre);
+                    columns.Command(command => { command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar"); command.Destroy().Text("Eliminar"); }).Width(200);
                 }
-                
-            </div>
-            @if(ViewData["Usuario"]!=null)
-            {
-                <ul class="nav nav-tabs tabs-left">
-                @foreach (RolDTO m in Menu)
-                {
-                    <li class="@(m.ID == 1 ? "active" : "")">
-                        <a href="#tab_@(m.ID)" data-toggle="tab">@m.Nivel</a></li>
-                }
-            </ul>
-
-                    <div class="tab-content">
-                @foreach (RolDTO m in Menu)
-                {
-                    <div class="tab-pane @(m.ID == 1 ? "active" : "")" id="tab_@(m.ID)">
-                        @(Html.Kendo().Grid<RolDTO>()
-                        .Name(m.ID  + "grid")
-                        .Columns(columns =>
-                        {
-                            columns.Bound(p => p.Subnivel).Title("Acceso");
-                            columns.Bound(p => p.IsEliminado).Title("Permiso");
-                            columns.Command(command => { command.Edit(); }).Width(160);
-                        })
-                        .Pageable()
-                        .Sortable()
-                        .Scrollable()
-                        .DataSource(dataSource => dataSource
-                        .Ajax()
-                            .PageSize(20)
-                            .Model(model => model.Id(p => p.ID))
-                            .Read(read => read.Action("Read", "Roles", new { RolID = m.Secuencia }))
-                            .Update(update => update.Action("Update", "Roles", new { RolID = m.Secuencia }))
-                            .Destroy(update => update.Action("Destroy", "Roles", new { RolID = m.Secuencia }))
-                            )
-                        )
-                    </div>
-                }
-                    </div>
-            }
-        </div>
+            )
+            .ToolBar(toolbar => toolbar.Create().Text("Registrar"))
+            .Editable(editable=>editable
+                .Mode(GridEditMode.PopUp)
+                .DisplayDeleteConfirmation("¿Está seguro que desea eliminar este registro?")
+                .Window(w => w.Title("Ingrese el nuevo Rol"))
+            )
+            .Pageable(paper => paper.Refresh(true))
+            .Filterable()
+            .Sortable()
+            .Scrollable(w => w.Height(330))
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .PageSize(20)
+                .Model(model => model.Id(p => p.ID))
+                .Create(update => update.Action("Create", "Roles"))
+                .Read(read => read.Action("Read", "Roles"))
+                .Update(update => update.Action("Update", "Roles"))
+                .Destroy(update => update.Action("Destroy", "Roles"))
+                )
+        )
+     
     </div>
 </div>

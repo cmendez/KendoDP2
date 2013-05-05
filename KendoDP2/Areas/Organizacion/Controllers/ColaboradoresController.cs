@@ -85,5 +85,14 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             }
         }
 
+        public JsonResult ColaboradoresToList([DataSourceRequest] DataSourceRequest request)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                var colaboradores = context.TablaColaboradores.All().Select(a => a.ToDTO()).OrderBy(a => a.NombreCompleto);
+                return Json(colaboradores.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }
