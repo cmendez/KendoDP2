@@ -1,7 +1,9 @@
-﻿@using Kendo.Mvc.UI
+﻿@using KendoDP2.Areas.Organizacion.Models
+@using Kendo.Mvc.UI
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Áreas";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    SelectList comboAreas = new SelectList(ViewBag.Areas, "ID", "Nombre");
 }
 
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Áreas", "Administre las áreas de la empresa"));}
@@ -10,19 +12,41 @@
     <div class="portlet-title">
         <h4><i class="icon-reorder"></i>Áreas</h4>
         <div class="tools">
-	        <a href="javascript:;" class="collapse"></a>
+            <a href="javascript:;" class="collapse"></a>
         </div>
-	</div>
+    </div>
     <div class="portlet-body">
         @(Html.Kendo().TreeView()
-            .Name("treeview")
-            .DataImageUrlField("TreeIcon")
-            .DataTextField("Name")
-            .DataSource(dataSource => dataSource
-                .Read(read => read
-                    .Action("AreasToTree", "Areas")
+                .Name("treeview")
+                .DataImageUrlField("TreeIcon")
+                .DataTextField("Name")
+                .DataSource(dataSource => dataSource
+                    .Read(read => read
+                        .Action("AreasToTree", "Areas")
+                    )
                 )
             )
-        )
+        @(Html.Kendo().Grid<AreaDTO>()
+                .Name("grid")
+                .Columns(c =>
+                {
+                    c.Bound(a => a.Nombre);
+                    c.ForeignKey((a => a.AreaSuperiorID), comboAreas);
+                    c.Bound(a => a.Descripcion);
+                })
+                .Pageable(paper => paper.Refresh(true))
+                .Filterable()
+                .Sortable()
+                .Scrollable(w => w.Height(330))
+                .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .PageSize(20)
+                    .ServerOperation(false)
+                    .Read(read => read.Action("AreasToList", "Areas"))
+                )
+            )
+
     </div>
 </div>
+<style scoped>
+</style>

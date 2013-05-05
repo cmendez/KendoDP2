@@ -5,20 +5,16 @@ using System.Web;
 using System.Web.Mvc;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
-using KendoDP2.Areas.Personal.Models;
-using KendoDP2.Models.Generic;
 using KendoDP2.Areas.Organizacion.Models;
+using KendoDP2.Models.Generic;
 
-namespace KendoDP2.Areas.Personal.Controllers
+namespace KendoDP2.Areas.Organizacion.Controllers
 {
     public class ColaboradoresController : Controller
     {
-        //
-        // GET: /Personal/Colaborador/
-
         public ColaboradoresController()
         {
-            ViewBag.Area = "Personal";
+            ViewBag.Area = "Organizacion";
         }
 
         public ActionResult Index()
@@ -86,6 +82,15 @@ namespace KendoDP2.Areas.Personal.Controllers
             {
                 context.TablaColaboradores.RemoveElementByID(colaborador.ID);
                 return Json(ModelState.ToDataSourceResult());
+            }
+        }
+
+        public JsonResult ColaboradoresToList([DataSourceRequest] DataSourceRequest request)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                var colaboradores = context.TablaColaboradores.All().Select(a => a.ToDTO()).OrderBy(a => a.NombreCompleto);
+                return Json(colaboradores.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
             }
         }
 
