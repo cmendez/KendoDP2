@@ -91,20 +91,21 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<BSC> TablaBSC { get; set; }
 
         // Area Personal
-        /*public DbSet<Persona> InternalPersonas { get; set; }
-        public DbSet<Colaborador> InternalColaboradores { get; set; }
-        public DbSet<EstadosColaborador> InternalEstadosColaboradores { get; set; }
-        public DbSet<TipoDocumento> InternalTiposDocumentos { get; set; }
-        public DbSet<GradoAcademico> InternalGradosAcademicos { get; set; }
-        public DbSet<ColaboradorXPuesto> InternalColaboradoresXPuestos { get; set; }
+
+        //public DbSet<Persona> InternalPersonas { get; set; }
+        //public DbSet<Colaborador> InternalColaboradores { get; set; }
+        //public DbSet<EstadosColaborador> InternalEstadosColaboradores { get; set; }
+        //public DbSet<TipoDocumento> InternalTiposDocumentos { get; set; }
+        //public DbSet<GradoAcademico> InternalGradosAcademicos { get; set; }
+        //public DbSet<ColaboradorXPuesto> InternalColaboradoresXPuestos { get; set; }
   
-        public DBGenericRequester<Persona> TablaPersonas { get; set; }
-        public DBGenericRequester<Colaborador> TablaColaboradores { get; set; }
-        public DBGenericRequester<EstadosColaborador> TablaEstadosColaboradores { get; set; }
-        public DBGenericRequester<TipoDocumento> TablaTiposDocumentos { get; set; }
-        public DBGenericRequester<GradoAcademico> TablaGradosAcademicos { get; set; }
-        public DBGenericRequester<ColaboradorXPuesto> TablaColaboradoresXPuestos { get; set; }
-        */
+        //public DBGenericRequester<Persona> TablaPersonas { get; set; }
+        //public DBGenericRequester<Colaborador> TablaColaboradores { get; set; }
+        //public DBGenericRequester<EstadosColaborador> TablaEstadosColaboradores { get; set; }
+        //public DBGenericRequester<TipoDocumento> TablaTiposDocumentos { get; set; }
+        //public DBGenericRequester<GradoAcademico> TablaGradosAcademicos { get; set; }
+        //public DBGenericRequester<ColaboradorXPuesto> TablaColaboradoresXPuestos { get; set; }
+
 
         private void RegistrarTablas()
         {
@@ -183,9 +184,12 @@ namespace KendoDP2.Models.Generic
             SeedEstadosColaborador();
             SeedGradosAcademicos();
             SeedColaboradores();
+            SeedObjetivos();
         }
 
         // Area Configuracion
+
+        
 
         public Periodo CrearPeriodoConBSC(string nombrePeriodo, DateTime fecha)
         {
@@ -282,6 +286,17 @@ namespace KendoDP2.Models.Generic
             TablaTipoObjetivoBSC.AddElement(new TipoObjetivoBSC(TipoObjetivoBSCConstants.AprendizajeCrecimiento));
             TablaTipoObjetivoBSC.AddElement(new TipoObjetivoBSC(TipoObjetivoBSCConstants.Cliente));
             TablaTipoObjetivoBSC.AddElement(new TipoObjetivoBSC(TipoObjetivoBSCConstants.ProcesosInternos));
+        
+        }
+
+        public void SeedObjetivos()
+        {
+
+            //TablaObjetivos.AddElement(new Objetivo { Nombre = "Objetivo Financiero 1", TipoObjetivoBSCID = 1, Peso = 50, FechaCreacion = DateTime.Now, Creador = TablaColaboradores.FindByID(1) });
+            //TablaObjetivos.AddElement(new Objetivo { Nombre = "Objetivo Financiero 2", TipoObjetivoBSCID = 1, Peso = 50, FechaCreacion = DateTime.Now, Creador= TablaColaboradores.FindByID(1) });
+            //TablaObjetivos.AddElement(new Objetivo { Nombre = "Objetivo Financiero 1.1", TipoObjetivoBSCID = 1, Peso = 50, FechaCreacion = DateTime.Now, ObjetivoPadreID = 1, Creador = TablaColaboradores.FindByID(1) });
+            //TablaObjetivos.AddElement(new Objetivo { Nombre = "Objetivo Financiero 1.2", TipoObjetivoBSCID = 1, Peso = 50, FechaCreacion = DateTime.Now, ObjetivoPadreID = 1, Creador = TablaColaboradores.FindByID(1) });
+        
         }
 
         // Area Personal

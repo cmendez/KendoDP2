@@ -19,11 +19,6 @@ namespace KendoDP2.Models.Helpers
 
             // Inicio
             Opciones.Add(new SidebarOption("", "Home", "Index", "Inicio", "icon-home"));
-            
-            //Seguridad
-            Opciones.Add(new SidebarOption("Seguridad", "Seguridad", "icon-user-mid", new List<SidebarSuboption>(new SidebarSuboption[]{
-                new SidebarSuboption("Roles", "Roles", "Index", "icon-user-mid")
-            })));
 
             // Evaluacion 360
             Opciones.Add(new SidebarOption("Evaluacion360", "Evaluación 360°", "icon-pencil", new List<SidebarSuboption>(new SidebarSuboption[]{
@@ -34,14 +29,10 @@ namespace KendoDP2.Models.Helpers
                 new SidebarSuboption("Evaluación de puestos de trabajo", "PuestosEvaluacion", "Index", "icon-ok-sign")
             })));				
             
-            // Administración
-            Opciones.Add(new SidebarOption("Administracion", "Administración", "icon-pencil", new List<SidebarSuboption>(new SidebarSuboption[]{
-            })));			
 
             // Objetivos
             Opciones.Add(new SidebarOption("Objetivos", "Objetivos", "icon-bookmark", new List<SidebarSuboption>(new SidebarSuboption[]{
                new SidebarSuboption("Objetivos de la empresa", "Objetivosempresa", "Index", "icon-ok")
-
             })));
 
             // Configuracion
@@ -97,5 +88,5 @@ namespace KendoDP2.Models.Helpers
         }
     }
 
-    
+
 }
