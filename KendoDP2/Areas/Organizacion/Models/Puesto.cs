@@ -9,8 +9,6 @@ using System.ComponentModel;
 
 using System.Web;
 
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace KendoDP2.Areas.Organizacion.Models
 {
@@ -24,13 +22,13 @@ namespace KendoDP2.Areas.Organizacion.Models
         public string Descripcion { get; set; }
         
 
-        //public virtual ICollection<Objetivo> Objetivos { get; set; }
+       // public virtual ICollection<Objetivo> Funciones { get; set; }
         
-      //  public virtual ICollection<ColaboradorXPuesto> ColaboradoresPuesto { get; set; }
-      //  public int ColaboradorXPuestoID { get; set; }
+       public virtual ICollection<PuestoXArea> PuestosArea { get; set; }
+       public int PuestoXAreaID { get; set; }
         
-        public int? EstadosColaboradorID { get; set; }
-        //public virtual EstadosColaborador EstadoColaborador { get; set; }
+        public int? EstadosPuestoID { get; set; }
+        public virtual EstadosPuesto EstadoPuesto { get; set; }
 
         
         public Puesto() { }
@@ -51,7 +49,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         {
             ID = p.ID;
             Nombre = p.Nombre;
-         
+            AreaID = p.AreaID;
             return this;
         }
 
@@ -78,11 +76,11 @@ namespace KendoDP2.Areas.Organizacion.Models
         public string Descripcion { get; set; }
         
         [Required]
-        //[UIHint("GridForeignKey")]
+        [UIHint("GridForeignKey")]
         [DisplayName("Área")]
         public int AreaID { get; set; }
 
-        //[UIHint("GridForeignKey")]
+        [UIHint("GridForeignKey")]
         [DisplayName("Puesto superior")]
         public int? PuestoSuperiorID { get; set; }
         
@@ -95,14 +93,22 @@ namespace KendoDP2.Areas.Organizacion.Models
             Nombre = p.Nombre ;
             Descripcion = p.Descripcion;
             ID = p.ID;
-     
-            try {
-            //    ColaboradorXPuesto cruce = c.ColaboradoresPuesto.OrderByDescending(a => a.ID).First();
-             //   AreaID = cruce.Puesto.AreaID;
-               
-            } catch(Exception){
-              //  AreaID = 0;
-               
+            AreaID = p.AreaID;
+
+
+            try
+            {
+                PuestoXArea cruce = p.PuestosArea.OrderByDescending(a => a.ID).First();
+                AreaID = cruce.Puesto.AreaID;
+                //necesitamos obtener el Puesto Superior mediante un artificio
+                PuestoSuperiorID = 0;
+              
+            }
+            catch (Exception)
+            {
+                AreaID = 0;
+                PuestoSuperiorID = 0;
+                
             }
 
 

@@ -5,16 +5,14 @@ using System.Web;
 using System.Web.Mvc;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
-using KendoDP2.Areas.Personal.Models;
 using KendoDP2.Models.Generic;
 using KendoDP2.Areas.Organizacion.Models;
 
 namespace KendoDP2.Areas.Organizacion.Controllers
 {
+    [Authorize()]
     public class PuestosController : Controller
     {
-        //
-        // GET: /Organizacion/Puesto/
         public PuestosController()
         {
             ViewBag.Area = "Organizacion";
@@ -24,14 +22,10 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-          /*      ViewBag.colaboradores = context.TablaColaboradores.All().Select(p => p.ToDTO()).ToList();
-                ViewBag.tipoDocumentos = context.TablaTiposDocumentos.All().Select(p => p.ToDTO()).ToList();
-                ViewBag.estadosColaborador = context.TablaEstadosColaboradores.All().Select(p => p.ToDTO()).ToList();
-                ViewBag.pais = context.TablaPaises.All().Select(p => p.ToDTO()).ToList();
-                ViewBag.gradoAcademico = context.TablaGradosAcademicos.All().Select(p => p.ToDTO()).ToList();
-                ViewBag.areas = context.TablaAreas.All().Select(p => p.ToDTO()).ToList();
                 ViewBag.puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).ToList();
-            */    return View();
+                ViewBag.areas = context.TablaAreas.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.estadosPuesto = context.TablaEstadosPuestos.All().Select(p => p.ToDTO()).ToList();
+                return View();
             }
 
         }
@@ -40,22 +34,32 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                List<PuestoDTO> puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).OrderBy(x => x.ID).ToList();
+                List<PuestoDTO> puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).ToList();
                 return Json(puestos.ToDataSourceResult(request));
             }
         }
 
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Create([DataSourceRequest] DataSourceRequest request, PuestoDTO puesto)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                Puesto p = new Puesto(puesto);
+                p.EstadoPuesto = context.TablaEstadosPuestos.One(x => x.Descripcion.Equals("Vacante"));
+                context.TablaPuestos.AddElement(p);
+
+                Area a = context.TablaAreas.FindByID(puesto.AreaID);
+                PuestoXArea cruce = new PuestoXArea { Area = a, Puesto = p };
+                
+                //p.PuestosArea.Add(cruce);
+              
+                context.TablaPuestosXAreas.AddElement(cruce);
+
+                return Json(new[] { p.ToDTO() }.ToDataSourceResult(request, ModelState));
+            }
+        }
  
-        /*
-         poifjvisohgdhsg
-         sdihfosdihgfd}}
-         voisdhfgpsdifdsfjgsd
-         * sgoidhjgposi
-         * dspogjposdjg
-         * 
-         posdjfpojhsd
-         podsjfpsd
-         */
+      
 
     }
 }

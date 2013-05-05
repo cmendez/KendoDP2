@@ -5,7 +5,7 @@ using System.Web;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using KendoDP2.Models.Generic;
-using KendoDP2.Areas.Personal.Models;
+using KendoDP2.Areas.Organizacion.Models;
 
 
 namespace KendoDP2.Areas.Configuracion.Models

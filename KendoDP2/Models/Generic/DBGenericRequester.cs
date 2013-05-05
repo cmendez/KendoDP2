@@ -82,6 +82,18 @@ namespace KendoDP2.Models.Generic
                 return null;
             }
         }
+
+        public bool Any(Func<T, bool> predicate, bool incluyeEliminadoLogico = false)
+        {
+            try
+            {
+                return Dbset.Where(predicate).Where(p => !p.IsEliminado || incluyeEliminadoLogico).Count() > 0;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
         /*
          * Busca un elemento por su ID.
          */

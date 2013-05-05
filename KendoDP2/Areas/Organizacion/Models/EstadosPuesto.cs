@@ -5,51 +5,51 @@ using System.Linq;
 using System.Web;
 using KendoDP2.Models.Generic;
 
-namespace KendoDP2.Areas.Personal.Models
+namespace KendoDP2.Areas.Organizacion.Models
 {
-    public class EstadosColaborador: DBObject
+    public class EstadosPuesto: DBObject
     {
         public string Descripcion { get; set; }
-        public virtual ICollection<Colaborador> ListaColaboradores { get; set; }
+        public virtual ICollection<Puesto> ListaPuestos { get; set; }
 
 
-        public EstadosColaborador() { }
+        public EstadosPuesto() { }
 
-        public EstadosColaborador(string descripcion)
+        public EstadosPuesto(string descripcion)
         {
             Descripcion = descripcion;
         }
 
-         public EstadosColaborador(EstadosColaboradorDTO e)
+        public EstadosPuesto(EstadosPuestoDTO e)
         {
             LoadFromDTO(e);
         }
 
-        public EstadosColaborador LoadFromDTO(EstadosColaboradorDTO e)
+        public EstadosPuesto LoadFromDTO(EstadosPuestoDTO e)
         {
             Descripcion = e.Descripcion;
             ID = e.ID;
             return this;
         }
-        
-        public EstadosColaboradorDTO ToDTO()
+
+        public EstadosPuestoDTO ToDTO()
         {
-            return new EstadosColaboradorDTO(this);
+            return new EstadosPuestoDTO(this);
         }
 
 
     }
 
-    public class EstadosColaboradorDTO
+    public class EstadosPuestoDTO
     {
         [ScaffoldColumn(false)]
         public int ID { get; set; }
 
         public string Descripcion { get; set; }
 
-        public EstadosColaboradorDTO() { }
+        public EstadosPuestoDTO() { }
 
-        public EstadosColaboradorDTO(EstadosColaborador e)
+        public EstadosPuestoDTO(EstadosPuesto e)
         {
             ID = e.ID;
             Descripcion = e.Descripcion;

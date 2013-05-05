@@ -19,18 +19,16 @@ namespace KendoDP2.Models.Helpers
 
             // Inicio
             Opciones.Add(new SidebarOption("", "Home", "Index", "Inicio", "icon-home"));
-            
-            //Seguridad
-            Opciones.Add(new SidebarOption("Seguridad", "Seguridad", "icon-user-mid", new List<SidebarSuboption>(new SidebarSuboption[]{
-                new SidebarSuboption("Roles", "Roles", "Index", "icon-user-mid")
-            })));
 
             // Evaluacion 360
             Opciones.Add(new SidebarOption("Evaluacion360", "Evaluación 360°", "icon-pencil", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption("Competencias", "Competencias", "Index", "icon-plus-sign"),
                 new SidebarSuboption("Capacidades", "Capacidades", "Index", "icon-check"),
-                new SidebarSuboption("Procesos de evaluación", "ProcesoEvaluacion", "Index", "icon-road")
-            })));
+				new SidebarSuboption("Evaluaciones", "Registrar Evaluaciones", "Index", "icon-check"),
+                new SidebarSuboption("Procesos de evaluación", "ProcesoEvaluacion", "Index", "icon-road"),
+                new SidebarSuboption("Evaluación de puestos de trabajo", "PuestosEvaluacion", "Index", "icon-ok-sign")
+            })));				
+            
 
             // Objetivos
             Opciones.Add(new SidebarOption("Objetivos", "Objetivos", "icon-bookmark", new List<SidebarSuboption>(new SidebarSuboption[]{
@@ -42,16 +40,13 @@ namespace KendoDP2.Models.Helpers
                 new SidebarSuboption("Períodos", "Periodos", "Index", "icon-time")
             })));
 
-            // Personal
-            Opciones.Add(new SidebarOption("Personal", "Personal", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
-                new SidebarSuboption("Colaboradores", "Colaboradores", "Index", "icon-time")
+            // Organizacion
+            Opciones.Add(new SidebarOption("Organizacion", "Organizacion", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
+                new SidebarSuboption("Colaboradores", "Colaboradores", "Index", "icon-user"),
+                new SidebarSuboption("Puestos", "Puestos", "Index", "icon-tag"),
+                new SidebarSuboption("Áreas", "Areas", "Index", "icon-sitemap")
             })));
 
-            // Pako Puesto
-            Opciones.Add(new SidebarOption("Organizacion", "Organización", "icon-group  ", new List<SidebarSuboption>(new SidebarSuboption[]{
-                new SidebarSuboption("Puestos", "Puestos", "Index", "icon-time"),
-                new SidebarSuboption("Áreas", "Areas", "Index", "icon-time")
-            })));
         }
     }
 
@@ -93,5 +88,5 @@ namespace KendoDP2.Models.Helpers
         }
     }
 
-    
+
 }

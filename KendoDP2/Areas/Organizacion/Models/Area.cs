@@ -82,6 +82,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         public int id { get; set; }
         public string Name { get; set; }
         public bool hasChildren { get; set; }
+        public string TreeIcon { get; set; }
 
         public AreaTreeDTO() { }
 
@@ -89,6 +90,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         {
             id = a.ID;
             Name = a.Nombre;
+            TreeIcon = "../../Images/areas_icon.png";
             hasChildren = a.Areas.Any();
         }
     }

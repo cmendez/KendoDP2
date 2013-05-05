@@ -1,5 +1,5 @@
 ﻿using KendoDP2.Areas.Configuracion.Models;
-using KendoDP2.Areas.Personal.Models;
+using KendoDP2.Areas.Organizacion.Models;
 using KendoDP2.Models.Generic;
 using System;
 using System.Collections.Generic;

@@ -16,5 +16,23 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         {
             Nivel = nivel;
         }
+
+        public NivelCapacidadDTO ToDTO()
+        {
+            return new NivelCapacidadDTO(this);
+        }
+    }
+
+    public class NivelCapacidadDTO
+    {
+        public int ID { get; set; }
+        public int Nivel { get; set; }
+
+        public NivelCapacidadDTO() { }
+        public NivelCapacidadDTO(NivelCapacidad x)
+        {
+            Nivel = x.Nivel;
+            ID = x.ID;
+        }
     }
 }
