@@ -10,6 +10,7 @@ using KendoDP2.Models.Generic;
 
 namespace KendoDP2.Areas.Organizacion.Controllers
 {
+    [Authorize()]
     public class ColaboradoresController : Controller
     {
         public ColaboradoresController()
@@ -81,15 +82,6 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             {
                 context.TablaColaboradores.RemoveElementByID(colaborador.ID);
                 return Json(ModelState.ToDataSourceResult());
-            }
-        }
-
-        public JsonResult ColaboradoresToList()
-        {
-            using (DP2Context context = new DP2Context())
-            {
-                var colaboradores = context.TablaColaboradores.All().Select(a => a.ToDTO()).OrderBy(a => a.NombreCompleto);
-                return Json(colaboradores, JsonRequestBehavior.AllowGet);
             }
         }
 
