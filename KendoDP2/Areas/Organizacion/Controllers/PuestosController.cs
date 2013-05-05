@@ -48,12 +48,12 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 p.EstadoPuesto = context.TablaEstadosPuestos.One(x => x.Descripcion.Equals("Vacante"));
                 context.TablaPuestos.AddElement(p);
 
-                Puesto a = context.TablaPuestos.FindByID(puesto.AreaID);
-                PuestoXArea cruce = new PuestoXArea { AreaID = a.ID, PuestoID = p.ID };
-
-               p.PuestosArea.Add(cruce);
+                Area a = context.TablaAreas.FindByID(puesto.AreaID);
+                PuestoXArea cruce = new PuestoXArea { Area = a, Puesto = p };
+                
+                //p.PuestosArea.Add(cruce);
               
-               context.TablaPuestosXAreas.AddElement(cruce);
+                context.TablaPuestosXAreas.AddElement(cruce);
 
                 return Json(new[] { p.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
