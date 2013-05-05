@@ -7,7 +7,6 @@ using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
 using KendoDP2.Areas.Organizacion.Models;
 using KendoDP2.Models.Generic;
-using KendoDP2.Areas.Organizacion.Models;
 
 namespace KendoDP2.Areas.Organizacion.Controllers
 {
@@ -83,6 +82,15 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             {
                 context.TablaColaboradores.RemoveElementByID(colaborador.ID);
                 return Json(ModelState.ToDataSourceResult());
+            }
+        }
+
+        public JsonResult ColaboradoresToList([DataSourceRequest] DataSourceRequest request)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                var colaboradores = context.TablaColaboradores.All().Select(a => a.ToDTO()).OrderBy(a => a.NombreCompleto);
+                return Json(colaboradores.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
             }
         }
 
