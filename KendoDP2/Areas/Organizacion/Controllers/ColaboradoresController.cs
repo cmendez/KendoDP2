@@ -11,6 +11,7 @@ using KendoDP2.Models.Seguridad;
 
 namespace KendoDP2.Areas.Organizacion.Controllers
 {
+    [Authorize()]
     public class ColaboradoresController : Controller
     {
         public ColaboradoresController()
@@ -43,7 +44,6 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 return Json(colaboradores.ToDataSourceResult(request));
             }
         }
-
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create([DataSourceRequest] DataSourceRequest request, ColaboradorDTO colaborador)
@@ -84,24 +84,6 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 context.TablaColaboradores.RemoveElementByID(colaborador.ID);
                 return Json(ModelState.ToDataSourceResult());
             }
-        }
-
-        public ActionResult InformacionColaborador(string username)
-        {
-            PersonaDTO persona = DP2MembershipProvider.GetPersonaFromUsername(username);
-
-            return Json(new
-            {
-                nombres = persona.NombreCompleto,
-                apellidos = persona.NombreCompleto,
-                area = persona.NombreCompleto,
-                puesto = persona.NombreCompleto,
-                email = persona.NombreCompleto,
-                anexo = persona.NombreCompleto,
-                fecha_ingreso = persona.NombreCompleto
-            }, JsonRequestBehavior.AllowGet);
-
-
         }
 
     }
