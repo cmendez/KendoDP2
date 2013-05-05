@@ -91,8 +91,25 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<TipoObjetivoBSC> TablaTipoObjetivoBSC { get; set; }
         public DBGenericRequester<BSC> TablaBSC { get; set; }
 
+
         // Reclutamiento
         public DbSet<OfertaLaboral> InternalOfertaLaborals { get; set; }
+
+        // Area Personal
+        //public DbSet<Persona> InternalPersonas { get; set; }
+        //public DbSet<Colaborador> InternalColaboradores { get; set; }
+        //public DbSet<EstadosColaborador> InternalEstadosColaboradores { get; set; }
+        //public DbSet<TipoDocumento> InternalTiposDocumentos { get; set; }
+        //public DbSet<GradoAcademico> InternalGradosAcademicos { get; set; }
+        //public DbSet<ColaboradorXPuesto> InternalColaboradoresXPuestos { get; set; }
+  
+        //public DBGenericRequester<Persona> TablaPersonas { get; set; }
+        //public DBGenericRequester<Colaborador> TablaColaboradores { get; set; }
+        //public DBGenericRequester<EstadosColaborador> TablaEstadosColaboradores { get; set; }
+        //public DBGenericRequester<TipoDocumento> TablaTiposDocumentos { get; set; }
+        //public DBGenericRequester<GradoAcademico> TablaGradosAcademicos { get; set; }
+        //public DBGenericRequester<ColaboradorXPuesto> TablaColaboradoresXPuestos { get; set; }
+
 
         public DBGenericRequester<OfertaLaboral> TablaOfertaLaborals { get; set; }
 
@@ -177,11 +194,20 @@ namespace KendoDP2.Models.Generic
             SeedEstadosColaborador();
             SeedGradosAcademicos();
             SeedColaboradores();
+
             //Reclutamiento
             SeedOfertaLaboral();
+
+            SeedObjetivos();
+
         }
 
         // Area Configuracion
+
+        public void SeedObjetivos()
+        {
+            //TablaObjetivos.AddElement(new Objetivo {Nombre="Objetivo Financiero 1",TipoObjetivoBSCID=TablaTipoObjetivoBSC.Where( o=> o.Equals) });
+        }
 
         public Periodo CrearPeriodoConBSC(string nombrePeriodo, DateTime fecha)
         {
