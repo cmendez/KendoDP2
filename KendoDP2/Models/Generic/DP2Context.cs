@@ -11,7 +11,6 @@ using System.Linq;
 using System.Web;
 using KendoDP2.Models.Helpers;
 using KendoDP2.Models.Seguridad;
-using KendoDP2.Areas.Organizacion.Models;
 
 namespace KendoDP2.Models.Generic
 {
@@ -29,6 +28,7 @@ namespace KendoDP2.Models.Generic
         public DbSet<Area> InternalAreas { get; set; }
         public DbSet<Puesto> InternalPuestos { get; set; }
         public DbSet<EstadosPuesto> InternalEstadosPuestos { get; set; }
+        public DbSet<PuestoXArea> InternalPuestosXAreas { get; set; }
         public DbSet<Persona> InternalPersonas { get; set; }
         public DbSet<Colaborador> InternalColaboradores { get; set; }
         public DbSet<EstadosColaborador> InternalEstadosColaboradores { get; set; }
@@ -39,6 +39,7 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<Area> TablaAreas { get; set; }
         public DBGenericRequester<Puesto> TablaPuestos { get; set; }
         public DBGenericRequester<EstadosPuesto> TablaEstadosPuestos { get; set; }
+        public DBGenericRequester<PuestoXArea> TablaPuestosXAreas { get; set; }
         public DBGenericRequester<Persona> TablaPersonas { get; set; }
         public DBGenericRequester<Colaborador> TablaColaboradores { get; set; }
         public DBGenericRequester<EstadosColaborador> TablaEstadosColaboradores { get; set; }
@@ -127,6 +128,12 @@ namespace KendoDP2.Models.Generic
             // Area Configuracion
             TablaPeriodos = new DBGenericRequester<Periodo>(this, InternalPeriodos);
             TablaPaises = new DBGenericRequester<Pais>(this, InternalPaises);
+
+            // Area Organizacion
+            TablaAreas = new DBGenericRequester<Area>(this, InternalAreas);
+            TablaPuestos = new DBGenericRequester<Puesto>(this, InternalPuestos);
+            TablaEstadosPuestos = new DBGenericRequester<EstadosPuesto>(this, InternalEstadosPuestos);
+            TablaPuestosXAreas = new DBGenericRequester<PuestoXArea>(this, InternalPuestosXAreas);
 
             // Area Seguridad
             TablaRoles = new DBGenericRequester<Rol>(this, InternalRoles);
