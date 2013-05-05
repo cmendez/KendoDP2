@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace KendoDP2.Areas.Organizacion.Controllers
 {
-    //[Authorize()]
+    [Authorize()]
     public class AreasController : Controller
     {
         public AreasController() : base() {

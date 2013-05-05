@@ -20,26 +20,54 @@ namespace KendoDP2.Areas.Seguridad.Controllers
 
         public ActionResult Index()
         {
+            using(DP2Context context = new DP2Context())
+            {
+                ViewData["Usuario"] = null;
+                ViewBag.Menu = context.TablaRoles.Where(u => u.Secuencia < 10).Select(u => u.ToDTO()).ToList();
+            }
             return View();
         }
 
-        public ActionResult Read([DataSourceRequest] DataSourceRequest request)
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Index(FormCollection values)
         {
+            // me reconoce el usuario al cual quiero darle permisos
             using (DP2Context context = new DP2Context())
             {
-                var x = Json(context.TablaRoles.All().Select(p => p.ToDTO()).ToDataSourceResult(request));
-                return x;
+                Usuario usuario = new Usuario();
+                usuario = context.TablaUsuarios.Where(u => u.ID == Convert.ToInt16(values["Usuarios"])).FirstOrDefault();
+                ViewData["Usuario"] = usuario;
+                ViewBag.Menu = context.TablaRoles.Where(u => u.Secuencia < 10).Select(u => u.ToDTO()).ToList();
+            }
+            return View();
+        }
+
+        public ActionResult GetUsuarios()
+        {
+            // me retorna los usuarios que estan en el sistema
+            using (DP2Context context = new DP2Context())
+            {
+                return Json(context.TablaUsuarios.All().Select(o => o.ToDTO()),JsonRequestBehavior.AllowGet);
             }
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create([DataSourceRequest] DataSourceRequest request, RolDTO rol)
+        public ActionResult Read([DataSourceRequest] DataSourceRequest request, int RolID)
         {
             using (DP2Context context = new DP2Context())
             {
-                Rol r = new Rol(rol.Nombre);
-                context.TablaRoles.AddElement(r);
-                return Json(new[] { r.ToDTO() }.ToDataSourceResult(request, ModelState));
+                Usuario u= (Usuario)ViewData["Usuario"]; // en base al usuario seleccionado, acceder a sus roles
+                List<RolDTO> rol_Usuario = new List<RolDTO>();
+
+                //List<RolDTO> Rol_Usuario=context.TablaRoles.Where()
+                foreach(Rol r in u.Roles)
+                {
+                    RolDTO s = new RolDTO(r);
+                    rol_Usuario.Add(s);
+                }
+                // para entender esta validacion vasta con ver la barra de navegacion
+                List<RolDTO> x = rol_Usuario.Where(t => t.Secuencia > RolID * 10).Where(t => t.Secuencia < (RolID + 1) * 10).ToList();
+                //un usuario es creado con todos los roles pero descativados, la idea es activarlos cuando se actualice cada row del grid
+                return Json(x.ToDataSourceResult(request));
             }
         }
 
@@ -48,7 +76,8 @@ namespace KendoDP2.Areas.Seguridad.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                Rol c = context.TablaRoles.FindByID(rol.ID).LoadFromDTO(rol);
+                // la idea es actualizar cada rol del usuario seleccionado
+                Rol c = context.TablaRoles.FindByID(rol.ID,false).LoadFromDTO(rol);
                 context.TablaRoles.ModifyElement(c);
                 return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
@@ -59,6 +88,7 @@ namespace KendoDP2.Areas.Seguridad.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
+                // desactivar los persmisos pero no se va a borrar datos solo se desactivan esta de mas
                 context.TablaRoles.RemoveElementByID(rol.ID);
                 return Json(ModelState.ToDataSourceResult());
             }

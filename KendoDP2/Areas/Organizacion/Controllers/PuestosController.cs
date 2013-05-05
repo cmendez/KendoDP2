@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
-using KendoDP2.Areas.Personal.Models;
 using KendoDP2.Models.Generic;
 using KendoDP2.Areas.Organizacion.Models;
 
@@ -25,6 +24,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             {
                 ViewBag.puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).ToList();
                 ViewBag.areas = context.TablaAreas.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.estadosPuesto = context.TablaEstadosPuestos.All().Select(p => p.ToDTO()).ToList();
                 return View();
             }
 
@@ -39,17 +39,27 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             }
         }
 
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Create([DataSourceRequest] DataSourceRequest request, PuestoDTO puesto)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                Puesto p = new Puesto(puesto);
+                p.EstadoPuesto = context.TablaEstadosPuestos.One(x => x.Descripcion.Equals("Vacante"));
+                context.TablaPuestos.AddElement(p);
+
+               // Puesto p = context.TablaPuestos.FindByID(puesto.PuestoID);
+              //  ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo };
+
+               // c.ColaboradoresPuesto.Add(cruce);
+              
+               // context.TablaColaboradoresXPuestos.AddElement(cruce);
+
+                return Json(new[] { p.ToDTO() }.ToDataSourceResult(request, ModelState));
+            }
+        }
  
-        /*
-         poifjvisohgdhsg
-         sdihfosdihgfd}}
-         voisdhfgpsdifdsfjgsd
-         * sgoidhjgposi
-         * dspogjposdjg
-         * 
-         posdjfpojhsd
-         podsjfpsd
-         */
+      
 
     }
 }

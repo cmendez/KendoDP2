@@ -8,7 +8,7 @@ using KendoDP2.Models.Seguridad;
 using KendoDP2.Areas.Evaluacion360.Models;
 
 
-namespace KendoDP2.Areas.Personal.Models
+namespace KendoDP2.Areas.Organizacion.Models
 {
     public class Persona : Usuario
     {
