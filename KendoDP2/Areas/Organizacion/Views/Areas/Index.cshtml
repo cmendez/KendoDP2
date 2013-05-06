@@ -40,7 +40,6 @@
                         c.Bound(a => a.ID);
                         c.Bound(a => a.Nombre);
                         c.ForeignKey((a => a.AreaSuperiorID), comboAreas);
-                        c.Bound(a => a.Descripcion);
                     })
                     .Pageable(paper => paper.Refresh(true))
                     .Filterable()
@@ -70,13 +69,13 @@
         var grid = $("#grid").data("kendoGrid");
         var fila = grid.dataSource.get(id);
         var kfila;
-        var i = 1;
-        while (true) {
+        for (var i = 1; i <= grid.dataSource.totalPages() ; i++) {
             grid.dataSource.page(i);
             kfila = grid.table.find('tr[data-uid="' + fila.uid + '"]');
-            if (kfila.index() > -1 || i > 10) break;
-            i++;
+            if (kfila.index() > -1) {
+                grid.select(kfila);
+                break;
+            }
         }
-        grid.select(kfila);
     }
 </script>
