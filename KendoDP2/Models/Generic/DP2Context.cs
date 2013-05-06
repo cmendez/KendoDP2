@@ -35,6 +35,7 @@ namespace KendoDP2.Models.Generic
         public DbSet<TipoDocumento> InternalTiposDocumentos { get; set; }
         public DbSet<GradoAcademico> InternalGradosAcademicos { get; set; }
         public DbSet<ColaboradorXPuesto> InternalColaboradoresXPuestos { get; set; }
+        public DbSet<Organizacion> InternalOrganizaciones { get; set; }
 
         public DBGenericRequester<Area> TablaAreas { get; set; }
         public DBGenericRequester<Puesto> TablaPuestos { get; set; }
@@ -46,6 +47,7 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<TipoDocumento> TablaTiposDocumentos { get; set; }
         public DBGenericRequester<GradoAcademico> TablaGradosAcademicos { get; set; }
         public DBGenericRequester<ColaboradorXPuesto> TablaColaboradoresXPuestos { get; set; }
+        public DBGenericRequester<Organizacion> TablaOrganizaciones { get; set; }
 
         // Area Seguridad
         public DbSet<Rol> InternalRoles { get; set; }
@@ -135,6 +137,7 @@ namespace KendoDP2.Models.Generic
             TablaGradosAcademicos = new DBGenericRequester<GradoAcademico>(this, InternalGradosAcademicos);
             TablaTiposDocumentos = new DBGenericRequester<TipoDocumento>(this, InternalTiposDocumentos);
             TablaColaboradoresXPuestos = new DBGenericRequester<ColaboradorXPuesto>(this, InternalColaboradoresXPuestos);
+            TablaOrganizaciones = new DBGenericRequester<Organizacion>(this, InternalOrganizaciones);
 
             // Area Evaluacion360
             TablaCompetencias = new DBGenericRequester<Competencia>(this, InternalCompetencias);
