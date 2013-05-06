@@ -2,7 +2,7 @@
 using KendoDP2.Areas.Evaluacion360.Models;
 using KendoDP2.Areas.Objetivos.Models;
 using KendoDP2.Areas.Organizacion.Models;
-//using KendoDP2.Areas.Reclutamiento.Models;
+using KendoDP2.Areas.Reclutamiento.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
