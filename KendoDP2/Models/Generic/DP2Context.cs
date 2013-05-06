@@ -2,7 +2,7 @@
 using KendoDP2.Areas.Evaluacion360.Models;
 using KendoDP2.Areas.Objetivos.Models;
 using KendoDP2.Areas.Organizacion.Models;
-using KendoDP2.Areas.Reclutamiento.Models;
+//using KendoDP2.Areas.Reclutamiento.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -36,7 +36,7 @@ namespace KendoDP2.Models.Generic
         public DbSet<TipoDocumento> InternalTiposDocumentos { get; set; }
         public DbSet<GradoAcademico> InternalGradosAcademicos { get; set; }
         public DbSet<ColaboradorXPuesto> InternalColaboradoresXPuestos { get; set; }
-        public DbSet<Organizacion> InternalOrganizaciones { get; set; }
+        //public DbSet<Organizacion> InternalOrganizaciones { get; set; }
 
         public DBGenericRequester<Area> TablaAreas { get; set; }
         public DBGenericRequester<Puesto> TablaPuestos { get; set; }
@@ -49,7 +49,7 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<GradoAcademico> TablaGradosAcademicos { get; set; }
         public DBGenericRequester<ColaboradorXPuesto> TablaColaboradoresXPuestos { get; set; }
 
-        public DBGenericRequester<Organizacion> TablaOrganizaciones { get; set; }
+        //public DBGenericRequester<Organizacion> TablaOrganizaciones { get; set; }
 
         // Area Seguridad
         public DbSet<Rol> InternalRoles { get; set; }
@@ -113,7 +113,7 @@ namespace KendoDP2.Models.Generic
 
 
         // Reclutamiento
-        public DbSet<OfertaLaboral> InternalOfertaLaborals { get; set; }
+        //public DbSet<OfertaLaboral> InternalOfertaLaborals { get; set; }
 
         // Area Personal
         //public DbSet<Persona> InternalPersonas { get; set; }
@@ -132,7 +132,7 @@ namespace KendoDP2.Models.Generic
 
 
 
-        public DBGenericRequester<OfertaLaboral> TablaOfertaLaborals { get; set; }
+        //public DBGenericRequester<OfertaLaboral> TablaOfertaLaborals { get; set; }
 
         private void RegistrarTablas()
         {
@@ -161,7 +161,7 @@ namespace KendoDP2.Models.Generic
             TablaGradosAcademicos = new DBGenericRequester<GradoAcademico>(this, InternalGradosAcademicos);
             TablaTiposDocumentos = new DBGenericRequester<TipoDocumento>(this, InternalTiposDocumentos);
             TablaColaboradoresXPuestos = new DBGenericRequester<ColaboradorXPuesto>(this, InternalColaboradoresXPuestos);
-            TablaOrganizaciones = new DBGenericRequester<Organizacion>(this, InternalOrganizaciones);
+            //TablaOrganizaciones = new DBGenericRequester<Organizacion>(this, InternalOrganizaciones);
 
             // Area Evaluacion360
             TablaCompetencias = new DBGenericRequester<Competencia>(this, InternalCompetencias);
@@ -203,7 +203,7 @@ namespace KendoDP2.Models.Generic
              */
 
             //Reclutamiento
-            TablaOfertaLaborals = new DBGenericRequester<OfertaLaboral>(this, InternalOfertaLaborals);
+            //TablaOfertaLaborals = new DBGenericRequester<OfertaLaboral>(this, InternalOfertaLaborals);
         }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -450,7 +450,7 @@ namespace KendoDP2.Models.Generic
         // Area Reclutamiento
         private void SeedOfertaLaboral()
         {
-            TablaOfertaLaborals.AddElement(new OfertaLaboral { Estado = 1, PuestoID = TablaPuestos.One(a=>a.Nombre.Equals("Presidente")).ID });
+            //TablaOfertaLaborals.AddElement(new OfertaLaboral { Estado = 1, PuestoID = TablaPuestos.One(a=>a.Nombre.Equals("Presidente")).ID });
         }
 
         
@@ -472,8 +472,8 @@ namespace KendoDP2.Models.Generic
         }
     }
 
-    public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
-    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
+    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
+    public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
     {
         protected override void Seed(DP2Context context)
         {
