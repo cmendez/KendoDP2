@@ -19,6 +19,20 @@
 	</div>
     <div class="portlet-body">
         <div class="row-fluid">
+             <div class="span3">
+                @(Html.Kendo().ComboBox()
+                    .Name("ComboAreas")
+                    .Placeholder("Seleccione un Area...")
+                    .DataTextField("Nombre")
+                    .DataValueField("ID")
+                    .Filter("contains")
+                    .BindTo(areas)
+                    .Suggest(true)
+                    .HtmlAttributes(new { style = "width:100%" })
+                    .Events(e => e.Close("combosAreasSelection"))
+                )
+            </div>
+
             <div class="span4">
                 @(Html.Kendo().ComboBox()
                     .Name("ComboColaboradores")
