@@ -4,6 +4,7 @@
     ViewBag.Title = "Elegir evaluados";
     Layout = "~/Views/Shared/_Layout.cshtml";
     IList<KendoDP2.Areas.Organizacion.Models.ColaboradorDTO> colaboradores = ViewBag.colaboradores;
+    IList<KendoDP2.Areas.Organizacion.Models.AreaDTO> areas = ViewBag.areas;
     IList<KendoDP2.Areas.Evaluacion360.Models.EstadoColaboradorXProcesoEvaluacionDTO> estados = ViewBag.estados;
 }
 
@@ -18,6 +19,20 @@
 	</div>
     <div class="portlet-body">
         <div class="row-fluid">
+             <div class="span3">
+                @(Html.Kendo().ComboBox()
+                    .Name("ComboAreas")
+                    .Placeholder("Seleccione un Area...")
+                    .DataTextField("Nombre")
+                    .DataValueField("ID")
+                    .Filter("contains")
+                    .BindTo(areas)
+                    .Suggest(true)
+                    .HtmlAttributes(new { style = "width:100%" })
+                    .Events(e => e.Close("combosAreasSelection"))
+                )
+            </div>
+
             <div class="span4">
                 @(Html.Kendo().ComboBox()
                     .Name("ComboColaboradores")
@@ -80,6 +95,30 @@
             dataType: 'JSON',
             type: 'POST',
             data: {procesoID: @Model.ID , colaboradorID: colaboradorID},
+            success: function(data){
+                if(data.success)
+                    $("#ColaboradoresDeProcesoEvaluacionGrid").data('kendoGrid').dataSource.read();
+                else
+                    alert("El colaborador seleccionado ya se encuentra en la lista de evaluados");
+            },
+            error: function(){
+                alert("Hubo un error en la operación");
+            }
+        });
+    }
+</script>
+
+<script type="text/javascript">
+    function combosAreasSelection(e) {
+        var comboAreas = $("#ComboAreas").data('kendoComboBox');
+        if (comboAreas.selectedIndex == -1)
+            return;
+        var areaID = comboAreas.dataItem(comboAreas.selectedIndex).ID;
+        $.ajax({
+            url: '@Url.Action("AddEvaluadosAreas", "ProcesoEvaluacion", new {Area = "Evaluacion360"})',
+            dataType: 'JSON',
+            type: 'POST',
+            data: {procesoID: @Model.ID , areaID: areaID},
             success: function(data){
                 if(data.success)
                     $("#ColaboradoresDeProcesoEvaluacionGrid").data('kendoGrid').dataSource.read();

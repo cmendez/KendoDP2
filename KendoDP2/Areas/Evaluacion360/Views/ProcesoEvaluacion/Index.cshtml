@@ -8,6 +8,7 @@
     IList<ProcesoEvaluacionDTO> procesosEvaluacion = ViewBag.procesosEvaluacion;
     IList<ColaboradorDTO> colaboradores = ViewBag.colaboradores;
     SelectList lista = new SelectList(colaboradores, "ID", "NombreCompleto");
+    
 }
 
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Procesos de evaluación", "Administre los procesos de evaluación de la empresa"));}
