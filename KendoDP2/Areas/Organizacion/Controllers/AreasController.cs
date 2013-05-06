@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using KendoDP2.Areas.Organizacion.Models;
 
 namespace KendoDP2.Areas.Organizacion.Controllers
 {
@@ -20,6 +21,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
+                ViewBag.PageSize = 8;
                 ViewBag.Areas = context.TablaAreas.All().Select(a => a.ToDTO()).ToList();
                 return View();
             }
@@ -34,12 +36,44 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             }
         }
 
-        public JsonResult AreasToList([DataSourceRequest] DataSourceRequest request)
+        public JsonResult Read([DataSourceRequest] DataSourceRequest request)
         {
             using (DP2Context context = new DP2Context())
             {
                 var areas = context.TablaAreas.All().Select(a => a.ToDTO()).OrderBy(a => a.Nombre);
                 return Json(areas.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Create([DataSourceRequest] DataSourceRequest request, AreaDTO area)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                Area a = new Area(area);
+                a.ID = context.TablaAreas.AddElement(a);
+                return Json(new[] { a.ToDTO() }.ToDataSourceResult(request, ModelState));
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Update([DataSourceRequest] DataSourceRequest request, AreaDTO area)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                Area a = context.TablaAreas.FindByID(area.ID).LoadFromDTO(area);
+                context.TablaAreas.ModifyElement(a);
+                return Json(new[] { a.ToDTO() }.ToDataSourceResult(request, ModelState));
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Destroy([DataSourceRequest] DataSourceRequest request, AreaDTO area)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                context.TablaAreas.RemoveElementByID(area.ID);
+                return Json(ModelState.ToDataSourceResult());
             }
         }
     }
