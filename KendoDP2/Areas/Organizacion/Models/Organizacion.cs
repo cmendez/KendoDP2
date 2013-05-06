@@ -16,13 +16,13 @@ namespace KendoDP2.Areas.Organizacion.Models
         public string Rubro { get; set; }
         public string Direccion { get; set; }
         public string Ciudad { get; set; }
-        public int PaisID { get; set; }
+        public int? PaisID { get; set; }
         public Pais Pais { get; set; }
         public string Telefono { get; set; }
         public string CorreoElectronico { get; set; }
         public string Mision { get; set; }
         public string Vision { get; set; }
-        public int ColaboradorID { get; set; }
+        public int? RepresentanteLegalID { get; set; }
         public Colaborador RepresentanteLegal { get; set; }
         public string Documento { get; set; }
         
@@ -47,7 +47,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             CorreoElectronico = e.CorreoElectronico;
             Mision = e.Mision;
             Vision = e.Vision;
-            ColaboradorID = e.ColaboradorID;
+            RepresentanteLegalID = e.ColaboradorID;
             Documento = e.Documento;
 
             return this;
@@ -118,11 +118,11 @@ namespace KendoDP2.Areas.Organizacion.Models
             Direccion = e.Direccion;
             Telefono = e.Telefono;
             Ciudad = e.Ciudad;
-            PaisID = e.PaisID;
+            PaisID = e.PaisID.GetValueOrDefault();
             CorreoElectronico = e.CorreoElectronico;
             Mision = e.Mision;
             Vision = e.Vision;
-            ColaboradorID = e.ColaboradorID;
+            ColaboradorID = e.RepresentanteLegalID.GetValueOrDefault();
             Documento = e.Documento;
         }
     

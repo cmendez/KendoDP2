@@ -191,6 +191,7 @@ namespace KendoDP2.Models.Generic
             // Area Organizacion
             SeedAreas();
             SeedPuestos();
+            SeedOrganizacion();
             // Area Seguridad
             SeedSidebarNavigator();
             SeedRoles();
@@ -211,7 +212,8 @@ namespace KendoDP2.Models.Generic
             SeedOfertaLaboral();
 
             SeedObjetivos();
-
+            
+            
         }
 
         // Area Configuracion
@@ -328,6 +330,11 @@ namespace KendoDP2.Models.Generic
 
         // Area Personal
 
+        private void SeedOrganizacion()
+        {
+            TablaOrganizaciones.AddElement(new Organizacion { RazonSocial = "Nueva organizacoin" });
+        }
+
         private void SeedColaboradores()
         {
             // TODO(Modulo 1): mejorar seed o borrarlo
@@ -408,8 +415,8 @@ namespace KendoDP2.Models.Generic
         }
     }
 
-    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
-    public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
+    public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
+    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
     {
         protected override void Seed(DP2Context context)
         {
