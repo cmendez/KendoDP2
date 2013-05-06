@@ -116,6 +116,7 @@ namespace KendoDP2.Models.Generic
         //public DbSet<OfertaLaboral> InternalOfertaLaborals { get; set; }
 
         // Area Personal
+
         //public DbSet<Persona> InternalPersonas { get; set; }
         //public DbSet<Colaborador> InternalColaboradores { get; set; }
         //public DbSet<EstadosColaborador> InternalEstadosColaboradores { get; set; }

@@ -19,7 +19,23 @@ namespace KendoDP2.Areas.Organizacion.Models
         public virtual Colaborador Colaborador { get; set; }
         public virtual Puesto Puesto { get; set; }
 
+        public ColaboradorXPuestoDTO ToDTO()
+        {
+            return new ColaboradorXPuestoDTO(this);
+        }
+    }
 
+    public class ColaboradorXPuestoDTO
+    {
+        public ColaboradorDTO ColaboradorDTO { get; set; }
+        public int ID { get; set; }
 
+        public ColaboradorXPuestoDTO(ColaboradorXPuesto x)
+        {
+            ColaboradorDTO = x.Colaborador.ToDTO();
+            ID = x.ID;
+        }
+
+        public ColaboradorXPuestoDTO() { }
     }
 }
