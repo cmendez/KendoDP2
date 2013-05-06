@@ -74,6 +74,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             Nombre = a.Nombre;
             Descripcion = a.Descripcion;
             AreaSuperiorID = a.AreaSuperiorID;
+            
         }
     }
 
