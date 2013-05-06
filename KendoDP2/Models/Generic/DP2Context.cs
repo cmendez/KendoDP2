@@ -2,6 +2,7 @@
 using KendoDP2.Areas.Evaluacion360.Models;
 using KendoDP2.Areas.Objetivos.Models;
 using KendoDP2.Areas.Organizacion.Models;
+using KendoDP2.Areas.Reclutamiento.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -35,6 +36,7 @@ namespace KendoDP2.Models.Generic
         public DbSet<TipoDocumento> InternalTiposDocumentos { get; set; }
         public DbSet<GradoAcademico> InternalGradosAcademicos { get; set; }
         public DbSet<ColaboradorXPuesto> InternalColaboradoresXPuestos { get; set; }
+        public DbSet<Organizacion> InternalOrganizaciones { get; set; }
 
         public DBGenericRequester<Area> TablaAreas { get; set; }
         public DBGenericRequester<Puesto> TablaPuestos { get; set; }
@@ -46,8 +48,8 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<TipoDocumento> TablaTiposDocumentos { get; set; }
         public DBGenericRequester<GradoAcademico> TablaGradosAcademicos { get; set; }
         public DBGenericRequester<ColaboradorXPuesto> TablaColaboradoresXPuestos { get; set; }
-        
 
+        public DBGenericRequester<Organizacion> TablaOrganizaciones { get; set; }
 
         // Area Seguridad
         public DbSet<Rol> InternalRoles { get; set; }
@@ -109,6 +111,10 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<TipoObjetivoBSC> TablaTipoObjetivoBSC { get; set; }
         public DBGenericRequester<BSC> TablaBSC { get; set; }
 
+
+        // Reclutamiento
+        public DbSet<OfertaLaboral> InternalOfertaLaborals { get; set; }
+
         // Area Personal
         //public DbSet<Persona> InternalPersonas { get; set; }
         //public DbSet<Colaborador> InternalColaboradores { get; set; }
@@ -125,6 +131,8 @@ namespace KendoDP2.Models.Generic
         //public DBGenericRequester<ColaboradorXPuesto> TablaColaboradoresXPuestos { get; set; }
 
 
+
+        public DBGenericRequester<OfertaLaboral> TablaOfertaLaborals { get; set; }
 
         private void RegistrarTablas()
         {
@@ -153,6 +161,7 @@ namespace KendoDP2.Models.Generic
             TablaGradosAcademicos = new DBGenericRequester<GradoAcademico>(this, InternalGradosAcademicos);
             TablaTiposDocumentos = new DBGenericRequester<TipoDocumento>(this, InternalTiposDocumentos);
             TablaColaboradoresXPuestos = new DBGenericRequester<ColaboradorXPuesto>(this, InternalColaboradoresXPuestos);
+            TablaOrganizaciones = new DBGenericRequester<Organizacion>(this, InternalOrganizaciones);
 
             // Area Evaluacion360
             TablaCompetencias = new DBGenericRequester<Competencia>(this, InternalCompetencias);
@@ -182,6 +191,8 @@ namespace KendoDP2.Models.Generic
 
 
             // Area Personal
+            //Todo esto ya estaba declarado en Organización
+            /*
             TablaPersonas = new DBGenericRequester<Persona>(this, InternalPersonas);
             TablaColaboradores = new DBGenericRequester<Colaborador>(this, InternalColaboradores);
 
@@ -189,7 +200,10 @@ namespace KendoDP2.Models.Generic
             TablaGradosAcademicos = new DBGenericRequester<GradoAcademico>(this, InternalGradosAcademicos);
             TablaTiposDocumentos = new DBGenericRequester<TipoDocumento>(this, InternalTiposDocumentos);
             TablaColaboradoresXPuestos = new DBGenericRequester<ColaboradorXPuesto>(this, InternalColaboradoresXPuestos);
+             */
 
+            //Reclutamiento
+            TablaOfertaLaborals = new DBGenericRequester<OfertaLaboral>(this, InternalOfertaLaborals);
         }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -220,7 +234,12 @@ namespace KendoDP2.Models.Generic
             SeedEstadosColaborador();
             SeedGradosAcademicos();
             SeedColaboradores();
+
+            //Reclutamiento
+            SeedOfertaLaboral();
+
             SeedObjetivos();
+
         }
 
         // Area Configuracion
@@ -416,8 +435,8 @@ namespace KendoDP2.Models.Generic
 
         private void SeedPuestos()
         {
-            TablaPuestos.AddElement(new Puesto { Nombre = "Presidente", Descripcion = "Jefe de proyecto", AreaID = TablaAreas.One(a => a.Nombre.Equals("La gran Área")).ID });
-            TablaPuestos.AddElement(new Puesto { Nombre = "Gerente general", Descripcion = "Por ahí", AreaID = TablaAreas.One(a => a.Nombre.Equals("Gerencia general")).ID });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Presidente", Descripcion = "Jefe de proyecto", AreaID = TablaAreas.One(a => a.Nombre.Equals("La gran Área")).ID, PuestoSuperiorID =0});
+            TablaPuestos.AddElement(new Puesto { Nombre = "Gerente general", Descripcion = "Por ahí", AreaID = TablaAreas.One(a => a.Nombre.Equals("Gerencia general")).ID, PuestoSuperiorID=1});
         }
 
 
@@ -428,6 +447,11 @@ namespace KendoDP2.Models.Generic
             TablaEstadosPuestos.AddElement(new EstadosPuesto { Descripcion = "Inactivo" });
         }
 
+        // Area Reclutamiento
+        private void SeedOfertaLaboral()
+        {
+            TablaOfertaLaborals.AddElement(new OfertaLaboral { Estado = 1, PuestoID = TablaPuestos.One(a=>a.Nombre.Equals("Presidente")).ID });
+        }
 
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

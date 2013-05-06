@@ -36,6 +36,7 @@ namespace KendoDP2.Models.Seguridad
     {
         public string Username { get; set; }
         public string Password { get; set; }
+        public int ID { get; set; }
         
         public UsuarioDTO() { }
         
@@ -43,6 +44,7 @@ namespace KendoDP2.Models.Seguridad
         {
             Username = u.Username;
             Password = u.Password;
+            ID = u.ID;
         }
     }
 }

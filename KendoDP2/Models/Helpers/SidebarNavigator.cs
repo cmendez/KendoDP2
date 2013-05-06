@@ -44,6 +44,7 @@ namespace KendoDP2.Models.Helpers
 
             // Organizacion
             Opciones.Add(new SidebarOption("Organizacion", "Organizacion", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
+                new SidebarSuboption("Organización","Organizaciones","Index","icon-group"),
                 new SidebarSuboption("Colaboradores", "Colaboradores", "Index", "icon-user"),
                 new SidebarSuboption("Puestos", "Puestos", "Index", "icon-tag"),
                 new SidebarSuboption("Áreas", "Areas", "Index", "icon-sitemap")
