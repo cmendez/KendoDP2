@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using KendoDP2.Models.Generic;
+using KendoDP2.Areas.Organizacion.Models;
 
 namespace KendoDP2.Areas.Organizacion.Controllers
 {
@@ -26,9 +27,21 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 ViewBag.pais = context.TablaPaises.All().Select(p => p.ToDTO()).ToList();
                 ViewBag.colaboradores = context.TablaColaboradores.All().Select(p => p.ToDTO()).ToList();
 
-                return View();
+                return View(context.TablaOrganizaciones.FindByID(1).ToDTO());
             }
 
+        }
+
+
+        [HttpPost]
+        public ActionResult  UpdateOrganizacion(OrganizacionDTO org) {
+            using (DP2Context context = new DP2Context())
+            {
+                var o = context.TablaOrganizaciones.FindByID(1);
+                o.LoadFromDTO(org);
+                context.TablaOrganizaciones.ModifyElement(o);
+                return RedirectToAction("Index");
+            }
         }
 
     }

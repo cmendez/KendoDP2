@@ -43,7 +43,7 @@ namespace KendoDP2.Controllers
                         return Json(new { respuesta = 0 }, JsonRequestBehavior.AllowGet);
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     return Json(new { respuesta = -1 }, JsonRequestBehavior.AllowGet);
                 }

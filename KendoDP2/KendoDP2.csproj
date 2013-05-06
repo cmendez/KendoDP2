@@ -188,16 +188,20 @@
     <Compile Include="Areas\Configuracion\Models\Periodo.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\CapacidadesController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\CompetenciasController.cs" />
+    <Compile Include="Areas\Evaluacion360\Controllers\Configuracion360Controller.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\ProcesoEvaluacionController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\PuestosEvaluacionController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\WSCompetenciasController.cs" />
     <Compile Include="Areas\Evaluacion360\Evaluacion360AreaRegistration.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Capacidad.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Competencia.cs" />
+    <Compile Include="Areas\Evaluacion360\Models\Perfil.cs" />
+    <Compile Include="Areas\Evaluacion360\Models\PerfilXCompetencia.cs" />
     <Compile Include="Areas\Evaluacion360\Models\CompetenciaXPuesto.cs" />
     <Compile Include="Areas\Evaluacion360\Models\EstadoColaboradorXProcesoEvaluacion.cs" />
     <Compile Include="Areas\Evaluacion360\Models\ColaboradorXProcesoEvaluacion.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Evaluacion.cs" />
+    <Compile Include="Areas\Evaluacion360\Models\PuestoXEvaluadores.cs" />
     <Compile Include="Areas\Evaluacion360\Models\ProcesoEvaluacion.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Evaluador.cs" />
     <Compile Include="Areas\Evaluacion360\Models\NivelCapacidad.cs" />
@@ -210,8 +214,8 @@
     <Compile Include="Areas\Organizacion\Controllers\AreasController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\OrganizacionesController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\PuestosController.cs" />
-    <Compile Include="Areas\Organizacion\Models\Organizacion.cs" />
     <Compile Include="Areas\Organizacion\Controllers\WSColaboradorController.cs" />
+    <Compile Include="Areas\Organizacion\Models\Organizacion.cs" />
     <Compile Include="Areas\Organizacion\Models\PuestoXArea.cs" />
     <Compile Include="Areas\Organizacion\Models\EstadosPuesto.cs" />
     <Compile Include="Areas\Organizacion\OrganizacionAreaRegistration.cs" />
@@ -225,8 +229,6 @@
     <Compile Include="Areas\Organizacion\Models\TipoDocumento.cs" />
     <Compile Include="Areas\Organizacion\Models\Colaborador.cs" />
     <Compile Include="Areas\Organizacion\Models\Persona.cs" />
-    <Compile Include="Areas\Reclutamiento\Controllers\ReclutamientoController.cs" />
-    <Compile Include="Areas\Reclutamiento\Models\OfertaLaboral.cs" />
     <Compile Include="Areas\Reclutamiento\ReclutamientoAreaRegistration.cs" />
     <Compile Include="Areas\Reportes\ReportesAreaRegistration.cs" />
     <Compile Include="Areas\Seguridad\Controllers\RolesController.cs" />
@@ -1767,8 +1769,6 @@
     <Content Include="Areas\Evaluacion360\Views\ProcesoEvaluacion\ElegirEvaluados.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\PuestosEvaluacion\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Organizaciones\Index.cshtml" />
-    <Content Include="Areas\Organizacion\Views\Shared\EditorTemplates\EditorOrganizacion.cshtml" />
-    <Content Include="Areas\Organizacion\Views\Areas\_List.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\areas_icon.png" />
     <Content Include="Images\favicon.ico" />
@@ -1913,6 +1913,8 @@
     <Folder Include="Areas\Configuracion\Views\Shared\" />
     <Folder Include="Areas\Evaluacion360\Views\Shared\" />
     <Folder Include="Areas\Objetivos\Views\Shared\" />
+    <Folder Include="Areas\Reclutamiento\Controllers\" />
+    <Folder Include="Areas\Reclutamiento\Models\" />
     <Folder Include="Areas\Reclutamiento\Views\Shared\" />
     <Folder Include="Areas\Reportes\Controllers\" />
     <Folder Include="Areas\Reportes\Models\" />

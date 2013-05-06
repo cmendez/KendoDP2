@@ -24,30 +24,19 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             {
                 using (DP2Context context = new DP2Context())
                 {
-                    Colaborador colaborador = context.TablaColaboradores.FindByID(Convert.ToInt32(id));
-                    if (colaborador != null)
-                    {
-                        return Json(new
-                        {
-                            nombres = colaborador.Nombres,
-                            apellidos = colaborador.ApellidoPaterno + " " + colaborador.ApellidoMaterno,
-                            area = "",
-                            puesto = "",
-                            email = colaborador.CorreoElectronico,
-                            anexo = colaborador.Telefono,
-                            fecha_ingreso = colaborador.FechaIngresoEmpresa
-                        }, JsonRequestBehavior.AllowGet);
-                    }
-                    else
-                    {
-                        return Json(new { mensaje = "Colaborador de " + id + " no existe" }, JsonRequestBehavior.AllowGet);
-                    }
-
+                    ColaboradorDTO colaborador = context.TablaColaboradores.FindByID(Convert.ToInt32(id)).ToDTO();
+                    PuestoDTO puesto = colaborador.PuestoID == 0 ? new PuestoDTO() : context.TablaPuestos.FindByID(colaborador.PuestoID).ToDTO();
+                    AreaDTO area = colaborador.AreaID == 0 ? new AreaDTO() : context.TablaAreas.FindByID(colaborador.AreaID).ToDTO();
+                    return Json(new {
+                        colaborador = colaborador,
+                        puesto = puesto,
+                        area = area
+                    }, JsonRequestBehavior.AllowGet);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return Json(new { mensaje = "Sucedio un error en el WS" }, JsonRequestBehavior.AllowGet);
+                return Json(new { mensaje = "Sucedio un error en el WS :" + ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
 

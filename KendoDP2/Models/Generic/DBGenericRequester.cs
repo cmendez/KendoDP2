@@ -126,7 +126,7 @@ namespace KendoDP2.Models.Generic
             {
                 if (!property.Name.Equals("ID") && property.GetValue(camposCambiados) != null)
                 {
-                    property.SetValue(elemento_db, property.GetValue(camposCambiados));
+                    property.SetValue(elemento_db, property.GetValue(camposCambiados))  ;
                 }
             }
             context.Entry(elemento_db).State = EntityState.Modified;
