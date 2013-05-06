@@ -46,11 +46,11 @@
                     .Filterable()
                     .Sortable()
                     .Selectable()
-                    .Scrollable(w => w.Height(330))
                     .DataSource(dataSource => dataSource
                         .Ajax()
-                        .PageSize(20)
+                        .PageSize(10)
                         .ServerOperation(false)
+                        .Model(m => m.Id("ID"))
                         .Read(read => read.Action("AreasToList", "Areas"))
                     )
                 )
@@ -67,8 +67,16 @@
     function onSelect(e) {
         var nodo = $('#treeview').data('kendoTreeView').dataItem(e.node);
         var id = nodo.id;
-        var fila = $("#grid").data("kendoGrid").table.find('tr[ID="' + id + '"]');
-        alert(fila);
-        $("#grid").data("kendoGrid").select(fila);
+        var grid = $("#grid").data("kendoGrid");
+        var fila = grid.dataSource.get(id);
+        var kfila;
+        var i = 1;
+        while (true) {
+            grid.dataSource.page(i);
+            kfila = grid.table.find('tr[data-uid="' + fila.uid + '"]');
+            if (kfila.index() > -1) break;
+            i++;
+        }
+        grid.select(kfila);
     }
 </script>
