@@ -25,8 +25,8 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 using (DP2Context context = new DP2Context())
                 {
                     ColaboradorDTO colaborador = context.TablaColaboradores.FindByID(Convert.ToInt32(id)).ToDTO();
-                    PuestoDTO puesto = context.TablaPuestos.FindByID(colaborador.PuestoID).ToDTO();
-                    AreaDTO area = context.TablaAreas.FindByID(colaborador.AreaID).ToDTO();
+                    PuestoDTO puesto = colaborador.PuestoID == 0 ? new PuestoDTO() : context.TablaPuestos.FindByID(colaborador.PuestoID).ToDTO();
+                    AreaDTO area = colaborador.AreaID == 0 ? new AreaDTO() : context.TablaAreas.FindByID(colaborador.AreaID).ToDTO();
                     return Json(new {
                         colaborador = colaborador,
                         puesto = puesto,
