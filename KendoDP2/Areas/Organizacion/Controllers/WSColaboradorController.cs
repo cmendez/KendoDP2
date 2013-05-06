@@ -34,7 +34,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                     }, JsonRequestBehavior.AllowGet);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return Json(new { mensaje = "Sucedio un error en el WS :" + ex.Message }, JsonRequestBehavior.AllowGet);
             }
