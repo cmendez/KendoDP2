@@ -11,7 +11,7 @@ using KendoDP2.Areas.Objetivos.Models;
 
 namespace KendoDP2.Areas.Objetivos.Controllers
 {
-    [Authorize()]
+    
     public class ObjetivosEmpresaController : Controller
     {
         public ObjetivosEmpresaController()

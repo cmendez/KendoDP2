@@ -57,8 +57,6 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 Puesto p = context.TablaPuestos.FindByID(colaborador.PuestoID);
                 ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo };
 
-                c.ColaboradoresPuesto.Add(cruce);
-                //p.ColaboradorPuestos.Add(cruce);
                 context.TablaColaboradoresXPuestos.AddElement(cruce);
 
                 return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
@@ -86,5 +84,18 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             }
         }
 
+        public JsonResult _GetPuestos(int areaID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                List<Puesto> p = new List<Puesto>();
+                try
+                {
+                    p = context.TablaAreas.FindByID(areaID).Puestos.ToList();
+                }
+                catch (Exception) { }
+                return Json(p.Select(x => x.ToDTO()).ToList(), JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

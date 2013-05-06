@@ -210,11 +210,7 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.AreaID)</div>
                 </div>
                 <div class="span7 responsive">
-                      @(Html.DropDownListFor(model => model.AreaID, 
-                            new SelectList(areas, "ID", "Nombre"), new { style = "width:100%" })
-
-                )
-
+                    @Html.DropDownListFor(m => m.AreaID, new SelectList(areas, "ID", "Nombre"), new { style = "width:100%" }) 
                 </div>
             </div>
 
@@ -223,8 +219,7 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.PuestoID)</div>
                 </div>
                 <div class="span7">
-                      @Html.DropDownListFor(model => model.PuestoID, 
-                            new SelectList(puestos, "ID", "Nombre"), new { style = "width:100%" })
+                    @Html.DropDownListFor(m => m.PuestoID, new SelectList(puestos, "ID", "Nombre"), new { style = "width:100%" }) 
                 </div>
             </div>
 
@@ -248,7 +243,7 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.EstadoColaboradorID)</div>
                 </div>
                 <div class="span7 responsive">
-                    @Html.DropDownListFor(model => model.EstadoColaboradorID, new SelectList(estadosColaborador, "ID", "Descripcion"), new { style = "width:100%" })
+                    @Html.DropDownListFor(model => model.EstadoColaboradorID, new SelectList(estadosColaborador, "ID", "Descripcion"), new { style = "width:100%" } )
                 </div>
             </div>
 
@@ -267,5 +262,30 @@
        
     </div>
     <!-- fin contenedor inferior: campos -->
+
+   
+    
+<script>
+    $("#AreaID").change(function () {
+        var areaID = $(this).val();
+        $.getJSON("@Url.Action("_GetPuestos", "Colaboradores", new {Area = "Organizacion"})",
+               { areaID: areaID },
+               function (puestos) {
+                   var select = $("#PuestoID");
+                   select.empty();
+                   select.append($('<option/>', {
+                       value: 0,
+                       text: ""
+                   }));
+                   $.each(puestos, function (index, itemData) {
+                       select.append($('<option/>', {
+                           value: itemData.ID,
+                           text: itemData.Nombre
+                       }));
+                   });
+               });
+    });
+</script>
+
 }        
 
