@@ -34,6 +34,21 @@
                     .Events(e => e.Close("comboPuestosSelection"))
                     .SelectedIndex(0)
                 )
+
+@*                @{var comboPuesto = Html.Kendo().ComboBox()
+                    .Name("ComboPuestos")
+                    .Placeholder("Seleccione el puesto...")
+                    .DataTextField("Nombre")
+                    .DataValueField("ID")
+                    .Filter("contains")
+                    .BindTo(puestos)
+                    .Suggest(true)
+                    .HtmlAttributes(new { style = "width:100%" })
+                    .Events(e => e.Close("comboPuestosSelection"))
+                    .SelectedIndex(0);
+
+                  comboPuesto.Render();
+                }*@
             </div>
         </div>
         <div class="row-fluid information-container">
@@ -43,7 +58,7 @@
                     <!-- Only required for left/right tabs -->
                     <ul class="nav nav-tabs tabs-left">
                         <li class="active"><a href="#tab_competencias_@(puesto.ID)" data-toggle="tab">Competencias</a></li>
-                        <li class=""><a href="#tab_evaluadores_@(puesto.ID)" data-toggle="tab">Evaluadores</a></li>
+                        <li class=""><a href="#tab_tipo_evaluadores_@(puesto.ID)" data-toggle="tab">Evaluadores</a></li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab_competencias_@(puesto.ID)">
@@ -86,9 +101,68 @@
                                 ).Events(e => e.SaveChanges("onSave"))
                             )
                         </div>
+                        <div class="tab-pane" id="tab_tipo_evaluadores_@(puesto.ID)">
+                            @(Html.Kendo().Grid<PuestoXEvaluadoresDTO>()
+                                .Name("TipoEvaluadoresGrid-" + @puesto.ID)
+                                .Columns(columns =>
+                                    {
+                                        //columns.Bound(p => p.Participan);
+                                        //columns.Bound(p => p.Participan).ClientTemplate(
+                                        //    "<input id=" + puesto.ID + " type='checkbox' value='" + puesto.ID + "' " +
+                                        //        "# if (Participan) { #" +
+                                        //            "checked='checked'" +
+                                        //        "# } #" +
+                                        //    " onchange='modificarParticipacion(" + @puesto.ID + ")'/>"
+                                        //);
+                                        columns.Bound(p => p.Participan).ClientTemplate(
+                                            "<input id='#= ID  #' type='checkbox' value='#= ID #'  " +
+                                                "# if (Participan) { #" +
+                                                    "checked='checked'" +
+                                                "# } #" +
+                                            " onchange='modificarParticipacion(" + @puesto.ID + ") style='text-align: center;'/>"
+                                        );                                                                                
+                                        columns.Bound(p => p.ClaseEntorno);
+                                        columns.Bound(p => p.Cantidad);
+                                        columns.Bound(p => p.Peso);
+                                    }
+                                )
+                                .ToolBar(toolbar => { /*toolbar.Create().Text("Registrar");*/ toolbar.Save().SaveText("Guardar cambios").CancelText("Cancelar cambios"); })
+                                .Editable(editable => editable
+                                    .Mode(GridEditMode.InCell)
+                                    .DisplayDeleteConfirmation("Recuerde que debe guardar los cambios para hacer efectiva la eliminación.")
+                                    .Window(w => w.Title("Ingrese los datos"))
+                                )
+                                //.Pageable(e => e.Refresh(true))
+                                //.Filterable()
+                                //.Sortable()
+                                .Scrollable(w => w.Height(330))
+                                .DataSource(dataSource => dataSource
+                                    .Ajax()
+                                    .PageSize(20)
+                                    .Aggregates(a =>
+                                    {
+                                        a.Add(p => p.Peso).Sum();
+                                    })
+                                    .Model(model =>
+                                    {
+                                        model.Id(p => p.ClaseEntorno);
+                                    })
+                                    //.Create(update => update.Action("Create", "PuestosEvaluacion"))
+                                    //.Read(read => read.Action("EditingInline_Read", "PuestosEvaluacion", new { parametro = "parametrovalor" }))
+                                    .Read(read => read.Action("EditingInline_Read", "PuestosEvaluacion", new { puestoID = puesto.ID }))
+                                    //.Read(read => read.Type(HttpVerbs.Get).Url("/Evaluacion360/PuestosEvaluacion?" + "puesto=" + puesto.ID))
+                                    //.Update(update => update.Action("Update", "PuestosEvaluacion"))
+                                    .Update(update => update.Action("EditingInline_Update", "PuestosEvaluacion", new { puestoID = puesto.ID }))
+                                    //.Update(update => update.url.Action("Update", "PuestosEvaluacion"))
+                                    //.Destroy(update => update.Action("Destroy", "PuestosEvaluacion"))
+                                    .Events(e => e.RequestEnd("afterRequest"))
+                                    .Events(e => e.Change("cambioEnFila"))
+                                ).Events(e => e.SaveChanges("onSave"))
+                            )
+                        </div>
                     </div>
                 </div>
-            }
+            @*}*@
         </div>
             }
         </div>
@@ -145,6 +219,14 @@
     function afterRequest(e) {
         if (e.type == 'create')
             e.sender.read();
+    }
+
+    function modificarParticipacion(pxe) {
+        
+    }
+
+    function cambioEnFila(e) {
+        console.log("CambioEnFila");
     }
     
 </script>
