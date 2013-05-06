@@ -90,8 +90,32 @@
 
 <script type="text/javascript">
     function comboAreasSelection(e) {
-        var comboAreas = $('#comboAreas').data('kendoComboBox');
-        showMessage("Se agregó el área seleccionada!");
+        var comboAreas = $('#ComboAreas').data('kendoComboBox');
+        if (comboAreas.selectedIndex == -1)
+            return;
+        var areaID = comboAreas.dataItem(comboAreas.selectedIndex).ID;
+        console.log("area seleccionada:" + areaID);
+
+        $.ajax({
+            url: '@Url.Action("AddEvaluadoresPorArea","ProcesoEvaluacion", new {Area = "Evaluacion360"})',
+            dataType: 'JSON',
+            type: 'POST',
+            data: {procesoID: @Model.ID, areaID: areaID},
+            success: function(data){
+                if(data.success){
+                    // Agregar evaluados(de toda el área) a grilla
+                    console.log("Agregando usuarios del área seleccionada...");
+                    //  $("#ColaboradoresDeProcesoEvaluacionGrid").data('kendoGrid').dataSource.read();
+                    showMessage("Se agregó el área seleccionada");
+                }
+                else {
+                    showError("El colaborador seleccionado ya se encuentra en la lista de evaluados");
+                }
+            },
+            error: function(){
+                showError("Hubo un error en la operación");
+            }
+        });
     };
 
     function comboCompetenciasSelection(e) {
@@ -106,15 +130,15 @@
             type: 'POST',
             data: {procesoID: @Model.ID, colaboradorID: colaboradorID},
             success: function(data){
-                if(data.success)
+                if(data.success){
                     $("#ColaboradoresDeProcesoEvaluacionGrid").data('kendoGrid').dataSource.read();
+                    showMessage("Se agregó al usuario seleccionado");
+                }
                 else
                     showError("El colaborador seleccionado ya se encuentra en la lista de evaluados");
             },
-            error: function(){
-               
-                showMessage("Hubo un error en la operación");
-                //alert("Hubo un error en la operación");
+            error: function(){        
+                showError("Hubo un error en la operación");
             }
         });
     }

@@ -86,25 +86,17 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             }
         }
 
-        [HttpPost]
-        public JsonResult _GetComboPuestos(int areaID)
+        public JsonResult _GetPuestos(int areaID)
         {
-            return _GetPuestos(areaID);
-        }
-
-        private JsonResult _GetPuestos(int areaID)
-        {
-            //IQueryable<Temporada> ts = (new LogicaTemporada()).retornarTemporadas2();
             using (DP2Context context = new DP2Context())
             {
                 List<Puesto> p = new List<Puesto>();
                 try
                 {
                     p = context.TablaAreas.FindByID(areaID).Puestos.ToList();
-                   // p = (new EraSphereContext()).paises.Find(paisID).ciudades.ToList();
                 }
-                catch (Exception ex) { }
-                return Json(new SelectList(p, "ID", "Nombre"), JsonRequestBehavior.AllowGet);
+                catch (Exception) { }
+                return Json(p.Select(x => x.ToDTO()).ToList(), JsonRequestBehavior.AllowGet);
             }
         }
     }

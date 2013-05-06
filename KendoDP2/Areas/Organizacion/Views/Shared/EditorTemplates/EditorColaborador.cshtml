@@ -210,20 +210,7 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.AreaID)</div>
                 </div>
                 <div class="span7 responsive">
-                     @{var x = Html.Kendo().DropDownList()
-                                .Name("Area")
-                                .DataTextField("Nombre")
-                                .DataValueField("ID")
-                                .OptionLabel("Seleccione...")
-                                .BindTo(areas)
-                                .HtmlAttributes(new { style = "width:100%" })
-                                .Value(Model.AreaID + "");
-                      string html = x.ToString();
-                      html = html.Replace("jQuery(function(){", "");
-                      html = html.Replace("});});", "});");
-                    }
-                    @(Html.Raw(html.ToString()))    
-                                         
+                    @Html.DropDownListFor(m => m.AreaID, new SelectList(areas, "ID", "Nombre"), new { style = "width:100%" }) 
                 </div>
             </div>
 
@@ -232,28 +219,7 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.PuestoID)</div>
                 </div>
                 <div class="span7">
-                      @{var y = Html.Kendo().DropDownList()
-                                .Name("Puesto")
-                                .DataTextField("Nombre")
-                                .DataValueField("ID")
-                                .OptionLabel("Seleccione...")
-                                .CascadeFrom("Area")
-                                .DataSource(source => {
-                                            source.Read( read =>
-                                        { read.Action("_GetComboPuestos","Colaboradores").Data("filterPuesto");
-                                        })
-                                        .ServerFiltering(true);})
-                                        .AutoBind(false).Enable(false)
-                                            
-                                .HtmlAttributes(new { style = "width:100%" })
-                                .Value(Model.PuestoID + "");
-                      string html1 = y.ToString();
-                      html1 = html1.Replace("jQuery(function(){", "");
-                      html1 = html1.Replace("});});", "});");
-                    }
-                   @(Html.Raw(html.ToString()))    
-
-                                        
+                    @Html.DropDownListFor(m => m.PuestoID, new SelectList(puestos, "ID", "Nombre"), new { style = "width:100%" }) 
                 </div>
             </div>
 
@@ -300,11 +266,25 @@
    
     
 <script>
-            function filterPuesto() {
-                return {
-                    Area: $("#Area").val()
-                };
-            }
+    $("#AreaID").change(function () {
+        var areaID = $(this).val();
+        $.getJSON("@Url.Action("_GetPuestos", "Colaboradores", new {Area = "Organizacion"})",
+               { areaID: areaID },
+               function (puestos) {
+                   var select = $("#PuestoID");
+                   select.empty();
+                   select.append($('<option/>', {
+                       value: 0,
+                       text: ""
+                   }));
+                   $.each(puestos, function (index, itemData) {
+                       select.append($('<option/>', {
+                           value: itemData.ID,
+                           text: itemData.Nombre
+                       }));
+                   });
+               });
+    });
 </script>
 
 }        
