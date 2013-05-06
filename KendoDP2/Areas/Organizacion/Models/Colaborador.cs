@@ -144,12 +144,18 @@ namespace KendoDP2.Areas.Organizacion.Models
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public string FechaIngreso { get; set; }
 
-        [DisplayName("Área")]
+        [DisplayName("AreaID")]
         public int AreaID { get; set; }
         
-        [DisplayName("Puesto")]
-        public int PuestoID { get; set; }
+        [DisplayName("Área")]
+        public string Area { get; set; }
         
+        [DisplayName("PuestoID")]
+        public int PuestoID { get; set; }
+
+        [DisplayName("Puesto")]
+        public string Puesto { get; set; }
+
         [DisplayName("Sueldo S/.")]
         public int Sueldo { get; set; }
 
@@ -178,9 +184,11 @@ namespace KendoDP2.Areas.Organizacion.Models
             FechaIngreso = c.FechaIngresoEmpresa;
 
             try {
-                ColaboradorXPuesto cruce = c.ColaboradoresPuesto.OrderByDescending(a => a.ID).First();
+                ColaboradorXPuesto cruce = c.ColaboradoresPuesto. OrderByDescending(a => a.ID).First();
                 AreaID = cruce.Puesto.AreaID;
+                Area = cruce.Puesto.Area.Nombre;
                 PuestoID = cruce.Puesto.ID;
+                Puesto = cruce.Puesto.Nombre;
                 Sueldo = cruce.Sueldo;
             } catch(Exception){
                 AreaID = 0;
