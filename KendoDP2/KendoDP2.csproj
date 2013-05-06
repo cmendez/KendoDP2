@@ -201,6 +201,7 @@
     <Compile Include="Areas\Evaluacion360\Models\EstadoColaboradorXProcesoEvaluacion.cs" />
     <Compile Include="Areas\Evaluacion360\Models\ColaboradorXProcesoEvaluacion.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Evaluacion.cs" />
+    <Compile Include="Areas\Evaluacion360\Models\PerfilXEvaluadores.cs" />
     <Compile Include="Areas\Evaluacion360\Models\ProcesoEvaluacion.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Evaluador.cs" />
     <Compile Include="Areas\Evaluacion360\Models\NivelCapacidad.cs" />
