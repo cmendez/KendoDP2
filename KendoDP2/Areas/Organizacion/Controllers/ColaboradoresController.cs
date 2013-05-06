@@ -70,6 +70,17 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             {
                 Colaborador c = context.TablaColaboradores.FindByID(colaborador.ID).LoadFromDTO(colaborador);
                 context.TablaColaboradores.ModifyElement(c);
+                ColaboradorDTO colaboradorBD = c.ToDTO(); // lee el ultimo puesto de la bd
+                // crea un nuevo puesto en la tabla de cruce si algo cambio
+                if (colaboradorBD.PuestoID != colaborador.PuestoID || colaboradorBD.Sueldo != colaborador.Sueldo)
+                {
+                    Puesto p = context.TablaPuestos.FindByID(colaborador.PuestoID);
+                    ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo };
+
+                    context.TablaColaboradoresXPuestos.AddElement(cruce);
+                }
+                
+
                 return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
         }
