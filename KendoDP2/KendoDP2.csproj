@@ -184,6 +184,7 @@
     <Compile Include="App_Start\DontDropDbJustCreateTablesIfModelChangedStart.cs" />
     <Compile Include="Areas\Configuracion\ConfiguracionAreaRegistration.cs" />
     <Compile Include="Areas\Configuracion\Controllers\PeriodosController.cs" />
+    <Compile Include="Areas\Configuracion\Controllers\WSPeriodosController.cs" />
     <Compile Include="Areas\Configuracion\Models\Pais.cs" />
     <Compile Include="Areas\Configuracion\Models\Periodo.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\CapacidadesController.cs" />
@@ -207,6 +208,7 @@
     <Compile Include="Areas\Evaluacion360\Models\NivelCapacidad.cs" />
     <Compile Include="Areas\Evaluacion360\Models\TipoEvaluador.cs" />
     <Compile Include="Areas\Objetivos\Controllers\ObjetivosEmpresaController.cs" />
+    <Compile Include="Areas\Objetivos\Controllers\WSObjetivosEmpresaController.cs" />
     <Compile Include="Areas\Objetivos\Models\Objetivo.cs" />
     <Compile Include="Areas\Objetivos\Models\BSC.cs" />
     <Compile Include="Areas\Objetivos\Models\TipoObjetivoBSC.cs" />
