@@ -144,7 +144,8 @@ namespace KendoDP2.Areas.Organizacion.Models
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public string FechaIngreso { get; set; }
 
-        [DisplayName("AreaID")]
+        [DisplayName("Área")]
+        [UIHint("GridForeignKey")]
         public int AreaID { get; set; }
         
         [DisplayName("Área")]

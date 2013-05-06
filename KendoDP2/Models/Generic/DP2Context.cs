@@ -397,7 +397,7 @@ namespace KendoDP2.Models.Generic
 
         private void SeedOrganizacion()
         {
-            TablaOrganizaciones.AddElement(new Organizacion { RazonSocial = "Nueva organizacoin" });
+            TablaOrganizaciones.AddElement(new Organizacion { RazonSocial = "Nueva organizacion" });
         }
 
         private void SeedColaboradores()
