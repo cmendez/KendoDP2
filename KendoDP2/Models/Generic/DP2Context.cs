@@ -113,7 +113,9 @@ namespace KendoDP2.Models.Generic
 
 
         // Reclutamiento
-        //public DbSet<OfertaLaboral> InternalOfertaLaborals { get; set; }
+        public DbSet<OfertaLaboral> InternalOfertaLaborals { get; set; }
+
+        public DBGenericRequester<OfertaLaboral> TablaOfertaLaborals { get; set; }
 
         // Area Personal
 
@@ -204,7 +206,7 @@ namespace KendoDP2.Models.Generic
              */
 
             //Reclutamiento
-            //TablaOfertaLaborals = new DBGenericRequester<OfertaLaboral>(this, InternalOfertaLaborals);
+            TablaOfertaLaborals = new DBGenericRequester<OfertaLaboral>(this, InternalOfertaLaborals);
         }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -468,7 +470,7 @@ namespace KendoDP2.Models.Generic
         // Area Reclutamiento
         private void SeedOfertaLaboral()
         {
-            //TablaOfertaLaborals.AddElement(new OfertaLaboral { Estado = 1, PuestoID = TablaPuestos.One(a=>a.Nombre.Equals("Presidente")).ID });
+            TablaOfertaLaborals.AddElement(new OfertaLaboral { Estado = 1, PuestoID = TablaPuestos.One(a=>a.Nombre.Equals("Presidente")).ID });
         }
 
         

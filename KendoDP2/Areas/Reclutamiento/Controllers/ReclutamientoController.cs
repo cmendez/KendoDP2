@@ -5,21 +5,29 @@ using System.Web;
 using System.Web.Mvc;
 using KendoDP2.Models.Generic;
 using KendoDP2.Areas.Reclutamiento.Models;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
+using KendoDP2.Areas.Objetivos.Models;
 
 namespace KendoDP2.Areas.Reclutamiento.Controllers
 {
-    [Authorize()]
+    
     public class ReclutamientoController : Controller
     {
         //
         // GET: /Reclutamiento/Reclutamiento/
+        public ReclutamientoController()
+        {
+            ViewBag.Area = "Reclutamiento";
+        }
+
 
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: /Reclutamiento/Postulando
+        // GET: /Reclutamiento/Reclutamiento/Postulando
 
         public ActionResult Postulando()
         {
@@ -27,7 +35,8 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             //Tener cargada junto con los puestos la descripcion y los requisitos
             using (DP2Context context = new DP2Context())
             {
-                return Json(context.TablaOfertaLaborals.Where(o => o.Estado == 1).Select(o => o.ToDTO()),JsonRequestBehavior.AllowGet);
+                //return View();
+                return Json(context.TablaPeriodos.All().Select(o => o.ToDTO()).ToList(), JsonRequestBehavior.AllowGet);
             }
 
             //**Solo se deberían mostrar las ofertas vigentes
