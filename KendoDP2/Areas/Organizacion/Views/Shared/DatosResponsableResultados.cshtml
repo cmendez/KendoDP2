@@ -13,9 +13,7 @@
                     </div>
                     <div class="span4">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                           @Html.TextBoxFor(model => model.TipoDocumento, new {@readonly ="readonly"})           
-                 
-                         
+                            @Html.TextBox("_TipoDocumento", Model.TipoDocumento, new {@readonly ="readonly"})        
                         </div>
                     </div>
                 </div>
@@ -26,9 +24,7 @@
                     </div>
                     <div class="span4">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                           @Html.TextBoxFor(model => model.Documento, new {@readonly ="readonly"})           
-                 
-                         
+                           @Html.TextBox("_Documento", Model.Documento, new {@readonly ="readonly"})
                         </div>
                     </div>
                 </div>

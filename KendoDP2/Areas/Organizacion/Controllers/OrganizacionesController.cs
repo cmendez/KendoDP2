@@ -58,8 +58,12 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                var colab = context.TablaOrganizaciones.FindByID(orgID);
-                return PartialView("EditorOrganizacion");
+                ViewBag.Organizacion = context.TablaOrganizaciones.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.tipoDocumentos = context.TablaTiposDocumentos.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.pais = context.TablaPaises.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.colaboradores = context.TablaColaboradores.All().Select(p => p.ToDTO()).ToList();
+                var organizacion = context.TablaOrganizaciones.FindByID(orgID);
+                return PartialView("EditorOrganizacion", organizacion.ToDTO());
             }
         }
 
