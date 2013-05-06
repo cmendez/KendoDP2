@@ -3,6 +3,13 @@
 @{
     ViewBag.Title = "Colaboradores";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    IList<AreaDTO> areas = ViewBag.areas;
+    IList<EstadosColaboradorDTO> estadosColaborador = ViewBag.estadosColaborador;
+    IList<PuestoDTO> puestos = ViewBag.puestos;
+    SelectList lista = new SelectList(areas, "ID", "Nombre");
+    SelectList listaEstados = new SelectList(estadosColaborador, "ID", "Descripcion");
+    SelectList listaPuestos = new SelectList(puestos, "ID", "Nombre");
+
 }
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Colaboradores", "Administre los colaboradores de la empresa"));}
 
@@ -25,9 +32,12 @@
                         columns.Bound(p => p.Nombre);
                         columns.Bound(p => p.ApellidoPaterno);
                         columns.Bound(p => p.ApellidoMaterno);
+                        columns.ForeignKey(p => p.EstadoColaboradorID, listaEstados);
+                        columns.ForeignKey(p => p.AreaID, lista);
+                        columns.ForeignKey(p => p.PuestoID, listaPuestos);
                         columns.Command(command => { command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar");
                                                      command.Destroy().Text("Eliminar");
-                                                   }).Width(300);
+                                                   }).Width(200);
                         
                     }
                 )
@@ -42,6 +52,7 @@
                     .Window(w => { w.Title("Ingrese los datos"); w.Width(900); })
 
                 )
+                .Groupable()
                 .Pageable(paper => paper.Refresh(true))
                 .Filterable()
                 .Sortable()

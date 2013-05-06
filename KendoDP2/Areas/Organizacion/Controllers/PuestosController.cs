@@ -7,6 +7,7 @@ using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
 using KendoDP2.Models.Generic;
 using KendoDP2.Areas.Organizacion.Models;
+using KendoDP2.Areas.Evaluacion360.Models;
 
 namespace KendoDP2.Areas.Organizacion.Controllers
 {
@@ -54,6 +55,15 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 //p.PuestosArea.Add(cruce);
               
                 context.TablaPuestosXAreas.AddElement(cruce);
+
+                //360:
+                //Se crea la base para la configuración de su evaluación:
+                context.TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(p.ID, true, "El mismo", 1, 50));
+                context.TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(p.ID, true, "Jefe", 1, 50));
+                context.TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(p.ID, false, "Pares", 0, 0));
+                context.TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(p.ID, false, "Subordinados", 0, 0));
+                context.TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(p.ID, false, "Clientes", 0, 0));
+                context.TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(p.ID, false, "Otros", 0, 0));
 
                 return Json(new[] { p.ToDTO() }.ToDataSourceResult(request, ModelState));
             }

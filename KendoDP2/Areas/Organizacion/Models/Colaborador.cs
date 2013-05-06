@@ -89,10 +89,12 @@ namespace KendoDP2.Areas.Organizacion.Models
         [StringLength(40)]
         public string Nombre { get; set; }
         
+        [Required]
         [DisplayName("Apellido Paterno")]
         [StringLength(30)]
         public string ApellidoPaterno { get; set; }
 
+        [Required]
         [DisplayName("Apellido Materno")]
         [StringLength(30)]
         public string ApellidoMaterno { get; set; }
@@ -132,25 +134,29 @@ namespace KendoDP2.Areas.Organizacion.Models
         public byte[] ImagenColaborador { get; set; }
 
         [DisplayName("Centro de estudios")]
+        [StringLength(100)]
         public string CentroEstudios { get; set; }
 
         [DisplayName("Grado Académico")]
         public int GradoAcademicoID { get; set; }
 
         [DisplayName("Correo Electrónico")]
+        [StringLength(80)]
         public string CorreoElectronico { get; set; }
         
         [DisplayName("Ingreso Empresa")]
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public string FechaIngreso { get; set; }
 
-        [DisplayName("AreaID")]
+        [DisplayName("Área")]
+        [UIHint("GridForeignKey")]
         public int AreaID { get; set; }
         
         [DisplayName("Área")]
         public string Area { get; set; }
         
-        [DisplayName("PuestoID")]
+        [DisplayName("Puesto")]
+        [UIHint("GridForeignKey")]
         public int PuestoID { get; set; }
 
         [DisplayName("Puesto")]
@@ -200,4 +206,19 @@ namespace KendoDP2.Areas.Organizacion.Models
          }
 
         }
+
+    public class ColaboradorDocumentosDTO
+    {
+        public string TipoDocumento { get; set; }
+        public string Documento { get; set; }
+
+        public ColaboradorDocumentosDTO() { }
+
+        public ColaboradorDocumentosDTO(Colaborador o)
+        {
+            TipoDocumento = o.TipoDocumento.Descripcion;
+            Documento = o.NumeroDocumento;
+        }
     }
+    
+}

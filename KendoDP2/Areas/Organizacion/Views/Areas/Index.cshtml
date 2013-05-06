@@ -3,7 +3,9 @@
 @{
     ViewBag.Title = "Áreas";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    SelectList comboAreas = new SelectList(ViewBag.Areas, "ID", "Nombre");
+    int pageSize = ViewBag.PageSize;
+    IList<AreaDTO> areas = ViewBag.Areas;
+    SelectList comboAreas = new SelectList(areas, "ID", "Nombre");
 }
 
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Áreas", "Administre las áreas de la empresa"));}
@@ -22,13 +24,11 @@
                         .Name("treeview")
                         .DataImageUrlField("TreeIcon")
                         .DataTextField("Name")
-                        .DataSource(dataSource => dataSource
-                            .Read(read => read
-                                .Action("AreasToTree", "Areas")
+                        .DataSource(s => s
+                            .Read(r => r.Action("AreasToTree", "Areas")
                             )
                         )
-                        .Events(e => e
-                            .Select("onSelect")
+                        .Events(e => e.Select("onSelectTreeNode")
                         )
                     )
             </div>
@@ -40,18 +40,31 @@
                         c.Bound(a => a.ID);
                         c.Bound(a => a.Nombre);
                         c.ForeignKey((a => a.AreaSuperiorID), comboAreas);
-                        c.Bound(a => a.Descripcion);
+                        c.Command(cmd =>
+                        {
+                            cmd.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar");
+                            cmd.Destroy().Text("Eliminar");
+                        }).Width(200);
                     })
-                    .Pageable(paper => paper.Refresh(true))
+                    .ToolBar(toolbar => toolbar.Create().Text("Registrar"))
+                    .Editable(editable => editable
+                        .Mode(GridEditMode.PopUp)
+                        .DisplayDeleteConfirmation("¿Está seguro que desea eliminar este registro?")
+                        .Window(w => w.Title("Ingrese los datos"))
+                    )
+                    .Pageable(p => p.Refresh(true))
                     .Filterable()
                     .Sortable()
                     .Selectable()
-                    .DataSource(dataSource => dataSource
+                    .DataSource(s => s
                         .Ajax()
-                        .PageSize(10)
+                        .PageSize(pageSize)
                         .ServerOperation(false)
                         .Model(m => m.Id("ID"))
-                        .Read(read => read.Action("AreasToList", "Areas"))
+                        .Create(c => c.Action("Create", "Areas"))
+                        .Read(r => r.Action("Read", "Areas"))
+                        .Update(u => u.Action("Update", "Areas"))
+                        .Destroy(d => d.Action("Destroy", "Areas"))
                     )
                 )
             </div>
@@ -64,19 +77,28 @@
     }
 </style>
 <script>
-    function onSelect(e) {
+    function onComplete(e) {
+        if (e.type == 'create' || e.type == 'destroy' || e.type == 'update') {
+            $('#grid').data('kendoGrid').dataSource.read();
+            $('#treeview').data('kendoTreeView').dataSource.read();
+        }
+    }
+    $(document).ready(function ready() {
+        $('#grid').data('kendoGrid').dataSource.bind('requestEnd', onComplete);
+    });
+    function onSelectTreeNode(e) {
         var nodo = $('#treeview').data('kendoTreeView').dataItem(e.node);
         var id = nodo.id;
         var grid = $("#grid").data("kendoGrid");
         var fila = grid.dataSource.get(id);
         var kfila;
-        var i = 1;
-        while (true) {
+        for (var i = 1; i <= grid.dataSource.totalPages() ; i++) {
             grid.dataSource.page(i);
             kfila = grid.table.find('tr[data-uid="' + fila.uid + '"]');
-            if (kfila.index() > -1 || i > 10) break;
-            i++;
+            if (kfila.index() > -1) {
+                grid.select(kfila);
+                break;
+            }
         }
-        grid.select(kfila);
     }
 </script>

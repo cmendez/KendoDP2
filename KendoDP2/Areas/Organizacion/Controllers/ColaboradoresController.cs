@@ -50,6 +50,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
+             
                 Colaborador c = new Colaborador(colaborador);
                 c.EstadoColaborador = context.TablaEstadosColaboradores.One(x => x.Descripcion.Equals("Contratado"));
                 context.TablaColaboradores.AddElement(c);
@@ -57,11 +58,11 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 Puesto p = context.TablaPuestos.FindByID(colaborador.PuestoID);
                 ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo };
 
-                c.ColaboradoresPuesto.Add(cruce);
-                //p.ColaboradorPuestos.Add(cruce);
                 context.TablaColaboradoresXPuestos.AddElement(cruce);
 
                 return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
+               
+
             }
         }
 
@@ -72,6 +73,16 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             {
                 Colaborador c = context.TablaColaboradores.FindByID(colaborador.ID).LoadFromDTO(colaborador);
                 context.TablaColaboradores.ModifyElement(c);
+                ColaboradorDTO colaboradorBD = c.ToDTO(); // lee el ultimo puesto de la bd
+                // crea un nuevo puesto en la tabla de cruce si algo cambio
+                if (colaboradorBD.PuestoID != colaborador.PuestoID || colaboradorBD.Sueldo != colaborador.Sueldo)
+                {
+                    Puesto p = context.TablaPuestos.FindByID(colaborador.PuestoID);
+                    ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo };
+
+                    context.TablaColaboradoresXPuestos.AddElement(cruce);
+                }
+                
                 return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
         }
@@ -97,6 +108,18 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 }
                 catch (Exception) { }
                 return Json(p.Select(x => x.ToDTO()).ToList(), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public int ValidaColaboradores(int tipoDocumentoID, string documento)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                IList<Colaborador> colaboradores = context.TablaColaboradores.All().Where(c => ((c.TipoDocumentoID == tipoDocumentoID) && (c.NumeroDocumento == documento))).ToList();
+                if (colaboradores.Count() == 0)
+                    return 0;
+                else
+                    return 1;
             }
         }
     }
