@@ -7,6 +7,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     IList<ProcesoEvaluacionDTO> procesosEvaluacion = ViewBag.procesosEvaluacion;
     IList<ColaboradorDTO> colaboradores = ViewBag.colaboradores;
+    IList<AreaDTO> areas = ViewBag.areas;
     SelectList lista = new SelectList(colaboradores, "ID", "NombreCompleto");
     
 }

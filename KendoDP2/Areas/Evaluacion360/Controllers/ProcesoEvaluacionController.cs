@@ -26,6 +26,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             using (DP2Context context = new DP2Context())
             {
                 ViewBag.colaboradores = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
+                ViewBag.areas = context.TablaAreas.All().Select(c => c.ToDTO()).ToList();
                 return View();
             }
         }
@@ -36,6 +37,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             {
                 ProcesoEvaluacion proceso = context.TablaProcesoEvaluaciones.FindByID(procesoEvaluacionID);
                 ViewBag.colaboradores = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
+                ViewBag.areas = context.TablaAreas.All().Select(c => c.ToDTO()).ToList();
                 ViewBag.estados = context.TablaEstadoColaboradorXProcesoEvaluaciones.All().Select(c => c.ToDTO()).ToList();
                 ViewBag.areas = context.TablaAreas.All().Select(c => c.ToDTO()).ToList();
                 return View(proceso);
@@ -140,6 +142,23 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 return Json(ModelState.ToDataSourceResult());
             }
         }
-
+        
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult AddEvaluadoresPorArea(int procesoID, int areaID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                // TODO: crear método para guardar todos los evaluadores por área en un proceso de evaluación
+                /*
+                if (context.TablaColaboradorXProcesoEvaluaciones.Any(x => x.ProcesoEvaluacionID == procesoID && x.ColaboradorID == colaboradorID))
+                    return Json(new { success = false });
+                else
+                {
+                    AddColaboradorToProceso(areaID, procesoID, context);
+                    return Json(new { success = true });
+                }*/
+                return Json(new { success = true });
+            }
+        }
     }
 }

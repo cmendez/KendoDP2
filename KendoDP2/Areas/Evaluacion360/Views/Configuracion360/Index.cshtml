@@ -1,0 +1,284 @@
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Evaluacion360.Models
+@{
+    ViewBag.Title = "Por perfil";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IList<CompetenciaDTO> competencias = ViewBag.competencias;
+    IList<NivelCapacidad> niveles = ViewBag.niveles;    
+}
+
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Evaluaciones por perfil", "Gestione el contenido de las evaluaciones de sus empleados"));}
+
+@*TODO: Resaltar la fila que el usuario apunta para guiar su selección*@ 
+@*<script>
+    $(document).ready(function () {
+
+        //$('#PerfilesGrid tr').bind('hover', function () {
+        //    alert('Resaltar');
+        //});
+
+        //Olvidar
+        //console.log('imprimiendo el objeto index');
+        //console.log($('index'));
+
+        //console.log('$(#PerfilesGrid tr [role="row"])');
+        //console.log($('#PerfilesGrid tr [role="row"]'));
+
+
+        //console.log('$(#PerfilesGrid [role="row"])');
+        //console.log($('#PerfilesGrid [role="row"]'));
+
+        console.log('$(#PerfilesGrid');
+        console.log($('#PerfilesGrid'));
+
+        //$('#PerfilesGrid k-grid-content table tbody tr').on('hover',
+        $('#PerfilesGrid').on('hover',
+          function () {
+              //$(this).css("background","yellow");
+              console.log('entraste');
+          },
+          function () {
+              //$(this).css("background","");
+              console.log('saliste');
+          }
+        );
+        //$('#PerfilesGrid tr').on('hover',
+        //  function () {
+        //      //$(this).css("background","yellow");
+        //      console.log('entraste');
+        //  }, 
+        //  function () {
+        //      //$(this).css("background","");
+        //      console.log('saliste');
+        //  }
+        //);
+    });
+</script>*@
+
+<div class="portlet box green">
+    <div class="portlet-title">
+        <h4><i class="icon-group"></i>Perfiles de trabajo</h4>
+        <div class="tools">
+	        <a href="javascript:;" class="collapse"></a>
+        </div>
+	</div>
+    <div class="portlet-body">
+        @(Html.Kendo().Grid<PerfilDTO>()
+            .Name("PerfilesGrid")
+            .Columns(columns =>
+                {
+                    columns.Bound(p => p.Nombre).Title("Seleccione un perfil");
+                    //columns.Command(command => { command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar"); command.Destroy().Text("Eliminar"); }).Width(200);
+                }
+            )
+            //.ToolBar(toolbar => toolbar.Create().Text("Registrar"))
+            //.Editable(editable => editable
+            //    .Mode(GridEditMode.PopUp)
+            //    .DisplayDeleteConfirmation("¿Está seguro que desea eliminar este registro?")
+            //    .Window(w => w.Title("Ingrese los datos"))
+            //)
+            .Pageable(paper => paper.Refresh(true))
+            .Filterable()
+            .Sortable()
+            .Scrollable(w => w.Height(330))
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .PageSize(20)
+                .Model(model => model.Id(p => p.ID))
+                //.Create(update => update.Action("EditingInline_Create", "Competencias"))
+                .Read(read => read.Action("EditingInline_Read", "Configuracion360"))
+                //.Update(update => update.Action("EditingInline_Update", "Competencias"))
+                //.Destroy(update => update.Action("EditingInline_Destroy", "Competencias"))
+            )
+        )
+
+        @(Html.Kendo().Grid<CompetenciaConNivelDTO>()
+            .Name("CompetenciaGrid")
+            .Columns(columns =>
+                {
+                    columns.Bound(p => p.CompetenciaNombre).Title("Competencia").ClientFooterTemplate("<strong>Cantidad:</strong> #=count#");
+                    columns.Bound(p => p.Nivel);
+                    columns.Bound(p => p.Peso).ClientFooterTemplate("<strong>Suma:</strong> #=sum#");
+                    columns.Bound(p => p.Seleccionado).Title("Debe poseer").ClientTemplate(
+                        "<input type='checkbox' value='#= ID #' " +
+                            "# if (Seleccionado) { #" +
+                                "checked='checked'" +
+                            "# } #" +
+                        "/>"
+                    );                    
+                    //columns.Command(command => { command.Destroy().Text("Eliminar"); }).Width(200);
+                }
+            )
+            .ToolBar(toolbar => { 
+                //toolbar.Create().Text("Registrar");
+                toolbar.Save().SaveText("Guardar cambios").CancelText("Cancelar cambios"); })
+            .Editable(editable => editable
+                .Mode(GridEditMode.InCell)
+                .DisplayDeleteConfirmation("Recuerde que debe guardar los cambios para hacer efectiva la eliminación.")
+                .Window(w => w.Title("Ingrese los datos"))
+            )
+            .Pageable(e => e.Refresh(true))
+            .Filterable()
+            .Sortable()
+            .Scrollable(w => w.Height(330))
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .PageSize(20)
+                .Aggregates(a =>
+                {
+                    a.Add(p => p.CompetenciaNombre).Count();
+                    a.Add(p => p.Peso).Sum();
+                })
+                .Model(model =>
+                {
+                    model.Id(p => p.ID);
+                    model.Field(p => p.Nivel);
+                    model.Field(p => p.Peso);
+                })
+                //.Create(update => update.Action("EditingInline_Create", "Configuracion360"))
+                .Read(read => read.Action("EditingInline_Read_competencia", "Configuracion360"/*, new { nivelID = niveles[i].ID, competenciaID = competencia.ID }*/))
+                .Update(update => update.Action("EditingInline_Update_competencia", "Configuracion360"))
+                //.Destroy(update => update.Action("EditingInline_Destroy", "Configuracion360"))
+                .Events(e => e.RequestEnd("afterRequest"))
+            ).Events(e => e.SaveChanges("onSave"))
+        )
+
+
+     @*   @(Html.Kendo().Grid<CompetenciaConNivelDTO>()
+            .Name("CompetenciasGrid")
+            .Columns(columns =>
+                {
+                    columns.Bound(p => p.Nombre);
+                    columns.Command(command => { command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar"); command.Destroy().Text("Eliminar"); }).Width(200);
+                }
+            )
+            .ToolBar(toolbar => toolbar.Create().Text("Agregar Competencia"))
+            //.Editable(editable => editable
+            //    .Mode(GridEditMode.PopUp)
+            //    .DisplayDeleteConfirmation("¿Está seguro que desea eliminar este registro?")
+            //    .Window(w => w.Title("Ingrese los datos"))
+            //)
+            .Pageable(paper => paper.Refresh(true))
+            .Filterable()
+            .Sortable()
+            .Scrollable(w => w.Height(330))
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .PageSize(5)
+                .Model(model => model.Id(p => p.ID))
+                //.Create(update => update.Action("EditingInline_Create", "Competencias"))
+                //.Read(read => read.Action("EditingInline_Read", "Configuracion360"))
+                //.Update(update => update.Action("EditingInline_Update", "Competencias"))
+                //.Destroy(update => update.Action("EditingInline_Destroy", "Competencias"))
+            )
+        )*@
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function ready() {
+        //comboCompetenciasSelection();
+    });
+
+    var last_container = null;
+    //function comboCompetenciasSelection() {
+    //    var comboCompetencias = $("#ComboCompetencias").data("kendoComboBox");
+    //    if (comboCompetencias.selectedIndex == -1)
+    //        return;
+
+    //    var competenciaID = comboCompetencias.dataItem(comboCompetencias.selectedIndex).ID;
+        
+    //    if (last_container != null)
+    //        last_container.hide();
+    //    last_container = $("#competencias-container-" + competenciaID);
+    //    last_container.show();
+    //}
+
+    //function doNuevoNivel() {
+    //    if (window.confirm("¿Está seguro que desea crear un nuevo nivel para las capacidades?")) {
+    //        $("a#link-crear-nuevo-nivel")[0].click();
+    //    }
+    //}
+
+    //function doEliminarNivel() {
+    //    if (window.confirm("¿Está seguro que desea eliminar el último nivel para las capacidades?")) {
+    //        $("a#link-eliminar-nivel")[0].click();
+    //    }
+    //}
+
+    function getSumaPeso(data) {
+        var sumaPeso = 0;
+        for (var i = 0; i < data.length; i++) {
+            sumaPeso += data[i].Peso;
+        }
+        return sumaPeso;
+    }
+
+    function onSave(e) {
+        var sumaPeso = getSumaPeso(e.sender._data);
+        if (sumaPeso != 100) {
+            alert("La suma de los pesos no es 100, es " + sumaPeso + ".");
+            e.preventDefault();
+        }
+    }
+
+    function afterRequest(e) {
+        if (e.type == 'create')
+            e.sender.read();
+    }
+    
+</script>
+
+@*<script type="text/javascript">
+    $(document).ready(function ready() {
+        comboCompetenciasSelection();
+    });
+
+    var last_container = null;
+    function comboCompetenciasSelection() {
+        var comboCompetencias = $("#ComboCompetencias").data("kendoComboBox");
+        if (comboCompetencias.selectedIndex == -1)
+            return;
+
+        var competenciaID = comboCompetencias.dataItem(comboCompetencias.selectedIndex).ID;
+
+        if (last_container != null)
+            last_container.hide();
+        last_container = $("#competencias-container-" + competenciaID);
+        last_container.show();
+    }
+
+    function doNuevoNivel() {
+        if (window.confirm("¿Está seguro que desea crear un nuevo nivel para las capacidades?")) {
+            $("a#link-crear-nuevo-nivel")[0].click();
+        }
+    }
+
+    function doEliminarNivel() {
+        if (window.confirm("¿Está seguro que desea eliminar el último nivel para las capacidades?")) {
+            $("a#link-eliminar-nivel")[0].click();
+        }
+    }
+
+    function getSumaPeso(data) {
+        var sumaPeso = 0;
+        for (var i = 0; i < data.length; i++) {
+            sumaPeso += data[i].Peso;
+        }
+        return sumaPeso;
+    }
+
+    function onSave(e) {
+        var sumaPeso = getSumaPeso(e.sender._data);
+        if (sumaPeso != 100) {
+            alert("La suma de los pesos no es 100, es " + sumaPeso + ".");
+            e.preventDefault();
+        }
+    }
+
+    function afterRequest(e) {
+        if (e.type == 'create')
+            e.sender.read();
+    }
+
+</script>*@

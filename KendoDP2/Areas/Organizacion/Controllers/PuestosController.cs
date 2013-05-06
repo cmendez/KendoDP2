@@ -48,14 +48,38 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 p.EstadoPuesto = context.TablaEstadosPuestos.One(x => x.Descripcion.Equals("Vacante"));
                 context.TablaPuestos.AddElement(p);
 
-               // Puesto p = context.TablaPuestos.FindByID(puesto.PuestoID);
-              //  ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo };
-
-               // c.ColaboradoresPuesto.Add(cruce);
+                Area a = context.TablaAreas.FindByID(puesto.AreaID);
+                PuestoXArea cruce = new PuestoXArea { Area = a, Puesto = p };
+                
+                //p.PuestosArea.Add(cruce);
               
-               // context.TablaColaboradoresXPuestos.AddElement(cruce);
+                context.TablaPuestosXAreas.AddElement(cruce);
 
                 return Json(new[] { p.ToDTO() }.ToDataSourceResult(request, ModelState));
+            }
+        }
+
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditingInline_Update([DataSourceRequest] DataSourceRequest request, PuestoDTO puesto)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                Puesto p = context.TablaPuestos.FindByID(puesto.ID).LoadFromDTO(puesto);
+                context.TablaPuestos.ModifyElement(p);
+                return Json(new[] { p.ToDTO() }.ToDataSourceResult(request, ModelState));
+            }
+        }
+
+
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditingInline_Destroy([DataSourceRequest] DataSourceRequest request, PuestoDTO puesto)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                context.TablaPuestos.RemoveElementByID(puesto.ID);
+                return Json(ModelState.ToDataSourceResult());
             }
         }
  

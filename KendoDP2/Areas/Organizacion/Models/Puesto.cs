@@ -9,7 +9,6 @@ using System.ComponentModel;
 
 using System.Web;
 
-
 namespace KendoDP2.Areas.Organizacion.Models
 {
     public class Puesto : DBObject
@@ -20,12 +19,13 @@ namespace KendoDP2.Areas.Organizacion.Models
         public Area Area { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
-        
+        public int? PuestoSuperiorID { get; set; }
+        //public Puesto PuestoSuperior { get; set; }
 
-        //public virtual ICollection<Objetivo> Objetivos { get; set; }
+       // public virtual ICollection<Objetivo> Funciones { get; set; }
         
-      //  public virtual ICollection<ColaboradorXPuesto> ColaboradoresPuesto { get; set; }
-      //  public int ColaboradorXPuestoID { get; set; }
+       public virtual ICollection<PuestoXArea> PuestosArea { get; set; }
+       public int PuestoXAreaID { get; set; }
         
         public int? EstadosPuestoID { get; set; }
         public virtual EstadosPuesto EstadoPuesto { get; set; }
@@ -49,7 +49,9 @@ namespace KendoDP2.Areas.Organizacion.Models
         {
             ID = p.ID;
             Nombre = p.Nombre;
-         
+            AreaID = p.AreaID;
+            Descripcion = p.Descripcion;
+            PuestoSuperiorID = p.PuestoSuperiorID;
             return this;
         }
 
@@ -80,9 +82,10 @@ namespace KendoDP2.Areas.Organizacion.Models
         [DisplayName("Área")]
         public int AreaID { get; set; }
 
+  //      [Required]
         [UIHint("GridForeignKey")]
         [DisplayName("Puesto superior")]
-        public int? PuestoSuperiorID { get; set; }
+        public int PuestoSuperiorID { get; set; }
         
 
         public PuestoDTO() { }
@@ -94,6 +97,27 @@ namespace KendoDP2.Areas.Organizacion.Models
             Descripcion = p.Descripcion;
             ID = p.ID;
             AreaID = p.AreaID;
+            if (p.PuestoSuperiorID.HasValue)
+                PuestoSuperiorID = p.PuestoSuperiorID.Value;
+            else PuestoSuperiorID=0;
+            //PuestoSuperiorID = p.PuestoSuperiorID.Value;
+
+            try
+            {
+                PuestoXArea cruce = p.PuestosArea.OrderByDescending(a => a.ID).First();
+                AreaID = cruce.Puesto.AreaID;
+                //necesitamos obtener el Puesto Superior mediante un artificio
+                PuestoSuperiorID = p.PuestoSuperiorID.Value ;
+              
+            }
+            catch (Exception)
+            {
+                AreaID = 1;
+                PuestoSuperiorID = 1;
+                
+            }
+
+
          }
 
     }

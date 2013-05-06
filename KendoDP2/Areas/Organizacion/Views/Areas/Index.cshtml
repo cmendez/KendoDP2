@@ -16,37 +16,67 @@
         </div>
     </div>
     <div class="portlet-body">
-        @(Html.Kendo().TreeView()
-                .Name("treeview")
-                .DataImageUrlField("TreeIcon")
-                .DataTextField("Name")
-                .DataSource(dataSource => dataSource
-                    .Read(read => read
-                        .Action("AreasToTree", "Areas")
+        <div class="row-fluid">
+            <div class="span3">
+                @(Html.Kendo().TreeView()
+                        .Name("treeview")
+                        .DataImageUrlField("TreeIcon")
+                        .DataTextField("Name")
+                        .DataSource(dataSource => dataSource
+                            .Read(read => read
+                                .Action("AreasToTree", "Areas")
+                            )
+                        )
+                        .Events(e => e
+                            .Select("onSelect")
+                        )
+                    )
+            </div>
+            <div class="span9">
+                @(Html.Kendo().Grid<AreaDTO>()
+                    .Name("grid")
+                    .Columns(c =>
+                    {
+                        c.Bound(a => a.ID);
+                        c.Bound(a => a.Nombre);
+                        c.ForeignKey((a => a.AreaSuperiorID), comboAreas);
+                        c.Bound(a => a.Descripcion);
+                    })
+                    .Pageable(paper => paper.Refresh(true))
+                    .Filterable()
+                    .Sortable()
+                    .Selectable()
+                    .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .PageSize(10)
+                        .ServerOperation(false)
+                        .Model(m => m.Id("ID"))
+                        .Read(read => read.Action("AreasToList", "Areas"))
                     )
                 )
-            )
-        @(Html.Kendo().Grid<AreaDTO>()
-                .Name("grid")
-                .Columns(c =>
-                {
-                    c.Bound(a => a.Nombre);
-                    c.ForeignKey((a => a.AreaSuperiorID), comboAreas);
-                    c.Bound(a => a.Descripcion);
-                })
-                .Pageable(paper => paper.Refresh(true))
-                .Filterable()
-                .Sortable()
-                .Scrollable(w => w.Height(330))
-                .DataSource(dataSource => dataSource
-                    .Ajax()
-                    .PageSize(20)
-                    .ServerOperation(false)
-                    .Read(read => read.Action("AreasToList", "Areas"))
-                )
-            )
-
+            </div>
+        </div>
     </div>
 </div>
 <style scoped>
+    #treeview {
+        border: solid 1px #C0C9D0;
+    }
 </style>
+<script>
+    function onSelect(e) {
+        var nodo = $('#treeview').data('kendoTreeView').dataItem(e.node);
+        var id = nodo.id;
+        var grid = $("#grid").data("kendoGrid");
+        var fila = grid.dataSource.get(id);
+        var kfila;
+        var i = 1;
+        while (true) {
+            grid.dataSource.page(i);
+            kfila = grid.table.find('tr[data-uid="' + fila.uid + '"]');
+            if (kfila.index() > -1 || i > 10) break;
+            i++;
+        }
+        grid.select(kfila);
+    }
+</script>
