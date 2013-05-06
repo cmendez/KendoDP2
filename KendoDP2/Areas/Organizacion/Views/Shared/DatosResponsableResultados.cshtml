@@ -2,20 +2,8 @@
 @using KendoDP2.Areas.Organizacion.Models
 @using KendoDP2.Areas.Configuracion.Models
 
-@model KendoDP2.Areas.Organizacion.Models.OrganizacionDTO
-@{
+@model KendoDP2.Areas.Organizacion.Models.ColaboradorDocumentosDTO
     
-    IList<ColaboradorDTO> colaboradores = ViewBag.colaboradores;
-    bool partial = (bool)(ViewData["partial"]);
-    
-}
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-    
-               
          <div class="row-fluid">
             <!-- contenedor superior izquierdo: campos -->
                       
@@ -48,4 +36,3 @@
       
         </div>
     
-}        
