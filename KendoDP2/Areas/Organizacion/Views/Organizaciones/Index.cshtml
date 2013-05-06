@@ -12,9 +12,6 @@
     IList<TipoDocumentoDTO> tipoDocumentos = ViewBag.tipoDocumentos;
     IList<PaisDTO> pais = ViewBag.pais;
     IList<ColaboradorDTO> colaboradores = ViewBag.colaboradores;
-    /*
-     * ("UpdateOrganizacion", "Organizacionesx", FormMethod.Post))
-     */
 }
 
 @using (Html.BeginForm("UpdateOrganizacion", "Organizaciones", FormMethod.Post))
@@ -169,36 +166,11 @@
                     </div>
                     <div class="span4">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.DropDownListFor(model => model.ColaboradorID, new SelectList(colaboradores, "ID", "NombreCompleto"), new { style = "width:100%" })
+                            @Html.DropDownListFor(model => model.ColaboradorID, new SelectList(colaboradores, "ID", "NombreCompleto"), new { style = "width:100%", @onchange="cargaDatosRepresentante();" })
                         </div>
                     </div>
                 </div>
-
-             <div class="row-fluid">
-                    <div class="span3">
-                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.TipoDocumento)</div>
-                    </div>
-                    <div class="span4">
-                        <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.TipoDocumento)
-                            @Html.ValidationMessageFor(model => model.TipoDocumento)                       
-
-                        </div>
-                    </div>
-                </div>
-
-             <div class="row-fluid">
-                    <div class="span3">
-                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Documento)</div>
-                    </div>
-                    <div class="span4">
-                        <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.Documento)
-                            @Html.ValidationMessageFor(model => model.Documento)                           
-
-                        </div>
-                    </div>
-                </div>
+             <div id = "datos-representante"></div>
            
             <div class="row-fluid">
             <button type="submit" class="btn green pull-left" value="UpdateOrganizacion">
@@ -212,3 +184,16 @@
 </div>
     
 }        
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        cargaDatosRepresentante();
+    });
+
+    function cargaDatosRepresentante() {
+        var dropdown = $("#ColaboradorID");
+        var ID = dropdown.find('option:selected').attr('value');
+        $("#datos-representante").load("@Url.Action("CargaDatosRepresentante", "Organizaciones", new {Area = "Organizacion"})?colaboradorID=" + ID);
+    }
+
+</script>

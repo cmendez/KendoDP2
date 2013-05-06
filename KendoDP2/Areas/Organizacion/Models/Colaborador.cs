@@ -201,4 +201,19 @@ namespace KendoDP2.Areas.Organizacion.Models
          }
 
         }
+
+    public class ColaboradorDocumentosDTO
+    {
+        public string TipoDocumento { get; set; }
+        public string Documento { get; set; }
+
+        public ColaboradorDocumentosDTO() { }
+
+        public ColaboradorDocumentosDTO(Colaborador o)
+        {
+            TipoDocumento = o.TipoDocumento.Descripcion;
+            Documento = o.NumeroDocumento;
+        }
     }
+    
+}
