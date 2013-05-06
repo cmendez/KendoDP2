@@ -21,7 +21,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public int? PuestoSuperiorID { get; set; }
-        public Puesto PuestoSuperior { get; set; }
+        //public Puesto PuestoSuperior { get; set; }
 
        // public virtual ICollection<Objetivo> Funciones { get; set; }
         
@@ -83,7 +83,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         [DisplayName("Área")]
         public int AreaID { get; set; }
 
-        [Required]
+  //      [Required]
         [UIHint("GridForeignKey")]
         [DisplayName("Puesto superior")]
         public int PuestoSuperiorID { get; set; }
@@ -100,6 +100,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             AreaID = p.AreaID;
             if (p.PuestoSuperiorID.HasValue)
                 PuestoSuperiorID = p.PuestoSuperiorID.Value;
+            else PuestoSuperiorID=0;
             //PuestoSuperiorID = p.PuestoSuperiorID.Value;
 
             try
