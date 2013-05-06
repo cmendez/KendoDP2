@@ -173,15 +173,19 @@
              <div id = "datos-representante"></div>
            
             <div class="row-fluid">
-            <button type="submit" class="btn green pull-left" value="UpdateOrganizacion">
+            <button id="edicion" type="submit" class="btn green pull-left">
                 Editar <i class="m-icon-swapright m-icon-white"></i>
+                <div id="modalprueba" title="Basic modal dialog" style = "display:none">
+                </div>
             </button>
             </div>
       </form>
         </div>
    </div>
+    
+    </div>
+    
 
-</div>
     
 }        
 
@@ -195,5 +199,12 @@
         var ID = dropdown.find('option:selected').attr('value');
         $("#datos-representante").load("@Url.Action("CargaDatosRepresentante", "Organizaciones", new {Area = "Organizacion"})?colaboradorID=" + ID);
     }
+
+    $("#edicion").click(function () {
+        $("#modalprueba").load("@Url.Action("CargaModal","Organizaciones",new{Area="Organizacion"})?orgID=" + ID).dialog({
+            modal:true});
+                              
+         
+    });
 
 </script>

@@ -50,6 +50,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
+             
                 Colaborador c = new Colaborador(colaborador);
                 c.EstadoColaborador = context.TablaEstadosColaboradores.One(x => x.Descripcion.Equals("Contratado"));
                 context.TablaColaboradores.AddElement(c);
@@ -60,6 +61,8 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 context.TablaColaboradoresXPuestos.AddElement(cruce);
 
                 return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
+               
+
             }
         }
 
@@ -80,7 +83,6 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                     context.TablaColaboradoresXPuestos.AddElement(cruce);
                 }
                 
-
                 return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
         }
@@ -106,6 +108,18 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 }
                 catch (Exception) { }
                 return Json(p.Select(x => x.ToDTO()).ToList(), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public int ValidaColaboradores(int tipoDocumentoID, string documento)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                IList<Colaborador> colaboradores = context.TablaColaboradores.All().Where(c => ((c.TipoDocumentoID == tipoDocumentoID) && (c.NumeroDocumento == documento))).ToList();
+                if (colaboradores.Count() == 0)
+                    return 0;
+                else
+                    return 1;
             }
         }
     }

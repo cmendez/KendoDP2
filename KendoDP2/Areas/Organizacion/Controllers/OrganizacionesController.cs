@@ -54,5 +54,14 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             
         }
 
+        public ActionResult CargaModal(int orgID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                var colab = context.TablaOrganizaciones.FindByID(orgID);
+                return PartialView("EditorOrganizacion");
+            }
+        }
+
     }
 }
