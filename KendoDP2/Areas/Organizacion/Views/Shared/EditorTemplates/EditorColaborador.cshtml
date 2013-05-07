@@ -172,6 +172,18 @@
             <div class="span4">
 
                 @(Html.Label("Imagen:", new { style = "font-weight: bold;" }))
+                <canvas id="myCanvas" width="200" height="200"></canvas>
+                 <script>
+                    var canvas = document.getElementById('myCanvas');
+                    var context = canvas.getContext('2d');
+                    var imageObj = new Image();
+
+                    imageObj.onload = function () {
+                    context.drawImage(imageObj, 69, 50);
+                    };
+                    imageObj.src = 'https://lh4.googleusercontent.com/-3Sea_6fTfm4/TWrppAVxupI/AAAAAAAAAcQ/zHHGenEir0c/s200/snoopy-joecool-color.gif';
+                </script>
+
                 <input type="file" id="ImagenColaborador" data-role="upload" 
 				data-async='{"saveUrl": "@Url.Action("UploadImagen", "Colaboradores", new {Area = "Organizacion"})","autoUpload": "false"}' data-success="onSuccess" name="ImagenColaborador" style = "width: 100%;"  />
         
@@ -284,7 +296,14 @@
                    });
                });
     });
+
+    
+
+
 </script>
+    
+    
+        
 
 }        
 

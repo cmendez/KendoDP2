@@ -51,20 +51,28 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-             
-                Colaborador c = new Colaborador(colaborador);
-                c.EstadoColaborador = context.TablaEstadosColaboradores.One(x => x.Descripcion.Equals("Contratado"));
-                context.TablaColaboradores.AddElement(c);
+                //en caso no funcione solo se sacan los if's y se deja tal como esta
+                    Colaborador c = new Colaborador(colaborador);
+                    if (ValidaColaboradores(c.TipoDocumentoID, c.NumeroDocumento) == 0)
+                    {
+                        c.EstadoColaborador = context.TablaEstadosColaboradores.One(x => x.Descripcion.Equals("Contratado"));
+                        context.TablaColaboradores.AddElement(c);
 
-                Puesto p = context.TablaPuestos.FindByID(colaborador.PuestoID);
-                ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo };
+                        Puesto p = context.TablaPuestos.FindByID(colaborador.PuestoID);
+                        ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo };
 
-                context.TablaColaboradoresXPuestos.AddElement(cruce);
+                        context.TablaColaboradoresXPuestos.AddElement(cruce);
 
-                return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
-               
-
-            }
+                        return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
+                    }
+                    else
+                    {
+                        return Json(new { ok = false, error = "Error!!!!!! PELIGRO!!" },JsonRequestBehavior.AllowGet);
+                        
+                    }
+                }
+                     
+            
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
