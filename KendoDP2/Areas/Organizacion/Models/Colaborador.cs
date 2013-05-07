@@ -216,8 +216,11 @@ namespace KendoDP2.Areas.Organizacion.Models
 
         public ColaboradorDocumentosDTO(Colaborador o)
         {
-            TipoDocumento = o.TipoDocumento.Descripcion;
-            Documento = o.NumeroDocumento;
+            if (o != null)
+            {
+                TipoDocumento = o.TipoDocumento.Descripcion;
+                Documento = o.NumeroDocumento;
+            }
         }
     }
     
