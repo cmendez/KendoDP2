@@ -14,11 +14,8 @@
     IList<ColaboradorDTO> colaboradores = ViewBag.colaboradores;
 }
 
-@{/*@using (Html.BeginForm("UpdateOrganizacion", "Organizaciones", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-    */}
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+
  <div class="portlet box green">
     <div class="portlet-title">
         <h4><i class="icon-reorder"></i>Organización</h4>
