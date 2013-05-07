@@ -42,6 +42,23 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             }
         }
 
+        public JsonResult getContactos(string id)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                try
+                {
+                    List<ColaboradorDTO> contactos = context.TablaColaboradores.FindByID(Convert.ToInt32(id)).Contactos
+                        .Select(c => c.Contacto).Select(c => c.ToDTO()).ToList();
+                    return JsonSuccessGet(new { contactos = contactos });
+                }
+                catch (Exception ex)
+                {
+                    return JsonErrorGet("Error en la BD: " + ex.Message);
+                }
+            }
+        }
+
         public JsonResult ColaboradoresToList()
         {
             using (DP2Context context = new DP2Context())
