@@ -39,7 +39,7 @@
                     </div>
                     <div class="span4">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                           @Html.TextBox("_RazonSocial", Model.RazonSocial)
+                           @Html.TextBox("_RazonSocial", Model.RazonSocial, new {@readonly = "readonly" })
                          
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                     </div>
                     <div class="span4">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.TextBox("_Ruc", Model.Ruc)
+                            @Html.TextBox("_Ruc", Model.Ruc, new {@readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                     </div>
                     <div class="span4">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.TextBox("_Rubro", Model.Rubro)
+                            @Html.TextBox("_Rubro", Model.Rubro, new {@readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                     </div>
                     <div class="span4">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.TextBox("_Direccion", Model.Direccion)
+                            @Html.TextBox("_Direccion", Model.Direccion, new {@readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                     </div>
                     <div class="span4">
                          <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.TextBox("_Telefono", Model.Telefono)
+                            @Html.TextBox("_Telefono", Model.Telefono, new {@readonly = "readonly" })
                         </div>    
                     </div>
                 </div>
@@ -95,7 +95,7 @@
                         <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.PaisID)</div>
                     </div>
                     <div class="span4 responsive">
-                        @Html.DropDownListFor(p => p.PaisID, new SelectList(pais, "ID", "Nombre"), new { style = "width:100%", id = "_PaisID" })
+                        @Html.TextBox("_PaisID",pais.Where(p => p.ID == Model.PaisID).First().Nombre, new {@readonly = "readonly"})
                     </div>
                 </div>
 
@@ -105,7 +105,7 @@
                     </div>
                     <div class="span4">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.TextBox("_Ciudad", Model.Ciudad)
+                            @Html.TextBox("_Ciudad", Model.Ciudad, new {@readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -116,7 +116,7 @@
                     </div>
                     <div class="span4">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.TextBox("_CorreoElectronico", Model.CorreoElectronico)
+                            @Html.TextBox("_CorreoElectronico", Model.CorreoElectronico, new {@readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -129,9 +129,9 @@
                     <div class="span3">
                         <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Mision)</div>
                     </div>
-                    <div class="span5">
+                    <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.TextBox("_Mision", Model.Mision)
+                            @Html.TextArea("_Mision", Model.Mision, new {@readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -142,7 +142,7 @@
                     </div>
                     <div class="span5">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.TextBox("_Vision", Model.Vision)
+                            @Html.TextArea("_Vision", Model.Vision, new {@readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -155,10 +155,36 @@
                     </div>
                     <div class="span4">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.DropDownListFor(c => c.ColaboradorID, new SelectList(colaboradores, "ID", "NombreCompleto"), new { style = "width:100%", @onchange="cargaDatosRepresentante();", id = "_ColaboradorID" })
+                            @Html.TextBox("_ColaboradorID",colaboradores.Where(p => p.ID == Model.ColaboradorID).First().NombreCompleto, new {@readonly = "readonly"})
+
                         </div>
                     </div>
                 </div>
+
+               <div class="row-fluid">
+                    <div class="span3">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.TipoDocumento)</div>
+                    </div>
+                    <div class="span4">
+                        <div class="editor-field" style="width: 100%; text-align: left;">
+                            @Html.TextBox("_ColaboradorID",tipoDocumentos.Where(p => p.ID ==(colaboradores.Where(m => m.ID == Model.ColaboradorID).First().TipoDocumentoID)).First().Descripcion, new {@readonly = "readonly"})
+
+                        </div>
+                    </div>
+                </div>
+
+                           <div class="row-fluid">
+                    <div class="span3">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.ColaboradorID)</div>
+                    </div>
+                    <div class="span4">
+                        <div class="editor-field" style="width: 100%; text-align: left;">
+                            @Html.TextBox("_ColaboradorID",colaboradores.Where(m => m.ID == Model.ColaboradorID).First().NumeroDocumento, new {@readonly = "readonly"})
+
+                        </div>
+                    </div>
+                </div>
+
              <div id = "datos-representante"></div>
            
             <div class="row-fluid">
@@ -180,8 +206,8 @@
         background: none; 
         overflow: auto; 
         zoom: 1;
-        background-color: #ffd;
-        border: solid 1px #ea7;             
+        background-color: #fffffc;
+        border: solid 1px #63ad49;             
     }
 
     .ui-dialog .ui-dialog-titlebar 
