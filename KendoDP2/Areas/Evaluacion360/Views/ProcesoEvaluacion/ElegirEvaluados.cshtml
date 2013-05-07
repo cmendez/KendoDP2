@@ -19,20 +19,6 @@
 	</div>
     <div class="portlet-body">
         <div class="row-fluid">
-             <div class="span3">
-                @(Html.Kendo().ComboBox()
-                    .Name("ComboAreas")
-                    .Placeholder("Seleccione un Area...")
-                    .DataTextField("Nombre")
-                    .DataValueField("ID")
-                    .Filter("contains")
-                    .BindTo(areas)
-                    .Suggest(true)
-                    .HtmlAttributes(new { style = "width:100%" })
-                    .Events(e => e.Close("combosAreasSelection"))
-                )
-            </div>
-
             <div class="span4">
                 @(Html.Kendo().ComboBox()
                     .Name("ComboColaboradores")
@@ -62,9 +48,6 @@
             <div class="span5">
 
             </div>
-        </div>
-        <div class="span12" id="divMensaje">
-        
         </div>
         <div class="row-fluid information-container">
             @(Html.Kendo().Grid<KendoDP2.Areas.Evaluacion360.Models.ColaboradorXProcesoEvaluacionDTO>()
@@ -111,29 +94,25 @@
         console.log("area seleccionada:" + areaID);
 
         $.ajax({
-            url: '@Url.Action("AddEvaluadoresPorArea","ProcesoEvaluacion", new {Area = "Evaluacion360"})',
+            url: '@Url.Action("AddEvaluadosAreas","ProcesoEvaluacion", new {Area = "Evaluacion360"})',
             dataType: 'JSON',
             type: 'POST',
             data: {procesoID: @Model.ID, areaID: areaID},
             success: function(data){
                 if(data.success){
-                    // Agregar evaluados(de toda el área) a grilla
                     console.log("Agregando usuarios del área seleccionada...");
-                    //  $("#ColaboradoresDeProcesoEvaluacionGrid").data('kendoGrid').dataSource.read();
-                    showMessage("Se agregó el área seleccionada");
+                    $("#ColaboradoresDeProcesoEvaluacionGrid").data('kendoGrid').dataSource.read();
                 }
                 else {
-                    showError("El colaborador seleccionado ya se encuentra en la lista de evaluados");
                 }
             },
             error: function(){
-                showError("Hubo un error en la operación");
+                alert("Hubo un error en la operación");
             }
         });
     };
 
     function comboCompetenciasSelection(e) {
-        showMessage("");
         var comboColaboradores = $("#ComboColaboradores").data('kendoComboBox');
         if (comboColaboradores.selectedIndex == -1)
             return;
@@ -146,27 +125,13 @@
             success: function(data){
                 if(data.success){
                     $("#ColaboradoresDeProcesoEvaluacionGrid").data('kendoGrid').dataSource.read();
-                    showMessage("Se agregó al usuario seleccionado");
                 }
                 else
-                    showError("El colaborador seleccionado ya se encuentra en la lista de evaluados");
+                    alert("El colaborador seleccionado ya se encuentra en la lista de evaluados");
             },
             error: function(){        
-                showError("Hubo un error en la operación");
+                alert("Hubo un error en la operación");
             }
         });
-    }
-
-    function showMessage(message)
-    {
-        $('#divMensaje').empty();
-        var span = $('<span id="mensajeSpan" style="color:blue">' + message +'</span>');
-        $('#divMensaje').append(span);
-    }
-    function showError(errorMessage)
-    {
-        $('#divMensaje').empty();
-        var span = $('<span id="mensajeSpan" style="color:red">' + errorMessage +'</span>');
-        $('#divMensaje').append(span);
     }
 </script>

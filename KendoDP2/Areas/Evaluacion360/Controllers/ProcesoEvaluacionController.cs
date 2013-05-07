@@ -97,8 +97,11 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
-        private void AddColaboradorToProceso(int colaboradorID, int procesoID, DP2Context context)
+        private bool AddColaboradorToProceso(int colaboradorID, int procesoID, DP2Context context)
         {
+            if (context.TablaColaboradorXProcesoEvaluaciones.Any(x => x.ProcesoEvaluacionID == procesoID && x.ColaboradorID == colaboradorID))
+                return false;
+
             EstadoColaboradorXProcesoEvaluacion pendiente = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Pendiente));
             context.TablaColaboradorXProcesoEvaluaciones.AddElement(
                 new ColaboradorXProcesoEvaluacion
@@ -107,6 +110,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     ProcesoEvaluacionID = procesoID,
                     EstadoColaboradorXProcesoEvaluacion = pendiente
                 });
+            return true;
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
@@ -114,12 +118,8 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                if (context.TablaColaboradorXProcesoEvaluaciones.Any(x => x.ProcesoEvaluacionID == procesoID && x.ColaboradorID == colaboradorID))
-                    return Json(new {success = false});
-                else{
-                    AddColaboradorToProceso(colaboradorID, procesoID, context);
-                    return Json(new {success = true});
-                }
+                bool isNuevo = AddColaboradorToProceso(colaboradorID, procesoID, context);
+                return Json(new {success = false});
             }
         }
 
@@ -143,22 +143,5 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
         
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult AddEvaluadoresPorArea(int procesoID, int areaID)
-        {
-            using (DP2Context context = new DP2Context())
-            {
-                // TODO: crear método para guardar todos los evaluadores por área en un proceso de evaluación
-                /*
-                if (context.TablaColaboradorXProcesoEvaluaciones.Any(x => x.ProcesoEvaluacionID == procesoID && x.ColaboradorID == colaboradorID))
-                    return Json(new { success = false });
-                else
-                {
-                    AddColaboradorToProceso(areaID, procesoID, context);
-                    return Json(new { success = true });
-                }*/
-                return Json(new { success = true });
-            }
-        }
     }
 }
