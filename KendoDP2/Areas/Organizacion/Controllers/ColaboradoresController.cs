@@ -8,6 +8,7 @@ using Kendo.Mvc.Extensions;
 using KendoDP2.Areas.Organizacion.Models;
 using KendoDP2.Models.Generic;
 using KendoDP2.Models.Seguridad;
+using System.IO;
 
 namespace KendoDP2.Areas.Organizacion.Controllers
 {
@@ -121,6 +122,27 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 else
                     return 1;
             }
+        }
+
+        public ActionResult UploadImagen(IEnumerable<HttpPostedFileBase> ImagenColaborador)
+        {
+            // The Name of the Upload component is "files"
+            if (ImagenColaborador != null)
+            {
+                foreach (var file in ImagenColaborador)
+                {
+                    // Some browsers send file names with full path.
+                    // We are only interested in the file name.
+                    var fileName = Path.GetFileName(file.FileName);
+                    var physicalPath = Path.Combine(Server.MapPath("~/App_Data"), fileName);
+
+                    // The files are not actually saved in this demo
+                    // file.SaveAs(physicalPath);
+                }
+            }
+
+            // Return an empty string to signify success
+            return Content("");
         }
     }
 }
