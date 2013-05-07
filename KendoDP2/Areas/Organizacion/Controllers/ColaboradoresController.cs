@@ -132,25 +132,56 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             }
         }
 
-        public ActionResult UploadImagen(IEnumerable<HttpPostedFileBase> ImagenColaborador)
+        [HttpPost]
+        public ActionResult UploadImagen(IEnumerable<HttpPostedFileBase> ImagenColaborador, int ID)
         {
             // The Name of the Upload component is "files"
-            if (ImagenColaborador != null)
+            if (ImagenColaborador != null && ID != 0)
             {
                 foreach (var file in ImagenColaborador)
                 {
-                    // Some browsers send file names with full path.
-                    // We are only interested in the file name.
-                    var fileName = Path.GetFileName(file.FileName);
-                    var physicalPath = Path.Combine(Server.MapPath("~/App_Data"), fileName);
-
-                    // The files are not actually saved in this demo
-                    // file.SaveAs(physicalPath);
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        file.InputStream.CopyTo(memoryStream);
+                        using (DP2Context context = new DP2Context())
+                        {
+                            Colaborador c = context.TablaColaboradores.FindByID(ID);
+                            c.ImagenColaborador = memoryStream.ToArray();
+                            context.TablaColaboradores.ModifyElement(c);
+                        }
+                    }
                 }
             }
 
             // Return an empty string to signify success
             return Content("");
+        }
+
+        public ActionResult ViewImageDeColaborador(int colaboradorID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                try
+                {
+                    byte[] bytes = context.TablaColaboradores.FindByID(colaboradorID).ImagenColaborador;
+
+                    return File(bytes, "image/jpg");
+                }
+                catch
+                {
+                    var file = Server.MapPath("~/Images/snoopy-joecool-color.gif");
+                    using (var stream = new FileStream(file, FileMode.Open))
+                    {
+                        using (MemoryStream memoryStream = new MemoryStream())
+                        {
+                            stream.CopyTo(memoryStream);
+                            return File(memoryStream.ToArray(), "image/gif");
+                        }
+                    }
+                    
+                }
+            }
+            
         }
     }
 }
