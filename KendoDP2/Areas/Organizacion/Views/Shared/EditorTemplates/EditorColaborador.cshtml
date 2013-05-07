@@ -172,10 +172,9 @@
             <div class="span4">
 
                 @(Html.Label("Imagen:", new { style = "font-weight: bold;" }))
-                
-                @(Html.Kendo().Upload()
-                .Name("ImagenColaborador").HtmlAttributes(new { style = "width: 100%;" })
-            )
+                <input type="file" id="ImagenColaborador" data-role="upload" 
+				data-async='{"saveUrl": "@Url.Action("UploadImagen", "Colaboradores", new {Area = "Organizacion"})","autoUpload": "false"}' data-success="onSuccess" name="ImagenColaborador" style = "width: 100%;"  />
+        
             </div>
             <!-- fin contenedor superior derecho: foto -->
 
