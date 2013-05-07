@@ -93,10 +93,10 @@
                                     {
                                         model.Id(p => p.ID);
                                     })
-                                    .Create(update => update.Action("Create", "PuestosEvaluacion"))
-                                    .Read(read => read.Action("Read", "Capacidades"))
-                                    .Update(update => update.Action("Update", "PuestosEvaluacion"))
-                                    .Destroy(update => update.Action("Destroy", "PuestosEvaluacion"))
+                                    .Create(create => create.Action("Create_competenciaAUnPuesto", "PuestosEvaluacion", new { elPuestoID = puesto.ID }))
+                                    .Read(read => read.Action("Read_lasCompetenciasDeUnPuesto", "PuestosEvaluacion", new { elPuestoID = puesto.ID }))
+                                    .Update(update => update.Action("Update_laCompetenciaDeUnPuesto", "PuestosEvaluacion", new { elPuestoID = puesto.ID }))
+                                    .Destroy(destroy => destroy.Action("Destroy_unaCompetenciaDeUnPuesto", "PuestosEvaluacion", new { elPuestoID = puesto.ID }))
                                     .Events(e => e.RequestEnd("afterRequest"))
                                 ).Events(e => e.SaveChanges("onSave"))
                             )
