@@ -64,36 +64,46 @@ namespace KendoDP2.Areas.Organizacion.Models
         [ScaffoldColumn(false)]
         public int ID { get; set; }
         
-        [Required]
+      
         [DisplayName("Razon Social")]
+        [Required]
+        [StringLength(50)]
         public string RazonSocial { get; set; }
 
+        
+        [DisplayName("RUC")]
         [Required]
         [StringLength(11)]
-        [DisplayName("RUC")]
         public string Ruc { get; set; }
 
+        [StringLength(30)]
         [DisplayName("Rubro")]
         public string Rubro { get; set; }
         
+        [StringLength(60)]
         [DisplayName("Direccion")]
         public string Direccion { get; set; }
 
+        [StringLength(28)]
         [DisplayName("Teléfono")]
         public string Telefono { get; set; }
         
+        [StringLength(28)]
         [DisplayName("Ciudad")]
         public string Ciudad { get; set; }
         
         [DisplayName("País")]
         public int PaisID { get; set; }
         
+        [StringLength(80)]
         [DisplayName("Correo Electrónico")]
         public string CorreoElectronico { get; set; }
         
+        [StringLength(300)]
         [DisplayName("Misión")]
         public string Mision { get; set; }
         
+        [StringLength(300)]
         [DisplayName("Visión")]
         public string Vision { get; set; }
         
