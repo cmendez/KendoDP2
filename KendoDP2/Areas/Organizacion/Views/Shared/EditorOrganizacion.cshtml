@@ -9,12 +9,10 @@
     IList<ColaboradorDTO> colaboradores = ViewBag.colaboradores;
     
 }
-
-@using (Html.BeginForm("UpdateOrganizacion", "Organizaciones", FormMethod.Post))
+@using (Html.BeginForm("UpdateOrganizacion", "Organizaciones", FormMethod.Post, new { id = "formulario" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-    
         
             @Html.Label("Datos Generales:", new { style = "font-weight: bold;" })
 
@@ -27,7 +25,6 @@
                     <div class="span4">
                         <div class="editor-field" style="width: 100%; text-align: left;">
                            @Html.EditorFor(model => model.RazonSocial)
-                         
                         </div>
                     </div>
                 </div>
@@ -150,7 +147,7 @@
                     </div>
                     <div class="span4">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.DropDownListFor(model => model.ColaboradorID, new SelectList(colaboradores, "ID", "NombreCompleto"), new { style = "width:100%", @onchange="cargaDatosRepresentanteModal();" })
+                            @Html.DropDownListFor(model => model.ColaboradorID, new SelectList(colaboradores, "ID", "NombreCompleto"), new { style = "width:100%", @onchange = "cargaDatosRepresentanteModal();" })
                         </div>
                     </div>
                 </div>
@@ -159,9 +156,9 @@
     
          
         <div class="row-fluid">
-            <button type="submit" class="btn green pull-left">
+            <a onclick="submitForm();" class="btn green pull-left">
                 Guardar <i class="m-icon-swapright m-icon-white"></i>
-            </button>
+            </a>
 
              <a class="btn green pull-left" onclick="cierraModal();">
                 Cancelar <i class="m-icon-swapright m-icon-white"></i>
@@ -176,4 +173,12 @@
         var ID = dropdown.find('option:selected').attr('value');
         $("#datos-representante-modal").load("@Url.Action("CargaDatosRepresentante", "Organizaciones", new {Area = "Organizacion"})?colaboradorID=" + ID);
     }
+
+    function submitForm() {
+        var validator = $("#formulario").kendoValidator().data("kendoValidator"),
+                   status = $(".status");
+        if (validator.validate()) {
+            $("#formulario").submit();
+        }
+    };
 </script>

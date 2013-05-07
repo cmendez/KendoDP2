@@ -5,10 +5,12 @@ using System.Web;
 using System.Web.Mvc;
 using KendoDP2.Models.Seguridad;
 using KendoDP2.Models.Generic;
+using KendoDP2.Models.Helpers;
+using ExtensionMethods;
 
 namespace KendoDP2.Controllers
 {
-    public class WSLoginController : Controller
+    public class WSLoginController : WSController
     {
         //
         // GET: /WSLogin/
@@ -24,28 +26,14 @@ namespace KendoDP2.Controllers
             {
                 try
                 {
-                    Usuario usuario = context.TablaUsuarios.One(x => x.Username.Equals(username));
-                    if (usuario != null)
-                    {
-                        UsuarioDTO usuarioDTO = usuario.ToDTO();
-                        if (usuarioDTO.Password.Equals(password))
-                        {
-                            return Json(new { respuesta = 1, usuario = usuarioDTO }, JsonRequestBehavior.AllowGet);
-                        }
-                        else
-                        {
-                            return Json(new { respuesta = 0 }, JsonRequestBehavior.AllowGet);
-                        }
-
-                    }
-                    else
-                    {
-                        return Json(new { respuesta = 0 }, JsonRequestBehavior.AllowGet);
-                    }
+                    UsuarioDTO usuario = context.TablaUsuarios.One(x => x.Username.Equals(username)).ToDTO();
+                    return usuario.Password.Equals(password) ? 
+                        JsonSuccessGet(new { usuario = usuario }) : 
+                        JsonErrorGet("No existe dicho usuario y password");
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    return Json(new { respuesta = -1 }, JsonRequestBehavior.AllowGet);
+                    return JsonErrorGet("Error en la BD: " + ex.Message);
                 }
             }
         }
