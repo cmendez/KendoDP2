@@ -32,7 +32,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             ID = a.ID;
             Nombre = a.Nombre;
             Descripcion = a.Descripcion;
-            AreaSuperiorID = a.AreaSuperiorID;
+            if(a.AreaSuperiorID > 0) AreaSuperiorID = a.AreaSuperiorID;
 
             return this;
         }
@@ -61,8 +61,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         [MaxLength(200)]
         public string Descripcion { get; set; }
 
-        [Required]
-        [UIHint("GridForeignKey")]
+         [UIHint("GridForeignKey")]
         [DisplayName("Área superior")]
         public int AreaSuperiorID { get; set; }
 

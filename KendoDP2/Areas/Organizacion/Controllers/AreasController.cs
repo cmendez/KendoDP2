@@ -73,7 +73,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             using (DP2Context context = new DP2Context())
             {
                 context.TablaAreas.RemoveElementByID(area.ID);
-                return Json(ModelState.ToDataSourceResult());
+                return Json(ModelState.IsValid ? new object() : ModelState.ToDataSourceResult());
             }
         }
     }

@@ -28,7 +28,7 @@
                             .Read(r => r.Action("AreasToTree", "Areas")
                             )
                         )
-                        .Events(e => e.Select("onSelectTreeNode")
+                        .Events(e => e.Select("onSelectTreeNode").DataBound("onDataBound")
                         )
                     )
             </div>
@@ -100,5 +100,12 @@
                 break;
             }
         }
+    }
+    function onDataBound() {
+        setTimeout("expandNodes()");
+    }
+
+    function expandNodes() {
+        $("#treeview").data("kendoTreeView").expand(".k-item");
     }
 </script>
