@@ -183,5 +183,30 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             }
             
         }
+
+        [HttpPost]
+        public ActionResult UploadPDF(IEnumerable<HttpPostedFileBase> CurriculumVitae, int ID)
+        {
+            // The Name of the Upload component is "files"
+            if (CurriculumVitae != null && ID != 0)
+            {
+                foreach (var file in CurriculumVitae)
+                {
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        file.InputStream.CopyTo(memoryStream);
+                        using (DP2Context context = new DP2Context())
+                        {
+                            Colaborador c = context.TablaColaboradores.FindByID(ID);
+                            c.CurriculumVitae = memoryStream.ToArray();
+                            context.TablaColaboradores.ModifyElement(c);
+                        }
+                    }
+                }
+            }
+
+            // Return an empty string to signify success
+            return Content("");
+        }
     }
 }

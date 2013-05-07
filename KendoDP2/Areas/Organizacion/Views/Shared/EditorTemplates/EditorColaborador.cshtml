@@ -280,8 +280,31 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.CurriculumVitae)</div>
                 </div>
                 <div class="span7">
-                    @(Html.Kendo().Upload()
-                    .Name("CurriculumVitae").HtmlAttributes(new { style = "width: 100%;" }))
+
+                <style>
+                    .k-upload-button{
+                        width: 100%;
+                    }
+                </style>
+                
+                <input type="file" id="CurriculumVitae" name="CurriculumVitae" />
+                <script>
+                    $("#CurriculumVitae").kendoUpload({
+                        multiple: false,
+                        showFileList: false,
+                        localization: {
+                            select: 'Seleccione archivo PDF'
+                        },
+                        async: {
+                            saveUrl: "@Url.Action("UploadPDF", "Colaboradores", new {Area = "Organizacion"})",
+                            autoUpload: true,
+                        },
+                        upload: function (e) {
+                            e.data = { ID: $("#ID").val() };
+                        },
+                         });
+                </script>
+
                 </div>
             </div>
 
