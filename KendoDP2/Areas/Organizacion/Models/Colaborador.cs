@@ -165,7 +165,6 @@ namespace KendoDP2.Areas.Organizacion.Models
         [DisplayName("Sueldo S/.")]
         public int Sueldo { get; set; }
 
-
         public ColaboradorDTO() { }
 
         public ColaboradorDTO(Colaborador c)
