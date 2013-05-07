@@ -27,25 +27,49 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                     ColaboradorDTO colaborador = context.TablaColaboradores.FindByID(Convert.ToInt32(id)).ToDTO();
                     PuestoDTO puesto = colaborador.PuestoID == 0 ? new PuestoDTO() : context.TablaPuestos.FindByID(colaborador.PuestoID).ToDTO();
                     AreaDTO area = colaborador.AreaID == 0 ? new AreaDTO() : context.TablaAreas.FindByID(colaborador.AreaID).ToDTO();
-                    return Json(new {
-                        colaborador = colaborador,
-                        puesto = puesto,
-                        area = area
+                    return Json(new
+                    {
+                        sucess = true,
+                        data = new
+                        {
+                            colaborador = colaborador,
+                            puesto = puesto,
+                            area = area
+                        }
                     }, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (Exception ex)
             {
-                return Json(new { mensaje = "Sucedio un error en el WS :" + ex.Message }, JsonRequestBehavior.AllowGet);
+                return Json(new 
+                { 
+                    sucess = false,
+                    message = "Error: " + ex.Message 
+                }, JsonRequestBehavior.AllowGet);
             }
         }
 
         public JsonResult ColaboradoresToList()
         {
-            using (DP2Context context = new DP2Context())
+            try
             {
-                var colaboradores = context.TablaColaboradores.All().Select(a => a.ToDTO()).OrderBy(a => a.NombreCompleto);
-                return Json(colaboradores, JsonRequestBehavior.AllowGet);
+                using (DP2Context context = new DP2Context())
+                {
+                    List<ColaboradorDTO> colaboradores = context.TablaColaboradores.All().Select(a => a.ToDTO()).OrderBy(a => a.NombreCompleto).ToList();
+                    return Json(new
+                    {
+                        sucess = true,
+                        data = colaboradores
+                    }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    sucess = false,
+                    message = "Error: " + ex.Message
+                }, JsonRequestBehavior.AllowGet);
             }
         }
 

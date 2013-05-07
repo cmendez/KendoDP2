@@ -185,6 +185,7 @@
     <Compile Include="Areas\Configuracion\ConfiguracionAreaRegistration.cs" />
     <Compile Include="Areas\Configuracion\Controllers\PeriodosController.cs" />
     <Compile Include="Areas\Configuracion\Controllers\WSPeriodosController.cs" />
+    <Compile Include="Areas\Configuracion\Models\DP2Context.cs" />
     <Compile Include="Areas\Configuracion\Models\Pais.cs" />
     <Compile Include="Areas\Configuracion\Models\Periodo.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\CapacidadesController.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="Areas\Evaluacion360\Evaluacion360AreaRegistration.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Capacidad.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Competencia.cs" />
+    <Compile Include="Areas\Evaluacion360\Models\DP2Context.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Perfil.cs" />
     <Compile Include="Areas\Evaluacion360\Models\PerfilXCompetencia.cs" />
     <Compile Include="Areas\Evaluacion360\Models\CompetenciaXPuesto.cs" />
@@ -209,6 +211,7 @@
     <Compile Include="Areas\Evaluacion360\Models\TipoEvaluador.cs" />
     <Compile Include="Areas\Objetivos\Controllers\ObjetivosEmpresaController.cs" />
     <Compile Include="Areas\Objetivos\Controllers\WSObjetivosEmpresaController.cs" />
+    <Compile Include="Areas\Objetivos\Models\DP2Context.cs" />
     <Compile Include="Areas\Objetivos\Models\Objetivo.cs" />
     <Compile Include="Areas\Objetivos\Models\BSC.cs" />
     <Compile Include="Areas\Objetivos\Models\TipoObjetivoBSC.cs" />
@@ -217,6 +220,7 @@
     <Compile Include="Areas\Organizacion\Controllers\OrganizacionesController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\PuestosController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\WSColaboradorController.cs" />
+    <Compile Include="Areas\Organizacion\Models\DP2Context.cs" />
     <Compile Include="Areas\Organizacion\Models\Organizacion.cs" />
     <Compile Include="Areas\Organizacion\Models\PuestoXArea.cs" />
     <Compile Include="Areas\Organizacion\Models\EstadosPuesto.cs" />
@@ -232,11 +236,13 @@
     <Compile Include="Areas\Organizacion\Models\Colaborador.cs" />
     <Compile Include="Areas\Organizacion\Models\Persona.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\ReclutamientoController.cs" />
+    <Compile Include="Areas\Reclutamiento\Models\DP2Context.cs" />
     <Compile Include="Areas\Reclutamiento\Models\OfertaLaboral.cs" />
     <Compile Include="Areas\Reclutamiento\ReclutamientoAreaRegistration.cs" />
     <Compile Include="Areas\Reportes\ReportesAreaRegistration.cs" />
     <Compile Include="Areas\Seguridad\Controllers\RolesController.cs" />
     <Compile Include="Areas\Seguridad\Controllers\WSUsuariosController.cs" />
+    <Compile Include="Areas\Seguridad\Models\DP2Context.cs" />
     <Compile Include="Areas\Seguridad\SeguridadAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\WSLoginController.cs" />
@@ -246,6 +252,7 @@
     </Compile>
     <Compile Include="Models\Generic\DBObject.cs" />
     <Compile Include="Models\Generic\DP2Context.cs" />
+    <Compile Include="Models\Helpers\WSController.cs" />
     <Compile Include="Models\Helpers\SidebarNavigator.cs" />
     <Compile Include="Models\Seguridad\DP2MembershipProvider.cs" />
     <Compile Include="Models\Seguridad\DP2RolProvider.cs" />
@@ -1923,7 +1930,6 @@
     <Folder Include="Areas\Reportes\Controllers\" />
     <Folder Include="Areas\Reportes\Models\" />
     <Folder Include="Areas\Reportes\Views\Shared\" />
-    <Folder Include="Areas\Seguridad\Models\" />
     <Folder Include="Areas\Seguridad\Views\Shared\" />
     <Folder Include="Content\assets\plugins\jquery-file-upload\server\php\files\thumbnail\" />
   </ItemGroup>
