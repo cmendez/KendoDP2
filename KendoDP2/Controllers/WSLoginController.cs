@@ -26,28 +26,14 @@ namespace KendoDP2.Controllers
             {
                 try
                 {
-                    Usuario usuario = context.TablaUsuarios.One(x => x.Username.Equals(username));
-                    if (usuario != null)
-                    {
-                        UsuarioDTO usuarioDTO = usuario.ToDTO();
-                        if (usuarioDTO.Password.Equals(password))
-                        {
-                            return JsonSuccessGet(new { usuario = usuarioDTO } );
-                        }
-                        else
-                        {
-                            return JsonErrorGet("No existe dicho usuario y password");
-                        }
-
-                    }
-                    else
-                    {
-                        return JsonErrorGet("No existe dicho usuario y password");
-                    }
+                    UsuarioDTO usuario = context.TablaUsuarios.One(x => x.Username.Equals(username)).ToDTO();
+                    return usuario.Password.Equals(password) ? 
+                        JsonSuccessGet(new { usuario = usuario }) : 
+                        JsonErrorGet("No existe dicho usuario y password");
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    return JsonErrorGet("Error en la BD");
+                    return JsonErrorGet("Error en la BD: " + ex.Message);
                 }
             }
         }
