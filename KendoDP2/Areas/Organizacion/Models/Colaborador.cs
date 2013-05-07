@@ -62,8 +62,6 @@ namespace KendoDP2.Areas.Organizacion.Models
             NumeroDocumento = c.NumeroDocumento;
             CorreoElectronico = c.CorreoElectronico;
             CentroEstudios = c.CentroEstudios;
-            ImagenColaborador = c.ImagenColaborador;
-            CurriculumVitae = c.CurriculumVitae;
             FechaNacimiento = c.FechaNacimiento;
             FechaIngresoEmpresa = c.FechaIngreso;
            
