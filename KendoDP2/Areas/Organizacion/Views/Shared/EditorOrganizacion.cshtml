@@ -175,10 +175,10 @@
     }
 
     function submitForm() {
-        console.log(1);
-        $("#formulario").validate();
-        if ($("#formulario").valid()) {
-            //$("#formulario").submit();
+        var validator = $("#formulario").kendoValidator().data("kendoValidator"),
+                   status = $(".status");
+        if (validator.validate()) {
+            $("#formulario").submit();
         }
     };
 </script>
