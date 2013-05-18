@@ -14,12 +14,12 @@
     <div class="portlet-title">
         <h4><i class="icon-reorder"></i>Procesos de evaluación</h4>
         <div class="tools">
-	        <a href="javascript:;" class="collapse"></a>
+            <a href="javascript:;" class="collapse"></a>
         </div>
-	</div>
+    </div>
     <div class="portlet-body">
         <div class="row-fluid">
-            <div class="span4">
+            <div class="span2">
                 @(Html.Kendo().ComboBox()
                     .Name("ComboColaboradores")
                     .Placeholder("Agregue un colaborador...")
@@ -29,36 +29,38 @@
                     .BindTo(colaboradores)
                     .Suggest(true)
                     .HtmlAttributes(new { style = "width:100%" })
-                    .Events(e => e.Close("comboCompetenciasSelection"))
+                    .Events(e => e.Close("comboColaboradoresSelection"))
                 )
+                <hr />
+                @(Html.Kendo().ComboBox()
+                    .Name("ComboAreas")
+                    .Placeholder("Agregue un área...")
+                    .DataTextField("Nombre")
+                    .DataValueField("ID")
+                    .Filter("contains")
+                    .BindTo(areas)
+                    .Suggest(true)
+                    .HtmlAttributes(new { style = "width:100%" })
+                    .Events(e => e.Close("comboAreasSelection"))
+                )
+                <hr />
+                <div id="event_box_areas">
+                </div>
+                <hr />
+                <div id="event_box_colaboradores">
+                </div>
+                <hr />
             </div>
-            <div class="span4">
-            @(Html.Kendo().ComboBox()
-                .Name("ComboAreas")
-                .Placeholder("Agregue un área...")
-                .DataTextField("Nombre")
-                .DataValueField("ID")
-                .Filter("contains")
-                .BindTo(areas)
-                .Suggest(true)
-                .HtmlAttributes(new { style = "width:100%" })
-                .Events(e => e.Close("comboAreasSelection"))
-            )
-            </div>
-            <div class="span5">
-
-            </div>
-        </div>
-        <div class="row-fluid information-container">
-            @(Html.Kendo().Grid<KendoDP2.Areas.Evaluacion360.Models.ColaboradorXProcesoEvaluacionDTO>()
+            <div class="span10">
+                @(Html.Kendo().Grid<KendoDP2.Areas.Evaluacion360.Models.ColaboradorXProcesoEvaluacionDTO>()
                 .Name("ColaboradoresDeProcesoEvaluacionGrid")
                 .Columns(columns =>
                     {
                         columns.Bound(p => p.ColaboradorDTO.ApellidoPaterno);
                         columns.Bound(p => p.ColaboradorDTO.ApellidoMaterno);
                         columns.Bound(p => p.ColaboradorDTO.Nombre);
-                        columns.Bound(p=> p.ColaboradorDTO.Area);
-                        columns.Bound(p=> p.ColaboradorDTO.Puesto);
+                        columns.Bound(p => p.ColaboradorDTO.Area);
+                        columns.Bound(p => p.ColaboradorDTO.Puesto);
                         columns.ForeignKey(p => p.EstadoColaboradorXProcesoEvaluacionID, new SelectList(estados, "ID", "Nombre"));
                         columns.Command(command =>
                         {
@@ -79,28 +81,107 @@
                     .Model(model => { model.Id(p => p.ID); })
                     .Read(read => read.Action("ReadEvaluados", "ProcesoEvaluacion", new { procesoID = Model.ID }))
                     .Destroy(update => update.Action("DestroyEvaluados", "ProcesoEvaluacion"))
+                    .Events(e => e.RequestEnd("requestEnd"))
                 )
-            )
+                )
+            </div>
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
+    $(document).ready(function(){
+        cargaTiles();
+    });
+    function requestEnd(e){
+        cargaTiles();
+    }
+
+    function cargaTilesAreas(){
+        $.ajax({
+            url: '@Url.Action("GetAreas", "ProcesoEvaluacion", new { Area = "Evaluacion360" })',
+            dataType: 'JSON',
+            type: 'GET',
+            data: { procesoID : @Model.ID },
+            success: function(response){
+                $("#event_box_areas").html('');
+                for(var i = 0; i < response.data.length; i++){
+                    agregaTileDeArea(response.data[i].AreaDTO.ID, response.data[i].AreaDTO.Nombre);
+                }
+            }
+        });
+    }
+    
+    function cargaTilesColaboradores(){
+        $.ajax({
+            url: '@Url.Action("GetEvaluadosDirectos", "ProcesoEvaluacion", new { Area = "Evaluacion360" })',
+            dataType: 'JSON',
+            type: 'GET',
+            data: { procesoID : @Model.ID },
+            success: function(response){
+                $("#event_box_colaboradores").html('');
+                console.log('asdf');
+                for(var i = 0; i < response.data.length; i++){
+                    agregaTileDeColaborador(response.data[i].ColaboradorDTO.ID, response.data[i].ColaboradorDTO.NombreCompleto);
+                }
+            }
+        });
+    }
+
+    function cargaTiles(){
+        cargaTilesAreas();
+        cargaTilesColaboradores();
+    }
+    function agregaTileDeArea(areaID, areaNombre){
+        var newDiv = '<a href="javascript:removeArea(' + areaID + ');" class="label external-event">' + areaNombre + '<i class="icon-remove"></i></a>'; 
+        $("#event_box_areas").append(newDiv);
+    }
+    function agregaTileDeColaborador(colaboradorID, nombreCompleto){
+        var newDiv = '<a href="javascript:removeColaborador(' + colaboradorID + ');" class="label external-event">' + nombreCompleto + '<i class="icon-remove"></i></a>'; 
+        $("#event_box_colaboradores").append(newDiv);
+    }
+
+    function removeColaborador(colaboradorID){
+        $.ajax({
+            url: '@Url.Action("DestroyEvaluadoDirecto", "ProcesoEvaluacion", new { Area = "Evaluacion360" })',
+            dataType: 'JSON',
+            type: 'POST',
+            data: { procesoID : @Model.ID, colaboradorID : colaboradorID },
+            success: function(response){
+                cargaTiles();
+                $("#ColaboradoresDeProcesoEvaluacionGrid").data('kendoGrid').dataSource.read();
+            }
+        });
+    }
+    function removeArea(areaID){
+        $.ajax({
+            url: '@Url.Action("DestroyArea", "ProcesoEvaluacion", new { Area = "Evaluacion360" })',
+            dataType: 'JSON',
+            type: 'POST',
+            data: { procesoID : @Model.ID, areaID : areaID },
+            success: function(response){
+                cargaTiles();
+                $("#ColaboradoresDeProcesoEvaluacionGrid").data('kendoGrid').dataSource.read();
+            }
+        });
+    }
+
     function comboAreasSelection(e) {
         var comboAreas = $('#ComboAreas').data('kendoComboBox');
         if (comboAreas.selectedIndex == -1)
             return;
         var areaID = comboAreas.dataItem(comboAreas.selectedIndex).ID;
+        var areaNombre = comboAreas.dataItem(comboAreas.selectedIndex).Nombre;
         console.log("area seleccionada:" + areaID);
 
         $.ajax({
-            url: '@Url.Action("AddEvaluadosAreas","ProcesoEvaluacion", new {Area = "Evaluacion360"})',
+            url: '@Url.Action("AddEvaluadosAreas", "ProcesoEvaluacion", new { Area = "Evaluacion360" })',
             dataType: 'JSON',
             type: 'POST',
             data: {procesoID: @Model.ID, areaID: areaID},
             success: function(data){
                 if(data.success){
-                    console.log("Agregando usuarios del área seleccionada...");
+                    cargaTilesAreas();
                     $("#ColaboradoresDeProcesoEvaluacionGrid").data('kendoGrid').dataSource.read();
                 }
                 else {
@@ -112,18 +193,20 @@
         });
     };
 
-    function comboCompetenciasSelection(e) {
+    function comboColaboradoresSelection(e) {
         var comboColaboradores = $("#ComboColaboradores").data('kendoComboBox');
         if (comboColaboradores.selectedIndex == -1)
             return;
         var colaboradorID = comboColaboradores.dataItem(comboColaboradores.selectedIndex).ID;
+        var colaboradorNombre = comboColaboradores.dataItem(comboColaboradores.selectedIndex).NombreCompleto;
         $.ajax({
-            url: '@Url.Action("AddEvaluadosColaborador", "ProcesoEvaluacion", new {Area = "Evaluacion360"})',
+            url: '@Url.Action("AddEvaluadosColaborador", "ProcesoEvaluacion", new { Area = "Evaluacion360" })',
             dataType: 'JSON',
             type: 'POST',
             data: {procesoID: @Model.ID, colaboradorID: colaboradorID},
             success: function(data){
                 if(data.success){
+                    cargaTilesColaboradores();
                     $("#ColaboradoresDeProcesoEvaluacionGrid").data('kendoGrid').dataSource.read();
                 }
                 else

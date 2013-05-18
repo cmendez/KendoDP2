@@ -19,6 +19,9 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         public int EstadoColaboradorXProcesoEvaluacionID { get; set; }
         public virtual EstadoColaboradorXProcesoEvaluacion EstadoColaboradorXProcesoEvaluacion { get; set; }
 
+        public int ReferenciasPorAreas { get; set; }
+        public bool ReferenciaDirecta { get; set; }
+
         public ColaboradorXProcesoEvaluacionDTO ToDTO()
         {
             return new ColaboradorXProcesoEvaluacionDTO(this);
@@ -31,7 +34,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         [DisplayName("Estado")]
         public int EstadoColaboradorXProcesoEvaluacionID { get; set; }
         public int ID { get; set; }
-
+        
         public ColaboradorXProcesoEvaluacionDTO(ColaboradorXProcesoEvaluacion x)
         {
             ColaboradorDTO = x.Colaborador.ToDTO();

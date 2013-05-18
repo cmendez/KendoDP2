@@ -46,6 +46,17 @@ namespace KendoDP2.Areas.Organizacion.Models
         {
             return new AreaTreeDTO(this);
         }
+
+        public List<Area> GetAreasHijas(DP2Context context)
+        {
+            List<Area> resultado = new List<Area>();
+            resultado.Add(this);
+            foreach (Area a in Areas)
+            {
+                resultado.AddRange(a.GetAreasHijas(context));
+            }
+            return resultado;
+        }
     }
 
     public class AreaDTO

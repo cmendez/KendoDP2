@@ -30,6 +30,7 @@ namespace KendoDP2.Models.Generic
         public DbSet<EstadoColaboradorXProcesoEvaluacion> InternalEstadoColaboradorXProcesoEvaluaciones { get; set; }
         public DbSet<PuestoXEvaluadores> InternalPuestoXEvaluadores { get; set; }
         public DbSet<CompetenciaXPuesto> InternalCompetenciaXPuesto { get; set; }
+        public DbSet<AreaXProcesoEvaluacion> InternalAreaXProcesoEvaluaciones { get; set; }
 
         public DBGenericRequester<Competencia> TablaCompetencias { get; set; }
         public DBGenericRequester<Capacidad> TablaCapacidades { get; set; }
@@ -44,6 +45,7 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<EstadoColaboradorXProcesoEvaluacion> TablaEstadoColaboradorXProcesoEvaluaciones { get; set; }
         public DBGenericRequester<PuestoXEvaluadores> TablaPuestoXEvaluadores { get; set; }
         public DBGenericRequester<CompetenciaXPuesto> TablaCompetenciaXPuesto { get; set; }
+        public DBGenericRequester<AreaXProcesoEvaluacion> TablaAreaXProcesoEvaluaciones { get; set; }
 
         private void RegistrarTablasEvaluacion360()
         {
@@ -60,6 +62,7 @@ namespace KendoDP2.Models.Generic
             TablaColaboradorXProcesoEvaluaciones = new DBGenericRequester<ColaboradorXProcesoEvaluacion>(this, InternalColaboradorXProcesoEvaluaciones);
             TablaPuestoXEvaluadores = new DBGenericRequester<PuestoXEvaluadores>(this, InternalPuestoXEvaluadores);
             TablaCompetenciaXPuesto = new DBGenericRequester<CompetenciaXPuesto>(this, InternalCompetenciaXPuesto);
+            TablaAreaXProcesoEvaluaciones = new DBGenericRequester<AreaXProcesoEvaluacion>(this, InternalAreaXProcesoEvaluaciones);
         }
 
         // Area Evaluacion360

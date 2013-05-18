@@ -81,7 +81,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                context.TablaProcesoEvaluaciones.RemoveElementByID(proceso.ID);
+                context.TablaProcesoEvaluaciones.RemoveElementByID(proceso.ID, true);
                 return Json(ModelState.ToDataSourceResult());
             }
         }
@@ -97,20 +97,39 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
-        private bool AddColaboradorToProceso(int colaboradorID, int procesoID, DP2Context context)
+        // devuelve si se cambio a true ReferenciaDirecta
+        private bool AddColaboradorToProceso(int colaboradorID, int procesoID, DP2Context context, bool esReferenciaDirecta)
         {
-            if (context.TablaColaboradorXProcesoEvaluaciones.Any(x => x.ProcesoEvaluacionID == procesoID && x.ColaboradorID == colaboradorID))
-                return false;
-
+            var cruce = context.TablaColaboradorXProcesoEvaluaciones.One(x => x.ColaboradorID == colaboradorID && x.ProcesoEvaluacionID == procesoID);
             EstadoColaboradorXProcesoEvaluacion pendiente = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Pendiente));
-            context.TablaColaboradorXProcesoEvaluaciones.AddElement(
-                new ColaboradorXProcesoEvaluacion
+
+            if (cruce == null)
+            { // nuevo
+                context.TablaColaboradorXProcesoEvaluaciones.AddElement(
+                    new ColaboradorXProcesoEvaluacion
+                    {
+                        ColaboradorID = colaboradorID,
+                        ProcesoEvaluacionID = procesoID,
+                        EstadoColaboradorXProcesoEvaluacion = pendiente,
+                        ReferenciaDirecta = esReferenciaDirecta,
+                        ReferenciasPorAreas = esReferenciaDirecta ? 0 : 1
+                    });
+                return esReferenciaDirecta;
+            } else if(!esReferenciaDirecta)
+            {
+                cruce.ReferenciasPorAreas++;
+                context.TablaColaboradorXProcesoEvaluaciones.ModifyElement(cruce);
+                return false;
+            } else
+            { // no tenia referencia directa
+                if (!cruce.ReferenciaDirecta)
                 {
-                    ColaboradorID = colaboradorID,
-                    ProcesoEvaluacionID = procesoID,
-                    EstadoColaboradorXProcesoEvaluacion = pendiente
-                });
-            return true;
+                    cruce.ReferenciaDirecta = true;
+                    context.TablaColaboradorXProcesoEvaluaciones.ModifyElement(cruce);
+                    return true;
+                }
+                return false;
+            }
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
@@ -118,8 +137,8 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                bool isNuevo = AddColaboradorToProceso(colaboradorID, procesoID, context);
-                return Json(new {success = false});
+                bool isNuevaReferenciaDirecta = AddColaboradorToProceso(colaboradorID, procesoID, context, true);
+                return Json(new {success = isNuevaReferenciaDirecta});
             }
         }
 
@@ -128,7 +147,18 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                context.TablaColaboradores.All().Select(c => c.ToDTO()).Where(c => c.AreaID == areaID).Each(c => AddColaboradorToProceso(c.ID, procesoID, context));
+                if (context.TablaAreaXProcesoEvaluaciones.One(x => x.ProcesoEvaluacionID == procesoID && x.AreaID == areaID) != null)
+                {
+                    return Json(new { success = false });
+                }
+                context.TablaAreaXProcesoEvaluaciones.AddElement(new AreaXProcesoEvaluacion
+                {
+                    ProcesoEvaluacion = context.TablaProcesoEvaluaciones.FindByID(procesoID),
+                    Area = context.TablaAreas.FindByID(areaID)
+                });
+                List<Area> areasHijas = context.TablaAreas.FindByID(areaID).GetAreasHijas(context);
+                List<int> areasHijasIDs = areasHijas.Select(c => c.ID).ToList();
+                context.TablaColaboradores.All().Select(c => c.ToDTO()).Where(c => areasHijasIDs.Contains(c.AreaID)).Each(c => AddColaboradorToProceso(c.ID, procesoID, context, false));
                 return Json(new { success = true });
             }
         }
@@ -138,10 +168,66 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                context.TablaColaboradorXProcesoEvaluaciones.RemoveElementByID(cruce.ID);
+                context.TablaColaboradorXProcesoEvaluaciones.RemoveElementByID(cruce.ID, true);
                 return Json(ModelState.ToDataSourceResult());
             }
         }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult DestroyEvaluadoDirecto(int procesoID, int colaboradorID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                var cruce = context.TablaColaboradorXProcesoEvaluaciones.One(x => x.ProcesoEvaluacionID == procesoID && x.ColaboradorID == colaboradorID);
+                if (cruce != null)
+                {
+                    context.TablaColaboradorXProcesoEvaluaciones.RemoveElementByID(cruce.ID, true);
+                }
+                return Json(new { sucess = true });
+            }
+        }
+
+        public ActionResult GetEvaluadosDirectos(int procesoID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                var lista = context.TablaColaboradorXProcesoEvaluaciones.Where(x => x.ProcesoEvaluacionID == procesoID && x.ReferenciaDirecta).ToList().Select(c => c.ToDTO()).ToList();
+                return Json(new { data = lista }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetAreas(int procesoID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                var lista = context.TablaAreaXProcesoEvaluaciones.Where(x => x.ProcesoEvaluacionID == procesoID).ToList().Select(c => c.ToDTO()).ToList();
+                return Json(new { data = lista }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult DestroyArea(int procesoID, int areaID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                context.TablaAreaXProcesoEvaluaciones.RemoveElementByID(context.TablaAreaXProcesoEvaluaciones.One(x => x.ProcesoEvaluacionID == procesoID && x.AreaID == areaID).ID);
+                List<Area> areasHijas = context.TablaAreas.FindByID(areaID).GetAreasHijas(context);
+                List<int> areasHijasIDs = areasHijas.Select(c => c.ID).ToList();
+                foreach(ColaboradorDTO c in context.TablaColaboradores.All().Select(c => c.ToDTO()).Where(c => areasHijasIDs.Contains(c.AreaID)).ToList()){
+                    ColaboradorXProcesoEvaluacion cruce = context.TablaColaboradorXProcesoEvaluaciones.One(x => x.ColaboradorID == c.ID && x.ProcesoEvaluacionID == procesoID);
+                    if (cruce != null)
+                    {
+                        cruce.ReferenciasPorAreas--;
+                        context.TablaColaboradorXProcesoEvaluaciones.ModifyElement(cruce);
+                        if(cruce.ReferenciasPorAreas == 0 && !cruce.ReferenciaDirecta){
+                            context.TablaColaboradorXProcesoEvaluaciones.RemoveElementByID(cruce.ID, true);
+                        }
+                    }
+                }
+                return Json(new {success = true});
+            }
+        }
+
         
     }
 }
