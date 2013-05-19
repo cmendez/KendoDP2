@@ -218,6 +218,7 @@
     <Compile Include="Areas\Objetivos\Models\TipoObjetivoBSC.cs" />
     <Compile Include="Areas\Objetivos\ObjetivosAreaRegistration.cs" />
     <Compile Include="Areas\Organizacion\Controllers\AreasController.cs" />
+    <Compile Include="Areas\Organizacion\Controllers\IntranetController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\OrganizacionesController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\PuestosController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\WSColaboradorController.cs" />
@@ -1783,6 +1784,7 @@
     <Content Include="Areas\Organizacion\Views\Organizaciones\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Shared\DatosResponsableResultados.cshtml" />
     <Content Include="Areas\Organizacion\Views\Shared\EditorOrganizacion.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Intranet\Index.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\areas_icon.png" />
     <Content Include="Images\favicon.ico" />
