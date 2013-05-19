@@ -1,4 +1,5 @@
-﻿using KendoDP2.Areas.Organizacion.Models;
+﻿using KendoDP2.Areas.Configuracion.Models;
+using KendoDP2.Areas.Organizacion.Models;
 using KendoDP2.Models.Generic;
 using System;
 using System.Collections.Generic;
@@ -29,8 +30,22 @@ namespace KendoDP2.Areas.Objetivos.Models
         public int BSCID { get; set; }
         public virtual BSC BSC { get; set; }
 
+        public int PeriodoID { get; set; }
+        public virtual Periodo Periodo { get; set; }
+
         public Objetivo() {
             FechaCreacion = DateTime.Now;
+        }
+
+        public Objetivo(string nombre,int BSDCid,int peso,int idpadre)  
+        {
+            Nombre = nombre;
+            BSCID = BSDCid;
+            Peso = peso;
+            if (idpadre != -1)
+            {
+                ObjetivoPadreID = idpadre;
+            }
         }
 
         public Objetivo(ObjetivoDTO o) : this()
@@ -40,6 +55,7 @@ namespace KendoDP2.Areas.Objetivos.Models
 
         public Objetivo LoadFromDTO(ObjetivoDTO o)
         {
+
             ID = o.ID;
             Peso = o.Peso;
             Nombre = o.Nombre;
@@ -49,12 +65,40 @@ namespace KendoDP2.Areas.Objetivos.Models
             TipoObjetivoBSCID = o.TipoObjetivoBSCID;
             ObjetivoPadreID = o.ObjetivoPadreID;
             BSCID = o.BSCID;
+            PeriodoID = o.PeriodoID;
             return this;
+
         }
 
         public ObjetivoDTO ToDTO()
         {
             return new ObjetivoDTO(this);
+        }
+
+        public ObjetivoRDTO ToRDTO()
+        {
+            return new ObjetivoRDTO(this);
+        }
+    }
+
+    public class ObjetivoRDTO
+    {
+        public int idObjetivo { get; set; }
+		public string descripcion { get; set; }
+		public int numPersonas { get; set; }
+		public int avance { get; set; }
+
+        public ObjetivoRDTO(Objetivo o){
+
+            idObjetivo = o.ID;
+            descripcion = o.Nombre;
+            numPersonas = 5;
+            avance = 50;
+
+        }
+
+        public ObjetivoRDTO()
+        {
         }
     }
 
@@ -72,9 +116,12 @@ namespace KendoDP2.Areas.Objetivos.Models
         public int TipoObjetivoBSCID { get; set; }
         public int ObjetivoPadreID { get; set; }
         public int BSCID { get; set; }
-
+        public int PeriodoID { get; set; }
+        
         public ObjetivoDTO() { }
         
+
+
         public ObjetivoDTO(Objetivo o)
         {
             ID = o.ID;
@@ -86,6 +133,8 @@ namespace KendoDP2.Areas.Objetivos.Models
             TipoObjetivoBSCID = o.TipoObjetivoBSCID;
             ObjetivoPadreID = o.ObjetivoPadreID;
             BSCID = o.BSCID;
+            PeriodoID = o.PeriodoID;
         }
+
     }
 }

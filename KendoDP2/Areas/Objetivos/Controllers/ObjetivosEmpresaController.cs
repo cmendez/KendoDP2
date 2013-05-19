@@ -74,35 +74,26 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                List<ObjetivoDTO> ListaObjetivos = new List<ObjetivoDTO>();
-                ObjetivoDTO ob1 = new ObjetivoDTO();
-                ob1.Nombre = "Objetivo1";
-                ob1.TipoObjetivoBSCID = 1;
-                ob1.Peso = 50;
-                ob1.ID = 1;
+                List<ObjetivoRDTO> ListaObjetivos = new List<ObjetivoRDTO>();
+
+                ObjetivoRDTO ob1 = new ObjetivoRDTO();
+                ob1.idObjetivo = 1;
+                ob1.descripcion = "Objetivo1";                
                 ListaObjetivos.Add(ob1);
 
-                ObjetivoDTO ob2 = new ObjetivoDTO();
-                ob2.Nombre = "Objetivo2";
-                ob2.TipoObjetivoBSCID = 1;
-                ob2.Peso = 50;
-                ob2.ID = 2;
+                ObjetivoRDTO ob2 = new ObjetivoRDTO();
+                ob2.idObjetivo = 1;
+                ob2.descripcion = "Objetivo2";
                 ListaObjetivos.Add(ob2);
 
-                ObjetivoDTO ob3 = new ObjetivoDTO();
-                ob3.Nombre = "Objetivo1.1";
-                ob3.TipoObjetivoBSCID = 1;
-                ob3.Peso = 50;
-                ob3.ObjetivoPadreID = 1;
-                ob3.ID=3;
+                ObjetivoRDTO ob3 = new ObjetivoRDTO();
+                ob3.idObjetivo = 3;
+                ob3.descripcion = "Objetivo3";
                 ListaObjetivos.Add(ob3);
 
-                ObjetivoDTO ob4 = new ObjetivoDTO();
-                ob4.Nombre = "Objetivo1.2";
-                ob4.TipoObjetivoBSCID = 1;
-                ob4.Peso = 50;
-                ob4.ID=4;
-                ob4.ObjetivoPadreID = 1;
+                ObjetivoRDTO ob4 = new ObjetivoRDTO();
+                ob4.idObjetivo = 4;
+                ob4.descripcion = "Objetivo4";
                 ListaObjetivos.Add(ob4);
 
                 //TablaObjetivos.AddElement(new Objetivo { Nombre = "Objetivo Financiero 1", TipoObjetivoBSCID = 1, Peso = 50, FechaCreacion = DateTime.Now, Creador = TablaColaboradores.FindByID(1) });
@@ -114,6 +105,75 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 return Json(ListaObjetivos, JsonRequestBehavior.AllowGet);
                 //return Json(ob.ToDTO(), JsonRequestBehavior.AllowGet);
             }    
+        }
+
+        public ActionResult ListarObjetivosXBSC(int BSCId,int idperiodo)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                List<ObjetivoRDTO> ListaObjetivos = new List<ObjetivoRDTO>();
+
+                ObjetivoRDTO ob1 = new ObjetivoRDTO();
+                ob1.idObjetivo = 1;
+                ob1.descripcion = "Objetivo1";
+                ListaObjetivos.Add(ob1);
+
+                ObjetivoRDTO ob2 = new ObjetivoRDTO();
+                ob2.idObjetivo = 1;
+                ob2.descripcion = "Objetivo2";
+                ListaObjetivos.Add(ob2);
+
+                ObjetivoRDTO ob3 = new ObjetivoRDTO();
+                ob3.idObjetivo = 3;
+                ob3.descripcion = "Objetivo3";
+                ListaObjetivos.Add(ob3);
+
+                ObjetivoRDTO ob4 = new ObjetivoRDTO();
+                ob4.idObjetivo = 4;
+                ob4.descripcion = "Objetivo4";
+                ListaObjetivos.Add(ob4);
+
+                //return Json(context.TablaObjetivos.Where(o => o.TipoObjetivoBSCID==BSCId).Select(p => p.ToDTO()).ToList(), JsonRequestBehavior.AllowGet);
+                return Json(ListaObjetivos, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult ListarObjetivosXPadre(int PadreId)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                List<ObjetivoRDTO> ListaObjetivos = new List<ObjetivoRDTO>();
+
+                ObjetivoRDTO ob1 = new ObjetivoRDTO();
+                ob1.idObjetivo = 1;
+                ob1.descripcion = "Objetivo1";
+                ListaObjetivos.Add(ob1);
+
+                ObjetivoRDTO ob2 = new ObjetivoRDTO();
+                ob2.idObjetivo = 1;
+                ob2.descripcion = "Objetivo2";
+                ListaObjetivos.Add(ob2);
+
+                ObjetivoRDTO ob3 = new ObjetivoRDTO();
+                ob3.idObjetivo = 3;
+                ob3.descripcion = "Objetivo3";
+                ListaObjetivos.Add(ob3);
+
+                ObjetivoRDTO ob4 = new ObjetivoRDTO();
+                ob4.idObjetivo = 4;
+                ob4.descripcion = "Objetivo4";
+                ListaObjetivos.Add(ob4);
+                //return Json(context.TablaObjetivos.Where(o => o.ObjetivoPadreID == PadreId).Select(p => p.ToDTO()).ToList(), JsonRequestBehavior.AllowGet);
+                return Json(ListaObjetivos, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult ListarObjetivosPrueba(int PadreId)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                return Json(context.TablaObjetivos.All().Select(p => p.ToDTO()).ToList(), JsonRequestBehavior.AllowGet);
+            }
         }
 
         public ActionResult ListarPeriodos()
