@@ -39,6 +39,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         [InverseProperty("Colaborador")]
         public virtual ICollection<Contactos> Contactos { get; set; }
 
+        public string ResumenEjecutivo { get; set; }
 
         public Colaborador() { }
 
@@ -64,6 +65,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             CentroEstudios = c.CentroEstudios;
             FechaNacimiento = c.FechaNacimiento;
             FechaIngresoEmpresa = c.FechaIngreso;
+            ResumenEjecutivo = c.ResumenEjecutivo;
            
             return this;
         }
@@ -163,6 +165,16 @@ namespace KendoDP2.Areas.Organizacion.Models
         [DisplayName("Sueldo S/.")]
         public int Sueldo { get; set; }
 
+        [DisplayName("Sobre Mí")]
+        [StringLength(350)]
+        public string ResumenEjecutivo { get; set; }
+
+        [DisplayName("Contraseña actual")]
+        public string Contrasenha { get; set; }
+
+        [DisplayName("Nueva Contraseña")]
+        public string NuevaContrasenha { get; set; }
+
         public ColaboradorDTO() { }
 
         public ColaboradorDTO(Colaborador c)
@@ -185,6 +197,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             ImagenColaborador = c.ImagenColaborador;
             FechaNacimiento = c.FechaNacimiento;
             FechaIngreso = c.FechaIngresoEmpresa;
+            ResumenEjecutivo = c.ResumenEjecutivo;
 
             try {
                 ColaboradorXPuesto cruce = c.ColaboradoresPuesto. OrderByDescending(a => a.ID).First();
