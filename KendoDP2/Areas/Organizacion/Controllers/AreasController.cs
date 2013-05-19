@@ -50,6 +50,11 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
+                if (context.TablaAreas.One(x => x.Nombre.IsCaseInsensitiveEqual(area.Nombre)) != null)
+                {
+                    ModelState.AddModelError("Area", "Ya existe otra area con el mismo nombre.");
+                    return Json(new[] { area }.ToDataSourceResult(request, ModelState));
+                }
                 Area a = new Area(area);
                 a.ID = context.TablaAreas.AddElement(a);
                 return Json(new[] { a.ToDTO() }.ToDataSourceResult(request, ModelState));
