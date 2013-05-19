@@ -4,7 +4,7 @@
     ViewBag.Title = "Intranet";
     Layout = "~/Views/Shared/_Layout.cshtml";
     <link href="@Url.Content("~/Content/assets/css/pages/profile.css")" rel="stylesheet" type="text/css" />
-
+    ColaboradorDTO colaboradorDTO = ViewBag.ColaboradorDTO;
    
 }
 
@@ -576,7 +576,7 @@
                         </div>
                         <!--end tab-pane-->
                         <div class="tab-pane profile-classic row-fluid" id="tab_1_2">
-                           <div class="span2"><img src="assets/img/profile/profile-img.png" alt=""> <a href="#" class="profile-edit">edit</a></div>
+                           <!--<div class="span2"><img src="assets/img/profile/profile-img.png" alt=""> <a href="#" class="profile-edit">edit</a></div>
                            <ul class="unstyled span10">
                               <li><span>User Name:</span> JDuser</li>
                               <li><span>First Name:</span> John</li>
@@ -589,7 +589,8 @@
                               <li><span>Website Url:</span> <a href="#">http://www.mywebsite.com</a></li>
                               <li><span>Mobile Number:</span> +1 646 580 DEMO (6284)</li>
                               <li><span>About:</span> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.</li>
-                           </ul>
+                           </ul>-->
+                            @Html.Partial("EditorColaboradorIntranet", colaboradorDTO)
                         </div>
                         <!--tab_1_2-->
                         <div class="tab-pane row-fluid profile-account" id="tab_1_3">
