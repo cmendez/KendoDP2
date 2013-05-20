@@ -66,12 +66,13 @@ namespace KendoDP2.Models.Generic
 
         private void SeedOfertaLaboral()
         {
-
             //TablaOfertaLaboral.AddElement(new OfertaLaboral { EstadoSolicitudOfertaLaboralID = 1, PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID });
         }
 
         private void SeedPostulante()
         {
+            //TablaPostulante.AddElement(new Postulante { Nombres = "Fortino Mario Alonso", ApellidoPaterno = "Moreno", ApellidoMaterno = "Reyes", Username = "admin", Password = "admin", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
+
             //TablaPostulante.AddElement(new Postulante );
 
         }
