@@ -17,18 +17,26 @@ namespace KendoDP2.Models.Generic
 {
     public partial class DP2Context : DbContext
     {
-        public DbSet<OfertaLaboral> InternalOfertaLaborals { get; set; }
+        public DbSet<OfertaLaboral> InternalOfertaLaboral { get; set; }
+        public DbSet<Postulante> InternalPostulante { get; set; }
 
-        public DBGenericRequester<OfertaLaboral> TablaOfertaLaborals { get; set; }
+        public DBGenericRequester<OfertaLaboral> TablaOfertaLaboral { get; set; }
+        public DBGenericRequester<Postulante> TablaPostulante { get; set; }
 
         private void RegistrarTablasReclutamiento()
         {
-            TablaOfertaLaborals = new DBGenericRequester<OfertaLaboral>(this, InternalOfertaLaborals);
+            TablaOfertaLaboral = new DBGenericRequester<OfertaLaboral>(this, InternalOfertaLaboral);
+            TablaPostulante = new DBGenericRequester<Postulante>(this, InternalPostulante);
         }
 
         private void SeedOfertaLaboral()
         {
-            TablaOfertaLaborals.AddElement(new OfertaLaboral { EstadoSolicitudOfertaLaboralID = 1, PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID });
+            TablaOfertaLaboral.AddElement(new OfertaLaboral { EstadoSolicitudOfertaLaboralID = 1, PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID });
+        }
+
+        private void SeedPostulante()
+        {
+            //TablaPostulante.AddElement(new Postulante );
         }
     }
 }
