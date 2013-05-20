@@ -9,11 +9,11 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
     public class WSOfertaLaboralController : Controller
     {
         //
-        // GET: /Reclutamiento/WSOfertaLaboral/
+        // GET: /Reclutamiento/WSOfertaLaboral/getOfertasLaborales
 
-        public ActionResult Index()
+        public JsonResult getOfertasLaborales()
         {
-            return View();
+            return Json("", JsonRequestBehavior.AllowGet);
         }
 
     }

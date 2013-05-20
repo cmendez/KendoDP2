@@ -246,6 +246,7 @@
     <Compile Include="Areas\Reclutamiento\Models\EstadoSolicitudOfertaLaboral.cs" />
     <Compile Include="Areas\Reclutamiento\Models\ModoSolicitudOfertaLaboral.cs" />
     <Compile Include="Areas\Reclutamiento\Models\OfertaLaboral.cs" />
+    <Compile Include="Areas\Reclutamiento\Models\OfertaLaboralXPostulante.cs" />
     <Compile Include="Areas\Reclutamiento\Models\Postulante.cs" />
     <Compile Include="Areas\Reclutamiento\ReclutamientoAreaRegistration.cs" />
     <Compile Include="Areas\Reportes\ReportesAreaRegistration.cs" />
