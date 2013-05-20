@@ -78,9 +78,11 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public int ID { get; set; }
         
         [DisplayName("Puesto")]
+        [UIHint("GridForeignKey")]
         public int PuestoID { get; set; }
 
         [DisplayName("Area")]
+        [UIHint("GridForeignKey")]
         public int AreaID { get; set; }
 
 

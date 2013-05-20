@@ -3,13 +3,13 @@
 @using KendoDP2.Areas.Reclutamiento.Models
 
 @{
-    ViewBag.Title = "SolicitudOfertaLaboral";
+    ViewBag.Title = "SolicitudOfertasLaborales";
     Layout = "~/Views/Shared/_Layout.cshtml";
     IList<AreaDTO> areas = ViewBag.areas;
-    IList<EstadosSolicitudOfertaLaboralDTO> estadosSolicitud = ViewBag.estadosColaborador;
+    IList<EstadosSolicitudOfertaLaboralDTO> estadosSolicitudOferta = ViewBag.estadosSolicitudOferta;
     IList<PuestoDTO> puestos = ViewBag.puestos;
     SelectList lista = new SelectList(areas, "ID", "Nombre");
-    SelectList listaEstados = new SelectList(estadosSolicitud, "ID", "Descripcion");
+    SelectList listaEstados = new SelectList(estadosSolicitudOferta, "ID", "Descripcion");
     SelectList listaPuestos = new SelectList(puestos, "ID", "Nombre");
 
 }
@@ -47,6 +47,7 @@
                 })
                 .Editable(editable => editable
                     .Mode(GridEditMode.PopUp)
+                    .TemplateName("EditorSolicitudOfertaLaboral")
                     .DisplayDeleteConfirmation("¿Está seguro que desea eliminar este registro?")
                     .Window(w => { w.Title("Ingrese los datos"); w.Width(900); })
 
