@@ -44,7 +44,7 @@ namespace KendoDP2.Models.Generic
         public void SeedObjetivos()
         {
 
-            TablaObjetivos.AddElement(new Objetivo ( "Objetivo Financiero 1", 1, 50, -1));
+            /*TablaObjetivos.AddElement(new Objetivo ( "Objetivo Financiero 1", 1, 50, -1));
             TablaObjetivos.AddElement(new Objetivo ( "Objetivo Financiero 2",1, 50, -1));
             TablaObjetivos.AddElement(new Objetivo ( "Objetivo Financiero 1.1", 1, 50,  1 ));
             TablaObjetivos.AddElement(new Objetivo ( "Objetivo Financiero 1.2", 1, 50,  1 ));
@@ -59,7 +59,7 @@ namespace KendoDP2.Models.Generic
             TablaObjetivos.AddElement(new Objetivo ( "Objetivo Formación 1",  4, 50, -1 ));
             TablaObjetivos.AddElement(new Objetivo ( "Objetivo Formación 2", 4, 50, -1));
             TablaObjetivos.AddElement(new Objetivo ( "Objetivo Formación 1.1", 4,  50, 13));
-            TablaObjetivos.AddElement(new Objetivo ( "Objetivo Formación 1.2", 4, 50, 13 ));
+            TablaObjetivos.AddElement(new Objetivo ( "Objetivo Formación 1.2", 4, 50, 13 ));*/
            
         }
     }

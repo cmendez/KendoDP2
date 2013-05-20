@@ -19,19 +19,16 @@ namespace KendoDP2.Areas.Objetivos.Models
         public DateTime? FechaFinalizacion { get; set; }
         public bool IsAsignadoAPersona { get; set; } // O a BSC
 
-        public int CreadorID { get; set; }
+        public int? CreadorID { get; set; }
         public Colaborador Creador { get; set; }
 
-        public int TipoObjetivoBSCID { get; set; }
+        public int? TipoObjetivoBSCID { get; set; }
         public virtual TipoObjetivoBSC TipoObjetivoBSC { get; set; }
 
         public int ObjetivoPadreID { get; set; }
 
         public int BSCID { get; set; }
         public virtual BSC BSC { get; set; }
-
-        public int PeriodoID { get; set; }
-        public virtual Periodo Periodo { get; set; }
 
         public Objetivo() {
             FechaCreacion = DateTime.Now;
@@ -65,7 +62,6 @@ namespace KendoDP2.Areas.Objetivos.Models
             TipoObjetivoBSCID = o.TipoObjetivoBSCID;
             ObjetivoPadreID = o.ObjetivoPadreID;
             BSCID = o.BSCID;
-            PeriodoID = o.PeriodoID;
             return this;
 
         }
@@ -116,7 +112,6 @@ namespace KendoDP2.Areas.Objetivos.Models
         public int TipoObjetivoBSCID { get; set; }
         public int ObjetivoPadreID { get; set; }
         public int BSCID { get; set; }
-        public int PeriodoID { get; set; }
         
         public ObjetivoDTO() { }
         
@@ -129,11 +124,10 @@ namespace KendoDP2.Areas.Objetivos.Models
             Peso = o.Peso;
             AvanceFinal = o.AvanceFinal;
             IsAsignadoAPersona = o.IsAsignadoAPersona;
-            CreadorID = o.CreadorID;
-            TipoObjetivoBSCID = o.TipoObjetivoBSCID;
+            CreadorID = o.CreadorID.GetValueOrDefault();
+            TipoObjetivoBSCID = o.TipoObjetivoBSCID.GetValueOrDefault();
             ObjetivoPadreID = o.ObjetivoPadreID;
             BSCID = o.BSCID;
-            PeriodoID = o.PeriodoID;
         }
 
     }
