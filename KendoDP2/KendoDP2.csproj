@@ -239,6 +239,8 @@
     <Compile Include="Areas\Organizacion\Models\Persona.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\ReclutamientoController.cs" />
     <Compile Include="Areas\Reclutamiento\Models\DP2Context.cs" />
+    <Compile Include="Areas\Reclutamiento\Models\EstadoSolicitudOfertaLaboral.cs" />
+    <Compile Include="Areas\Reclutamiento\Models\ModoSolicitudOfertaLaboral.cs" />
     <Compile Include="Areas\Reclutamiento\Models\OfertaLaboral.cs" />
     <Compile Include="Areas\Reclutamiento\ReclutamientoAreaRegistration.cs" />
     <Compile Include="Areas\Reportes\ReportesAreaRegistration.cs" />

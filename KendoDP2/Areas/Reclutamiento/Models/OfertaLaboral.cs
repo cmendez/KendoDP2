@@ -12,6 +12,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
 {
     public class OfertaLaboral : DBObject
     {
+
         public int PuestoID { get; set; }
         public Puesto Puesto { get; set; }
 
@@ -35,6 +36,8 @@ namespace KendoDP2.Areas.Reclutamiento.Models
 
         //public virtual ICollection<Capacidad> ListaCapacidades { get; set; }
         
+        public virtual ICollection<Postulante> Postulantes { get; set; }
+
 
         public OfertaLaboral(OfertaLaboralDTO o) : this()
         {

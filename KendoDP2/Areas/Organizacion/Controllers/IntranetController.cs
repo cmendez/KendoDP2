@@ -34,5 +34,19 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             
         }
 
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult UpdateSimple(ColaboradorDTO colaborador)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                Colaborador c = context.TablaColaboradores.FindByID(colaborador.ID);
+                //Aqui cargas a mano cada campo, porque no se modifican todos
+                c.Nombres = colaborador.Nombre;
+                c.TipoDocumentoID = colaborador.TipoDocumentoID;
+                //
+                context.TablaColaboradores.ModifyElement(c);
+                return Json(new { success = true });
+            }
+        }
     }
 }
