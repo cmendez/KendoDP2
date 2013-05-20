@@ -14,7 +14,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public int PuestoID {get;set;}
         public Puesto Puesto{get;set;}
         public int Estado { get; set; }
-
+        public virtual ICollection<Postulante> Postulantes { get; set; }
 
         public OfertaLaboral(OfertaLaboralDTO o) : this()
         {
