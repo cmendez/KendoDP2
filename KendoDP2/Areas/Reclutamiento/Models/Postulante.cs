@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+
 using KendoDP2.Areas.Organizacion.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KendoDP2.Areas.Reclutamiento.Models
 {
     public class Postulante : Persona
     {
         public string Estado { get; set; }
-        public virtual ICollection<OfertaLaboral> OfertasPostuladas { get; set; }
+
+        [InverseProperty("Postulante")]
+        public virtual ICollection<OfertaLaboralXPostulante> OfertasPostuladas { get; set; }
 
         public Postulante() { }
 

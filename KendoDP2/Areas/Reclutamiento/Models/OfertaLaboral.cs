@@ -7,6 +7,7 @@ using KendoDP2.Models.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using KendoDP2.Areas.Evaluacion360.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KendoDP2.Areas.Reclutamiento.Models
 {
@@ -35,8 +36,9 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public virtual ModoSolicitudOfertaLaboral ModoSolicitudOfertaLaboral { get; set; }
 
         //public virtual ICollection<Capacidad> ListaCapacidades { get; set; }
-        
-        public virtual ICollection<Postulante> Postulantes { get; set; }
+
+        [InverseProperty("OfertaLaboral")]
+        public virtual ICollection<OfertaLaboralXPostulante> Postulantes { get; set; }
 
 
         public OfertaLaboral(OfertaLaboralDTO o) : this()

@@ -188,9 +188,12 @@
     <Compile Include="Areas\Configuracion\Models\DP2Context.cs" />
     <Compile Include="Areas\Configuracion\Models\Pais.cs" />
     <Compile Include="Areas\Configuracion\Models\Periodo.cs" />
+    <Compile Include="Areas\Evaluacion360\Controllers\AcordionController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\CapacidadesController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\CompetenciasController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\Configuracion360Controller.cs" />
+    <Compile Include="Areas\Evaluacion360\Controllers\CorreoController.cs" />
+    <Compile Include="Areas\Evaluacion360\Controllers\EvaluadoresController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\ProcesoEvaluacionController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\PuestosEvaluacionController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\WSCompetenciasController.cs" />
@@ -239,10 +242,12 @@
     <Compile Include="Areas\Organizacion\Models\Persona.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\ReclutamientoController.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\SolicitudOfertasLaboralesController.cs" />
+    <Compile Include="Areas\Reclutamiento\Controllers\WSOfertaLaboralController.cs" />
     <Compile Include="Areas\Reclutamiento\Models\DP2Context.cs" />
     <Compile Include="Areas\Reclutamiento\Models\EstadoSolicitudOfertaLaboral.cs" />
     <Compile Include="Areas\Reclutamiento\Models\ModoSolicitudOfertaLaboral.cs" />
     <Compile Include="Areas\Reclutamiento\Models\OfertaLaboral.cs" />
+    <Compile Include="Areas\Reclutamiento\Models\OfertaLaboralXPostulante.cs" />
     <Compile Include="Areas\Reclutamiento\Models\Postulante.cs" />
     <Compile Include="Areas\Reclutamiento\ReclutamientoAreaRegistration.cs" />
     <Compile Include="Areas\Reportes\ReportesAreaRegistration.cs" />
@@ -1788,6 +1793,9 @@
     <Content Include="Areas\Organizacion\Views\Organizaciones\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Shared\DatosResponsableResultados.cshtml" />
     <Content Include="Areas\Organizacion\Views\Shared\EditorOrganizacion.cshtml" />
+    <Content Include="Areas\Evaluacion360\Views\Evaluadores\Index.cshtml" />
+    <Content Include="Areas\Evaluacion360\Views\Correo\Index.cshtml" />
+    <Content Include="Areas\Evaluacion360\Views\Acordion\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Intranet\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Shared\EditorColaboradorIntranet.cshtml" />
     <Content Include="Areas\Organizacion\Views\Shared\EditorTemplates\EditorColaboradorDatos.cshtml" />
