@@ -13,12 +13,11 @@
     IList<PuestoDTO> puestos = ViewBag.puestos;
     
 }
-
-@using (Html.BeginForm())
+@using (Ajax.BeginForm(new AjaxOptions {HttpMethod = "POST", Url = Url.Action("UpdateSimple", "Intranet")} )) 
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-    
+    @Html.HiddenFor(m => m.ID)
     <div  style="width:900px;">
         <div class="row-fluid">
             <!-- contenedor superior izquierdo: campos -->
@@ -67,7 +66,7 @@
                         <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.TipoDocumentoID)</div>
                     </div>
                     <div class="span7 responsive">
-                        @Html.DropDownListFor(model => model.TipoDocumentoID, 
+                        @Html.DropDownListFor(model => model.TipoDocumentoID,
                             new SelectList(tipoDocumentos, "ID", "Descripcion"), new { style = "width:100%" })
                     </div>
                 </div>
@@ -164,163 +163,45 @@
                     </div>
                 </div>
 
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.ResumenEjecutivo)</div>
+                    </div>
+                    <div class="span7">
+                        <div class="editor-field" style="width: 100%; text-align: left;">
+                            @Html.TextAreaFor(model => model.ResumenEjecutivo)
+                            @Html.ValidationMessageFor(model => model.ResumenEjecutivo)
+                        </div>
+                    </div>
+                </div>
+
                          
         
             </div>
             <!-- fin contenedor superior izquierdo: campos -->
             <!-- contenedor superior derecho: foto -->
-            <div class="span4">
-                @Html.HiddenFor(model => model.ID)
-
-                @(Html.Label("Imagen:", new { style = "font-weight: bold;" }))
-
-                <div style="text-align: center;">
-                    <!--img id="imagen" src="https://lh4.googleusercontent.com/-3Sea_6fTfm4/TWrppAVxupI/AAAAAAAAAcQ/zHHGenEir0c/s200/snoopy-joecool-color.gif" onload="loadImage()"/-->
-                    <img id="imagen" src="http://grifocalpointblog.org/wp-content/themes/blogga/images/ajax-loader.gif" onload="loadImage()" /> 
-                </div>
-                <style>
-                    .k-upload-button{
-                        width: 100%;
-                    }
-                </style>
-                
-                <input type="file" id="ImagenColaborador" name="ImagenColaborador" />
-                <script>
-                    $("#ImagenColaborador").kendoUpload({
-                        multiple: false,
-                        showFileList: false,
-                        localization: {
-                            select: 'Seleccione la imagen JPG'
-                        },
-                        async: {
-                            saveUrl: "@Url.Action("UploadImagen", "Colaboradores", new {Area = "Organizacion"})",
-                            autoUpload: true,
-                        },
-                        upload: function (e) {
-                            e.data = { ID: $("#ID").val() };
-                        },
-                        success: function (e) {
-                            loadImage();
-                        }
-                    });
-                </script> 
-				
-
-            </div>
-            <!-- fin contenedor superior derecho: foto -->
+                       <!-- fin contenedor superior derecho: foto -->
         </div>
     </div>
     <!-- contenedor inferior: campos -->
-    <div style="width:900px;">
-        <div class="row-fluid" >
-            <div class="span6">
-                @Html.Label("Información Puesto Laboral:", new { style = "font-weight: bold;" })
-            </div>
-            <div class="span6">
-                @Html.Label("Información General:", new { style = "font-weight: bold;" })
-            </div>
-        </div>
-        
-        <div class="span4">
-            <div class="row-fluid">
-                <div class="span5">
-                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.FechaIngreso)</div>
-                </div>
-                <div class="span7">
-                    <div class="editor-field" style="width: 100%; text-align: left;">
-                        @Html.EditorFor(model => model.FechaIngreso)
-                        @Html.ValidationMessageFor(model => model.FechaIngreso)
-                    </div>
-                </div>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span5">
-                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.AreaID)</div>
-                </div>
-                <div class="span7 responsive">
-                    @Html.DropDownListFor(m => m.AreaID, new SelectList(areas, "ID", "Nombre"), new { style = "width:100%" }) 
-                </div>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span5">
-                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.PuestoID)</div>
-                </div>
-                <div class="span7">
-                    @Html.DropDownListFor(m => m.PuestoID, new SelectList(puestos, "ID", "Nombre"), new { style = "width:100%" }) 
-                </div>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span5">
-                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Sueldo)</div>
-                </div>
-                <div class="span7">
-                    <div class="editor-field" style="width: 100%; text-align: left;">
-                        @Html.EditorFor(model => model.Sueldo)
-                        @Html.ValidationMessageFor(model => model.Sueldo)
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-        <div class="span4">
-             <div class="row-fluid">
-                <div class="span5">
-                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.EstadoColaboradorID)</div>
-                </div>
-                <div class="span7 responsive">
-                    @Html.DropDownListFor(model => model.EstadoColaboradorID, new SelectList(estadosColaborador, "ID", "Descripcion"), new { style = "width:100%", data_placeholder="Please select a product" } )
-                </div>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span5">
-                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.CurriculumVitae)</div>
-                </div>
-                <div class="span7">
-
-                <style>
-                    .k-upload-button{
-                        width: 100%;
-                    }
-                </style>
-                
-                <input type="file" id="CurriculumVitae" name="CurriculumVitae" />
-                <script>
-                    $("#CurriculumVitae").kendoUpload({
-                        multiple: false,
-                        showFileList: false,
-                        localization: {
-                            select: 'Seleccione archivo PDF'
-                        },
-                        async: {
-                            saveUrl: "@Url.Action("UploadPDF", "Colaboradores", new {Area = "Organizacion"})",
-                            autoUpload: true,
-                        },
-                        upload: function (e) {
-                            e.data = { ID: $("#ID").val() };
-                        },
-                         });
-                </script>
-
-                </div>
-            </div>
-
-
-        </div>
-       
-    </div>
-    <!-- fin contenedor inferior: campos -->
-
+  
    
-    
+<div class="submit-btn">
+   <a onclick="submitForm();" class="btn green">Guardar</a>
+</div>
+
 <script>
+    function submitForm() {
+        //var validator = $("#formulario").kendoValidator().data("kendoValidator"),
+        //           status = $(".status");
+        //if (validator.validate()) {
+        $("#form0").submit();
+        alert('Se actualizaron los datos');
+        //}
+    }
     $("#AreaID").change(function () {
         var areaID = $(this).val();
-        $.getJSON("@Url.Action("_GetPuestos", "Colaboradores", new {Area = "Organizacion"})",
+        $.getJSON("@Url.Action("_GetPuestos", "Colaboradores", new { Area = "Organizacion" })",
                { areaID: areaID },
                function (puestos) {
                    var select = $("#PuestoID");
@@ -351,4 +232,3 @@
         
 
 }        
-

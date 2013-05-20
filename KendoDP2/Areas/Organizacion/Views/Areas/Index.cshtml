@@ -65,6 +65,7 @@
                         .Read(r => r.Action("Read", "Areas"))
                         .Update(u => u.Action("Update", "Areas"))
                         .Destroy(d => d.Action("Destroy", "Areas"))
+                        .Events(e => e.Error("onError"))
                     )
                 )
             </div>
@@ -77,10 +78,25 @@
     }
 </style>
 <script>
+    function onError(e) {
+        if (e.errors) {
+            var message = "Error:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+
     function onComplete(e) {
         if (e.type == 'create' || e.type == 'destroy' || e.type == 'update') {
-            $('#grid').data('kendoGrid').dataSource.read();
-            $('#treeview').data('kendoTreeView').dataSource.read();
+        //    $('#grid').data('kendoGrid').dataSource.read();
+        //    $('#treeview').data('kendoTreeView').dataSource.read();
+            doRefresh();
         }
     }
     $(document).ready(function ready() {
@@ -104,7 +120,9 @@
     function onDataBound() {
         setTimeout("expandNodes()");
     }
-
+    function doRefresh() {
+        setTimeout("location.reload(true);", 0);
+    }
     function expandNodes() {
         $("#treeview").data("kendoTreeView").expand(".k-item");
     }

@@ -221,6 +221,7 @@
     <Compile Include="Areas\Objetivos\Models\TipoObjetivoBSC.cs" />
     <Compile Include="Areas\Objetivos\ObjetivosAreaRegistration.cs" />
     <Compile Include="Areas\Organizacion\Controllers\AreasController.cs" />
+    <Compile Include="Areas\Organizacion\Controllers\IntranetController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\OrganizacionesController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\PuestosController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\WSColaboradorController.cs" />
@@ -240,8 +241,12 @@
     <Compile Include="Areas\Organizacion\Models\Colaborador.cs" />
     <Compile Include="Areas\Organizacion\Models\Persona.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\ReclutamientoController.cs" />
+    <Compile Include="Areas\Reclutamiento\Controllers\WSOfertaLaboralController.cs" />
     <Compile Include="Areas\Reclutamiento\Models\DP2Context.cs" />
+    <Compile Include="Areas\Reclutamiento\Models\EstadoSolicitudOfertaLaboral.cs" />
+    <Compile Include="Areas\Reclutamiento\Models\ModoSolicitudOfertaLaboral.cs" />
     <Compile Include="Areas\Reclutamiento\Models\OfertaLaboral.cs" />
+    <Compile Include="Areas\Reclutamiento\Models\Postulante.cs" />
     <Compile Include="Areas\Reclutamiento\ReclutamientoAreaRegistration.cs" />
     <Compile Include="Areas\Reportes\ReportesAreaRegistration.cs" />
     <Compile Include="Areas\Seguridad\Controllers\RolesController.cs" />
@@ -1789,6 +1794,12 @@
     <Content Include="Areas\Evaluacion360\Views\Evaluadores\Index.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\Correo\Index.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\Acordion\Index.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Intranet\Index.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Shared\EditorColaboradorIntranet.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Shared\EditorTemplates\EditorColaboradorDatos.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Shared\EditorColaboradorImagenIntranet.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Shared\ViewColaboradorIntranet.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Shared\EditorColaboradorContrasenha.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\areas_icon.png" />
     <Content Include="Images\favicon.ico" />

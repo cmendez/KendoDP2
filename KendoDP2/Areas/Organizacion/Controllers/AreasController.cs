@@ -50,6 +50,11 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
+                if (context.TablaAreas.One(x => x.Nombre.IsCaseInsensitiveEqual(area.Nombre)) != null)
+                {
+                    ModelState.AddModelError("Area", "Ya existe otra área con el mismo nombre.");
+                    return Json(new[] { area }.ToDataSourceResult(request, ModelState));
+                }
                 Area a = new Area(area);
                 a.ID = context.TablaAreas.AddElement(a);
                 return Json(new[] { a.ToDTO() }.ToDataSourceResult(request, ModelState));
@@ -74,7 +79,9 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             {
                 Area a = context.TablaAreas.FindByID(area.ID);
                 if (!a.Puestos.Any(i => !i.IsEliminado) && !a.Areas.Any(i => !i.IsEliminado))
-                    context.TablaAreas.RemoveElementByID(area.ID);
+                    context.TablaAreas.RemoveElementByID(area.ID); 
+                else
+                    ModelState.AddModelError("Area", "No se puede eliminar un área con áreas o puestos subordinados.");
                 return Json(ModelState.IsValid ? new object() : ModelState.ToDataSourceResult());
             }
         }
