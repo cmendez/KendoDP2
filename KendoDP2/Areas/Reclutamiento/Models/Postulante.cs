@@ -26,7 +26,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             return this;
         }
 
-        public PostulanteDTO ToDTO()
+        new public PostulanteDTO ToDTO()
         {
             return new PostulanteDTO(this);
         }

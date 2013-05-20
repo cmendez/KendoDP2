@@ -194,6 +194,7 @@
     <Compile Include="Areas\Evaluacion360\Controllers\ProcesoEvaluacionController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\PuestosEvaluacionController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\WSCompetenciasController.cs" />
+    <Compile Include="Areas\Evaluacion360\Controllers\WSOfertaLaboralController.cs" />
     <Compile Include="Areas\Evaluacion360\Evaluacion360AreaRegistration.cs" />
     <Compile Include="Areas\Evaluacion360\Models\AreaXProcesoEvaluacion.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Capacidad.cs" />
