@@ -241,6 +241,7 @@
     <Compile Include="Areas\Organizacion\Models\Colaborador.cs" />
     <Compile Include="Areas\Organizacion\Models\Persona.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\ReclutamientoController.cs" />
+    <Compile Include="Areas\Reclutamiento\Controllers\SolicitudOfertasLaboralesController.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\WSOfertaLaboralController.cs" />
     <Compile Include="Areas\Reclutamiento\Models\DP2Context.cs" />
     <Compile Include="Areas\Reclutamiento\Models\EstadoSolicitudOfertaLaboral.cs" />
@@ -1801,6 +1802,7 @@
     <Content Include="Areas\Organizacion\Views\Shared\EditorColaboradorImagenIntranet.cshtml" />
     <Content Include="Areas\Organizacion\Views\Shared\ViewColaboradorIntranet.cshtml" />
     <Content Include="Areas\Organizacion\Views\Shared\EditorColaboradorContrasenha.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\SolicitudOfertaLaboral\Index.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\areas_icon.png" />
     <Content Include="Images\favicon.ico" />

@@ -1,0 +1,72 @@
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Organizacion.Models
+@using KendoDP2.Areas.Reclutamiento.Models
+
+@{
+    ViewBag.Title = "SolicitudOfertaLaboral";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IList<AreaDTO> areas = ViewBag.areas;
+    IList<EstadosSolicitudOfertaLaboralDTO> estadosSolicitud = ViewBag.estadosColaborador;
+    IList<PuestoDTO> puestos = ViewBag.puestos;
+    SelectList lista = new SelectList(areas, "ID", "Nombre");
+    SelectList listaEstados = new SelectList(estadosSolicitud, "ID", "Descripcion");
+    SelectList listaPuestos = new SelectList(puestos, "ID", "Nombre");
+
+}
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Solicitud Oferta Laboral", "Registre nuevas solicitudes de oportunidad laboral"));}
+
+<div class="portlet box green">
+    <div class="portlet-title">
+        <h4><i class="icon-reorder"></i>Solicitud de Oferta Laboral</h4>
+        <div class="tools">
+	        <a href="javascript:;" class="collapse"></a>
+        </div>
+	</div>
+    
+    <div class="portlet-body">
+
+           <div class="row-fluid">
+            @(Html.Kendo().Grid<OfertaLaboralDTO>()
+                .Name("SolicitudOfertaGrid")
+                .Columns(columns =>
+                    {
+                        columns.Bound(p => p.ID);
+                        columns.Bound(p => p.FechaRequerimiento);
+                        columns.ForeignKey(p => p.EstadoSolicitudOfertaLaboralID, listaEstados);
+                        columns.ForeignKey(p => p.AreaID, lista);
+                        columns.ForeignKey(p => p.PuestoID, listaPuestos);
+                        columns.Command(command => { command.Edit().Text("Ver").UpdateText("Guardar").CancelText("Cancelar");
+                                                     command.Destroy().Text("Eliminar");
+                                                   }).Width(200);
+                        
+                    }
+                )
+                .ToolBar(toolbar =>
+                {
+                    toolbar.Create().Text("Registrar");
+                })
+                .Editable(editable => editable
+                    .Mode(GridEditMode.PopUp)
+                    .DisplayDeleteConfirmation("¿Está seguro que desea eliminar este registro?")
+                    .Window(w => { w.Title("Ingrese los datos"); w.Width(900); })
+
+                )
+                .Groupable()
+                .Pageable(paper => paper.Refresh(true))
+                .Filterable()
+                .Sortable()
+                .Scrollable(p => p.Height(330))
+                .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .PageSize(20)
+                    .Model(model => model.Id(p => p.ID))
+                    .Create(update => update.Action("Create", "Colaboradores"))
+                    .Read(read => read.Action("EditingInline_Read", "Colaboradores"))
+                    .Update(update => update.Action("EditingInline_Update", "Colaboradores"))
+                    .Destroy(update => update.Action("EditingInline_Destroy", "Colaboradores"))
+                )
+               )
+        </div>
+    </div>
+</div>
+
