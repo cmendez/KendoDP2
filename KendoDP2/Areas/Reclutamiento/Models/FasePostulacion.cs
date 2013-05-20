@@ -14,7 +14,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public string Descripcion { get; set; }
 
         [InverseProperty("FasePostulacion")] //Cambiar el nombre por uno mas idoneo xD
-        public virtual ICollection<FasePostulacionXOfertaLaboralXPostulante> Postulaciones_OfLabxPost { get; set; }
+        public virtual ICollection<FasePostulacionXOfertaLaboralXPostulante> PostulacionesDeLaFase { get; set; }
 
         public FasePostulacion() { }
         public FasePostulacion(string descripcion)

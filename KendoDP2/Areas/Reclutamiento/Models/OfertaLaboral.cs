@@ -125,4 +125,37 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             
         }
     }
+
+    public class OfertaLaboralXPostulanteWSDTO //Para el WS getOfertaLaboral
+    {
+        [ScaffoldColumn(false)]
+        public int ID { get; set; }
+        
+        public string Puesto { get; set; }
+        public string Area { get; set; }
+        public string Responsable { get; set; }
+        //public int ModoPublicacionID { get; set; }
+        //public string Descripcion { get; set; }
+        public string FechaRequerimiento { get; set; }
+        public int NumeroPostulantes { get; set; }
+        //public string FechaFinRequerimiento { get; set; }
+        //public int EstadoSolicitudOfertaLaboralID { get; set; }
+
+        //public string FechaUltimaEntrevista { get; set; } //pedido por el profe segun Cesarin
+
+        public List<PostulanteDTO> Postulantes { get; set; }
+
+        public OfertaLaboralXPostulanteWSDTO() { }
+
+        public OfertaLaboralXPostulanteWSDTO(OfertaLaboral oflab, List<Postulante> lstPostulantes)
+        {
+            ID = oflab.ID;
+            Puesto = oflab.Puesto.Nombre;
+            Area = oflab.Area.Nombre;
+            Responsable = oflab.Responsable.Nombres + " " + oflab.Responsable.ApellidoPaterno + " " + oflab.Responsable.ApellidoMaterno;
+            FechaRequerimiento = oflab.FechaRequerimiento;
+            NumeroPostulantes = lstPostulantes.Count;
+            Postulantes = lstPostulantes.Select(x => x.ToDTO()).ToList();
+        }
+    }
 }
