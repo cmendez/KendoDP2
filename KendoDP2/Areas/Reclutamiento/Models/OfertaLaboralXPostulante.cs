@@ -18,9 +18,12 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         [ForeignKey("PostulanteID")]
         public virtual Postulante Postulante { get; set; }
 
-        public EstadosOfertaLaboralXPostulante Estado { get; set; }
-        public string MotivoRechazo { get; set; }
+        [InverseProperty("OfertaLaboralXPostulante")] //Cambiar el nombre por uno mas idoneo xD
+        public virtual ICollection<FasePostulacionXOfertaLaboralXPostulante> Fases { get; set; }
+
+        public string FlagAprobado { get; set; }
         public int PuntajeTotal { get; set; }
+        public string MotivoRechazo { get; set; }
         public string Comentarios { get; set; }
         public string Observaciones { get; set; }
 
