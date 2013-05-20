@@ -1,0 +1,97 @@
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Organizacion.Models
+@using KendoDP2.Areas.Configuracion.Models
+@using KendoDP2.Areas.Organizacion.Models
+
+@model KendoDP2.Areas.Organizacion.Models.ColaboradorDTO
+@{
+    
+    IList<AreaDTO> areas = ViewBag.areas;
+    IList<PuestoDTO> puestos = ViewBag.puestos;
+    
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    
+    <div  style="width:900px;">
+        <div class="row-fluid">
+            <!-- contenedor superior izquierdo: campos -->
+            @Html.HiddenFor(model => model.ID)
+
+            @Html.Label("Imagen:", new { style = "font-weight: bold;" })
+
+            <div style="text-align: center;">
+                    <img id="imagen" src="https://lh4.googleusercontent.com/-3Sea_6fTfm4/TWrppAVxupI/AAAAAAAAAcQ/zHHGenEir0c/s200/snoopy-joecool-color.gif" onload="loadImage()"/> 
+                </div>
+                <style>
+                    .k-upload-button{
+                        width: 100%;
+                    }
+                </style>
+                
+                <input type="file" id="ImagenColaborador" name="ImagenColaborador" />
+                <script>
+                    $("#ImagenColaborador").kendoUpload({
+                        multiple: false,
+                        showFileList: false,
+                        localization: {
+                            select: 'Seleccione la imagen JPG'
+                        },
+                        async: {
+                            saveUrl: "@Url.Action("UploadImagen", "Colaboradores", new {Area = "Organizacion"})",
+                            autoUpload: true,
+                        },
+                        upload: function (e) {
+                            e.data = { ID: $("#ID").val() };
+                        },
+                        success: function (e) {
+                            loadImage();
+                        }
+                    });
+                </script> 
+            
+                         
+        
+         <!-- fin contenedor superior derecho: foto -->
+        </div>
+    </div>
+  
+   
+    
+<script>
+    $("#AreaID").change(function () {
+        var areaID = $(this).val();
+        $.getJSON("@Url.Action("_GetPuestos", "Colaboradores", new {Area = "Organizacion"})",
+               { areaID: areaID },
+               function (puestos) {
+                   var select = $("#PuestoID");
+                   select.empty();
+                   select.append($('<option/>', {
+                       value: 0,
+                       text: ""
+                   }));
+                   $.each(puestos, function (index, itemData) {
+                       select.append($('<option/>', {
+                           value: itemData.ID,
+                           text: itemData.Nombre
+                       }));
+                   });
+               });
+    });
+
+    
+
+
+</script>
+    
+<script type="text/javascript">
+    function loadImage() {
+        $("#imagen").attr("src", "/Organizacion/Colaboradores/ViewImageDeColaborador?colaboradorID=" + $("#ID").val());
+    }
+</script> 
+        
+
+}

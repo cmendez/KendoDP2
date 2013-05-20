@@ -75,6 +75,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             
         }
 
+       
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult EditingInline_Update([DataSourceRequest] DataSourceRequest request, ColaboradorDTO colaborador)
         {
