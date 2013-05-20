@@ -18,5 +18,11 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         [ForeignKey("PostulanteID")]
         public virtual Postulante Postulante { get; set; }
 
+        public EstadosOfertaLaboralXPostulante Estado { get; set; }
+        public string MotivoRechazo { get; set; }
+        public int PuntajeTotal { get; set; }
+        public string Comentarios { get; set; }
+        public string Observaciones { get; set; }
+
     }
 }
