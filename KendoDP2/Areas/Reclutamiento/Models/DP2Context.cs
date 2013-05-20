@@ -17,26 +17,51 @@ namespace KendoDP2.Models.Generic
 {
     public partial class DP2Context : DbContext
     {
-        public DbSet<OfertaLaboral> InternalOfertaLaboral { get; set; }
+
+        public DbSet<OfertaLaboral> InternalOfertaLaborales { get; set; }
+        public DbSet<EstadosSolicitudOfertaLaboral> InternalEstadosSolicitudes { get; set; }
+        public DbSet<ModoSolicitudOfertaLaboral> InternalModosSolicitudes { get; set; }
         public DbSet<Postulante> InternalPostulante { get; set; }
 
-        public DBGenericRequester<OfertaLaboral> TablaOfertaLaboral { get; set; }
+        public DBGenericRequester<OfertaLaboral> TablaOfertaLaborales { get; set; }
+        public DBGenericRequester<EstadosSolicitudOfertaLaboral> TablaEstadosSolicitudes { get; set; }
+        public DBGenericRequester<ModoSolicitudOfertaLaboral> TablaModosSolicitudes { get; set; }
         public DBGenericRequester<Postulante> TablaPostulante { get; set; }
 
         private void RegistrarTablasReclutamiento()
         {
-            TablaOfertaLaboral = new DBGenericRequester<OfertaLaboral>(this, InternalOfertaLaboral);
+            TablaOfertaLaborales = new DBGenericRequester<OfertaLaboral>(this, InternalOfertaLaborales);
+            TablaEstadosSolicitudes = new DBGenericRequester<EstadosSolicitudOfertaLaboral>(this, InternalEstadosSolicitudes);
+            TablaModosSolicitudes = new DBGenericRequester<ModoSolicitudOfertaLaboral>(this, InternalModosSolicitudes);
             TablaPostulante = new DBGenericRequester<Postulante>(this, InternalPostulante);
+
         }
+
+        private void SeedModosSolicitudes()
+        {
+            TablaModosSolicitudes.AddElement(new ModoSolicitudOfertaLaboral { Descripcion = "Convocatoria Pública" });
+            TablaModosSolicitudes.AddElement(new ModoSolicitudOfertaLaboral { Descripcion = "Convocatoria Interna" });
+
+        }
+
+        private void SeedEstadosSolicitudes()
+        {
+            TablaEstadosSolicitudes.AddElement(new EstadosSolicitudOfertaLaboral { Descripcion = "Pendiente" });
+            TablaEstadosSolicitudes.AddElement(new EstadosSolicitudOfertaLaboral { Descripcion = "Aprobado" });
+            TablaEstadosSolicitudes.AddElement(new EstadosSolicitudOfertaLaboral { Descripcion = "Rechazado" });
+        }
+
 
         private void SeedOfertaLaboral()
         {
+
             //TablaOfertaLaboral.AddElement(new OfertaLaboral { EstadoSolicitudOfertaLaboralID = 1, PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID });
         }
 
         private void SeedPostulante()
         {
             //TablaPostulante.AddElement(new Postulante );
+
         }
     }
 }
