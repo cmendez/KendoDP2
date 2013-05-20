@@ -17,19 +17,24 @@ namespace KendoDP2.Models.Generic
 {
     public partial class DP2Context : DbContext
     {
-        public DbSet<OfertaLaboral> InternalOfertaLaborals { get; set; }
+
+        public DbSet<OfertaLaboral> InternalOfertaLaborales { get; set; }
         public DbSet<EstadosSolicitudOfertaLaboral> InternalEstadosSolicitudes { get; set; }
         public DbSet<ModoSolicitudOfertaLaboral> InternalModosSolicitudes { get; set; }
+        public DbSet<Postulante> InternalPostulante { get; set; }
 
-        public DBGenericRequester<OfertaLaboral> TablaOfertaLaborals { get; set; }
+        public DBGenericRequester<OfertaLaboral> TablaOfertaLaborales { get; set; }
         public DBGenericRequester<EstadosSolicitudOfertaLaboral> TablaEstadosSolicitudes { get; set; }
         public DBGenericRequester<ModoSolicitudOfertaLaboral> TablaModosSolicitudes { get; set; }
+        public DBGenericRequester<Postulante> TablaPostulante { get; set; }
 
         private void RegistrarTablasReclutamiento()
         {
-            TablaOfertaLaborals = new DBGenericRequester<OfertaLaboral>(this, InternalOfertaLaborals);
+            TablaOfertaLaborales = new DBGenericRequester<OfertaLaboral>(this, InternalOfertaLaborales);
             TablaEstadosSolicitudes = new DBGenericRequester<EstadosSolicitudOfertaLaboral>(this, InternalEstadosSolicitudes);
             TablaModosSolicitudes = new DBGenericRequester<ModoSolicitudOfertaLaboral>(this, InternalModosSolicitudes);
+            TablaPostulante = new DBGenericRequester<Postulante>(this, InternalPostulante);
+
         }
 
         private void SeedModosSolicitudes()
@@ -49,8 +54,13 @@ namespace KendoDP2.Models.Generic
 
         private void SeedOfertaLaboral()
         {
-          //  TablaOfertaLaborals.AddElement(new OfertaLaboral { EstadoSolicitudOfertaLaboralID = 1, PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID });
 
+            //TablaOfertaLaboral.AddElement(new OfertaLaboral { EstadoSolicitudOfertaLaboralID = 1, PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID });
+        }
+
+        private void SeedPostulante()
+        {
+            //TablaPostulante.AddElement(new Postulante );
 
         }
     }

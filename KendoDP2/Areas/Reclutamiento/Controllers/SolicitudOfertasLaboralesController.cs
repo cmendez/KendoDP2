@@ -24,7 +24,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                ViewBag.ofertasLaborales = context.TablaOfertaLaborals.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.ofertasLaborales = context.TablaOfertaLaborales.All().Select(p => p.ToDTO()).ToList();
                 ViewBag.colaboradores = context.TablaColaboradores.All().Select(p => p.ToDTO()).ToList();
                 ViewBag.modosSolicitudOferta = context.TablaModosSolicitudes.All().Select(p => p.ToDTO()).ToList();
                 ViewBag.estadosSolicitudOferta = context.TablaEstadosSolicitudes.All().Select(p => p.ToDTO()).ToList();
@@ -39,7 +39,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                List<OfertaLaboralDTO> ofertas = context.TablaOfertaLaborals.All().Select(p => p.ToDTO()).OrderBy(x => x.ID).ToList();
+                List<OfertaLaboralDTO> ofertas = context.TablaOfertaLaborales.All().Select(p => p.ToDTO()).OrderBy(x => x.ID).ToList();
                 return Json(ofertas.ToDataSourceResult(request));
             
             }

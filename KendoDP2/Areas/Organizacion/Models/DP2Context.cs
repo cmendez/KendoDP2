@@ -70,6 +70,28 @@ namespace KendoDP2.Models.Generic
             TablaColaboradores.AddElement(new Colaborador { Nombres = "Walter Joao Carlos", ApellidoPaterno = "Mitta", ApellidoMaterno = "Tucto", Username = "wallace", Password = "wallace", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
         }
 
+        private void SeedContactos()
+        {
+            //1. Obtengo un Colaborador
+            //2. Le agrego sus contactos
+            //3. Lo guardo en la tabla colaboradores
+            
+            Colaborador auxColaborador;
+            List<Contactos> listaContactos;
+            
+            auxColaborador = TablaColaboradores.One(x => x.ApellidoPaterno.Equals("Moreno"));
+            listaContactos = new List<Contactos>();
+            listaContactos.Add(new Contactos { ColaboradorID = auxColaborador.ID, ContactoID = TablaColaboradores.One(x => x.ApellidoPaterno.Equals("Mitta")).ID });
+            auxColaborador.Contactos = listaContactos;
+            TablaColaboradores.ModifyElement(auxColaborador);
+
+            auxColaborador = TablaColaboradores.One(x => x.ApellidoPaterno.Equals("Mitta"));
+            listaContactos = new List<Contactos>();
+            listaContactos.Add(new Contactos { ColaboradorID = auxColaborador.ID, ContactoID = TablaColaboradores.One(x => x.ApellidoPaterno.Equals("Moreno")).ID });
+            auxColaborador.Contactos = listaContactos;
+            TablaColaboradores.ModifyElement(auxColaborador);
+        }
+
         private void SeedTiposDocumentos()
         {
             TablaTiposDocumentos.AddElement(new TipoDocumento { Descripcion = "Pasaporte" });
