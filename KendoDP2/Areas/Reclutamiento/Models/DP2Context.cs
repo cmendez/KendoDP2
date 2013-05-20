@@ -31,7 +31,7 @@ namespace KendoDP2.Models.Generic
 
         private void SeedOfertaLaboral()
         {
-            TablaOfertaLaboral.AddElement(new OfertaLaboral { EstadoSolicitudOfertaLaboralID = 1, PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID });
+            //TablaOfertaLaboral.AddElement(new OfertaLaboral { EstadoSolicitudOfertaLaboralID = 1, PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID });
         }
 
         private void SeedPostulante()
