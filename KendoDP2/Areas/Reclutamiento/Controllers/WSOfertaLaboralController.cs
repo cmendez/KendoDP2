@@ -8,8 +8,6 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 {
     public class WSOfertaLaboralController : Controller
     {
-        //
-        // GET: /Reclutamiento/WSOfertaLaboral/getOfertasLaborales
 
         public JsonResult getOfertasLaborales()
         {
