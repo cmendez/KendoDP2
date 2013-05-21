@@ -66,7 +66,65 @@ namespace KendoDP2.Models.Generic
 
         private void SeedOfertaLaboral()
         {
-            //TablaOfertaLaboral.AddElement(new OfertaLaboral { EstadoSolicitudOfertaLaboralID = 1, PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID });
+            TablaOfertaLaborales.AddElement(new OfertaLaboral 
+            { 
+                ModoPublicacionOfertaLaboralID=1, 
+                ResponsableID = 1, 
+                Descripcion = "Oferta Prueba",
+                AreaID = TablaAreas.One(a => a.ID == 3).ID, 
+                EstadoSolicitudOfertaLaboralID = 2, 
+                //PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID 
+                ListaFuncionesPuesto = new List<Funcion>{
+                    new Funcion{Descripcion = "Realizar actividad A", PuestoID = 1},
+                    new Funcion{Descripcion = "Realizar actividad B", PuestoID = 1}
+                },
+                PuestoID = 3
+            });
+            TablaOfertaLaborales.AddElement(new OfertaLaboral
+            {
+                ModoPublicacionOfertaLaboralID = 1,
+                ResponsableID = 1,
+                Descripcion = "Oferta Prueba",
+                AreaID = 1,
+                EstadoSolicitudOfertaLaboralID = 1,
+                /*
+                ListaFuncionesPuesto = {
+                    new Funcion{Descripcion = "Realizar actividad A", PuestoID = 1},
+                    new Funcion{Descripcion = "Realizar actividad B", PuestoID = 1}
+                },
+                */
+                PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID
+            });
+            TablaOfertaLaborales.AddElement(new OfertaLaboral
+            {
+                ModoPublicacionOfertaLaboralID = 1,
+                ResponsableID = 1,
+                Descripcion = "Oferta Prueba",
+                AreaID = 1,
+                EstadoSolicitudOfertaLaboralID = 2,
+                /*
+                ListaFuncionesPuesto = {
+                    new Funcion{Descripcion = "Realizar actividad A", PuestoID = 1},
+                    new Funcion{Descripcion = "Realizar actividad B", PuestoID = 1}
+                },
+                */
+                PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID
+            });
+            TablaOfertaLaborales.AddElement(new OfertaLaboral
+            {
+                ModoPublicacionOfertaLaboralID = 1,
+                ResponsableID = 1,
+                Descripcion = "Oferta Prueba",
+                AreaID = 1,
+                EstadoSolicitudOfertaLaboralID = 1,
+                /*
+                ListaFuncionesPuesto = {
+                    new Funcion{Descripcion = "Realizar actividad A", PuestoID = 1},
+                    new Funcion{Descripcion = "Realizar actividad B", PuestoID = 1}
+                },
+                */
+                PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID
+            });
         }
 
         private void SeedPostulante()

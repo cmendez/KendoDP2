@@ -13,7 +13,6 @@ namespace KendoDP2.Areas.Reclutamiento.Models
 {
     public class OfertaLaboral : DBObject
     {
-
         public int PuestoID { get; set; }
         public virtual Puesto Puesto { get; set; }
 
@@ -79,6 +78,11 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         {
             return new OfertaLaboralDTO(this);
         }
+
+        public OfertaLaboralMobilePostulanteDTO ToMobilePostulanteDTO()
+        {
+            return new OfertaLaboralMobilePostulanteDTO(this);
+        }
     }
 
     public class OfertaLaboralDTO
@@ -127,6 +131,9 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public string Codigo { get; set; }
 
 
+        //Navegando
+        public string DescripcionPuesto { get; set; }
+
         //no se si este bien
 
         public ICollection<FuncionDTO> funciones;
@@ -138,6 +145,8 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             ID = o.ID;
             PuestoID = o.PuestoID;
             AreaID = o.AreaID;
+            //Navegando
+            DescripcionPuesto = o.Area.Descripcion;
             ResponsableID = o.ResponsableID;
             EstadoSolicitudOfertaLaboralID = o.EstadoSolicitudOfertaLaboralID;
             ModoPublicacionID = o.ModoPublicacionOfertaLaboralID;
@@ -199,6 +208,40 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             FechaRequerimiento = oflab.FechaRequerimiento;
             NumeroPostulantes = lstPostulantes.Count;
             Postulantes = lstPostulantes.Select(x => x.ToDTO()).ToList();
+        }
+    }
+
+
+    //WS para android para que cualquier colaborador pueda ver a qué puestos puede postular
+    public class OfertaLaboralMobilePostulanteDTO 
+    {
+        public int ID { get; set; }
+        public string NombreArea { get; set; }
+        public string NombrePuesto { get; set; }
+        public string DescripcionOferta { get; set; }
+        public ICollection<FuncionDTO> Funciones { get; set; }
+
+        public OfertaLaboralMobilePostulanteDTO(OfertaLaboral oferta)
+        {
+            ID = oferta.ID;
+            NombreArea = oferta.Area.Nombre;
+            NombrePuesto = oferta.Puesto.Nombre;
+            DescripcionOferta = oferta.Descripcion;
+            Funciones = ListaFuncionesToDTO(oferta.ListaFuncionesPuesto);
+        }
+
+        //Funciones Auxiliares
+        public ICollection<FuncionDTO> ListaFuncionesToDTO(ICollection<Funcion> funciones)
+        {
+            List<FuncionDTO> ListaDTO = new List<FuncionDTO>();
+            FuncionDTO fun = new FuncionDTO();
+
+            foreach (Funcion f in funciones)
+            {
+                fun = new FuncionDTO(f);
+                ListaDTO.Add(fun);
+            }
+            return ListaDTO;
         }
     }
 }
