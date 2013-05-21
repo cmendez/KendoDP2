@@ -10,9 +10,9 @@ namespace KendoDP2.Areas.Reclutamiento.Models
 {
     public class EvaluacionXFaseXPostulacion : DBObject
     {
-        public int FasePostulacionXOfertaLaboralXPostulanteID { get; set; }
-        [ForeignKey("FasePostulacionXOfertaLaboralXPostulanteID")]
-        public virtual FasePostulacionXOfertaLaboralXPostulante FasePostulacionXOfertaLaboralXPostulante { get; set; }
+        //public int FasePostulacionXOfertaLaboralXPostulanteID { get; set; }
+        //[ForeignKey("FasePostulacionXOfertaLaboralXPostulanteID")]
+        //public virtual FasePostulacionXOfertaLaboralXPostulante FasePostulacionXOfertaLaboralXPostulante { get; set; }
         
         public string FechaInicio { get; set; }
         public string FechaFin { get; set; }
