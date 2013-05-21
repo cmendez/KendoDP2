@@ -66,8 +66,8 @@ namespace KendoDP2.Models.Generic
         private void SeedColaboradores()
         {
             // TODO(Modulo 1): mejorar seed o borrarlo
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Fortino Mario Alonso", ApellidoPaterno = "Moreno", ApellidoMaterno = "Reyes", Username = "admin", Password = "admin", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Walter Joao Carlos", ApellidoPaterno = "Mitta", ApellidoMaterno = "Tucto", Username = "wallace", Password = "wallace", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Fortino Mario Alonso", ApellidoPaterno = "Moreno", ApellidoMaterno = "Reyes", Username = "admin", Password = "admin", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, NumeroDocumento = "12345678",CentroEstudios="PUCP",CorreoElectronico="USER@DOMINIO.COM" });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Walter Joao Carlos", ApellidoPaterno = "Mitta", ApellidoMaterno = "Tucto", Username = "wallace", Password = "wallace", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, NumeroDocumento = "12345678", CentroEstudios = "PUCP", CorreoElectronico = "USER@DOMINIO.COM" });
         }
 
         private void SeedTiposDocumentos()
@@ -126,6 +126,12 @@ namespace KendoDP2.Models.Generic
             TablaEstadosPuestos.AddElement(new EstadosPuesto { Descripcion = "Asignado" });
             TablaEstadosPuestos.AddElement(new EstadosPuesto { Descripcion = "Vacante" });
             TablaEstadosPuestos.AddElement(new EstadosPuesto { Descripcion = "Inactivo" });
+        }
+
+        private void SeedColaboradorXPuesto()
+        {
+            TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 1, ColaboradorID = 2, Sueldo = 2300, FechaIngresoPuesto = new DateTime(2010, 1, 1), FechaSalidaPuesto = new DateTime(2010, 12,31 ), Comentarios="Hizo una gran labor", IsEliminado=false });
+            TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 2, ColaboradorID = 2, Sueldo = 2500, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = DateTime .Now, Comentarios = "Continua haciendo una gran labor", IsEliminado = false });
         }
     }
 }

@@ -41,6 +41,7 @@
                         c.Bound(a => a.Nombre);
                         c.ForeignKey((a => a.AreaSuperiorID), comboAreas);
                         c.Command(cmd =>
+                            
                         {
                             cmd.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar");
                             cmd.Destroy().Text("Eliminar");

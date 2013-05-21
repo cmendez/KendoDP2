@@ -1,0 +1,112 @@
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Organizacion.Models
+@using KendoDP2.Areas.Configuracion.Models
+@using KendoDP2.Areas.Organizacion.Models
+
+
+@{
+
+    IList<AreaDTO> areas = ViewBag.areas;
+    IList<PuestoDTO> puestos = ViewBag.puestos;
+   
+   
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    
+    <div style="width:900px;">
+        <div class="row-fluid" >
+            <div class="span12">
+                @Html.Label("Información Puesto Laboral:", new { style = "font-weight: bold;" })
+            </div>
+        </div>
+        
+        <div class="span4">
+            <div class="row-fluid">
+                <div class="span5">
+                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.Label("Fecha Ingreso Puesto")</div>
+                </div>
+                <div class="span7">
+                    <div class="editor-field" style="width: 100%; text-align: left;">
+                        @Html.Kendo().DatePicker().Name("FechaIngresoPuesto")
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span5">
+                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.Label("Fecha Salida Puesto")</div>
+                </div>
+                <div class="span7">
+                    <div class="editor-field" style="width: 100%; text-align: left;">
+                        @Html.Kendo().DatePicker().Name("FechaSalidaPuesto")
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span5">
+                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.Label("Area")</div>
+                </div>
+                <div class="span7 responsive">
+                    @Html.DropDownList("AreaID", new SelectList(areas, "ID", "Nombre"), new { style = "width:100%" }) 
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span5">
+                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.Label("Puesto")</div>
+                </div>
+                <div class="span7">
+                    @Html.DropDownList("PuestoID", new SelectList(puestos, "ID", "Nombre"), new { style = "width:100%" }) 
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span5">
+                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.Label("Sueldo")</div>
+                </div>
+                <div class="span7">
+                    <div class="editor-field" style="width: 100%; text-align: left;">
+                        @Html.Editor("Sueldo")
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+   
+    </div>
+    <!-- fin contenedor inferior: campos -->
+    
+<script>
+    $("#AreaID").change(function () {
+        var areaID = $(this).val();
+        $.getJSON("@Url.Action("_GetPuestos", "Historial", new {Area = "Organizacion"})",
+               { areaID: areaID },
+               function (puestos) {
+                   var select = $("#PuestoID");
+                   select.empty();
+                   select.append($('<option/>', {
+                       value: 0,
+                       text: ""
+                   }));
+                   $.each(puestos, function (index, itemData) {
+                       select.append($('<option/>', {
+                           value: itemData.ID,
+                           text: itemData.Nombre
+                       }));
+                   });
+               });
+   });
+</script>
+    
+
+        
+
+}        
+
