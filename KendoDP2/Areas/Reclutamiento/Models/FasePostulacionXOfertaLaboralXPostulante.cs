@@ -19,5 +19,9 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         [ForeignKey("OfertaLaboralXPostulanteID ")]
         public virtual OfertaLaboralXPostulante OfertaLaboralXPostulante { get; set; }
 
+        public int EvaluacionXFaseXPostulacionID { get; set; }
+        [ForeignKey("EvaluacionXFaseXPostulacionID")]
+        public virtual EvaluacionXFaseXPostulacion EvaluacionXFaseXPostulacion { get; set; }
+
     }
 }

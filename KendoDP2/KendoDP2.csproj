@@ -243,9 +243,11 @@
     <Compile Include="Areas\Organizacion\Models\Persona.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\ReclutamientoController.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\SolicitudOfertasLaboralesController.cs" />
+    <Compile Include="Areas\Reclutamiento\Controllers\WSEvaluacionController.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\WSOfertaLaboralController.cs" />
     <Compile Include="Areas\Reclutamiento\Models\DP2Context.cs" />
     <Compile Include="Areas\Reclutamiento\Models\EstadosSolicitudOfertaLaboral.cs" />
+    <Compile Include="Areas\Reclutamiento\Models\EvaluacionXFaseXPostulacion.cs" />
     <Compile Include="Areas\Reclutamiento\Models\FasePostulacion.cs" />
     <Compile Include="Areas\Reclutamiento\Models\FasePostulacionXOfertaLaboralXPostulante.cs" />
     <Compile Include="Areas\Reclutamiento\Models\ModoSolicitudOfertaLaboral.cs" />
