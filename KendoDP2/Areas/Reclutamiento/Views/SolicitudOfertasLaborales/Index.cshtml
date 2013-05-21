@@ -71,7 +71,7 @@
     </div>
 </div>
 @(Html.Kendo().Window().Name("Details")
-    .Title("Customer Details")
+    .Title("Aceptar Solicitud Oferta Laboral")
     .Visible(false)
     .Modal(true)
     .Draggable(true)
@@ -86,7 +86,7 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         ID = dataItem.ID;
         var wnd = $("#Details").data("kendoWindow");
-        $("#Details").html(dataItem.ID);
+        $("#Details").load("@Url.Action("GetViewOferta","SolicitudOfertasLaborales", new{Area = "Reclutamiento"})?ofertaID=" + ID);
         wnd.center().open();
     }
 </script>

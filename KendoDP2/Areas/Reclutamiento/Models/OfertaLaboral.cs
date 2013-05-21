@@ -41,7 +41,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
 
         public int NumeroVacantes { get; set; }
 
-        //public virtual ICollection<Capacidad> ListaCapacidades { get; set; }
+        public virtual ICollection<Funcion> ListaFuncionesPuesto { get; set; }
 
         [InverseProperty("OfertaLaboral")]
         public virtual ICollection<OfertaLaboralXPostulante> Postulantes { get; set; }
@@ -71,7 +71,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             SueldoTentativo = o.SueldoTentativo;
             Comentarios = o.Comentarios;
             NumeroVacantes = o.NumeroVacantes;
-
+           // ListaFuncionesPuesto = o.funciones;
             return this;
         }
 
@@ -126,6 +126,10 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         [DisplayName("Código")]
         public string Codigo { get; set; }
 
+
+        //no se si este bien
+
+        public ICollection<FuncionDTO> funciones;
         
         public OfertaLaboralDTO() { }
 
@@ -143,8 +147,25 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             NumeroVacantes = o.NumeroVacantes;
             Comentarios = o.Comentarios;
             SueldoTentativo = o.SueldoTentativo;
+            //un cambio
+            //funciones = ListaFuncionesToDTO(o.ListaFuncionesPuesto);
             
             
+            
+        }
+
+        public ICollection<FuncionDTO> ListaFuncionesToDTO(ICollection<Funcion> funciones)
+        {
+            ICollection<FuncionDTO> ListaDTO = null;
+            FuncionDTO fun = new FuncionDTO();
+
+            foreach (Funcion f in funciones)
+            {
+                fun = new FuncionDTO(f);
+                ListaDTO.Add(fun);
+            }
+
+            return ListaDTO;
         }
     }
 
