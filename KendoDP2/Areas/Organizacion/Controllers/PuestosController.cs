@@ -23,6 +23,8 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
+                ViewBag.PageSize = 8;
+
                 ViewBag.puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).ToList();
                 ViewBag.areas = context.TablaAreas.All().Select(p => p.ToDTO()).ToList();
                 ViewBag.estadosPuesto = context.TablaEstadosPuestos.All().Select(p => p.ToDTO()).ToList();
@@ -31,14 +33,33 @@ namespace KendoDP2.Areas.Organizacion.Controllers
 
         }
 
-        public ActionResult EditingInline_Read([DataSourceRequest] DataSourceRequest request)
+        public JsonResult PuestosToTree(int? id)
         {
             using (DP2Context context = new DP2Context())
             {
-                List<PuestoDTO> puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).ToList();
-                return Json(puestos.ToDataSourceResult(request));
+                var areas = context.TablaAreas.Where(a => id.HasValue ? a.AreaSuperiorID == id : a.AreaSuperiorID == null).Select(a => a.ToTreeDTO()).OrderBy(a => a.Name);
+                return Json(areas.ToList(), JsonRequestBehavior.AllowGet);
             }
         }
+
+        public JsonResult Read([DataSourceRequest] DataSourceRequest request)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                var puestos = context.TablaPuestos.All().Select(a => a.ToDTO()).OrderBy(a => a.Nombre);
+                return Json(puestos.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+   //     public ActionResult EditingInline_Read([DataSourceRequest] DataSourceRequest request)
+     //   {
+       //     using (DP2Context context = new DP2Context())
+         //   {
+           //     List<PuestoDTO> puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).ToList();
+             //   return Json(puestos.ToDataSourceResult(request));
+            //}
+        //}
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create([DataSourceRequest] DataSourceRequest request, PuestoDTO puesto)
@@ -70,30 +91,54 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         }
 
 
+        //[AcceptVerbs(HttpVerbs.Post)]
+        //public ActionResult EditingInline_Update([DataSourceRequest] DataSourceRequest request, PuestoDTO puesto)
+        //{
+        //    using (DP2Context context = new DP2Context())
+        //    {
+        //        Puesto p = context.TablaPuestos.FindByID(puesto.ID).LoadFromDTO(puesto);
+        //        context.TablaPuestos.ModifyElement(p);
+        //        return Json(new[] { p.ToDTO() }.ToDataSourceResult(request, ModelState));
+        //    }
+        //}
+
+
+
+        //[AcceptVerbs(HttpVerbs.Post)]
+        //public ActionResult EditingInline_Destroy([DataSourceRequest] DataSourceRequest request, PuestoDTO puesto)
+        //{
+        //    using (DP2Context context = new DP2Context())
+        //    {
+        //        context.TablaPuestos.RemoveElementByID(puesto.ID);
+        //        return Json(ModelState.ToDataSourceResult());
+        //    }
+        //}
+
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult EditingInline_Update([DataSourceRequest] DataSourceRequest request, PuestoDTO puesto)
+        public ActionResult Update([DataSourceRequest] DataSourceRequest request, AreaDTO area)
         {
             using (DP2Context context = new DP2Context())
             {
-                Puesto p = context.TablaPuestos.FindByID(puesto.ID).LoadFromDTO(puesto);
-                context.TablaPuestos.ModifyElement(p);
-                return Json(new[] { p.ToDTO() }.ToDataSourceResult(request, ModelState));
+                Area a = context.TablaAreas.FindByID(area.ID).LoadFromDTO(area);
+                context.TablaAreas.ModifyElement(a);
+                return Json(new[] { a.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
         }
 
-
-
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult EditingInline_Destroy([DataSourceRequest] DataSourceRequest request, PuestoDTO puesto)
+        public ActionResult Destroy([DataSourceRequest] DataSourceRequest request, AreaDTO area)
         {
             using (DP2Context context = new DP2Context())
             {
-                context.TablaPuestos.RemoveElementByID(puesto.ID);
-                return Json(ModelState.ToDataSourceResult());
+                Area a = context.TablaAreas.FindByID(area.ID);
+                if (!a.Puestos.Any(i => !i.IsEliminado) && !a.Areas.Any(i => !i.IsEliminado))
+                    context.TablaAreas.RemoveElementByID(area.ID);
+                else
+                    ModelState.AddModelError("Area", "No se puede eliminar un área con áreas o puestos subordinados.");
+                return Json(ModelState.IsValid ? new object() : ModelState.ToDataSourceResult());
             }
         }
- 
-      
+
 
     }
 }

@@ -1790,7 +1790,6 @@
     <Content Include="Areas\Organizacion\Views\Colaboradores\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Shared\EditorTemplates\EditorColaborador.cshtml" />
     <Content Include="Areas\Organizacion\Views\Areas\Index.cshtml" />
-    <Content Include="Areas\Organizacion\Views\Puestos\Index.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\ProcesoEvaluacion\ElegirEvaluados.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\PuestosEvaluacion\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Organizaciones\Index.cshtml" />
@@ -1806,6 +1805,8 @@
     <Content Include="Areas\Organizacion\Views\Shared\ViewColaboradorIntranet.cshtml" />
     <Content Include="Areas\Organizacion\Views\Shared\EditorColaboradorContrasenha.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\SolicitudOfertasLaborales\Index.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\Shared\EditorSolicitudOfertaLaboral.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Puestos\Index.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\EditorTemplates\EditorSolicitudOfertaLaboral.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\areas_icon.png" />
