@@ -222,24 +222,26 @@
         });
 
 
-        function CambiarEstadoAceptar(){
+        function CambiaEstadoAceptar(){
             $.ajax({
-                url: '@Url.Action("CambiaEstadoSolicitudAprobada", "SolicitudOfertasLaborales", new { Area = "Reclutamiento" })?OfertaID=' + Model.ID,
+                url: '@Url.Action("CambiaEstadoSolicitudAprobada", "SolicitudOfertasLaborales", new { Area = "Reclutamiento" })?OfertaID=' + @Model.ID,
             dataType: 'JSON',
             type: 'POST',
             data: { ofertaID : @Model.ID},
-            success: function(response){
+                success: function(response){
+                    $("#Details").data('kendoWindow').close();
                 }
         });
     }
 
-        function CambiarEstadoRechazar(){
+        function CambiaEstadoRechazar(){
             $.ajax({
-                url: '@Url.Action("CambiaEstadoSolicitudRechazada", "SolicitudOfertasLaborales", new { Area = "Reclutamiento" })?OfertaID=' + Model.ID,
+                url: '@Url.Action("CambiaEstadoSolicitudRechazada", "SolicitudOfertasLaborales", new { Area = "Reclutamiento" })?OfertaID=' + @Model.ID,
                 dataType: 'JSON',
                 type: 'POST',
                 data: { ofertaID : @Model.ID},
             success: function(response){
+                    $("#Details").data('kendoWindow').close();
             }
             });
     }

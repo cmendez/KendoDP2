@@ -123,12 +123,9 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 OfertaLaboral o = context.TablaOfertaLaborales.FindByID(OfertaID);
                 if (o.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Pendiente"))
                 {
-                    o.EstadoSolicitudOfertaLaboral.ID = context.TablaEstadosSolicitudes.All().Where(p=> p.Descripcion == "Aprobado").FirstOrDefault().ID;
-                    o.EstadoSolicitudOfertaLaboral = context.TablaEstadosSolicitudes.FindByID(o.EstadoSolicitudOfertaLaboralID);
-                    
+                    o.EstadoSolicitudOfertaLaboral = context.TablaEstadosSolicitudes.One(p=> p.Descripcion.Equals("Aprobado"));
                 }
                 context.TablaOfertaLaborales.ModifyElement(o);
-
 
                 return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
@@ -143,12 +140,9 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 OfertaLaboral o = context.TablaOfertaLaborales.FindByID(OfertaID);
                 if (o.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Pendiente"))
                 {
-                    o.EstadoSolicitudOfertaLaboral.ID = context.TablaEstadosSolicitudes.All().Where(p => p.Descripcion == "Rechazado").FirstOrDefault().ID;
-                    o.EstadoSolicitudOfertaLaboral = context.TablaEstadosSolicitudes.FindByID(o.EstadoSolicitudOfertaLaboralID);
-
+                    o.EstadoSolicitudOfertaLaboral = context.TablaEstadosSolicitudes.One(p=> p.Descripcion.Equals("Rechazado"));
                 }
                 context.TablaOfertaLaborales.ModifyElement(o);
-
 
                 return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
