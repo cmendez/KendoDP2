@@ -11,7 +11,7 @@
     PuestoDTO puesto = ViewBag.puesto;
     ColaboradorDTO responsable = ViewBag.responsable;
     IEnumerable<FuncionDTO> funciones = ViewBag.funciones;
-    
+    string funcionesJson = Json.Encode(funciones);
 }
 
 @using (Html.BeginForm())
@@ -159,18 +159,8 @@
                
             </div>
 
-            <div class ="row-fluid">
-                <script type="text/x-kendo-tmpl" id="template">
-                    <div class="funcion">
-                       <h3>#:Nombre#</h3>
-                    </div>
-                </script>
-                @(Html.Kendo().ListView<FuncionDTO>()
-                    .Name("Funciones")
-                    .TagName("div")
-                    .ClientTemplateId("template")
-                    .BindTo(funciones)
-                    )
+            <div class ="row-fluid twit-reader">
+                <div id="list-view"></div>
             </div>
 
         </div>
@@ -207,6 +197,11 @@
     <!-- fin contenedor inferior: campos -->
 
  
+<script type="text/x-kendo-tmpl" id="template">
+    <div class="twit">
+        <p>#:Descripcion#</p>
+    </div>
+</script>
     
 <script>
     $("#AreaID").change(function () {
@@ -228,13 +223,43 @@
                    });
                });
     });
-
-    
+    var funciones = '@Html.Raw(funcionesJson)';
+    $("#list-view").kendoListView({
+        dataSource: jQuery.parseJSON(funciones),
+        template: kendo.template($("#template").html())
+    });
 
 
 </script>
 
-        
+ <style scoped>
+     
+        .twit-reader
+        {
+            width: 300px;
+            border: 1px solid rgba(0,0,0,0.1);
+            height: 120px;
+            overflow: auto;
+        }
+        .twit
+        {
+            width: 285px;
+            height: 18px;
+            padding: 5px;
+            border-top: 1px solid rgba(255,255,255,1);
+            border-right: 1px solid rgba(0,0,0,0.1);
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            border-left: 1px solid rgba(255,255,255,0.1);
+
+            background: -moz-linear-gradient(top,  rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.10) 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.05)), color-stop(100%,rgba(0,0,0,0.10)));
+            background: -webkit-linear-gradient(top,  rgba(0,0,0,0.05) 0%,rgba(0,0,0,0.10) 100%);
+            background: -o-linear-gradient(top,  rgba(0,0,0,0.05) 0%,rgba(0,0,0,0.10) 100%);
+            background: -ms-linear-gradient(top,  rgba(0,0,0,0.05) 0%,rgba(0,0,0,0.10) 100%);
+            background: linear-gradient(to bottom,  rgba(0,0,0,0.05) 0%,rgba(0,0,0,0.10) 100%);
+        }
+       
+    </style>        
 
 }        
 

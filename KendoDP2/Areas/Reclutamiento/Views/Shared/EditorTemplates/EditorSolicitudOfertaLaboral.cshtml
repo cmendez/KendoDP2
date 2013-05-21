@@ -38,7 +38,7 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.PuestoID)</div>
                 </div>
                 <div class="span7">
-                    @Html.DropDownListFor(m => m.PuestoID, new SelectList(puestos, "ID", "Nombre"), new { style = "width:100%" }) 
+                    @Html.DropDownListFor(m => m.PuestoID, new SelectList(new object[]{ }, "ID", "Nombre"), new { style = "width:100%" }) 
                 </div>
             </div>
 
@@ -171,6 +171,7 @@
                { areaID: areaID },
                function (puestos) {
                    var select = $("#PuestoID");
+                   select.find('option').remove().end();
                    $.each(puestos, function (index, itemData) {
                        select.append($('<option/>', {
                            value: itemData.ID,
