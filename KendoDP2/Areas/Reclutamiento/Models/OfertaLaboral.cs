@@ -43,6 +43,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         [InverseProperty("OfertaLaboral")]
         public virtual ICollection<OfertaLaboralXPostulante> Postulantes { get; set; }
 
+        public virtual ICollection<Funcion> ListaFuncionesPuesto { get; set; }
 
         public OfertaLaboral(OfertaLaboralDTO o) : this()
         {
