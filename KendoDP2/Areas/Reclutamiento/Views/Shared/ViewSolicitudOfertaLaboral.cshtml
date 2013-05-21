@@ -167,20 +167,25 @@
         </div>
     </div>
     
-    <div style="width: 900px; margin-top:10px;">
+
+    <div style="width: 900px; margin-top:15px;">
         <div class="row-fluid">
             <div class="span3">
                 <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Comentarios)</div>
             </div>
             <div class="span7">
                 <div class="editor-field" style="width: 100%; text-align: left;">
-                    @Html.EditorFor(model => model.Comentarios)
+                    @Html.TextAreaFor(model => model.Comentarios)
                     @Html.ValidationMessageFor(model => model.Comentarios)
+
                 </div>
             </div>
         </div>
     </div>
 
+    <a class="btn green" href="javascript:CambiaEstadoAceptar();"> Aceptar </a>
+    <a class="btn green" href="javascript:CambiaEstadoRechazar();"> Rechazar </a>
+    
     <!-- fin contenedor inferior: campos -->
 
  
@@ -217,7 +222,34 @@
         });
 
 
+        function CambiaEstadoAceptar(){
+            $.ajax({
+                url: '@Url.Action("CambiaEstadoSolicitudAprobada", "SolicitudOfertasLaborales", new { Area = "Reclutamiento" })?OfertaID=' + @Model.ID,
+            dataType: 'JSON',
+            type: 'POST',
+            data: { ofertaID : @Model.ID},
+                success: function(response){
+                    $("#SolicitudOfertaGrid").data('kendoGrid').dataSource.read();
+                    $("#Details").data('kendoWindow').close();
+                }
+        });
+    }
+
+        function CambiaEstadoRechazar(){
+            $.ajax({
+                url: '@Url.Action("CambiaEstadoSolicitudRechazada", "SolicitudOfertasLaborales", new { Area = "Reclutamiento" })?OfertaID=' + @Model.ID,
+                dataType: 'JSON',
+                type: 'POST',
+                data: { ofertaID : @Model.ID},
+                success: function(response){
+                    $("#SolicitudOfertaGrid").data('kendoGrid').dataSource.read();
+                    $("#Details").data('kendoWindow').close();
+            }
+            });
+    }
     </script>
+    
+   
 
 }
 

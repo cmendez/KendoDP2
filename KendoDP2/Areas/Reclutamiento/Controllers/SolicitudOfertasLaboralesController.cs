@@ -52,6 +52,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
+                oferta.EstadoSolicitudOfertaLaboralID = context.TablaEstadosSolicitudes.One(x => x.Descripcion.Equals("Pendiente")).ID;
                 OfertaLaboral o = new OfertaLaboral(oferta);
                 
                 //agregafunciones segun el puesto de trabajo
@@ -113,6 +114,40 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 //ViewBag.funciones = oferta.Puesto. 
                return PartialView("ViewSolicitudOfertaLaboral", oferta.ToDTO());
             }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CambiaEstadoSolicitudAprobada([DataSourceRequest] DataSourceRequest request, int OfertaID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                OfertaLaboral o = context.TablaOfertaLaborales.FindByID(OfertaID);
+                if (o.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Pendiente"))
+                {
+                    o.EstadoSolicitudOfertaLaboral = context.TablaEstadosSolicitudes.One(p=> p.Descripcion.Equals("Aprobado"));
+                }
+                context.TablaOfertaLaborales.ModifyElement(o);
+
+                return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
+            }
+
+        }
+
+       [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CambiaEstadoSolicitudRechazada([DataSourceRequest] DataSourceRequest request, int OfertaID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                OfertaLaboral o = context.TablaOfertaLaborales.FindByID(OfertaID);
+                if (o.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Pendiente"))
+                {
+                    o.EstadoSolicitudOfertaLaboral = context.TablaEstadosSolicitudes.One(p=> p.Descripcion.Equals("Rechazado"));
+                }
+                context.TablaOfertaLaborales.ModifyElement(o);
+
+                return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
+            }
+
         }
 
 
