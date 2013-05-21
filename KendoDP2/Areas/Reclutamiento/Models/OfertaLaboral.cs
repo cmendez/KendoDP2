@@ -35,6 +35,12 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public int ModoPublicacionOfertaLaboralID { get; set; }
         public virtual ModoSolicitudOfertaLaboral ModoSolicitudOfertaLaboral { get; set; }
 
+        public int SueldoTentativo { get; set; }
+
+        public string Comentarios { get; set; }
+
+        public int NumeroVacantes { get; set; }
+
         //public virtual ICollection<Capacidad> ListaCapacidades { get; set; }
 
         [InverseProperty("OfertaLaboral")]
@@ -62,6 +68,9 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             Descripcion = o.Descripcion;
             FechaFinVigenciaSolicitud = o.FechaFinRequerimiento;
             FechaRequerimiento = o.FechaRequerimiento;
+            SueldoTentativo = o.SueldoTentativo;
+            Comentarios = o.Comentarios;
+            NumeroVacantes = o.NumeroVacantes;
 
             return this;
         }
@@ -107,6 +116,18 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         [DisplayName("Estado de Solicitud")]
         public int EstadoSolicitudOfertaLaboralID { get; set; }
 
+        [DisplayName("Numero de Vacantes")]
+        public int NumeroVacantes { get; set; }
+
+        [DisplayName("Comentarios")]
+        public string Comentarios { get; set; }
+
+        [DisplayName("Sueldo Tentativo S/.")]
+        public int SueldoTentativo { get; set; }
+
+        [DisplayName("Código")]
+        public string Codigo { get; set; }
+
         
         public OfertaLaboralDTO() { }
 
@@ -121,6 +142,9 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             FechaRequerimiento = o.FechaRequerimiento;
             FechaFinRequerimiento = o.FechaFinVigenciaSolicitud;
             Descripcion = o.Descripcion;
+            NumeroVacantes = o.NumeroVacantes;
+            Comentarios = o.Comentarios;
+            SueldoTentativo = o.SueldoTentativo;
             
             
         }
