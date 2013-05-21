@@ -70,6 +70,36 @@ namespace KendoDP2.Models.Generic
 
         private void SeedOfertaLaboral()
         {
+            TablaOfertaLaborales.AddElement(new OfertaLaboral
+            {
+                PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID,
+                AreaID = TablaAreas.One(a => a.Nombre.Equals("Directorio")).ID,
+                ResponsableID = TablaColaboradores.One(a => a.ApellidoPaterno.Equals("Solorzano")).ID,
+                EstadoSolicitudOfertaLaboralID = 1,
+                FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("MM/dd/yy"),
+                FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("MM/dd/yy"),
+                Descripcion = "",
+                ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
+                SueldoTentativo = 15000,
+                Comentarios = "",
+                NumeroVacantes = 3
+            });
+
+            TablaOfertaLaborales.AddElement(new OfertaLaboral
+            {
+                PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Gerente general")).ID,
+                AreaID = TablaAreas.One(a => a.Nombre.Equals("Gerencia general")).ID,
+                ResponsableID = TablaColaboradores.One(a => a.ApellidoPaterno.Equals("Solorzano")).ID,
+                EstadoSolicitudOfertaLaboralID = 1,
+                FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("MM/dd/yy"),
+                FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("MM/dd/yy"),
+                Descripcion = "",
+                ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
+                SueldoTentativo = 15000,
+                Comentarios = "",
+                NumeroVacantes = 3
+            });
+
             TablaOfertaLaborales.AddElement(new OfertaLaboral 
             { 
                 //ModoPublicacionOfertaLaboralID=1, 
