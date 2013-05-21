@@ -323,17 +323,20 @@
                { areaID: areaID },
                function (puestos) {
                    var select = $("#PuestoID");
-                   select.empty();
+                   select.find('option').remove().end();
                    select.append($('<option/>', {
                        value: 0,
                        text: ""
                    }));
-                   $.each(puestos, function (index, itemData) {
+                     $.each(puestos, function (index, itemData) {
                        select.append($('<option/>', {
                            value: itemData.ID,
                            text: itemData.Nombre
                        }));
-                   });
+                     });
+                     if (puestos.length > 0)
+                         select.find('option:first').attr("selected", "selected");
+              
                });
     });
 

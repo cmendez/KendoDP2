@@ -31,7 +31,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         
         public string Descripcion { get; set; }
 
-        public int ModoPublicacionOfertaLaboralID { get; set; }
+        public int ModoSolicitudOfertaLaboralID { get; set; }
         public virtual ModoSolicitudOfertaLaboral ModoSolicitudOfertaLaboral { get; set; }
 
         public int SueldoTentativo { get; set; }
@@ -39,8 +39,6 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public string Comentarios { get; set; }
 
         public int NumeroVacantes { get; set; }
-
-        public virtual ICollection<Funcion> ListaFuncionesPuesto { get; set; }
 
         [InverseProperty("OfertaLaboral")]
         public virtual ICollection<OfertaLaboralXPostulante> Postulantes { get; set; }
@@ -62,7 +60,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             PuestoID = o.PuestoID;
             AreaID = o.AreaID;
             ResponsableID = o.ResponsableID;
-            ModoPublicacionOfertaLaboralID = o.ModoPublicacionID;
+            ModoSolicitudOfertaLaboralID = o.ModoSolicitudID;
             EstadoSolicitudOfertaLaboralID = o.EstadoSolicitudOfertaLaboralID;
             Descripcion = o.Descripcion;
             FechaFinVigenciaSolicitud = o.FechaFinRequerimiento;
@@ -102,7 +100,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public int ResponsableID { get; set; }
         
         [DisplayName("Tipo Convocatoria")]
-        public int ModoPublicacionID { get; set; }
+        public int ModoSolicitudID { get; set; }
 
         [DisplayName("Descripción")]
         public string Descripcion { get; set; }
@@ -149,7 +147,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             DescripcionPuesto = o.Area.Descripcion;
             ResponsableID = o.ResponsableID;
             EstadoSolicitudOfertaLaboralID = o.EstadoSolicitudOfertaLaboralID;
-            ModoPublicacionID = o.ModoPublicacionOfertaLaboralID;
+            ModoSolicitudID = o.ModoSolicitudOfertaLaboralID;
             FechaRequerimiento = o.FechaRequerimiento;
             FechaFinRequerimiento = o.FechaFinVigenciaSolicitud;
             Descripcion = o.Descripcion;

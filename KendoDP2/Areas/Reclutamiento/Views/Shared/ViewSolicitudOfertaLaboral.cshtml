@@ -5,12 +5,13 @@
 
 @model KendoDP2.Areas.Reclutamiento.Models.OfertaLaboralDTO
 @{
-    IList<AreaDTO> areas = ViewBag.areas;
-    IList<EstadosSolicitudOfertaLaboralDTO> estadosSolicitudOferta = ViewBag.estadosSolicitudOferta;
-    IList<ModoSolicitudOfertaLaboralDTO> modosSolicitudOferta = ViewBag.modosSolicitudOferta;
-    IList<PuestoDTO> puestos = ViewBag.puestos;
-    IList<ColaboradorDTO> colaboradores = ViewBag.colaboradores;
-    
+    AreaDTO area = ViewBag.area;
+    EstadosSolicitudOfertaLaboralDTO estadoSolicitudOferta = ViewBag.estadoSolicitudOferta;
+    ModoSolicitudOfertaLaboralDTO modoSolicitudOferta = ViewBag.modoSolicitudOferta;
+    PuestoDTO puesto = ViewBag.puesto;
+    ColaboradorDTO responsable = ViewBag.responsable;
+    IEnumerable<FuncionDTO> funciones = ViewBag.funciones;
+    string funcionesJson = Json.Encode(funciones);
 }
 
 @using (Html.BeginForm())
@@ -18,90 +19,90 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     
-    <div  style="width:900px;">
+    <div style="width: 900px;">
         <div class="row-fluid">
             <!-- contenedor superior izquierdo: campos -->
             <div class="span6">
-                                
-            <div class="row-fluid">
-                <div class="span5">
-                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.AreaID)</div>
-                </div>
-                <div class="span7 responsive">
-                    @Html.TextBox("Area", areas.Where(p => p.ID == Model.AreaID).FirstOrDefault().Nombre, new {@readonly = "readonly"})                  
-                  
-                </div>
-            </div>
 
-            <div class="row-fluid">
-                <div class="span5">
-                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.PuestoID)</div>
-                </div>
-                <div class="span7">
-                    @Html.TextBox("Puesto", puestos.Where(p => p.ID == Model.PuestoID).FirstOrDefault().Nombre, new {@readonly = "readonly"})                  
-                </div>
-            </div>
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.AreaID)</div>
+                    </div>
+                    <div class="span7 responsive">
+                        @Html.TextBox("Area", area.Nombre, new { @readonly = "readonly" })
 
+                    </div>
+                </div>
 
-            <div class="row-fluid">
-                <div class="span5">
-                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.ResponsableID)</div>
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.PuestoID)</div>
+                    </div>
+                    <div class="span7">
+                        @Html.TextBox("Puesto", puesto.Nombre, new { @readonly = "readonly" })
+                    </div>
                 </div>
-                <div class="span7 responsive">
-                    @Html.TextBox("Responsable", colaboradores.Where(p => p.ID == Model.ResponsableID).FirstOrDefault().NombreCompleto, new {@readonly = "readonly"})                  
-                </div>
-              </div>
 
 
-             <div class="row-fluid">
-                <div class="span5">
-                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.ModoPublicacionID)</div>
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.ResponsableID)</div>
+                    </div>
+                    <div class="span7 responsive">
+                        @Html.TextBox("Responsable", responsable.NombreCompleto, new { @readonly = "readonly" })
+                    </div>
                 </div>
-                <div class="span7 responsive">
-                    @Html.TextBox("Modo", modosSolicitudOferta.Where(p => p.ID == Model.PuestoID).Select(x => x.Descripcion).FirstOrDefault() ?? "", new {@readonly = "readonly"})                  
-                </div>
-            </div>
 
 
-            <div class="row-fluid">
-                <div class="span5">
-                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.EstadoSolicitudOfertaLaboralID)</div>
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.ModoSolicitudID)</div>
+                    </div>
+                    <div class="span7 responsive">
+                        @Html.TextBox("Modo", modoSolicitudOferta.Descripcion, new { @readonly = "readonly" })
+                    </div>
                 </div>
-                <div class="span7 responsive">
-                    @Html.TextBox("Estado", estadosSolicitudOferta.Where(p => p.ID == Model.PuestoID).Select(x => x.Descripcion).FirstOrDefault() ?? "", new {@readonly = "readonly"})                  
-                </div>
-            </div>
 
-                                 
-        
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.EstadoSolicitudOfertaLaboralID)</div>
+                    </div>
+                    <div class="span7 responsive">
+                        @Html.TextBox("Estado", estadoSolicitudOferta.Descripcion, new { @readonly = "readonly" })
+                    </div>
+                </div>
+
+
+
             </div>
             <!-- fin contenedor superior izquierdo: campos -->
             <!-- contenedor superior derecho: Datos -->
             <div class="span5">
                 @Html.HiddenFor(model => model.ID)
-            
 
-            <div class="row-fluid">
-                <div class="span5">
-                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.NumeroVacantes)</div>
-                </div>
-                <div class="span7">
-                            @Html.TextBoxFor(model => model.NumeroVacantes, new {@readonly = "readonly"})
 
-                </div>
-            </div>
-            
-            <div class="row-fluid">
-                <div class="span5">
-                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.SueldoTentativo)</div>
-                </div>
-                <div class="span7">
-                            @Html.TextBoxFor(model => model.SueldoTentativo, new {@readonly = "readonly"})
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.NumeroVacantes)</div>
+                    </div>
+                    <div class="span7">
+                        @Html.TextBoxFor(model => model.NumeroVacantes, new { @readonly = "readonly" })
 
+                    </div>
                 </div>
-            </div>
 
-            <div class="row-fluid">
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.SueldoTentativo)</div>
+                    </div>
+                    <div class="span7">
+                        @Html.TextBoxFor(model => model.SueldoTentativo, new { @readonly = "readonly" })
+
+                    </div>
+                </div>
+
+                <div class="row-fluid">
                     <div class="span5">
                         <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.FechaRequerimiento)</div>
                     </div>
@@ -112,7 +113,7 @@
                     </div>
                 </div>
 
-              <div class="row-fluid">
+                <div class="row-fluid">
                     <div class="span5">
                         <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.FechaFinRequerimiento)</div>
                     </div>
@@ -123,123 +124,81 @@
                     </div>
                 </div>
 
-       		
 
-          </div>
+
+            </div>
             <!-- fin contenedor superior derecho: foto -->
         </div>
     </div>
     <!-- contenedor inferior: campos -->
-    <div style="width:900px;">
-        <div class="row-fluid" >
-                @Html.Label("Detalles Convocatoria:", new { style = "font-weight: bold;" })
-            
-              <div class="row-fluid">
-                    <div class="span3">
-                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Descripcion)</div>
-                    </div>
-                    <div class="span7">
-                        <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.TextAreaFor(model => model.Descripcion, new {@readonly = "readonly"})
-                        </div>
+    <div style="width: 900px;">
+        <div class="row-fluid">
+            @Html.Label("Detalles Convocatoria:", new { style = "font-weight: bold;" })
+
+            <div class="row-fluid">
+                <div class="span3">
+                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Descripcion)</div>
+                </div>
+                <div class="span7">
+                    <div class="editor-field" style="width: 100%; text-align: left;">
+                        @Html.TextAreaFor(model => model.Descripcion, new { @readonly = "readonly" })
                     </div>
                 </div>
-
-            </div>
-        </div>
-    
-    <div style="width:900px;">
-        
-        <div class="span6">
-
-           <div class ="row-fluid">
-                
-               @Html.Label("Lista Funciones:", new { style = "font-weight: bold;" })
-               
-            </div>
-
-            <div class ="row-fluid">
-                <div class="twit-reader">
-                    <div id="listView"></div>
-                </div>               
             </div>
 
         </div>
-
-
-        <div class="span6">
-        
-        </div>
-
-    
     </div>
     
-    
-    <div style="width:900px;">
+    <div style="width: 900px;">
 
-        <div class="row-fluid">  
-          
-            <div class="row-fluid">
-                    <div class="span3">
-                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Comentarios)</div>
-                    </div>
-                    <div class="span7">
-                        <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model=> model.Comentarios)
-                            @Html.ValidationMessageFor(model => model.Comentarios)
-                        </div>
-                    </div>
+        <div class="row-fluid">
+            <div class="span6">
+                @Html.Label("Lista Funciones:", new { style = "font-weight: bold;" })
+                <div class="twit-reader">
+                    <div id="list-view"></div>
                 </div>
 
+            </div>
 
-          </div>
-     </div>
 
+            <div class="span6">
+            </div>
+
+        </div>
+    </div>
+    
+
+    <div style="width: 900px; margin-top:15px;">
+        <div class="row-fluid">
+            <div class="span3">
+                <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Comentarios)</div>
+            </div>
+            <div class="span7">
+                <div class="editor-field" style="width: 100%; text-align: left;">
+                    @Html.TextAreaFor(model => model.Comentarios)
+                    @Html.ValidationMessageFor(model => model.Comentarios)
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a class="btn green" href="javascript:CambiaEstadoAceptar();"> Aceptar </a>
+    <a class="btn green" href="javascript:CambiaEstadoRechazar();"> Rechazar </a>
+    
     <!-- fin contenedor inferior: campos -->
 
  
-    
-   <script type="text/x-kendo-tmpl" id="template">
-        <div class="twit">
-            <p>#:text#</p>
-        </div>
-    </script>
-      
-     <script>
-         $(document).ready(function () {
-             var dataSource = new kendo.data.DataSource({
-                 transport: {
-                     read: {
-                         url: "http://demos.kendoui.com/service/Twitter/Search", // the remove service url
-                         contentType: "application/json; charset=utf-8",
-                         type: "GET",
-                         dataType: "jsonp",
-                         data: {
-                             q: "#kendoui"
-                         }
-                     }
-                 },
-                 schema: {
-                     data: "results",
-                     total: "results_per_page"
-                 }
-             });
-
-             $("#pager").kendoPager({
-                 dataSource: dataSource
-             });
-
-             $("#listView").kendoListView({
-                 dataSource: dataSource,
-                 template: kendo.template($("#template").html())
-             });
-         });
+    <script type="text/x-kendo-tmpl" id="template">
+    <div class="twit">
+        <p>#:Descripcion#</p>
+    </div>
     </script>
     
-<script>
-    $("#AreaID").change(function () {
-        var areaID = $(this).val();
-        $.getJSON("@Url.Action("_GetPuestos", "Colaboradores", new {Area = "Organizacion"})",
+    <script>
+        $("#AreaID").change(function () {
+            var areaID = $(this).val();
+            $.getJSON("@Url.Action("_GetPuestos", "Colaboradores", new { Area = "Organizacion" })",
                { areaID: areaID },
                function (puestos) {
                    var select = $("#PuestoID");
@@ -255,14 +214,42 @@
                        }));
                    });
                });
-    });
+        });
+        var funciones = '@Html.Raw(funcionesJson)';
+        $("#list-view").kendoListView({
+            dataSource: jQuery.parseJSON(funciones),
+            template: kendo.template($("#template").html())
+        });
 
+
+        function CambiaEstadoAceptar(){
+            $.ajax({
+                url: '@Url.Action("CambiaEstadoSolicitudAprobada", "SolicitudOfertasLaborales", new { Area = "Reclutamiento" })?OfertaID=' + @Model.ID,
+            dataType: 'JSON',
+            type: 'POST',
+            data: { ofertaID : @Model.ID},
+                success: function(response){
+                    $("#SolicitudOfertaGrid").data('kendoGrid').dataSource.read();
+                    $("#Details").data('kendoWindow').close();
+                }
+        });
+    }
+
+        function CambiaEstadoRechazar(){
+            $.ajax({
+                url: '@Url.Action("CambiaEstadoSolicitudRechazada", "SolicitudOfertasLaborales", new { Area = "Reclutamiento" })?OfertaID=' + @Model.ID,
+                dataType: 'JSON',
+                type: 'POST',
+                data: { ofertaID : @Model.ID},
+                success: function(response){
+                    $("#SolicitudOfertaGrid").data('kendoGrid').dataSource.read();
+                    $("#Details").data('kendoWindow').close();
+            }
+            });
+    }
+    </script>
     
+   
 
-
-</script>
-
-        
-
-}        
+}
 

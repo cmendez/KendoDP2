@@ -22,13 +22,17 @@ namespace KendoDP2.Models.Generic
         public DbSet<EstadosSolicitudOfertaLaboral> InternalEstadosSolicitudes { get; set; }
         public DbSet<ModoSolicitudOfertaLaboral> InternalModosSolicitudes { get; set; }
         public DbSet<Postulante> InternalPostulante { get; set; }
-        public DbSet<FasePostulacion> InternalFasePostulacion { get; set; } 
+        public DbSet<FasePostulacion> InternalFasePostulacion { get; set; }
+        public DbSet<OfertaLaboralXPostulante> InternalOfertaLaboralXPostulante { get; set; }
+        public DbSet<FasePostulacionXOfertaLaboralXPostulante> InternalFasePostulacionXOfertaLaboralXPostulante { get; set; }
 
         public DBGenericRequester<OfertaLaboral> TablaOfertaLaborales { get; set; }
         public DBGenericRequester<EstadosSolicitudOfertaLaboral> TablaEstadosSolicitudes { get; set; }
         public DBGenericRequester<ModoSolicitudOfertaLaboral> TablaModosSolicitudes { get; set; }
         public DBGenericRequester<Postulante> TablaPostulante { get; set; }
         public DBGenericRequester<FasePostulacion> TablaFasePostulacion { get; set; }
+        public DBGenericRequester<OfertaLaboralXPostulante> TablaOfertaLaboralXPostulante { get; set; }
+        public DBGenericRequester<FasePostulacionXOfertaLaboralXPostulante> TablaFasePostulacionXOfertaLaboralXPostulante { get; set; }
 
         private void RegistrarTablasReclutamiento()
         {
@@ -37,7 +41,8 @@ namespace KendoDP2.Models.Generic
             TablaModosSolicitudes = new DBGenericRequester<ModoSolicitudOfertaLaboral>(this, InternalModosSolicitudes);
             TablaPostulante = new DBGenericRequester<Postulante>(this, InternalPostulante);
             TablaFasePostulacion = new DBGenericRequester<FasePostulacion>(this, InternalFasePostulacion);
-
+            TablaOfertaLaboralXPostulante = new DBGenericRequester<OfertaLaboralXPostulante>(this, InternalOfertaLaboralXPostulante);
+            TablaFasePostulacionXOfertaLaboralXPostulante = new DBGenericRequester<FasePostulacionXOfertaLaboralXPostulante>(this, InternalFasePostulacionXOfertaLaboralXPostulante);
         }
 
         private void SeedFasePostulacion()
@@ -62,7 +67,6 @@ namespace KendoDP2.Models.Generic
             TablaEstadosSolicitudes.AddElement(new EstadosSolicitudOfertaLaboral { Descripcion = "Aprobado" });
             TablaEstadosSolicitudes.AddElement(new EstadosSolicitudOfertaLaboral { Descripcion = "Rechazado" });
         }
-
 
         private void SeedOfertaLaboral()
         {
@@ -165,6 +169,43 @@ namespace KendoDP2.Models.Generic
                 GradoAcademicoID = TablaGradosAcademicos.One(ga => ga.Descripcion.Equals("Licenciado")).ID,
             });
 
+        }
+
+        private void SeedOfertaLaboralXPostulante()
+        {
+            TablaOfertaLaboralXPostulante.AddElement(new OfertaLaboralXPostulante
+            {
+                OfertaLaboralID = 1,
+                PostulanteID = TablaPostulante.One(x => x.Nombres.Equals("Postulante 1")).ID,
+                FlagAprobado = false,
+                PuntajeTotal = 0,
+                MotivoRechazo = String.Empty,
+                Comentarios = String.Empty,
+                Observaciones = String.Empty
+            });
+
+            TablaOfertaLaboralXPostulante.AddElement(new OfertaLaboralXPostulante
+            {
+                OfertaLaboralID = 2,
+                PostulanteID = TablaPostulante.One(x => x.Nombres.Equals("Postulante 2")).ID,
+                FlagAprobado = false,
+                PuntajeTotal = 0,
+                MotivoRechazo = String.Empty,
+                Comentarios = String.Empty,
+                Observaciones = String.Empty
+            });
+        }
+
+        private void SeedFasePostulacionXOfertaLaboralXPostulante()
+        {
+            TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Registrado")).ID, OfertaLaboralXPostulanteID = 1 });
+            TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado Externo")).ID, OfertaLaboralXPostulanteID = 1 });
+            TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado RRHH")).ID, OfertaLaboralXPostulanteID = 1 });
+            TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado Jefe")).ID, OfertaLaboralXPostulanteID = 1 });
+            TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Registrado")).ID, OfertaLaboralXPostulanteID = 2 });
+            TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado Externo")).ID, OfertaLaboralXPostulanteID = 2 });
+            TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado RRHH")).ID, OfertaLaboralXPostulanteID = 2 });
+            TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado Jefe")).ID, OfertaLaboralXPostulanteID = 2 });
         }
     }
 }

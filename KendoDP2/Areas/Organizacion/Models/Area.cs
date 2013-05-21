@@ -13,11 +13,14 @@ namespace KendoDP2.Areas.Organizacion.Models
     {
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
+        
         public int? AreaSuperiorID { get; set; }
-
-
+        [ForeignKey("AreaSuperiorID")]
         public virtual Area AreaSuperior { get; set; }
+        
+        [InverseProperty("AreaSuperior")]
         public virtual ICollection<Area> Areas { get; set; }
+        [InverseProperty("Area")]
         public virtual ICollection<Puesto> Puestos { get; set; }
         
         public Area() { }

@@ -52,6 +52,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
+                oferta.EstadoSolicitudOfertaLaboralID = context.TablaEstadosSolicitudes.One(x => x.Descripcion.Equals("Pendiente")).ID;
                 OfertaLaboral o = new OfertaLaboral(oferta);
                 
                 //agregafunciones segun el puesto de trabajo
@@ -103,14 +104,50 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             
             using (DP2Context context = new DP2Context())
             {
-                ViewBag.colaboradores = context.TablaColaboradores.All().Select(p => p.ToDTO()).ToList();
-                ViewBag.modosSolicitudOferta = context.TablaModosSolicitudes.All().Select(p => p.ToDTO()).ToList();
-                ViewBag.estadosSolicitudOferta = context.TablaEstadosSolicitudes.All().Select(p => p.ToDTO()).ToList();
-                ViewBag.areas = context.TablaAreas.All().Select(p => p.ToDTO()).ToList();
-                ViewBag.puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).ToList();            
-                var oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
-               return PartialView("ViewSolicitudOfertaLaboral", new OfertaLaboralDTO(oferta));
+                OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
+                ViewBag.responsable = oferta.Responsable.ToDTO();
+                ViewBag.modoSolicitudOferta = oferta.ModoSolicitudOfertaLaboralID >= 1 ? oferta.ModoSolicitudOfertaLaboral.ToDTO() : new ModoSolicitudOfertaLaboralDTO();
+                ViewBag.estadoSolicitudOferta = oferta.EstadoSolicitudOfertaLaboral.ToDTO();
+                ViewBag.area = oferta.Area.ToDTO();
+                ViewBag.puesto = oferta.Puesto.ToDTO();
+                ViewBag.funciones = oferta.Puesto.Funciones.Select(c => c.ToDTO()).ToList();
+                //ViewBag.funciones = oferta.Puesto. 
+               return PartialView("ViewSolicitudOfertaLaboral", oferta.ToDTO());
             }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CambiaEstadoSolicitudAprobada([DataSourceRequest] DataSourceRequest request, int OfertaID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                OfertaLaboral o = context.TablaOfertaLaborales.FindByID(OfertaID);
+                if (o.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Pendiente"))
+                {
+                    o.EstadoSolicitudOfertaLaboral = context.TablaEstadosSolicitudes.One(p=> p.Descripcion.Equals("Aprobado"));
+                }
+                context.TablaOfertaLaborales.ModifyElement(o);
+
+                return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
+            }
+
+        }
+
+       [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CambiaEstadoSolicitudRechazada([DataSourceRequest] DataSourceRequest request, int OfertaID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                OfertaLaboral o = context.TablaOfertaLaborales.FindByID(OfertaID);
+                if (o.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Pendiente"))
+                {
+                    o.EstadoSolicitudOfertaLaboral = context.TablaEstadosSolicitudes.One(p=> p.Descripcion.Equals("Rechazado"));
+                }
+                context.TablaOfertaLaborales.ModifyElement(o);
+
+                return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
+            }
+
         }
 
 

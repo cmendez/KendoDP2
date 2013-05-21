@@ -24,17 +24,17 @@ namespace KendoDP2.Areas.Organizacion.Models
         
         public virtual Puesto PuestoSuperior { get; set; }
 
-       // public virtual ICollection<Objetivo> Funciones { get; set; }
-        
        public virtual ICollection<PuestoXArea> PuestosArea { get; set; }
        public virtual ICollection<Area> Areas { get; set; }
        public virtual ICollection<Puesto> Puestos { get; set; }
+       public virtual ICollection<Funcion> Funciones { get; set; }
 
 
        public int PuestoXAreaID { get; set; }
         
         public int? EstadosPuestoID { get; set; }
         public virtual EstadosPuesto EstadoPuesto { get; set; }
+
 
         
         public Puesto() { }
