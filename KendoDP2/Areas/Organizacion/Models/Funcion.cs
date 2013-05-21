@@ -13,10 +13,7 @@ namespace KendoDP2.Areas.Organizacion.Models
     {
         public string Descripcion { get; set; }
         public int PuestoID { get; set; }
-
-
         public virtual Puesto Puesto { get; set; }
-
         
         public Funcion() { }
 
