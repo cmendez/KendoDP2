@@ -31,7 +31,7 @@ namespace KendoDP2.Areas.Objetivos.Models
         public virtual BSC BSC { get; set; }
 
 
-        //public int PeriodoID { get; set; }
+        public int PeriodoID { get; set; }
         //public virtual Periodo Periodo { get; set; }
 
         public Objetivo() {
