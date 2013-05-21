@@ -229,6 +229,7 @@
             type: 'POST',
             data: { ofertaID : @Model.ID},
                 success: function(response){
+                    $("#SolicitudOfertaGrid").data('kendoGrid').dataSource.read();
                     $("#Details").data('kendoWindow').close();
                 }
         });
@@ -240,7 +241,8 @@
                 dataType: 'JSON',
                 type: 'POST',
                 data: { ofertaID : @Model.ID},
-            success: function(response){
+                success: function(response){
+                    $("#SolicitudOfertaGrid").data('kendoGrid').dataSource.read();
                     $("#Details").data('kendoWindow').close();
             }
             });
