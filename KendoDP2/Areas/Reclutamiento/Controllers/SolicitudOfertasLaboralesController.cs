@@ -81,5 +81,21 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             }
         }
 
+
+        public ActionResult GetViewOferta(int id)
+        {
+            
+            using (DP2Context context = new DP2Context())
+            {
+                ViewBag.estadosSolicitudOferta = context.TablaEstadosSolicitudes.All().Select(p => p.ToDTO()).ToList();
+                var oferta = context.TablaOfertaLaborales.FindByID(id);
+               return PartialView("ViewSolicitudOfertaLaboral", oferta);
+            }
+        }
+
+
     }
+
+
+
 }
