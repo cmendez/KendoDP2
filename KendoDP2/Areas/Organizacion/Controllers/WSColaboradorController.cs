@@ -11,13 +11,6 @@ namespace KendoDP2.Areas.Organizacion.Controllers
 {
     public class WSColaboradorController : WSController
     {
-        //
-        // GET: /Organizacion/WSColaborador/
-
-        public ActionResult Index()
-        {
-            return View();
-        }
 
         public JsonResult getColaborador(string id)
         {
