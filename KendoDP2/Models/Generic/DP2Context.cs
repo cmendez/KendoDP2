@@ -60,7 +60,9 @@ namespace KendoDP2.Models.Generic
             SeedEstadosSolicitudes();
             SeedOfertaLaboral();
             SeedFasePostulacion();
+            SeedPostulante();
             // Area Objetivos
+            //SeedBSC();
             SeedObjetivos();
 
         }
