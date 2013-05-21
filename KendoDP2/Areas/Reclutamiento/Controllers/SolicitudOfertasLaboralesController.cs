@@ -52,6 +52,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
+                oferta.EstadoSolicitudOfertaLaboralID = context.TablaEstadosSolicitudes.One(x => x.Descripcion.Equals("Pendiente")).ID;
                 OfertaLaboral o = new OfertaLaboral(oferta);
                 
                 //agregafunciones segun el puesto de trabajo
