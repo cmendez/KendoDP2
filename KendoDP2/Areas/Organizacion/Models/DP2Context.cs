@@ -111,8 +111,6 @@ namespace KendoDP2.Models.Generic
             TablaEstadosColaboradores.AddElement(new EstadosColaborador { Descripcion = "Inactivo" });
         }
 
-
-
         private void SeedGradosAcademicos()
         {
             TablaGradosAcademicos.AddElement(new GradoAcademico { Descripcion = "Bachiller" });
@@ -132,20 +130,29 @@ namespace KendoDP2.Models.Generic
             TablaAreas.AddElement(new Area { Nombre = "Auditoría", Descripcion = "Innecesaria", AreaSuperiorID = 1 });
             TablaAreas.AddElement(new Area { Nombre = "Ventas", Descripcion = "Algo útil por lo menos...", AreaSuperiorID = 2 });
             TablaAreas.AddElement(new Area { Nombre = "TI", Descripcion = "Para creernos importantes", AreaSuperiorID = 2 });
-            TablaAreas.AddElement(new Area { Nombre = "Márketing", Descripcion = "Propaganda", AreaSuperiorID = 2 });
+            TablaAreas.AddElement(new Area { Nombre = "Marketing", Descripcion = "Propaganda", AreaSuperiorID = 2 });
             TablaAreas.AddElement(new Area { Nombre = "Operaciones", Descripcion = "Vendemos pan", AreaSuperiorID = 2 });
             TablaAreas.AddElement(new Area { Nombre = "Logística", Descripcion = "Trae la masa", AreaSuperiorID = 7 });
             TablaAreas.AddElement(new Area { Nombre = "Responsabilidad Social", Descripcion = "No hace nada", AreaSuperiorID = 2 });
             TablaAreas.AddElement(new Area { Nombre = "Administración", Descripcion = "Administra", AreaSuperiorID = 2 });
             TablaAreas.AddElement(new Area { Nombre = "Finanzas", Descripcion = "Financia", AreaSuperiorID = 10 });
-            TablaAreas.AddElement(new Area { Nombre = "Recursos humanos", Descripcion = "Molesta", AreaSuperiorID = 10 });
+            TablaAreas.AddElement(new Area { Nombre = "Recursos Humanos", Descripcion = "Molesta", AreaSuperiorID = 10 });
         }
 
         private void SeedPuestos()
         {
             TablaPuestos.AddElement(new Puesto { Nombre = "Presidente", Descripcion = "Jefe de proyecto", AreaID = TablaAreas.One(a => a.Nombre.Equals("Directorio")).ID });
             TablaPuestos.AddElement(new Puesto { Nombre = "Gerente general", Descripcion = "Por ahí", AreaID = TablaAreas.One(a => a.Nombre.Equals("Gerencia general")).ID });
-
+            TablaPuestos.AddElement(new Puesto { Nombre = "Auditor Lider", Descripcion = "Por ahí", AreaID = TablaAreas.One(a => a.Nombre.Equals("Auditoría")).ID });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Gerente de Cuentas", Descripcion = "Por ahí", AreaID = TablaAreas.One(a => a.Nombre.Equals("Ventas")).ID });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Gerente de TI", Descripcion = "Por ahí", AreaID = TablaAreas.One(a => a.Nombre.Equals("TI")).ID });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Gerente de Marketing", Descripcion = "Por ahí", AreaID = TablaAreas.One(a => a.Nombre.Equals("Marketing")).ID });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Gerente de Operaciones", Descripcion = "Por ahí", AreaID = TablaAreas.One(a => a.Nombre.Equals("Operaciones")).ID });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Gerente de Logística", Descripcion = "Por ahí", AreaID = TablaAreas.One(a => a.Nombre.Equals("Logística")).ID });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Jefe de RRSS", Descripcion = "Por ahí", AreaID = TablaAreas.One(a => a.Nombre.Equals("Responsabilidad Social")).ID });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Administración", Descripcion = "Por ahí", AreaID = TablaAreas.One(a => a.Nombre.Equals("Administración")).ID });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Gerente de Finanzas", Descripcion = "Por ahí", AreaID = TablaAreas.One(a => a.Nombre.Equals("Finanzas")).ID });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Gerente de RRHH", Descripcion = "Por ahí", AreaID = TablaAreas.One(a => a.Nombre.Equals("Recursos Humanos")).ID });
         }
 
 
