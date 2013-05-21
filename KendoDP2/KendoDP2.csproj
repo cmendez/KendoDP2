@@ -245,6 +245,8 @@
     <Compile Include="Areas\Reclutamiento\Controllers\WSOfertaLaboralController.cs" />
     <Compile Include="Areas\Reclutamiento\Models\DP2Context.cs" />
     <Compile Include="Areas\Reclutamiento\Models\EstadosSolicitudOfertaLaboral.cs" />
+    <Compile Include="Areas\Reclutamiento\Models\FasePostulacion.cs" />
+    <Compile Include="Areas\Reclutamiento\Models\FasePostulacionXOfertaLaboralXPostulante.cs" />
     <Compile Include="Areas\Reclutamiento\Models\ModoSolicitudOfertaLaboral.cs" />
     <Compile Include="Areas\Reclutamiento\Models\OfertaLaboral.cs" />
     <Compile Include="Areas\Reclutamiento\Models\OfertaLaboralXPostulante.cs" />

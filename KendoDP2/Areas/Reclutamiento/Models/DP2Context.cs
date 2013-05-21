@@ -22,11 +22,13 @@ namespace KendoDP2.Models.Generic
         public DbSet<EstadosSolicitudOfertaLaboral> InternalEstadosSolicitudes { get; set; }
         public DbSet<ModoSolicitudOfertaLaboral> InternalModosSolicitudes { get; set; }
         public DbSet<Postulante> InternalPostulante { get; set; }
+        public DbSet<FasePostulacion> InternalFasePostulacion { get; set; } 
 
         public DBGenericRequester<OfertaLaboral> TablaOfertaLaborales { get; set; }
         public DBGenericRequester<EstadosSolicitudOfertaLaboral> TablaEstadosSolicitudes { get; set; }
         public DBGenericRequester<ModoSolicitudOfertaLaboral> TablaModosSolicitudes { get; set; }
         public DBGenericRequester<Postulante> TablaPostulante { get; set; }
+        public DBGenericRequester<FasePostulacion> TablaFasePostulacion { get; set; }
 
         private void RegistrarTablasReclutamiento()
         {
@@ -34,7 +36,17 @@ namespace KendoDP2.Models.Generic
             TablaEstadosSolicitudes = new DBGenericRequester<EstadosSolicitudOfertaLaboral>(this, InternalEstadosSolicitudes);
             TablaModosSolicitudes = new DBGenericRequester<ModoSolicitudOfertaLaboral>(this, InternalModosSolicitudes);
             TablaPostulante = new DBGenericRequester<Postulante>(this, InternalPostulante);
+            TablaFasePostulacion = new DBGenericRequester<FasePostulacion>(this, InternalFasePostulacion);
 
+        }
+
+        private void SeedFasePostulacion()
+        {
+            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Registrado" });
+            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado Externo" });
+            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado RRHH" });
+            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado Jefe" });
+            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Cerrado" });
         }
 
         private void SeedModosSolicitudes()
@@ -54,12 +66,13 @@ namespace KendoDP2.Models.Generic
 
         private void SeedOfertaLaboral()
         {
-
             //TablaOfertaLaboral.AddElement(new OfertaLaboral { EstadoSolicitudOfertaLaboralID = 1, PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID });
         }
 
         private void SeedPostulante()
         {
+            //TablaPostulante.AddElement(new Postulante { Nombres = "Fortino Mario Alonso", ApellidoPaterno = "Moreno", ApellidoMaterno = "Reyes", Username = "admin", Password = "admin", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
+
             //TablaPostulante.AddElement(new Postulante );
 
         }
