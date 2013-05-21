@@ -76,7 +76,7 @@ namespace KendoDP2.Models.Generic
                 FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("MM/dd/yy"),
                 FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("MM/dd/yy"),
                 Descripcion = "",
-                ModoPublicacionOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
+                ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
                 SueldoTentativo = 15000,
                 Comentarios = "",
                 NumeroVacantes = 3
@@ -91,7 +91,7 @@ namespace KendoDP2.Models.Generic
                 FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("MM/dd/yy"),
                 FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("MM/dd/yy"),
                 Descripcion = "",
-                ModoPublicacionOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
+                ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
                 SueldoTentativo = 15000,
                 Comentarios = "",
                 NumeroVacantes = 3
