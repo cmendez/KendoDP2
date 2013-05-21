@@ -1806,6 +1806,7 @@
     <Content Include="Areas\Reclutamiento\Views\SolicitudOfertasLaborales\Index.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\EditorSolicitudOfertaLaboral.cshtml" />
     <Content Include="Areas\Organizacion\Views\Puestos\Index.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\Shared\EditorTemplates\EditorSolicitudOfertaLaboral.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\areas_icon.png" />
     <Content Include="Images\favicon.ico" />

@@ -53,6 +53,10 @@ namespace KendoDP2.Models.Helpers
                 new SidebarSuboption("Página Personal","Intranet","Index","icon-tag")
             })));
 
+            Opciones.Add(new SidebarOption("Reclutamiento", "Reclutamiento", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
+                new SidebarSuboption("Ofertas Laborales","SolicitudOfertasLaborales","Index","icon-tag")
+            })));
+
         }
     }
 

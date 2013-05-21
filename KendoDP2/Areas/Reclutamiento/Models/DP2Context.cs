@@ -71,9 +71,41 @@ namespace KendoDP2.Models.Generic
 
         private void SeedPostulante()
         {
-            //TablaPostulante.AddElement(new Postulante { Nombres = "Fortino Mario Alonso", ApellidoPaterno = "Moreno", ApellidoMaterno = "Reyes", Username = "admin", Password = "admin", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
+            TablaPostulante.AddElement(new Postulante
+            {
+                Nombres = "Postulante 1",
+                ApellidoPaterno = "XXX",
+                ApellidoMaterno = "YYY",
+                CentroEstudios = "PUCP",
+                CorreoElectronico = "algo@rhplusplus.com",
+                TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID,
+                NumeroDocumento = "70705645",
+                GradoAcademicoID = TablaGradosAcademicos.One(ga => ga.Descripcion.Equals("Licenciado")).ID,
+            });
 
-            //TablaPostulante.AddElement(new Postulante );
+            TablaPostulante.AddElement(new Postulante
+            {
+                Nombres = "Postulante 2",
+                ApellidoPaterno = "XXX",
+                ApellidoMaterno = "YYY",
+                CentroEstudios = "PUCP",
+                CorreoElectronico = "algo@rhplusplus.com",
+                TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID,
+                NumeroDocumento = "70455645",
+                GradoAcademicoID = TablaGradosAcademicos.One(ga => ga.Descripcion.Equals("Licenciado")).ID,
+            });
+
+            TablaPostulante.AddElement(new Postulante
+            {
+                Nombres = "Postulante 3",
+                ApellidoPaterno = "XXX",
+                ApellidoMaterno = "YYY",
+                CentroEstudios = "PUCP",
+                CorreoElectronico = "algo@rhplusplus.com",
+                TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID,
+                NumeroDocumento = "70708445",
+                GradoAcademicoID = TablaGradosAcademicos.One(ga => ga.Descripcion.Equals("Licenciado")).ID,
+            });
 
         }
     }

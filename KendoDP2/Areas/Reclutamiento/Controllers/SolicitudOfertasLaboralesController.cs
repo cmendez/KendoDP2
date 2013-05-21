@@ -36,13 +36,24 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 
         }
 
-        public ActionResult EditingInline_Read([DataSourceRequest] DataSourceRequest request)
+        public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
             using (DP2Context context = new DP2Context())
             {
                 List<OfertaLaboralDTO> ofertas = context.TablaOfertaLaborales.All().Select(p => p.ToDTO()).OrderBy(x => x.ID).ToList();
                 return Json(ofertas.ToDataSourceResult(request));
             
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Create([DataSourceRequest] DataSourceRequest request, OfertaLaboralDTO oferta)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                OfertaLaboral o = new OfertaLaboral(oferta);
+                context.TablaOfertaLaborales.AddElement(o);
+                return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
         }
 
