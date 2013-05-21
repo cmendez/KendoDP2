@@ -55,10 +55,10 @@
 
              <div class="row-fluid">
                 <div class="span5">
-                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.ModoPublicacionID)</div>
+                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.ModoSolicitudID)</div>
                 </div>
                 <div class="span7 responsive">
-                    @Html.DropDownListFor(model => model.ModoPublicacionID, new SelectList(modosSolicitudOferta, "ID", "Descripcion"), new { style = "width:100%", data_placeholder="Seleccione" } )
+                    @Html.DropDownListFor(model => model.ModoSolicitudID, new SelectList(modosSolicitudOferta, "ID", "Descripcion"), new { style = "width:100%", data_placeholder="Seleccione" } )
                 </div>
             </div>
 

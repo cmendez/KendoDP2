@@ -5,11 +5,12 @@
 
 @model KendoDP2.Areas.Reclutamiento.Models.OfertaLaboralDTO
 @{
-    IList<AreaDTO> areas = ViewBag.areas;
-    IList<EstadosSolicitudOfertaLaboralDTO> estadosSolicitudOferta = ViewBag.estadosSolicitudOferta;
-    IList<ModoSolicitudOfertaLaboralDTO> modosSolicitudOferta = ViewBag.modosSolicitudOferta;
-    IList<PuestoDTO> puestos = ViewBag.puestos;
-    IList<ColaboradorDTO> colaboradores = ViewBag.colaboradores;
+    AreaDTO area = ViewBag.area;
+    EstadosSolicitudOfertaLaboralDTO estadoSolicitudOferta = ViewBag.estadoSolicitudOferta;
+    ModoSolicitudOfertaLaboralDTO modoSolicitudOferta = ViewBag.modoSolicitudOferta;
+    PuestoDTO puesto = ViewBag.puesto;
+    ColaboradorDTO responsable = ViewBag.responsable;
+    IEnumerable<FuncionDTO> funciones = ViewBag.funciones;
     
 }
 
@@ -28,7 +29,7 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.AreaID)</div>
                 </div>
                 <div class="span7 responsive">
-                    @Html.TextBox("Area", areas.Where(p => p.ID == Model.AreaID).FirstOrDefault().Nombre, new {@readonly = "readonly"})                  
+                    @Html.TextBox("Area", area.Nombre, new {@readonly = "readonly"})                  
                   
                 </div>
             </div>
@@ -38,7 +39,7 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.PuestoID)</div>
                 </div>
                 <div class="span7">
-                    @Html.TextBox("Puesto", puestos.Where(p => p.ID == Model.PuestoID).FirstOrDefault().Nombre, new {@readonly = "readonly"})                  
+                    @Html.TextBox("Puesto", puesto.Nombre, new {@readonly = "readonly"})                  
                 </div>
             </div>
 
@@ -48,7 +49,7 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.ResponsableID)</div>
                 </div>
                 <div class="span7 responsive">
-                    @Html.TextBox("Responsable", colaboradores.Where(p => p.ID == Model.ResponsableID).FirstOrDefault().NombreCompleto, new {@readonly = "readonly"})                  
+                    @Html.TextBox("Responsable", responsable.NombreCompleto, new {@readonly = "readonly"})                  
                 </div>
               </div>
 
@@ -58,7 +59,7 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.ModoPublicacionID)</div>
                 </div>
                 <div class="span7 responsive">
-                    @Html.TextBox("Modo", modosSolicitudOferta.Where(p => p.ID == Model.PuestoID).Select(x => x.Descripcion).FirstOrDefault() ?? "", new {@readonly = "readonly"})                  
+                    @Html.TextBox("Modo", modoSolicitudOferta.Descripcion, new {@readonly = "readonly"})                  
                 </div>
             </div>
 
@@ -68,7 +69,7 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.EstadoSolicitudOfertaLaboralID)</div>
                 </div>
                 <div class="span7 responsive">
-                    @Html.TextBox("Estado", estadosSolicitudOferta.Where(p => p.ID == Model.PuestoID).Select(x => x.Descripcion).FirstOrDefault() ?? "", new {@readonly = "readonly"})                  
+                    @Html.TextBox("Estado", estadoSolicitudOferta.Descripcion, new {@readonly = "readonly"})                  
                 </div>
             </div>
 
