@@ -116,6 +116,45 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         }
 
 
+        public ActionResult CambiaEstadoSolicitudAprobada([DataSourceRequest] DataSourceRequest request, int OfertaID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                OfertaLaboral o = context.TablaOfertaLaborales.FindByID(OfertaID);
+                if (o.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Pendiente"))
+                {
+                    o.EstadoSolicitudOfertaLaboral.ID = context.TablaEstadosSolicitudes.All().Where(p=> p.Descripcion == "Aprobado").FirstOrDefault().ID;
+                    o.EstadoSolicitudOfertaLaboral = context.TablaEstadosSolicitudes.FindByID(o.EstadoSolicitudOfertaLaboralID);
+                    
+                }
+                context.TablaOfertaLaborales.ModifyElement(o);
+
+
+                return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
+            }
+
+        }
+
+        public ActionResult CambiaEstadoSolicitudRechazada([DataSourceRequest] DataSourceRequest request, int OfertaID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                OfertaLaboral o = context.TablaOfertaLaborales.FindByID(OfertaID);
+                if (o.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Pendiente"))
+                {
+                    o.EstadoSolicitudOfertaLaboral.ID = context.TablaEstadosSolicitudes.All().Where(p => p.Descripcion == "Rechazado").FirstOrDefault().ID;
+                    o.EstadoSolicitudOfertaLaboral = context.TablaEstadosSolicitudes.FindByID(o.EstadoSolicitudOfertaLaboralID);
+
+                }
+                context.TablaOfertaLaborales.ModifyElement(o);
+
+
+                return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
+            }
+
+        }
+
+
     }
 
 
