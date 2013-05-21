@@ -15,14 +15,15 @@ namespace KendoDP2.Areas.Organizacion.Models
         public string Nombres { get; set; }
         public string ApellidoPaterno { get; set; }
         public string ApellidoMaterno { get; set; }
-        public string NumeroDocumento { get; set; }
         public string CentroEstudios { get; set; }
         public string CorreoElectronico { get; set; }
+
         public int? GradoAcademicoID { get; set; }
         public virtual GradoAcademico GradoAcademico { get; set; }
        
         public int TipoDocumentoID { get; set; }
         public virtual TipoDocumento TipoDocumento { get; set; }
+        public string NumeroDocumento { get; set; }
         
         public byte[] CurriculumVitae { get; set; }
 

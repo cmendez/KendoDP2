@@ -12,7 +12,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
 {
     public class Postulante : Persona
     {
-        public string Estado { get; set; }
+        //public string Estado { get; set; }
 
         [InverseProperty("Postulante")]
         public virtual ICollection<OfertaLaboralXPostulante> OfertasPostuladas { get; set; }
@@ -28,11 +28,16 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         {
             ID = p.ID;
 
-            //CentroEstudios;
-            //CorreoElectronico;
-            //GradoAcademicoID;
-            
-            Estado = p.Estado;
+            Nombres = p.Nombres;
+            ApellidoMaterno = p.ApellidoMaterno;
+            ApellidoPaterno = p.ApellidoPaterno;
+            CentroEstudios = p.CentroEstudios;
+            CorreoElectronico = p.CorreoElectronico;
+
+            GradoAcademicoID = p.GradoAcademicoID;
+            TipoDocumentoID = p.TipoDocumentoID;
+            NumeroDocumento = p.NumeroDocumento;
+
             return this;
         }
 
@@ -50,8 +55,8 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         [ScaffoldColumn(false)]
         public int ID { get; set; }
 
-        [DisplayName("Nombre")]
-        public string Nombre { get; set; }
+        [DisplayName("Nombres")]
+        public string Nombres { get; set; }
 
         [DisplayName("Apellido Paterno")]
         public string ApellidoPaterno { get; set; }
@@ -59,41 +64,42 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         [DisplayName("Apellido Materno")]
         public string ApellidoMaterno { get; set; }
 
-        [DisplayName("Tipo de Documento")]
-        public int TipoDocumentoID { get; set; }
-
-        [DisplayName("Número de Documento")]
-        public string NumeroDocumento { get; set; }
-
         [DisplayName("Centro de estudios")]
         public string CentroEstudios { get; set; }
-
-        [DisplayName("Grado Académico")]
-        public int GradoAcademicoID { get; set; }
 
         [DisplayName("Correo Electrónico")]
         public string CorreoElectronico { get; set; }
 
-        [DisplayName("Estado del Postulante")]
-        public string Estado { get; set; }
-        
+        public int GradoAcademicoID { get; set; }
+        [DisplayName("Grado Académico")]
+        public string GradoAcademico { get; set; }
+
+        public int TipoDocumentoID { get; set; }
+        [DisplayName("Tipo de Documento")]
+        public string TipoDocumento { get; set; }
+
+        [DisplayName("Número de Documento")]
+        public string NumeroDocumento { get; set; }
+
+        //[DisplayName("Estado del Postulante")]
+        //public string Estado { get; set; }
+
         public PostulanteDTO() { }
         public PostulanteDTO(Postulante p)
         {
             NombreCompleto = p.ApellidoPaterno + " " + p.ApellidoMaterno + ", " + p.Nombres;
             ID = p.ID;
 
-            Nombre = p.Nombres;
+            Nombres = p.Nombres;
             ApellidoMaterno = p.ApellidoMaterno;
             ApellidoPaterno = p.ApellidoPaterno;
-            TipoDocumentoID = p.TipoDocumentoID;
-            NumeroDocumento = p.NumeroDocumento;
             CentroEstudios = p.CentroEstudios;
-            GradoAcademicoID = p.GradoAcademicoID.GetValueOrDefault();
             CorreoElectronico = p.CorreoElectronico;
-
-            Estado = p.Estado;
-            
+            GradoAcademicoID = p.GradoAcademicoID.GetValueOrDefault();
+            GradoAcademico = p.GradoAcademicoID.HasValue ? p.GradoAcademico.Descripcion : String.Empty;
+            TipoDocumentoID = p.TipoDocumentoID;
+            TipoDocumento = p.TipoDocumento.Descripcion;
+            NumeroDocumento = p.NumeroDocumento;            
         }
     }
 }

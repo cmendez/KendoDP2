@@ -85,10 +85,8 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         [UIHint("GridForeignKey")]
         public int AreaID { get; set; }
 
-
         [DisplayName("Responsable")]
         public int ResponsableID { get; set; }
-
         
         [DisplayName("Tipo Convocatoria")]
         public int ModoPublicacionID { get; set; }
@@ -107,7 +105,6 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         [DisplayName("Estado de Solicitud")]
         public int EstadoSolicitudOfertaLaboralID { get; set; }
 
-        
         public OfertaLaboralDTO() { }
 
         public OfertaLaboralDTO(OfertaLaboral o)
