@@ -1,65 +1,135 @@
-﻿@using Kendo.Mvc.UI
-@using KendoDP2.Areas.Organizacion.Models
+﻿@using KendoDP2.Areas.Organizacion.Models
+@using Kendo.Mvc.UI
 @{
     ViewBag.Title = "Puestos";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    IList<AreaDTO> areas = ViewBag.areas;
+    int pageSize = ViewBag.PageSize;
+    IList<AreaDTO> areas = ViewBag.Areas;
     IList<PuestoDTO> puestos = ViewBag.puestos;
+    SelectList comboPuestos = new SelectList(puestos, "ID", "Nombre");
+    SelectList comboAreas = new SelectList(areas, "ID", "Nombre");
 }
-@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Puestos", "Administre los puestos de trabajo de la empresa"));}
+
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Puestos", "Administre los puestos de la empresa"));}
 
 <div class="portlet box green">
     <div class="portlet-title">
         <h4><i class="icon-reorder"></i>Puestos</h4>
         <div class="tools">
-	        <a href="javascript:;" class="collapse"></a>
+            <a href="javascript:;" class="collapse"></a>
         </div>
-	</div>
-    
+    </div>
     <div class="portlet-body">
-
-           <div class="row-fluid">
-            @(Html.Kendo().Grid<PuestoDTO>()
-                .Name("PuestoGrid")
-                .Columns(columns =>
+        <div class="row-fluid">
+            <div class="span3">
+                @(Html.Kendo().TreeView()
+                        .Name("treeview")
+                        .DataImageUrlField("TreeIcon")
+                        .DataTextField("Name")
+                        .DataSource(s => s
+                            .Read(r => r.Action("PuestosToTree", "Puestos")
+                            )
+                        )
+                        .Events(e => e.Select("onSelectTreeNode").DataBound("onDataBound")
+                        )
+                    )
+            </div>
+            <div class="span9">
+                @(Html.Kendo().Grid<PuestoDTO>()
+                    .Name("grid")
+                    .Columns(c =>
                     {
-                        columns.Bound(p => p.ID);
-                        columns.Bound(p => p.Nombre);
-                        columns.Bound(p => p.Descripcion);
-                        columns.ForeignKey(p => p.AreaID, new SelectList(areas, "ID", "Nombre"));
-                        columns.ForeignKey(p => p.PuestoSuperiorID, new SelectList(puestos, "ID", "Nombre"));
-                        columns.Command(command => { command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar");
-                                                     command.Destroy().Text("Eliminar");
-                                                   }).Width(300);
+                        c.Bound(p => p.ID);
+                        c.Bound(p => p.Nombre);
+                     //   c.ForeignKey((p => p.PuestoSuperiorID), comboPuestos);
+                        c.ForeignKey(p => p.AreaID, new SelectList(areas, "ID", "Nombre"));
+                       // c.ForeignKey((p => p.AreaID), comboAreas);
+                        c.ForeignKey(p => p.PuestoSuperiorID, new SelectList(puestos, "ID", "Nombre"));
                         
-                    }
+                        c.Command(cmd =>
+                        {
+                            cmd.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar");
+                            cmd.Destroy().Text("Eliminar");
+                        }).Width(200);
+                    })
+                    .ToolBar(toolbar => toolbar.Create().Text("Registrar"))
+                    .Editable(editable => editable
+                        .Mode(GridEditMode.PopUp)
+                        .DisplayDeleteConfirmation("¿Está seguro que desea eliminar este registro?")
+                        .Window(w => w.Title("Ingrese los datos"))
+                    )
+                    .Pageable(p => p.Refresh(true))
+                    .Filterable()
+                    .Sortable()
+                    .Selectable()
+                    .DataSource(s => s
+                        .Ajax()
+                        .PageSize(pageSize)
+                        .ServerOperation(false)
+                        .Model(m => m.Id("ID"))
+                        .Create(c => c.Action("Create", "Puestos"))
+                        .Read(r => r.Action("Read", "Puestos"))
+                        .Update(u => u.Action("Update", "Puestos"))
+                        .Destroy(d => d.Action("Destroy", "Puestos"))
+                        .Events(e => e.Error("onError"))
+                    )
                 )
-                .ToolBar(toolbar =>
-                {
-                    toolbar.Create().Text("Registrar");
-                })
-                .Editable(editable => editable
-                    .Mode(GridEditMode.PopUp)
-                    //aca debo agregar template
-                    .DisplayDeleteConfirmation("¿Está seguro que desea eliminar este registro?")
-                    .Window(w => { w.Title("Ingrese los datos"); w.Width(900); })
-                
-                )
-                .Pageable(paper => paper.Refresh(true))
-                .Filterable()
-                .Sortable()
-                .Scrollable(p => p.Height(330))
-                .DataSource(dataSource => dataSource
-                    .Ajax()
-                    .PageSize(20)
-                    .Model(model => model.Id(p => p.ID))
-                    .Create(update => update.Action("Create", "Puestos"))
-                    .Read(read => read.Action("EditingInline_Read", "Puestos"))
-                    .Update(update => update.Action("EditingInline_Update", "Puestos"))
-                    .Destroy(update => update.Action("EditingInline_Destroy", "Puestos"))
-                )
-               )
+            </div>
         </div>
     </div>
 </div>
+<style scoped>
+    #treeview {
+        border: solid 1px #C0C9D0;
+    }
+</style>
+<script>
+    function onError(e) {
+        if (e.errors) {
+            var message = "Error:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
 
+    function onComplete(e) {
+        if (e.type == 'create' || e.type == 'destroy' || e.type == 'update') {
+        //    $('#grid').data('kendoGrid').dataSource.read();
+        //    $('#treeview').data('kendoTreeView').dataSource.read();
+            doRefresh();
+        }
+    }
+    $(document).ready(function ready() {
+        $('#grid').data('kendoGrid').dataSource.bind('requestEnd', onComplete);
+    });
+    function onSelectTreeNode(e) {
+        var nodo = $('#treeview').data('kendoTreeView').dataItem(e.node);
+        var id = nodo.id;
+        var grid = $("#grid").data("kendoGrid");
+        var fila = grid.dataSource.get(i);
+        var kfila;
+        for (var i = 1; i <= grid.dataSource.totalPages() ; i++) {
+            grid.dataSource.page(i);
+            kfila = grid.table.find('tr[data-uid="' + fila.uid + '"]');
+            if (kfila.index() > -1) {
+                grid.select(kfila);
+                break;
+            }
+        }
+    }
+    function onDataBound() {
+        setTimeout("expandNodes()");
+    }
+    function doRefresh() {
+        setTimeout("location.reload(true);", 0);
+    }
+    function expandNodes() {
+        $("#treeview").data("kendoTreeView").expand(".k-item");
+    }
+</script>
