@@ -57,6 +57,29 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             }
         }
 
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Destroy([DataSourceRequest] DataSourceRequest request, OfertaLaboralDTO oferta)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                context.TablaOfertaLaborales.RemoveElementByID(oferta.ID);
+                return Json(ModelState.ToDataSourceResult());
+            }
+        }
+
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Update([DataSourceRequest] DataSourceRequest request, OfertaLaboralDTO oferta)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                OfertaLaboral o = context.TablaOfertaLaborales.FindByID(oferta.ID).LoadFromDTO(oferta);
+                context.TablaOfertaLaborales.ModifyElement(o);
+                
+
+                return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
+            }
+        }
 
     }
 }
