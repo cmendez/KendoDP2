@@ -225,7 +225,7 @@
     <Compile Include="Areas\Organizacion\Controllers\OrganizacionesController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\PuestosController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\WSColaboradorController.cs" />
-    <Compile Include="Areas\Organizacion\Models\Funciones.cs" />
+    <Compile Include="Areas\Organizacion\Models\Funcion.cs" />
     <Compile Include="Areas\Organizacion\Models\DP2Context.cs" />
     <Compile Include="Areas\Organizacion\Models\Organizacion.cs" />
     <Compile Include="Areas\Organizacion\Models\PuestoXArea.cs" />
