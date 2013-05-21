@@ -28,6 +28,8 @@ namespace KendoDP2.Models.Helpers
 				//new SidebarSuboption("Evaluaciones", "Registrar Evaluaciones", "Index", "icon-check"),
                 new SidebarSuboption("Procesos de evaluación", "ProcesoEvaluacion", "Index", "icon-road"),
                 new SidebarSuboption("Evaluación de puestos de trabajo", "PuestosEvaluacion", "Index", "icon-ok-sign"),
+                new SidebarSuboption("Envio de correo", "Correo", "Index", "icon-ok-sign"),
+                new SidebarSuboption("Acordion", "Acordion", "Index", "icon-ok-sign")
 				//new SidebarSuboption("Por perfil BORRADOR", "Configuracion360", "Index", "icon-group")
             })));				
             
@@ -50,6 +52,10 @@ namespace KendoDP2.Models.Helpers
                 new SidebarSuboption("Áreas", "Areas", "Index", "icon-sitemap"),
                 new SidebarSuboption("Página Personal","Intranet","Index","icon-tag"),
                 new SidebarSuboption("Linea de Carrera","Historial","Index","icon-signal")
+            })));
+
+            Opciones.Add(new SidebarOption("Reclutamiento", "Reclutamiento", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
+                new SidebarSuboption("Ofertas Laborales","SolicitudOfertasLaborales","Index","icon-tag")
             })));
 
         }

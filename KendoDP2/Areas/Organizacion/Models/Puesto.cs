@@ -20,15 +20,21 @@ namespace KendoDP2.Areas.Organizacion.Models
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public int? PuestoSuperiorID { get; set; }
-        //public Puesto PuestoSuperior { get; set; }
-
-       // public virtual ICollection<Objetivo> Funciones { get; set; }
         
+        
+        public virtual Puesto PuestoSuperior { get; set; }
+
        public virtual ICollection<PuestoXArea> PuestosArea { get; set; }
+       public virtual ICollection<Area> Areas { get; set; }
+       public virtual ICollection<Puesto> Puestos { get; set; }
+       public virtual ICollection<Funcion> Funciones { get; set; }
+
+
        public int PuestoXAreaID { get; set; }
         
         public int? EstadosPuestoID { get; set; }
         public virtual EstadosPuesto EstadoPuesto { get; set; }
+
 
         
         public Puesto() { }
@@ -39,11 +45,15 @@ namespace KendoDP2.Areas.Organizacion.Models
             Descripcion = descripcion;
             
         }
-
-        public Puesto(PuestoDTO p)
+        public Puesto(PuestoDTO a)  : this()
         {
-            LoadFromDTO(p);
+            LoadFromDTO(a);
         }
+
+       // public Puesto(PuestoDTO p)
+        //{
+       //     LoadFromDTO(p);
+        //}
 
         public Puesto LoadFromDTO(PuestoDTO p)
         {
@@ -51,7 +61,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             Nombre = p.Nombre;
             AreaID = p.AreaID;
             Descripcion = p.Descripcion;
-            PuestoSuperiorID = p.PuestoSuperiorID;
+            if (p.PuestoSuperiorID > 0) PuestoSuperiorID = p.PuestoSuperiorID;
             return this;
         }
 
@@ -60,7 +70,21 @@ namespace KendoDP2.Areas.Organizacion.Models
         {
             return new PuestoDTO(this);
         }
-    
+        public PuestoTreeDTO ToTreeDTO()
+        {
+            return new PuestoTreeDTO(this);
+        }
+
+        public List<Puesto> GetAreasHijas(DP2Context context)
+        {
+            List<Puesto> resultado = new List<Puesto>();
+            resultado.Add(this);
+            foreach (Puesto p in Puestos)
+            {
+                resultado.AddRange(p.GetAreasHijas(context));
+            }
+            return resultado;
+        }
     
     }
 
@@ -77,7 +101,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         [MaxLength(200)]
         public string Descripcion { get; set; }
         
-        [Required]
+   //     [Required]
         [UIHint("GridForeignKey")]
         [DisplayName("Área")]
         public int AreaID { get; set; }
@@ -97,6 +121,9 @@ namespace KendoDP2.Areas.Organizacion.Models
             Descripcion = p.Descripcion;
             ID = p.ID;
             AreaID = p.AreaID;
+            
+            PuestoSuperiorID = p.PuestoSuperiorID.GetValueOrDefault();
+
             if (p.PuestoSuperiorID.HasValue)
                 PuestoSuperiorID = p.PuestoSuperiorID.Value;
             else PuestoSuperiorID=0;
@@ -107,18 +134,35 @@ namespace KendoDP2.Areas.Organizacion.Models
                 PuestoXArea cruce = p.PuestosArea.OrderByDescending(a => a.ID).First();
                 AreaID = cruce.Puesto.AreaID;
                 //necesitamos obtener el Puesto Superior mediante un artificio
-                PuestoSuperiorID = p.PuestoSuperiorID.Value ;
+               ////// PuestoSuperiorID = p.PuestoSuperiorID.Value ;
               
             }
             catch (Exception)
             {
-                AreaID = 1;
-                PuestoSuperiorID = 1;
+              // AreaID = 1;
+               //PuestoSuperiorID = 1;
                 
             }
 
 
          }
 
+    }
+    public class PuestoTreeDTO
+    {
+        public int id { get; set; }
+        public string Name { get; set; }
+        public bool hasChildren { get; set; }
+        public string TreeIcon { get; set; }
+
+        public PuestoTreeDTO() { }
+
+        public PuestoTreeDTO(Puesto p)
+        {
+            id = p.ID;
+            Name = p.Nombre;
+            TreeIcon = "../../Images/areas_icon.png";
+            hasChildren = p.Puestos.Any(i => !i.IsEliminado);
+        }
     }
 }

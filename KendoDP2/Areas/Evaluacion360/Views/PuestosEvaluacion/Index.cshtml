@@ -114,13 +114,13 @@
                                         //        "# } #" +
                                         //    " onchange='modificarParticipacion(" + @puesto.ID + ")'/>"
                                         //);
-                                        columns.Bound(p => p.Participan).ClientTemplate(
-                                            "<input id='#= ID  #' type='checkbox' value='#= ID #'  " +
-                                                "# if (Participan) { #" +
-                                                    "checked='checked'" +
-                                                "# } #" +
-                                            " onchange='modificarParticipacion(" + @puesto.ID + ") style='text-align: center;'/>"
-                                        );                                                                                
+                                        //columns.Bound(p => p.Participan).ClientTemplate(
+                                        //    "<input id='#= ID  #' type='checkbox' value='#= ID #'  " +
+                                        //        "# if (Participan) { #" +
+                                        //            "checked='checked'" +
+                                        //        "# } #" +
+                                        //    " onchange='modificarParticipacion(" + @puesto.ID + ") style='text-align: center;'/>"
+                                        //);                                                                                
                                         columns.Bound(p => p.ClaseEntorno);
                                         columns.Bound(p => p.Cantidad);
                                         columns.Bound(p => p.Peso);

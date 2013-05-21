@@ -8,6 +8,7 @@
     SelectList comboAreas = new SelectList(areas, "ID", "Nombre");
 }
 
+
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Áreas", "Administre las áreas de la empresa"));}
 
 <div class="portlet box green">
@@ -95,8 +96,9 @@
 
     function onComplete(e) {
         if (e.type == 'create' || e.type == 'destroy' || e.type == 'update') {
-            $('#grid').data('kendoGrid').dataSource.read();
-            $('#treeview').data('kendoTreeView').dataSource.read();
+        //    $('#grid').data('kendoGrid').dataSource.read();
+        //    $('#treeview').data('kendoTreeView').dataSource.read();
+            doRefresh();
         }
     }
     $(document).ready(function ready() {
@@ -120,7 +122,9 @@
     function onDataBound() {
         setTimeout("expandNodes()");
     }
-
+    function doRefresh() {
+        setTimeout("location.reload(true);", 0);
+    }
     function expandNodes() {
         $("#treeview").data("kendoTreeView").expand(".k-item");
     }

@@ -55,9 +55,18 @@ namespace KendoDP2.Models.Generic
             SeedEstadosColaborador();
             SeedGradosAcademicos();
             SeedColaboradores();
+            SeedContactos();
+            SeedFunciones();
             // Reclutamiento
+            SeedModosSolicitudes();
+            SeedEstadosSolicitudes();
             SeedOfertaLaboral();
+            SeedFasePostulacion();
+            SeedPostulante();
+            SeedOfertaLaboralXPostulante();
+            SeedFasePostulacionXOfertaLaboralXPostulante();
             // Area Objetivos
+            //SeedBSC();
             SeedObjetivos();
             SeedColaboradorXPuesto();
         }
@@ -79,8 +88,8 @@ namespace KendoDP2.Models.Generic
         }
     }
 
-    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
-    public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
+    public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
+    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
     {
         protected override void Seed(DP2Context context)
         {
