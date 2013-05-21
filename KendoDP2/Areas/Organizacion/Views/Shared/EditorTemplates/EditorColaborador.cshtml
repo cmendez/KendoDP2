@@ -323,6 +323,7 @@
                { areaID: areaID },
                function (puestos) {
                    var select = $("#PuestoID");
+                   select.find('option').remove().end();
                      $.each(puestos, function (index, itemData) {
                        select.append($('<option/>', {
                            value: itemData.ID,
