@@ -75,7 +75,7 @@
     .Visible(false)
     .Modal(true)
     .Draggable(true)
-    .Width(300)   
+    .Width(900)   
         
 )
 <script>
@@ -86,7 +86,8 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         ID = dataItem.ID;
         var wnd = $("#Details").data("kendoWindow");
-        $("#Details").load("@Url.Action("GetViewOferta","SolicitudOfertasLaborales", new{Area = "Reclutamiento"})?ofertaID=" + ID);
-        wnd.center().open();
+        $("#Details").load("@Url.Action("GetViewOferta","SolicitudOfertasLaborales", new{Area = "Reclutamiento"})?ofertaID=" + ID, function () {
+            wnd.center().open();
+        });
     }
 </script>
