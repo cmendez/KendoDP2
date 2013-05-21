@@ -160,9 +160,17 @@
             </div>
 
             <div class ="row-fluid">
-                <div class="twit-reader">
-                    <div id="listView"></div>
-                </div>               
+                <script type="text/x-kendo-tmpl" id="template">
+                    <div class="funcion">
+                       <h3>#:Nombre#</h3>
+                    </div>
+                </script>
+                @(Html.Kendo().ListView<FuncionDTO>()
+                    .Name("Funciones")
+                    .TagName("div")
+                    .ClientTemplateId("template")
+                    .BindTo(funciones)
+                    )
             </div>
 
         </div>
@@ -199,43 +207,6 @@
     <!-- fin contenedor inferior: campos -->
 
  
-    
-   <script type="text/x-kendo-tmpl" id="template">
-        <div class="twit">
-            <p>#:text#</p>
-        </div>
-    </script>
-      
-     <script>
-         $(document).ready(function () {
-             var dataSource = new kendo.data.DataSource({
-                 transport: {
-                     read: {
-                         url: "http://demos.kendoui.com/service/Twitter/Search", // the remove service url
-                         contentType: "application/json; charset=utf-8",
-                         type: "GET",
-                         dataType: "jsonp",
-                         data: {
-                             q: "#kendoui"
-                         }
-                     }
-                 },
-                 schema: {
-                     data: "results",
-                     total: "results_per_page"
-                 }
-             });
-
-             $("#pager").kendoPager({
-                 dataSource: dataSource
-             });
-
-             $("#listView").kendoListView({
-                 dataSource: dataSource,
-                 template: kendo.template($("#template").html())
-             });
-         });
-    </script>
     
 <script>
     $("#AreaID").change(function () {
