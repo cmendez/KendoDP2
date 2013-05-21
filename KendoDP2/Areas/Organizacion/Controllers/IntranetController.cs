@@ -41,8 +41,17 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             {
                 Colaborador c = context.TablaColaboradores.FindByID(colaborador.ID);
                 //Aqui cargas a mano cada campo, porque no se modifican todos
-                c.Nombres = colaborador.Nombre;
-                c.TipoDocumentoID = colaborador.TipoDocumentoID;
+                //c.Nombres = colaborador.Nombre;
+                //c.TipoDocumentoID = colaborador.TipoDocumentoID;
+                c.ResumenEjecutivo = colaborador.ResumenEjecutivo;
+                c.Direccion = colaborador.Direccion;
+                c.CorreoElectronico = colaborador.CorreoElectronico;
+                c.CentroEstudios = colaborador.CentroEstudios;
+                c.GradoAcademicoID = colaborador.GradoAcademicoID;
+                c.GradoAcademico = context.TablaGradosAcademicos.FindByID(colaborador.GradoAcademicoID);
+                
+
+
                 //
                 context.TablaColaboradores.ModifyElement(c);
                 return Json(new { success = true });
