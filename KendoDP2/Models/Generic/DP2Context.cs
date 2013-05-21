@@ -31,6 +31,7 @@ namespace KendoDP2.Models.Generic
         public void Seed()
         {
             // Area Configuracion
+
             SeedPeriodos();
             SeedPaises();
             // Area Organizacion
@@ -67,7 +68,7 @@ namespace KendoDP2.Models.Generic
             // Area Objetivos
             //SeedBSC();
             SeedObjetivos();
-
+            SeedColaboradorXPuesto();
         }
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
