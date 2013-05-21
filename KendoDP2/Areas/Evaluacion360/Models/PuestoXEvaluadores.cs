@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using KendoDP2.Models.Generic;
@@ -10,6 +11,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
     {
         public int PuestoID { get; set; }
         public string ClaseEntorno { get; set; } //Jefe, Pares, Subordinados...
+        //El atributo Participan es obsoleto. Hacer caso omiso.
         public bool Participan { get; set; }
         public int Cantidad { get; set; }
         public int Peso { get; set; }
@@ -48,8 +50,11 @@ namespace KendoDP2.Areas.Evaluacion360.Models
 
         public int ID { get; set; }
         public bool Participan { get; set; }
+        [Editable(false)]
         public string ClaseEntorno { get; set; } //Jefe, Pares, Subordinados...
+        [Range(0, 10000000, ErrorMessage = "La cantidad de debe ser cero o positiva")]
         public int Cantidad { get; set; }
+        [Range(0, 100, ErrorMessage = "El peso(%) debe ser un numero entero entre 0 y 100")]
         public int Peso { get; set; }
 
         public PuestoXEvaluadoresDTO() { 

@@ -1,0 +1,80 @@
+﻿@using Kendo.Mvc.UI
+@*using el nombre de espacios de Empleado*@
+@using KendoDP2.Areas.Organizacion.Models
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IList</*Subordinado*/ColaboradorDTO> susSubordinados = ViewBag.susSubordinados;
+
+    //IList</*Subordinado*/ColaboradorDTO> suJefe = ViewBag.suJefe;        
+}
+
+@*<h2>Index</h2>
+
+<h3>@ViewBag.idEvaluado</h3>*@
+
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Evaluadores", "Seleccione los evaluadores para el evaluado " + ViewBag.idEvaluado));}
+
+<div class="portlet box green">
+    <div class="portlet-title">
+        <h4><i class="icon-reorder"></i>Elección de evaluadores para Juan Perez</h4>
+        <div class="tools">
+	        <a href="javascript:;" class="collapse"></a>
+        </div>
+	</div>
+    <div class="portlet-body">
+  
+        @*Jefes son un caso especial... para mas tarde.*@
+
+        @*<div class="">*@
+            Jefe: 
+
+                    @(Html.Kendo().ComboBox()
+                        .Name("ComboJefe")
+                        //.Placeholder("Seleccione un subordinado")
+                        .DataTextField("NombreCompleto")
+                        .DataValueField("ID")
+                        .Filter("contains")
+                        .BindTo(susSubordinados)
+                        .Suggest(true)
+                        .HtmlAttributes(new { style = "width:100%" })
+                        //.Events(e => e.Close("comboCompetenciasSelection"))
+                        .SelectedIndex(1)
+                        .Enable(false)
+                    )
+        @*</div>*@
+
+        @*<div class="">*@
+            Subordinados:
+
+                    @(Html.Kendo().ComboBox()
+                        .Name("ComboSubordinados")
+                        .Placeholder("Seleccione un subordinado")
+                        .DataTextField("NombreCompleto")
+                        .DataValueField("ID")
+                        .Filter("contains")
+                        .BindTo(susSubordinados)
+                        .Suggest(true)
+                        .HtmlAttributes(new { style = "width:100%" })
+                        //.Events(e => e.Close("comboCompetenciasSelection"))
+                        .SelectedIndex(0)
+                    )
+
+                    @(Html.Kendo().ComboBox()
+                        .Name("ComboSubordinados2")
+                        .Placeholder("Seleccione un subordinado")
+                        .DataTextField("NombreCompleto")
+                        .DataValueField("ID")
+                        .Filter("contains")
+                        .BindTo(susSubordinados)
+                        .Suggest(true)
+                        .HtmlAttributes(new { style = "width:100%" })
+                        //.Events(e => e.Close("comboCompetenciasSelection"))
+                        .SelectedIndex(0)
+                    )
+        @*</div>*@
+
+
+    </div>
+</div>

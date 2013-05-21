@@ -1,0 +1,92 @@
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Organizacion.Models
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";    
+}
+
+<h2>Index</h2>
+
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Mis subordinados", ""));}
+
+<div class="portlet box green">
+    <div class="portlet-title">
+        <h4><i class="icon-reorder"></i></h4>
+        <div class="tools">
+            <a href="javascript:;" class="collapse"></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+
+        <div class="row-fluid">
+            <div class="span12">
+                @(Html.Kendo().ComboBox()
+                      .Name("fabric")
+                      .HtmlAttributes(new { style = "width: 220px;" })
+                      .Filter("contains")
+                      .Placeholder("Seleccione colaborador...")
+                      .DataTextField("Text")
+                      .DataValueField("Value")
+                      .BindTo(new List<SelectListItem>() {
+                          new SelectListItem() {
+                            Text = "Juan Perez", Value = "1"   
+                          },
+                          new SelectListItem() {
+                            Text = "Juan Perez 2", Value = "2"   
+                          },
+                          new SelectListItem() {
+                            Text = "Juan Perez 3", Value = "3"   
+                          },
+                          new SelectListItem() {
+                            Text = "Juan Perez 4", Value = "4"   
+                          }
+                      })
+                      //.SelectedIndex(0)
+                      .Suggest(true)
+                )
+            </div>
+        </div>
+
+        <div class="row-fluid">
+            @(Html.Kendo().PanelBar()
+                .Name("panelbar")
+                .HtmlAttributes(new { style = "margin-right: 220px;" })
+                .Items(panelbar =>
+                {
+                    panelbar.Add().Text("Objetivo: wwWwwWwwW - Fecha de inicio: 01/01/2013 - Fecha de fin: 03/05/2013 - Peso: 30%")
+                        .Expanded(true)
+                        .Items(items =>
+                        {
+                            items.Add().Text("Sub Item 1");
+                            items.Add().Text("Sub Item 2");
+                            items.Add().Text("Sub Item 3");
+                            items.Add().Text("Sub Item 4");
+                        });
+
+                    panelbar.Add().Text("Objetivo: xxXxxxXxXXxxX - Fecha de inicio: 01/01/2013 - Fecha de fin: 03/04/2013 - Peso: 30%")
+                        .Items(items =>
+                        {
+                            items.Add().Text("Sub Item 1");
+                            items.Add().Text("Sub Item 2");
+                            items.Add().Text("Sub Item 3");
+                            items.Add().Text("Sub Item 4");
+                        });
+
+                    panelbar.Add().Text("Objetivo: yyYYyyyYyYyyyY - Fecha de inicio: 01/01/2013 - Fecha de fin: 03/04/2013 - Peso: 40%")
+                        .Items(items =>
+                        {
+                            items.Add().Text("Sub Item 1");
+                            items.Add().Text("Sub Item 2");
+                            items.Add().Text("Sub Item 3");
+                            items.Add().Text("Sub Item 4");
+                        });
+              
+               })
+            )
+        </div>  
+
+
+    </div>
+</div>

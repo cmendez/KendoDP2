@@ -54,8 +54,13 @@ namespace KendoDP2.Models.Generic
             SeedEstadosColaborador();
             SeedGradosAcademicos();
             SeedColaboradores();
+            SeedContactos();
             // Reclutamiento
+            SeedModosSolicitudes();
+            SeedEstadosSolicitudes();
             SeedOfertaLaboral();
+            SeedFasePostulacion();
+            SeedPostulante();
             // Area Objetivos
             //SeedBSC();
             SeedObjetivos();

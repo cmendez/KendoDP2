@@ -65,6 +65,24 @@ namespace KendoDP2.Models.Generic
             TablaObjetivos.AddElement(new Objetivo("Objetivo Formación 2", 2, 50, 100));
             TablaObjetivos.AddElement(new Objetivo("Objetivo Formación 1.1", 2, 50, 13));
             TablaObjetivos.AddElement(new Objetivo("Objetivo Formación 1.2", 2, 50, 13));
+
+            /*TablaObjetivos.AddElement(new Objetivo ( "Objetivo Financiero 1", 1, 50, -1));
+            TablaObjetivos.AddElement(new Objetivo ( "Objetivo Financiero 2",1, 50, -1));
+            TablaObjetivos.AddElement(new Objetivo ( "Objetivo Financiero 1.1", 1, 50,  1 ));
+            TablaObjetivos.AddElement(new Objetivo ( "Objetivo Financiero 1.2", 1, 50,  1 ));
+            TablaObjetivos.AddElement(new Objetivo ( "Objetivo Cliente 1", 2, 50, -1 ));
+            TablaObjetivos.AddElement(new Objetivo ( "Objetivo Cliente 2", 2, 50, -1));
+            TablaObjetivos.AddElement(new Objetivo ( "Objetivo Cliente 1.1",  2, 50, 5 ));
+            TablaObjetivos.AddElement(new Objetivo ( "Objetivo Cliente 1.2", 2, 50, 5));
+            TablaObjetivos.AddElement(new Objetivo ( "Objetivo Interno 1",  3, 50, -1));
+            TablaObjetivos.AddElement(new Objetivo ( "Objetivo Interno 2", 3, 50, -1));
+            TablaObjetivos.AddElement(new Objetivo ( "Objetivo Interno 1.1", 3, 50, 9 ));
+            TablaObjetivos.AddElement(new Objetivo ( "Objetivo Interno 1.2",  3, 50,  9 ));
+            TablaObjetivos.AddElement(new Objetivo ( "Objetivo Formación 1",  4, 50, -1 ));
+            TablaObjetivos.AddElement(new Objetivo ( "Objetivo Formación 2", 4, 50, -1));
+            TablaObjetivos.AddElement(new Objetivo ( "Objetivo Formación 1.1", 4,  50, 13));
+            TablaObjetivos.AddElement(new Objetivo ( "Objetivo Formación 1.2", 4, 50, 13 ));*/
+
            
         }
     }
