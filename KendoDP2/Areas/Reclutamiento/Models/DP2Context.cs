@@ -170,8 +170,12 @@ namespace KendoDP2.Models.Generic
         {
             TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Registrado")).ID, OfertaLaboralXPostulanteID = 1 });
             TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado Externo")).ID, OfertaLaboralXPostulanteID = 1 });
+            TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado RRHH")).ID, OfertaLaboralXPostulanteID = 1 });
             TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado Jefe")).ID, OfertaLaboralXPostulanteID = 1 });
             TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Registrado")).ID, OfertaLaboralXPostulanteID = 2 });
+            TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado Externo")).ID, OfertaLaboralXPostulanteID = 2 });
+            TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado RRHH")).ID, OfertaLaboralXPostulanteID = 2 });
+            TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado Jefe")).ID, OfertaLaboralXPostulanteID = 2 });
         }
     }
 }
