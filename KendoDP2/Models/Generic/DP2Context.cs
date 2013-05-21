@@ -57,6 +57,7 @@ namespace KendoDP2.Models.Generic
             // Reclutamiento
             SeedOfertaLaboral();
             // Area Objetivos
+            //SeedBSC();
             SeedObjetivos();
 
         }

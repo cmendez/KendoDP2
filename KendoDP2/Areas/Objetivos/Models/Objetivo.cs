@@ -31,7 +31,7 @@ namespace KendoDP2.Areas.Objetivos.Models
         public virtual BSC BSC { get; set; }
 
         public int PeriodoID { get; set; }
-        public virtual Periodo Periodo { get; set; }
+        //public virtual Periodo Periodo { get; set; }
 
         public Objetivo() {
             FechaCreacion = DateTime.Now;
@@ -40,12 +40,15 @@ namespace KendoDP2.Areas.Objetivos.Models
         public Objetivo(string nombre,int BSDCid,int peso,int idpadre)  
         {
             Nombre = nombre;
-            BSCID = BSDCid;
+            BSCID = 1;
             Peso = peso;
-            if (idpadre != -1)
+            if (idpadre != 100)
             {
                 ObjetivoPadreID = idpadre;
             }
+            FechaCreacion = DateTime.Now;
+            CreadorID = 1;
+            TipoObjetivoBSCID = BSDCid;
         }
 
         public Objetivo(ObjetivoDTO o) : this()
@@ -65,7 +68,7 @@ namespace KendoDP2.Areas.Objetivos.Models
             TipoObjetivoBSCID = o.TipoObjetivoBSCID;
             ObjetivoPadreID = o.ObjetivoPadreID;
             BSCID = o.BSCID;
-            PeriodoID = o.PeriodoID;
+            //PeriodoID = o.PeriodoID;
             return this;
 
         }
@@ -99,6 +102,8 @@ namespace KendoDP2.Areas.Objetivos.Models
 
         public ObjetivoRDTO()
         {
+            numPersonas = 10;
+            avance = 50;
         }
     }
 
@@ -133,7 +138,7 @@ namespace KendoDP2.Areas.Objetivos.Models
             TipoObjetivoBSCID = o.TipoObjetivoBSCID;
             ObjetivoPadreID = o.ObjetivoPadreID;
             BSCID = o.BSCID;
-            PeriodoID = o.PeriodoID;
+            //PeriodoID = o.PeriodoID;
         }
 
     }
