@@ -28,7 +28,7 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.AreaID)</div>
                 </div>
                 <div class="span7 responsive">
-                    @Html.TextBox(areas.Where(p => p.ID == Model.AreaID).FirstOrDefault().Nombre, new {@readonly = "readonly"})                  
+                    @Html.TextBox("Area", areas.Where(p => p.ID == Model.AreaID).FirstOrDefault().Nombre, new {@readonly = "readonly"})                  
                   
                 </div>
             </div>
@@ -38,7 +38,7 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.PuestoID)</div>
                 </div>
                 <div class="span7">
-                    @Html.TextBox(puestos.Where(p => p.ID == Model.PuestoID).FirstOrDefault().Nombre, new {@readonly = "readonly"})                  
+                    @Html.TextBox("Puesto", puestos.Where(p => p.ID == Model.PuestoID).FirstOrDefault().Nombre, new {@readonly = "readonly"})                  
                 </div>
             </div>
 
@@ -48,7 +48,7 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.ResponsableID)</div>
                 </div>
                 <div class="span7 responsive">
-                    @Html.TextBox(colaboradores.Where(p => p.ID == Model.ResponsableID).FirstOrDefault().NombreCompleto, new {@readonly = "readonly"})                  
+                    @Html.TextBox("Responsable", colaboradores.Where(p => p.ID == Model.ResponsableID).FirstOrDefault().NombreCompleto, new {@readonly = "readonly"})                  
                 </div>
               </div>
 
@@ -58,7 +58,7 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.ModoPublicacionID)</div>
                 </div>
                 <div class="span7 responsive">
-                    @Html.TextBox(modosSolicitudOferta.Where(p => p.ID == Model.PuestoID).FirstOrDefault().Descripcion, new {@readonly = "readonly"})                  
+                    @Html.TextBox("Modo", modosSolicitudOferta.Where(p => p.ID == Model.PuestoID).Select(x => x.Descripcion).FirstOrDefault() ?? "", new {@readonly = "readonly"})                  
                 </div>
             </div>
 
@@ -68,7 +68,7 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.EstadoSolicitudOfertaLaboralID)</div>
                 </div>
                 <div class="span7 responsive">
-                    @Html.TextBox(estadosSolicitudOferta.Where(p => p.ID == Model.PuestoID).FirstOrDefault().Descripcion, new {@readonly = "readonly"})                  
+                    @Html.TextBox("Estado", estadosSolicitudOferta.Where(p => p.ID == Model.PuestoID).Select(x => x.Descripcion).FirstOrDefault() ?? "", new {@readonly = "readonly"})                  
                 </div>
             </div>
 
@@ -107,7 +107,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.TextBox(Model.FechaRequerimiento, new { @readonly = "readonly" })
+                            @Html.TextBoxFor(model => model.FechaRequerimiento, new { @readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -118,7 +118,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.TextBox(Model.FechaFinRequerimiento, new { @readonly = "readonly" })
+                            @Html.TextBoxFor(model => model.FechaFinRequerimiento, new { @readonly = "readonly" })
                         </div>
                     </div>
                 </div>
