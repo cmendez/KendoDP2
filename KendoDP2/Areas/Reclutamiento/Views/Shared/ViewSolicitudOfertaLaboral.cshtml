@@ -21,22 +21,15 @@
     <div  style="width:900px;">
         <div class="row-fluid">
             <!-- contenedor superior izquierdo: campos -->
-            <div class="span6" id='            <div class="row-fluid">
-                <div class="span5">
-                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.PuestoID)</div>
-                </div>
-                <div class="span7">
-                    
-                     Html.DropDownListFor(m => m.PuestoID, new SelectList(puestos, "ID", "Nombre"), new { style = "width:100%" }) 
-                </div>
-            </div>'>
-                
+            <div class="span6">
+                                
             <div class="row-fluid">
                 <div class="span5">
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.AreaID)</div>
                 </div>
                 <div class="span7 responsive">
-                    @Html.DropDownListFor(m => m.AreaID, new SelectList(areas, "ID", "Nombre"), new { style = "width:100%" }) 
+                    @Html.TextBox(areas.Where(p => p.ID == Model.AreaID).FirstOrDefault().Nombre, new {@readonly = "readonly"})                  
+                  
                 </div>
             </div>
 
@@ -45,7 +38,7 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.PuestoID)</div>
                 </div>
                 <div class="span7">
-                    @Html.DropDownListFor(m => m.PuestoID, new SelectList(puestos, "ID", "Nombre"), new { style = "width:100%" }) 
+                    @Html.TextBox(puestos.Where(p => p.ID == Model.PuestoID).FirstOrDefault().Nombre, new {@readonly = "readonly"})                  
                 </div>
             </div>
 
@@ -55,7 +48,7 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.ResponsableID)</div>
                 </div>
                 <div class="span7 responsive">
-                    @Html.DropDownListFor(model => model.ResponsableID, new SelectList(colaboradores, "ID", "NombreCompleto"), new { style = "width:100%", data_placeholder="Seleccione" } )
+                    @Html.TextBox(colaboradores.Where(p => p.ID == Model.ResponsableID).FirstOrDefault().NombreCompleto, new {@readonly = "readonly"})                  
                 </div>
               </div>
 
@@ -65,7 +58,7 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.ModoPublicacionID)</div>
                 </div>
                 <div class="span7 responsive">
-                    @Html.DropDownListFor(model => model.ModoPublicacionID, new SelectList(modosSolicitudOferta, "ID", "Descripcion"), new { style = "width:100%", data_placeholder="Seleccione" } )
+                    @Html.TextBox(modosSolicitudOferta.Where(p => p.ID == Model.PuestoID).FirstOrDefault().Descripcion, new {@readonly = "readonly"})                  
                 </div>
             </div>
 
@@ -75,7 +68,7 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.EstadoSolicitudOfertaLaboralID)</div>
                 </div>
                 <div class="span7 responsive">
-                    @Html.DropDownListFor(model => model.EstadoSolicitudOfertaLaboralID, new SelectList(estadosSolicitudOferta, "ID", "Descripcion"), new { style = "width:100%", data_placeholder="Seleccione" } )
+                    @Html.TextBox(estadosSolicitudOferta.Where(p => p.ID == Model.PuestoID).FirstOrDefault().Descripcion, new {@readonly = "readonly"})                  
                 </div>
             </div>
 
@@ -93,8 +86,9 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.NumeroVacantes)</div>
                 </div>
                 <div class="span7">
-                            @Html.EditorFor(model => model.NumeroVacantes)
-                            @Html.ValidationMessageFor(model => model.NumeroVacantes)                </div>
+                            @Html.TextBoxFor(model => model.NumeroVacantes, new {@readonly = "readonly"})
+
+                </div>
             </div>
             
             <div class="row-fluid">
@@ -102,8 +96,9 @@
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.SueldoTentativo)</div>
                 </div>
                 <div class="span7">
-                            @Html.EditorFor(model => model.SueldoTentativo)
-                            @Html.ValidationMessageFor(model => model.SueldoTentativo)                </div>
+                            @Html.TextBoxFor(model => model.SueldoTentativo, new {@readonly = "readonly"})
+
+                </div>
             </div>
 
             <div class="row-fluid">
@@ -112,8 +107,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.FechaRequerimiento)
-                            @Html.ValidationMessageFor(model => model.FechaRequerimiento)
+                            @Html.TextBox(Model.FechaRequerimiento, new { @readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -124,8 +118,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.FechaFinRequerimiento)
-                            @Html.ValidationMessageFor(model => model.FechaFinRequerimiento)
+                            @Html.TextBox(Model.FechaFinRequerimiento, new { @readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -147,29 +140,101 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.TextAreaFor(model => model.Descripcion)
-                            @Html.ValidationMessageFor(model => model.Descripcion)
+                            @Html.TextAreaFor(model => model.Descripcion, new {@readonly = "readonly"})
                         </div>
                     </div>
                 </div>
 
+            </div>
+        </div>
+    
+    <div style="width:900px;">
+        
+        <div class="span6">
+
+           <div class ="row-fluid">
+                
+               @Html.Label("Lista Funciones:", new { style = "font-weight: bold;" })
+               
+            </div>
+
+            <div class ="row-fluid">
+                <div class="twit-reader">
+                    <div id="listView"></div>
+                </div>               
+            </div>
+
+        </div>
+
+
+        <div class="span6">
+        
+        </div>
+
+    
+    </div>
+    
+    
+    <div style="width:900px;">
+
+        <div class="row-fluid">  
+          
             <div class="row-fluid">
                     <div class="span3">
                         <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Comentarios)</div>
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.TextAreaFor(model=> model.Comentarios, new {@readonly = "readonly" })
+                            @Html.EditorFor(model=> model.Comentarios)
+                            @Html.ValidationMessageFor(model => model.Comentarios)
                         </div>
                     </div>
                 </div>
+
 
           </div>
      </div>
 
     <!-- fin contenedor inferior: campos -->
 
-   
+ 
+    
+   <script type="text/x-kendo-tmpl" id="template">
+        <div class="twit">
+            <p>#:text#</p>
+        </div>
+    </script>
+      
+     <script>
+         $(document).ready(function () {
+             var dataSource = new kendo.data.DataSource({
+                 transport: {
+                     read: {
+                         url: "http://demos.kendoui.com/service/Twitter/Search", // the remove service url
+                         contentType: "application/json; charset=utf-8",
+                         type: "GET",
+                         dataType: "jsonp",
+                         data: {
+                             q: "#kendoui"
+                         }
+                     }
+                 },
+                 schema: {
+                     data: "results",
+                     total: "results_per_page"
+                 }
+             });
+
+             $("#pager").kendoPager({
+                 dataSource: dataSource
+             });
+
+             $("#listView").kendoListView({
+                 dataSource: dataSource,
+                 template: kendo.template($("#template").html())
+             });
+         });
+    </script>
     
 <script>
     $("#AreaID").change(function () {

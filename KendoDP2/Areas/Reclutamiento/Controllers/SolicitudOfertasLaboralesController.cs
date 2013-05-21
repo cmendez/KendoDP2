@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
+using KendoDP2.Areas.Organizacion.Models;
 
 namespace KendoDP2.Areas.Reclutamiento.Controllers
 {
@@ -52,6 +53,21 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             using (DP2Context context = new DP2Context())
             {
                 OfertaLaboral o = new OfertaLaboral(oferta);
+                
+                //agregafunciones segun el puesto de trabajo
+                /*
+                Funcion f = new Funcion();
+                ICollection<Funcion> funciones = context.TablaFunciones.All().ToList();
+
+                foreach (Funcion fun in funciones)
+                {
+                    if (fun.PuestoID == oferta.PuestoID)
+                    {
+                        f = fun;
+                        o.ListaFuncionesPuesto.Add(f);
+                    }
+                }
+                   */
                 context.TablaOfertaLaborales.AddElement(o);
                 return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
@@ -82,14 +98,18 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         }
 
 
-        public ActionResult GetViewOferta(int id)
+        public ActionResult GetViewOferta(int ofertaID)
         {
             
             using (DP2Context context = new DP2Context())
             {
+                ViewBag.colaboradores = context.TablaColaboradores.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.modosSolicitudOferta = context.TablaModosSolicitudes.All().Select(p => p.ToDTO()).ToList();
                 ViewBag.estadosSolicitudOferta = context.TablaEstadosSolicitudes.All().Select(p => p.ToDTO()).ToList();
-                var oferta = context.TablaOfertaLaborales.FindByID(id);
-               return PartialView("ViewSolicitudOfertaLaboral", oferta);
+                ViewBag.areas = context.TablaAreas.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).ToList();            
+                var oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
+               return PartialView("ViewSolicitudOfertaLaboral", new OfertaLaboralDTO(oferta));
             }
         }
 

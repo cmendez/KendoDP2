@@ -21,15 +21,9 @@
     <div  style="width:900px;">
         <div class="row-fluid">
             <!-- contenedor superior izquierdo: campos -->
-            <div class="span6" id='            <div class="row-fluid">
-                <div class="span5">
-                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.PuestoID)</div>
-                </div>
-                <div class="span7">
-                    @Html.DropDownListFor(m => m.PuestoID, new SelectList(puestos, "ID", "Nombre"), new { style = "width:100%" }) 
-                </div>
-            </div>'>
+            <div class="span6">            
                 
+                 
             <div class="row-fluid">
                 <div class="span5">
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.AreaID)</div>
@@ -177,7 +171,6 @@
                { areaID: areaID },
                function (puestos) {
                    var select = $("#PuestoID");
-                   select.empty();
                    select.append($('<option/>', {
                        value: 0,
                        text: ""
