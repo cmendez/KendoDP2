@@ -24,6 +24,10 @@ namespace KendoDP2.Areas.Objetivos.Models
         public virtual Periodo Periodo { get; set; }
 
         public BSC() { }
+        public BSC(int periodo)
+        {
+            PeriodoID = periodo;
+        }
         
     }
 }

@@ -200,7 +200,7 @@
     });
 
     function cargaDatosRepresentante() {
-        var ID = @Model.ColaboradorID;
+        var ID = @Model.ColaboradorID
         $("#datos-representante").load("@Url.Action("CargaDatosRepresentante", "Organizaciones", new {Area = "Organizacion"})?colaboradorID=" + ID);
     }
 

@@ -37,8 +37,8 @@
                         columns.ForeignKey(p => p.PuestoID, listaPuestos);
                         columns.Command(command => { command.Edit().Text("Ver").UpdateText("Guardar").CancelText("Cancelar");
                                                      command.Destroy().Text("Eliminar");
-                                                   }).Width(200);
-                        
+                                                     command.Custom("Aceptar").Click("aceptarSolicitud");
+                                                   }).Width(300);                        
                     }
                 )
                 .ToolBar(toolbar =>
@@ -61,13 +61,32 @@
                     .Ajax()
                     .PageSize(20)
                     .Model(model => model.Id(p => p.ID))
-                    .Create(update => update.Action("Create", "Colaboradores"))
-                    .Read(read => read.Action("EditingInline_Read", "Colaboradores"))
-                    .Update(update => update.Action("EditingInline_Update", "Colaboradores"))
-                    .Destroy(update => update.Action("EditingInline_Destroy", "Colaboradores"))
+                    .Create(update => update.Action("Create", "SolicitudOfertasLaborales"))
+                    .Read(read => read.Action("Read", "SolicitudOfertasLaborales"))
+                    .Destroy(update => update.Action("Destroy", "SolicitudOfertasLaborales"))
+                    .Update(update => update.Action("Update", "SolicitudOfertasLaborales"))
                 )
                )
         </div>
     </div>
 </div>
+@(Html.Kendo().Window().Name("Details")
+    .Title("Aceptar Solicitud Oferta Laboral")
+    .Visible(false)
+    .Modal(true)
+    .Draggable(true)
+    .Width(300)   
+        
+)
+<script>
+    function aceptarSolicitud(e) {
+        console.log(e);
+        e.preventDefault();
 
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        ID = dataItem.ID;
+        var wnd = $("#Details").data("kendoWindow");
+        $("#Details").load("@Url.Action("GetViewOferta","SolicitudOfertasLaborales", new{Area = "Reclutamiento"})?ofertaID=" + ID);
+        wnd.center().open();
+    }
+</script>

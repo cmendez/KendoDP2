@@ -133,8 +133,19 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 ob4.descripcion = "Objetivo4";
                 ListaObjetivos.Add(ob4);
 
-                //return Json(context.TablaObjetivos.Where(o => o.TipoObjetivoBSCID==BSCId).Select(p => p.ToDTO()).ToList(), JsonRequestBehavior.AllowGet);
-                return Json(ListaObjetivos, JsonRequestBehavior.AllowGet);
+                List<ObjetivoRDTO> ListaObjetivos2 = new List<ObjetivoRDTO>();
+                ListaObjetivos2 = context.TablaObjetivos.Where(o => o.TipoObjetivoBSCID == BSCId && o.BSCID==idperiodo && o.ObjetivoPadreID >0).Select(p => p.ToRDTO()).ToList();
+
+                return Json(ListaObjetivos2, JsonRequestBehavior.AllowGet);
+                //return Json(ListaObjetivos, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult ListarObjetivosXPadre2(int PadreId)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                return Json(context.TablaObjetivos.Where(o => o.ObjetivoPadreID == PadreId).Select(p => p.ToRDTO()).ToList(), JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -163,8 +174,9 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 ob4.idObjetivo = 4;
                 ob4.descripcion = "Objetivo4";
                 ListaObjetivos.Add(ob4);
-                //return Json(context.TablaObjetivos.Where(o => o.ObjetivoPadreID == PadreId).Select(p => p.ToDTO()).ToList(), JsonRequestBehavior.AllowGet);
-                return Json(ListaObjetivos, JsonRequestBehavior.AllowGet);
+                
+                //return Json(ListaObjetivos, JsonRequestBehavior.AllowGet);
+                return Json(context.TablaObjetivos.Where(o => o.ObjetivoPadreID == PadreId).Select(p => p.ToRDTO()).ToList(), JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -172,6 +184,8 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
+                List<ObjetivoDTO> ListaObjetivos2 = new List<ObjetivoDTO>();
+                ListaObjetivos2 = context.TablaObjetivos.All().Select(p => p.ToDTO()).ToList();
                 return Json(context.TablaObjetivos.All().Select(p => p.ToDTO()).ToList(), JsonRequestBehavior.AllowGet);
             }
         }
