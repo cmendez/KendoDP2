@@ -115,7 +115,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             }
         }
 
-
+        [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult CambiaEstadoSolicitudAprobada([DataSourceRequest] DataSourceRequest request, int OfertaID)
         {
             using (DP2Context context = new DP2Context())
@@ -135,6 +135,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 
         }
 
+       [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult CambiaEstadoSolicitudRechazada([DataSourceRequest] DataSourceRequest request, int OfertaID)
         {
             using (DP2Context context = new DP2Context())
