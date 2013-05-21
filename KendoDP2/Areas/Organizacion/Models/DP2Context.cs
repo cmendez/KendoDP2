@@ -29,6 +29,7 @@ namespace KendoDP2.Models.Generic
         public DbSet<GradoAcademico> InternalGradosAcademicos { get; set; }
         public DbSet<ColaboradorXPuesto> InternalColaboradoresXPuestos { get; set; }
         public DbSet<Organizacion> InternalOrganizaciones { get; set; }
+        public DbSet<Funcion> InternalFunciones { get; set; }
 
         public DBGenericRequester<Area> TablaAreas { get; set; }
         public DBGenericRequester<Puesto> TablaPuestos { get; set; }
@@ -41,6 +42,7 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<GradoAcademico> TablaGradosAcademicos { get; set; }
         public DBGenericRequester<ColaboradorXPuesto> TablaColaboradoresXPuestos { get; set; }
         public DBGenericRequester<Organizacion> TablaOrganizaciones { get; set; }
+        public DBGenericRequester<Funcion> TablaFunciones { get; set; }
 
 
         private void RegistrarTablasOrganizacion()
@@ -56,6 +58,7 @@ namespace KendoDP2.Models.Generic
             TablaTiposDocumentos = new DBGenericRequester<TipoDocumento>(this, InternalTiposDocumentos);
             TablaColaboradoresXPuestos = new DBGenericRequester<ColaboradorXPuesto>(this, InternalColaboradoresXPuestos);
             TablaOrganizaciones = new DBGenericRequester<Organizacion>(this, InternalOrganizaciones);
+            TablaFunciones = new DBGenericRequester<Funcion>(this, InternalFunciones);
         }
 
         private void SeedOrganizacion()
@@ -66,7 +69,7 @@ namespace KendoDP2.Models.Generic
         private void SeedColaboradores()
         {
             TablaColaboradores.AddElement(new Colaborador { Nombres = "Fortino Mario Alonso", ApellidoPaterno = "Moreno", ApellidoMaterno = "Reyes", Username = "admin", Password = "admin", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Miguel", ApellidoPaterno = "Vega", ApellidoMaterno = "XXX", Username = "mvega", Password = "mvega", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Miguel", ApellidoPaterno = "Vega", ApellidoMaterno = "Buendía", Username = "mvega", Password = "mvega", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
             TablaColaboradores.AddElement(new Colaborador { Nombres = "Pako", ApellidoPaterno = "Sarmiento", ApellidoMaterno = "XXX", Username = "psarmiento", Password = "psarmiento", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
             TablaColaboradores.AddElement(new Colaborador { Nombres = "Christian", ApellidoPaterno = "Mendez", ApellidoMaterno = "XXX", Username = "cmendez", Password = "cmendez", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
             TablaColaboradores.AddElement(new Colaborador { Nombres = "Manuel", ApellidoPaterno = "Solorzano", ApellidoMaterno = "XXX", Username = "msolorzano", Password = "msolorzano", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
@@ -135,7 +138,7 @@ namespace KendoDP2.Models.Generic
             TablaAreas.AddElement(new Area { Nombre = "Márketing", Descripcion = "Propaganda", AreaSuperiorID = 2 });
             TablaAreas.AddElement(new Area { Nombre = "Operaciones", Descripcion = "Vendemos pan", AreaSuperiorID = 2 });
             TablaAreas.AddElement(new Area { Nombre = "Logística", Descripcion = "Trae la masa", AreaSuperiorID = 7 });
-            TablaAreas.AddElement(new Area { Nombre = "Responsabilidad Social", Descripcion = "No hace nada", AreaSuperiorID = 2 });
+            TablaAreas.AddElement(new Area { Nombre = "Responsabilidad social", Descripcion = "No hace nada", AreaSuperiorID = 2 });
             TablaAreas.AddElement(new Area { Nombre = "Administración", Descripcion = "Administra", AreaSuperiorID = 2 });
             TablaAreas.AddElement(new Area { Nombre = "Finanzas", Descripcion = "Financia", AreaSuperiorID = 10 });
             TablaAreas.AddElement(new Area { Nombre = "Recursos humanos", Descripcion = "Molesta", AreaSuperiorID = 10 });
@@ -144,7 +147,17 @@ namespace KendoDP2.Models.Generic
         private void SeedPuestos()
         {
             TablaPuestos.AddElement(new Puesto { Nombre = "Presidente", Descripcion = "Jefe de proyecto", AreaID = TablaAreas.One(a => a.Nombre.Equals("Directorio")).ID });
-            TablaPuestos.AddElement(new Puesto { Nombre = "Gerente general", Descripcion = "Por ahí", AreaID = TablaAreas.One(a => a.Nombre.Equals("Gerencia general")).ID ,PuestoSuperiorID=1});
+            TablaPuestos.AddElement(new Puesto { Nombre = "Gerente general", Descripcion = "Por ahí 1", AreaID = TablaAreas.One(a => a.Nombre.Equals("Gerencia general")).ID ,PuestoSuperiorID=1});
+            TablaPuestos.AddElement(new Puesto { Nombre = "Gerente de ventas", Descripcion = "Por ahí 2", AreaID = TablaAreas.One(a => a.Nombre.Equals("Ventas")).ID, PuestoSuperiorID = 2 });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Gerente de TI", Descripcion = "Por ahí 3", AreaID = TablaAreas.One(a => a.Nombre.Equals("TI")).ID, PuestoSuperiorID = 2 });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Gerente de márketing", Descripcion = "Por ahí 4", AreaID = TablaAreas.One(a => a.Nombre.Equals("Márketing")).ID, PuestoSuperiorID = 2 });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Gerente de operaciones", Descripcion = "Por ahí 5", AreaID = TablaAreas.One(a => a.Nombre.Equals("Operaciones")).ID, PuestoSuperiorID = 2 });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Gerente de responsabilidad social", Descripcion = "Por ahí 6", AreaID = TablaAreas.One(a => a.Nombre.Equals("Responsabilidad social")).ID, PuestoSuperiorID = 2 });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Gerente administrativo", Descripcion = "Por ahí 7", AreaID = TablaAreas.One(a => a.Nombre.Equals("Administración")).ID, PuestoSuperiorID = 2 });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Gerente de logística", Descripcion = "Por ahí 9", AreaID = TablaAreas.One(a => a.Nombre.Equals("Logística")).ID, PuestoSuperiorID = 2 });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Gerente de recursos humanos", Descripcion = "Por ahí 10", AreaID = TablaAreas.One(a => a.Nombre.Equals("Recursos humanos")).ID, PuestoSuperiorID = 2 });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Gerente de finanzas", Descripcion = "Por ahí 11", AreaID = TablaAreas.One(a => a.Nombre.Equals("Finanzas")).ID, PuestoSuperiorID = 2 });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Auditor en Jefe", Descripcion = "Por ahí 12", AreaID = TablaAreas.One(a => a.Nombre.Equals("Auditoría")).ID, PuestoSuperiorID = 2 });
 
         }
 
@@ -154,6 +167,46 @@ namespace KendoDP2.Models.Generic
             TablaEstadosPuestos.AddElement(new EstadosPuesto { Descripcion = "Asignado" });
             TablaEstadosPuestos.AddElement(new EstadosPuesto { Descripcion = "Vacante" });
             TablaEstadosPuestos.AddElement(new EstadosPuesto { Descripcion = "Inactivo" });
+        }
+
+        private void SeedFunciones()
+        {
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Hacer muchas cosas", PuestoID = 1 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Presidir", PuestoID = 1 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Figurar", PuestoID = 1 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Gerenciar generalmente", PuestoID = 2 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Gestión de capital humano", PuestoID = 2 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Dar rumbo al negocio", PuestoID = 2 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Vender", PuestoID = 3 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Reducir gastos de venta", PuestoID = 3 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Cerrar negocios", PuestoID = 3 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Gobernar su TI", PuestoID = 4 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Seguridad", PuestoID = 4 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Gestión de activos", PuestoID = 4 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Ganar clientes", PuestoID = 5 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Desperdiciar dinero", PuestoID = 5 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Creerse importante", PuestoID = 5 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Hacer", PuestoID = 6 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Operar", PuestoID = 6 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Producir", PuestoID = 6 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Negociar con comunidades", PuestoID = 7 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Promover programas de desarrollo", PuestoID = 7 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Responsabilizar", PuestoID = 7 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Administrar", PuestoID = 8 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Gestionar", PuestoID = 8 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Ordenar", PuestoID = 8 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Pedir", PuestoID = 9 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Proveer", PuestoID = 9 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Prever", PuestoID = 9 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Contratar", PuestoID = 10 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Ascender", PuestoID = 10 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Botar", PuestoID = 10 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Invertir", PuestoID = 11 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Presupuestar", PuestoID = 11 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Contar", PuestoID = 11 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Molestar 1", PuestoID = 12 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Molestar 2", PuestoID = 12 });
+            TablaFunciones.AddElement(new Funcion { Descripcion = "Creerse muy importante", PuestoID = 12 });
         }
     }
 }

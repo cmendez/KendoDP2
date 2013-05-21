@@ -55,6 +55,7 @@ namespace KendoDP2.Models.Generic
             SeedGradosAcademicos();
             SeedColaboradores();
             SeedContactos();
+            SeedFunciones();
             // Reclutamiento
             SeedModosSolicitudes();
             SeedEstadosSolicitudes();
