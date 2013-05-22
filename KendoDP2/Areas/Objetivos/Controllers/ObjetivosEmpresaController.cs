@@ -50,7 +50,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         }
         
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult EditingInline_Update([DataSourceRequest] DataSourceRequest request, ObjetivoDTO objetivo)
+        public ActionResult Update([DataSourceRequest] DataSourceRequest request, ObjetivoDTO objetivo)
         {
             using (DP2Context context = new DP2Context())
             {
@@ -61,7 +61,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult EditingInline_Destroy([DataSourceRequest] DataSourceRequest request, ObjetivoDTO objetivo)
+        public ActionResult Destroy([DataSourceRequest] DataSourceRequest request, ObjetivoDTO objetivo)
         {
             using (DP2Context context = new DP2Context())
             {
