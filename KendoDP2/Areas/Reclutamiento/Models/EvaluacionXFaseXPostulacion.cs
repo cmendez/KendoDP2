@@ -5,14 +5,16 @@ using System.Web;
 
 using KendoDP2.Models.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace KendoDP2.Areas.Reclutamiento.Models
 {
     public class EvaluacionXFaseXPostulacion : DBObject
     {
-        //public int FasePostulacionXOfertaLaboralXPostulanteID { get; set; }
-        //[ForeignKey("FasePostulacionXOfertaLaboralXPostulanteID")]
-        //public virtual FasePostulacionXOfertaLaboralXPostulante FasePostulacionXOfertaLaboralXPostulante { get; set; }
+        //Relacion One-to-One Bidireccional con FasePostulacionXOfertaLaboralXPostulante
+        [Required]
+        public virtual FasePostulacionXOfertaLaboralXPostulante FasePostulacionXOfertaLaboralXPostulante { get; set; }
+        public int FasePostulacionXOfertaLaboralXPostulanteID { get; set; }
         
         public string FechaInicio { get; set; }
         public string FechaFin { get; set; }
