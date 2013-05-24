@@ -162,24 +162,20 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                try
+                if(colaboradorID != 0)
                 {
                     byte[] bytes = context.TablaColaboradores.FindByID(colaboradorID).ImagenColaborador;
-
-                    return File(bytes, "image/jpg");
+                    if(bytes != null)
+                        return File(bytes, "image/jpg");
                 }
-                catch
+                var file = Server.MapPath("~/Images/unknown-person.jpg");
+                using (var stream = new FileStream(file, FileMode.Open))
                 {
-                    var file = Server.MapPath("~/Images/snoopy-joecool-color.gif");
-                    using (var stream = new FileStream(file, FileMode.Open))
+                    using (MemoryStream memoryStream = new MemoryStream())
                     {
-                        using (MemoryStream memoryStream = new MemoryStream())
-                        {
-                            stream.CopyTo(memoryStream);
-                            return File(memoryStream.ToArray(), "image/gif");
-                        }
+                        stream.CopyTo(memoryStream);
+                        return File(memoryStream.ToArray(), "image/jpg");
                     }
-                    
                 }
             }
             
