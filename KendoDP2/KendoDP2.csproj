@@ -263,7 +263,9 @@
     <Compile Include="Areas\Seguridad\Models\DP2Context.cs" />
     <Compile Include="Areas\Seguridad\SeguridadAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MiscController.cs" />
     <Compile Include="Controllers\WSLoginController.cs" />
+    <Compile Include="Models\Generic\Archivo.cs" />
     <Compile Include="Models\Generic\DBGenericRequester.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
