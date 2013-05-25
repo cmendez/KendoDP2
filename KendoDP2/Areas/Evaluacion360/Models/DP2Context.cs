@@ -31,6 +31,7 @@ namespace KendoDP2.Models.Generic
         public DbSet<PuestoXEvaluadores> InternalPuestoXEvaluadores { get; set; }
         public DbSet<CompetenciaXPuesto> InternalCompetenciaXPuesto { get; set; }
         public DbSet<AreaXProcesoEvaluacion> InternalAreaXProcesoEvaluaciones { get; set; }
+        public DbSet<ColaboradorXEvaluadores> InternalColaboradorXEvaluadores { get; set; }
 
         public DBGenericRequester<Competencia> TablaCompetencias { get; set; }
         public DBGenericRequester<Capacidad> TablaCapacidades { get; set; }
@@ -46,6 +47,7 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<PuestoXEvaluadores> TablaPuestoXEvaluadores { get; set; }
         public DBGenericRequester<CompetenciaXPuesto> TablaCompetenciaXPuesto { get; set; }
         public DBGenericRequester<AreaXProcesoEvaluacion> TablaAreaXProcesoEvaluaciones { get; set; }
+        public DBGenericRequester<ColaboradorXEvaluadores> TablaColaboradorXEvaluadores { get; set; }
 
         private void RegistrarTablasEvaluacion360()
         {
@@ -63,6 +65,7 @@ namespace KendoDP2.Models.Generic
             TablaPuestoXEvaluadores = new DBGenericRequester<PuestoXEvaluadores>(this, InternalPuestoXEvaluadores);
             TablaCompetenciaXPuesto = new DBGenericRequester<CompetenciaXPuesto>(this, InternalCompetenciaXPuesto);
             TablaAreaXProcesoEvaluaciones = new DBGenericRequester<AreaXProcesoEvaluacion>(this, InternalAreaXProcesoEvaluaciones);
+            TablaColaboradorXEvaluadores = new DBGenericRequester<ColaboradorXEvaluadores>(this, InternalColaboradorXEvaluadores);
         }
 
         // Area Evaluacion360
@@ -82,11 +85,11 @@ namespace KendoDP2.Models.Generic
 
 
             TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoPresidenteID, true, "El mismo", 1, 50));
-            TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoPresidenteID, true, "Jefe", 1, 50));
-            TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoPresidenteID, false, "Pares", 0, 0));
-            TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoPresidenteID, false, "Subordinados", 0, 0));
-            TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoPresidenteID, false, "Clientes", 0, 0));
-            TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoPresidenteID, false, "Otros", 0, 0));
+            TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoPresidenteID, true, "Jefe", 1, 25));
+            TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoPresidenteID, false, "Pares", 2, 10));
+            TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoPresidenteID, false, "Subordinados", 2, 5));
+            TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoPresidenteID, false, "Clientes", 3, 5));
+            TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoPresidenteID, false, "Otros", 4, 5));
 
 
         }

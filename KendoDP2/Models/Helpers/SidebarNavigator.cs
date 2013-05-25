@@ -96,7 +96,7 @@ namespace KendoDP2.Models.Helpers
             Icon = icon;
             Controller = controller;
             Method = method;
-        }
+        } 
     }
 
 
