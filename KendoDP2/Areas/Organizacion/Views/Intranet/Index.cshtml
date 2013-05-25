@@ -8,23 +8,6 @@
    
 }
 
-<!DOCTYPE html>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
-<!-- BEGIN HEAD -->
-<head>
-   <meta charset="utf-8" />
-   <title>Metronic | Extra - Página Personal</title>
-   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-   <meta content="" name="description" />
-   <meta content="" name="author" />
-	
-			<h3 class="page-title">
-									Página Personal					<small>Administre y verifique información personal</small>
-		</h3>
-
-
 <div class="row-fluid profile">
                <div class="span12">
                   <!--BEGIN TABS-->
@@ -287,15 +270,7 @@
                                        </div>
                                        <div id="tab_2-2" class="tab-pane">
                                           <div style="height: auto;" id="accordion2-2" class="accordion collapse in">
-                                             <form action="#">
-                                                <br>
                                                 @Html.Partial("EditorColaboradorImagenIntranet", colaboradorDTO)
-                                                <div class="space10"></div>
-                                                <div class="submit-btn">
-                                                   <a href="#" class="btn green">Guardar</a>
-                                                   <a href="#" class="btn">Cancelar</a>
-                                                </div>
-                                             </form>
                                           </div>
                                        </div>
                                        <div id="tab_3-3" class="tab-pane">
@@ -526,3 +501,9 @@
                   <!--END TABS-->
                </div>
             </div>
+<script type="text/javascript">
+    function loadImage(img_name) {
+        $("#" + img_name).attr("src", "/Organizacion/Colaboradores/ViewImageDeColaborador?colaboradorID=" + '@colaboradorDTO.ID');
+    }
+</script> 
+        

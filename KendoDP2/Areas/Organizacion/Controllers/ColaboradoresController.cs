@@ -122,6 +122,18 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             }
         }
 
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult UpdateImagen(int ID, int ImagenColaboradorID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                var colab = context.TablaColaboradores.FindByID(ID);
+                colab.ImagenColaboradorID = ImagenColaboradorID;
+                context.TablaColaboradores.ModifyElement(colab);
+                return Json(new { success = true });
+            }
+        }
+
         public int ValidaColaboradores(int tipoDocumentoID, string documento)
         {
             using (DP2Context context = new DP2Context())

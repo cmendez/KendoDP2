@@ -185,8 +185,13 @@
                 @(Html.Label("Imagen:", new { style = "font-weight: bold;" }))
 
                 <div style="text-align: center;">
-                    <img id="imagen" src="http://grifocalpointblog.org/wp-content/themes/blogga/images/ajax-loader.gif" onload="loadImage()" /> 
+                    <img id="imagen1" src="http://grifocalpointblog.org/wp-content/themes/blogga/images/ajax-loader.gif" /> 
                 </div>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        loadImage('imagen1');
+                    });
+                </script>
                 
             </div>
             <!-- fin contenedor superior derecho: foto -->
@@ -222,15 +227,4 @@
 
 </script>
     
-<script type="text/javascript">
-    var tick = true;
-    function loadImage() {
-        if (tick) {
-            tick = false;
-            $("#imagen").attr("src", "/Organizacion/Colaboradores/ViewImageDeColaborador?colaboradorID=" + $("#ID").val());
-        }
-    }
-</script> 
-        
-
 }        
