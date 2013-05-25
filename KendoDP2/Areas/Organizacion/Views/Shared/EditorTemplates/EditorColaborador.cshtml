@@ -17,7 +17,6 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-    <input type="file" id="files" data-role="upload" data-async='{"saveUrl": "/Home/test","autoUpload": "true"}' data-success="onSuccess" name="files" />
 
     <div  style="width:900px;">
         <div class="row-fluid">
@@ -175,7 +174,6 @@
                 @(Html.Label("Imagen:", new { style = "font-weight: bold;" }))
 
                 <div style="text-align: center;">
-                    <!--img id="imagen" src="https://lh4.googleusercontent.com/-3Sea_6fTfm4/TWrppAVxupI/AAAAAAAAAcQ/zHHGenEir0c/s200/snoopy-joecool-color.gif" onload="loadImage()"/-->
                     <img id="imagen" src="http://grifocalpointblog.org/wp-content/themes/blogga/images/ajax-loader.gif" onload="loadImage()" /> 
                 </div>
                 <style>
@@ -189,7 +187,7 @@
                     var tick = 0;
                     $("#Archivo").kendoUpload({
                         multiple: false,
-                        showFileList: true,
+                        showFileList: false,
                         localization: {
                             select: 'Seleccione la imagen'
                         },
