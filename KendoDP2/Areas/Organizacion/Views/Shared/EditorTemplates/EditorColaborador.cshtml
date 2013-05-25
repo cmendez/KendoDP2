@@ -17,7 +17,7 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-    
+
     <div  style="width:900px;">
         <div class="row-fluid">
             <!-- contenedor superior izquierdo: campos -->
@@ -174,7 +174,6 @@
                 @(Html.Label("Imagen:", new { style = "font-weight: bold;" }))
 
                 <div style="text-align: center;">
-                    <!--img id="imagen" src="https://lh4.googleusercontent.com/-3Sea_6fTfm4/TWrppAVxupI/AAAAAAAAAcQ/zHHGenEir0c/s200/snoopy-joecool-color.gif" onload="loadImage()"/-->
                     <img id="imagen" src="http://grifocalpointblog.org/wp-content/themes/blogga/images/ajax-loader.gif" onload="loadImage()" /> 
                 </div>
                 <style>
@@ -182,24 +181,24 @@
                         width: 100%;
                     }
                 </style>
-                
-                <input type="file" id="ImagenColaborador" name="ImagenColaborador" />
+                @Html.HiddenFor(m => m.ImagenColaboradorID)
+                <input type="file" id="Archivo" name="Archivo" />
                 <script>
-                    $("#ImagenColaborador").kendoUpload({
+                    var tick = 0;
+                    $("#Archivo").kendoUpload({
                         multiple: false,
                         showFileList: false,
                         localization: {
-                            select: 'Seleccione la imagen JPG'
+                            select: 'Seleccione la imagen'
                         },
                         async: {
-                            saveUrl: "@Url.Action("UploadImagen", "Colaboradores", new {Area = "Organizacion"})",
+                            saveUrl: '@Url.Action("UploadSingleFile", "Misc", new {Area = ""})',
                             autoUpload: true,
                         },
-                        upload: function (e) {
-                            e.data = { ID: $("#ID").val() };
-                        },
                         success: function (e) {
-                            loadImage();
+                            var archivoID = e.response.ID;
+                            loadImageWithID(archivoID);
+                            $("#ImagenColaboradorID").val(archivoID).change();
                         }
                     });
                 </script> 
@@ -346,8 +345,16 @@
 </script>
     
 <script type="text/javascript">
-    function loadImage() {
-        $("#imagen").attr("src", "/Organizacion/Colaboradores/ViewImageDeColaborador?colaboradorID=" + $("#ID").val());
+    var canload = true;
+    function loadImage(force) {
+        force = typeof force !== 'undefined' ? force : false;
+        if (canload || force) {
+            $("#imagen").attr("src", "/Organizacion/Colaboradores/ViewImageDeColaborador?colaboradorID=" + $("#ID").val());
+            canload = false;
+        }
+    }
+    function loadImageWithID(ID) {
+        $("#imagen").attr("src", "/Misc/GetImagen?archivoID=" + ID);
     }
 </script> 
         

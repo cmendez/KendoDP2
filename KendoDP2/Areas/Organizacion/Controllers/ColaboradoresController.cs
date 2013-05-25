@@ -67,7 +67,8 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                     }
                     else
                     {
-                        return Json(new { ok = false, error = "Error!!!!!! PELIGRO!!" },JsonRequestBehavior.AllowGet);
+                        ModelState.AddModelError("Tipo Documento", "El Numero de documento es invalido");
+                        return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
                         
                     }
                 }
@@ -121,6 +122,18 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             }
         }
 
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult UpdateImagen(int ID, int ImagenColaboradorID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                var colab = context.TablaColaboradores.FindByID(ID);
+                colab.ImagenColaboradorID = ImagenColaboradorID;
+                context.TablaColaboradores.ModifyElement(colab);
+                return Json(new { success = true });
+            }
+        }
+
         public int ValidaColaboradores(int tipoDocumentoID, string documento)
         {
             using (DP2Context context = new DP2Context())
@@ -133,81 +146,32 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult UploadImagen(IEnumerable<HttpPostedFileBase> ImagenColaborador, int ID)
-        {
-            // The Name of the Upload component is "files"
-            if (ImagenColaborador != null && ID != 0)
-            {
-                foreach (var file in ImagenColaborador)
-                {
-                    using (MemoryStream memoryStream = new MemoryStream())
-                    {
-                        file.InputStream.CopyTo(memoryStream);
-                        using (DP2Context context = new DP2Context())
-                        {
-                            Colaborador c = context.TablaColaboradores.FindByID(ID);
-                            c.ImagenColaborador = memoryStream.ToArray();
-                            context.TablaColaboradores.ModifyElement(c);
-                        }
-                    }
-                }
-            }
-
-            // Return an empty string to signify success
-            return Content("");
-        }
-
         public ActionResult ViewImageDeColaborador(int colaboradorID)
         {
             using (DP2Context context = new DP2Context())
             {
-                try
+                if(colaboradorID != 0)
                 {
-                    byte[] bytes = context.TablaColaboradores.FindByID(colaboradorID).ImagenColaborador;
-
-                    return File(bytes, "image/jpg");
-                }
-                catch
-                {
-                    var file = Server.MapPath("~/Images/snoopy-joecool-color.gif");
-                    using (var stream = new FileStream(file, FileMode.Open))
+                    var colaborador = context.TablaColaboradores.FindByID(colaboradorID);
+                    if (colaborador.ImagenColaboradorID != 0)
                     {
-                        using (MemoryStream memoryStream = new MemoryStream())
-                        {
-                            stream.CopyTo(memoryStream);
-                            return File(memoryStream.ToArray(), "image/gif");
-                        }
+                        var archivo = context.TablaArchivos.FindByID(colaborador.ImagenColaboradorID);
+                        if (archivo.Data != null)
+                            return File(archivo.Data, archivo.Mime);
                     }
-                    
+                }
+                var file = Server.MapPath("~/Images/unknown-person.jpg");
+                using (var stream = new FileStream(file, FileMode.Open))
+                {
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        stream.CopyTo(memoryStream);
+                        return File(memoryStream.ToArray(), "image/jpg");
+                    }
                 }
             }
             
         }
 
-        [HttpPost]
-        public ActionResult UploadPDF(IEnumerable<HttpPostedFileBase> CurriculumVitae, int ID)
-        {
-            // The Name of the Upload component is "files"
-            if (CurriculumVitae != null && ID != 0)
-            {
-                foreach (var file in CurriculumVitae)
-                {
-                    using (MemoryStream memoryStream = new MemoryStream())
-                    {
-                        file.InputStream.CopyTo(memoryStream);
-                        using (DP2Context context = new DP2Context())
-                        {
-                            Colaborador c = context.TablaColaboradores.FindByID(ID);
-                            c.CurriculumVitae = memoryStream.ToArray();
-                            context.TablaColaboradores.ModifyElement(c);
-                        }
-                    }
-                }
-            }
-
-            // Return an empty string to signify success
-            return Content("");
-        }
     }
 }

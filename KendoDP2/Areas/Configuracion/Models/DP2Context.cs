@@ -20,14 +20,17 @@ namespace KendoDP2.Models.Generic
     {
         public DbSet<Periodo> InternalPeriodos { get; set; }
         public DbSet<Pais> InternalPaises { get; set; }
+        public DbSet<Archivo> InternalArchivos { get; set; }
 
         public DBGenericRequester<Periodo> TablaPeriodos { get; set; }
         public DBGenericRequester<Pais> TablaPaises { get; set; }
+        public DBGenericRequester<Archivo> TablaArchivos { get; set; }
 
         private void RegistrarTablasConfiguracion()
         {
             TablaPeriodos = new DBGenericRequester<Periodo>(this, InternalPeriodos);
             TablaPaises = new DBGenericRequester<Pais>(this, InternalPaises);
+            TablaArchivos = new DBGenericRequester<Archivo>(this, InternalArchivos);
         }
 
         // Seeds

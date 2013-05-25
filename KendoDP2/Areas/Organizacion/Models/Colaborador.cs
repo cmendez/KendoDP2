@@ -32,7 +32,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         public int PaisID { get; set; }
         public virtual Pais Pais { get; set; }
 
-        public byte[] ImagenColaborador { get; set; }
+        public int ImagenColaboradorID { get; set; }
 
         [InverseProperty("Contacto")]
         public virtual ICollection<Contactos> EsContactoDe { get; set; }
@@ -66,6 +66,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             FechaNacimiento = c.FechaNacimiento;
             FechaIngresoEmpresa = c.FechaIngreso;
             ResumenEjecutivo = c.ResumenEjecutivo;
+            ImagenColaboradorID = c.ImagenColaboradorID;
            
             return this;
         }
@@ -131,7 +132,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         public byte[] CurriculumVitae { get; set; }
 
         [DisplayName("Imagen")]
-        public byte[] ImagenColaborador { get; set; }
+        public int ImagenColaboradorID { get; set; }
 
         [DisplayName("Centro de estudios")]
         [StringLength(100)]
@@ -175,6 +176,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         [DisplayName("Nueva Contraseña")]
         public string NuevaContrasenha { get; set; }
 
+
         public ColaboradorDTO() { }
 
         public ColaboradorDTO(Colaborador c)
@@ -194,7 +196,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             Direccion = c.Direccion;
             Telefono = c.Telefono;
             CurriculumVitae = c.CurriculumVitae;
-            ImagenColaborador = c.ImagenColaborador;
+            ImagenColaboradorID = c.ImagenColaboradorID;
             FechaNacimiento = c.FechaNacimiento;
             FechaIngreso = c.FechaIngresoEmpresa;
             ResumenEjecutivo = c.ResumenEjecutivo;
