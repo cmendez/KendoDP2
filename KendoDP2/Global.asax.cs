@@ -21,7 +21,7 @@ namespace KendoDP2
     {
         public static bool IsDebug = System.Configuration.ConfigurationManager.AppSettings["Environment"].ToString().Equals("Debug");
 
-        public static string ConnectionString = "Server=05288cfa-5cf5-42ec-8c1f-a1c5015dc1d3.sqlserver.sequelizer.com;Database=db05288cfa5cf542ec8c1fa1c5015dc1d3;User ID=zkpnnidiyvidtziw;Password=4sk4GbZ5iMTgYsmQWdoMsFXrwQQWUXheYtDn64p4FQw3HaCNNLtRPQHwB3FZtcit;";
+        public static string ConnectionString = "Server=15e02601-f7de-4c76-9eb6-a1c5018a003c.sqlserver.sequelizer.com;Database=db15e02601f7de4c769eb6a1c5018a003c;User ID=ahbkomqsefgqcves;Password=hZXYhNYYpwVWd2mRTj5SwY7ZszcMLfSQZmBTbayuznhkRXNqbE453zuq26FPKmmj;";
         
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {

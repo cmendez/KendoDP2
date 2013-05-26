@@ -49,13 +49,28 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 c.CentroEstudios = colaborador.CentroEstudios;
                 c.GradoAcademicoID = colaborador.GradoAcademicoID;
                 c.GradoAcademico = context.TablaGradosAcademicos.FindByID(colaborador.GradoAcademicoID);
-                
+                c.Telefono = colaborador.Telefono;
+                c.CurriculumVitaeID = context.TablaArchivos.FindByID(colaborador.CurriculumVitaeID).ID;
+
 
 
                 //
                 context.TablaColaboradores.ModifyElement(c);
                 return Json(new { success = true });
             }
+        }
+
+
+        public int ValidarCambioContrasenha(ColaboradorDTO colaborador, string contrasenhaActual, string nuevaContrasenha)
+        {
+            if (colaborador.Contrasenha.Equals(contrasenhaActual))
+            {
+                colaborador.Contrasenha = nuevaContrasenha;
+                return 1;
+            }
+
+            return 0;
+
         }
     }
 }

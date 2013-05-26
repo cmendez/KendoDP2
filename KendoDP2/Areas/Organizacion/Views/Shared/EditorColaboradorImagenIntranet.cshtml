@@ -11,7 +11,7 @@
     
 }
 
-@using (Html.BeginForm())
+@using (Ajax.BeginForm("UpdateImagen", "Colaboradores", new AjaxOptions{HttpMethod = "POST"}))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -22,45 +22,50 @@
             @Html.HiddenFor(model => model.ID)
 
             @Html.Label("Imagen:", new { style = "font-weight: bold;" })
-
-            <div style="text-align: center;">
-                    <img id="imagen" src="https://lh4.googleusercontent.com/-3Sea_6fTfm4/TWrppAVxupI/AAAAAAAAAcQ/zHHGenEir0c/s200/snoopy-joecool-color.gif" onload="loadImage()"/> 
+             <div style="text-align: center;">
+                    <img id="imagen2" src="http://grifocalpointblog.org/wp-content/themes/blogga/images/ajax-loader.gif" /> 
                 </div>
                 <style>
                     .k-upload-button{
                         width: 100%;
                     }
                 </style>
-                
-                <input type="file" id="ImagenColaborador" name="ImagenColaborador" />
+                @Html.HiddenFor(m => m.ImagenColaboradorID)
+                <input type="file" id="Archivo" name="Archivo" />
                 <script>
-                    $("#ImagenColaborador").kendoUpload({
+                    $("#Archivo").kendoUpload({
                         multiple: false,
                         showFileList: false,
                         localization: {
-                            select: 'Seleccione la imagen JPG'
+                            select: 'Seleccione la imagen'
                         },
                         async: {
-                            saveUrl: "@Url.Action("UploadImagen", "Colaboradores", new {Area = "Organizacion"})",
+                            saveUrl: '@Url.Action("UploadSingleFile", "Misc", new {Area = ""})',
                             autoUpload: true,
                         },
-                        upload: function (e) {
-                            e.data = { ID: $("#ID").val() };
-                        },
                         success: function (e) {
-                            loadImage();
+                            var archivoID = e.response.ID;
+                            loadImageWithID(archivoID);
+                            $("#ImagenColaboradorID").val(archivoID).change();
                         }
                     });
-                </script> 
-            
-                         
-        
+                    $(document).ready(function () {
+                        loadImage('imagen2');
+                    });
+                    function loadImageWithID(ID) {
+                        $("#imagen2").attr("src", "/Misc/GetImagen?archivoID=" + ID);
+                    }
+                    </script>
          <!-- fin contenedor superior derecho: foto -->
         </div>
     </div>
   
    
     
+                                            <div class="space10"></div>
+                                            <div class="submit-btn">
+                                               <a href="javascript:submitImagen();" class="btn green">Guardar</a>
+                                            </div>
 <script>
     $("#AreaID").change(function () {
         var areaID = $(this).val();
@@ -81,17 +86,8 @@
                    });
                });
     });
-
-    
-
-
-</script>
-    
-<script type="text/javascript">
-    function loadImage() {
-        $("#imagen").attr("src", "/Organizacion/Colaboradores/ViewImageDeColaborador?colaboradorID=" + $("#ID").val());
+    function submitImagen() {
+        $("#form1").submit();
     }
-</script> 
-        
-
+</script>
 }

@@ -221,6 +221,7 @@
     <Compile Include="Areas\Objetivos\Models\TipoObjetivoBSC.cs" />
     <Compile Include="Areas\Objetivos\ObjetivosAreaRegistration.cs" />
     <Compile Include="Areas\Organizacion\Controllers\AreasController.cs" />
+    <Compile Include="Areas\Organizacion\Controllers\HistorialController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\IntranetController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\OrganizacionesController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\PuestosController.cs" />
@@ -244,9 +245,11 @@
     <Compile Include="Areas\Reclutamiento\Controllers\ReclutamientoController.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\ReclutamientoMobileController.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\SolicitudOfertasLaboralesController.cs" />
+    <Compile Include="Areas\Reclutamiento\Controllers\WSEvaluacionController.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\WSOfertaLaboralController.cs" />
     <Compile Include="Areas\Reclutamiento\Models\DP2Context.cs" />
     <Compile Include="Areas\Reclutamiento\Models\EstadosSolicitudOfertaLaboral.cs" />
+    <Compile Include="Areas\Reclutamiento\Models\EvaluacionXFaseXPostulacion.cs" />
     <Compile Include="Areas\Reclutamiento\Models\FasePostulacion.cs" />
     <Compile Include="Areas\Reclutamiento\Models\FasePostulacionXOfertaLaboralXPostulante.cs" />
     <Compile Include="Areas\Reclutamiento\Models\ModoSolicitudOfertaLaboral.cs" />
@@ -260,7 +263,9 @@
     <Compile Include="Areas\Seguridad\Models\DP2Context.cs" />
     <Compile Include="Areas\Seguridad\SeguridadAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MiscController.cs" />
     <Compile Include="Controllers\WSLoginController.cs" />
+    <Compile Include="Models\Generic\Archivo.cs" />
     <Compile Include="Models\Generic\DBGenericRequester.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1801,6 +1806,9 @@
     <Content Include="Areas\Evaluacion360\Views\Acordion\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Intranet\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Shared\EditorColaboradorIntranet.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Historial\Index.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Historial\Linea.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Shared\EditorTemplates\EditorColaboradorLineadeCarrera.cshtml" />
     <Content Include="Areas\Organizacion\Views\Shared\EditorTemplates\EditorColaboradorDatos.cshtml" />
     <Content Include="Areas\Organizacion\Views\Shared\EditorColaboradorImagenIntranet.cshtml" />
     <Content Include="Areas\Organizacion\Views\Shared\ViewColaboradorIntranet.cshtml" />
@@ -1813,6 +1821,7 @@
     <Content Include="Images\areas_icon.png" />
     <Content Include="Images\favicon.ico" />
     <Content Include="Images\snoopy-joecool-color.gif" />
+    <Content Include="Images\unknown-person.jpg" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
