@@ -59,5 +59,18 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 return Json(new { success = true });
             }
         }
+
+
+        public int ValidarCambioContrasenha(ColaboradorDTO colaborador, string contrasenhaActual, string nuevaContrasenha)
+        {
+            if (colaborador.Contrasenha.Equals(contrasenhaActual))
+            {
+                colaborador.Contrasenha = nuevaContrasenha;
+                return 1;
+            }
+
+            return 0;
+
+        }
     }
 }
