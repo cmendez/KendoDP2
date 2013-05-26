@@ -68,22 +68,30 @@
                         }).Width(200);
                     }
                 )
-                .Editable(
-                    e => e.DisplayDeleteConfirmation("¿Realmente desdea eliminar este registro?")
-                )
-                .Pageable(paper => paper.Refresh(true))
-                .Filterable()
-                .Sortable()
-                .Scrollable(w => w.Height(330))
-                .DataSource(dataSource => dataSource
-                    .Ajax()
-                    .PageSize(20)
-                    .Model(model => { model.Id(p => p.ID); })
-                    .Read(read => read.Action("ReadEvaluados", "ProcesoEvaluacion", new { procesoID = Model.ID }))
-                    .Destroy(update => update.Action("DestroyEvaluados", "ProcesoEvaluacion"))
-                    .Events(e => e.RequestEnd("requestEnd"))
-                )
-                )
+                .ToolBar(toolbar => 
+                    {
+                        toolbar.Custom().Text("Iniciar proceso").Action("IniciarProcesoEvaluacion", "ProcesoEvaluacion"); 
+                        toolbar.Custom().Text("Cerrar Proceso").Action("CerrarProcesoEvaluacion", "ProcesoEvaluacion");
+                        //toolbar.Template(@<text><a class='k-button'>Test toolbar</a></text>);
+                            //"<a class='k-button' href='" + Url.Action("ElegirEvaluados", "ProcesoEvaluacion") + ">Test toolbar</a>");
+                    }
+                        )
+                        .Editable(
+                            e => e.DisplayDeleteConfirmation("¿Realmente desdea eliminar este registro?")
+                        )
+                        .Pageable(paper => paper.Refresh(true))
+                        .Filterable()
+                        .Sortable()
+                        .Scrollable(w => w.Height(330))
+                        .DataSource(dataSource => dataSource
+                            .Ajax()
+                            .PageSize(20)
+                            .Model(model => { model.Id(p => p.ID); })
+                            .Read(read => read.Action("ReadEvaluados", "ProcesoEvaluacion", new { procesoID = Model.ID }))
+                            .Destroy(update => update.Action("DestroyEvaluados", "ProcesoEvaluacion"))
+                            .Events(e => e.RequestEnd("requestEnd"))
+                        )
+                        )
             </div>
         </div>
     </div>
@@ -137,7 +145,7 @@
         $("#event_box_areas").append(newDiv);
     }
     function agregaTileDeColaborador(colaboradorID, nombreCompleto){
-        var newDiv = '<a href="javascript:removeColaborador(' + colaboradorID + ');" class="label external-event">' + nombreCompleto + '<i class="icon-remove"></i></a>'; 
+        var newDiv = '<a href="javascript: (' + colaboradorID + ');" class="label external-event">' + nombreCompleto + '<i class="icon-remove"></i></a>'; 
         $("#event_box_colaboradores").append(newDiv);
     }
 

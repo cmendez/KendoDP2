@@ -1,0 +1,35 @@
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Evaluacion360.Models
+@{
+    ViewBag.Title = "Evaluación";
+    Layout = "~/Views/Shared/_Layout.cshtml";  
+}
+
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Evaluación", "Rinda sus evaluaciones asignadas."));}
+
+<div class="portlet box green">
+     <div class="portlet-title">
+        <h4><i class="icon-reorder"></i>Procesos de evaluación</h4>
+        <div class="tools">
+	        <a href="javascript:;" class="collapse"></a>
+        </div>
+	</div>
+     <div class="portlet-body">
+        @(Html.Kendo().ListView<Evaluacion>()
+            .Name("listView")
+            .TagName("div")
+            .ClientTemplateId("template")
+                .DataSource(dataSource => dataSource
+                .Model(model => model.Id("EvaluacionID"))
+                .PageSize(6)
+                .Create(create => create.Action("Editing_Create", "ListView"))
+                .Read(read => read.Action("Editing_Read", "ListView"))
+                .Update(update => update.Action("Editing_Update", "ListView"))
+                .Destroy(destroy => destroy.Action("Editing_Destroy", "ListView"))
+            )
+            .Pageable()
+            .Editable()
+        )
+         
+    </div>  
+</div>
