@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
 using System.Web;
+using KendoDP2.Areas.Evaluacion360.Models;
 
 namespace KendoDP2.Areas.Organizacion.Models
 {
@@ -28,14 +29,22 @@ namespace KendoDP2.Areas.Organizacion.Models
        public virtual ICollection<Area> Areas { get; set; }
        public virtual ICollection<Puesto> Puestos { get; set; }
        public virtual ICollection<Funcion> Funciones { get; set; }
-
+       public virtual ICollection<CompetenciaXPuesto> Competencias { get; set; }
 
        public int PuestoXAreaID { get; set; }
         
         public int? EstadosPuestoID { get; set; }
         public virtual EstadosPuesto EstadoPuesto { get; set; }
 
-
+        public List<Capacidad> GetCapacidadesAsociadas(DP2Context context)
+        {
+            List<Capacidad> capacidades = new List<Capacidad>();
+            foreach (var cruce in Competencias)
+            {
+                capacidades.AddRange(cruce.Competencia.Capacidades.Where(c => c.NivelCapacidadID == cruce.NivelID).ToList());
+            }
+            return capacidades;
+        }
         
         public Puesto() { }
 

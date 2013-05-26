@@ -111,6 +111,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 ViewBag.area = oferta.Area.ToDTO();
                 ViewBag.puesto = oferta.Puesto.ToDTO();
                 ViewBag.funciones = oferta.Puesto.Funciones.Select(c => c.ToDTO()).ToList();
+                ViewBag.capacidades = oferta.Puesto.GetCapacidadesAsociadas(context).Select(c => c.ToDTO()).ToList();
                 //ViewBag.funciones = oferta.Puesto. 
                return PartialView("ViewSolicitudOfertaLaboral", oferta.ToDTO());
             }
