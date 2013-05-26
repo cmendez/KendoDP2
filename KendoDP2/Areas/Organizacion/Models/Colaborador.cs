@@ -67,6 +67,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             FechaIngresoEmpresa = c.FechaIngreso;
             ResumenEjecutivo = c.ResumenEjecutivo;
             ImagenColaboradorID = c.ImagenColaboradorID;
+            CurriculumVitaeID = c.CurriculumVitaeID;
            
             return this;
         }
@@ -129,7 +130,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         public int EstadoColaboradorID { get; set; }
 
         [DisplayName("Curriculum Vitae")]
-        public byte[] CurriculumVitae { get; set; }
+        public int CurriculumVitaeID { get; set; }
 
         [DisplayName("Imagen")]
         public int ImagenColaboradorID { get; set; }
@@ -195,7 +196,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             NumeroDocumento = c.NumeroDocumento;
             Direccion = c.Direccion;
             Telefono = c.Telefono;
-            CurriculumVitae = c.CurriculumVitae;
+            CurriculumVitaeID = c.CurriculumVitaeID;
             ImagenColaboradorID = c.ImagenColaboradorID;
             FechaNacimiento = c.FechaNacimiento;
             FechaIngreso = c.FechaIngresoEmpresa;

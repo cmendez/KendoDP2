@@ -38,6 +38,11 @@ namespace KendoDP2.Controllers
         }
 
         [HttpPost]
+        public ActionResult UploadPDF(IEnumerable<HttpPostedFileBase> Archivo2)
+        {
+            return UploadSingleFile(Archivo2);
+        }
+        [HttpPost]
         public ActionResult UploadSingleFile(IEnumerable<HttpPostedFileBase> Archivo)
         {
             // The Name of the Upload component is "files"
