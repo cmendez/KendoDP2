@@ -58,7 +58,6 @@
                                         {
                                             columns.Bound(p => p.Nombre).ClientFooterTemplate("<strong>Cantidad:</strong> #=count#");
                                             columns.Bound(p => p.Peso).ClientFooterTemplate("<strong>Suma:</strong> #=sum#");
-                                            //columns.ForeignKey(p => p.CreadorID, new SelectList(colaboradores, "ID", "NombreCompleto"));
                                             columns.Command(command => { command.Destroy().Text("Eliminar"); }).Width(200);
                                         }
                                     )

@@ -175,6 +175,35 @@
                     </div>
                 </div>
 
+                <div class="row-fluid">
+                <div class="span5">
+                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.CurriculumVitaeID)</div>
+                    <a href="#" id="bajar-cv-anchor" class="hidden" target="_blank"></a>
+                    <a href="javascript:bajarCV();">Descargar Curriculum</a>
+                </div>
+                <div class="span7">
+                @Html.HiddenFor(m => m.CurriculumVitaeID)
+                <input type="file" id="Archivo2" name="Archivo2" />
+                <script>
+                    $("#Archivo2").kendoUpload({
+                        multiple: false,
+                        showFileList: true,
+                        localization: {
+                            select: 'Seleccione archivo PDF'
+                        },
+                        async: {
+                            saveUrl: '@Url.Action("UploadPDF", "Misc", new {Area = ""})',
+                            autoUpload: true,
+                        },
+                        success: function (e) {
+                            var archivoID = e.response.ID;
+                            $("#CurriculumVitaeID").val(archivoID).change();
+                        }
+                    });
+                </script> 
+                </div>
+            </div>
+
                          
         
             </div>
@@ -220,15 +249,18 @@
     });
 
     
+    function bajarCV() {
+        if ($("#CurriculumVitaeID").val() == '0' || $("#CurriculumVitaeID").val() == 0)
+            alert("No hay ningun curriculum registrado");
+        else {
+            $("#bajar-cv-anchor").attr("href", "/Organizacion/Colaboradores/BajarCurriculum?curriculumVitaeID=" + $("#CurriculumVitaeID").val());
+            $("a#bajar-cv-anchor")[0].click();
+        }
+    }
 
 
 </script>
     
-<script type="text/javascript">
-    function loadImage() {
-        $("#imagen").attr("src", "/Organizacion/Colaboradores/ViewImageDeColaborador?colaboradorID=" + $("#ID").val());
-    }
-</script> 
-        
+
 
 }        

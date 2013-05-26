@@ -168,6 +168,11 @@ namespace KendoDP2.Models.Generic
 
         private void SeedFunciones()
         {
+            TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 1, ColaboradorID = 2, Sueldo = 2300, FechaIngresoPuesto = new DateTime(2010, 1, 1), FechaSalidaPuesto = new DateTime(2010, 12, 31), Comentarios = "Hizo una gran labor", IsEliminado = false });
+            TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 2, ColaboradorID = 2, Sueldo = 2500, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = DateTime.Now, Comentarios = "Continua haciendo una gran labor", IsEliminado = false });
+        }
+        private void SeedColaboradorXPuesto()
+        {
             TablaFunciones.AddElement(new Funcion { Descripcion = "Hacer muchas cosas", PuestoID = 1 });
             TablaFunciones.AddElement(new Funcion { Descripcion = "Presidir", PuestoID = 1 });
             TablaFunciones.AddElement(new Funcion { Descripcion = "Figurar", PuestoID = 1 });

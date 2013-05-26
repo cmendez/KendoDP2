@@ -51,7 +51,8 @@ namespace KendoDP2.Models.Helpers
                 new SidebarSuboption("Colaboradores", "Colaboradores", "Index", "icon-user"),
                 new SidebarSuboption("Puestos", "Puestos", "Index", "icon-tag"),
                 new SidebarSuboption("Áreas", "Areas", "Index", "icon-sitemap"),
-                new SidebarSuboption("Página Personal","Intranet","Index","icon-tag")
+                new SidebarSuboption("Página Personal","Intranet","Index","icon-tag"),
+                new SidebarSuboption("Linea de Carrera","Historial","Index","icon-signal")
             })));
 
             Opciones.Add(new SidebarOption("Reclutamiento", "Reclutamiento", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{

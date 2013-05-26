@@ -41,12 +41,36 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             {
                 Colaborador c = context.TablaColaboradores.FindByID(colaborador.ID);
                 //Aqui cargas a mano cada campo, porque no se modifican todos
-                c.Nombres = colaborador.Nombre;
-                c.TipoDocumentoID = colaborador.TipoDocumentoID;
+                //c.Nombres = colaborador.Nombre;
+                //c.TipoDocumentoID = colaborador.TipoDocumentoID;
+                c.ResumenEjecutivo = colaborador.ResumenEjecutivo;
+                c.Direccion = colaborador.Direccion;
+                c.CorreoElectronico = colaborador.CorreoElectronico;
+                c.CentroEstudios = colaborador.CentroEstudios;
+                c.GradoAcademicoID = colaborador.GradoAcademicoID;
+                c.GradoAcademico = context.TablaGradosAcademicos.FindByID(colaborador.GradoAcademicoID);
+                c.Telefono = colaborador.Telefono;
+                c.CurriculumVitaeID = context.TablaArchivos.FindByID(colaborador.CurriculumVitaeID).ID;
+
+
+
                 //
                 context.TablaColaboradores.ModifyElement(c);
                 return Json(new { success = true });
             }
+        }
+
+
+        public int ValidarCambioContrasenha(ColaboradorDTO colaborador, string contrasenhaActual, string nuevaContrasenha)
+        {
+            if (colaborador.Contrasenha.Equals(contrasenhaActual))
+            {
+                colaborador.Contrasenha = nuevaContrasenha;
+                return 1;
+            }
+
+            return 0;
+
         }
     }
 }
