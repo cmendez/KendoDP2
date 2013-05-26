@@ -258,6 +258,7 @@
     <Compile Include="Areas\Reclutamiento\Models\OfertaLaboral.cs" />
     <Compile Include="Areas\Reclutamiento\Models\OfertaLaboralXPostulante.cs" />
     <Compile Include="Areas\Reclutamiento\Models\Postulante.cs" />
+    <Compile Include="Areas\Reclutamiento\Models\Respuesta.cs" />
     <Compile Include="Areas\Reclutamiento\ReclutamientoAreaRegistration.cs" />
     <Compile Include="Areas\Reportes\ReportesAreaRegistration.cs" />
     <Compile Include="Areas\Seguridad\Controllers\RolesController.cs" />
