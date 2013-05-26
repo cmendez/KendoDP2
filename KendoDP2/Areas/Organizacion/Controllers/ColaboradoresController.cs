@@ -146,6 +146,14 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             }
         }
 
+        public ActionResult BajarCurriculum(int curriculumVitaeID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                var archivo = context.TablaArchivos.FindByID(curriculumVitaeID);
+                return File(archivo.Data, archivo.Mime);
+            }
+        }
         public ActionResult ViewImageDeColaborador(int colaboradorID)
         {
             using (DP2Context context = new DP2Context())

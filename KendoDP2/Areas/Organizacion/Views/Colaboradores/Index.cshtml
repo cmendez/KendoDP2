@@ -9,7 +9,6 @@
     SelectList lista = new SelectList(areas, "ID", "Nombre");
     SelectList listaEstados = new SelectList(estadosColaborador, "ID", "Descripcion");
     SelectList listaPuestos = new SelectList(puestos, "ID", "Nombre");
-
 }
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Colaboradores", "Administre los colaboradores de la empresa"));}
 

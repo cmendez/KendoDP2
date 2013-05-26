@@ -25,7 +25,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         public virtual TipoDocumento TipoDocumento { get; set; }
         public string NumeroDocumento { get; set; }
         
-        public byte[] CurriculumVitae { get; set; }
+        public int CurriculumVitaeID { get; set; }
 
         public Persona() { }
 
