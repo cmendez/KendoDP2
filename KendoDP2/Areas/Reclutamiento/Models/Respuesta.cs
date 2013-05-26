@@ -11,7 +11,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
     public class Respuesta : DBObject
     {
 
-        public string Respuesta { get; set; }
+        public string Comentario { get; set; }
         public int Puntaje { get; set; }
 
         public int EvaluacionXFaseXPostulacionID { get; set; }
@@ -30,7 +30,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public Respuesta LoadFromDTO(RespuestaDTO r)
         {
             ID = r.ID;
-            Respuesta = r.Respuesta;
+            Comentario = r.Comentario;
             Puntaje = r.Puntaje;
             EvaluacionXFaseXPostulacionID = r.EvaluacionXFaseXPostulacionID;
             FuncionID = r.FuncionID;
@@ -47,7 +47,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
     public class RespuestaDTO
     {
         public int ID { get; set; }
-        public string Respuesta { get; set; }
+        public string Comentario { get; set; }
         public int Puntaje { get; set; }
         public int EvaluacionXFaseXPostulacionID { get; set; }
         public int FuncionID { get; set; }
@@ -57,7 +57,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public RespuestaDTO(Respuesta r)
         {
             ID = r.ID;
-            Respuesta = r.Respuesta;
+            Comentario = r.Comentario;
             Puntaje = r.Puntaje;
             EvaluacionXFaseXPostulacionID = r.EvaluacionXFaseXPostulacionID;
             FuncionID = r.FuncionID;
