@@ -43,7 +43,11 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         [InverseProperty("OfertaLaboral")]
         public virtual ICollection<OfertaLaboralXPostulante> Postulantes { get; set; }
 
+        //Lista de requerimientos o funciones
         public virtual ICollection<Funcion> ListaFuncionesPuesto { get; set; }
+
+        //Lista de Competencias del puesto
+        public virtual ICollection<Competencia> ListaCompetencias { get; set; }
 
         public OfertaLaboral(OfertaLaboralDTO o) : this()
         {
@@ -129,10 +133,6 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         [DisplayName("Código")]
         public string Codigo { get; set; }
 
-
-        //Navegando
-        public string DescripcionPuesto { get; set; }
-
         //no se si este bien
 
         public ICollection<FuncionDTO> funciones;
@@ -144,8 +144,6 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             ID = o.ID;
             PuestoID = o.PuestoID;
             AreaID = o.AreaID;
-            //Navegando
-            DescripcionPuesto = o.Area.Descripcion;
             ResponsableID = o.ResponsableID;
             EstadoSolicitudOfertaLaboralID = o.EstadoSolicitudOfertaLaboralID;
             ModoSolicitudID = o.ModoSolicitudOfertaLaboralID;
@@ -219,6 +217,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public string NombrePuesto { get; set; }
         public string DescripcionOferta { get; set; }
         public ICollection<FuncionDTO> Funciones { get; set; }
+        //public ICollection<CompetenciaConPonderadoDTO> CompetenciasConNivel { get; set; }
 
         public OfertaLaboralMobilePostulanteDTO(OfertaLaboral oferta)
         {
@@ -227,6 +226,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             NombrePuesto = oferta.Puesto.Nombre;
             DescripcionOferta = oferta.Descripcion;
             Funciones = ListaFuncionesToDTO(oferta.ListaFuncionesPuesto);
+            //CompetenciasConNivel = ListaCompetenciasConPonderadoToDTO(oferta.ListaCompetencias);
         }
 
         //Funciones Auxiliares
@@ -239,6 +239,19 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             {
                 fun = new FuncionDTO(f);
                 ListaDTO.Add(fun);
+            }
+            return ListaDTO;
+        }
+
+        public ICollection<CompetenciaConPonderadoDTO> ListaCompetenciasConPonderadoToDTO(ICollection<Competencia> competencias)
+        {
+            List<CompetenciaConPonderadoDTO> ListaDTO = new List<CompetenciaConPonderadoDTO>();
+            CompetenciaConPonderadoDTO comp;
+
+            foreach (Competencia c in competencias)
+            {
+                comp = new CompetenciaConPonderadoDTO(c);
+                ListaDTO.Add(comp);
             }
             return ListaDTO;
         }
