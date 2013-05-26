@@ -25,14 +25,13 @@ namespace KendoDP2.Areas.Objetivos.Models
         public int? TipoObjetivoBSCID { get; set; }
         public virtual TipoObjetivoBSC TipoObjetivoBSC { get; set; }
 
-        public int ObjetivoPadreID { get; set; }
-
-        public int BSCID { get; set; }
+        public int? ObjetivoPadreID { get; set; }
+        public Objetivo ObjetivoPadre { get; set; }
+        public virtual ICollection<Objetivo> ObjetivosHijos { get; set; }
+        
+        public int? BSCID { get; set; }
         public virtual BSC BSC { get; set; }
 
-
-        //public int PeriodoID { get; set; }
-        //public virtual Periodo Periodo { get; set; }
 
         public Objetivo() {
             FechaCreacion = DateTime.Now;
@@ -138,8 +137,8 @@ namespace KendoDP2.Areas.Objetivos.Models
             IsAsignadoAPersona = o.IsAsignadoAPersona;
             CreadorID = o.CreadorID.GetValueOrDefault();
             TipoObjetivoBSCID = o.TipoObjetivoBSCID.GetValueOrDefault();
-            ObjetivoPadreID = o.ObjetivoPadreID;
-            BSCID = o.BSCID;
+            ObjetivoPadreID = o.ObjetivoPadreID.GetValueOrDefault();
+            BSCID = o.BSCID.GetValueOrDefault();
 
             //PeriodoID = o.PeriodoID;
 
