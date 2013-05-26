@@ -64,9 +64,25 @@
                     .Read(read => read.Action("EditingInline_Read", "Colaboradores"))
                     .Update(update => update.Action("EditingInline_Update", "Colaboradores"))
                     .Destroy(update => update.Action("EditingInline_Destroy", "Colaboradores"))
+                    .Events(e => e.Error("onError"))
                 )
                )
         </div>
     </div>
 </div>
 
+<script>
+    function onError(e) {
+        if (e.errors) {
+            var message = "Error:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>
