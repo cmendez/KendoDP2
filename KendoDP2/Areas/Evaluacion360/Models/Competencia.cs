@@ -111,4 +111,29 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         public CompetenciaConNivelDTO() { }        
     }
 
+    public class CompetenciaConPonderadoDTO
+    {
+        public int CompetenciaID { get; set; }
+        public string CompetenciaNombre { get; set; }
+        public double Ponderado { get; set; }
+
+        public CompetenciaConPonderadoDTO(Competencia competencia)
+        {
+            CompetenciaID = competencia.ID;
+            CompetenciaNombre = competencia.Nombre;
+
+            //Pormedio de los niveles de cada capacidad
+            int sumaNivelAux = 0;
+            int cont = 0;
+
+            foreach(Capacidad capacidad in competencia.Capacidades)
+            {
+                sumaNivelAux = sumaNivelAux + capacidad.NivelCapacidad.Nivel;
+                cont++;
+            }
+
+            Ponderado = sumaNivelAux / cont;
+        }
+    }
+
 }

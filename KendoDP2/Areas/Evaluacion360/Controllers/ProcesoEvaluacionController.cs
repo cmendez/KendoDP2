@@ -27,6 +27,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             {
                 ViewBag.colaboradores = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
                 ViewBag.areas = context.TablaAreas.All().Select(c => c.ToDTO()).ToList();
+                ViewBag.estados = context.TablaEstadoProcesoEvaluacion.All().Select(e => e.ToDTO()).ToList();
                 return View();
             }
         }
@@ -45,6 +46,18 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
+        // TODO:
+        public ActionResult CerrarProcesoEvaluacion([DataSourceRequest] DataSourceRequest request, int procesoEvaluacionID)
+        {
+            using (DP2Context context = new DP2Context()) 
+            {
+                 ProcesoEvaluacion proceso = context.TablaProcesoEvaluaciones.FindByID(procesoEvaluacionID);
+                // TODO:
+                 return Json(new[] { proceso.ToDTO() }.ToDataSourceResult(request, ModelState));
+                // return View(proceso);
+            }
+        }
+
         // Grid de procesos de evaluacion
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
@@ -59,7 +72,10 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
+                EstadoProcesoEvaluacion iniciado = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Creado));
+
                 ProcesoEvaluacion p = new ProcesoEvaluacion(proceso);
+                
                 context.TablaProcesoEvaluaciones.AddElement(p);
                 return Json(new[] { p.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
@@ -228,6 +244,22 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
-        
+        public ActionResult IniciarProcesoEvaluacion( int procesoEvaluacionID) 
+        {
+            using (DP2Context context = new DP2Context()) 
+            {
+                ProcesoEvaluacion p = context.TablaProcesoEvaluaciones.FindByID(procesoEvaluacionID, false);
+          
+                List<ColaboradorXProcesoEvaluacion> list = context.TablaColaboradorXProcesoEvaluaciones.Where(x => x.ProcesoEvaluacionID == procesoEvaluacionID);
+                using (CorreoController correoController = new CorreoController()){
+                    correoController.EnviarEmailsInicio(list, p);
+                }
+
+                EstadoProcesoEvaluacion enProceso = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso));
+                p.EstadoProcesoEvaluacion = enProceso;
+                context.TablaProcesoEvaluaciones.ModifyElement(p);
+                return View();
+            }
+        }
     }
 }

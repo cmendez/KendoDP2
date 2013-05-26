@@ -144,6 +144,10 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             ID = o.ID;
             PuestoID = o.PuestoID;
             AreaID = o.AreaID;
+<<<<<<< HEAD
+=======
+            //Navegando
+>>>>>>> 6aae28c159035a559be5d59120553265a837531e
             ResponsableID = o.ResponsableID;
             EstadoSolicitudOfertaLaboralID = o.EstadoSolicitudOfertaLaboralID;
             ModoSolicitudID = o.ModoSolicitudOfertaLaboralID;
