@@ -38,13 +38,14 @@ namespace KendoDP2.Areas.Objetivos.Models
         }
 
         // Para objetivo de BSCID = 1
-        public Objetivo(string nombre, int TipoBSCID, int puestoID)
+        public Objetivo(string nombre, int BSCID, int TipoBSCID, int puestoID, int peso)
         {
             Nombre = nombre;
-            this.BSCID = 1;
+            this.BSCID = BSCID;
             FechaCreacion = DateTime.Now;
             TipoObjetivoBSCID = TipoBSCID;
-            PuestoAsignadoID = puestoID; 
+            PuestoAsignadoID = puestoID;
+            Peso = peso;
         }
         // Para objetivo que no es de ningun BSC
         public Objetivo(string nombre,int objetivoPadreID, int peso, int puestoID)  
