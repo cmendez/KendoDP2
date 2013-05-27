@@ -93,14 +93,36 @@ namespace KendoDP2.Areas.BolsaTrabajo.Controllers
                 Colaborador colaborador = context.TablaColaboradores.FindByID(colaboradorID);
                 OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
 
-                Postulante postulante = new Postulante(colaborador);
-                context.TablaPostulante.AddElement(postulante);
-                OfertaLaboralXPostulante cruce = new OfertaLaboralXPostulante { Postulante = postulante, OfertaLaboral = oferta };
-                context.TablaOfertaLaboralXPostulante.AddElement(cruce);
+                //falta corregir la validacion
+                if (ValidaPostulantePorOferta(oferta, colaborador) == 0)
+                {
+                    Postulante postulante = new Postulante(colaborador);
+                    context.TablaPostulante.AddElement(postulante);
+                    OfertaLaboralXPostulante cruce = new OfertaLaboralXPostulante { Postulante = postulante, OfertaLaboral = oferta };
+                    context.TablaOfertaLaboralXPostulante.AddElement(cruce);
 
-                return Json(new { success = true });
+                    return Json(new { success = true });
+                }
+
+                return Json(new { success = false });
             }
         }
-                
+
+
+        public int ValidaPostulantePorOferta(OfertaLaboral oferta, Colaborador Colaborador)
+        {
+            ICollection<OfertaLaboralXPostulante> ListaPostulantes = oferta.Postulantes;
+
+            foreach (var p in ListaPostulantes)
+            {
+                if (p.Postulante.ColaboradorID == Colaborador.ID)
+                {
+                    return 1;
+                }
+            }
+            
+            return 0;
+
+        }
     }
 }
