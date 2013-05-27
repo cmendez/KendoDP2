@@ -1,6 +1,5 @@
 ﻿using KendoDP2.Areas.Configuracion.Models;
 using KendoDP2.Areas.Organizacion.Models;
-using KendoDP2.Areas.Reportes.Models;
 using KendoDP2.Models.Generic;
 using System;
 using System.Collections.Generic;
@@ -97,10 +96,6 @@ namespace KendoDP2.Areas.Objetivos.Models
             return new ObjetivoDTO(this, context);
         }
 
-        public ObjetivoRDTO ToRDTO()
-        {
-            return new ObjetivoRDTO(this);
-        }
     }
 
     //public class ObjetivoRDTO
