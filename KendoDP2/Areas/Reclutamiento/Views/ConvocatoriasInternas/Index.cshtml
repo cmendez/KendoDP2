@@ -31,6 +31,7 @@
                 .Columns(columns =>
                     {
                         columns.Bound(p => p.ID);
+                        columns.Bound(p => p.FechaPublicacion);
                         columns.Bound(p => p.FechaFinRequerimiento);
                         columns.ForeignKey(p => p.AreaID, lista);
                         columns.ForeignKey(p => p.PuestoID, listaPuestos);
@@ -98,7 +99,7 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         ID = dataItem.ID;
         var wnd = $("#Details2").data("kendoWindow");
-        $("#Details2").load("@Url.Action("GetViewOferta","SolicitudOfertasLaborales", new{Area = "Reclutamiento"})?ofertaID=" + ID, function () {
+        $("#Details2").load("@Url.Action("GetViewPostulante","ConvocatoriasInternas", new{Area = "Reclutamiento"})", function () {
             wnd.center().open();
         });
     }

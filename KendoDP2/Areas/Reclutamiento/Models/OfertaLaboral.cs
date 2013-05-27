@@ -49,6 +49,8 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         //Lista de Competencias del puesto
         public virtual ICollection<Competencia> ListaCompetencias { get; set; }
 
+        public string FechaPublicacion { get; set; }
+
         public OfertaLaboral(OfertaLaboralDTO o) : this()
         {
             LoadFromDTO(o);
@@ -73,6 +75,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             SueldoTentativo = o.SueldoTentativo;
             Comentarios = o.Comentarios;
             NumeroVacantes = o.NumeroVacantes;
+            FechaPublicacion = o.FechaPublicacion;
            // ListaFuncionesPuesto = o.funciones;
             return this;
         }
@@ -132,10 +135,14 @@ namespace KendoDP2.Areas.Reclutamiento.Models
 
         [DisplayName("Código")]
         public string Codigo { get; set; }
-
+        
         //no se si este bien
 
         public ICollection<FuncionDTO> funciones;
+
+        [DisplayName("Fecha Publicación")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public string FechaPublicacion { get; set; }
         
         public OfertaLaboralDTO() { }
 
@@ -153,6 +160,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             NumeroVacantes = o.NumeroVacantes;
             Comentarios = o.Comentarios;
             SueldoTentativo = o.SueldoTentativo;
+            FechaPublicacion = o.FechaPublicacion;
             //un cambio
             //funciones = ListaFuncionesToDTO(o.ListaFuncionesPuesto);
             

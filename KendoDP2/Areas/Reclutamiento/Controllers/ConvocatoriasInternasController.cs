@@ -7,6 +7,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
+using KendoDP2.Areas.Organizacion.Models;
+using KendoDP2.Models.Seguridad;
 
 
 namespace KendoDP2.Areas.Reclutamiento.Controllers
@@ -66,16 +68,26 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         }
 
         //Falta completar
-        public ActionResult GetViewPostulante(int ofertaID, int colaboradorID)
+        public ActionResult GetViewPostulante()
         {
 
             using (DP2Context context = new DP2Context())
             {
-                OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
                 
-                return PartialView("ViewOfertaLaboralInterna");
+                int colaboradorID = DP2MembershipProvider.GetPersonaID(this);
+                Colaborador colaborador = context.TablaColaboradores.FindByID(colaboradorID);
+                ViewBag.tipoDocumentos = colaborador.TipoDocumento.ToDTO();
+                ViewBag.gradoAcademico = colaborador.GradoAcademico.ToDTO();
+                return PartialView("PostularOfertaLaboral", colaborador.ToDTO());
             }
         }
 
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Postular()
+        {
+
+            return Json("nada");
+        }
+                
     }
 }
