@@ -245,6 +245,7 @@
     <Compile Include="Areas\Organizacion\Models\TipoDocumento.cs" />
     <Compile Include="Areas\Organizacion\Models\Colaborador.cs" />
     <Compile Include="Areas\Organizacion\Models\Persona.cs" />
+    <Compile Include="Areas\Reclutamiento\Controllers\ConvocatoriasInternasController.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\ReclutamientoController.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\ReclutamientoMobileController.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\SolicitudOfertasLaboralesController.cs" />
@@ -1821,6 +1822,8 @@
     <Content Include="Areas\Organizacion\Views\Puestos\Index.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\EditorTemplates\EditorSolicitudOfertaLaboral.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\ViewSolicitudOfertaLaboral.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\ConvocatoriasInternas\Index.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\Shared\ViewOfertaLaboralInterna.cshtml" />
     <Content Include="Areas\Objetivos\Views\MisObjetivos\Index.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\ProcesoEvaluacion\IniciarProcesoEvaluacion.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\Evaluacion\Index.cshtml" />
