@@ -7,7 +7,8 @@
 @{
     TipoDocumentoDTO tipoDocumento = ViewBag.tipoDocumento;
     GradoAcademicoDTO gradoAcademic = ViewBag.gradoAcademico;
-    int ofertaID = ViewBag.ofertaID;    
+    int ofertaID = ViewBag.ofertaID;
+    bool yaPostulado = ViewBag.yaPostulado;
 }
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -153,8 +154,9 @@
     </div>
     <!-- contenedor inferior: campos -->
   
-   
-<a class="btn green" href="javascript:Postular();"> Postular </a>
+@if(!yaPostulado){
+    <a class="btn green" href="javascript:Postular();"> Postular </a>
+}
 <a class="btn green" href="javascript:Cancelar();"> Cancelar </a>
 
 <script>

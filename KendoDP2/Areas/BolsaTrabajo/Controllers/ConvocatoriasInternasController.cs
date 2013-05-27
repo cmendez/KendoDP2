@@ -62,7 +62,6 @@ namespace KendoDP2.Areas.BolsaTrabajo.Controllers
                 ViewBag.puesto = oferta.Puesto.ToDTO();
                 ViewBag.funciones = oferta.Puesto.Funciones.Select(c => c.ToDTO()).ToList();
                 ViewBag.capacidades = oferta.Puesto.GetCapacidadesAsociadas(context).Select(c => c.ToDTO()).ToList();
-                //ViewBag.funciones = oferta.Puesto. 
                 return PartialView("ViewOfertaLaboralInterna", oferta.ToDTO());
             }
         }
@@ -76,6 +75,8 @@ namespace KendoDP2.Areas.BolsaTrabajo.Controllers
                 
                 int colaboradorID = DP2MembershipProvider.GetPersonaID(this);
                 Colaborador colaborador = context.TablaColaboradores.FindByID(colaboradorID);
+                OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
+                ViewBag.yaPostulado = ValidaPostulantePorOferta(oferta, colaborador);
                 ViewBag.tipoDocumento = colaborador.TipoDocumento.ToDTO();
                 ViewBag.gradoAcademico = colaborador.GradoAcademico.ToDTO();
                 ViewBag.ofertaID = ofertaID;
@@ -92,9 +93,6 @@ namespace KendoDP2.Areas.BolsaTrabajo.Controllers
                 int colaboradorID = DP2MembershipProvider.GetPersonaID(this);
                 Colaborador colaborador = context.TablaColaboradores.FindByID(colaboradorID);
                 OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
-
-                //falta corregir la validacion
-                if (ValidaPostulantePorOferta(oferta, colaborador) == 0)
                 {
                     Postulante postulante = new Postulante(colaborador);
                     context.TablaPostulante.AddElement(postulante);
@@ -103,26 +101,13 @@ namespace KendoDP2.Areas.BolsaTrabajo.Controllers
 
                     return Json(new { success = true });
                 }
-
-                return Json(new { success = false });
             }
         }
 
 
-        public int ValidaPostulantePorOferta(OfertaLaboral oferta, Colaborador Colaborador)
+        public bool ValidaPostulantePorOferta(OfertaLaboral oferta, Colaborador Colaborador)
         {
-            ICollection<OfertaLaboralXPostulante> ListaPostulantes = oferta.Postulantes;
-
-            foreach (var p in ListaPostulantes)
-            {
-                if (p.Postulante.ColaboradorID == Colaborador.ID)
-                {
-                    return 1;
-                }
-            }
-            
-            return 0;
-
+            return oferta.Postulantes.Any(x => x.Postulante.ColaboradorID == Colaborador.ID);
         }
     }
 }
