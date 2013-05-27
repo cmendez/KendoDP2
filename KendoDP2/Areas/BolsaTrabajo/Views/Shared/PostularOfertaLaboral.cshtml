@@ -182,7 +182,7 @@
                 type: 'POST',
                 data: { ofertaID : @Model.ID},
             success: function(response){
-                console.log("Postulacion efectuada con exito");
+                alert("Postulacion efectuada con exito");
                 $("#ConvocatoriaInternaGrid").data('kendoGrid').dataSource.read();
                 $("#Details2").data('kendoWindow').close();
             }
