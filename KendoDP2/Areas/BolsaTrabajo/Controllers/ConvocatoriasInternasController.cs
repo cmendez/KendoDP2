@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
 using KendoDP2.Areas.Organizacion.Models;
 using KendoDP2.Models.Seguridad;
+using System.Globalization;
 
 
 namespace KendoDP2.Areas.BolsaTrabajo.Controllers
@@ -42,8 +43,10 @@ namespace KendoDP2.Areas.BolsaTrabajo.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                List<OfertaLaboralDTO> ofertas = context.TablaOfertaLaborales.All().Where(p => (p.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Aprobado")) && (p.ModoSolicitudOfertaLaboral.Descripcion.Equals("Convocatoria Interna"))).Select(p => p.ToDTO()).ToList();
-                return Json(ofertas.ToDataSourceResult(request));
+                List<OfertaLaboralDTO> ofertasPosibles = context.TablaOfertaLaborales.All().Where(p => (p.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Aprobado")) && (p.ModoSolicitudOfertaLaboral.Descripcion.Equals("Convocatoria Interna"))).Select(p => p.ToDTO()).ToList();
+                DateTime now = DateTime.Now;
+                List<OfertaLaboralDTO> ofertasEnFecha = ofertasPosibles.Where(x => DateTime.ParseExact(x.FechaFinRequerimiento, "dd/MM/yyyy", CultureInfo.CurrentCulture).CompareTo(now) >= 1).ToList();
+                return Json(ofertasEnFecha.ToDataSourceResult(request));
             
             }
         }
@@ -77,6 +80,7 @@ namespace KendoDP2.Areas.BolsaTrabajo.Controllers
                 Colaborador colaborador = context.TablaColaboradores.FindByID(colaboradorID);
                 OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
                 ViewBag.yaPostulado = ValidaPostulantePorOferta(oferta, colaborador);
+                ViewBag.tieneCV = ValidaExistenciaCV(colaborador);
                 ViewBag.tipoDocumento = colaborador.TipoDocumento.ToDTO();
                 ViewBag.gradoAcademico = colaborador.GradoAcademico.ToDTO();
                 ViewBag.ofertaID = ofertaID;
@@ -108,6 +112,11 @@ namespace KendoDP2.Areas.BolsaTrabajo.Controllers
         public bool ValidaPostulantePorOferta(OfertaLaboral oferta, Colaborador Colaborador)
         {
             return oferta.Postulantes.Any(x => x.Postulante.ColaboradorID == Colaborador.ID);
+        }
+
+        public bool ValidaExistenciaCV(Colaborador colaborador)
+        {
+            return (colaborador.CurriculumVitaeID != 0);
         }
     }
 }
