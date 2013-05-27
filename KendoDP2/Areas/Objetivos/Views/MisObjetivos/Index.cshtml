@@ -42,20 +42,53 @@
                     .Name("PanelBar-" + periodos[i].ID)
                     .ExpandMode(PanelBarExpandMode.Multiple)
                     .Items(panelbar =>
-                       { 
-                            foreach(var objetivo in objetivos.Where(x => x.BSCID == periodos[i].ID)) {
-                                panelbar.Add().Text(objetivo.Nombre)
-                                .Content(
-                                    Html.Kendo().Grid<ObjetivoDTO>()
-                                    .Name("Grid-" + objetivo.ID)
-                                    .Columns(columns =>
-                                        {
-                                            columns.Bound(p => p.Nombre);
-                                        }).ToHtmlString()
-                                        );
-                            }
+                       {
+                           foreach (var objetivo in objetivos.Where(x => x.BSCID == periodos[i].ID))
+                           {
+                               panelbar.Add().Text(objetivo.Nombre)
+                               .Content(
+                                   Html.Kendo().Grid<ObjetivoDTO>()
+                                   .Name("Grid-" + objetivo.ID)
+                                   .Columns(columns =>
+                                       {
+                                           columns.Bound(p => p.Nombre).ClientFooterTemplate("<strong>Cantidad:</strong> #=count#");
+                                           columns.Bound(p => p.Peso).ClientFooterTemplate("<strong>Suma:</strong> #=sum#");
+                                           columns.Command(command => { command.Destroy().Text("Eliminar"); }).Width(200);
+                                       })
+                                   .ToolBar(toolbar => { toolbar.Create().Text("Registrar"); toolbar.Save().SaveText("Guardar cambios").CancelText("Cancelar cambios"); })
+                                   .Editable(editable => editable
+                                       .Mode(GridEditMode.InCell)
+                                       .DisplayDeleteConfirmation("Recuerde que debe guardar los cambios para hacer efectiva la eliminación.")
+                                       .Window(w => w.Title("Ingrese los datos"))
+                                   )
+                                   .Pageable(e => e.Refresh(true))
+                                   .Filterable()
+                                   .Sortable()
+                                   .Scrollable(w => w.Height(330))
+                                   .DataSource(dataSource => dataSource
+                                       .Ajax()
+                                       .PageSize(20)
+                                       .Aggregates(a =>
+                                       {
+                                           a.Add(p => p.Nombre).Count();
+                                           a.Add(p => p.Peso).Sum();
+                                       })
+                                       .Model(model =>
+                                       {
+                                           model.Id(p => p.ID);
+                                           model.Field(p => p.ObjetivoPadreID).DefaultValue(objetivo.ID);
+                                       })
+                                       .Create(update => update.Action("Create", "MisObjetivos"))
+                                       .Read(read => read.Action("Read", "MisObjetivos", new { objetivoPadreID = objetivo.ID }))
+                                       .Update(update => update.Action("Update", "MisObjetivos"))
+                                       .Destroy(update => update.Action("Destroy", "MisObjetivos"))
+                                       .Events(e => e.RequestEnd("afterRequest"))
+                                   ).Events(e => e.SaveChanges("onSave"))
+                                   .ToHtmlString()
+                               );
+                           }
                        }
-                    )
+                       ).HtmlAttributes(new { @class = i == 0 ? "" : "hidden" })
                )
 
 
@@ -72,7 +105,7 @@
     $(document).ready(function () {
         var dropDownListPeriodos = $("#DropDownListPeriodos").data("kendoDropDownList");
         var periodoID = dropDownListPeriodos.dataItem(dropDownListPeriodos.selectedIndex).ID;
-        last_container = $("#tabs-for-periodo-" + periodoID);
+        last_container = $("#PanelBar-" + periodoID);
     });
 
     function onDropDownListPeriodosChange(e) {
@@ -80,7 +113,7 @@
         var periodoID = dropDownListPeriodos.dataItem(dropDownListPeriodos.selectedIndex).ID;
 
         last_container.hide();
-        last_container = $("#tabs-for-periodo-" + periodoID);
+        last_container = $("#PanelBar-" + periodoID);
         last_container.show();
     }
 

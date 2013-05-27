@@ -5,8 +5,8 @@
 
 @model KendoDP2.Areas.Organizacion.Models.ColaboradorDTO
 @{
-    IList<TipoDocumentoDTO> tipoDocumentos = ViewBag.tipoDocumentos;
-    IList<GradoAcademicoDTO> gradoAcademico = ViewBag.gradoAcademico;
+    TipoDocumentoDTO tipoDocumento = ViewBag.tipoDocumento;
+    GradoAcademicoDTO gradoAcademic = ViewBag.gradoAcademico;
     
 }
 {
@@ -61,8 +61,7 @@
                         <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.TipoDocumentoID)</div>
                     </div>
                     <div class="span7 responsive">
-                        @Html.DropDownListFor(model => model.TipoDocumentoID,
-                            new SelectList(tipoDocumentos, "ID", "Descripcion"), new { style = "width:100%" })
+                        @Html.TextBox("TipoDocumento", tipoDocumento.Descripcion);
                     </div>
                 </div>
 
@@ -119,7 +118,7 @@
                         <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.GradoAcademicoID)</div>
                     </div>
                     <div class="span7 responsive">
-                        @Html.DropDownListFor(model => model.GradoAcademicoID, new SelectList(gradoAcademico, "ID", "Descripcion"), new { style = "width:100%" })
+                        @Html.TextBox("GradoAcademico", gradoAcademic.Descripcion);
                     </div>
                 </div>
 

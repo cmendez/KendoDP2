@@ -76,7 +76,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 
                 int colaboradorID = DP2MembershipProvider.GetPersonaID(this);
                 Colaborador colaborador = context.TablaColaboradores.FindByID(colaboradorID);
-                ViewBag.tipoDocumentos = colaborador.TipoDocumento.ToDTO();
+                ViewBag.tipoDocumento = colaborador.TipoDocumento.ToDTO();
                 ViewBag.gradoAcademico = colaborador.GradoAcademico.ToDTO();
                 return PartialView("PostularOfertaLaboral", colaborador.ToDTO());
             }
