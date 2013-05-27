@@ -9,7 +9,6 @@
     GradoAcademicoDTO gradoAcademic = ViewBag.gradoAcademico;
     
 }
-{
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     @Html.HiddenFor(m => m.ID)
@@ -192,8 +191,7 @@
     function Cancelar(){
         $.ajax({
             success: function(response){
-                $("#SolicitudOfertaGrid").data('kendoGrid').dataSource.read();
-                $("#Details").data('kendoWindow').close();
+                $("#Details2").data('kendoWindow').close();
             }})}
 
     
@@ -210,5 +208,3 @@
 </script>
     
 
-
-}        
