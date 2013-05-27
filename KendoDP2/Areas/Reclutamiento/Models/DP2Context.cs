@@ -25,6 +25,8 @@ namespace KendoDP2.Models.Generic
         public DbSet<FasePostulacion> InternalFasePostulacion { get; set; }
         public DbSet<OfertaLaboralXPostulante> InternalOfertaLaboralXPostulante { get; set; }
         public DbSet<FasePostulacionXOfertaLaboralXPostulante> InternalFasePostulacionXOfertaLaboralXPostulante { get; set; }
+        public DbSet<EvaluacionXFaseXPostulacion> InternalEvaluacionXFaseXPostulacion { get; set; }
+        public DbSet<Respuesta> InternalRespuesta { get; set; }
 
         public DBGenericRequester<OfertaLaboral> TablaOfertaLaborales { get; set; }
         public DBGenericRequester<EstadosSolicitudOfertaLaboral> TablaEstadosSolicitudes { get; set; }
@@ -33,6 +35,8 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<FasePostulacion> TablaFasePostulacion { get; set; }
         public DBGenericRequester<OfertaLaboralXPostulante> TablaOfertaLaboralXPostulante { get; set; }
         public DBGenericRequester<FasePostulacionXOfertaLaboralXPostulante> TablaFasePostulacionXOfertaLaboralXPostulante { get; set; }
+        public DBGenericRequester<EvaluacionXFaseXPostulacion> TablaEvaluacionXFaseXPostulacion { get; set; }
+        public DBGenericRequester<Respuesta> TablaRespuesta { get; set; }
 
         private void RegistrarTablasReclutamiento()
         {
@@ -43,6 +47,8 @@ namespace KendoDP2.Models.Generic
             TablaFasePostulacion = new DBGenericRequester<FasePostulacion>(this, InternalFasePostulacion);
             TablaOfertaLaboralXPostulante = new DBGenericRequester<OfertaLaboralXPostulante>(this, InternalOfertaLaboralXPostulante);
             TablaFasePostulacionXOfertaLaboralXPostulante = new DBGenericRequester<FasePostulacionXOfertaLaboralXPostulante>(this, InternalFasePostulacionXOfertaLaboralXPostulante);
+            TablaEvaluacionXFaseXPostulacion = new DBGenericRequester<EvaluacionXFaseXPostulacion>(this, InternalEvaluacionXFaseXPostulacion);
+            TablaRespuesta = new DBGenericRequester<Respuesta>(this, InternalRespuesta);
         }
 
         private void SeedModosSolicitudes()
