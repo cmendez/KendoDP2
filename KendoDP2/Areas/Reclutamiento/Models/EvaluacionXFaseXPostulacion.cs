@@ -15,7 +15,9 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         [Required]
         public virtual FasePostulacionXOfertaLaboralXPostulante FasePostulacionXOfertaLaboralXPostulante { get; set; }
         public int FasePostulacionXOfertaLaboralXPostulanteID { get; set; }
-        
+
+        public ICollection<Respuesta> RespuestasDeLaEvaluacion { get; set; }
+
         public string FechaInicio { get; set; }
         public string FechaFin { get; set; }
         

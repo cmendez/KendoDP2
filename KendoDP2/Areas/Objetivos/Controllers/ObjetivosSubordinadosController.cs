@@ -1,7 +1,5 @@
 ﻿using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
-using KendoDP2.Areas.Configuracion.Models;
-using KendoDP2.Areas.Objetivos.Models;
 using KendoDP2.Areas.Organizacion.Models;
 using KendoDP2.Models.Generic;
 using KendoDP2.Models.Seguridad;
@@ -10,12 +8,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using KendoDP2.Areas.Objetivos.Models;
 
 namespace KendoDP2.Areas.Objetivos.Controllers
 {
-    public class MisObjetivosController : Controller
+    public class ObjetivosSubordinadosController : Controller
     {
-        public MisObjetivosController()
+        public ObjetivosSubordinadosController()
         {
             ViewBag.Area = "Objetivos";
         }
@@ -37,7 +36,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                return Json(context.TablaObjetivos.Where(o => o.ObjetivoPadreID == objetivoPadreID && o.PuestoAsignadoID == null).Select(o => o.ToDTO()).ToDataSourceResult(request));
+                return Json(context.TablaObjetivos.Where(o => o.ObjetivoPadreID == objetivoPadreID && o.IsObjetivoIntermedio).Select(o => o.ToDTO()).ToDataSourceResult(request));
             }
         }
 
@@ -47,6 +46,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             using (DP2Context context = new DP2Context())
             {
                 Objetivo o = new Objetivo(objetivo, context);
+                o.IsObjetivoIntermedio = true;
                 context.TablaObjetivos.AddElement(o);
                 return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
@@ -72,6 +72,5 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 return Json(ModelState.ToDataSourceResult());
             }
         }
-
     }
 }
