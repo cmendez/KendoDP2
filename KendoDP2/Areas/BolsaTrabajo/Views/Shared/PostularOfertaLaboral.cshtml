@@ -7,7 +7,7 @@
 @{
     TipoDocumentoDTO tipoDocumento = ViewBag.tipoDocumento;
     GradoAcademicoDTO gradoAcademic = ViewBag.gradoAcademico;
-    
+    int ofertaID = ViewBag.ofertaID;    
 }
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -173,7 +173,7 @@
             url: '@Url.Action("Postular", "ConvocatoriasInternas", new { Area = "BolsaTrabajo" })',
                 dataType: 'JSON',
                 type: 'POST',
-                data: { ofertaID : model.ofertaID},
+                data: { ofertaID : @ofertaID},
             success: function(response){
                 alert("Postulacion efectuada con exito");
                 $("#ConvocatoriaInternaGrid").data('kendoGrid').dataSource.read();

@@ -99,7 +99,7 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         ID = dataItem.ID;
         var wnd = $("#Details2").data("kendoWindow");
-        $("#Details2").load("@Url.Action("GetViewPostulante","ConvocatoriasInternas", new{Area = "BolsaTrabajo"})", function () {
+        $("#Details2").load("@Url.Action("GetViewPostulante","ConvocatoriasInternas", new{Area = "BolsaTrabajo"})?ofertaID=" + ID, function () {
             wnd.center().open();
         });
     }

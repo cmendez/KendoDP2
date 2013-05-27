@@ -68,7 +68,7 @@ namespace KendoDP2.Areas.BolsaTrabajo.Controllers
         }
 
         //Falta completar
-        public ActionResult GetViewPostulante()
+        public ActionResult GetViewPostulante(int ofertaID)
         {
 
             using (DP2Context context = new DP2Context())
@@ -78,6 +78,7 @@ namespace KendoDP2.Areas.BolsaTrabajo.Controllers
                 Colaborador colaborador = context.TablaColaboradores.FindByID(colaboradorID);
                 ViewBag.tipoDocumento = colaborador.TipoDocumento.ToDTO();
                 ViewBag.gradoAcademico = colaborador.GradoAcademico.ToDTO();
+                ViewBag.ofertaID = ofertaID;
                 return PartialView("PostularOfertaLaboral", colaborador.ToDTO());
             }
         }
