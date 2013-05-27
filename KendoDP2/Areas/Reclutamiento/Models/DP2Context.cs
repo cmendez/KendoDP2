@@ -110,8 +110,8 @@ namespace KendoDP2.Models.Generic
                 ModoSolicitudOfertaLaboralID = 1,
                 //PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID 
                 ListaFuncionesPuesto = new List<Funcion>{
-                    new Funcion{Descripcion = "Realizar actividad A", PuestoID = 1},
-                    new Funcion{Descripcion = "Realizar actividad B", PuestoID = 1}
+                    new Funcion{Nombre = "Realizar actividad A", PuestoID = 1},
+                    new Funcion{Nombre = "Realizar actividad B", PuestoID = 1}
                 },
                 PuestoID = 3
             });
