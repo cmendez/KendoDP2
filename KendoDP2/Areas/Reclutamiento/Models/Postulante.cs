@@ -27,6 +27,13 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             LoadFromDTO(p);
         }
 
+        public Postulante(Organizacion.Models.Colaborador colaborador)
+        {
+            this.Colaborador = colaborador;
+            this.GradoAcademico = colaborador.GradoAcademico;
+            this.TipoDocumento = colaborador.TipoDocumento;
+        }
+
         public Postulante LoadFromDTO(PostulanteDTO p)
         {
             ID = p.ID;
