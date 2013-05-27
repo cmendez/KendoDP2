@@ -78,6 +78,16 @@ namespace KendoDP2.Models.Generic
             TablaCompetencias.AddElement(new Competencia("Ser kiwi"));
         }
 
+        private void SeedCapacidad()
+        {
+            TablaCapacidades.AddElement(new Capacidad("Trabajador",1,1));
+        }
+
+        private void SeedCompetenciasXPuesto()
+        {
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,1,1));
+        }
+
         private void SeedPuestoXEvaluadores()
         {
             //TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(TablaPuestos.One(p => p.Nombre.Eq a.Nombre.Equals("La gran Área")).ID));

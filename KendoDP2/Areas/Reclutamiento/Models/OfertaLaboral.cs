@@ -43,12 +43,6 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         [InverseProperty("OfertaLaboral")]
         public virtual ICollection<OfertaLaboralXPostulante> Postulantes { get; set; }
 
-        //Lista de requerimientos o funciones
-        public virtual ICollection<Funcion> ListaFuncionesPuesto { get; set; }
-
-        //Lista de Competencias del puesto
-        public virtual ICollection<Competencia> ListaCompetencias { get; set; }
-
         public string FechaPublicacion { get; set; }
 
         public OfertaLaboral(OfertaLaboralDTO o) : this()
@@ -76,7 +70,6 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             Comentarios = o.Comentarios;
             NumeroVacantes = o.NumeroVacantes;
             FechaPublicacion = o.FechaPublicacion;
-           // ListaFuncionesPuesto = o.funciones;
             return this;
         }
 
@@ -136,9 +129,6 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         [DisplayName("Código")]
         public string Codigo { get; set; }
         
-        //no se si este bien
-
-        public ICollection<FuncionDTO> funciones;
 
         [DisplayName("Fecha Publicación")]
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
@@ -161,11 +151,6 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             Comentarios = o.Comentarios;
             SueldoTentativo = o.SueldoTentativo;
             FechaPublicacion = o.FechaPublicacion;
-            //un cambio
-            //funciones = ListaFuncionesToDTO(o.ListaFuncionesPuesto);
-            
-            
-            
         }
 
         public ICollection<FuncionDTO> ListaFuncionesToDTO(ICollection<Funcion> funciones)
@@ -221,20 +206,21 @@ namespace KendoDP2.Areas.Reclutamiento.Models
     public class OfertaLaboralMobilePostulanteDTO 
     {
         public int ID { get; set; }
-        public string NombreArea { get; set; }
-        public string NombrePuesto { get; set; }
+        public string NombreAreaPuesto { get; set; }
         public string DescripcionOferta { get; set; }
+        public int SueldoTentativo { get; set; } 
         public ICollection<FuncionDTO> Funciones { get; set; }
-        //public ICollection<CompetenciaConPonderadoDTO> CompetenciasConNivel { get; set; }
+        public ICollection<CompetenciaConPonderadoDTO> CompetenciasPonderadas { get; set; }
 
         public OfertaLaboralMobilePostulanteDTO(OfertaLaboral oferta)
         {
             ID = oferta.ID;
-            NombreArea = oferta.Area.Nombre;
-            NombrePuesto = oferta.Puesto.Nombre;
+            NombreAreaPuesto = oferta.Area.Nombre + "-" +oferta.Puesto.Nombre;
             DescripcionOferta = oferta.Descripcion;
-            Funciones = ListaFuncionesToDTO(oferta.ListaFuncionesPuesto);
-            //CompetenciasConNivel = ListaCompetenciasConPonderadoToDTO(oferta.ListaCompetencias);
+            SueldoTentativo = oferta.SueldoTentativo;
+            Funciones = ListaFuncionesToDTO(oferta.Puesto.Funciones);
+            CompetenciasPonderadas = ListaCompetenciasConPonderadoToDTO(oferta.Puesto.CompetenciasXPuesto);
+
         }
 
         //Funciones Auxiliares
@@ -251,12 +237,12 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             return ListaDTO;
         }
 
-        public ICollection<CompetenciaConPonderadoDTO> ListaCompetenciasConPonderadoToDTO(ICollection<Competencia> competencias)
+        public ICollection<CompetenciaConPonderadoDTO> ListaCompetenciasConPonderadoToDTO(ICollection<CompetenciaXPuesto> competencias)
         {
             List<CompetenciaConPonderadoDTO> ListaDTO = new List<CompetenciaConPonderadoDTO>();
             CompetenciaConPonderadoDTO comp;
 
-            foreach (Competencia c in competencias)
+            foreach (CompetenciaXPuesto c in competencias)
             {
                 comp = new CompetenciaConPonderadoDTO(c);
                 ListaDTO.Add(comp);
