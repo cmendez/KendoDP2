@@ -48,6 +48,8 @@ namespace KendoDP2.Models.Generic
             SeedNivelCapacidades();
             SeedEstadoPersonaXProcesoEvaluaciones();
             SeedPuestoXEvaluadores();
+            SeedCapacidad();
+            SeedCompetenciasXPuesto();
             // Area Objetivos
             SeedTipoObjetivoBSC();
             // Area Organizacion (segunda parte)

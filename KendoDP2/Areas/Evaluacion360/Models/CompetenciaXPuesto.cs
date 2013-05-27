@@ -12,10 +12,10 @@ namespace KendoDP2.Areas.Evaluacion360.Models
     public class CompetenciaXPuesto : DBObject
     {
         public int CompetenciaID { get; set; }
-        public Competencia Competencia { get; set; }
+        public virtual Competencia Competencia { get; set; }
 
         public int PuestoID { get; set; }
-        public Puesto Puesto { get; set; }
+        public virtual Puesto Puesto { get; set; }
 
         public int NivelID { get; set; }
         public int Peso { get; set; }
@@ -28,6 +28,17 @@ namespace KendoDP2.Areas.Evaluacion360.Models
             Peso = cxpDTO.Peso;
 
             return this;
+        }
+
+        public CompetenciaXPuesto()
+        {
+        }
+
+        public CompetenciaXPuesto (int competenciaId, int puestoId, int nivelId)
+        {
+            CompetenciaID = competenciaId;
+            PuestoID = puestoId;
+            NivelID = nivelId;
         }
 
         public CompetenciaXPuestoDTO enFormatoParaElCliente()
