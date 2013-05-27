@@ -10,6 +10,7 @@ using System.Web;
 
 namespace KendoDP2.Areas.Objetivos.Models
 {
+
     public class Objetivo : DBObject
     {
         public string Nombre { get; set; }
@@ -30,6 +31,8 @@ namespace KendoDP2.Areas.Objetivos.Models
         
         public int? BSCID { get; set; }
         public virtual BSC BSC { get; set; }
+
+        public bool IsObjetivoIntermedio { get; set; }
 
 
         public Objetivo() {
