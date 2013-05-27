@@ -1,6 +1,5 @@
 ﻿using KendoDP2.Areas.Configuracion.Models;
 using KendoDP2.Areas.Organizacion.Models;
-using KendoDP2.Areas.Reportes.Models;
 using KendoDP2.Models.Generic;
 using System;
 using System.Collections.Generic;
@@ -30,9 +29,5 @@ namespace KendoDP2.Areas.Objetivos.Models
             PeriodoID = periodo;
         }
         
-        public BSCAvanceDTO ToRAvanceBSCDTO (){
-            return new BSCAvanceDTO(this);
-        }
-
     }
 }
