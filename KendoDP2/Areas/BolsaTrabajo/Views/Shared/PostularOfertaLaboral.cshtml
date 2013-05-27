@@ -17,15 +17,14 @@
             <!-- contenedor superior izquierdo: campos -->
             @Html.Label("Datos Personales:", new { style = "font-weight: bold;" })
 
-            <div class="span7">
+            <div class="span9">
                 <div class="row-fluid">
                     <div class="span5">
                         <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Nombre)</div>
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.Nombre)
-                            @Html.ValidationMessageFor(model => model.Nombre)
+                            @Html.TextBoxFor(model => model.Nombre, new { @readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -36,8 +35,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.ApellidoPaterno)
-                            @Html.ValidationMessageFor(model => model.ApellidoPaterno)
+                            @Html.TextBoxFor(model => model.ApellidoPaterno, new { @readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -48,8 +46,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.ApellidoMaterno)
-                            @Html.ValidationMessageFor(model => model.ApellidoMaterno)
+                            @Html.TextBoxFor(model => model.ApellidoMaterno, new { @readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -60,7 +57,7 @@
                         <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.TipoDocumentoID)</div>
                     </div>
                     <div class="span7 responsive">
-                        @Html.TextBox("TipoDocumento", tipoDocumento.Descripcion);
+                        @Html.TextBox("TipoDocumento", tipoDocumento.Descripcion, new { @readonly = "readonly" })
                     </div>
                 </div>
 
@@ -70,8 +67,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.NumeroDocumento)
-                            @Html.ValidationMessageFor(model => model.NumeroDocumento)
+                            @Html.TextBoxFor(model => model.NumeroDocumento, new { @readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -82,8 +78,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.Telefono)
-                            @Html.ValidationMessageFor(model => model.Telefono)
+                            @Html.TextBoxFor(model => model.Telefono, new { @readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -94,8 +89,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.CorreoElectronico)
-                            @Html.ValidationMessageFor(model => model.CorreoElectronico)
+                            @Html.TextBoxFor(model => model.CorreoElectronico, new { @readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -106,8 +100,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.CentroEstudios)
-                            @Html.ValidationMessageFor(model => model.CentroEstudios)
+                            @Html.TextBoxFor(model => model.CentroEstudios, new { @readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -117,7 +110,7 @@
                         <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.GradoAcademicoID)</div>
                     </div>
                     <div class="span7 responsive">
-                        @Html.TextBox("GradoAcademico", gradoAcademic.Descripcion);
+                        @Html.TextBox("GradoAcademico", gradoAcademic.Descripcion, new { @readonly = "readonly" })
                     </div>
                 </div>
 
@@ -177,12 +170,12 @@
 
     function Postular(){
         $.ajax({
-            url: '@Url.Action("Postular", "ConvocatoriasInternas", new { Area = "BolsaTrabajo" })',
+            url: '@Url.Action("Postular", "ConvocatoriasInternas", new { Area = "BolsaTrabajo" })?ofertaID='+ model.ofertaID,
                 dataType: 'JSON',
                 type: 'POST',
-                data: { ofertaID : @Model.ID},
+                data: { ofertaID : model.ofertaID},
             success: function(response){
-                $("#SolicitudOfertaGrid").data('kendoGrid').dataSource.read();
+                $("#ConvocatoriaInternaGrid").data('kendoGrid').dataSource.read();
                 $("#Details").data('kendoWindow').close();
             }
             });
