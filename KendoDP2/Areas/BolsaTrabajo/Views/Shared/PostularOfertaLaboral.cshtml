@@ -170,7 +170,7 @@
 
     function Postular(){
         $.ajax({
-            url: '@Url.Action("Postular", "ConvocatoriasInternas", new { Area = "BolsaTrabajo" })?ofertaID='+ model.ofertaID,
+            url: '@Url.Action("Postular", "ConvocatoriasInternas", new { Area = "BolsaTrabajo" })',
                 dataType: 'JSON',
                 type: 'POST',
                 data: { ofertaID : model.ofertaID},
