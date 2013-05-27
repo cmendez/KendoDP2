@@ -25,6 +25,8 @@ namespace KendoDP2.Models.Generic
         public DbSet<FasePostulacion> InternalFasePostulacion { get; set; }
         public DbSet<OfertaLaboralXPostulante> InternalOfertaLaboralXPostulante { get; set; }
         public DbSet<FasePostulacionXOfertaLaboralXPostulante> InternalFasePostulacionXOfertaLaboralXPostulante { get; set; }
+        public DbSet<EvaluacionXFaseXPostulacion> InternalEvaluacionXFaseXPostulacion { get; set; }
+        public DbSet<Respuesta> InternalRespuesta { get; set; }
 
         public DBGenericRequester<OfertaLaboral> TablaOfertaLaborales { get; set; }
         public DBGenericRequester<EstadosSolicitudOfertaLaboral> TablaEstadosSolicitudes { get; set; }
@@ -33,6 +35,8 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<FasePostulacion> TablaFasePostulacion { get; set; }
         public DBGenericRequester<OfertaLaboralXPostulante> TablaOfertaLaboralXPostulante { get; set; }
         public DBGenericRequester<FasePostulacionXOfertaLaboralXPostulante> TablaFasePostulacionXOfertaLaboralXPostulante { get; set; }
+        public DBGenericRequester<EvaluacionXFaseXPostulacion> TablaEvaluacionXFaseXPostulacion { get; set; }
+        public DBGenericRequester<Respuesta> TablaRespuesta { get; set; }
 
         private void RegistrarTablasReclutamiento()
         {
@@ -43,15 +47,8 @@ namespace KendoDP2.Models.Generic
             TablaFasePostulacion = new DBGenericRequester<FasePostulacion>(this, InternalFasePostulacion);
             TablaOfertaLaboralXPostulante = new DBGenericRequester<OfertaLaboralXPostulante>(this, InternalOfertaLaboralXPostulante);
             TablaFasePostulacionXOfertaLaboralXPostulante = new DBGenericRequester<FasePostulacionXOfertaLaboralXPostulante>(this, InternalFasePostulacionXOfertaLaboralXPostulante);
-        }
-
-        private void SeedFasePostulacion()
-        {
-            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Registrado" });
-            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado Externo" });
-            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado RRHH" });
-            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado Jefe" });
-            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Cerrado" });
+            TablaEvaluacionXFaseXPostulacion = new DBGenericRequester<EvaluacionXFaseXPostulacion>(this, InternalEvaluacionXFaseXPostulacion);
+            TablaRespuesta = new DBGenericRequester<Respuesta>(this, InternalRespuesta);
         }
 
         private void SeedModosSolicitudes()
@@ -169,6 +166,15 @@ namespace KendoDP2.Models.Generic
                 GradoAcademicoID = TablaGradosAcademicos.One(ga => ga.Descripcion.Equals("Licenciado")).ID,
             });
 
+        }
+        
+        private void SeedFasePostulacion()
+        {
+            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Registrado" });
+            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado Externo" });
+            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado RRHH" });
+            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado Jefe" });
+            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Cerrado" });
         }
 
         private void SeedOfertaLaboralXPostulante()

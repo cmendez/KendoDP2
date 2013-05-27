@@ -43,6 +43,8 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         [InverseProperty("OfertaLaboral")]
         public virtual ICollection<OfertaLaboralXPostulante> Postulantes { get; set; }
 
+        public string FechaPublicacion { get; set; }
+
         public OfertaLaboral(OfertaLaboralDTO o) : this()
         {
             LoadFromDTO(o);
@@ -67,6 +69,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             SueldoTentativo = o.SueldoTentativo;
             Comentarios = o.Comentarios;
             NumeroVacantes = o.NumeroVacantes;
+            FechaPublicacion = o.FechaPublicacion;
             return this;
         }
 
@@ -126,6 +129,11 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         [DisplayName("Código")]
         public string Codigo { get; set; }
         
+
+        [DisplayName("Fecha Publicación")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public string FechaPublicacion { get; set; }
+        
         public OfertaLaboralDTO() { }
 
         public OfertaLaboralDTO(OfertaLaboral o)
@@ -142,6 +150,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             NumeroVacantes = o.NumeroVacantes;
             Comentarios = o.Comentarios;
             SueldoTentativo = o.SueldoTentativo;
+            FechaPublicacion = o.FechaPublicacion;
         }
 
         public ICollection<FuncionDTO> ListaFuncionesToDTO(ICollection<Funcion> funciones)

@@ -17,9 +17,8 @@ namespace KendoDP2.Areas.Objetivos.Models
         public DateTime? FechaCreacion { get; set; }
         public int AvanceFinal { get; set; }
         public DateTime? FechaFinalizacion { get; set; }
-        public bool IsAsignadoAPersona { get; set; } // O a BSC
 
-        public int PuestoAsignadoID { get; set; }
+        public int? PuestoAsignadoID { get; set; }
         public Puesto PuestoAsignado { get; set; }
 
         public int? TipoObjetivoBSCID { get; set; }
@@ -37,7 +36,18 @@ namespace KendoDP2.Areas.Objetivos.Models
             FechaCreacion = DateTime.Now;
         }
 
-        // Para objetivo de BSCID = 1
+        // Funciona para cualquier objetivo
+        public int GetBSCIDPadre()
+        {
+            Objetivo o = this;
+            while (o.ObjetivoPadreID.GetValueOrDefault() > 0)
+            {
+                o = o.ObjetivoPadre;
+            }
+            return o.BSCID.GetValueOrDefault();
+        }
+
+        // Para objetivo de BSC
         public Objetivo(string nombre, int BSCID, int TipoBSCID, int puestoID, int peso)
         {
             Nombre = nombre;
@@ -48,36 +58,34 @@ namespace KendoDP2.Areas.Objetivos.Models
             Peso = peso;
         }
         // Para objetivo que no es de ningun BSC
-        public Objetivo(string nombre,int objetivoPadreID, int peso, int puestoID)  
+        public Objetivo(string nombre,int objetivoPadreID, int peso)  
         {
             Nombre = nombre;
             Peso = peso;
             ObjetivoPadreID = objetivoPadreID;
             FechaCreacion = DateTime.Now;
-            PuestoAsignadoID = puestoID;
         }
 
-        public Objetivo(ObjetivoDTO o) : this()
+        public Objetivo(ObjetivoDTO o, DP2Context context) : this()
         {
-            LoadFromDTO(o);
+            LoadFromDTO(o, context);
         }
 
-        public Objetivo LoadFromDTO(ObjetivoDTO o)
+        public Objetivo LoadFromDTO(ObjetivoDTO o, DP2Context context)
         {
 
             ID = o.ID;
             Peso = o.Peso;
             Nombre = o.Nombre;
             AvanceFinal = o.AvanceFinal;
-            IsAsignadoAPersona = o.IsAsignadoAPersona;
-            TipoObjetivoBSCID = o.TipoObjetivoBSCID;
-            ObjetivoPadreID = o.ObjetivoPadreID;
-            BSCID = o.BSCID;
-
-            //PeriodoID = o.PeriodoID;
+            if (o.TipoObjetivoBSCID > 0)
+                TipoObjetivoBSC = context.TablaTipoObjetivoBSC.FindByID(o.TipoObjetivoBSCID);
+            if (o.ObjetivoPadreID > 0)
+                ObjetivoPadre = context.TablaObjetivos.FindByID(o.ObjetivoPadreID);
+            if (o.BSCID > 0)
+                BSC = context.TablaBSC.FindByID(o.BSCID);
 
             return this;
-
         }
 
         public ObjetivoDTO ToDTO()
@@ -122,7 +130,6 @@ namespace KendoDP2.Areas.Objetivos.Models
         public string Nombre { get; set; }
         public int Peso { get; set; }
         public int AvanceFinal { get; set; }
-        public bool IsAsignadoAPersona { get; set; }
         public int TipoObjetivoBSCID { get; set; }
         public int ObjetivoPadreID { get; set; }
         public int BSCID { get; set; }
@@ -137,13 +144,9 @@ namespace KendoDP2.Areas.Objetivos.Models
             Nombre = o.Nombre;
             Peso = o.Peso;
             AvanceFinal = o.AvanceFinal;
-            IsAsignadoAPersona = o.IsAsignadoAPersona;
             TipoObjetivoBSCID = o.TipoObjetivoBSCID.GetValueOrDefault();
             ObjetivoPadreID = o.ObjetivoPadreID.GetValueOrDefault();
-            BSCID = o.BSCID.GetValueOrDefault();
-
-            //PeriodoID = o.PeriodoID;
-
+            BSCID = o.GetBSCIDPadre();
         }
 
     }
