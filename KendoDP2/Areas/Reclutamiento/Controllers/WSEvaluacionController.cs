@@ -18,6 +18,8 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 try
                 {
                     //Por empezar este WS
+
+
                     return JsonSuccessGet("");
                 }
                 catch (Exception ex)

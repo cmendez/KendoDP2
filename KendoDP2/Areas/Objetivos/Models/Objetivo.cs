@@ -19,37 +19,52 @@ namespace KendoDP2.Areas.Objetivos.Models
         public DateTime? FechaFinalizacion { get; set; }
         public bool IsAsignadoAPersona { get; set; } // O a BSC
 
-        public int? CreadorID { get; set; }
-        public Colaborador Creador { get; set; }
+        public int? PuestoAsignadoID { get; set; }
+        public Puesto PuestoAsignado { get; set; }
 
         public int? TipoObjetivoBSCID { get; set; }
         public virtual TipoObjetivoBSC TipoObjetivoBSC { get; set; }
 
-        public int ObjetivoPadreID { get; set; }
-
-        public int BSCID { get; set; }
+        public int? ObjetivoPadreID { get; set; }
+        public Objetivo ObjetivoPadre { get; set; }
+        public virtual ICollection<Objetivo> ObjetivosHijos { get; set; }
+        
+        public int? BSCID { get; set; }
         public virtual BSC BSC { get; set; }
 
-
-        //public int PeriodoID { get; set; }
-        //public virtual Periodo Periodo { get; set; }
 
         public Objetivo() {
             FechaCreacion = DateTime.Now;
         }
 
-        public Objetivo(string nombre,int BSDCid,int peso,int idpadre)  
+        // Funciona para cualquier objetivo
+        public int GetBSCIDPadre()
+        {
+            Objetivo o = this;
+            while (o.ObjetivoPadreID > 0)
+            {
+                o = o.ObjetivoPadre;
+            }
+            return o.BSCID.GetValueOrDefault();
+        }
+
+        // Para objetivo de BSC
+        public Objetivo(string nombre, int BSCID, int TipoBSCID, int puestoID, int peso)
         {
             Nombre = nombre;
-            BSCID = 1;
-            Peso = peso;
-            if (idpadre != 100)
-            {
-                ObjetivoPadreID = idpadre;
-            }
+            this.BSCID = BSCID;
             FechaCreacion = DateTime.Now;
-            CreadorID = 1;
-            TipoObjetivoBSCID = BSDCid;
+            TipoObjetivoBSCID = TipoBSCID;
+            PuestoAsignadoID = puestoID;
+            Peso = peso;
+        }
+        // Para objetivo que no es de ningun BSC
+        public Objetivo(string nombre,int objetivoPadreID, int peso)  
+        {
+            Nombre = nombre;
+            Peso = peso;
+            ObjetivoPadreID = objetivoPadreID;
+            FechaCreacion = DateTime.Now;
         }
 
         public Objetivo(ObjetivoDTO o) : this()
@@ -65,7 +80,6 @@ namespace KendoDP2.Areas.Objetivos.Models
             Nombre = o.Nombre;
             AvanceFinal = o.AvanceFinal;
             IsAsignadoAPersona = o.IsAsignadoAPersona;
-            CreadorID = o.CreadorID;
             TipoObjetivoBSCID = o.TipoObjetivoBSCID;
             ObjetivoPadreID = o.ObjetivoPadreID;
             BSCID = o.BSCID;
@@ -119,8 +133,6 @@ namespace KendoDP2.Areas.Objetivos.Models
         public int Peso { get; set; }
         public int AvanceFinal { get; set; }
         public bool IsAsignadoAPersona { get; set; }
-        [DisplayName("Creador")]
-        public int CreadorID { get; set; }
         public int TipoObjetivoBSCID { get; set; }
         public int ObjetivoPadreID { get; set; }
         public int BSCID { get; set; }
@@ -136,13 +148,9 @@ namespace KendoDP2.Areas.Objetivos.Models
             Peso = o.Peso;
             AvanceFinal = o.AvanceFinal;
             IsAsignadoAPersona = o.IsAsignadoAPersona;
-            CreadorID = o.CreadorID.GetValueOrDefault();
             TipoObjetivoBSCID = o.TipoObjetivoBSCID.GetValueOrDefault();
-            ObjetivoPadreID = o.ObjetivoPadreID;
-            BSCID = o.BSCID;
-
-            //PeriodoID = o.PeriodoID;
-
+            ObjetivoPadreID = o.ObjetivoPadreID.GetValueOrDefault();
+            BSCID = o.GetBSCIDPadre();
         }
 
     }

@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using KendoDP2.Models.Generic;
 using ExtensionMethods;
 using KendoDP2.Areas.Reclutamiento.Models;
+using KendoDP2.Areas.Organizacion.Models;
 
 namespace KendoDP2.Areas.Reclutamiento.Controllers
 {
@@ -38,6 +39,24 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     return JsonErrorGet("Error en la BD: " + ex.Message);
                 }
             }
+        }
+
+        public JsonResult getFunciones(string idOfertaLaboral)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                try
+                {
+                    List<FuncionDTO> funciones = context.TablaOfertaLaborales.FindByID(Convert.ToInt32(idOfertaLaboral))
+                        .Puesto.Funciones.Select(x => x.ToDTO()).ToList();
+                    return JsonSuccessGet(new { funciones = funciones});
+                }
+                catch (Exception ex)
+                {
+                    return JsonErrorGet("Error en la BD: " + ex.Message);
+                }
+            }
+
         }
     }
 }
