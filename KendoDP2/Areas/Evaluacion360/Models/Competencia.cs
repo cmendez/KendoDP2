@@ -117,16 +117,18 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         public string CompetenciaNombre { get; set; }
         public double Ponderado { get; set; }
 
-        public CompetenciaConPonderadoDTO(Competencia competencia)
+        public CompetenciaConPonderadoDTO(CompetenciaXPuesto competencia)
         {
             CompetenciaID = competencia.ID;
-            CompetenciaNombre = competencia.Nombre;
+            CompetenciaNombre = competencia.Competencia.Nombre;
 
             //Pormedio de los niveles de cada capacidad
             int sumaNivelAux = 0;
             int cont = 0;
+            var context = new DP2Context();
+            var capacidades = context.TablaCapacidades.Where(a => a.CompetenciaID == competencia.CompetenciaID).ToList();
 
-            foreach(Capacidad capacidad in competencia.Capacidades)
+            foreach(Capacidad capacidad in capacidades)
             {
                 sumaNivelAux = sumaNivelAux + capacidad.NivelCapacidad.Nivel;
                 cont++;

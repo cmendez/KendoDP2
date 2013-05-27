@@ -14,6 +14,9 @@ namespace KendoDP2.Areas.Reclutamiento.Models
     {
         //public string Estado { get; set; }
 
+        public int? ColaboradorID { get; set; }
+        public virtual Colaborador Colaborador { get; set; }
+
         [InverseProperty("Postulante")]
         public virtual ICollection<OfertaLaboralXPostulante> OfertasPostuladas { get; set; }
 
@@ -22,6 +25,13 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public Postulante(PostulanteDTO p)
         {
             LoadFromDTO(p);
+        }
+
+        public Postulante(Organizacion.Models.Colaborador colaborador)
+        {
+            this.Colaborador = colaborador;
+            this.GradoAcademico = colaborador.GradoAcademico;
+            this.TipoDocumento = colaborador.TipoDocumento;
         }
 
         public Postulante LoadFromDTO(PostulanteDTO p)
