@@ -182,8 +182,8 @@
                 type: 'POST',
                 data: { ofertaID : @Model.ID},
             success: function(response){
-                $("#SolicitudOfertaGrid").data('kendoGrid').dataSource.read();
-                $("#Details").data('kendoWindow').close();
+                $("#ConvocatoriaInternaGrid").data('kendoGrid').dataSource.read();
+                $("#Details2").data('kendoWindow').close();
             }
             });
     }

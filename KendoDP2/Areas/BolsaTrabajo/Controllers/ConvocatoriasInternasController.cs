@@ -92,7 +92,7 @@ namespace KendoDP2.Areas.BolsaTrabajo.Controllers
                 Colaborador colaborador = context.TablaColaboradores.FindByID(colaboradorID);
                 OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
 
-                Postulante postulante = new Postulante {Colaborador = colaborador};
+                Postulante postulante = new Postulante(colaborador);
                 context.TablaPostulante.AddElement(postulante);
                 OfertaLaboralXPostulante cruce = new OfertaLaboralXPostulante { Postulante = postulante, OfertaLaboral = oferta };
                 context.TablaOfertaLaboralXPostulante.AddElement(cruce);
