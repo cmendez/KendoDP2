@@ -1,5 +1,6 @@
 ﻿using KendoDP2.Areas.Configuracion.Models;
 using KendoDP2.Areas.Organizacion.Models;
+using KendoDP2.Areas.Reportes.Models;
 using KendoDP2.Models.Generic;
 using System;
 using System.Collections.Generic;
@@ -102,28 +103,28 @@ namespace KendoDP2.Areas.Objetivos.Models
         }
     }
 
-    public class ObjetivoRDTO
-    {
-        public int idObjetivo { get; set; }
-		public string descripcion { get; set; }
-		public int numPersonas { get; set; }
-		public int avance { get; set; }
+    //public class ObjetivoRDTO
+    //{
+    //    public int idObjetivo { get; set; }
+    //    public string descripcion { get; set; }
+    //    public int numPersonas { get; set; }
+    //    public int avance { get; set; }
 
-        public ObjetivoRDTO(Objetivo o){
+    //    public ObjetivoRDTO(Objetivo o){
 
-            idObjetivo = o.ID;
-            descripcion = o.Nombre;
-            numPersonas = 5;
-            avance = 50;
+    //        idObjetivo = o.ID;
+    //        descripcion = o.Nombre;
+    //        numPersonas = 5;
+    //        avance = 50;
 
-        }
+    //    }
 
-        public ObjetivoRDTO()
-        {
-            numPersonas = 10;
-            avance = 50;
-        }
-    }
+    //    public ObjetivoRDTO()
+    //    {
+    //        numPersonas = 10;
+    //        avance = 50;
+    //    }
+    //}
 
     public class ObjetivoDTO
     {
