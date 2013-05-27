@@ -58,6 +58,10 @@ namespace KendoDP2.Models.Helpers
                 new SidebarSuboption("Ofertas Laborales","SolicitudOfertasLaborales","Index","icon-tag")
             })));
 
+            Opciones.Add(new SidebarOption("Reclutamiento", "Bolsa de Trabajo", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
+                new SidebarSuboption("Convocatoria Interna","ConvocatoriasInternas","Index","icon-tag")
+            })));
+
         }
     }
 
