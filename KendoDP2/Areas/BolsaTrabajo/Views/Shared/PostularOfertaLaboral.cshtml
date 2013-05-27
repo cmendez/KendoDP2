@@ -178,7 +178,7 @@
 
     function Postular(){
         $.ajax({
-            url: '@Url.Action("Postular", "ConvocatoriasInternas", new { Area = "Reclutamiento" })?ColaboradorID=' + @Model.ID,
+            url: '@Url.Action("Postular", "ConvocatoriasInternas", new { Area = "BolsaTrabajo" })',
                 dataType: 'JSON',
                 type: 'POST',
                 data: { ofertaID : @Model.ID},

@@ -83,10 +83,22 @@ namespace KendoDP2.Areas.BolsaTrabajo.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Postular()
+        public ActionResult Postular(int ofertaID)
         {
+            using (DP2Context context = new DP2Context())
+            {
 
-            return Json("nada");
+                int colaboradorID = DP2MembershipProvider.GetPersonaID(this);
+                Colaborador colaborador = context.TablaColaboradores.FindByID(colaboradorID);
+                OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
+
+                Postulante postulante = new Postulante {Colaborador = colaborador};
+                context.TablaPostulante.AddElement(postulante);
+                OfertaLaboralXPostulante cruce = new OfertaLaboralXPostulante { Postulante = postulante, OfertaLaboral = oferta };
+                context.TablaOfertaLaboralXPostulante.AddElement(cruce);
+
+                return Json(new { success = true });
+            }
         }
                 
     }
