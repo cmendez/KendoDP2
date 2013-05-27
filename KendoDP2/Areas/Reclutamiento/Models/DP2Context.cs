@@ -25,6 +25,8 @@ namespace KendoDP2.Models.Generic
         public DbSet<FasePostulacion> InternalFasePostulacion { get; set; }
         public DbSet<OfertaLaboralXPostulante> InternalOfertaLaboralXPostulante { get; set; }
         public DbSet<FasePostulacionXOfertaLaboralXPostulante> InternalFasePostulacionXOfertaLaboralXPostulante { get; set; }
+        public DbSet<EvaluacionXFaseXPostulacion> InternalEvaluacionXFaseXPostulacion { get; set; }
+        public DbSet<Respuesta> InternalRespuesta { get; set; }
 
         public DBGenericRequester<OfertaLaboral> TablaOfertaLaborales { get; set; }
         public DBGenericRequester<EstadosSolicitudOfertaLaboral> TablaEstadosSolicitudes { get; set; }
@@ -33,6 +35,8 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<FasePostulacion> TablaFasePostulacion { get; set; }
         public DBGenericRequester<OfertaLaboralXPostulante> TablaOfertaLaboralXPostulante { get; set; }
         public DBGenericRequester<FasePostulacionXOfertaLaboralXPostulante> TablaFasePostulacionXOfertaLaboralXPostulante { get; set; }
+        public DBGenericRequester<EvaluacionXFaseXPostulacion> TablaEvaluacionXFaseXPostulacion { get; set; }
+        public DBGenericRequester<Respuesta> TablaRespuesta { get; set; }
 
         private void RegistrarTablasReclutamiento()
         {
@@ -43,15 +47,8 @@ namespace KendoDP2.Models.Generic
             TablaFasePostulacion = new DBGenericRequester<FasePostulacion>(this, InternalFasePostulacion);
             TablaOfertaLaboralXPostulante = new DBGenericRequester<OfertaLaboralXPostulante>(this, InternalOfertaLaboralXPostulante);
             TablaFasePostulacionXOfertaLaboralXPostulante = new DBGenericRequester<FasePostulacionXOfertaLaboralXPostulante>(this, InternalFasePostulacionXOfertaLaboralXPostulante);
-        }
-
-        private void SeedFasePostulacion()
-        {
-            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Registrado" });
-            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado Externo" });
-            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado RRHH" });
-            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado Jefe" });
-            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Cerrado" });
+            TablaEvaluacionXFaseXPostulacion = new DBGenericRequester<EvaluacionXFaseXPostulacion>(this, InternalEvaluacionXFaseXPostulacion);
+            TablaRespuesta = new DBGenericRequester<Respuesta>(this, InternalRespuesta);
         }
 
         private void SeedModosSolicitudes()
@@ -72,7 +69,7 @@ namespace KendoDP2.Models.Generic
         {
             TablaOfertaLaborales.AddElement(new OfertaLaboral
             {
-                PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID,
+                PuestoID = 1,
                 AreaID = TablaAreas.One(a => a.Nombre.Equals("Directorio")).ID,
                 ResponsableID = TablaColaboradores.One(a => a.ApellidoPaterno.Equals("Solorzano")).ID,
                 EstadoSolicitudOfertaLaboralID = 1,
@@ -100,68 +97,36 @@ namespace KendoDP2.Models.Generic
                 NumeroVacantes = 3
             });
 
-            TablaOfertaLaborales.AddElement(new OfertaLaboral 
-            { 
-                //ModoPublicacionOfertaLaboralID=1, 
-                ResponsableID = 1, 
-                Descripcion = "Oferta Prueba",
-                AreaID = TablaAreas.One(a => a.ID == 3).ID, 
-                EstadoSolicitudOfertaLaboralID = 2, 
-                ModoSolicitudOfertaLaboralID = 1,
-                //PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID 
-                ListaFuncionesPuesto = new List<Funcion>{
-                    new Funcion{Nombre = "Realizar actividad A", PuestoID = 1},
-                    new Funcion{Nombre = "Realizar actividad B", PuestoID = 1}
-                },
-                PuestoID = 3
-            });
             TablaOfertaLaborales.AddElement(new OfertaLaboral
             {
-                //ModoPublicacionOfertaLaboralID = 1,
-                ResponsableID = 1,
-                Descripcion = "Oferta Prueba",
-                AreaID = 1,
-                EstadoSolicitudOfertaLaboralID = 1,
-                ModoSolicitudOfertaLaboralID = 1,
-                /*
-                ListaFuncionesPuesto = {
-                    new Funcion{Descripcion = "Realizar actividad A", PuestoID = 1},
-                    new Funcion{Descripcion = "Realizar actividad B", PuestoID = 1}
-                },
-                */
-                PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID
+                PuestoID = 1,
+                AreaID = TablaAreas.One(a => a.Nombre.Equals("Directorio")).ID,
+                ResponsableID = TablaColaboradores.One(a => a.ApellidoPaterno.Equals("Solorzano")).ID,
+                EstadoSolicitudOfertaLaboralID = TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID,
+                FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("MM/dd/yy"),
+                FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("MM/dd/yy"),
+                Descripcion = "",
+                ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
+                               
+                
+                SueldoTentativo = 15000,
+                Comentarios = "",
+                NumeroVacantes = 3
             });
+
             TablaOfertaLaborales.AddElement(new OfertaLaboral
             {
-                //ModoPublicacionOfertaLaboralID = 1,
-                ResponsableID = 1,
-                Descripcion = "Oferta Prueba",
-                AreaID = 1,
-                EstadoSolicitudOfertaLaboralID = 2,
-                ModoSolicitudOfertaLaboralID = 1,
-                /*
-                ListaFuncionesPuesto = {
-                    new Funcion{Descripcion = "Realizar actividad A", PuestoID = 1},
-                    new Funcion{Descripcion = "Realizar actividad B", PuestoID = 1}
-                },
-                */
-                PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID
-            });
-            TablaOfertaLaborales.AddElement(new OfertaLaboral
-            {
-                //ModoPublicacionOfertaLaboralID = 1,
-                ResponsableID = 1,
-                Descripcion = "Oferta Prueba",
-                AreaID = 1,
-                EstadoSolicitudOfertaLaboralID = 1,
-                ModoSolicitudOfertaLaboralID = 1,
-                /*
-                ListaFuncionesPuesto = {
-                    new Funcion{Descripcion = "Realizar actividad A", PuestoID = 1},
-                    new Funcion{Descripcion = "Realizar actividad B", PuestoID = 1}
-                },
-                */
-                PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID
+                PuestoID = 1,
+                AreaID = TablaAreas.One(a => a.Nombre.Equals("Directorio")).ID,
+                ResponsableID = TablaColaboradores.One(a => a.ApellidoPaterno.Equals("Solorzano")).ID,
+                EstadoSolicitudOfertaLaboralID = TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID,
+                FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("MM/dd/yy"),
+                FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("MM/dd/yy"),
+                Descripcion = "",
+                ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
+                SueldoTentativo = 15000,
+                Comentarios = "",
+                NumeroVacantes = 3
             });
         }
 
@@ -203,6 +168,15 @@ namespace KendoDP2.Models.Generic
                 GradoAcademicoID = TablaGradosAcademicos.One(ga => ga.Descripcion.Equals("Licenciado")).ID,
             });
 
+        }
+        
+        private void SeedFasePostulacion()
+        {
+            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Registrado" });
+            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado Externo" });
+            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado RRHH" });
+            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado Jefe" });
+            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Cerrado" });
         }
 
         private void SeedOfertaLaboralXPostulante()

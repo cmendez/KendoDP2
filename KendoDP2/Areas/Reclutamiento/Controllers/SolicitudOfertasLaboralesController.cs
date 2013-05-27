@@ -126,6 +126,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 if (o.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Pendiente"))
                 {
                     o.EstadoSolicitudOfertaLaboral = context.TablaEstadosSolicitudes.One(p=> p.Descripcion.Equals("Aprobado"));
+                    o.FechaPublicacion = DateTime.Now.ToShortDateString();
                 }
                 context.TablaOfertaLaborales.ModifyElement(o);
 

@@ -42,8 +42,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                Objetivo o = new Objetivo(objetivo);
-                o.Creador = context.TablaColaboradores.One(c => c.Username.Equals(User.Identity.Name));
+                Objetivo o = new Objetivo(objetivo, context);
                 context.TablaObjetivos.AddElement(o);
                 return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
@@ -54,7 +53,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                Objetivo o = context.TablaObjetivos.FindByID(objetivo.ID).LoadFromDTO(objetivo);
+                Objetivo o = context.TablaObjetivos.FindByID(objetivo.ID).LoadFromDTO(objetivo, context);
                 context.TablaObjetivos.ModifyElement(o);
                 return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
             }

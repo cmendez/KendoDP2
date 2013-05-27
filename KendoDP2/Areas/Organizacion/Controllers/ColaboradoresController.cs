@@ -53,7 +53,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             {
                 //en caso no funcione solo se sacan los if's y se deja tal como esta
                     Colaborador c = new Colaborador(colaborador);
-                    if (ValidaColaboradores(c.TipoDocumentoID, c.NumeroDocumento) == 0)
+                    if (ValidaColaboradores(c.TipoDocumentoID, c.NumeroDocumento)== 0)
                     {
                         c.EstadoColaborador = context.TablaEstadosColaboradores.One(x => x.Descripcion.Equals("Contratado"));
                         context.TablaColaboradores.AddElement(c);

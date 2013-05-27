@@ -14,6 +14,9 @@ namespace KendoDP2.Areas.Reclutamiento.Models
     {
         //public string Estado { get; set; }
 
+        public int? ColaboradorID { get; set; }
+        public virtual Colaborador Colaborador { get; set; }
+
         [InverseProperty("Postulante")]
         public virtual ICollection<OfertaLaboralXPostulante> OfertasPostuladas { get; set; }
 

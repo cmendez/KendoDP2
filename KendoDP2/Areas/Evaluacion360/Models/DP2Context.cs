@@ -28,6 +28,7 @@ namespace KendoDP2.Models.Generic
         public DbSet<PerfilXCompetencia> InternalPerfilXCompetencia { get; set; }
         public DbSet<ColaboradorXProcesoEvaluacion> InternalColaboradorXProcesoEvaluaciones { get; set; }
         public DbSet<EstadoColaboradorXProcesoEvaluacion> InternalEstadoColaboradorXProcesoEvaluaciones { get; set; }
+        public DbSet<EstadoProcesoEvaluacion> InternalEstadoProcesoEvaluacion { get; set; }
         public DbSet<PuestoXEvaluadores> InternalPuestoXEvaluadores { get; set; }
         public DbSet<CompetenciaXPuesto> InternalCompetenciaXPuesto { get; set; }
         public DbSet<AreaXProcesoEvaluacion> InternalAreaXProcesoEvaluaciones { get; set; }
@@ -46,6 +47,7 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<PuestoXEvaluadores> TablaPuestoXEvaluadores { get; set; }
         public DBGenericRequester<CompetenciaXPuesto> TablaCompetenciaXPuesto { get; set; }
         public DBGenericRequester<AreaXProcesoEvaluacion> TablaAreaXProcesoEvaluaciones { get; set; }
+        public DBGenericRequester<EstadoProcesoEvaluacion> TablaEstadoProcesoEvaluacion { get; set; }
 
         private void RegistrarTablasEvaluacion360()
         {
@@ -63,7 +65,9 @@ namespace KendoDP2.Models.Generic
             TablaPuestoXEvaluadores = new DBGenericRequester<PuestoXEvaluadores>(this, InternalPuestoXEvaluadores);
             TablaCompetenciaXPuesto = new DBGenericRequester<CompetenciaXPuesto>(this, InternalCompetenciaXPuesto);
             TablaAreaXProcesoEvaluaciones = new DBGenericRequester<AreaXProcesoEvaluacion>(this, InternalAreaXProcesoEvaluaciones);
-        }
+            TablaEstadoProcesoEvaluacion = new DBGenericRequester<EstadoProcesoEvaluacion>(this, InternalEstadoProcesoEvaluacion);
+
+      }
 
         // Area Evaluacion360
 
@@ -72,6 +76,16 @@ namespace KendoDP2.Models.Generic
             TablaCompetencias.AddElement(new Competencia("Ser chiquito"));
             TablaCompetencias.AddElement(new Competencia("Ser grande"));
             TablaCompetencias.AddElement(new Competencia("Ser kiwi"));
+        }
+
+        private void SeedCapacidad()
+        {
+            TablaCapacidades.AddElement(new Capacidad("Trabajador",1,1));
+        }
+
+        private void SeedCompetenciasXPuesto()
+        {
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,1,1));
         }
 
         private void SeedPuestoXEvaluadores()
@@ -111,6 +125,13 @@ namespace KendoDP2.Models.Generic
         {
             for (int i = 1; i <= 3; i++)
                 TablaNivelCapacidades.AddElement(new NivelCapacidad(i));
+        }
+
+        private void SeedEstadoProcesoEvaluacion() { 
+           TablaEstadoProcesoEvaluacion.AddElement(new EstadoProcesoEvaluacion{Descripcion = ConstantsEstadoProcesoEvaluacion.Creado});
+           //TablaEstadoProcesoEvaluacion.AddElement(new EstadoProcesoEvaluacion{Descripcion = ConstantsEstadoProcesoEvaluacion.Iniciado});
+           TablaEstadoProcesoEvaluacion.AddElement(new EstadoProcesoEvaluacion{Descripcion = ConstantsEstadoProcesoEvaluacion.EnProceso});
+           TablaEstadoProcesoEvaluacion.AddElement(new EstadoProcesoEvaluacion{Descripcion = ConstantsEstadoProcesoEvaluacion.Terminado});
         }
 
         private void SeedEstadoPersonaXProcesoEvaluaciones()

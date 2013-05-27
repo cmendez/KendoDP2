@@ -29,14 +29,16 @@ namespace KendoDP2.Models.Helpers
                 new SidebarSuboption("Procesos de evaluación", "ProcesoEvaluacion", "Index", "icon-road"),
                 new SidebarSuboption("Evaluación de puestos de trabajo", "PuestosEvaluacion", "Index", "icon-ok-sign"),
                 new SidebarSuboption("Envio de correo", "Correo", "Index", "icon-ok-sign"),
-                new SidebarSuboption("Acordion", "Acordion", "Index", "icon-ok-sign")
+                new SidebarSuboption("Acordion", "Acordion", "Index", "icon-ok-sign"),
+                new SidebarSuboption("Rendir Evaluacion", "Evaluacion", "Index", "icon-ok-sign")
 				//new SidebarSuboption("Por perfil BORRADOR", "Configuracion360", "Index", "icon-group")
             })));				
             
 
             // Objetivos
             Opciones.Add(new SidebarOption("Objetivos", "Objetivos", "icon-bookmark", new List<SidebarSuboption>(new SidebarSuboption[]{
-               new SidebarSuboption("Objetivos de la empresa", "Objetivosempresa", "Index", "icon-ok")
+               new SidebarSuboption("Objetivos de la empresa", "Objetivosempresa", "Index", "icon-ok"),
+               new SidebarSuboption("Mis Objetivos", "Misobjetivos", "Index", "icon-ok")
             })));
 
             // Configuracion
@@ -57,6 +59,10 @@ namespace KendoDP2.Models.Helpers
 
             Opciones.Add(new SidebarOption("Reclutamiento", "Reclutamiento", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption("Ofertas Laborales","SolicitudOfertasLaborales","Index","icon-tag")
+            })));
+
+            Opciones.Add(new SidebarOption("Reclutamiento", "Bolsa de Trabajo", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
+                new SidebarSuboption("Convocatoria Interna","ConvocatoriasInternas","Index","icon-tag")
             })));
 
         }
