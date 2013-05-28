@@ -201,12 +201,12 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         }
 
 
-        public ActionResult GetViewMotivosRechazo(int ofertaID, int postulanteID)
+        public ActionResult GetViewMotivosRechazo(int ofertaID, int postulanteXOfertaID)
         {
             using (DP2Context context = new DP2Context())
             {
                 OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
-                OfertaLaboralXPostulante postulanteOferta = oferta.Postulantes.Where(p => p.ID == postulanteID).FirstOrDefault();
+                OfertaLaboralXPostulante postulanteOferta = oferta.Postulantes.Where(p => p.ID == postulanteXOfertaID).FirstOrDefault();
                 ViewBag.cruce = postulanteOferta.ID;
                 ViewBag.ofertaID = ofertaID; ViewBag.area = oferta.Area.ToDTO();
                 ViewBag.puesto = oferta.Puesto.ToDTO();
@@ -216,14 +216,13 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 
         }
 
-        //ahora creo que no tiene sentido....
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult RechazarPostulante([DataSourceRequest] DataSourceRequest request, int ofertaID, int postulanteID)
+        public ActionResult RechazarPostulante(int postulanteXOFertaID, int ofertaID, string observaciones, string motivoRechazo)
         {
             using (DP2Context context = new DP2Context())
             {
                 OfertaLaboral o = context.TablaOfertaLaborales.FindByID(ofertaID);
-                OfertaLaboralXPostulante op = o.Postulantes.Where(p => p.ID == postulanteID).FirstOrDefault();
+                OfertaLaboralXPostulante op = o.Postulantes.Where(p => p.ID == postulanteXOFertaID).FirstOrDefault();
                 if (op.EstadoPostulantePorOferta.Descripcion.Equals("Aprobado Fase 1"))
                 {
                     op.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Rechazado Fase 1"));
@@ -236,9 +235,9 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 {
                     op.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Rechazado Fase 3"));
                 }
-                context.TablaOfertaLaboralXPostulante.ModifyElement(op); 
+                context.TablaOfertaLaboralXPostulante.ModifyElement(op);
 
-                return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
+                return Json(new { success = true });
             }
 
         }

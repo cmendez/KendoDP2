@@ -11,7 +11,7 @@
     ModoSolicitudOfertaLaboralDTO modoSolicitudOferta = ViewBag.modoSolicitudOferta;
     PuestoDTO puesto = ViewBag.puesto;
     ColaboradorDTO responsable = ViewBag.responsable;
-
+    int ofertaID = ViewBag.ofertaID;
     bool yaRechazadoAprobado = false;
 }
 
@@ -117,10 +117,13 @@
                 dataType: 'JSON',
                 type: 'POST',
                 data: {
-                    ofertaID: ofertaID,
-                    postulanteID : @Model.Postulante.ID},
+                    postulanteXOfertaID : @Model.ID,
+                    ofertaID: @ofertaID,
+                    observaciones: $("#Observaciones").val(),
+                    motivoRechazo: $("#MotivoRechazo").val()   
+                },
                 success: function(response){
-                    $("#SolicitudOfertaGrid").data('kendoGrid').dataSource.read();
+                    recargaGrid();
                     $("#Details").data('kendoWindow').close();
             }
             });
