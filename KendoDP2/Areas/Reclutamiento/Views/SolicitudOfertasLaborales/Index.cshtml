@@ -35,10 +35,10 @@
                         columns.ForeignKey(p => p.EstadoSolicitudOfertaLaboralID, listaEstados);
                         columns.ForeignKey(p => p.AreaID, lista);
                         columns.ForeignKey(p => p.PuestoID, listaPuestos);
-                        columns.Command(command => { command.Edit().Text("Ver").UpdateText("Guardar").CancelText("Cancelar");
+                        columns.Command(command => { 
                                                      command.Destroy().Text("Eliminar");
                                                      command.Custom("Aceptar").Click("aceptarSolicitud");
-                                                   }).Width(300);                        
+                                                   }).Width(200);                        
                     }
                 )
                 .ToolBar(toolbar =>

@@ -27,7 +27,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 int puestoID = context.TablaColaboradores.FindByID(colaboradorID).ToDTO().PuestoID;
                 Puesto puesto = context.TablaPuestos.FindByID(puestoID);
                 ViewBag.periodos = context.TablaPeriodos.All().Select(c => c.ToDTO()).ToList();
-                ViewBag.objetivos = puesto.Objetivos.Select(c => c.ToDTO()).ToList();
+                ViewBag.objetivos = puesto.Objetivos.Select(c => c.ToDTO(context)).ToList();
                 return View();
             }
         }
@@ -36,7 +36,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                return Json(context.TablaObjetivos.Where(o => o.ObjetivoPadreID == objetivoPadreID && o.IsObjetivoIntermedio).Select(o => o.ToDTO()).ToDataSourceResult(request));
+                return Json(context.TablaObjetivos.Where(o => o.ObjetivoPadreID == objetivoPadreID && o.IsObjetivoIntermedio).Select(o => o.ToDTO(context)).ToDataSourceResult(request));
             }
         }
 
@@ -48,7 +48,8 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 Objetivo o = new Objetivo(objetivo, context);
                 o.IsObjetivoIntermedio = true;
                 context.TablaObjetivos.AddElement(o);
-                return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
+                ReparteObjetivosASubordinados(context, context.TablaPuestos.FindByID(o.ObjetivoPadre.PuestoAsignadoID.GetValueOrDefault()));
+                return Json(new[] { o.ToDTO(context) }.ToDataSourceResult(request, ModelState));
             }
         }
 
@@ -59,7 +60,12 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             {
                 Objetivo o = context.TablaObjetivos.FindByID(objetivo.ID).LoadFromDTO(objetivo, context);
                 context.TablaObjetivos.ModifyElement(o);
-                return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
+                foreach (var o2 in o.ObjetivosHijos)
+                {
+                    o2.Nombre = o.Nombre;
+                    context.TablaObjetivos.ModifyElement(o2);
+                }
+                return Json(new[] { o.ToDTO(context) }.ToDataSourceResult(request, ModelState));
             }
         }
 
@@ -71,6 +77,18 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 context.TablaObjetivos.RemoveElementByID(objetivo.ID);
                 return Json(ModelState.ToDataSourceResult());
             }
+        }
+
+        private void ReparteObjetivosASubordinados(DP2Context context, Puesto puesto)
+        {
+            foreach (var objetivoPadre in puesto.Objetivos)
+                foreach (var objetivoIntermedio in objetivoPadre.ObjetivosHijos.Where(c => c.IsObjetivoIntermedio))
+                    foreach (var puestoHijo in puesto.Puestos)
+                        if(!puestoHijo.Objetivos.Any(x => x.ObjetivoPadreID == objetivoIntermedio.ID))
+                        {
+                            Objetivo nuevo = new Objetivo{Nombre = objetivoIntermedio.Nombre, ObjetivoPadre = objetivoIntermedio, PuestoAsignado = puestoHijo};
+                            context.TablaObjetivos.AddElement(nuevo);
+                        }
         }
     }
 }

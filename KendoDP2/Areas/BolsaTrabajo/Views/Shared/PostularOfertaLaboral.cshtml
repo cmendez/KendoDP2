@@ -7,9 +7,10 @@
 @{
     TipoDocumentoDTO tipoDocumento = ViewBag.tipoDocumento;
     GradoAcademicoDTO gradoAcademic = ViewBag.gradoAcademico;
-    
+    int ofertaID = ViewBag.ofertaID;
+    bool yaPostulado = ViewBag.yaPostulado;
+    bool tieneCV = ViewBag.tieneCV;
 }
-{
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     @Html.HiddenFor(m => m.ID)
@@ -18,15 +19,14 @@
             <!-- contenedor superior izquierdo: campos -->
             @Html.Label("Datos Personales:", new { style = "font-weight: bold;" })
 
-            <div class="span7">
+            <div class="span9">
                 <div class="row-fluid">
                     <div class="span5">
                         <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Nombre)</div>
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.Nombre)
-                            @Html.ValidationMessageFor(model => model.Nombre)
+                            @Html.TextBoxFor(model => model.Nombre, new { @readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -37,8 +37,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.ApellidoPaterno)
-                            @Html.ValidationMessageFor(model => model.ApellidoPaterno)
+                            @Html.TextBoxFor(model => model.ApellidoPaterno, new { @readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -49,8 +48,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.ApellidoMaterno)
-                            @Html.ValidationMessageFor(model => model.ApellidoMaterno)
+                            @Html.TextBoxFor(model => model.ApellidoMaterno, new { @readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -61,7 +59,7 @@
                         <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.TipoDocumentoID)</div>
                     </div>
                     <div class="span7 responsive">
-                        @Html.TextBox("TipoDocumento", tipoDocumento.Descripcion);
+                        @Html.TextBox("TipoDocumento", tipoDocumento.Descripcion, new { @readonly = "readonly" })
                     </div>
                 </div>
 
@@ -71,8 +69,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.NumeroDocumento)
-                            @Html.ValidationMessageFor(model => model.NumeroDocumento)
+                            @Html.TextBoxFor(model => model.NumeroDocumento, new { @readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -83,8 +80,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.Telefono)
-                            @Html.ValidationMessageFor(model => model.Telefono)
+                            @Html.TextBoxFor(model => model.Telefono, new { @readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -95,8 +91,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.CorreoElectronico)
-                            @Html.ValidationMessageFor(model => model.CorreoElectronico)
+                            @Html.TextBoxFor(model => model.CorreoElectronico, new { @readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -107,8 +102,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.CentroEstudios)
-                            @Html.ValidationMessageFor(model => model.CentroEstudios)
+                            @Html.TextBoxFor(model => model.CentroEstudios, new { @readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -118,7 +112,7 @@
                         <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.GradoAcademicoID)</div>
                     </div>
                     <div class="span7 responsive">
-                        @Html.TextBox("GradoAcademico", gradoAcademic.Descripcion);
+                        @Html.TextBox("GradoAcademico", gradoAcademic.Descripcion, new { @readonly = "readonly" })
                     </div>
                 </div>
 
@@ -126,29 +120,11 @@
                 <div class="span5">
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.CurriculumVitaeID)</div>
                     <a href="#" id="bajar-cv-anchor" class="hidden" target="_blank"></a>
-                    <a href="javascript:bajarCV();">Descargar Curriculum</a>
                 </div>
                 <div class="span7">
                 @Html.HiddenFor(m => m.CurriculumVitaeID)
-                <input type="file" id="Archivo2" name="Archivo2" />
-                <script>
-                    $("#Archivo2").kendoUpload({
-                        multiple: false,
-                        showFileList: true,
-                        localization: {
-                            select: 'Seleccione archivo PDF'
-                        },
-                        async: {
-                            saveUrl: '@Url.Action("UploadPDF", "Misc", new {Area = ""})',
-                            autoUpload: true,
-                        },
-                        success: function (e) {
-                            var archivoID = e.response.ID;
-                            $("#CurriculumVitaeID").val(archivoID).change();
-                        }
-                    });
-                </script> 
-                </div>
+                 <a href="javascript:bajarCV();">Descargar Curriculum</a>
+                 </div>
             </div>
 
                          
@@ -161,8 +137,20 @@
     </div>
     <!-- contenedor inferior: campos -->
   
-   
-<a class="btn green" href="javascript:Postular();"> Postular </a>
+@if((!yaPostulado) && (tieneCV)){
+    <a class="btn green" href="javascript:Postular();"> Postular </a>
+} else {
+    if(yaPostulado)
+    {
+    <label class="label">Ya has postulado.</label>
+    <br />
+    }
+    else
+    {
+    <label class="label">No tienes registrado tu curriculum Vitae. Registarlo para poder postular</label>
+    <br />
+    }
+}
 <a class="btn green" href="javascript:Cancelar();"> Cancelar </a>
 
 <script>
@@ -181,10 +169,11 @@
             url: '@Url.Action("Postular", "ConvocatoriasInternas", new { Area = "BolsaTrabajo" })',
                 dataType: 'JSON',
                 type: 'POST',
-                data: { ofertaID : @Model.ID},
+                data: { ofertaID : @ofertaID},
             success: function(response){
-                $("#SolicitudOfertaGrid").data('kendoGrid').dataSource.read();
-                $("#Details").data('kendoWindow').close();
+                alert("Postulacion efectuada con exito");
+                $("#ConvocatoriaInternaGrid").data('kendoGrid').dataSource.read();
+                $("#Details2").data('kendoWindow').close();
             }
             });
     }
@@ -192,8 +181,7 @@
     function Cancelar(){
         $.ajax({
             success: function(response){
-                $("#SolicitudOfertaGrid").data('kendoGrid').dataSource.read();
-                $("#Details").data('kendoWindow').close();
+                $("#Details2").data('kendoWindow').close();
             }})}
 
     
@@ -210,5 +198,3 @@
 </script>
     
 
-
-}        
