@@ -1833,7 +1833,6 @@
     <Content Include="Areas\Organizacion\Views\Puestos\ElegirFunciones.cshtml" />
     <Content Include="Areas\Organizacion\Views\Funciones\Index.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\ConvocatoriasInternas\Index.cshtml" />
-    <Content Include="Areas\Reclutamiento\Views\Shared\ViewOfertaLaboralInterna.cshtml" />
     <Content Include="Areas\BolsaTrabajo\Views\ConvocatoriasInternas\Index.cshtml" />
     <Content Include="Areas\BolsaTrabajo\Views\Shared\ViewOfertaLaboralInterna.cshtml" />
     <Content Include="Areas\Objetivos\Views\MisObjetivos\Index.cshtml" />
