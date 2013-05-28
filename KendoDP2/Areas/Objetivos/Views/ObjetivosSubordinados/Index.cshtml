@@ -5,20 +5,13 @@
 @using KendoDP2.Areas.Organizacion.Models
 
 @{
-    ViewBag.Title = "Mis Objetivos";
+    ViewBag.Title = "Objetivos de subordinados";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    IList<ColaboradorDTO> colaboradores = ViewBag.colaboradores;
-    int colaboradorID = ViewBag.colaboradorID;
-    int colaboradorIndex = -1;
-    for (int i = 0; i < colaboradores.Count; i++) {if (colaboradores[i].ID == colaboradorID){ colaboradorIndex = i;}}
-    
     IList<PeriodoDTO> periodos = ViewBag.periodos;
     IList<ObjetivoDTO> objetivos = ViewBag.objetivos;
-    bool puedeCrear = ViewBag.puedeCrear;
-    bool puedeEditar = ViewBag.puedeEditar;
 }
 
-@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Mis Objetivos", "Administre sus propios objetivos."));}
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Objetivos de subordinados", "Administre los objetivos de sus subordinados."));}
 
 <div class="portlet box green">
     <div class="portlet-title">
@@ -29,28 +22,6 @@
 	</div>
     <div class="portlet-body">
         <div class="row-fluid">
-            <div class="span4 responsive">
-                @(Html.Kendo().ComboBox()
-                    .BindTo(colaboradores)
-                    .DataTextField("NombreCompleto")
-                    .DataValueField("ID")
-                    .Placeholder("Seleccione el colaborador")
-                    .Filter("Contains")
-                    .Name("comboColaboradores")
-                    .Suggest(true)
-                    .SelectedIndex(colaboradorIndex)
-                    .Events(e => e.Change("onColaboradorSelect"))
-                )
-                <a href="#" id="hidden-link" class="hidden"></a>
-                <script type="text/javascript">
-                    function onColaboradorSelect(e) {
-                        var comboColaboradores = $("#comboColaboradores").data("kendoComboBox");
-                        var colaboradorID = comboColaboradores.dataItem(comboColaboradores.selectedIndex).ID;
-                        $("#hidden-link").attr("href", '@Url.Action("Index", "MisObjetivos", new { Area = "Objetivos" })?colaboradorID=' + colaboradorID);
-                        $("a#hidden-link")[0].click();
-                    }
-                </script>
-            </div>
             <div class="span3 responsive">
                 @(Html.Kendo().DropDownList()
                     .Name("DropDownListPeriodos")
@@ -82,22 +53,35 @@
                                        {
                                            columns.Bound(p => p.Nombre).ClientFooterTemplate("<strong>Cantidad:</strong> #=count#");
                                            columns.Bound(p => p.Peso).ClientFooterTemplate("<strong>Suma:</strong> #=sum#");
-                                           if (puedeEditar) { columns.Command(command => { command.Destroy().Text("Eliminar"); }).Width(200); }
+                                           columns.Command(command => { command.Destroy().Text("Eliminar"); }).Width(200);
                                        })
-                                   .ToolBar(toolbar => { if (puedeEditar) { toolbar.Create().Text("Registrar"); toolbar.Save().SaveText("Guardar cambios").CancelText("Cancelar cambios"); } })
+                                   .ToolBar(toolbar => { toolbar.Create().Text("Registrar"); toolbar.Save().SaveText("Guardar cambios").CancelText("Cancelar cambios"); })
                                    .Editable(editable => editable
                                        .Mode(GridEditMode.InCell)
                                        .DisplayDeleteConfirmation("Recuerde que debe guardar los cambios para hacer efectiva la eliminación.")
                                        .Window(w => w.Title("Ingrese los datos"))
-                                   ).Pageable(e => e.Refresh(true)).Filterable().Sortable().Scrollable(w => w.Height(330))
+                                   )
+                                   .Pageable(e => e.Refresh(true))
+                                   .Filterable()
+                                   .Sortable()
+                                   .Scrollable(w => w.Height(330))
                                    .DataSource(dataSource => dataSource
-                                       .Ajax().PageSize(20)
-                                       .Aggregates(a => {a.Add(p => p.Nombre).Count();a.Add(p => p.Peso).Sum();})
-                                       .Model(model => {model.Id(p => p.ID);model.Field(p => p.ObjetivoPadreID).DefaultValue(objetivo.ID); })
-                                       .Create(update => update.Action("Create", "MisObjetivos"))
-                                       .Read(read => read.Action("Read", "MisObjetivos", new { objetivoPadreID = objetivo.ID }))
-                                       .Update(update => update.Action("Update", "MisObjetivos"))
-                                       .Destroy(update => update.Action("Destroy", "MisObjetivos"))
+                                       .Ajax()
+                                       .PageSize(20)
+                                       .Aggregates(a =>
+                                       {
+                                           a.Add(p => p.Nombre).Count();
+                                           a.Add(p => p.Peso).Sum();
+                                       })
+                                       .Model(model =>
+                                       {
+                                           model.Id(p => p.ID);
+                                           model.Field(p => p.ObjetivoPadreID).DefaultValue(objetivo.ID);
+                                       })
+                                       .Create(update => update.Action("Create", "ObjetivosSubordinados"))
+                                       .Read(read => read.Action("Read", "ObjetivosSubordinados", new { objetivoPadreID = objetivo.ID }))
+                                       .Update(update => update.Action("Update", "ObjetivosSubordinados"))
+                                       .Destroy(update => update.Action("Destroy", "ObjetivosSubordinados"))
                                        .Events(e => e.RequestEnd("afterRequest"))
                                    ).Events(e => e.SaveChanges("onSave"))
                                    .ToHtmlString()

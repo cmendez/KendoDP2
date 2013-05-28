@@ -15,7 +15,6 @@
     IEnumerable<CapacidadDTO> capacidades = ViewBag.capacidades;
     string funcionesJson = Json.Encode(funciones);
     string capacidadesJson = Json.Encode(capacidades);
-    bool yaValidado = ViewBag.yaValido;
 }
 
 @using (Html.BeginForm())
@@ -50,33 +49,12 @@
 
                 <div class="row-fluid">
                     <div class="span5">
-                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.ResponsableID)</div>
-                    </div>
-                    <div class="span7 responsive">
-                        @Html.TextBox("Responsable", responsable.NombreCompleto, new { @readonly = "readonly" })
-                    </div>
-                </div>
-
-
-                <div class="row-fluid">
-                    <div class="span5">
                         <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.ModoSolicitudID)</div>
                     </div>
                     <div class="span7 responsive">
                         @Html.TextBox("Modo", modoSolicitudOferta.Descripcion, new { @readonly = "readonly" })
                     </div>
                 </div>
-
-
-                <div class="row-fluid">
-                    <div class="span5">
-                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.EstadoSolicitudOfertaLaboralID)</div>
-                    </div>
-                    <div class="span7 responsive">
-                        @Html.TextBox("Estado", estadoSolicitudOferta.Descripcion, new { @readonly = "readonly" })
-                    </div>
-                </div>
-
 
 
             </div>
@@ -106,20 +84,9 @@
                     </div>
                 </div>
 
-                <div class="row-fluid">
+                  <div class="row-fluid">
                     <div class="span5">
-                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.FechaRequerimiento)</div>
-                    </div>
-                    <div class="span7">
-                        <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.TextBoxFor(model => model.FechaRequerimiento, new { @readonly = "readonly" })
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row-fluid">
-                    <div class="span5">
-                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.FechaFinRequerimiento)</div>
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.Label("Fecha Límite Postulación")</div>
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
@@ -176,34 +143,10 @@
     </div>
     
 
-    <div style="width: 900px; margin-top:15px;">
-        <div class="row-fluid">
-            <div class="span3">
-                <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Comentarios)</div>
-            </div>
-            <div class="span7">
-                <div class="editor-field" style="width: 100%; text-align: left;">
-                    @Html.TextAreaFor(model => model.Comentarios)
-                    @Html.ValidationMessageFor(model => model.Comentarios)
-
-                </div>
-            </div>
-        </div>
-    </div>
-    if (!yaValidado)
-    {
-        <a class="btn green" href="javascript:CambiaEstadoAceptar();"> Aceptar </a>
-        <a class="btn green" href="javascript:CambiaEstadoRechazar();"> Rechazar </a>
-    }
-    else
-    {
-        <label class="label">Esta oferta laboral ya fue publicada.</label>
-        <br />
-    }
+      
     <!-- fin contenedor inferior: campos -->
 
- 
-    <script type="text/x-kendo-tmpl" id="template">
+    <script type="text/x-kendo-tmpl" id="template2">
     <div class="twit">
         <p>#:Nombre#</p>
     </div>
@@ -240,31 +183,7 @@
             template: kendo.template($("#template").html())
         });
 
-        function CambiaEstadoAceptar(){
-            $.ajax({
-                url: '@Url.Action("CambiaEstadoSolicitudAprobada", "SolicitudOfertasLaborales", new { Area = "Reclutamiento" })?OfertaID=' + @Model.ID,
-            dataType: 'JSON',
-            type: 'POST',
-            data: { ofertaID : @Model.ID},
-                success: function(response){
-                    $("#SolicitudOfertaGrid").data('kendoGrid').dataSource.read();
-                    $("#Details").data('kendoWindow').close();
-                }
-        });
-    }
-
-        function CambiaEstadoRechazar(){
-            $.ajax({
-                url: '@Url.Action("CambiaEstadoSolicitudRechazada", "SolicitudOfertasLaborales", new { Area = "Reclutamiento" })?OfertaID=' + @Model.ID,
-                dataType: 'JSON',
-                type: 'POST',
-                data: { ofertaID : @Model.ID},
-                success: function(response){
-                    $("#SolicitudOfertaGrid").data('kendoGrid').dataSource.read();
-                    $("#Details").data('kendoWindow').close();
-            }
-            });
-    }
+   
     </script>
     
    

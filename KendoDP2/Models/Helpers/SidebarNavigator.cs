@@ -38,7 +38,8 @@ namespace KendoDP2.Models.Helpers
             // Objetivos
             Opciones.Add(new SidebarOption("Objetivos", "Objetivos", "icon-bookmark", new List<SidebarSuboption>(new SidebarSuboption[]{
                new SidebarSuboption("Objetivos de la empresa", "Objetivosempresa", "Index", "icon-ok"),
-               new SidebarSuboption("Mis Objetivos", "Misobjetivos", "Index", "icon-ok")
+               new SidebarSuboption("Mis Objetivos", "Misobjetivos", "Index", "icon-ok"),
+               new SidebarSuboption("Objetivos de subordinados", "Objetivossubordinados", "Index", "icon-ok")
             })));
 
             // Configuracion
@@ -50,6 +51,7 @@ namespace KendoDP2.Models.Helpers
             Opciones.Add(new SidebarOption("Organizacion", "Organizacion", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption("Organización","Organizaciones","Index","icon-group"),
                 new SidebarSuboption("Colaboradores", "Colaboradores", "Index", "icon-user"),
+                new SidebarSuboption("Funciones", "Funciones", "Index", "icon-sitemap"),
                 new SidebarSuboption("Puestos", "Puestos", "Index", "icon-tag"),
                 new SidebarSuboption("Áreas", "Areas", "Index", "icon-sitemap"),
                 new SidebarSuboption("Página Personal","Intranet","Index","icon-tag"),
@@ -60,7 +62,7 @@ namespace KendoDP2.Models.Helpers
                 new SidebarSuboption("Ofertas Laborales","SolicitudOfertasLaborales","Index","icon-tag")
             })));
 
-            Opciones.Add(new SidebarOption("Reclutamiento", "Bolsa de Trabajo", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
+            Opciones.Add(new SidebarOption("BolsaTrabajo", "Bolsa de Trabajo", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption("Convocatoria Interna","ConvocatoriasInternas","Index","icon-tag")
             })));
 
