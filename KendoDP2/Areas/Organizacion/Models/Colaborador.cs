@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using KendoDP2.Areas.Evaluacion360.Models;
 using System.ComponentModel.DataAnnotations.Schema;
+using KendoDP2.Models.Generic;
 
 namespace KendoDP2.Areas.Organizacion.Models
 {
@@ -221,7 +222,8 @@ namespace KendoDP2.Areas.Organizacion.Models
 
             try
             {
-                Objetivos = c.Objetivos.Select(o => o.ToDTO()).ToList();
+                //Objetivos = c.Objetivos.Select(o => o.ToDTO()).ToList();
+                Objetivos = c.Objetivos.Select(o => o.ToDTO(new DP2Context())).ToList();
             }
             catch (Exception)
             {
@@ -250,5 +252,6 @@ namespace KendoDP2.Areas.Organizacion.Models
             }
         }
     }
+      
     
 }

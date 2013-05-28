@@ -22,6 +22,18 @@
             <div class="space10"></div>
 
             <div class="span7">
+
+                 <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Usuario)</div>
+                    </div>
+                    <div class="span7">
+                        <div class="editor-field" style="width: 100%; text-align: left;">
+                            @Html.TextBoxFor(model => model.Usuario, new { @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row-fluid">
                     <div class="span5">
                         <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Contrasenha)</div>

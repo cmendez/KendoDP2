@@ -14,6 +14,9 @@ namespace KendoDP2.Areas.Reclutamiento.Models
     {
         //public string Estado { get; set; }
 
+        public int? ColaboradorID { get; set; }
+        public virtual Colaborador Colaborador { get; set; }
+
         [InverseProperty("Postulante")]
         public virtual ICollection<OfertaLaboralXPostulante> OfertasPostuladas { get; set; }
 
@@ -22,6 +25,13 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public Postulante(PostulanteDTO p)
         {
             LoadFromDTO(p);
+        }
+
+        public Postulante(Organizacion.Models.Colaborador colaborador)
+        {
+            this.Colaborador = colaborador;
+            this.GradoAcademico = colaborador.GradoAcademico;
+            this.TipoDocumento = colaborador.TipoDocumento;
         }
 
         public Postulante LoadFromDTO(PostulanteDTO p)
@@ -37,6 +47,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             GradoAcademicoID = p.GradoAcademicoID;
             TipoDocumentoID = p.TipoDocumentoID;
             NumeroDocumento = p.NumeroDocumento;
+            CurriculumVitaeID = p.CurriculumVitaeID;
 
             return this;
         }
@@ -81,6 +92,11 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         [DisplayName("Número de Documento")]
         public string NumeroDocumento { get; set; }
 
+        [DisplayName("Curriculum Vitae")]
+        public int CurriculumVitaeID { get; set; }
+
+        public ColaboradorDTO Colaborador { get; set; }
+
         //[DisplayName("Estado del Postulante")]
         //public string Estado { get; set; }
 
@@ -99,7 +115,8 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             GradoAcademico = p.GradoAcademicoID.HasValue ? p.GradoAcademico.Descripcion : String.Empty;
             TipoDocumentoID = p.TipoDocumentoID;
             TipoDocumento = p.TipoDocumento.Descripcion;
-            NumeroDocumento = p.NumeroDocumento;            
+            NumeroDocumento = p.NumeroDocumento;
+            Colaborador = p.Colaborador == null ? new ColaboradorDTO() : p.Colaborador.ToDTO();
         }
     }
 }

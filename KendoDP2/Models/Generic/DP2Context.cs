@@ -46,8 +46,11 @@ namespace KendoDP2.Models.Generic
             SeedPerfiles();
             SeedCompetencias();
             SeedNivelCapacidades();
+            SeedEstadoProcesoEvaluacion();
             SeedEstadoPersonaXProcesoEvaluaciones();
             SeedPuestoXEvaluadores();
+            SeedCapacidad();
+            SeedCompetenciasXPuesto();
             // Area Objetivos
             SeedTipoObjetivoBSC();
             // Area Organizacion (segunda parte)
@@ -63,7 +66,9 @@ namespace KendoDP2.Models.Generic
             SeedOfertaLaboral();
             SeedFasePostulacion();
             SeedPostulante();
+            SeedEstadoPostulantePorOferta();
             SeedOfertaLaboralXPostulante();
+            //nuevo seed de prueba
             SeedFasePostulacionXOfertaLaboralXPostulante();
             // Area Objetivos
             //SeedBSC();

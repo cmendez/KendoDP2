@@ -1,0 +1,158 @@
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Evaluacion360.Models
+@using KendoDP2.Areas.Configuracion.Models
+@using KendoDP2.Areas.Objetivos.Models
+@using KendoDP2.Areas.Organizacion.Models
+
+@{
+    ViewBag.Title = "Mis Objetivos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IList<ColaboradorDTO> colaboradores = ViewBag.colaboradores;
+    int colaboradorID = ViewBag.colaboradorID;
+    int colaboradorIndex = -1;
+    for (int i = 0; i < colaboradores.Count; i++) {if (colaboradores[i].ID == colaboradorID){ colaboradorIndex = i;}}
+    
+    IList<PeriodoDTO> periodos = ViewBag.periodos;
+    IList<ObjetivoDTO> objetivos = ViewBag.objetivos;
+    bool puedeCrear = ViewBag.puedeCrear;
+    bool puedeEditar = ViewBag.puedeEditar;
+}
+
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Mis Objetivos", "Administre sus propios objetivos."));}
+
+<div class="portlet box green">
+    <div class="portlet-title">
+        <h4><i class="icon-reorder"></i>Objetivos</h4>
+        <div class="tools">
+	        <a href="javascript:;" class="collapse"></a>
+        </div>
+	</div>
+    <div class="portlet-body">
+        <div class="row-fluid">
+            <div class="span4 responsive">
+                @(Html.Kendo().ComboBox()
+                    .BindTo(colaboradores)
+                    .DataTextField("NombreCompleto")
+                    .DataValueField("ID")
+                    .Placeholder("Seleccione el colaborador")
+                    .Filter("Contains")
+                    .Name("comboColaboradores")
+                    .Suggest(true)
+                    .SelectedIndex(colaboradorIndex)
+                    .Events(e => e.Change("onColaboradorSelect"))
+                )
+                <a href="#" id="hidden-link" class="hidden"></a>
+                <script type="text/javascript">
+                    function onColaboradorSelect(e) {
+                        var comboColaboradores = $("#comboColaboradores").data("kendoComboBox");
+                        var colaboradorID = comboColaboradores.dataItem(comboColaboradores.selectedIndex).ID;
+                        $("#hidden-link").attr("href", '@Url.Action("Index", "MisObjetivos", new { Area = "Objetivos" })?colaboradorID=' + colaboradorID);
+                        $("a#hidden-link")[0].click();
+                    }
+                </script>
+            </div>
+            <div class="span3 responsive">
+                @(Html.Kendo().DropDownList()
+                    .Name("DropDownListPeriodos")
+                    .DataTextField("Nombre")
+                    .DataValueField("ID")
+                    .BindTo(periodos)
+                    .HtmlAttributes(new { style = "width:100%" })
+                    .Events(e => e.Change("onDropDownListPeriodosChange"))
+                    .SelectedIndex(0)
+                )
+            </div>
+        </div>
+        
+        <div class="row-fluid information-container">
+           @for(int i = 0; i < periodos.Count(); i++)
+            {
+               @(Html.Kendo().PanelBar()
+                    .Name("PanelBar-" + periodos[i].ID)
+                    .ExpandMode(PanelBarExpandMode.Multiple)
+                    .Items(panelbar =>
+                       {
+                           foreach (var objetivo in objetivos.Where(x => x.BSCID == periodos[i].ID))
+                           {
+                               panelbar.Add().Text(objetivo.Nombre)
+                               .Content(
+                                   Html.Kendo().Grid<ObjetivoDTO>()
+                                   .Name("Grid-" + objetivo.ID)
+                                   .Columns(columns =>
+                                       {
+                                           columns.Bound(p => p.Nombre).ClientFooterTemplate("<strong>Cantidad:</strong> #=count#");
+                                           columns.Bound(p => p.Peso).ClientFooterTemplate("<strong>Suma:</strong> #=sum#");
+                                           if (puedeEditar) { columns.Command(command => { command.Destroy().Text("Eliminar"); }).Width(200); }
+                                       })
+                                   .ToolBar(toolbar => { if (puedeEditar) { toolbar.Create().Text("Registrar"); toolbar.Save().SaveText("Guardar cambios").CancelText("Cancelar cambios"); } })
+                                   .Editable(editable => editable
+                                       .Mode(GridEditMode.InCell)
+                                       .DisplayDeleteConfirmation("Recuerde que debe guardar los cambios para hacer efectiva la eliminación.")
+                                       .Window(w => w.Title("Ingrese los datos"))
+                                   ).Pageable(e => e.Refresh(true)).Filterable().Sortable().Scrollable(w => w.Height(330))
+                                   .DataSource(dataSource => dataSource
+                                       .Ajax().PageSize(20)
+                                       .Aggregates(a => {a.Add(p => p.Nombre).Count();a.Add(p => p.Peso).Sum();})
+                                       .Model(model => {model.Id(p => p.ID);model.Field(p => p.ObjetivoPadreID).DefaultValue(objetivo.ID); })
+                                       .Create(update => update.Action("Create", "MisObjetivos"))
+                                       .Read(read => read.Action("Read", "MisObjetivos", new { objetivoPadreID = objetivo.ID }))
+                                       .Update(update => update.Action("Update", "MisObjetivos"))
+                                       .Destroy(update => update.Action("Destroy", "MisObjetivos"))
+                                       .Events(e => e.RequestEnd("afterRequest"))
+                                   ).Events(e => e.SaveChanges("onSave"))
+                                   .ToHtmlString()
+                               );
+                           }
+                       }
+                       ).HtmlAttributes(new { @class = i == 0 ? "" : "hidden" })
+               )
+
+
+
+               
+            }  
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var last_container = null;
+
+    $(document).ready(function () {
+        var dropDownListPeriodos = $("#DropDownListPeriodos").data("kendoDropDownList");
+        var periodoID = dropDownListPeriodos.dataItem(dropDownListPeriodos.selectedIndex).ID;
+        last_container = $("#PanelBar-" + periodoID);
+    });
+
+    function onDropDownListPeriodosChange(e) {
+        var dropDownListPeriodos = $("#DropDownListPeriodos").data("kendoDropDownList");
+        var periodoID = dropDownListPeriodos.dataItem(dropDownListPeriodos.selectedIndex).ID;
+
+        last_container.hide();
+        last_container = $("#PanelBar-" + periodoID);
+        last_container.show();
+    }
+
+
+    function getSumaPeso(data) {
+        var sumaPeso = 0;
+        for (var i = 0; i < data.length; i++) {
+            sumaPeso += data[i].Peso;
+        }
+        return sumaPeso;
+    }
+
+    function onSave(e) {
+        var sumaPeso = getSumaPeso(e.sender._data);
+        if (sumaPeso != 100) {
+            alert("La suma de los pesos no es 100, es " + sumaPeso + ".");
+            e.preventDefault();
+        }
+    }
+
+    function afterRequest(e) {
+        if (e.type == 'create')
+            e.sender.read();
+    }
+    
+</script>

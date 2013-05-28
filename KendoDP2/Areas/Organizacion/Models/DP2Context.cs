@@ -30,6 +30,7 @@ namespace KendoDP2.Models.Generic
         public DbSet<ColaboradorXPuesto> InternalColaboradoresXPuestos { get; set; }
         public DbSet<Organizacion> InternalOrganizaciones { get; set; }
         public DbSet<Funcion> InternalFunciones { get; set; }
+        public DbSet<FuncionXPuesto> InternalFuncionesXPuestos { get; set; }
 
         public DBGenericRequester<Area> TablaAreas { get; set; }
         public DBGenericRequester<Puesto> TablaPuestos { get; set; }
@@ -43,7 +44,7 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<ColaboradorXPuesto> TablaColaboradoresXPuestos { get; set; }
         public DBGenericRequester<Organizacion> TablaOrganizaciones { get; set; }
         public DBGenericRequester<Funcion> TablaFunciones { get; set; }
-
+        public DBGenericRequester<FuncionXPuesto> TablaFuncionesXPuestos { get; set; }
 
         private void RegistrarTablasOrganizacion()
         {
@@ -59,6 +60,7 @@ namespace KendoDP2.Models.Generic
             TablaColaboradoresXPuestos = new DBGenericRequester<ColaboradorXPuesto>(this, InternalColaboradoresXPuestos);
             TablaOrganizaciones = new DBGenericRequester<Organizacion>(this, InternalOrganizaciones);
             TablaFunciones = new DBGenericRequester<Funcion>(this, InternalFunciones);
+            TablaFuncionesXPuestos = new DBGenericRequester<FuncionXPuesto>(this, InternalFuncionesXPuestos);
         }
 
         private void SeedOrganizacion()
@@ -68,24 +70,24 @@ namespace KendoDP2.Models.Generic
 
         private void SeedColaboradores()
         {
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Mario Alonso", ApellidoPaterno = "Moreno", ApellidoMaterno = "Reyes", Username = "admin", Password = "admin", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Miguel", ApellidoPaterno = "Vega", ApellidoMaterno = "Buendía", Username = "mvega", Password = "mvega", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Pako", ApellidoPaterno = "Sarmiento", ApellidoMaterno = "XXX", Username = "psarmiento", Password = "psarmiento", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Christian", ApellidoPaterno = "Mendez", ApellidoMaterno = "XXX", Username = "cmendez", Password = "cmendez", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Manuel", ApellidoPaterno = "Solorzano", ApellidoMaterno = "XXX", Username = "msolorzano", Password = "msolorzano", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Cesar", ApellidoPaterno = "Vasquez", ApellidoMaterno = "XXX", Username = "cvasquez", Password = "cvasquez", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Diana", ApellidoPaterno = "Lepage", ApellidoMaterno = "XXX", Username = "dlepage", Password = "dlepage", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Hans", ApellidoPaterno = "Espinoza", ApellidoMaterno = "XXX", Username = "hespinoza", Password = "hespinoza", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Pedro", ApellidoPaterno = "Curich", ApellidoMaterno = "XXX", Username = "pcurich", Password = "pcurich", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Andre", ApellidoPaterno = "Montoya", ApellidoMaterno = "XXX", Username = "amontoya", Password = "amontoya", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Daiana", ApellidoPaterno = "Castro", ApellidoMaterno = "XXX", Username = "dcastro", Password = "dcastro", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Juan", ApellidoPaterno = "Cahuin", ApellidoMaterno = "XXX", Username = "jcahuin", Password = "jcahuin", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Christian", ApellidoPaterno = "Perez", ApellidoMaterno = "XXX", Username = "cperez", Password = "cperez", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Ever", ApellidoPaterno = "Mitta", ApellidoMaterno = "XXX", Username = "emitta", Password = "emitta", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Walter", ApellidoPaterno = "Erquinigo", ApellidoMaterno = "XXX", Username = "werquinigo", Password = "werquinigo", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Katy", ApellidoPaterno = "Tucto", ApellidoMaterno = "XXX", Username = "ktucto", Password = "ktucto", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Joao", ApellidoPaterno = "Chavez", ApellidoMaterno = "XXX", Username = "jchavez", Password = "jchavez", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
-            TablaColaboradores.AddElement(new Colaborador { Nombres = "Carlos", ApellidoPaterno = "Lengua", ApellidoMaterno = "XXX", Username = "clengua", Password = "clengua", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Fortino Mario Alonso", ApellidoPaterno = "Moreno", ApellidoMaterno = "Reyes", Username = "admin", Password = "admin", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = TablaGradosAcademicos.One(x => x.Descripcion.Equals("Bachiller")) });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Miguel", ApellidoPaterno = "Vega", ApellidoMaterno = "Buendía", Username = "mvega", Password = "mvega", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = TablaGradosAcademicos.One(x => x.Descripcion.Equals("Bachiller")) });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Pako", ApellidoPaterno = "Sarmiento", ApellidoMaterno = "XXX", Username = "psarmiento", Password = "psarmiento", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = TablaGradosAcademicos.One(x => x.Descripcion.Equals("Bachiller")) });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Christian", ApellidoPaterno = "Mendez", ApellidoMaterno = "XXX", Username = "cmendez", Password = "cmendez", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = TablaGradosAcademicos.One(x => x.Descripcion.Equals("Bachiller")) });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Manuel", ApellidoPaterno = "Solorzano", ApellidoMaterno = "XXX", Username = "msolorzano", Password = "msolorzano", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = TablaGradosAcademicos.One(x => x.Descripcion.Equals("Bachiller")) });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Cesar", ApellidoPaterno = "Vasquez", ApellidoMaterno = "XXX", Username = "cvasquez", Password = "cvasquez", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = TablaGradosAcademicos.One(x => x.Descripcion.Equals("Bachiller")) });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Diana", ApellidoPaterno = "Lepage", ApellidoMaterno = "XXX", Username = "dlepage", Password = "dlepage", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = TablaGradosAcademicos.One(x => x.Descripcion.Equals("Bachiller")) });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Hans", ApellidoPaterno = "Espinoza", ApellidoMaterno = "XXX", Username = "hespinoza", Password = "hespinoza", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = TablaGradosAcademicos.One(x => x.Descripcion.Equals("Bachiller")) });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Pedro", ApellidoPaterno = "Curich", ApellidoMaterno = "XXX", Username = "pcurich", Password = "pcurich", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = TablaGradosAcademicos.One(x => x.Descripcion.Equals("Bachiller")) });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Andre", ApellidoPaterno = "Montoya", ApellidoMaterno = "XXX", Username = "amontoya", Password = "amontoya", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = TablaGradosAcademicos.One(x => x.Descripcion.Equals("Bachiller")) });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Daiana", ApellidoPaterno = "Castro", ApellidoMaterno = "XXX", Username = "dcastro", Password = "dcastro", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = TablaGradosAcademicos.One(x => x.Descripcion.Equals("Bachiller")) });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Juan", ApellidoPaterno = "Cahuin", ApellidoMaterno = "XXX", Username = "jcahuin", Password = "jcahuin", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = TablaGradosAcademicos.One(x => x.Descripcion.Equals("Bachiller")) });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Christian", ApellidoPaterno = "Perez", ApellidoMaterno = "XXX", Username = "cperez", Password = "cperez", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = TablaGradosAcademicos.One(x => x.Descripcion.Equals("Bachiller")) });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Ever", ApellidoPaterno = "Mitta", ApellidoMaterno = "XXX", Username = "emitta", Password = "emitta", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = TablaGradosAcademicos.One(x => x.Descripcion.Equals("Bachiller")) });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Walter", ApellidoPaterno = "Erquinigo", ApellidoMaterno = "XXX", Username = "werquinigo", Password = "werquinigo", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = TablaGradosAcademicos.One(x => x.Descripcion.Equals("Bachiller")) });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Katy", ApellidoPaterno = "Tucto", ApellidoMaterno = "XXX", Username = "ktucto", Password = "ktucto", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, CorreoElectronico="ktucto@gmail.com", GradoAcademico = TablaGradosAcademicos.One(x => x.Descripcion.Equals("Bachiller"))});
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Joao", ApellidoPaterno = "Chavez", ApellidoMaterno = "XXX", Username = "jchavez", Password = "jchavez", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, CorreoElectronico = "ktucto+RH@gmail.com", GradoAcademico = TablaGradosAcademicos.One(x => x.Descripcion.Equals("Bachiller")) });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "Carlos", ApellidoPaterno = "Lengua", ApellidoMaterno = "XXX", Username = "clengua", Password = "clengua", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = TablaGradosAcademicos.One(x => x.Descripcion.Equals("Bachiller")) });
             TablaColaboradores.AddElement(new Colaborador { Nombres = "Juan", ApellidoPaterno = "Perez", ApellidoMaterno = "Fernández", Username = "jperez", Password = "jperez", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
 
             Colaborador crios = new Colaborador { Nombres = "Carmen", ApellidoPaterno = "Rios", ApellidoMaterno = "De La Puente", Username = "crios", Password = "crios", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 };
@@ -112,19 +114,22 @@ namespace KendoDP2.Models.Generic
 
             rchavez.Objetivos = new List<Objetivo>();
 
-            Objetivo aumentarLasVentas = new Objetivo("Aumentar las ventas", 1, 50, 100); //100 es "no tiene padre"
+            //Objetivo aumentarLasVentas = new Objetivo("Aumentar las ventas", 1, 50, 100); //100 es "no tiene padre"
+            Objetivo aumentarLasVentas = new Objetivo("Aumentar las ventas", 1, 50, this); //100 es "no tiene padre"
             aumentarLasVentas.FechaFinalizacion = DateTime.Today.AddDays(7.0);
-            aumentarLasVentas.IsAsignadoAPersona = true;
+            //aumentarLasVentas.IsAsignadoAPersona = true;
             aumentarLasVentas.AvanceFinal = 10; //10%
 
-            Objetivo reducirCostos = new Objetivo("Reducir los costos", 1, 25, 100);
+            //Objetivo reducirCostos = new Objetivo("Reducir los costos", 1, 25, 100);
+            Objetivo reducirCostos = new Objetivo("Reducir los costos", 1, 25, this);
             reducirCostos.FechaFinalizacion = DateTime.Today.AddDays(7.0);
-            reducirCostos.IsAsignadoAPersona = true;
+            //reducirCostos.IsAsignadoAPersona = true;
             reducirCostos.AvanceFinal = 10; //10%
 
-            Objetivo ganarClientes = new Objetivo("Ganar nuevos clientes", 1, 25, 100);
+            //Objetivo ganarClientes = new Objetivo("Ganar nuevos clientes", 1, 25, 100);
+            Objetivo ganarClientes = new Objetivo("Ganar nuevos clientes", 1, 25, this);
             ganarClientes.FechaFinalizacion = DateTime.Today.AddDays(7.0);
-            ganarClientes.IsAsignadoAPersona = true;
+            //ganarClientes.IsAsignadoAPersona = true;
             ganarClientes.AvanceFinal = 10; //10%
 
             rchavez.Objetivos.Add(aumentarLasVentas);
@@ -214,50 +219,51 @@ namespace KendoDP2.Models.Generic
             TablaEstadosPuestos.AddElement(new EstadosPuesto { Descripcion = "Inactivo" });
         }
 
-        private void SeedFunciones()
-        {
-            TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 1, ColaboradorID = 2, Sueldo = 2300, FechaIngresoPuesto = new DateTime(2010, 1, 1), FechaSalidaPuesto = new DateTime(2010, 12, 31), Comentarios = "Hizo una gran labor", IsEliminado = false });
-            TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 2, ColaboradorID = 2, Sueldo = 2500, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = DateTime.Now, Comentarios = "Continua haciendo una gran labor", IsEliminado = false });
-            TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 5, ColaboradorID = 23, Sueldo = 2000, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = DateTime.Now, Comentarios = "Ninguno", IsEliminado = false });
-        }
         private void SeedColaboradorXPuesto()
         {
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Hacer muchas cosas", PuestoID = 1 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Presidir", PuestoID = 1 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Figurar", PuestoID = 1 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Gerenciar generalmente", PuestoID = 2 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Gestión de capital humano", PuestoID = 2 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Dar rumbo al negocio", PuestoID = 2 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Vender", PuestoID = 3 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Reducir gastos de venta", PuestoID = 3 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Cerrar negocios", PuestoID = 3 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Gobernar su TI", PuestoID = 4 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Seguridad", PuestoID = 4 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Gestión de activos", PuestoID = 4 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Ganar clientes", PuestoID = 5 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Desperdiciar dinero", PuestoID = 5 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Creerse importante", PuestoID = 5 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Hacer", PuestoID = 6 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Operar", PuestoID = 6 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Producir", PuestoID = 6 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Negociar con comunidades", PuestoID = 7 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Promover programas de desarrollo", PuestoID = 7 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Responsabilizar", PuestoID = 7 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Administrar", PuestoID = 8 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Gestionar", PuestoID = 8 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Ordenar", PuestoID = 8 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Pedir", PuestoID = 9 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Proveer", PuestoID = 9 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Prever", PuestoID = 9 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Contratar", PuestoID = 10 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Ascender", PuestoID = 10 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Botar", PuestoID = 10 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Invertir", PuestoID = 11 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Presupuestar", PuestoID = 11 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Contar", PuestoID = 11 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Molestar 1", PuestoID = 12 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Molestar 2", PuestoID = 12 });
-            TablaFunciones.AddElement(new Funcion { Descripcion = "Creerse muy importante", PuestoID = 12 });
+            TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 1, ColaboradorID = 2, Sueldo = 2300, FechaIngresoPuesto = new DateTime(2010, 1, 1), FechaSalidaPuesto = new DateTime(2010, 12, 31), Comentarios = "Hizo una gran labor", IsEliminado = false });
+
+            TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 2, ColaboradorID = 3, Sueldo = 2500, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = DateTime.Now, Comentarios = "Continua haciendo una gran labor", IsEliminado = false });
+            TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 5, ColaboradorID = 23, Sueldo = 2000, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = DateTime.Now, Comentarios = "Ninguno", IsEliminado = false });
+        }
+        private void SeedFunciones()
+        {
+            TablaFunciones.AddElement(new Funcion { Nombre = "Hacer muchas cosas", PuestoID = 1 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Presidir", PuestoID = 1 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Figurar", PuestoID = 1 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Gerenciar generalmente", PuestoID = 2 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Gestión de capital humano", PuestoID = 2 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Dar rumbo al negocio", PuestoID = 2 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Vender", PuestoID = 3 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Reducir gastos de venta", PuestoID = 3 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Cerrar negocios", PuestoID = 3 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Gobernar su TI", PuestoID = 4 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Seguridad", PuestoID = 4 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Gestión de activos", PuestoID = 4 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Ganar clientes", PuestoID = 5 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Desperdiciar dinero", PuestoID = 5 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Creerse importante", PuestoID = 5 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Hacer", PuestoID = 6 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Operar", PuestoID = 6 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Producir", PuestoID = 6 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Negociar con comunidades", PuestoID = 7 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Promover programas de desarrollo", PuestoID = 7 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Responsabilizar", PuestoID = 7 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Administrar", PuestoID = 8 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Gestionar", PuestoID = 8 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Ordenar", PuestoID = 8 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Pedir", PuestoID = 9 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Proveer", PuestoID = 9 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Prever", PuestoID = 9 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Contratar", PuestoID = 10 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Ascender", PuestoID = 10 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Botar", PuestoID = 10 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Invertir", PuestoID = 11 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Presupuestar", PuestoID = 11 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Contar", PuestoID = 11 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Molestar 1", PuestoID = 12 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Molestar 2", PuestoID = 12 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Creerse muy importante", PuestoID = 12 });
         }
     }
 }

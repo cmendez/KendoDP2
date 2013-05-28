@@ -14,7 +14,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                return Json(context.TablaObjetivos.Where(o => o.TipoObjetivoBSCID == tipoObjetivoBSCID && o.BSCID == BSCID).Select(o => o.ToDTO()), JsonRequestBehavior.AllowGet);
+                return Json(context.TablaObjetivos.Where(o => o.TipoObjetivoBSCID == tipoObjetivoBSCID && o.BSCID == BSCID).Select(o => o.ToDTO(context)), JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -23,8 +23,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                Objetivo o = new Objetivo(objetivo);
-                o.Creador = context.TablaColaboradores.One(c => c.Username.Equals(User.Identity.Name));
+                Objetivo o = new Objetivo(objetivo, context);
                 context.TablaObjetivos.AddElement(o);
                 return Json(new { success = true });
             }
