@@ -8,6 +8,7 @@
     IList<AreaDTO> areas = ViewBag.areas;
     IList<EstadosSolicitudOfertaLaboralDTO> estadosSolicitudOferta = ViewBag.estadosSolicitudOferta;
     IList<PuestoDTO> puestos = ViewBag.puestos;
+    int ofertaID = ViewBag.ofertaID;
 
 }
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Postulantes por Oferta Laboral Interna", "Revise sus datos y apruebelos para su evaluación"));}
@@ -51,7 +52,7 @@
                             .Ajax()
                             .PageSize(20)
                             .Model(model => model.Id(p => p.ID))
-                            .Read(read => read.Action("ReadListaPostulantes", "OfertasLaboralesInternas"))
+                            .Read(read => read.Action("ReadListaPostulantes", "OfertasLaboralesInternas", new { ofertaID = ofertaID }))
                         )
                        )
         </div>
@@ -62,7 +63,7 @@
 
 <script>
 
-    function verPostulantes(e) {
+    function verPostulante(e) {
         console.log(e);
         e.preventDefault();
 
@@ -84,5 +85,14 @@
         $("#Details2").load("@Url.Action("GetViewPostulante","ConvocatoriasInternas", new{Area = "BolsaTrabajo"})?ofertaID=" + ID, function () {
             wnd.center().open();
         });
+    }
+
+    function bajarCV() {
+        if ($("#CurriculumVitaeID").val() == '0' || $("#CurriculumVitaeID").val() == 0)
+            alert("No hay ningun curriculum registrado");
+        else {
+            $("#bajar-cv-anchor").attr("href", "/Organizacion/Colaboradores/BajarCurriculum?curriculumVitaeID=" + $("#CurriculumVitaeID").val());
+            $("a#bajar-cv-anchor")[0].click();
+        }
     }
 </script>

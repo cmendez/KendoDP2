@@ -53,6 +53,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaLaboralID);
                 List<OfertaLaboralXPostulante> postulantesOferta = oferta.Postulantes.ToList();
                 ViewBag.postulantesOferta = postulantesOferta.Select(p => p.ToDTO());
+                ViewBag.ofertaID = ofertaLaboralID;
 
                 return View("AprobarPorFasePostulantesOfertaLaboral");
             }
@@ -60,7 +61,18 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 
 
 
-      
+        public ActionResult ReadListaPostulantes([DataSourceRequest] DataSourceRequest request, int ofertaID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+
+                OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
+                List<OfertaLaboralXPostulante> postulantesOferta = oferta.Postulantes.ToList();
+
+                return Json(postulantesOferta.Select(x => x.ToDTO()).ToDataSourceResult(request));
+            }
+        }
+
 
     }
 }
