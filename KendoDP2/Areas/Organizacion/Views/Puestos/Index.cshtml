@@ -41,18 +41,17 @@
                     {
                         c.Bound(p => p.ID);
                         c.Bound(p => p.Nombre);
-                     //   c.ForeignKey((p => p.PuestoSuperiorID), comboPuestos);
                         c.ForeignKey(p => p.AreaID, new SelectList(areas, "ID", "Nombre"));
-                       // c.ForeignKey((p => p.AreaID), comboAreas);
                         c.ForeignKey(p => p.PuestoSuperiorID, new SelectList(puestos, "ID", "Nombre"));
-                        
+                        c.Template(@<text></text>).Title("Funciones").ClientTemplate(
+                        "<a class='k-button' href='" + Url.Action("ElegirFunciones", "Puestos") + "?puestoID=#=ID#'>Funciones</a>");
                         c.Command(cmd =>
                         {
                             cmd.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar");
                             cmd.Destroy().Text("Eliminar");
                         }).Width(200);
                     })
-                    .ToolBar(toolbar => toolbar.Create().Text("Registrar"))
+                    .ToolBar(toolbar => { toolbar.Create().Text("Registrar"); toolbar.Custom().Name("Ver todos").Url("javascript:verTodos();"); })
                     .Editable(editable => editable
                         .Mode(GridEditMode.PopUp)
                         .DisplayDeleteConfirmation("¿Está seguro que desea eliminar este registro?")
@@ -72,7 +71,7 @@
                         .Update(u => u.Action("Update", "Puestos"))
                         .Destroy(d => d.Action("Destroy", "Puestos"))
                         .Events(e => e.Error("onError"))
-                    )
+                    ).Events(e => e.Edit("onEdit"))
                 )
             </div>
         </div>
@@ -84,6 +83,7 @@
     }
 </style>
 <script>
+    
     function onError(e) {
         if (e.errors) {
             var message = "Error:\n";
@@ -97,11 +97,17 @@
             alert(message);
         }
     }
-
+    $(document).ready(function () {
+        $(".k-grid-add").click(verTodos);
+    });
+    function onEdit(e) {
+        console.log(e);
+        if (e.type == 'save') {
+            console.log(e);
+        }
+    }
     function onComplete(e) {
         if (e.type == 'create' || e.type == 'destroy' || e.type == 'update') {
-        //    $('#grid').data('kendoGrid').dataSource.read();
-        //    $('#treeview').data('kendoTreeView').dataSource.read();
             doRefresh();
         }
     }
@@ -110,18 +116,12 @@
     });
     function onSelectTreeNode(e) {
         var nodo = $('#treeview').data('kendoTreeView').dataItem(e.node);
-        var id = nodo.id;
-        var grid = $("#grid").data("kendoGrid");
-        var fila = grid.dataSource.get(i);
-        var kfila;
-        for (var i = 1; i <= grid.dataSource.totalPages() ; i++) {
-            grid.dataSource.page(i);
-            kfila = grid.table.find('tr[data-uid="' + fila.uid + '"]');
-            if (kfila.index() > -1) {
-                grid.select(kfila);
-                break;
-            }
-        }
+        var grid = $("#grid").data('kendoGrid');
+        grid.dataSource.filter({ field: 'AreaID', operator: 'eq', value: nodo.id });
+    }
+    function verTodos() {
+        var grid = $("#grid").data('kendoGrid');
+        grid.dataSource.filter({ field: 'AreaID', operator: 'neq', value: 10000000 });
     }
     function onDataBound() {
         setTimeout("expandNodes()");

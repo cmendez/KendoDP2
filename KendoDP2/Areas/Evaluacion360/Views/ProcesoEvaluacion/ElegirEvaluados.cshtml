@@ -6,6 +6,7 @@
     IList<KendoDP2.Areas.Organizacion.Models.ColaboradorDTO> colaboradores = ViewBag.colaboradores;
     IList<KendoDP2.Areas.Organizacion.Models.AreaDTO> areas = ViewBag.areas;
     IList<KendoDP2.Areas.Evaluacion360.Models.EstadoColaboradorXProcesoEvaluacionDTO> estados = ViewBag.estados;
+    SelectList lista = new SelectList(areas, "ID", "Nombre");
 }
 
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Elegir evaluados", "Elija los colaboradores evaluados en este proceso"));}
@@ -59,7 +60,8 @@
                         columns.Bound(p => p.ColaboradorDTO.ApellidoPaterno);
                         columns.Bound(p => p.ColaboradorDTO.ApellidoMaterno);
                         columns.Bound(p => p.ColaboradorDTO.Nombre);
-                        columns.Bound(p => p.ColaboradorDTO.Area);
+                        columns.ForeignKey((p => p.ColaboradorDTO.AreaID), lista);
+                        //columns.Bound(p => p.ColaboradorDTO.Area);
                         columns.Bound(p => p.ColaboradorDTO.Puesto);
                         columns.ForeignKey(p => p.EstadoColaboradorXProcesoEvaluacionID, new SelectList(estados, "ID", "Nombre"));
                         columns.Command(command =>
@@ -68,22 +70,29 @@
                         }).Width(200);
                     }
                 )
-                .Editable(
-                    e => e.DisplayDeleteConfirmation("¿Realmente desdea eliminar este registro?")
-                )
-                .Pageable(paper => paper.Refresh(true))
-                .Filterable()
-                .Sortable()
-                .Scrollable(w => w.Height(330))
-                .DataSource(dataSource => dataSource
-                    .Ajax()
-                    .PageSize(20)
-                    .Model(model => { model.Id(p => p.ID); })
-                    .Read(read => read.Action("ReadEvaluados", "ProcesoEvaluacion", new { procesoID = Model.ID }))
-                    .Destroy(update => update.Action("DestroyEvaluados", "ProcesoEvaluacion"))
-                    .Events(e => e.RequestEnd("requestEnd"))
-                )
-                )
+                .ToolBar(toolbar => 
+                    {
+                        //toolbar.Custom().Text("Iniciar proceso").Action("IniciarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" });
+                        //toolbar.Custom().Text("Cerrar Proceso").Action("CerrarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" });
+                        toolbar.Template(@<text><a class='k-button'  id='btnIniciar' href='javascript:IniciarProcesoEvaluacionJS()'>Iniciar Proceso Evaluación </a><a class='k-button' id='btnCerrar' href='javascript:CerrarProcesoEvaluacionJS()'>Cerrar Proceso Evaluación </a></text>);
+                    }
+                        )
+                        .Editable(
+                            e => e.DisplayDeleteConfirmation("¿Realmente desdea eliminar este registro?")
+                        )
+                        .Pageable(paper => paper.Refresh(true))
+                        .Filterable()
+                        .Sortable()
+                        .Scrollable(w => w.Height(330))
+                        .DataSource(dataSource => dataSource
+                            .Ajax()
+                            .PageSize(20)
+                            .Model(model => { model.Id(p => p.ID); })
+                            .Read(read => read.Action("ReadEvaluados", "ProcesoEvaluacion", new { procesoID = Model.ID }))
+                            .Destroy(update => update.Action("DestroyEvaluados", "ProcesoEvaluacion"))
+                            .Events(e => e.RequestEnd("requestEnd"))
+                        )
+                        )
             </div>
         </div>
     </div>
@@ -137,7 +146,7 @@
         $("#event_box_areas").append(newDiv);
     }
     function agregaTileDeColaborador(colaboradorID, nombreCompleto){
-        var newDiv = '<a href="javascript:removeColaborador(' + colaboradorID + ');" class="label external-event">' + nombreCompleto + '<i class="icon-remove"></i></a>'; 
+        var newDiv = '<a href="javascript: (' + colaboradorID + ');" class="label external-event">' + nombreCompleto + '<i class="icon-remove"></i></a>'; 
         $("#event_box_colaboradores").append(newDiv);
     }
 
@@ -162,6 +171,50 @@
             success: function(response){
                 cargaTiles();
                 $("#ColaboradoresDeProcesoEvaluacionGrid").data('kendoGrid').dataSource.read();
+            }
+        });
+    }
+
+    function CerrarProcesoEvaluacionJS(){
+        $.ajax({
+            url: '@Url.Action("CerrarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" })',
+             dataType: 'JSON',
+             type: 'POST',
+             data: {procesoID: @Model.ID},
+            success: function(data){
+                if(data.success){
+                    $("#ColaboradoresDeProcesoEvaluacionGrid").data('kendoGrid').dataSource.read();
+                    //$("#btnIniciar).
+                    alert("El proceso ha sido finalizado.");
+                }
+                else {
+                    
+                }
+            }
+         });
+    }
+
+    function IniciarProcesoEvaluacionJS(){
+        //Console.log("Iniciando proceso...");
+        if (false) // colocar validacion de total evaluados
+        {// mostrar alerta
+            // return
+        } 
+
+        $.ajax({
+            url: '@Url.Action("IniciarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" })',
+            dataType: 'JSON',
+            type: 'POST',
+            data: {procesoID: @Model.ID},
+            success: function(data){
+                if(data.success){
+                    $("#ColaboradoresDeProcesoEvaluacionGrid").data('kendoGrid').dataSource.read();
+                    //$("#btnIniciar).
+                    alert("El proceso ha sido iniciado");
+                }
+                else {
+                    
+                }
             }
         });
     }

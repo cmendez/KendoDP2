@@ -8,6 +8,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
 using System.Web;
+using KendoDP2.Areas.Evaluacion360.Models;
+using KendoDP2.Areas.Objetivos.Models;
 
 namespace KendoDP2.Areas.Organizacion.Models
 {
@@ -28,14 +30,35 @@ namespace KendoDP2.Areas.Organizacion.Models
        public virtual ICollection<Area> Areas { get; set; }
        public virtual ICollection<Puesto> Puestos { get; set; }
        public virtual ICollection<Funcion> Funciones { get; set; }
-
+       public virtual ICollection<CompetenciaXPuesto> CompetenciasXPuesto { get; set; }
+       public virtual ICollection<Objetivo> Objetivos { get; set; }
 
        public int PuestoXAreaID { get; set; }
         
         public int? EstadosPuestoID { get; set; }
         public virtual EstadosPuesto EstadoPuesto { get; set; }
 
+        public List<Capacidad> GetCapacidadesAsociadas(DP2Context context)
+        {
+            List<Capacidad> capacidades = new List<Capacidad>();
+            foreach (var cruce in CompetenciasXPuesto)
+            {
+                capacidades.AddRange(cruce.Competencia.Capacidades.Where(c => c.NivelCapacidadID == cruce.NivelID).ToList());
+            }
+            return capacidades;
+        }
 
+        public void ReparteObjetivosASubordinados(DP2Context context)
+        {
+            foreach (var objetivoPadre in this.Objetivos)
+                foreach (var objetivoIntermedio in objetivoPadre.ObjetivosHijos.Where(c => c.IsObjetivoIntermedio))
+                    foreach (var puestoHijo in this.Puestos)
+                        if (!puestoHijo.Objetivos.Any(x => x.ObjetivoPadreID == objetivoIntermedio.ID))
+                        {
+                            Objetivo nuevo = new Objetivo { Nombre = objetivoIntermedio.Nombre, ObjetivoPadre = objetivoIntermedio, PuestoAsignado = puestoHijo };
+                            context.TablaObjetivos.AddElement(nuevo);
+                        }
+        }
         
         public Puesto() { }
 
@@ -50,11 +73,6 @@ namespace KendoDP2.Areas.Organizacion.Models
             LoadFromDTO(a);
         }
 
-       // public Puesto(PuestoDTO p)
-        //{
-       //     LoadFromDTO(p);
-        //}
-
         public Puesto LoadFromDTO(PuestoDTO p)
         {
             ID = p.ID;
@@ -64,7 +82,6 @@ namespace KendoDP2.Areas.Organizacion.Models
             if (p.PuestoSuperiorID > 0) PuestoSuperiorID = p.PuestoSuperiorID;
             return this;
         }
-
 
         public PuestoDTO ToDTO()
         {

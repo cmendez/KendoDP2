@@ -18,6 +18,9 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         public int AutorizadorID { get; set; }
         public Colaborador Autorizador { get; set; }
 
+        public int EstadoProcesoEvaluacionID { get; set; }
+        public virtual EstadoProcesoEvaluacion EstadoProcesoEvaluacion { get; set; }
+        
         public ICollection<ColaboradorXProcesoEvaluacion> PersonaXProcesoEvaluaciones { get; set; }
 
         public ProcesoEvaluacion() { }
@@ -33,6 +36,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
             ID = p.ID;
             FechaCierre = DateTime.Parse(p.FechaCierre);
             AutorizadorID = p.AutorizadorID;
+            EstadoProcesoEvaluacionID = p.EstadoProcesoEvaluacionID;
             return this;
         }
 
@@ -50,6 +54,10 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         [Required]
         [MaxLength(200)]
         public string Nombre { get; set; }
+        
+        [DisplayName("Estado")]
+        [ScaffoldColumn(false)]
+        public int EstadoProcesoEvaluacionID { get; set; }
 
         [DisplayName("Fecha de cierre a evaluadores")]
         [Required]
@@ -70,6 +78,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
             Nombre = p.Nombre;
             FechaCierre = p.FechaCierre.GetValueOrDefault().ToShortDateString();
             AutorizadorID = p.AutorizadorID;
+            EstadoProcesoEvaluacionID = p.EstadoProcesoEvaluacionID; 
         }
     }
 }

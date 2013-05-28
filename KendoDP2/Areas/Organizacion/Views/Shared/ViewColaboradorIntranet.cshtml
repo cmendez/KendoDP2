@@ -175,6 +175,17 @@
                         </div>
                     </div>
                 </div>
+
+                 <div class="row-fluid">
+                <div class="span5">
+                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.CurriculumVitaeID)</div>
+                    <a href="#" id="bajar-cv-anchor" class="hidden" target="_blank"></a>
+                </div>
+                 <div class="span7">
+                    <a href="javascript:bajarCV();">Descargar Curriculum</a>
+               </div>
+               
+            </div>
         
             </div>
             <!-- fin contenedor superior izquierdo: campos -->
@@ -185,36 +196,14 @@
                 @(Html.Label("Imagen:", new { style = "font-weight: bold;" }))
 
                 <div style="text-align: center;">
-                    <img id="imagen" src="https://lh4.googleusercontent.com/-3Sea_6fTfm4/TWrppAVxupI/AAAAAAAAAcQ/zHHGenEir0c/s200/snoopy-joecool-color.gif" onload="loadImage()"/> 
+                    <img id="imagen1" src="http://grifocalpointblog.org/wp-content/themes/blogga/images/ajax-loader.gif" /> 
                 </div>
-                <style>
-                    .k-upload-button{
-                        width: 100%;
-                    }
-                </style>
-                
-                <input type="file" id="ImagenColaborador" name="ImagenColaborador" />
-                <script>
-                    $("#ImagenColaborador").kendoUpload({
-                        multiple: false,
-                        showFileList: false,
-                        localization: {
-                            select: 'Seleccione la imagen JPG'
-                        },
-                        async: {
-                            saveUrl: "@Url.Action("UploadImagen", "Colaboradores", new {Area = "Organizacion"})",
-                            autoUpload: true,
-                        },
-                        upload: function (e) {
-                            e.data = { ID: $("#ID").val() };
-                        },
-                        success: function (e) {
-                            loadImage();
-                        }
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        loadImage('imagen1');
                     });
-                </script> 
-				
-
+                </script>
+                
             </div>
             <!-- fin contenedor superior derecho: foto -->
         </div>
@@ -244,16 +233,16 @@
                });
     });
 
-    
+    function bajarCV() {
+        if ($("#CurriculumVitaeID").val() == '0' || $("#CurriculumVitaeID").val() == 0)
+            alert("No hay ningun curriculum registrado");
+        else {
+            $("#bajar-cv-anchor").attr("href", "/Organizacion/Colaboradores/BajarCurriculum?curriculumVitaeID=" + $("#CurriculumVitaeID").val());
+            $("a#bajar-cv-anchor")[0].click();
+        }
+    }
 
 
 </script>
     
-<script type="text/javascript">
-    function loadImage() {
-        $("#imagen").attr("src", "/Organizacion/Colaboradores/ViewImageDeColaborador?colaboradorID=" + $("#ID").val());
-    }
-</script> 
-        
-
 }        

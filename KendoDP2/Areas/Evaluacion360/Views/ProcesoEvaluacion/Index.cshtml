@@ -8,7 +8,9 @@
     IList<ProcesoEvaluacionDTO> procesosEvaluacion = ViewBag.procesosEvaluacion;
     IList<ColaboradorDTO> colaboradores = ViewBag.colaboradores;
     IList<AreaDTO> areas = ViewBag.areas;
+    IList<EstadoProcesoEvaluacionDTO> estados = ViewBag.estados;
     SelectList lista = new SelectList(colaboradores, "ID", "NombreCompleto");
+    SelectList listaEstados = new SelectList(estados, "ID", "Descripcion");
     
 }
 
@@ -29,8 +31,10 @@
                     columns.Bound(p => p.Nombre);
                     columns.Bound(p => p.FechaCierre);
                     columns.ForeignKey((p => p.AutorizadorID), lista);
-                    columns.Template(@<text></text>).Title("Evaluados").ClientTemplate(
-                        "<a class='k-button' href='" + Url.Action("ElegirEvaluados", "ProcesoEvaluacion") + "?procesoEvaluacionID=#=ID#'>Elegir evaluados</a>");
+                    columns.ForeignKey(p => p.EstadoProcesoEvaluacionID, new SelectList(estados, "ID", "Descripcion")).Visible(true);
+
+                    columns.Template(@<text></text>).Title("Proceso").ClientTemplate(
+                        "<a class='k-button' href='" + Url.Action("ElegirEvaluados", "ProcesoEvaluacion") + "?procesoEvaluacionID=#=ID#'>Ver Proceso</a>");
                     columns.Command(command =>
                     { 
                         command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar"); 

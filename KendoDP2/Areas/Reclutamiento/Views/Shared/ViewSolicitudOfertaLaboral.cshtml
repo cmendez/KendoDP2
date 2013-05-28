@@ -2,6 +2,7 @@
 @using KendoDP2.Areas.Reclutamiento.Models
 @using KendoDP2.Areas.Configuracion.Models
 @using KendoDP2.Areas.Organizacion.Models
+@using KendoDP2.Areas.Evaluacion360.Models
 
 @model KendoDP2.Areas.Reclutamiento.Models.OfertaLaboralDTO
 @{
@@ -11,7 +12,10 @@
     PuestoDTO puesto = ViewBag.puesto;
     ColaboradorDTO responsable = ViewBag.responsable;
     IEnumerable<FuncionDTO> funciones = ViewBag.funciones;
+    IEnumerable<CapacidadDTO> capacidades = ViewBag.capacidades;
     string funcionesJson = Json.Encode(funciones);
+    string capacidadesJson = Json.Encode(capacidades);
+    bool yaValidado = ViewBag.yaValido;
 }
 
 @using (Html.BeginForm())
@@ -162,6 +166,10 @@
 
 
             <div class="span6">
+                @Html.Label("Lista Competencias:", new { style = "font-weight: bold;" })
+                <div class="twit-reader">
+                    <div id="list-view2"></div>
+                </div>
             </div>
 
         </div>
@@ -182,16 +190,22 @@
             </div>
         </div>
     </div>
-
-    <a class="btn green" href="javascript:CambiaEstadoAceptar();"> Aceptar </a>
-    <a class="btn green" href="javascript:CambiaEstadoRechazar();"> Rechazar </a>
-    
+    if (!yaValidado)
+    {
+        <a class="btn green" href="javascript:CambiaEstadoAceptar();"> Aceptar </a>
+        <a class="btn green" href="javascript:CambiaEstadoRechazar();"> Rechazar </a>
+    }
+    else
+    {
+        <label class="label">Esta oferta laboral ya fue publicada.</label>
+        <br />
+    }
     <!-- fin contenedor inferior: campos -->
 
  
     <script type="text/x-kendo-tmpl" id="template">
     <div class="twit">
-        <p>#:Descripcion#</p>
+        <p>#:Nombre#</p>
     </div>
     </script>
     
@@ -220,7 +234,11 @@
             dataSource: jQuery.parseJSON(funciones),
             template: kendo.template($("#template").html())
         });
-
+        var capacidades = '@Html.Raw(capacidadesJson)';
+        $("#list-view2").kendoListView({
+            dataSource: jQuery.parseJSON(capacidades),
+            template: kendo.template($("#template").html())
+        });
 
         function CambiaEstadoAceptar(){
             $.ajax({

@@ -19,15 +19,15 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             return View();
         }
 
-        // GET: /Reclutamiento/ReclutamientoMobile/Colaborador
+        // GET: /Reclutamiento/ReclutamientoMobile/Colaborador?userName=admin
 
-        public ActionResult Colaborador()
+        public ActionResult Colaborador(string userName)
         {
             using (DP2Context context = new DP2Context()){
-                var ofertas1 = context.TablaOfertaLaborales.All().Select(p => p.ToMobilePostulanteDTO()).ToList();
+                var ofertas1 = context.TablaOfertaLaborales.All().Select(p => p.ToMobilePostulanteDTO(userName)).ToList();
                 var estado = context.TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID;
-                var ofertas2 = context.TablaOfertaLaborales.Where(a=>a.EstadoSolicitudOfertaLaboralID == estado).Select(p => p.ToMobilePostulanteDTO()).ToList();
-                return Json(ofertas2, JsonRequestBehavior.AllowGet);
+                //var ofertas2 = context.TablaOfertaLaborales.Where(a=>a.EstadoSolicitudOfertaLaboralID == estado).Select(p => p.ToMobilePostulanteDTO()).ToList();
+                return Json(ofertas1, JsonRequestBehavior.AllowGet);
             }
         }
 

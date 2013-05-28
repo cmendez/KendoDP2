@@ -1,4 +1,6 @@
-﻿using System;
+﻿using KendoDP2.Areas.Evaluacion360.Models;
+using KendoDP2.Models.Generic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
@@ -12,8 +14,47 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         //
         // GET: /Evaluacion360/Correo/
 
-        public ActionResult Index()
+        public void EnviarEmailsInicio(List<ColaboradorXProcesoEvaluacion> colaboradores, ProcesoEvaluacion proceso) 
         {
+            MailMessage mail = new MailMessage();
+            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+            SmtpServer.Credentials = new System.Net.NetworkCredential("pruebas.rhpp@gmail.com", "desarrollo");
+            SmtpServer.Port = 587;
+            SmtpServer.EnableSsl = true;
+            String to = "";
+            String from = "pruebas.rhpp@gmail.com";
+
+            mail.From = new MailAddress(from);
+            mail.Subject = "[RH++] Su evaluación ya inició";
+            String messageText = ", el sistema RH++ le indica que el proceso de evaluación '" +  proceso.Nombre.ToUpper() +"' en el cual usted es partícipe ya inició. " +
+                " Puede rendir la evaluación haciendo click en el siguiente enlace: " + "http://dp2kendo.apphb.com/Evaluacion360/Evaluaciones" + "." +
+                "Sírvase no responder este correo.";
+
+            foreach (ColaboradorXProcesoEvaluacion c in colaboradores){
+                if (c.ToDTO().ColaboradorDTO.CorreoElectronico != null)
+                    to = c.ToDTO().ColaboradorDTO.CorreoElectronico;
+                else
+                    to = "ktucto+RHSE@gmail.com";
+                mail.To.Add(to);
+                mail.Body = c.ToDTO().ColaboradorDTO.NombreCompleto + messageText;
+                SmtpServer.Send(mail);
+
+                // Actualizar estado colaboradores
+                /*using (DP2Context context = new DP2Context())
+                {
+                    EstadoColaboradorXProcesoEvaluacion iniciado = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Iniciado));
+                    c.EstadoColaboradorXProcesoEvaluacion = iniciado;
+
+                    //ColaboradorXProcesoEvaluacion col = context.TablaColaboradorXProcesoEvaluaciones.FindByID(c.ID, true);
+                    //col.EstadoColaboradorXProcesoEvaluacion = iniciado;
+                    //context.TablaColaboradorXProcesoEvaluaciones.ModifyElement(col);
+                }*/
+            }
+        }
+
+        public ActionResult EnviarEmails()
+        {
+            
             //Usuario: pruebas.rhpp@gmail.com
             //Contraseña: desarrollo
 
@@ -22,13 +63,15 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             SmtpServer.Credentials = new System.Net.NetworkCredential("pruebas.rhpp@gmail.com", "desarrollo");
             SmtpServer.Port = 587;
             SmtpServer.EnableSsl = true;
-
-            mail.From = new MailAddress("pruebas.rhpp@gmail.com");
-            mail.To.Add("pruebas.rhpp@gmail.com");
+            String to = "";
+            String from = "pruebas.rhpp@gmail.com";
+            mail.From = new MailAddress(from);
+            mail.To.Add(to);
 
             mail.Subject = "[RH++] Su evaluación ya inició";
             mail.Body = "El sistema RH++ le indica que el proceso de evaluación en el cual usted es partícipe ya inicio. <br/>" +
-                " Puede rendir la evaluación haciendo click en el siguiente enlace: " + "http://dp2kendo.apphb.com/Evaluacion360/Evaluaciones" + ".<br/>" +
+                " Puede rendir la evaluación haciendo click en el siguiente enlace: " + "http://dp2kendo.apphb.com/" + ".<br/>" +
+                "Proceso: Evaluación trimestral Enero-Marzo 2013 - Fecha de inicio: 01/01/2013 - Fecha de fin: 01/04/2013" +
                 "Sírvase no responder este correo.";
 
             SmtpServer.Send(mail);

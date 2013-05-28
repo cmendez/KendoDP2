@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using KendoDP2.Areas.Evaluacion360.Models;
 using System.ComponentModel.DataAnnotations.Schema;
+using KendoDP2.Models.Generic;
 
 namespace KendoDP2.Areas.Organizacion.Models
 {
@@ -32,7 +33,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         public int PaisID { get; set; }
         public virtual Pais Pais { get; set; }
 
-        public byte[] ImagenColaborador { get; set; }
+        public int ImagenColaboradorID { get; set; }
 
         [InverseProperty("Contacto")]
         public virtual ICollection<Contactos> EsContactoDe { get; set; }
@@ -66,6 +67,8 @@ namespace KendoDP2.Areas.Organizacion.Models
             FechaNacimiento = c.FechaNacimiento;
             FechaIngresoEmpresa = c.FechaIngreso;
             ResumenEjecutivo = c.ResumenEjecutivo;
+            ImagenColaboradorID = c.ImagenColaboradorID;
+            CurriculumVitaeID = c.CurriculumVitaeID;
            
             return this;
         }
@@ -128,10 +131,10 @@ namespace KendoDP2.Areas.Organizacion.Models
         public int EstadoColaboradorID { get; set; }
 
         [DisplayName("Curriculum Vitae")]
-        public byte[] CurriculumVitae { get; set; }
+        public int CurriculumVitaeID { get; set; }
 
         [DisplayName("Imagen")]
-        public byte[] ImagenColaborador { get; set; }
+        public int ImagenColaboradorID { get; set; }
 
         [DisplayName("Centro de estudios")]
         [StringLength(100)]
@@ -175,6 +178,8 @@ namespace KendoDP2.Areas.Organizacion.Models
         [DisplayName("Nueva Contraseña")]
         public string NuevaContrasenha { get; set; }
 
+        public List<ObjetivoDTO> Objetivos { get; set; }
+
         public ColaboradorDTO() { }
 
         public ColaboradorDTO(Colaborador c)
@@ -193,8 +198,8 @@ namespace KendoDP2.Areas.Organizacion.Models
             NumeroDocumento = c.NumeroDocumento;
             Direccion = c.Direccion;
             Telefono = c.Telefono;
-            CurriculumVitae = c.CurriculumVitae;
-            ImagenColaborador = c.ImagenColaborador;
+            CurriculumVitaeID = c.CurriculumVitaeID;
+            ImagenColaboradorID = c.ImagenColaboradorID;
             FechaNacimiento = c.FechaNacimiento;
             FechaIngreso = c.FechaIngresoEmpresa;
             ResumenEjecutivo = c.ResumenEjecutivo;
@@ -210,6 +215,20 @@ namespace KendoDP2.Areas.Organizacion.Models
                 AreaID = 0;
                 PuestoID = 0;
                 Sueldo = 0;
+            }
+
+
+            
+
+            try
+            {
+                //Objetivos = c.Objetivos.Select(o => o.ToDTO()).ToList();
+                Objetivos = c.Objetivos.Select(o => o.ToDTO(new DP2Context())).ToList();
+            }
+            catch (Exception)
+            {
+                //Objetivos no se han cargado
+                Objetivos = new List<ObjetivoDTO>();
             }
 
 
@@ -233,5 +252,6 @@ namespace KendoDP2.Areas.Organizacion.Models
             }
         }
     }
+      
     
 }

@@ -1,0 +1,143 @@
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Organizacion.Models
+@using KendoDP2.Areas.Evaluacion360.Models
+@using System.Globalization
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ICollection<ColaboradorDTO> susSubordinados = ViewBag.Colaboradores; 
+}
+
+@*<h2>Index</h2>*@
+
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Mis subordinados", ""));}
+
+<div class="portlet box green">
+    <div class="portlet-title">
+        <h4><i class="icon-reorder"></i> Supervisión de objetivos</h4>
+        <div class="tools">
+            <a href="javascript:;" class="collapse"></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        @foreach (ColaboradorDTO unSubordinado in susSubordinados) {
+            <div class="row-fluid">
+            
+                <div class="span12">
+                    <b>Del colaborador: 
+                    @unSubordinado.NombreCompleto
+                    </b>
+                    @*@(Html.Kendo().ComboBox()
+                          .Name("elSubordinadoSeleccionado")
+                          .HtmlAttributes(new { style = "width: 220px;" })
+                          .Filter("contains")
+                          //.Placeholder("Seleccione colaborador...")
+                          .DataTextField("NombreCompleto")
+                          .DataValueField("ID")
+                          //.BindTo(new List<SelectListItem>() {
+                          //    new SelectListItem() {
+                          //      Text = "Juan Perez", Value = "1"   
+                          //    },
+                          //    new SelectListItem() {
+                          //      Text = "Juan Perez 2", Value = "2"   
+                          //    },
+                          //    new SelectListItem() {
+                          //      Text = "Juan Perez 3", Value = "3"   
+                          //    },
+                          //    new SelectListItem() {
+                          //      Text = "Juan Perez 4", Value = "4"   
+                          //    }
+                          //})
+                          .BindTo(susSubordinados)
+                          .SelectedIndex(0)
+                          .Suggest(true)
+                    )*@
+
+                    @*@(Html.Kendo().ComboBox().Name("elSubordinadoSeleccionado")
+                            //.Name("Combo" + puestoEvaluador.ClaseEntorno + i)
+                            .Placeholder("Seleccione un colaborador")
+                            .DataTextField("NombreCompleto")
+                            .DataValueField("ID")
+                            .Filter("contains")
+                            .BindTo(susSubordinados)
+                            .Suggest(true)
+                            .HtmlAttributes(new { style = "width:100%" })
+                            //.Events(e => e.Close("comboCompetenciasSelection"))
+                            .SelectedIndex(0)
+                            //.Enable(puestoEvaluador.ClaseEntorno.CompareTo("El mismo") == 0 || puestoEvaluador.ClaseEntorno.CompareTo("Jefe") == 0 ? false : true)
+                            );  *@
+                </div>
+            </div>
+
+            <div class="row-fluid">
+
+                @(Html.Kendo().PanelBar()
+                    .Name("Objetivos" + unSubordinado.ID)
+                    .HtmlAttributes(new { style = "margin-right: 220px;" })
+                    .ExpandAll(false)
+                    .Items(panelbar =>
+                    {
+                        //var rchavez = susSubordinados.Where(s => s.ID == 23).First();
+                        //var rchavez = susSubordinados.Where(s => s.ID == 23).First();
+
+                        //foreach (KendoDP2.Areas.Objetivos.Models.ObjetivoDTO unoDeSusObjetivos in rchavez.Objetivos)
+                        foreach (KendoDP2.Areas.Objetivos.Models.ObjetivoDTO unoDeSusObjetivos in unSubordinado.Objetivos)
+                        {
+                            panelbar.Add().Text("Objetivo: " + unoDeSusObjetivos.Nombre + " (" + unoDeSusObjetivos.Peso + "%)")
+                            //.Expanded(true)
+                            .Items(items =>
+                            {
+                                //items.Add().Text("El 01/01/2013 alcancé el 20% - " + @Url.Action("Aprobar") + " - " + @Url.Action("Cambiar valor"));
+                                items.Add().Text("El " + ((DateTime)unoDeSusObjetivos.FechaFinalizacion).ToString("D", new CultureInfo("es-ES")) + " tengo planeado conseguir este objetivo").HtmlAttributes(new { style = "color: rgb(71, 0, 255)" });
+                                items.Add().Text("El dia de hoy: martes, 28 de mayo de 2013").HtmlAttributes(new { style = "font-weight: bold"});
+                                //items.Add().Text("El lunes, 27 de mayo de 2013 17:10 alcancé el 20% - Aprobar - Cambiar valor");
+                                //items.Add().Text("El lunes, 27 de mayo de 2013 15:12 alcancé el 10%");
+                                items.Add().Text("El " + (DateTime.Today.AddDays(-3.0)).ToString("D", new CultureInfo("es-ES")) + " alcancé el 20% - Aprobar - Cambiar valor");
+                                items.Add().Text("El " + (DateTime.Today.AddDays(-5.0)).ToString("D", new CultureInfo("es-ES")) + " alcancé el 10%");                                
+                                //Producción
+                                //items.Add().Text("El " + ((DateTime)unoDeSusObjetivos.FechaDePropuesta).ToString("f", new CultureInfo("es-ES")) + " me propuse este objetivo").HtmlAttributes(new { style = "color: rgb(98, 163, 0)" });
+                                //Demostración
+                                items.Add().Text("El " + (DateTime.Today.AddDays(-7.0)).ToString("f", new CultureInfo("es-ES")) + " me propuse este objetivo").HtmlAttributes(new { style = "color: rgb(98, 163, 0)" });
+                                //items.Add().Text("Sub Item 3");
+                                //items.Add().Text("Sub Item 4");
+                            });
+                        }
+                    
+                        //panelbar.Add().Text("Objetivo: " + susSubordinados.Where(s => s.ID == 23).First().Objetivos.First().Nombre + " - Fecha de inicio: 01/01/2013 - Fecha de fin: 03/05/2013 - Peso: 30%")
+                        //    .Expanded(true)
+                        //    .Items(items =>
+                        //    {
+                        //        items.Add().Text("Sub Item 1");
+                        //        items.Add().Text("Sub Item 2");
+                        //        items.Add().Text("Sub Item 3");
+                        //        items.Add().Text("Sub Item 4");
+                        //    });
+
+                        //panelbar.Add().Text("Objetivo: xxXxxxXxXXxxX - Fecha de inicio: 01/01/2013 - Fecha de fin: 03/04/2013 - Peso: 30%")
+                        //    .Items(items =>
+                        //    {
+                        //        items.Add().Text("Sub Item 1");
+                        //        items.Add().Text("Sub Item 2");
+                        //        items.Add().Text("Sub Item 3");
+                        //        items.Add().Text("Sub Item 4");
+                        //    });
+
+                        //panelbar.Add().Text("Objetivo: yyYYyyyYyYyyyY - Fecha de inicio: 01/01/2013 - Fecha de fin: 03/04/2013 - Peso: 40%")
+                        //    .Items(items =>
+                        //    {
+                        //        items.Add().Text("Sub Item 1");
+                        //        items.Add().Text("Sub Item 2");
+                        //        items.Add().Text("Sub Item 3");
+                        //        items.Add().Text("Sub Item 4");
+                        //    });
+              
+                   })
+                )
+                <br />
+            </div>  
+
+        }
+    </div>
+</div>

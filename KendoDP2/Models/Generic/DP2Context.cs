@@ -46,8 +46,11 @@ namespace KendoDP2.Models.Generic
             SeedPerfiles();
             SeedCompetencias();
             SeedNivelCapacidades();
+            SeedEstadoProcesoEvaluacion();
             SeedEstadoPersonaXProcesoEvaluaciones();
             SeedPuestoXEvaluadores();
+            SeedCapacidad();
+            SeedCompetenciasXPuesto();
             // Area Objetivos
             SeedTipoObjetivoBSC();
             // Area Organizacion (segunda parte)
@@ -63,12 +66,16 @@ namespace KendoDP2.Models.Generic
             SeedOfertaLaboral();
             SeedFasePostulacion();
             SeedPostulante();
+            SeedEstadoPostulantePorOferta();
             SeedOfertaLaboralXPostulante();
+            //nuevo seed de prueba
             SeedFasePostulacionXOfertaLaboralXPostulante();
             // Area Objetivos
             //SeedBSC();
             SeedObjetivos();
             SeedColaboradorXPuesto();
+            // Area Evaluacion360
+            seedProcesosDeEvaluacion();
         }
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,8 +95,8 @@ namespace KendoDP2.Models.Generic
         }
     }
 
-    public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
-    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
+    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
+    public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
     {
         protected override void Seed(DP2Context context)
         {
