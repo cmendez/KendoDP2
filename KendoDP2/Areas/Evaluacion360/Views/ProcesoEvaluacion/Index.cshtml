@@ -30,11 +30,9 @@
                     columns.Bound(p => p.Nombre);
                     columns.Bound(p => p.FechaCierre);
                     columns.ForeignKey((p => p.AutorizadorID), lista);
-                    columns.ForeignKey(p => p.EstadoProcesoEvaluacionID, new SelectList(estados, "ID", "Descripcion"));
+                    columns.ForeignKey(p => p.EstadoProcesoEvaluacionID, new SelectList(estados, "ID", "Descripcion")).Visible(true);
                     columns.Template(@<text></text>).Title("Proceso").ClientTemplate(
                         "<a class='k-button' href='" + Url.Action("ElegirEvaluados", "ProcesoEvaluacion") + "?procesoEvaluacionID=#=ID#'>Ver Proceso</a>");
-                        //"<a class='k-button' href='" + Url.Action("CerrarProcesoEvaluacion", "ProcesoEvaluacion") + "?procesoEvaluacionID=#=ID#'> Cerrar Proceso </a>" +
-                        //"<a class='k-button' href='" + Url.Action("IniciarProcesoEvaluacion", "ProcesoEvaluacion") + "?procesoEvaluacionID=#=ID#'> Iniciar Proceso </a>");
                     columns.Command(command =>
                     { 
                         command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar"); 

@@ -56,6 +56,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         public string Nombre { get; set; }
         
         [DisplayName("Estado")]
+        [ScaffoldColumn(false)]
         public int EstadoProcesoEvaluacionID { get; set; }
 
         [DisplayName("Fecha de cierre a evaluadores")]
