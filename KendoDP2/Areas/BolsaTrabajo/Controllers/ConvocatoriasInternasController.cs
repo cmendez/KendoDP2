@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
 using KendoDP2.Areas.Organizacion.Models;
 using KendoDP2.Models.Seguridad;
+using System.Globalization;
 
 
 namespace KendoDP2.Areas.BolsaTrabajo.Controllers
@@ -42,8 +43,10 @@ namespace KendoDP2.Areas.BolsaTrabajo.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                List<OfertaLaboralDTO> ofertas = context.TablaOfertaLaborales.All().Where(p => (p.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Aprobado")) && (p.ModoSolicitudOfertaLaboral.Descripcion.Equals("Convocatoria Interna"))).Select(p => p.ToDTO()).ToList();
-                return Json(ofertas.ToDataSourceResult(request));
+                List<OfertaLaboralDTO> ofertasPosibles = context.TablaOfertaLaborales.All().Where(p => (p.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Aprobado")) && (p.ModoSolicitudOfertaLaboral.Descripcion.Equals("Convocatoria Interna"))).Select(p => p.ToDTO()).ToList();
+                DateTime now = DateTime.Now;
+                List<OfertaLaboralDTO> ofertasEnFecha = ofertasPosibles.Where(x => DateTime.ParseExact(x.FechaFinRequerimiento, "dd/MM/yyyy", CultureInfo.CurrentCulture).CompareTo(now) >= 1).ToList();
+                return Json(ofertasEnFecha.ToDataSourceResult(request));
             
             }
         }
@@ -62,7 +65,6 @@ namespace KendoDP2.Areas.BolsaTrabajo.Controllers
                 ViewBag.puesto = oferta.Puesto.ToDTO();
                 ViewBag.funciones = oferta.Puesto.Funciones.Select(c => c.ToDTO()).ToList();
                 ViewBag.capacidades = oferta.Puesto.GetCapacidadesAsociadas(context).Select(c => c.ToDTO()).ToList();
-                //ViewBag.funciones = oferta.Puesto. 
                 return PartialView("ViewOfertaLaboralInterna", oferta.ToDTO());
             }
         }
@@ -76,6 +78,9 @@ namespace KendoDP2.Areas.BolsaTrabajo.Controllers
                 
                 int colaboradorID = DP2MembershipProvider.GetPersonaID(this);
                 Colaborador colaborador = context.TablaColaboradores.FindByID(colaboradorID);
+                OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
+                ViewBag.yaPostulado = ValidaPostulantePorOferta(oferta, colaborador);
+                ViewBag.tieneCV = ValidaExistenciaCV(colaborador);
                 ViewBag.tipoDocumento = colaborador.TipoDocumento.ToDTO();
                 ViewBag.gradoAcademico = colaborador.GradoAcademico.ToDTO();
                 ViewBag.ofertaID = ofertaID;
@@ -92,15 +97,26 @@ namespace KendoDP2.Areas.BolsaTrabajo.Controllers
                 int colaboradorID = DP2MembershipProvider.GetPersonaID(this);
                 Colaborador colaborador = context.TablaColaboradores.FindByID(colaboradorID);
                 OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
+                {
+                    Postulante postulante = new Postulante(colaborador);
+                    context.TablaPostulante.AddElement(postulante);
+                    OfertaLaboralXPostulante cruce = new OfertaLaboralXPostulante { Postulante = postulante, OfertaLaboral = oferta };
+                    context.TablaOfertaLaboralXPostulante.AddElement(cruce);
 
-                Postulante postulante = new Postulante(colaborador);
-                context.TablaPostulante.AddElement(postulante);
-                OfertaLaboralXPostulante cruce = new OfertaLaboralXPostulante { Postulante = postulante, OfertaLaboral = oferta };
-                context.TablaOfertaLaboralXPostulante.AddElement(cruce);
-
-                return Json(new { success = true });
+                    return Json(new { success = true });
+                }
             }
         }
-                
+
+
+        public bool ValidaPostulantePorOferta(OfertaLaboral oferta, Colaborador Colaborador)
+        {
+            return oferta.Postulantes.Any(x => x.Postulante.ColaboradorID == Colaborador.ID);
+        }
+
+        public bool ValidaExistenciaCV(Colaborador colaborador)
+        {
+            return (colaborador.CurriculumVitaeID != 0);
+        }
     }
 }

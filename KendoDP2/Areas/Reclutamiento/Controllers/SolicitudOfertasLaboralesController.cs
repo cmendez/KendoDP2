@@ -53,6 +53,8 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             using (DP2Context context = new DP2Context())
             {
                 oferta.EstadoSolicitudOfertaLaboralID = context.TablaEstadosSolicitudes.One(x => x.Descripcion.Equals("Pendiente")).ID;
+                oferta.FechaRequerimiento = ParseoFecha(oferta.FechaRequerimiento);
+                oferta.FechaFinRequerimiento = ParseoFecha(oferta.FechaFinRequerimiento);
                 OfertaLaboral o = new OfertaLaboral(oferta);
                 
                 //agregafunciones segun el puesto de trabajo
@@ -152,6 +154,16 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 
         }
 
+       public string ParseoFecha(string fecha)
+       {
+
+           string anho = fecha.Substring(0,4);
+           string mes = fecha.Substring(5,2);
+           string dia= fecha.Substring(8,2);
+           string fechanueva = dia + "/" + mes + "/" + anho;
+           return fechanueva;
+
+       }
 
     }
 
