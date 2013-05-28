@@ -69,5 +69,22 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             
         }
 
+        public JsonResult tieneJefe(string id)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                try
+                {
+                    Colaborador colaborador = context.TablaColaboradores.FindByID(Convert.ToInt32(id));
+
+                    return JsonSuccessGet();
+
+                }
+                catch (Exception ex)
+                {
+                    return JsonErrorGet("Error en la BD: " + ex.Message);
+                }
+            }
+        }
     }
 }

@@ -27,7 +27,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public string Comentarios { get; set; }
         public string Observaciones { get; set; }
         
-        public int EstadoPostulacionPorOfertaID { get; set; }
+        public int EstadoPostulantePorOfertaID { get; set; }
         public virtual EstadoPostulantePorOferta EstadoPostulantePorOferta { get; set; }
 
         public OfertaLaboralXPostulanteDTO ToDTO()
@@ -72,7 +72,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             MotivoRechazo = op.MotivoRechazo;
             Comentarios = op.Comentarios;
             Observaciones = op.Observaciones;
-            EstadoPostulantePorOfertaID = op.EstadoPostulacionPorOfertaID;
+            EstadoPostulantePorOfertaID = op.EstadoPostulantePorOfertaID;
             EstadoPostulantePorOfertaNombre = op.EstadoPostulantePorOferta.Descripcion;
 
 

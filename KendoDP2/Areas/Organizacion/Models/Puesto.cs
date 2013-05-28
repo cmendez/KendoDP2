@@ -50,7 +50,7 @@ namespace KendoDP2.Areas.Organizacion.Models
 
         public void ReparteObjetivosASubordinados(DP2Context context)
         {
-            foreach (var objetivoPadre in this.Objetivos)
+            foreach (var objetivoAbuelo in this.Objetivos) foreach (var objetivoPadre in objetivoAbuelo.ObjetivosHijos) 
                 foreach (var objetivoIntermedio in objetivoPadre.ObjetivosHijos.Where(c => c.IsObjetivoIntermedio))
                     foreach (var puestoHijo in this.Puestos)
                         if (!puestoHijo.Objetivos.Any(x => x.ObjetivoPadreID == objetivoIntermedio.ID))
