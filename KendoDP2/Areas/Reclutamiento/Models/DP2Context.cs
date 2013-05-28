@@ -217,6 +217,7 @@ namespace KendoDP2.Models.Generic
             {
                 OfertaLaboralID = 1,
                 PostulanteID = TablaPostulante.One(x => x.Nombres.Equals("Postulante 1")).ID,
+                EstadoPostulantePorOfertaID = 1,
                 FlagAprobado = false,
                 PuntajeTotal = 0,
                 MotivoRechazo = String.Empty,
@@ -228,6 +229,7 @@ namespace KendoDP2.Models.Generic
             {
                 OfertaLaboralID = 2,
                 PostulanteID = TablaPostulante.One(x => x.Nombres.Equals("Postulante 2")).ID,
+                EstadoPostulantePorOfertaID = 1,
                 FlagAprobado = false,
                 PuntajeTotal = 0,
                 MotivoRechazo = String.Empty,
