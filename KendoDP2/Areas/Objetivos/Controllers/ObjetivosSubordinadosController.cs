@@ -48,7 +48,8 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 Objetivo o = new Objetivo(objetivo, context);
                 o.IsObjetivoIntermedio = true;
                 context.TablaObjetivos.AddElement(o);
-                ReparteObjetivosASubordinados(context, context.TablaPuestos.FindByID(o.ObjetivoPadre.PuestoAsignadoID.GetValueOrDefault()));
+                Puesto puesto = context.TablaPuestos.FindByID(o.ObjetivoPadre.PuestoAsignadoID.GetValueOrDefault());
+                puesto.ReparteObjetivosASubordinados(context);
                 return Json(new[] { o.ToDTO(context) }.ToDataSourceResult(request, ModelState));
             }
         }
@@ -79,16 +80,5 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             }
         }
 
-        private void ReparteObjetivosASubordinados(DP2Context context, Puesto puesto)
-        {
-            foreach (var objetivoPadre in puesto.Objetivos)
-                foreach (var objetivoIntermedio in objetivoPadre.ObjetivosHijos.Where(c => c.IsObjetivoIntermedio))
-                    foreach (var puestoHijo in puesto.Puestos)
-                        if(!puestoHijo.Objetivos.Any(x => x.ObjetivoPadreID == objetivoIntermedio.ID))
-                        {
-                            Objetivo nuevo = new Objetivo{Nombre = objetivoIntermedio.Nombre, ObjetivoPadre = objetivoIntermedio, PuestoAsignado = puestoHijo};
-                            context.TablaObjetivos.AddElement(nuevo);
-                        }
-        }
     }
 }
