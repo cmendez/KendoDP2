@@ -51,7 +51,9 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 Objetivo o = new Objetivo(objetivo, context);
                 o.IsObjetivoIntermedio = true;
                 context.TablaObjetivos.AddElement(o);
-                Puesto puesto = context.TablaPuestos.FindByID(o.ObjetivoPadre.PuestoAsignadoID.GetValueOrDefault());
+                Objetivo padre1 = context.TablaObjetivos.FindByID(o.ObjetivoPadreID.GetValueOrDefault());
+                Objetivo padre2 = context.TablaObjetivos.FindByID(padre1.ObjetivoPadreID.GetValueOrDefault());
+                Puesto puesto = context.TablaPuestos.FindByID(padre2.PuestoAsignadoID.GetValueOrDefault());
                 puesto.ReparteObjetivosASubordinados(context);
                 return Json(new[] { o.ToDTO(context) }.ToDataSourceResult(request, ModelState));
             }
