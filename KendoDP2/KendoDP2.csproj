@@ -1832,8 +1832,6 @@
     <Content Include="Areas\Reclutamiento\Views\Shared\ViewSolicitudOfertaLaboral.cshtml" />
     <Content Include="Areas\Organizacion\Views\Puestos\ElegirFunciones.cshtml" />
     <Content Include="Areas\Organizacion\Views\Funciones\Index.cshtml" />
-    <Content Include="Areas\Reclutamiento\Views\ConvocatoriasInternas\Index.cshtml" />
-    <Content Include="Areas\Reclutamiento\Views\Shared\ViewOfertaLaboralInterna.cshtml" />
     <Content Include="Areas\BolsaTrabajo\Views\ConvocatoriasInternas\Index.cshtml" />
     <Content Include="Areas\BolsaTrabajo\Views\Shared\ViewOfertaLaboralInterna.cshtml" />
     <Content Include="Areas\Objetivos\Views\MisObjetivos\Index.cshtml" />
@@ -1994,6 +1992,7 @@
     <Folder Include="Areas\Objetivos\Views\Shared\" />
     <Folder Include="Areas\Personal\Views\Colaboradores\" />
     <Folder Include="Areas\Personal\Views\Shared\EditorTemplates\" />
+    <Folder Include="Areas\Reclutamiento\Views\ConvocatoriasInternas\" />
     <Folder Include="Areas\Reportes\Views\Shared\" />
     <Folder Include="Areas\Seguridad\Views\Shared\" />
     <Folder Include="Content\assets\plugins\jquery-file-upload\server\php\files\thumbnail\" />
