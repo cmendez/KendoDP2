@@ -29,8 +29,9 @@ namespace KendoDP2.Models.Helpers
                 new SidebarSuboption("Procesos de evaluación", "ProcesoEvaluacion", "Index", "icon-road"),
                 new SidebarSuboption("Evaluación de puestos de trabajo", "PuestosEvaluacion", "Index", "icon-ok-sign"),
                 new SidebarSuboption("Envio de correo", "Correo", "Index", "icon-ok-sign"),
-                new SidebarSuboption("Acordion", "Acordion", "Index", "icon-ok-sign")
-				//new SidebarSuboption("Por perfil BORRADOR", "Configuracion360", "Index", "icon-group")
+                new SidebarSuboption("Acordion", "Acordion", "Index", "icon-ok-sign"),
+				new SidebarSuboption("Rol Evaluador", "RolEvaluador", "Index", "icon-ok-sign")
+                //new SidebarSuboption("Por perfil BORRADOR", "Configuracion360", "Index", "icon-group")
             })));				
             
 

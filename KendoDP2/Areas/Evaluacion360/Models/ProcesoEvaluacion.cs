@@ -61,6 +61,8 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         [DisplayName("Autorizado por")]
         public int AutorizadorID { get; set; }
 
+        public ICollection<ColaboradorXProcesoEvaluacion> PersonaXProcesoEvaluaciones { get; set; }
+
         public ProcesoEvaluacionDTO() { }
         public ProcesoEvaluacionDTO(ProcesoEvaluacion p)
         {

@@ -34,7 +34,9 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         [DisplayName("Estado")]
         public int EstadoColaboradorXProcesoEvaluacionID { get; set; }
         public int ID { get; set; }
-        
+        public ProcesoEvaluacion ProcesoEvaluacion { get; set; }
+
+
         public ColaboradorXProcesoEvaluacionDTO(ColaboradorXProcesoEvaluacion x)
         {
             ColaboradorDTO = x.Colaborador.ToDTO();
