@@ -266,6 +266,9 @@
     <Compile Include="Areas\Reclutamiento\Models\Postulante.cs" />
     <Compile Include="Areas\Reclutamiento\Models\Respuesta.cs" />
     <Compile Include="Areas\Reclutamiento\ReclutamientoAreaRegistration.cs" />
+    <Compile Include="Areas\Reportes\Controllers\ReportesController.cs" />
+    <Compile Include="Areas\Reportes\Models\Objetivos.cs" />
+    <Compile Include="Areas\Reportes\Models\RCubrimientoOfertas.cs" />
     <Compile Include="Areas\Reportes\ReportesAreaRegistration.cs" />
     <Compile Include="Areas\Seguridad\Controllers\RolesController.cs" />
     <Compile Include="Areas\Seguridad\Controllers\WSUsuariosController.cs" />
@@ -1985,8 +1988,8 @@
     <Folder Include="Areas\Configuracion\Views\Shared\" />
     <Folder Include="Areas\Evaluacion360\Views\Shared\" />
     <Folder Include="Areas\Objetivos\Views\Shared\" />
-    <Folder Include="Areas\Reportes\Controllers\" />
-    <Folder Include="Areas\Reportes\Models\" />
+    <Folder Include="Areas\Personal\Views\Colaboradores\" />
+    <Folder Include="Areas\Personal\Views\Shared\EditorTemplates\" />
     <Folder Include="Areas\Reportes\Views\Shared\" />
     <Folder Include="Areas\Seguridad\Views\Shared\" />
     <Folder Include="Content\assets\plugins\jquery-file-upload\server\php\files\thumbnail\" />
