@@ -10,6 +10,7 @@
     IList<AreaDTO> areas = ViewBag.areas;
     IList<EstadoProcesoEvaluacionDTO> estados = ViewBag.estados;
     SelectList lista = new SelectList(colaboradores, "ID", "NombreCompleto");
+    SelectList listaEstados = new SelectList(estados, "ID", "Descripcion");
     
 }
 
@@ -30,7 +31,7 @@
                     columns.Bound(p => p.Nombre);
                     columns.Bound(p => p.FechaCierre);
                     columns.ForeignKey((p => p.AutorizadorID), lista);
-                    columns.ForeignKey(p => p.EstadoProcesoEvaluacionID, new SelectList(estados, "ID", "Descripcion"));
+                    columns.ForeignKey(p => p.EstadoProcesoEvaluacionID, listaEstados);
                     columns.Template(@<text></text>).Title("Proceso").ClientTemplate(
                         "<a class='k-button' href='" + Url.Action("ElegirEvaluados", "ProcesoEvaluacion") + "?procesoEvaluacionID=#=ID#'>Ver Proceso</a>");
                         //"<a class='k-button' href='" + Url.Action("CerrarProcesoEvaluacion", "ProcesoEvaluacion") + "?procesoEvaluacionID=#=ID#'> Cerrar Proceso </a>" +
