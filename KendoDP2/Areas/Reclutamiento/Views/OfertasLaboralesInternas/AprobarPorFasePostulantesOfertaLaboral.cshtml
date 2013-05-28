@@ -29,9 +29,9 @@
                 .Columns(columns =>
                     {
                         columns.Bound(p => p.ID);
-                        columns.Bound(p => p.Postulante.NombreCompleto);
-                        columns.Bound(p => p.Postulante.CorreoElectronico);
-                        columns.Bound(p => p.Postulante.CentroEstudios);
+                        columns.Bound(p => p.Postulante.Colaborador.NombreCompleto);
+                        columns.Bound(p => p.Postulante.Colaborador.CorreoElectronico);
+                        columns.Bound(p => p.Postulante.Colaborador.CentroEstudios);
                         columns.Template(@<text></text>).Title("Curriculum Vitae").ClientTemplate(
                         "<a class='k-button' href='" + Url.Action("DescargarCV", "OfertasLaboralesInternas") + "?postulanteID=#=ID#'>Descargar CV</a>");
 

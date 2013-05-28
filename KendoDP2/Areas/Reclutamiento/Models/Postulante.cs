@@ -91,6 +91,8 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         [DisplayName("Número de Documento")]
         public string NumeroDocumento { get; set; }
 
+        public ColaboradorDTO Colaborador { get; set; }
+
         //[DisplayName("Estado del Postulante")]
         //public string Estado { get; set; }
 
@@ -109,7 +111,8 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             GradoAcademico = p.GradoAcademicoID.HasValue ? p.GradoAcademico.Descripcion : String.Empty;
             TipoDocumentoID = p.TipoDocumentoID;
             TipoDocumento = p.TipoDocumento.Descripcion;
-            NumeroDocumento = p.NumeroDocumento;            
+            NumeroDocumento = p.NumeroDocumento;
+            Colaborador = p.Colaborador == null ? new ColaboradorDTO() : p.Colaborador.ToDTO();
         }
     }
 }

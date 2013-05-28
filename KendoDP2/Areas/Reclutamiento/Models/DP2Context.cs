@@ -128,6 +128,22 @@ namespace KendoDP2.Models.Generic
                 Comentarios = "",
                 NumeroVacantes = 3
             });
+
+            TablaOfertaLaborales.AddElement(new OfertaLaboral
+            {
+                PuestoID = 1,
+                AreaID = TablaAreas.One(a => a.Nombre.Equals("Directorio")).ID,
+                ResponsableID = TablaColaboradores.One(a => a.ApellidoPaterno.Equals("Solorzano")).ID,
+                EstadoSolicitudOfertaLaboralID = TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID,
+                FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"),
+                FechaPublicacion = DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"),
+                FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
+                Descripcion = "",
+                ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Pública")).ID,
+                SueldoTentativo = 15000,
+                Comentarios = "",
+                NumeroVacantes = 3
+            });
         }
 
         private void SeedPostulante()
