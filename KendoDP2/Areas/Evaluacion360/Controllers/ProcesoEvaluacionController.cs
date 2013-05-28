@@ -61,9 +61,9 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             using (DP2Context context = new DP2Context())
             {
                 EstadoProcesoEvaluacion iniciado = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Creado));
-
-                ProcesoEvaluacion p = new ProcesoEvaluacion(proceso);
                 
+                ProcesoEvaluacion p = new ProcesoEvaluacion(proceso);
+                p.EstadoProcesoEvaluacion = iniciado;
                 context.TablaProcesoEvaluaciones.AddElement(p);
                 return Json(new[] { p.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
