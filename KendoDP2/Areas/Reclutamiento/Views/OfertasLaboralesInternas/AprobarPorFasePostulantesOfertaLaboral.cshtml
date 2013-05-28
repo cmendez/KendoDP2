@@ -22,7 +22,7 @@
 	</div>
     
     <div class="portlet-body">
-
+            <a id="hidden-link" class="hidden" href="#" target="_blank"></a>
            <div class="row-fluid">
             @(Html.Kendo().Grid<OfertaLaboralXPostulanteDTO>()
                 .Name("PostulantesPorOfertaLaboralInternaGrid")
@@ -33,8 +33,7 @@
                         columns.Bound(p => p.Postulante.Colaborador.CorreoElectronico);
                         columns.Bound(p => p.Postulante.Colaborador.CentroEstudios);
                         columns.Template(@<text></text>).Title("Curriculum Vitae").ClientTemplate(
-                        "<a class='k-button' href='" + Url.Action("DescargarCV", "OfertasLaboralesInternas") + "?postulanteID=#=ID#'>Descargar CV</a>");
-
+                        "<a class='k-button' href='javascript:bajarCV(#=Postulante.Colaborador.CurriculumVitaeID#);'>Descargar CV</a>");
 
                     }
                         )
@@ -87,12 +86,12 @@
         });
     }
 
-    function bajarCV() {
-        if ($("#CurriculumVitaeID").val() == '0' || $("#CurriculumVitaeID").val() == 0)
+    function bajarCV(curriculumVitaeID) {
+        if (curriculumVitaeID == '0' || curriculumVitaeID == 0)
             alert("No hay ningun curriculum registrado");
         else {
-            $("#bajar-cv-anchor").attr("href", "/Organizacion/Colaboradores/BajarCurriculum?curriculumVitaeID=" + $("#CurriculumVitaeID").val());
-            $("a#bajar-cv-anchor")[0].click();
+            $("#hidden-link").attr("href", "/Organizacion/Colaboradores/BajarCurriculum?curriculumVitaeID=" + curriculumVitaeID);
+            $("a#hidden-link")[0].click();
         }
     }
 </script>
