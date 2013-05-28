@@ -107,6 +107,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             using (DP2Context context = new DP2Context())
             {
                 OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
+                ViewBag.yaValido = YaValido(oferta);
                 ViewBag.responsable = oferta.Responsable.ToDTO();
                 ViewBag.modoSolicitudOferta = oferta.ModoSolicitudOfertaLaboralID >= 1 ? oferta.ModoSolicitudOfertaLaboral.ToDTO() : new ModoSolicitudOfertaLaboralDTO();
                 ViewBag.estadoSolicitudOferta = oferta.EstadoSolicitudOfertaLaboral.ToDTO();
@@ -163,6 +164,12 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
            string fechanueva = dia + "/" + mes + "/" + anho;
            return fechanueva;
 
+       }
+
+
+       public bool YaValido(OfertaLaboral oferta)
+       {
+           return (!(oferta.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Pendiente")));
        }
 
     }

@@ -52,15 +52,6 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         }
 
 
-   //     public ActionResult EditingInline_Read([DataSourceRequest] DataSourceRequest request)
-     //   {
-       //     using (DP2Context context = new DP2Context())
-         //   {
-           //     List<PuestoDTO> puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).ToList();
-             //   return Json(puestos.ToDataSourceResult(request));
-            //}
-        //}
-
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create([DataSourceRequest] DataSourceRequest request, PuestoDTO puesto)
         {
@@ -69,12 +60,14 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 Puesto p = new Puesto(puesto);
                 p.EstadoPuesto = context.TablaEstadosPuestos.One(x => x.Descripcion.Equals("Vacante"));
                 context.TablaPuestos.AddElement(p);
-
+                if (p.PuestoSuperiorID.GetValueOrDefault() > 0)
+                {
+                    Puesto puestoPapa = context.TablaPuestos.FindByID(p.PuestoSuperiorID.GetValueOrDefault());
+                    puestoPapa.ReparteObjetivosASubordinados(context);
+                }
                 Area a = context.TablaAreas.FindByID(puesto.AreaID);
                 PuestoXArea cruce = new PuestoXArea { Area = a, Puesto = p };
                 
-                //p.PuestosArea.Add(cruce);
-              
                 context.TablaPuestosXAreas.AddElement(cruce);
 
                 //360:
