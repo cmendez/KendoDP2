@@ -77,8 +77,8 @@ namespace KendoDP2.Models.Generic
             SeedColaboradorXPuesto();
             // Area Evaluacion360
             seedProcesosDeEvaluacion();
-            seedColaboradorXProcesoEvaluacion();
-            SeedEvaluacion();
+            //seedColaboradorXProcesoEvaluacion();
+            //SeedEvaluacion();
         }
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
