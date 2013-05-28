@@ -1845,6 +1845,9 @@
     <Content Include="Areas\Organizacion\Views\Funciones\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Puestos\ElegirFunciones.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesInternas\AprobarPorFasePostulantesOfertaLaboral.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesInternas\PostulantesFase1AprobarFase2.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesInternas\PostulantesFase2AprobarFase3.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesInternas\PostulantesFase3Contratar.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\areas_icon.png" />
     <Content Include="Images\favicon.ico" />
