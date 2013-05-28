@@ -47,6 +47,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             GradoAcademicoID = p.GradoAcademicoID;
             TipoDocumentoID = p.TipoDocumentoID;
             NumeroDocumento = p.NumeroDocumento;
+            CurriculumVitaeID = p.CurriculumVitaeID;
 
             return this;
         }
@@ -90,6 +91,9 @@ namespace KendoDP2.Areas.Reclutamiento.Models
 
         [DisplayName("Número de Documento")]
         public string NumeroDocumento { get; set; }
+
+        [DisplayName("Curriculum Vitae")]
+        public int CurriculumVitaeID { get; set; }
 
         public ColaboradorDTO Colaborador { get; set; }
 
