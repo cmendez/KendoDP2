@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using KendoDP2.Areas.Evaluacion360.Models;
 using System.ComponentModel.DataAnnotations.Schema;
+using KendoDP2.Models.Generic;
 
 namespace KendoDP2.Areas.Organizacion.Models
 {
@@ -177,6 +178,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         [DisplayName("Nueva Contraseña")]
         public string NuevaContrasenha { get; set; }
 
+        public List<ObjetivoDTO> Objetivos { get; set; }
 
         public ColaboradorDTO() { }
 
@@ -216,6 +218,20 @@ namespace KendoDP2.Areas.Organizacion.Models
             }
 
 
+            
+
+            try
+            {
+                //Objetivos = c.Objetivos.Select(o => o.ToDTO()).ToList();
+                Objetivos = c.Objetivos.Select(o => o.ToDTO(new DP2Context())).ToList();
+            }
+            catch (Exception)
+            {
+                //Objetivos no se han cargado
+                Objetivos = new List<ObjetivoDTO>();
+            }
+
+
          }
 
         }
@@ -236,5 +252,6 @@ namespace KendoDP2.Areas.Organizacion.Models
             }
         }
     }
+      
     
 }

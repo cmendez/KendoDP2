@@ -49,22 +49,22 @@ namespace KendoDP2.Models.Generic
         private void SeedObjetivos()
         {
             Puesto presidente = TablaPuestos.One(p => p.Nombre.Equals("Presidente"));
-            TablaObjetivos.AddElement(new Objetivo("Objetivo Financiero 1", 1, 1, presidente.ID, 50));
-            TablaObjetivos.AddElement(new Objetivo("Objetivo Financiero 2", 1, 1, presidente.ID, 50));
-            TablaObjetivos.AddElement(new Objetivo("Objetivo Financiero 1.1", TablaObjetivos.One(d => d.Nombre.Equals("Objetivo Financiero 1")).ID, 50, presidente.ID));
-            TablaObjetivos.AddElement(new Objetivo("Objetivo Financiero 1.2", TablaObjetivos.One(d => d.Nombre.Equals("Objetivo Financiero 1")).ID, 50, presidente.ID));
-            TablaObjetivos.AddElement(new Objetivo("Objetivo Cliente 1", 1, 3, presidente.ID, 50));
-            TablaObjetivos.AddElement(new Objetivo("Objetivo Cliente 2", 1, 3, presidente.ID, 50));
-            TablaObjetivos.AddElement(new Objetivo("Objetivo Cliente 1.1", TablaObjetivos.One(d => d.Nombre.Equals("Objetivo Cliente 1")).ID, 50, presidente.ID));
-            TablaObjetivos.AddElement(new Objetivo("Objetivo Cliente 1.2", TablaObjetivos.One(d => d.Nombre.Equals("Objetivo Cliente 1")).ID, 50, presidente.ID));
-            TablaObjetivos.AddElement(new Objetivo("Objetivo Interno 1", 1, 4, presidente.ID, 50));
-            TablaObjetivos.AddElement(new Objetivo("Objetivo Interno 2", 1, 4, presidente.ID, 50));
-            TablaObjetivos.AddElement(new Objetivo("Objetivo Interno 1.1", TablaObjetivos.One(d => d.Nombre.Equals("Objetivo Interno 1")).ID, 50, presidente.ID));
-            TablaObjetivos.AddElement(new Objetivo("Objetivo Interno 1.2", TablaObjetivos.One(d => d.Nombre.Equals("Objetivo Interno 1")).ID, 50, presidente.ID));
-            TablaObjetivos.AddElement(new Objetivo("Objetivo Formación 1", 1, 2, presidente.ID, 50));
-            TablaObjetivos.AddElement(new Objetivo("Objetivo Formación 2", 1, 2, presidente.ID, 50));
-            TablaObjetivos.AddElement(new Objetivo("Objetivo Formación 1.1", TablaObjetivos.One(d => d.Nombre.Equals("Objetivo Formación 1")).ID, 50, presidente.ID));
-            TablaObjetivos.AddElement(new Objetivo("Objetivo Formación 1.2", TablaObjetivos.One(d => d.Nombre.Equals("Objetivo Formación 1")).ID, 50, presidente.ID));
+            TablaObjetivos.AddElement(new Objetivo("Objetivo Financiero 1", 1, 1, presidente.ID, 50, this));
+            TablaObjetivos.AddElement(new Objetivo("Objetivo Financiero 2", 1, 1, presidente.ID, 50, this));
+            TablaObjetivos.AddElement(new Objetivo("Objetivo Financiero 1.1", TablaObjetivos.One(d => d.Nombre.Equals("Objetivo Financiero 1")).ID, 50, this));
+            TablaObjetivos.AddElement(new Objetivo("Objetivo Financiero 1.2", TablaObjetivos.One(d => d.Nombre.Equals("Objetivo Financiero 1")).ID, 50, this));
+            TablaObjetivos.AddElement(new Objetivo("Objetivo Cliente 1", 1, 3, presidente.ID, 50, this));
+            TablaObjetivos.AddElement(new Objetivo("Objetivo Cliente 2", 1, 3, presidente.ID, 50, this));
+            TablaObjetivos.AddElement(new Objetivo("Objetivo Cliente 1.1", TablaObjetivos.One(d => d.Nombre.Equals("Objetivo Cliente 1")).ID, 50, this));
+            TablaObjetivos.AddElement(new Objetivo("Objetivo Cliente 1.2", TablaObjetivos.One(d => d.Nombre.Equals("Objetivo Cliente 1")).ID, 50, this));
+            TablaObjetivos.AddElement(new Objetivo("Objetivo Interno 1", 1, 4, presidente.ID, 50, this));
+            TablaObjetivos.AddElement(new Objetivo("Objetivo Interno 2", 1, 4, presidente.ID, 50, this));
+            TablaObjetivos.AddElement(new Objetivo("Objetivo Interno 1.1", TablaObjetivos.One(d => d.Nombre.Equals("Objetivo Interno 1")).ID, 50, this));
+            TablaObjetivos.AddElement(new Objetivo("Objetivo Interno 1.2", TablaObjetivos.One(d => d.Nombre.Equals("Objetivo Interno 1")).ID, 50, this));
+            TablaObjetivos.AddElement(new Objetivo("Objetivo Formación 1", 1, 2, presidente.ID, 50, this));
+            TablaObjetivos.AddElement(new Objetivo("Objetivo Formación 2", 1, 2, presidente.ID, 50, this));
+            TablaObjetivos.AddElement(new Objetivo("Objetivo Formación 1.1", TablaObjetivos.One(d => d.Nombre.Equals("Objetivo Formación 1")).ID, 50, this));
+            TablaObjetivos.AddElement(new Objetivo("Objetivo Formación 1.2", TablaObjetivos.One(d => d.Nombre.Equals("Objetivo Formación 1")).ID, 50, this));
         }
     }
 }

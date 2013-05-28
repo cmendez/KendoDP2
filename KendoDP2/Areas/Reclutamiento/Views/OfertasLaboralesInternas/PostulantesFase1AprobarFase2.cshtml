@@ -1,0 +1,106 @@
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Organizacion.Models
+@using KendoDP2.Areas.Reclutamiento.Models
+
+@{
+    ViewBag.Title = "Lista Postulantes Por Oferta Laboral en Fase 1";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IList<AreaDTO> areas = ViewBag.areas;
+    IList<EstadosSolicitudOfertaLaboralDTO> estadosSolicitudOferta = ViewBag.estadosSolicitudOferta;
+    IList<PuestoDTO> puestos = ViewBag.puestos;
+    int ofertaID = ViewBag.ofertaID;
+
+}
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Postulantes por Oferta Laboral Interna: Fase 1", "Revise sus resultados y apruebelos para siguiente fase"));}
+
+<div class="portlet box green">
+    <div class="portlet-title">
+        <h4><i class="icon-reorder"></i>Postulantes por Oferta Laboral Interna: Fase 1</h4>
+        <div class="tools">
+	        <a href="javascript:;" class="collapse"></a>
+        </div>
+	</div>
+    
+    <div class="portlet-body">
+
+           <div class="row-fluid">
+            @(Html.Kendo().Grid<OfertaLaboralXPostulanteDTO>()
+                .Name("PostulantesPorOfertaLaboralFase1Grid")
+                .Columns(columns =>
+                    {
+                        columns.Bound(p => p.Postulante.Colaborador.NombreCompleto);
+                        columns.Bound(p => p.Postulante.Colaborador.CorreoElectronico);
+                        columns.Bound(p => p.Postulante.Colaborador.CentroEstudios);
+                        columns.Bound(p => p.PuntajeTotal);
+                        columns.Command(command =>
+                        {
+                            command.Custom("Aprobar").Click("aprobarSiguienteFase");
+                            command.Custom("Rechazar").Click("rechazarPase");
+                        }).Width(300);
+                    }
+                        )
+                            .Editable(editable => editable
+                            .Mode(GridEditMode.PopUp)
+                            .Window(w => { w.Title("Ver Postulante"); w.Width(900); })
+
+                        )
+                        .Groupable()
+                        .Pageable(paper => paper.Refresh(true))
+                        .Filterable()
+                        .Sortable()
+                        .Scrollable(p => p.Height(330))
+                        .DataSource(dataSource => dataSource
+                            .Ajax()
+                            .PageSize(20)
+                            .Model(model => model.Id(p => p.ID))
+                            .Read(read => read.Action("ReadListaPostulantesFase1", "OfertasLaboralesInternas", new { ofertaID = ofertaID }))
+                        )
+                       )
+        </div>
+    </div>
+</div>
+
+)
+@(Html.Kendo().Window().Name("Details")
+    .Title("Oferta Laboral")
+    .Visible(false)
+    .Modal(true)
+    .Draggable(true)
+    .Width(900)
+
+)
+<script>
+
+    function recargaGrid(){
+        $("#PostulantesPorOfertaLaboralFase1Grid").data('kendoGrid').dataSource.read();
+    }
+
+    function aprobarSiguienteFase(e) {
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var postulanteXOfertaID = dataItem.ID;
+        $.ajax({
+            url: '@Url.Action("AprobarFase2", "OfertasLaboralesInternas", new { Area = "Reclutamiento" })',
+            dataType: 'JSON',
+            type: 'POST',
+            data: {
+                ofertaID: @ofertaID,
+                postulanteXOfertaID: postulanteXOfertaID
+            },
+            success: function(response){
+                alert("El postulante fue aprobado para evaluación");
+                recargaGrid();
+            }
+        });
+    }
+
+    function rechazarPase(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        ID = dataItem.ID;
+        var wnd = $("#Details").data("kendoWindow");
+        $("#Details").load("@Url.Action("GetViewMotivosRechazo","OfertasLaboralesInternas", new{Area = "Reclutamiento"})", {ofertaID : @ofertaID, postulanteXOfertaID : ID }, function () {
+            wnd.center().open();
+        });
+    }
+</script>

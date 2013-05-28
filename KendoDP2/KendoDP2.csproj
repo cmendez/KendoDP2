@@ -182,6 +182,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\DontDropDbJustCreateTablesIfModelChangedStart.cs" />
+    <Compile Include="Areas\BolsaTrabajo\BolsaTrabajoAreaRegistration.cs" />
     <Compile Include="Areas\Configuracion\ConfiguracionAreaRegistration.cs" />
     <Compile Include="Areas\Configuracion\Controllers\PeriodosController.cs" />
     <Compile Include="Areas\Configuracion\Controllers\WSPeriodosController.cs" />
@@ -201,6 +202,7 @@
     <Compile Include="Areas\Evaluacion360\Evaluacion360AreaRegistration.cs" />
     <Compile Include="Areas\Evaluacion360\Models\AreaXProcesoEvaluacion.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Capacidad.cs" />
+    <Compile Include="Areas\Evaluacion360\Models\ColaboradorXEvaluadores.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Competencia.cs" />
     <Compile Include="Areas\Evaluacion360\Models\DP2Context.cs" />
     <Compile Include="Areas\Evaluacion360\Models\EstadoProcesoEvaluacion.cs" />
@@ -216,7 +218,10 @@
     <Compile Include="Areas\Evaluacion360\Models\Evaluador.cs" />
     <Compile Include="Areas\Evaluacion360\Models\NivelCapacidad.cs" />
     <Compile Include="Areas\Evaluacion360\Models\TipoEvaluador.cs" />
+    <Compile Include="Areas\Objetivos\Controllers\AcordionController.cs" />
+    <Compile Include="Areas\Objetivos\Controllers\MisObjetivosController.cs" />
     <Compile Include="Areas\Objetivos\Controllers\ObjetivosEmpresaController.cs" />
+    <Compile Include="Areas\Objetivos\Controllers\ObjetivosSubordinadosController.cs" />
     <Compile Include="Areas\Objetivos\Controllers\WSObjetivosEmpresaController.cs" />
     <Compile Include="Areas\Objetivos\Models\DP2Context.cs" />
     <Compile Include="Areas\Objetivos\Models\Objetivo.cs" />
@@ -224,6 +229,7 @@
     <Compile Include="Areas\Objetivos\Models\TipoObjetivoBSC.cs" />
     <Compile Include="Areas\Objetivos\ObjetivosAreaRegistration.cs" />
     <Compile Include="Areas\Organizacion\Controllers\AreasController.cs" />
+    <Compile Include="Areas\Organizacion\Controllers\FuncionesController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\HistorialController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\IntranetController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\OrganizacionesController.cs" />
@@ -231,10 +237,12 @@
     <Compile Include="Areas\Organizacion\Controllers\WSColaboradorController.cs" />
     <Compile Include="Areas\Organizacion\Models\DP2Context.cs" />
     <Compile Include="Areas\Organizacion\Models\Funcion.cs" />
+    <Compile Include="Areas\Organizacion\Models\FuncionXPuesto.cs" />
     <Compile Include="Areas\Organizacion\Models\Organizacion.cs" />
     <Compile Include="Areas\Organizacion\Models\PuestoXArea.cs" />
     <Compile Include="Areas\Organizacion\Models\EstadosPuesto.cs" />
-    <Compile Include="Areas\Organizacion\OrganizacionAreaRegistration.cs" />
+    <Compile Include="Areas\Reclutamiento\Models\EstadoPostulantePorOferta.cs" />
+    <Compile Include="Areas\Reclutamiento\OrganizacionAreaRegistration.cs" />
     <Compile Include="Areas\Organizacion\Controllers\ColaboradoresController.cs" />
     <Compile Include="Areas\Organizacion\Models\Area.cs" />
     <Compile Include="Areas\Organizacion\Models\ColaboradorXPuesto.cs" />
@@ -245,6 +253,8 @@
     <Compile Include="Areas\Organizacion\Models\TipoDocumento.cs" />
     <Compile Include="Areas\Organizacion\Models\Colaborador.cs" />
     <Compile Include="Areas\Organizacion\Models\Persona.cs" />
+    <Compile Include="Areas\BolsaTrabajo\Controllers\ConvocatoriasInternasController.cs" />
+    <Compile Include="Areas\Reclutamiento\Controllers\OfertasLaboralesInternasController.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\ReclutamientoController.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\ReclutamientoMobileController.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\SolicitudOfertasLaboralesController.cs" />
@@ -259,7 +269,11 @@
     <Compile Include="Areas\Reclutamiento\Models\OfertaLaboral.cs" />
     <Compile Include="Areas\Reclutamiento\Models\OfertaLaboralXPostulante.cs" />
     <Compile Include="Areas\Reclutamiento\Models\Postulante.cs" />
+    <Compile Include="Areas\Reclutamiento\Models\Respuesta.cs" />
     <Compile Include="Areas\Reclutamiento\ReclutamientoAreaRegistration.cs" />
+    <Compile Include="Areas\Reportes\Controllers\ReportesController.cs" />
+    <Compile Include="Areas\Reportes\Models\Objetivos.cs" />
+    <Compile Include="Areas\Reportes\Models\RCubrimientoOfertas.cs" />
     <Compile Include="Areas\Reportes\ReportesAreaRegistration.cs" />
     <Compile Include="Areas\Seguridad\Controllers\RolesController.cs" />
     <Compile Include="Areas\Seguridad\Controllers\WSUsuariosController.cs" />
@@ -267,6 +281,7 @@
     <Compile Include="Areas\Seguridad\SeguridadAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MiscController.cs" />
+    <Compile Include="Controllers\PublicController.cs" />
     <Compile Include="Controllers\WSLoginController.cs" />
     <Compile Include="Models\Generic\Archivo.cs" />
     <Compile Include="Models\Generic\DBGenericRequester.cs" />
@@ -1820,8 +1835,26 @@
     <Content Include="Areas\Organizacion\Views\Puestos\Index.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\EditorTemplates\EditorSolicitudOfertaLaboral.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\ViewSolicitudOfertaLaboral.cshtml" />
+    <Content Include="Areas\Evaluacion360\Views\Evaluadores\enviar_evaluaciones.cshtml" />
+    <Content Include="Areas\Objetivos\Views\Acordion\Index.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Puestos\ElegirFunciones.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Funciones\Index.cshtml" />
+    <Content Include="Areas\BolsaTrabajo\Views\ConvocatoriasInternas\Index.cshtml" />
+    <Content Include="Areas\BolsaTrabajo\Views\Shared\ViewOfertaLaboralInterna.cshtml" />
+    <Content Include="Areas\Objetivos\Views\MisObjetivos\Index.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\ProcesoEvaluacion\IniciarProcesoEvaluacion.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\Evaluacion\Index.cshtml" />
+    <Content Include="Areas\BolsaTrabajo\Views\Shared\PostularOfertaLaboral.cshtml" />
+    <Content Include="Areas\Objetivos\Views\ObjetivosSubordinados\Index.cshtml" />
+    <Content Include="Areas\BolsaTrabajo\Views\Web.config" />
+    <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesInternas\Index.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Funciones\Index.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Puestos\ElegirFunciones.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesInternas\AprobarPorFasePostulantesOfertaLaboral.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesInternas\PostulantesFase1AprobarFase2.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesInternas\PostulantesFase2AprobarFase3.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesInternas\PostulantesFase3Contratar.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\Shared\EditorMotivoRechazo.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\areas_icon.png" />
     <Content Include="Images\favicon.ico" />
@@ -1962,14 +1995,21 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\_NoLayout.cshtml" />
     <Content Include="Views\Shared\_CustomJavascripts.cshtml" />
+    <Content Include="Views\Public\Index.cshtml" />
+    <Content Include="Views\Shared\_PublicLayout.cshtml" />
+    <Content Include="Views\Shared\_PublicNavigationBar.cshtml" />
+    <Content Include="Views\Public\VerOferta.cshtml" />
+    <Content Include="Views\Public\AgregarPostulante.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\BolsaTrabajo\Models\" />
     <Folder Include="Areas\Configuracion\Views\Shared\" />
     <Folder Include="Areas\Evaluacion360\Views\Shared\" />
     <Folder Include="Areas\Objetivos\Views\Shared\" />
-    <Folder Include="Areas\Reportes\Controllers\" />
-    <Folder Include="Areas\Reportes\Models\" />
+    <Folder Include="Areas\Personal\Views\Colaboradores\" />
+    <Folder Include="Areas\Personal\Views\Shared\EditorTemplates\" />
+    <Folder Include="Areas\Reclutamiento\Views\ConvocatoriasInternas\" />
     <Folder Include="Areas\Reportes\Views\Shared\" />
     <Folder Include="Areas\Seguridad\Views\Shared\" />
     <Folder Include="Content\assets\plugins\jquery-file-upload\server\php\files\thumbnail\" />
