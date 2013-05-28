@@ -226,15 +226,15 @@
     <Compile Include="Areas\Objetivos\Models\TipoObjetivoBSC.cs" />
     <Compile Include="Areas\Objetivos\ObjetivosAreaRegistration.cs" />
     <Compile Include="Areas\Organizacion\Controllers\AreasController.cs" />
-    <Compile Include="Areas\Organizacion\Models\FuncionXPuesto.cs" />
+    <Compile Include="Areas\Organizacion\Controllers\FuncionesController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\HistorialController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\IntranetController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\OrganizacionesController.cs" />
-    <Compile Include="Areas\Organizacion\Controllers\FuncionesController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\PuestosController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\WSColaboradorController.cs" />
     <Compile Include="Areas\Organizacion\Models\DP2Context.cs" />
     <Compile Include="Areas\Organizacion\Models\Funcion.cs" />
+    <Compile Include="Areas\Organizacion\Models\FuncionXPuesto.cs" />
     <Compile Include="Areas\Organizacion\Models\Organizacion.cs" />
     <Compile Include="Areas\Organizacion\Models\PuestoXArea.cs" />
     <Compile Include="Areas\Organizacion\Models\EstadosPuesto.cs" />
@@ -250,6 +250,7 @@
     <Compile Include="Areas\Organizacion\Models\Colaborador.cs" />
     <Compile Include="Areas\Organizacion\Models\Persona.cs" />
     <Compile Include="Areas\BolsaTrabajo\Controllers\ConvocatoriasInternasController.cs" />
+    <Compile Include="Areas\Reclutamiento\Controllers\OfertasLaboralesInternasController.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\ReclutamientoController.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\ReclutamientoMobileController.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\SolicitudOfertasLaboralesController.cs" />
@@ -1840,6 +1841,10 @@
     <Content Include="Areas\BolsaTrabajo\Views\Shared\PostularOfertaLaboral.cshtml" />
     <Content Include="Areas\Objetivos\Views\ObjetivosSubordinados\Index.cshtml" />
     <Content Include="Areas\BolsaTrabajo\Views\Web.config" />
+    <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesInternas\Index.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Funciones\Index.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Puestos\ElegirFunciones.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesInternas\AprobarPorFasePostulantesOfertaLaboral.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\areas_icon.png" />
     <Content Include="Images\favicon.ico" />
