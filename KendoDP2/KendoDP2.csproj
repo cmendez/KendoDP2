@@ -1989,6 +1989,7 @@
     <Content Include="Views\Shared\_PublicLayout.cshtml" />
     <Content Include="Views\Shared\_PublicNavigationBar.cshtml" />
     <Content Include="Views\Public\VerOferta.cshtml" />
+    <Content Include="Views\Public\AgregarPostulante.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

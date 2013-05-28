@@ -69,6 +69,14 @@
     .Width(1000)   
 )
 
+@(Html.Kendo().Window().Name("Details2")
+    .Title("Postular a Oferta Laboral")
+    .Visible(false)
+    .Modal(true)
+    .Draggable(true)
+    .Width(1000)   
+)
+
 <script>
     function verOferta(e) {
         console.log(e);
@@ -83,6 +91,14 @@
     }
 
     function postularConvocatoria(e) {
-        alert("Postula");
+        console.log(e);
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        ID = dataItem.ID;
+        var wnd = $("#Details2").data("kendoWindow");
+        $("#Details2").load("@Url.Action("GetViewPostulante","Public")?ofertaID=" + ID, function () {
+            wnd.center().open();
+        });
     }
 </script>

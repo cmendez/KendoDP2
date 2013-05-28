@@ -61,5 +61,19 @@ namespace KendoDP2.Controllers
                 return PartialView("VerOferta", oferta.ToDTO());
             }
         }
+
+        public ActionResult GetViewPostulante(int ofertaID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
+                ViewBag.ofertaID = ofertaID;
+                ViewBag.tipodocumentos = context.TablaTiposDocumentos.All().Select(a => a.ToDTO()).ToList();
+                ViewBag.gradosacademicos = context.TablaGradosAcademicos.All().Select(p => p.ToDTO()).ToList();
+
+                PostulanteDTO postulante = new PostulanteDTO();
+                return PartialView("AgregarPostulante", postulante);
+            }
+        }
     }
 }
