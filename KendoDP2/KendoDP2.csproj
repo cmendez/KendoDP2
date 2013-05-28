@@ -198,6 +198,7 @@
     <Compile Include="Areas\Evaluacion360\Controllers\EvaluadoresController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\ProcesoEvaluacionController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\PuestosEvaluacionController.cs" />
+    <Compile Include="Areas\Evaluacion360\Controllers\RolEvaluadorController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\WSCompetenciasController.cs" />
     <Compile Include="Areas\Evaluacion360\Evaluacion360AreaRegistration.cs" />
     <Compile Include="Areas\Evaluacion360\Models\AreaXProcesoEvaluacion.cs" />
@@ -1835,6 +1836,7 @@
     <Content Include="Areas\Organizacion\Views\Puestos\Index.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\EditorTemplates\EditorSolicitudOfertaLaboral.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\ViewSolicitudOfertaLaboral.cshtml" />
+    <Content Include="Areas\Evaluacion360\Views\RolEvaluador\Index.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\Evaluadores\enviar_evaluaciones.cshtml" />
     <Content Include="Areas\Objetivos\Views\Acordion\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Puestos\ElegirFunciones.cshtml" />
