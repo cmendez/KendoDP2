@@ -28,13 +28,16 @@
                 .Name("PostulantesPorOfertaLaboralInternaGrid")
                 .Columns(columns =>
                     {
-                        columns.Bound(p => p.ID);
                         columns.Bound(p => p.Postulante.Colaborador.NombreCompleto);
                         columns.Bound(p => p.Postulante.Colaborador.CorreoElectronico);
                         columns.Bound(p => p.Postulante.Colaborador.CentroEstudios);
                         columns.Template(@<text></text>).Title("Curriculum Vitae").ClientTemplate(
                         "<a class='k-button' href='javascript:bajarCV(#=Postulante.Colaborador.CurriculumVitaeID#);'>Descargar CV</a>");
-
+                        columns.Command(command =>
+                        {
+                            command.Custom("Aprobar").Click("aprobarFase1");
+                            command.Custom("Rechazar").Click("rechazarPase");
+                        }).Width(200);
                     }
                         )
                             .Editable(editable => editable
@@ -62,26 +65,30 @@
 
 <script>
 
-    function verPostulante(e) {
-        console.log(e);
-        e.preventDefault();
-
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        ID = dataItem.ID;
-        var wnd = $("#Details").data("kendoWindow");
-        $("#Details").load("@Url.Action("GetViewOferta", "ConvocatoriasInternas", new { Area = "BolsaTrabajo" })?ofertaID=" + ID, function () {
-            wnd.center().open();
+    function aprobarFase1(e) {
+        $.ajax({
+            url: '@Url.Action("AprobarFase1", "OfertasLaboralesInternas", new { Area = "Reclutamiento" })',
+            dataType: 'JSON',
+            type: 'POST',
+            data: {
+                ofertaID: ofertaID,
+                postulanteID: model.Postulante.ID 
+            },
+            success: function(response){
+                alert("El postulante fue aprobado para evaluación");
+                $("#PostulantesPorOfertaLaboralInternaGrid").data('kendoGrid').dataSource.read();
+            }
         });
     }
 
-    function aprobarFase(e) {
+    function rechazarPase(e) {
         console.log(e);
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         ID = dataItem.ID;
         var wnd = $("#Details2").data("kendoWindow");
-        $("#Details2").load("@Url.Action("GetViewPostulante","ConvocatoriasInternas", new{Area = "BolsaTrabajo"})?ofertaID=" + ID, function () {
+        $("#Details2").load("@Url.Action("AprobarFase1","OfertasLaboralesInternas", new{Area = "Reclutamiento"})?ofertaID=" + ID, function () {
             wnd.center().open();
         });
     }

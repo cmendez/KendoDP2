@@ -37,26 +37,31 @@
                         columns.ForeignKey(p => p.PuestoID, listaPuestos);
                         columns.Template(@<text></text>).Title("Postulantes").ClientTemplate(
                         "<a class='k-button' href='" + Url.Action("VerPostulantes", "OfertasLaboralesInternas") + "?ofertaLaboralID=#=ID#'>Ver Todos</a>");
-                                                                          
+                        columns.Template(@<text></text>).Title("Postulantes Fase 1").ClientTemplate(
+                        "<a class='k-button' href='" + Url.Action("VerPostulantesFase1", "OfertasLaboralesInternas") + "?ofertaLaboralID=#=ID#'>Fase 1</a>");
+                        columns.Template(@<text></text>).Title("Postulantes Fase 2").ClientTemplate(
+                        "<a class='k-button' href='" + Url.Action("VerPostulantesFase2", "OfertasLaboralesInternas") + "?ofertaLaboralID=#=ID#'>Fase 2</a>");
+                        columns.Template(@<text></text>).Title("Postulantes Fase 3").ClientTemplate(
+                        "<a class='k-button' href='" + Url.Action("VerPostulantesFase3", "OfertasLaboralesInternas") + "?ofertaLaboralID=#=ID#'>Fase 3</a>");
                     }
-                )
-                    .Editable(editable => editable
-                    .Mode(GridEditMode.PopUp)
-                    .Window(w => { w.Title("Oferta Laboral"); w.Width(900); })
+                                        )
+                                            .Editable(editable => editable
+                                            .Mode(GridEditMode.PopUp)
+                                            .Window(w => { w.Title("Oferta Laboral"); w.Width(900); })
 
-                )
-                .Groupable()
-                .Pageable(paper => paper.Refresh(true))
-                .Filterable()
-                .Sortable()
-                .Scrollable(p => p.Height(330))
-                .DataSource(dataSource => dataSource
-                    .Ajax()
-                    .PageSize(20)
-                    .Model(model => model.Id(p => p.ID))
-                    .Read(read => read.Action("Read", "OfertasLaboralesInternas"))
-                )
-               )
+                                        )
+                                        .Groupable()
+                                        .Pageable(paper => paper.Refresh(true))
+                                        .Filterable()
+                                        .Sortable()
+                                        .Scrollable(p => p.Height(330))
+                                        .DataSource(dataSource => dataSource
+                                            .Ajax()
+                                            .PageSize(20)
+                                            .Model(model => model.Id(p => p.ID))
+                                            .Read(read => read.Action("Read", "OfertasLaboralesInternas"))
+                                        )
+                                       )
         </div>
     </div>
 </div>
@@ -65,19 +70,11 @@
     .Visible(false)
     .Modal(true)
     .Draggable(true)
-    .Width(900)   
-        
+    .Width(900)
+
 )
 
-@(Html.Kendo().Window().Name("Details2")
-    .Title("Postular a Oferta Laboral")
-    .Visible(false)
-    .Modal(true)
-    .Draggable(true)
-    .Width(900)   
-        
-)
-
+@*  *@
 <script>
 
     function verPostulantes(e) {
@@ -87,7 +84,7 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         ID = dataItem.ID;
         var wnd = $("#Details").data("kendoWindow");
-        $("#Details").load("@Url.Action("GetViewOferta","ConvocatoriasInternas", new{Area = "BolsaTrabajo"})?ofertaID=" + ID, function () {
+        $("#Details").load("@Url.Action("GetViewOferta", "ConvocatoriasInternas", new { Area = "BolsaTrabajo" })?ofertaID=" + ID, function () {
             wnd.center().open();
         });
     }

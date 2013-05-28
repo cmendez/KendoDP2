@@ -26,7 +26,9 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public string MotivoRechazo { get; set; }
         public string Comentarios { get; set; }
         public string Observaciones { get; set; }
-
+        
+        public int EstadoPostulacionPorOfertaID { get; set; }
+        public virtual EstadoPostulantePorOferta EstadoPostulantePorOferta { get; set; }
 
         public OfertaLaboralXPostulanteDTO ToDTO()
         {
@@ -52,6 +54,8 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public string Observaciones { get; set; }
 
         //no olvidar que se puede mandar las fases a traves de un list
+        //probando algo nuevo
+        public int EstadoPostulantePorOfertaID { get; set; }
         
         public OfertaLaboralXPostulanteDTO()
         {
@@ -66,6 +70,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             MotivoRechazo = op.MotivoRechazo;
             Comentarios = op.Comentarios;
             Observaciones = op.Observaciones;
+            EstadoPostulantePorOfertaID = op.EstadoPostulacionPorOfertaID;
 
 
         }

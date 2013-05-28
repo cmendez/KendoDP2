@@ -238,6 +238,7 @@
     <Compile Include="Areas\Organizacion\Models\Organizacion.cs" />
     <Compile Include="Areas\Organizacion\Models\PuestoXArea.cs" />
     <Compile Include="Areas\Organizacion\Models\EstadosPuesto.cs" />
+    <Compile Include="Areas\Reclutamiento\Models\EstadoPostulantePorOferta.cs" />
     <Compile Include="Areas\Reclutamiento\OrganizacionAreaRegistration.cs" />
     <Compile Include="Areas\Organizacion\Controllers\ColaboradoresController.cs" />
     <Compile Include="Areas\Organizacion\Models\Area.cs" />
@@ -1848,6 +1849,7 @@
     <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesInternas\PostulantesFase1AprobarFase2.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesInternas\PostulantesFase2AprobarFase3.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesInternas\PostulantesFase3Contratar.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\Shared\EditorMotivoRechazo.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\areas_icon.png" />
     <Content Include="Images\favicon.ico" />
