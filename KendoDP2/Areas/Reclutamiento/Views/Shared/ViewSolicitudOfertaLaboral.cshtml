@@ -205,11 +205,6 @@
  
     <script type="text/x-kendo-tmpl" id="template">
     <div class="twit">
-        <p>#:Descripcion#</p>
-    </div>
-    </script>
-    <script type="text/x-kendo-tmpl" id="template2">
-    <div class="twit">
         <p>#:Nombre#</p>
     </div>
     </script>
@@ -242,7 +237,7 @@
         var capacidades = '@Html.Raw(capacidadesJson)';
         $("#list-view2").kendoListView({
             dataSource: jQuery.parseJSON(capacidades),
-            template: kendo.template($("#template2").html())
+            template: kendo.template($("#template").html())
         });
 
         function CambiaEstadoAceptar(){

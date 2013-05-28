@@ -218,6 +218,14 @@ namespace KendoDP2.Areas.Reportes.Controllers
             }
         }
 
+        //public ActionResult PostulacionySeleccion(int idpuesto)
+        //{
+        //    using (DP2Context context = new DP2Context())
+        //    {
+        //        List<BSCAvanceDTO> ListaAvanceBSC = context.TablaOfertaLaborales.Where()Select(p => p.ToRAvanceBSCDTO()).ToList();
+        //        return Json(ListaAvanceBSC, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
         
         //public ActionResult SeleccionXUniversidades(int idPuesto, string fecha)
         //{
