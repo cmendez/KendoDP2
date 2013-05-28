@@ -27,7 +27,10 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 int puestoID = context.TablaColaboradores.FindByID(colaboradorID).ToDTO().PuestoID;
                 Puesto puesto = context.TablaPuestos.FindByID(puestoID);
                 ViewBag.periodos = context.TablaPeriodos.All().Select(c => c.ToDTO()).ToList();
-                ViewBag.objetivos = puesto.Objetivos.Select(c => c.ToDTO(context)).ToList();
+                List<Objetivo> objetivosPuesto = puesto.Objetivos.ToList();
+                List<Objetivo> objetivos = new List<Objetivo>();
+                objetivosPuesto.ForEach(x => objetivos.AddRange(x.ObjetivosHijos.ToList()));
+                ViewBag.objetivos = objetivos.Select(c => c.ToDTO(context)).ToList();
                 return View();
             }
         }

@@ -31,8 +31,9 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         }
     }
     public class ConstantsEstadoColaboradorXProcesoEvaluacion
-    {
+    {      
         public static string Pendiente = "Pendiente";
+        public static string Iniciado = "Iniciado";
         public static string Terminado = "Terminado";
     }
 }

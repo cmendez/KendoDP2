@@ -60,7 +60,7 @@
     </div>
 </div>
 
-)
+
 @(Html.Kendo().Window().Name("Details")
     .Title("Oferta Laboral")
     .Visible(false)
@@ -99,7 +99,7 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         ID = dataItem.ID;
         var wnd = $("#Details").data("kendoWindow");
-        $("#Details").load("@Url.Action("GetViewMotivosRechazo","OfertasLaboralesInternas", new{Area = "Reclutamiento"})", {ofertaID : @ofertaID, postulanteXOfertaID : ID }, function () {
+        $("#Details").load("@Url.Action("GetViewMotivosRechazo","OfertasLaboralesInternas", new{Area = "Reclutamiento"})", {ofertaID : @ofertaID, postulanteXOfertaID : ID, motivoRechazo : MotivoRechazo }, function () {
             wnd.center().open();
         });
     }
