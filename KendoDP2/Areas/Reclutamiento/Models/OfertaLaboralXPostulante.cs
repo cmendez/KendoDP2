@@ -27,5 +27,47 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public string Comentarios { get; set; }
         public string Observaciones { get; set; }
 
+
+        public OfertaLaboralXPostulanteDTO ToDTO()
+        {
+            return new OfertaLaboralXPostulanteDTO(this);
+        }
+    }
+
+
+    public class OfertaLaboralXPostulanteDTO
+    {
+        public int ID { get; set; }
+                
+        public PostulanteDTO Postulante { get; set; }
+
+        public bool FlagAprobado { get; set; }
+        
+        public int PuntajeTotal { get; set; }
+        
+        public string MotivoRechazo { get; set; }
+        
+        public string Comentarios { get; set; }
+        
+        public string Observaciones { get; set; }
+
+        //no olvidar que se puede mandar las fases a traves de un list
+        
+        public OfertaLaboralXPostulanteDTO()
+        {
+        }
+
+        public OfertaLaboralXPostulanteDTO(OfertaLaboralXPostulante op)
+        {
+            ID = op.ID;
+            Postulante = op.Postulante.ToDTO();
+            FlagAprobado = op.FlagAprobado;
+            PuntajeTotal = op.PuntajeTotal;
+            MotivoRechazo = op.MotivoRechazo;
+            Comentarios = op.Comentarios;
+            Observaciones = op.Observaciones;
+
+
+        }
     }
 }

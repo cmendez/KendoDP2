@@ -1,0 +1,88 @@
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Organizacion.Models
+@using KendoDP2.Areas.Reclutamiento.Models
+
+@{
+    ViewBag.Title = "Lista Postulantes Por Oferta Laboral";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IList<AreaDTO> areas = ViewBag.areas;
+    IList<EstadosSolicitudOfertaLaboralDTO> estadosSolicitudOferta = ViewBag.estadosSolicitudOferta;
+    IList<PuestoDTO> puestos = ViewBag.puestos;
+
+}
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Postulantes por Oferta Laboral Interna", "Revise sus datos y apruebelos para su evaluación"));}
+
+<div class="portlet box green">
+    <div class="portlet-title">
+        <h4><i class="icon-reorder"></i>Postulantes por Oferta Laboral Interna</h4>
+        <div class="tools">
+	        <a href="javascript:;" class="collapse"></a>
+        </div>
+	</div>
+    
+    <div class="portlet-body">
+
+           <div class="row-fluid">
+            @(Html.Kendo().Grid<OfertaLaboralXPostulanteDTO>()
+                .Name("PostulantesPorOfertaLaboralInternaGrid")
+                .Columns(columns =>
+                    {
+                        columns.Bound(p => p.ID);
+                        columns.Bound(p => p.Postulante.NombreCompleto);
+                        columns.Bound(p => p.Postulante.CorreoElectronico);
+                        columns.Bound(p => p.Postulante.CentroEstudios);
+                        columns.Template(@<text></text>).Title("Curriculum Vitae").ClientTemplate(
+                        "<a class='k-button' href='" + Url.Action("DescargarCV", "OfertasLaboralesInternas") + "?postulanteID=#=ID#'>Descargar CV</a>");
+
+
+                    }
+                        )
+                            .Editable(editable => editable
+                            .Mode(GridEditMode.PopUp)
+                            .Window(w => { w.Title("Ver Postulante"); w.Width(900); })
+
+                        )
+                        .Groupable()
+                        .Pageable(paper => paper.Refresh(true))
+                        .Filterable()
+                        .Sortable()
+                        .Scrollable(p => p.Height(330))
+                        .DataSource(dataSource => dataSource
+                            .Ajax()
+                            .PageSize(20)
+                            .Model(model => model.Id(p => p.ID))
+                            .Read(read => read.Action("ReadListaPostulantes", "OfertasLaboralesInternas"))
+                        )
+                       )
+        </div>
+    </div>
+</div>
+
+)
+
+<script>
+
+    function verPostulantes(e) {
+        console.log(e);
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        ID = dataItem.ID;
+        var wnd = $("#Details").data("kendoWindow");
+        $("#Details").load("@Url.Action("GetViewOferta", "ConvocatoriasInternas", new { Area = "BolsaTrabajo" })?ofertaID=" + ID, function () {
+            wnd.center().open();
+        });
+    }
+
+    function aprobarFase(e) {
+        console.log(e);
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        ID = dataItem.ID;
+        var wnd = $("#Details2").data("kendoWindow");
+        $("#Details2").load("@Url.Action("GetViewPostulante","ConvocatoriasInternas", new{Area = "BolsaTrabajo"})?ofertaID=" + ID, function () {
+            wnd.center().open();
+        });
+    }
+</script>
