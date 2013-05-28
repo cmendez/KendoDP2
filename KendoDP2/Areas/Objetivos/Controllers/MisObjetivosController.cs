@@ -27,11 +27,18 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 int colaboradorLogueadoID = DP2MembershipProvider.GetPersonaID(this);
                 colaboradorID = colaboradorID ?? colaboradorLogueadoID;
                 ViewBag.puedeCrear = ViewBag.puedeEditar = colaboradorID == colaboradorLogueadoID; 
-                int puestoID = context.TablaColaboradores.FindByID(colaboradorID.GetValueOrDefault()).ToDTO().PuestoID;
-                Puesto puesto = context.TablaPuestos.FindByID(puestoID);
                 ViewBag.periodos = context.TablaPeriodos.All().Select(c => c.ToDTO()).ToList();
-                ViewBag.objetivos = puesto.Objetivos.Select(c => c.ToDTO(context)).ToList();
                 ViewBag.colaboradores = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
+                int puestoID = context.TablaColaboradores.FindByID(colaboradorID.GetValueOrDefault()).ToDTO().PuestoID;
+                if (puestoID > 0)
+                {
+                    Puesto puesto = context.TablaPuestos.FindByID(puestoID);
+                    ViewBag.objetivos = puesto.Objetivos.Select(c => c.ToDTO(context)).ToList();
+                }
+                else
+                {
+                    ViewBag.objetivos = new List<ObjetivoDTO>();
+                }
                 ViewBag.colaboradorID = colaboradorID;
                 return View();
             }

@@ -30,10 +30,10 @@
                     {
                         columns.Bound(p => p.Postulante.Colaborador.NombreCompleto);
                         columns.Bound(p => p.Postulante.Colaborador.CorreoElectronico);
-                        columns.Bound(p => p.Postulante.Colaborador.CentroEstudios);
                         columns.Bound(p => p.PuntajeTotal);
                         columns.Command(command =>
                         {
+                            command.Custom("Ver").Click("verPostulante").SendDataKeys(true);
                             command.Custom("Aprobar").Click("aprobarSiguienteFase");
                             command.Custom("Rechazar").Click("rechazarPase");
                         }).Width(300);
@@ -60,15 +60,25 @@
     </div>
 </div>
 
-)
+
 @(Html.Kendo().Window().Name("Details")
-    .Title("Oferta Laboral")
+    .Title("Rechazar Postulante")
     .Visible(false)
     .Modal(true)
     .Draggable(true)
     .Width(900)
 
 )
+
+@(Html.Kendo().Window().Name("Details2")
+    .Title("Postulante Por Oferta Laboral")
+    .Visible(false)
+    .Modal(true)
+    .Draggable(true)
+    .Width(900)
+
+)
+
 <script>
 
     function recargaGrid(){
@@ -99,7 +109,18 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         ID = dataItem.ID;
         var wnd = $("#Details").data("kendoWindow");
-        $("#Details").load("@Url.Action("GetViewMotivosRechazo","OfertasLaboralesInternas", new{Area = "Reclutamiento"})", {ofertaID : @ofertaID, postulanteXOfertaID : ID }, function () {
+        $("#Details").load("@Url.Action("GetViewMotivosRechazo","OfertasLaboralesInternas", new{Area = "Reclutamiento"})", {ofertaID : @ofertaID, postulanteXOfertaID : ID, motivoRechazo : MotivoRechazo }, function () {
+            wnd.center().open();
+        });
+    }
+
+    function verPostulante(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        ID = dataItem.ID;
+        var wnd = $("#Details2").data("kendoWindow");
+        $("#Details2").load("@Url.Action("GetViewPostulanteInterno","OfertasLaboralesInternas", new{Area = "Reclutamiento"})", {ofertaID : @ofertaID, postulanteXOfertaID : ID }, function () {
             wnd.center().open();
         });
     }
