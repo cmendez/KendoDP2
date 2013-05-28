@@ -114,6 +114,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 ObjetivoRDTO ob4 = new ObjetivoRDTO();
                 ob4.idObjetivo = 4;
                 ob4.descripcion = "Objetivo4";
+                ob4.descripcion = "Objetivo4";
                 ListaObjetivos.Add(ob4);
 
                 List<ObjetivoRDTO> ListaObjetivos2 = new List<ObjetivoRDTO>();
