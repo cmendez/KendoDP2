@@ -63,8 +63,19 @@
 </div>
 
 )
+@(Html.Kendo().Window().Name("Details")
+    .Title("Oferta Laboral")
+    .Visible(false)
+    .Modal(true)
+    .Draggable(true)
+    .Width(900)
 
+)
 <script>
+
+    function recargaGrid(){
+        $("#PostulantesPorOfertaLaboralInternaGrid").data('kendoGrid').dataSource.read();
+    }
 
     function aprobarFase1(e) {
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
@@ -79,17 +90,18 @@
             },
             success: function(response){
                 alert("El postulante fue aprobado para evaluación");
-                $("#PostulantesPorOfertaLaboralInternaGrid").data('kendoGrid').dataSource.read();
+                recargaGrid();
             }
         });
     }
 
     function rechazarPase(e) {
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        var postulanteXOfertaID = dataItem.ID;
+        e.preventDefault();
 
-        var wnd = $("#Details2").data("kendoWindow");
-        $("#Details2").load("@Url.Action("AprobarFase1","OfertasLaboralesInternas", new{Area = "Reclutamiento"})?ofertaID=" + ID, function () {
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        ID = dataItem.ID;
+        var wnd = $("#Details").data("kendoWindow");
+        $("#Details").load("@Url.Action("GetViewMotivosRechazo","OfertasLaboralesInternas", new{Area = "Reclutamiento"})", {ofertaID : @ofertaID, postulanteXOfertaID : ID }, function () {
             wnd.center().open();
         });
     }
