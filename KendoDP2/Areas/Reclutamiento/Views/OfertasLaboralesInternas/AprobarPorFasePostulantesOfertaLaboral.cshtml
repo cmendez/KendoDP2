@@ -31,6 +31,7 @@
                         columns.Bound(p => p.Postulante.Colaborador.NombreCompleto);
                         columns.Bound(p => p.Postulante.Colaborador.CorreoElectronico);
                         columns.Bound(p => p.Postulante.Colaborador.CentroEstudios);
+                        columns.Bound(p => p.EstadoPostulantePorOfertaNombre);
                         columns.Template(@<text></text>).Title("Curriculum Vitae").ClientTemplate(
                         "<a class='k-button' href='javascript:bajarCV(#=Postulante.Colaborador.CurriculumVitaeID#);'>Descargar CV</a>");
                         columns.Command(command =>

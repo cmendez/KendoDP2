@@ -56,6 +56,8 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         //no olvidar que se puede mandar las fases a traves de un list
         //probando algo nuevo
         public int EstadoPostulantePorOfertaID { get; set; }
+
+        public string EstadoPostulantePorOfertaNombre { get; set; }
         
         public OfertaLaboralXPostulanteDTO()
         {
@@ -71,6 +73,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             Comentarios = op.Comentarios;
             Observaciones = op.Observaciones;
             EstadoPostulantePorOfertaID = op.EstadoPostulacionPorOfertaID;
+            EstadoPostulantePorOfertaNombre = op.EstadoPostulantePorOferta.Descripcion;
 
 
         }
