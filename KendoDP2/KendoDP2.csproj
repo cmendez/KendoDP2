@@ -226,9 +226,11 @@
     <Compile Include="Areas\Objetivos\Models\TipoObjetivoBSC.cs" />
     <Compile Include="Areas\Objetivos\ObjetivosAreaRegistration.cs" />
     <Compile Include="Areas\Organizacion\Controllers\AreasController.cs" />
+    <Compile Include="Areas\Organizacion\Models\FuncionXPuesto.cs" />
     <Compile Include="Areas\Organizacion\Controllers\HistorialController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\IntranetController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\OrganizacionesController.cs" />
+    <Compile Include="Areas\Organizacion\Controllers\FuncionesController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\PuestosController.cs" />
     <Compile Include="Areas\Organizacion\Controllers\WSColaboradorController.cs" />
     <Compile Include="Areas\Organizacion\Models\DP2Context.cs" />
@@ -1824,6 +1826,10 @@
     <Content Include="Areas\Organizacion\Views\Puestos\Index.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\EditorTemplates\EditorSolicitudOfertaLaboral.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\ViewSolicitudOfertaLaboral.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Puestos\ElegirFunciones.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Funciones\Index.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\ConvocatoriasInternas\Index.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\Shared\ViewOfertaLaboralInterna.cshtml" />
     <Content Include="Areas\BolsaTrabajo\Views\ConvocatoriasInternas\Index.cshtml" />
     <Content Include="Areas\BolsaTrabajo\Views\Shared\ViewOfertaLaboralInterna.cshtml" />
     <Content Include="Areas\Objetivos\Views\MisObjetivos\Index.cshtml" />

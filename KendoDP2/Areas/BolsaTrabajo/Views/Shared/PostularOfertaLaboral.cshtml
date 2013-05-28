@@ -9,6 +9,7 @@
     GradoAcademicoDTO gradoAcademic = ViewBag.gradoAcademico;
     int ofertaID = ViewBag.ofertaID;
     bool yaPostulado = ViewBag.yaPostulado;
+    bool tieneCV = ViewBag.tieneCV;
 }
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -119,29 +120,11 @@
                 <div class="span5">
                     <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.CurriculumVitaeID)</div>
                     <a href="#" id="bajar-cv-anchor" class="hidden" target="_blank"></a>
-                    <a href="javascript:bajarCV();">Descargar Curriculum</a>
                 </div>
                 <div class="span7">
                 @Html.HiddenFor(m => m.CurriculumVitaeID)
-                <input type="file" id="Archivo2" name="Archivo2" />
-                <script>
-                    $("#Archivo2").kendoUpload({
-                        multiple: false,
-                        showFileList: true,
-                        localization: {
-                            select: 'Seleccione archivo PDF'
-                        },
-                        async: {
-                            saveUrl: '@Url.Action("UploadPDF", "Misc", new {Area = ""})',
-                            autoUpload: true,
-                        },
-                        success: function (e) {
-                            var archivoID = e.response.ID;
-                            $("#CurriculumVitaeID").val(archivoID).change();
-                        }
-                    });
-                </script> 
-                </div>
+                 <a href="javascript:bajarCV();">Descargar Curriculum</a>
+                 </div>
             </div>
 
                          
@@ -154,11 +137,19 @@
     </div>
     <!-- contenedor inferior: campos -->
   
-@if(!yaPostulado){
+@if((!yaPostulado) && (tieneCV)){
     <a class="btn green" href="javascript:Postular();"> Postular </a>
 } else {
+    if(yaPostulado)
+    {
     <label class="label">Ya has postulado.</label>
     <br />
+    }
+    else
+    {
+    <label class="label">No tienes registrado tu curriculum Vitae. Registarlo para poder postular</label>
+    <br />
+    }
 }
 <a class="btn green" href="javascript:Cancelar();"> Cancelar </a>
 
