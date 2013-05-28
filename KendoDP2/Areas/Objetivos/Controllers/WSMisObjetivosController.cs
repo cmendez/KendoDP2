@@ -22,7 +22,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 ViewBag.periodos = context.TablaPeriodos.All().Select(c => c.ToDTO()).ToList();
                 var objetivos = puesto.Objetivos.Select(c => c.ToDTO(context)).ToList();
                 List<ObjetivoDTO> ret = objetivos.Where(x => x.BSCID == idPeriodo).ToList();
-                return Json(new { nombreColaborador = col.NombreCompleto, objetivos = ret }, JsonRequestBehavior.AllowGet);
+                return Json(ret, JsonRequestBehavior.AllowGet);
             }
         }
     }
