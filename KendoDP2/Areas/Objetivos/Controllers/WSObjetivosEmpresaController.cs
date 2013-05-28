@@ -18,6 +18,14 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             }
         }
 
+        public ActionResult GetAllObjetivosEmpresa(int BSCID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                return Json(context.TablaObjetivos.Where(o => o.TipoObjetivoBSCID != null && o.BSCID == BSCID).Select(o => o.ToDTO(context)), JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult CrearObjetivoEmpresa(ObjetivoDTO objetivo)
         {
             using (DP2Context context = new DP2Context())
