@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
+using KendoDP2.Models.Seguridad;
 
 
 namespace KendoDP2.Areas.Reclutamiento.Controllers
@@ -248,20 +249,15 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             }
         }
 
-        public ActionResult Contratar(int ofertaID, int postulanteXOfertaID)
+        public ActionResult Contratar(int ofertaID, int postulanteXOfertaLaboralID)
         {
             using (DP2Context context = new DP2Context())
             {
                 OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
-                OfertaLaboralXPostulante postulanteOferta = oferta.Postulantes.Where(p => p.ID == postulanteXOfertaID).FirstOrDefault();
-                ViewBag.cruce = postulanteOferta.ID;
-                ViewBag.ofertaID = ofertaID; ViewBag.area = oferta.Area.ToDTO();
-                ViewBag.estadosColaborador = context.TablaEstadosColaboradores.All().Select(p => p.ToDTO()).ToList();
-                ViewBag.areas = context.TablaAreas.All().Select(p => p.ToDTO()).ToList();
-                ViewBag.puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).ToList();                
-                
+                OfertaLaboralXPostulante postulanteOferta = oferta.Postulantes.Where(p => p.ID == postulanteXOfertaLaboralID).FirstOrDefault();
+                // aca asignar el nuevo puesto
 
-                return View("Index","Historial");
+                return RedirectToAction("Linea", "Historial", new { Area = "Organizacion", ID = DP2MembershipProvider.GetPersonaID(this) }); 
             }
 
         }
