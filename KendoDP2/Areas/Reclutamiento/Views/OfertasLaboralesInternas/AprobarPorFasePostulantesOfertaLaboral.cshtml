@@ -30,15 +30,15 @@
                     {
                         columns.Bound(p => p.Postulante.Colaborador.NombreCompleto);
                         columns.Bound(p => p.Postulante.Colaborador.CorreoElectronico);
-                        columns.Bound(p => p.Postulante.Colaborador.CentroEstudios);
                         columns.Bound(p => p.EstadoPostulantePorOfertaNombre);
                         columns.Template(@<text></text>).Title("Curriculum Vitae").ClientTemplate(
                         "<a class='k-button' href='javascript:bajarCV(#=Postulante.Colaborador.CurriculumVitaeID#);'>Descargar CV</a>");
                         columns.Command(command =>
                         {
+                            command.Custom("Ver").Click("verPostulante").SendDataKeys(true);
                             command.Custom("Aprobar").Click("aprobarFase1").SendDataKeys(true);
                             command.Custom("Rechazar").Click("rechazarPase").SendDataKeys(true);
-                        }).Width(200);
+                        }).Width(250);
                     }
                         )
                             .Editable(editable => editable
@@ -63,13 +63,23 @@
 </div>
 
 @(Html.Kendo().Window().Name("Details")
-    .Title("Oferta Laboral")
+    .Title("Rechazar Postulante")
     .Visible(false)
     .Modal(true)
     .Draggable(true)
     .Width(900)
 
 )
+
+@(Html.Kendo().Window().Name("Details2")
+    .Title("Postulante Por Oferta Laboral")
+    .Visible(false)
+    .Modal(true)
+    .Draggable(true)
+    .Width(900)
+
+)
+
 <script>
 
     function recargaGrid(){
@@ -112,5 +122,16 @@
             $("#hidden-link").attr("href", "/Organizacion/Colaboradores/BajarCurriculum?curriculumVitaeID=" + curriculumVitaeID);
             $("a#hidden-link")[0].click();
         }
+    }
+
+    function verPostulante(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        ID = dataItem.ID;
+        var wnd = $("#Details2").data("kendoWindow");
+        $("#Details2").load("@Url.Action("GetViewPostulanteInterno","OfertasLaboralesInternas", new{Area = "Reclutamiento"})", {ofertaID : @ofertaID, postulanteXOfertaID : ID }, function () {
+            wnd.center().open();
+        });
     }
 </script>

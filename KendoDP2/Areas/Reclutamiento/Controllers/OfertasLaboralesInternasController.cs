@@ -266,6 +266,22 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 
         }
 
+        public ActionResult GetViewPostulanteInterno(int ofertaID, int postulanteXOfertaID)
+        {
+
+            using (DP2Context context = new DP2Context())
+            {
+
+                OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
+                OfertaLaboralXPostulante postulanteOferta = oferta.Postulantes.Where(p => p.ID == postulanteXOfertaID).FirstOrDefault();
+
+                ViewBag.tipoDocumento = postulanteOferta.Postulante.Colaborador.TipoDocumento.ToDTO();
+                ViewBag.gradoAcademico = postulanteOferta.Postulante.Colaborador.GradoAcademico.ToDTO();
+                ViewBag.ofertaID = ofertaID;
+                return PartialView("ViewPostulanteInterno", postulanteOferta.ToDTO());
+            }
+        }
+
         }
       
 
