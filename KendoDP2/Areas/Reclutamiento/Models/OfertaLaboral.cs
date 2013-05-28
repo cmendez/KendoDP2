@@ -8,6 +8,9 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using KendoDP2.Areas.Evaluacion360.Models;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web.Security;
+using System.Security.Principal;
+using System.Web.Mvc;
 
 namespace KendoDP2.Areas.Reclutamiento.Models
 {
@@ -78,9 +81,9 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             return new OfertaLaboralDTO(this);
         }
 
-        public OfertaLaboralMobilePostulanteDTO ToMobilePostulanteDTO()
+        public OfertaLaboralMobilePostulanteDTO ToMobilePostulanteDTO(string userName)
         {
-            return new OfertaLaboralMobilePostulanteDTO(this);
+            return new OfertaLaboralMobilePostulanteDTO(this, userName);
         }
     }
 
@@ -210,17 +213,35 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public string DescripcionOferta { get; set; }
         public int SueldoTentativo { get; set; } 
         public ICollection<FuncionDTO> Funciones { get; set; }
-        public ICollection<CompetenciaConPonderadoDTO> CompetenciasPonderadas { get; set; }
+        public ICollection<CompetenciaConPonderadoDTO> CompetenciasPonderadasPuesto { get; set; }
+        public ICollection<CompetenciaConPonderadoDTO> CompetenciasPonderadasColaborador { get; set; }
+        public double MatchLevel { get; set; }
 
-        public OfertaLaboralMobilePostulanteDTO(OfertaLaboral oferta)
+        public OfertaLaboralMobilePostulanteDTO(OfertaLaboral oferta, string userName)
         {
             ID = oferta.ID;
             NombreAreaPuesto = oferta.Area.Nombre + "-" +oferta.Puesto.Nombre;
             DescripcionOferta = oferta.Descripcion;
             SueldoTentativo = oferta.SueldoTentativo;
             Funciones = ListaFuncionesToDTO(oferta.Puesto.Funciones);
-            CompetenciasPonderadas = ListaCompetenciasConPonderadoToDTO(oferta.Puesto.CompetenciasXPuesto);
-
+            CompetenciasPonderadasPuesto = ListaCompetenciasConPonderadoToDTO(oferta.Puesto.CompetenciasXPuesto);
+            //Las competencias del puesto del colaborador:
+            var context = new DP2Context();
+            Colaborador colaboradorActual = context.TablaColaboradores.Where(a => a.Username.Equals(userName)).First();
+            Puesto puesto = context.TablaColaboradoresXPuestos.Where(a=>a.ColaboradorID == colaboradorActual.ID).Select(a=>a.Puesto).First();
+            CompetenciasPonderadasColaborador = ListaCompetenciasConPonderadoToDTO(puesto.CompetenciasXPuesto);
+            //MatchLevel:
+            double sumaCompetenciasPuesto = 1;
+            foreach (CompetenciaConPonderadoDTO competencia in CompetenciasPonderadasPuesto)
+            {
+                sumaCompetenciasPuesto += competencia.Ponderado;
+            }
+            double sumaCompetenciasColaborador = 0;
+            foreach (CompetenciaConPonderadoDTO competencia in CompetenciasPonderadasColaborador)
+            {
+                sumaCompetenciasColaborador += competencia.Ponderado;
+            }
+            MatchLevel = sumaCompetenciasColaborador / sumaCompetenciasPuesto;
         }
 
         //Funciones Auxiliares
