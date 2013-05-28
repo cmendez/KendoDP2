@@ -73,6 +73,43 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             }
         }
 
+        public ActionResult ReadListaPostulantesFase1([DataSourceRequest] DataSourceRequest request, int ofertaID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+
+                OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
+                List<OfertaLaboralXPostulante> postulantesOferta = oferta.Postulantes.ToList();
+
+                return Json(postulantesOferta.Select(x => x.ToDTO()).ToDataSourceResult(request));
+            }
+        }
+
+        public ActionResult ReadListaPostulantesFase2([DataSourceRequest] DataSourceRequest request, int ofertaID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+
+                OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
+                List<OfertaLaboralXPostulante> postulantesOferta = oferta.Postulantes.ToList();
+
+                return Json(postulantesOferta.Select(x => x.ToDTO()).ToDataSourceResult(request));
+            }
+        }
+
+        public ActionResult ReadListaPostulantesFase3([DataSourceRequest] DataSourceRequest request, int ofertaID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+
+                OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
+                List<OfertaLaboralXPostulante> postulantesOferta = oferta.Postulantes.ToList();
+
+                return Json(postulantesOferta.Select(x => x.ToDTO()).ToDataSourceResult(request));
+            }
+        }
+
+        
 
     }
 }

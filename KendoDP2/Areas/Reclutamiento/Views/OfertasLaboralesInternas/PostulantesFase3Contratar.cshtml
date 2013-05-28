@@ -70,13 +70,13 @@
 
 
     function aprobarSiguienteFase(e) {
-        console.log(e);
+        //console.log(e);
         e.preventDefault();
 
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         ID = dataItem.ID;
         var wnd = $("#Details").data("kendoWindow");
-        $("#Details").load("@Url.Action("GetViewPostulante","ConvocatoriasInternas", new{Area = "BolsaTrabajo"})?ofertaID=" + ID, function () {
+        $("#Details").load("@*@Url.Action("GetViewPostulante","ConvocatoriasInternas", new{Area = "BolsaTrabajo"})*@?ofertaID=" + ID, function () {
             wnd.center().open();
         });
     }
