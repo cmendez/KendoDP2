@@ -75,5 +75,23 @@ namespace KendoDP2.Controllers
                 return PartialView("AgregarPostulante", postulante);
             }
         }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Postular(int ofertaID, PostulanteDTO postulanteDTO)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+
+                OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
+                {
+                    Postulante postulante = new Postulante(postulanteDTO);
+                    context.TablaPostulante.AddElement(postulante);
+                    OfertaLaboralXPostulante cruce = new OfertaLaboralXPostulante { Postulante = postulante, OfertaLaboral = oferta };
+                    context.TablaOfertaLaboralXPostulante.AddElement(cruce);
+
+                    return Json(new { success = true });
+                }
+            }
+        }
     }
 }

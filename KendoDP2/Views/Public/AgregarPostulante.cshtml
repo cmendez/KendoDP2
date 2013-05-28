@@ -157,7 +157,7 @@
             url: '@Url.Action("Postular", "Public")',
                 dataType: 'JSON',
                 type: 'POST',
-                data: { ofertaID : @ofertaID},
+                data: { ofertaID : @ofertaID, postulanteDTO : @Model },
             success: function(response){
                 alert("Postulacion efectuada con exito");
                 $("#datagrid").data('kendoGrid').dataSource.read();
