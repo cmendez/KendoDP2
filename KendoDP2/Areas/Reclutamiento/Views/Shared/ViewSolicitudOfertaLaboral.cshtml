@@ -15,6 +15,7 @@
     IEnumerable<CapacidadDTO> capacidades = ViewBag.capacidades;
     string funcionesJson = Json.Encode(funciones);
     string capacidadesJson = Json.Encode(capacidades);
+    bool yaValidado = ViewBag.yaValido;
 }
 
 @using (Html.BeginForm())
@@ -189,10 +190,16 @@
             </div>
         </div>
     </div>
-
-    <a class="btn green" href="javascript:CambiaEstadoAceptar();"> Aceptar </a>
-    <a class="btn green" href="javascript:CambiaEstadoRechazar();"> Rechazar </a>
-    
+    if (!yaValidado)
+    {
+        <a class="btn green" href="javascript:CambiaEstadoAceptar();"> Aceptar </a>
+        <a class="btn green" href="javascript:CambiaEstadoRechazar();"> Rechazar </a>
+    }
+    else
+    {
+        <label class="label">Esta oferta laboral ya fue publicada.</label>
+        <br />
+    }
     <!-- fin contenedor inferior: campos -->
 
  
