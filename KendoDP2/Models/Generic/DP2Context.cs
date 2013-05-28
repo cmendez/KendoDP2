@@ -69,6 +69,8 @@ namespace KendoDP2.Models.Generic
             //SeedBSC();
             SeedObjetivos();
             SeedColaboradorXPuesto();
+            // Area Evaluacion360
+            seedProcesosDeEvaluacion();
         }
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

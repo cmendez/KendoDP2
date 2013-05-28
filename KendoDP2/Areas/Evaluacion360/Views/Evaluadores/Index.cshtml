@@ -56,7 +56,7 @@
                     @*i;*@
                     @(Html.Kendo().ComboBox().Name(puestoEvaluador.ClaseEntorno.Replace(" ", string.Empty) + "_" + i + "_" + "Combo")
                         //.Name("Combo" + puestoEvaluador.ClaseEntorno + i)
-                        //.Placeholder("Seleccione un subordinado")
+                        .Placeholder("Seleccione un colaborador")
                         .DataTextField("NombreCompleto")
                         .DataValueField("ID")
                         .Filter("contains")
@@ -69,8 +69,8 @@
                         .Suggest(true)
                         .HtmlAttributes(new { style = "width:100%" })
                         //.Events(e => e.Close("comboCompetenciasSelection"))
-                        .SelectedIndex(0)
-                        .Enable(puestoEvaluador.ClaseEntorno.CompareTo("El mismo") == 0 || puestoEvaluador.ClaseEntorno.CompareTo("Jefe") == 0 ? false : true)
+                        .SelectedIndex(puestoEvaluador.ClaseEntorno.CompareTo("El mismo") == 0 || puestoEvaluador.ClaseEntorno.CompareTo("Jefe") == 0 ? 0 : -1)
+                        //.Enable(puestoEvaluador.ClaseEntorno.CompareTo("El mismo") == 0 || puestoEvaluador.ClaseEntorno.CompareTo("Jefe") == 0 ? false : true)
                         );                
                 
                 

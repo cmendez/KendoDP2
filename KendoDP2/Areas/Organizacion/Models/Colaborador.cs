@@ -177,6 +177,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         [DisplayName("Nueva Contraseña")]
         public string NuevaContrasenha { get; set; }
 
+        public List<ObjetivoDTO> Objetivos { get; set; }
 
         public ColaboradorDTO() { }
 
@@ -213,6 +214,19 @@ namespace KendoDP2.Areas.Organizacion.Models
                 AreaID = 0;
                 PuestoID = 0;
                 Sueldo = 0;
+            }
+
+
+            
+
+            try
+            {
+                Objetivos = c.Objetivos.Select(o => o.ToDTO()).ToList();
+            }
+            catch (Exception)
+            {
+                //Objetivos no se han cargado
+                Objetivos = new List<ObjetivoDTO>();
             }
 
 

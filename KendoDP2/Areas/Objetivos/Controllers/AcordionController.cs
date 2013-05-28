@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using KendoDP2.Areas.Organizacion.Models;
 using KendoDP2.Models.Generic;
 
-namespace KendoDP2.Areas.Evaluacion360.Controllers
+namespace KendoDP2.Areas.Objetivos.Controllers
 {
     public class AcordionController : Controller
     {

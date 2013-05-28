@@ -55,42 +55,53 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
         public ActionResult enviar_evaluaciones(int evaluadoId, FormCollection form)
         {
-            System.Collections.Specialized.NameObjectCollectionBase.KeysCollection llaves = form.Keys;
-            int controles = form.Keys.Count;
-            //string nombreControl = "ComboPares12";
-            //Regex patron = new Regex(@"Combo(<claseEntorno>)");
-            //Match coincidencias = patron.Match(nombreControl);
-            //string claseEntorno = coincidencias.Groups["claseEntorno"].Value;
 
-            ColaboradorXEvaluadores evaluadores = new ColaboradorXEvaluadores();
-
-            evaluadores.evaluadoID = evaluadoId;
-            evaluadores.evaluadoresID = new List<int>();
-
-            for (int i = 0; i < llaves.Count / 2; i++)
+            using (DP2Context context = new DP2Context())
             {
-                string nombreControl = llaves[i*2 + 1];
-                string[] palabras = nombreControl.Split('_');
-                string claseEntorno = palabras[0];
-                string nro = palabras[1];
+                System.Collections.Specialized.NameObjectCollectionBase.KeysCollection llaves = form.Keys;
+                int controles = form.Keys.Count;
+                //string nombreControl = "ComboPares12";
+                //Regex patron = new Regex(@"Combo(<claseEntorno>)");
+                //Match coincidencias = patron.Match(nombreControl);
+                //string claseEntorno = coincidencias.Groups["claseEntorno"].Value;
 
-                int evaluadorId = Int32.Parse(form[nombreControl].CompareTo("") == 0 ? "2" : form[nombreControl]);
+                ProcesoXEvaluado evaluadores = new ProcesoXEvaluado();
 
-                evaluadores.evaluadoresID.Add(evaluadorId);
+                evaluadores.procesoID = 1;
+                evaluadores.evaluadoID = evaluadoId;
+                evaluadores.evaluadores = new List<Colaborador>();
 
+                for (int i = 0; i < llaves.Count / 2; i++)
+                {
+                    string nombreControl = llaves[i * 2 + 1];
+                    string[] palabras = nombreControl.Split('_');
+                    string claseEntorno = palabras[0];
+                    string nro = palabras[1];
+
+                    int evaluadorId = Int32.Parse(form[nombreControl].CompareTo("") == 0 ? "2" : form[nombreControl]);
+
+
+
+                    //evaluadores.evaluadores.Add(new Colaborador { ID = evaluadorId });
+                    evaluadores.evaluadores.Add(context.TablaColaboradores.FindByID(evaluadorId));
+
+                }
+
+                //string nombreControl = "Pares_12_Combo";
+                //string[] palabras = nombreControl.Split('_');
+                //string claseEntorno = palabras[0];
+                //string nro = palabras[1];
+                //string nombreDeUnPar = form["ComboPares0_input"];
+
+                context.TablaProcesoXEvaluado.AddElement(evaluadores);
+                ProcesoXEvaluado enBaseDeDatos = context.TablaProcesoXEvaluado.FindByID(evaluadores.ID);
+                context.Entry(enBaseDeDatos).Collection(u => u.evaluadores).Load();
+                //ColaboradorXEvaluadores enBaseDeDatos = new DP2Context().InternalColaboradorXProcesoEvaluaciones.Include().TablaColaboradorXEvaluadores.FindByID(evaluadores.ID);
+
+                ViewBag.Area = "";
+                return View();
 
             }
-
-            //string nombreControl = "Pares_12_Combo";
-            //string[] palabras = nombreControl.Split('_');
-            //string claseEntorno = palabras[0];
-            //string nro = palabras[1];
-            //string nombreDeUnPar = form["ComboPares0_input"];
-
-            new DP2Context().TablaColaboradorXEvaluadores.AddElement(evaluadores);
-            ColaboradorXEvaluadores enBaseDeDatos = new DP2Context().TablaColaboradorXEvaluadores.FindByID(evaluadores.ID);
-
-            return View();
         }
 
         private Colaborador consigueAlEmpleado(int idEvaluado) {
@@ -125,7 +136,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
         private Colaborador consigueSuJefe(int idEvaluado)
         {
-            Colaborador colaborador = new DP2Context().TablaColaboradores.FindByID(idEvaluado);
+            Colaborador colaborador = new DP2Context().TablaColaboradores.FindByID(22);
 
             return colaborador;
         }

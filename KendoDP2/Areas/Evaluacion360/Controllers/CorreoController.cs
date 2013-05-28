@@ -28,7 +28,8 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
             mail.Subject = "[RH++] Su evaluación ya inició";
             mail.Body = "El sistema RH++ le indica que el proceso de evaluación en el cual usted es partícipe ya inicio. <br/>" +
-                " Puede rendir la evaluación haciendo click en el siguiente enlace: " + "http://dp2kendo.apphb.com/Evaluacion360/Evaluaciones" + ".<br/>" +
+                " Puede rendir la evaluación haciendo click en el siguiente enlace: " + "http://dp2kendo.apphb.com/" + ".<br/>" +
+                "Proceso: Evaluación trimestral Enero-Marzo 2013 - Fecha de inicio: 01/01/2013 - Fecha de fin: 01/04/2013" +
                 "Sírvase no responder este correo.";
 
             SmtpServer.Send(mail);
