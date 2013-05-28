@@ -1,4 +1,5 @@
 ﻿using KendoDP2.Areas.Evaluacion360.Models;
+using KendoDP2.Models.Generic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,10 +31,24 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 "Sírvase no responder este correo.";
 
             foreach (ColaboradorXProcesoEvaluacion c in colaboradores){
-                to = c.ToDTO().ColaboradorDTO.CorreoElectronico;
+                if (c.ToDTO().ColaboradorDTO.CorreoElectronico != null)
+                    to = c.ToDTO().ColaboradorDTO.CorreoElectronico;
+                else
+                    to = "ktucto+RHSE@gmail.com";
                 mail.To.Add(to);
                 mail.Body = c.ToDTO().ColaboradorDTO.NombreCompleto + messageText;
                 SmtpServer.Send(mail);
+
+                // Actualizar estado colaboradores
+                /*using (DP2Context context = new DP2Context())
+                {
+                    EstadoColaboradorXProcesoEvaluacion iniciado = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Iniciado));
+                    c.EstadoColaboradorXProcesoEvaluacion = iniciado;
+
+                    //ColaboradorXProcesoEvaluacion col = context.TablaColaboradorXProcesoEvaluaciones.FindByID(c.ID, true);
+                    //col.EstadoColaboradorXProcesoEvaluacion = iniciado;
+                    //context.TablaColaboradorXProcesoEvaluaciones.ModifyElement(col);
+                }*/
             }
         }
 

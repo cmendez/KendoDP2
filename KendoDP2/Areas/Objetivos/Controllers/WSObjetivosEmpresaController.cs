@@ -18,7 +18,6 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             }
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult CrearObjetivoEmpresa(ObjetivoDTO objetivo)
         {
             using (DP2Context context = new DP2Context())

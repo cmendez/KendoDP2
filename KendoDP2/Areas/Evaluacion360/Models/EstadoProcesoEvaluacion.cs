@@ -39,7 +39,6 @@ namespace KendoDP2.Areas.Evaluacion360.Models
 
     public class EstadoProcesoEvaluacionDTO
     {
-        [ScaffoldColumn(false)]
         public int ID { get; set; }
 
         public string Descripcion { get; set; }
