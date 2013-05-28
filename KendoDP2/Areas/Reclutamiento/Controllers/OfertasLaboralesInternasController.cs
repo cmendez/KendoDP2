@@ -149,12 +149,12 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult AprobarFase1([DataSourceRequest] DataSourceRequest request, int ofertaID, int postulanteID)
+        public ActionResult AprobarFase1([DataSourceRequest] DataSourceRequest request, int ofertaID, int postulanteXOfertaID)
         {
             using (DP2Context context = new DP2Context())
             {
                 OfertaLaboral o = context.TablaOfertaLaborales.FindByID(ofertaID);
-                OfertaLaboralXPostulante postulanteOferta = o.Postulantes.Where(p => p.ID == postulanteID).FirstOrDefault();
+                OfertaLaboralXPostulante postulanteOferta = o.Postulantes.Where(p => p.ID == postulanteXOfertaID).FirstOrDefault();
 
 
                 postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Aprobado Fase 1"));

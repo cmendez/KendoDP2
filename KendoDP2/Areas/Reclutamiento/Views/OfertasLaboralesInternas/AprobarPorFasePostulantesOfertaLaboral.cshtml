@@ -35,8 +35,8 @@
                         "<a class='k-button' href='javascript:bajarCV(#=Postulante.Colaborador.CurriculumVitaeID#);'>Descargar CV</a>");
                         columns.Command(command =>
                         {
-                            command.Custom("Aprobar").Click("aprobarFase1");
-                            command.Custom("Rechazar").Click("rechazarPase");
+                            command.Custom("Aprobar").Click("aprobarFase1").SendDataKeys(true);
+                            command.Custom("Rechazar").Click("rechazarPase").SendDataKeys(true);
                         }).Width(200);
                     }
                         )
@@ -66,13 +66,15 @@
 <script>
 
     function aprobarFase1(e) {
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var postulanteXOfertaID = dataItem.ID;
         $.ajax({
             url: '@Url.Action("AprobarFase1", "OfertasLaboralesInternas", new { Area = "Reclutamiento" })',
             dataType: 'JSON',
             type: 'POST',
             data: {
-                ofertaID: ofertaID,
-                postulanteID: model.Postulante.ID 
+                ofertaID: @ofertaID,
+                postulanteXOfertaID: postulanteXOfertaID
             },
             success: function(response){
                 alert("El postulante fue aprobado para evaluación");
@@ -82,11 +84,9 @@
     }
 
     function rechazarPase(e) {
-        console.log(e);
-        e.preventDefault();
-
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        ID = dataItem.ID;
+        var postulanteXOfertaID = dataItem.ID;
+
         var wnd = $("#Details2").data("kendoWindow");
         $("#Details2").load("@Url.Action("AprobarFase1","OfertasLaboralesInternas", new{Area = "Reclutamiento"})?ofertaID=" + ID, function () {
             wnd.center().open();
