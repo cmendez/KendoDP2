@@ -69,16 +69,18 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             
         }
 
-        public JsonResult tieneJefe(string id)
+        public JsonResult tieneJefe(string colaboradorID)
         {
             using (DP2Context context = new DP2Context())
             {
                 try
                 {
-                    Colaborador colaborador = context.TablaColaboradores.FindByID(Convert.ToInt32(id));
-
-                    return JsonSuccessGet();
-
+                    Puesto puestoUltimo = context.TablaColaboradoresXPuestos
+                        .One(x =>   (x.ColaboradorID == Convert.ToInt32(colaboradorID)) && 
+                                    (!x.FechaSalidaPuesto.HasValue))
+                        .Puesto;
+                    return puestoUltimo.PuestoSuperiorID.HasValue ? 
+                        JsonSuccessGet(true) : JsonSuccessGet(false);
                 }
                 catch (Exception ex)
                 {
