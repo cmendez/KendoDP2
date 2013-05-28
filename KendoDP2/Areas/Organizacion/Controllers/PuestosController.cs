@@ -91,28 +91,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         }
 
 
-        //[AcceptVerbs(HttpVerbs.Post)]
-        //public ActionResult EditingInline_Update([DataSourceRequest] DataSourceRequest request, PuestoDTO puesto)
-        //{
-        //    using (DP2Context context = new DP2Context())
-        //    {
-        //        Puesto p = context.TablaPuestos.FindByID(puesto.ID).LoadFromDTO(puesto);
-        //        context.TablaPuestos.ModifyElement(p);
-        //        return Json(new[] { p.ToDTO() }.ToDataSourceResult(request, ModelState));
-        //    }
-        //}
-
-
-
-        //[AcceptVerbs(HttpVerbs.Post)]
-        //public ActionResult EditingInline_Destroy([DataSourceRequest] DataSourceRequest request, PuestoDTO puesto)
-        //{
-        //    using (DP2Context context = new DP2Context())
-        //    {
-        //        context.TablaPuestos.RemoveElementByID(puesto.ID);
-        //        return Json(ModelState.ToDataSourceResult());
-        //    }
-        //}
+       
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Update([DataSourceRequest] DataSourceRequest request, AreaDTO area)
@@ -138,6 +117,15 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 return Json(ModelState.IsValid ? new object() : ModelState.ToDataSourceResult());
             }
         }
+
+        //**********************************************************************************
+        //**********************************************************************************
+        //FUNCIONES
+
+
+        //**********************************************************************************
+        //**********************************************************************************
+        
 
 
     }

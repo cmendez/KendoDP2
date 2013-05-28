@@ -107,6 +107,8 @@ namespace KendoDP2.Models.Generic
                 FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
                 Descripcion = "",
                 ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
+                               
+                
                 SueldoTentativo = 15000,
                 Comentarios = "",
                 NumeroVacantes = 3
