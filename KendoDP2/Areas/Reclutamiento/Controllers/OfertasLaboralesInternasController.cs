@@ -117,7 +117,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             {
 
                 OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
-                List<OfertaLaboralXPostulante> postulantesOferta = oferta.Postulantes.Where(p => p.EstadoPostulantePorOferta.Descripcion.Equals("Aprobado Fase 1")).ToList();
+                List<OfertaLaboralXPostulante> postulantesOferta = oferta.Postulantes.Where(p => (p.EstadoPostulantePorOferta.Descripcion.Equals("Aprobado Fase 1")) || (p.EstadoPostulantePorOferta.Descripcion.Equals("Rechazado Fase 1"))).ToList();
 
                 return Json(postulantesOferta.Select(x => x.ToDTO()).ToDataSourceResult(request));
             }
@@ -129,7 +129,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             {
 
                 OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
-                List<OfertaLaboralXPostulante> postulantesOferta = oferta.Postulantes.Where(p => p.EstadoPostulantePorOferta.Descripcion.Equals("Aprobado Fase 2")).ToList();
+                List<OfertaLaboralXPostulante> postulantesOferta = oferta.Postulantes.Where(p => (p.EstadoPostulantePorOferta.Descripcion.Equals("Aprobado Fase 2")) || (p.EstadoPostulantePorOferta.Descripcion.Equals("Rechazado Fase 2"))).ToList();
 
                 return Json(postulantesOferta.Select(x => x.ToDTO()).ToDataSourceResult(request));
             }
@@ -141,7 +141,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             {
 
                 OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
-                List<OfertaLaboralXPostulante> postulantesOferta = oferta.Postulantes.Where(p => p.EstadoPostulantePorOferta.Descripcion.Equals("Aprobado Fase 3")).ToList();
+                List<OfertaLaboralXPostulante> postulantesOferta = oferta.Postulantes.Where(p => (p.EstadoPostulantePorOferta.Descripcion.Equals("Aprobado Fase 3")) || (p.EstadoPostulantePorOferta.Descripcion.Equals("Rechazado Fase 3"))).ToList();
 
                 return Json(postulantesOferta.Select(x => x.ToDTO()).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
             }
@@ -235,15 +235,39 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 {
                     op.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Rechazado Fase 3"));
                 }
+                if (op.EstadoPostulantePorOferta.Descripcion.Equals("Inscrito"))
+                {
+                    op.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Rechazado"));
+
+                }
+                
+                op.MotivoRechazo = motivoRechazo;
                 context.TablaOfertaLaboralXPostulante.ModifyElement(op);
 
                 return Json(new { success = true });
             }
+        }
+
+        public ActionResult Contratar(int ofertaID, int postulanteXOfertaID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
+                OfertaLaboralXPostulante postulanteOferta = oferta.Postulantes.Where(p => p.ID == postulanteXOfertaID).FirstOrDefault();
+                ViewBag.cruce = postulanteOferta.ID;
+                ViewBag.ofertaID = ofertaID; ViewBag.area = oferta.Area.ToDTO();
+                ViewBag.estadosColaborador = context.TablaEstadosColaboradores.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.areas = context.TablaAreas.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).ToList();                
+                
+
+                return View("Index","Historial");
+            }
 
         }
 
+        }
+      
 
-        
-
-    }
+    
 }
