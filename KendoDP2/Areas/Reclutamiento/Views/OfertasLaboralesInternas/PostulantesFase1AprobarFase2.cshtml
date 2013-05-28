@@ -37,9 +37,6 @@
                             command.Custom("Aprobar").Click("aprobarSiguienteFase");
                             command.Custom("Rechazar").Click("rechazarPase");
                         }).Width(300);
-                                            
-
-
                     }
                         )
                             .Editable(editable => editable
@@ -70,14 +67,20 @@
     
 
     function aprobarSiguienteFase(e) {
-        console.log(e);
-        e.preventDefault();
-
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        ID = dataItem.ID;
-        var wnd = $("#Details").data("kendoWindow");
-        $("#Details").load("@Url.Action("GetViewPostulante","ConvocatoriasInternas", new{Area = "BolsaTrabajo"})?ofertaID=" + ID, function () {
-            wnd.center().open();
+        var postulanteXOfertaID = dataItem.ID;
+        $.ajax({
+            url: '@Url.Action("AprobarFase2", "OfertasLaboralesInternas", new { Area = "Reclutamiento" })',
+            dataType: 'JSON',
+            type: 'POST',
+            data: {
+                ofertaID: @ofertaID,
+                postulanteXOfertaID: postulanteXOfertaID
+            },
+            success: function(response){
+                alert("El postulante fue aprobado para evaluación");
+                $("#PostulantesPorOfertaLaboralFase1Grid").data('kendoGrid').dataSource.read();
+            }
         });
     }
 
