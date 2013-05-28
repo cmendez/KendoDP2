@@ -33,7 +33,7 @@
                         columns.Bound(p => p.Postulante.Colaborador.CentroEstudios);
                         columns.Bound(p => p.PuntajeTotal);
                         columns.Template(@<text></text>).Title("Contratar").ClientTemplate(
-                        "<a class='k-button' href='" + Url.Action("Contratar", "OfertasLaboralesInternas") + "?ofertaLaboralID=#=ID#'>Cambiar Puesto</a>");
+                        "<a class='k-button' href='" + Url.Action("Contratar", "OfertasLaboralesInternas") + "?postulanteXOfertaLaboralID=#=ID#&ofertaID="+ ofertaID + "'>Cambiar Puesto</a>");
 
                         columns.Command(command =>
                         {
