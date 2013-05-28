@@ -238,7 +238,7 @@
     <Compile Include="Areas\Organizacion\Models\Organizacion.cs" />
     <Compile Include="Areas\Organizacion\Models\PuestoXArea.cs" />
     <Compile Include="Areas\Organizacion\Models\EstadosPuesto.cs" />
-    <Compile Include="Areas\Organizacion\OrganizacionAreaRegistration.cs" />
+    <Compile Include="Areas\Reclutamiento\OrganizacionAreaRegistration.cs" />
     <Compile Include="Areas\Organizacion\Controllers\ColaboradoresController.cs" />
     <Compile Include="Areas\Organizacion\Models\Area.cs" />
     <Compile Include="Areas\Organizacion\Models\ColaboradorXPuesto.cs" />
@@ -277,6 +277,7 @@
     <Compile Include="Areas\Seguridad\SeguridadAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MiscController.cs" />
+    <Compile Include="Controllers\PublicController.cs" />
     <Compile Include="Controllers\WSLoginController.cs" />
     <Compile Include="Models\Generic\Archivo.cs" />
     <Compile Include="Models\Generic\DBGenericRequester.cs" />
@@ -1982,6 +1983,7 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\_NoLayout.cshtml" />
     <Content Include="Views\Shared\_CustomJavascripts.cshtml" />
+    <Content Include="Views\Public\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
