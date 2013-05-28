@@ -33,7 +33,12 @@
                         columns.Bound(p => p.FechaPublicacion);
                         columns.Bound(p => p.FechaFinRequerimiento);
                         columns.ForeignKey(p => p.AreaID, lista);
-                        columns.ForeignKey(p => p.PuestoID, listaPuestos);                        
+                        columns.ForeignKey(p => p.PuestoID, listaPuestos);
+                        columns.Command(command =>
+                        {
+                            command.Custom("Ver").Click("verOferta");
+                            command.Custom("Postular").Click("postularConvocatoria");
+                        }).Width(300);                       
                     }
                 )
                     .Editable(editable => editable
@@ -55,3 +60,30 @@
         </div>
     </div>
 </div>
+
+@(Html.Kendo().Window().Name("Details")
+    .Title("Oferta Laboral")
+    .Visible(false)
+    .Modal(true)
+    .Draggable(true)
+    .Width(900)   
+)
+
+<script>
+
+    function verOferta(e) {
+        console.log(e);
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        ID = dataItem.ID;
+        var wnd = $("#Details").data("kendoWindow");
+        $("#Details").load("@Url.Action("GetViewOferta","Public")?ofertaID=" + ID, function () {
+            wnd.center().open();
+        });
+    }
+
+    function postularConvocatoria(e) {
+        alert("Postula");
+    }
+</script>

@@ -46,5 +46,23 @@ namespace KendoDP2.Controllers
             }
         }
 
+        public ActionResult GetViewOferta(int ofertaID)
+        {
+
+            using (DP2Context context = new DP2Context())
+            {
+                OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
+                ViewBag.responsable = oferta.Responsable.ToDTO();
+                ViewBag.modoSolicitudOferta = oferta.ModoSolicitudOfertaLaboralID >= 1 ? oferta.ModoSolicitudOfertaLaboral.ToDTO() : new ModoSolicitudOfertaLaboralDTO();
+                ViewBag.estadoSolicitudOferta = oferta.EstadoSolicitudOfertaLaboral.ToDTO();
+                ViewBag.area = oferta.Area.ToDTO();
+                ViewBag.puesto = oferta.Puesto.ToDTO();
+                ViewBag.funciones = oferta.Puesto.Funciones.Select(c => c.ToDTO()).ToList();
+                ViewBag.capacidades = oferta.Puesto.GetCapacidadesAsociadas(context).Select(c => c.ToDTO()).ToList();
+                ViewBag.yaValido = true;
+                return PartialView("VerOferta", oferta.ToDTO());
+            }
+        }
+
     }
 }
