@@ -27,6 +27,7 @@ namespace KendoDP2.Models.Generic
         public DbSet<FasePostulacionXOfertaLaboralXPostulante> InternalFasePostulacionXOfertaLaboralXPostulante { get; set; }
         public DbSet<EvaluacionXFaseXPostulacion> InternalEvaluacionXFaseXPostulacion { get; set; }
         public DbSet<Respuesta> InternalRespuesta { get; set; }
+        public DbSet<EstadoPostulantePorOferta> InternalEstadoPostulantePorOferta { get; set; }
 
         public DBGenericRequester<OfertaLaboral> TablaOfertaLaborales { get; set; }
         public DBGenericRequester<EstadosSolicitudOfertaLaboral> TablaEstadosSolicitudes { get; set; }
@@ -37,6 +38,7 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<FasePostulacionXOfertaLaboralXPostulante> TablaFasePostulacionXOfertaLaboralXPostulante { get; set; }
         public DBGenericRequester<EvaluacionXFaseXPostulacion> TablaEvaluacionXFaseXPostulacion { get; set; }
         public DBGenericRequester<Respuesta> TablaRespuesta { get; set; }
+        public DBGenericRequester<EstadoPostulantePorOferta> TablaEstadoPostulanteXOferta { get; set; }
 
         private void RegistrarTablasReclutamiento()
         {
@@ -49,6 +51,7 @@ namespace KendoDP2.Models.Generic
             TablaFasePostulacionXOfertaLaboralXPostulante = new DBGenericRequester<FasePostulacionXOfertaLaboralXPostulante>(this, InternalFasePostulacionXOfertaLaboralXPostulante);
             TablaEvaluacionXFaseXPostulacion = new DBGenericRequester<EvaluacionXFaseXPostulacion>(this, InternalEvaluacionXFaseXPostulacion);
             TablaRespuesta = new DBGenericRequester<Respuesta>(this, InternalRespuesta);
+            TablaEstadoPostulanteXOferta = new DBGenericRequester<EstadoPostulantePorOferta>(this, InternalEstadoPostulantePorOferta);
         }
 
         private void SeedModosSolicitudes()
@@ -128,6 +131,22 @@ namespace KendoDP2.Models.Generic
                 Comentarios = "",
                 NumeroVacantes = 3
             });
+
+            TablaOfertaLaborales.AddElement(new OfertaLaboral
+            {
+                PuestoID = 1,
+                AreaID = TablaAreas.One(a => a.Nombre.Equals("Directorio")).ID,
+                ResponsableID = TablaColaboradores.One(a => a.ApellidoPaterno.Equals("Solorzano")).ID,
+                EstadoSolicitudOfertaLaboralID = TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID,
+                FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"),
+                FechaPublicacion = DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"),
+                FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
+                Descripcion = "",
+                ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Pública")).ID,
+                SueldoTentativo = 15000,
+                Comentarios = "",
+                NumeroVacantes = 3
+            });
         }
 
         private void SeedPostulante()
@@ -167,6 +186,19 @@ namespace KendoDP2.Models.Generic
                 NumeroDocumento = "70708445",
                 GradoAcademicoID = TablaGradosAcademicos.One(ga => ga.Descripcion.Equals("Licenciado")).ID,
             });
+
+        }
+
+        private void SeedEstadoPostulantePorOferta()
+        {
+            TablaEstadoPostulanteXOferta.AddElement(new EstadoPostulantePorOferta { Descripcion = "Inscrito" });
+            TablaEstadoPostulanteXOferta.AddElement(new EstadoPostulantePorOferta { Descripcion = "Aprobado Fase 1" });
+            TablaEstadoPostulanteXOferta.AddElement(new EstadoPostulantePorOferta { Descripcion = "Aprobado Fase 2" });
+            TablaEstadoPostulanteXOferta.AddElement(new EstadoPostulantePorOferta { Descripcion = "Aprobado Fase 3" });
+            TablaEstadoPostulanteXOferta.AddElement(new EstadoPostulantePorOferta { Descripcion = "Rechazado" });
+            TablaEstadoPostulanteXOferta.AddElement(new EstadoPostulantePorOferta { Descripcion = "Rechazado Fase 1" });
+            TablaEstadoPostulanteXOferta.AddElement(new EstadoPostulantePorOferta { Descripcion = "Rechazado Fase 2" });
+            TablaEstadoPostulanteXOferta.AddElement(new EstadoPostulantePorOferta { Descripcion = "Rechazado Fase 3" });
 
         }
         

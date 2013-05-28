@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     IList<PuestoDTO> puestos = ViewBag.puestos;
     IList<CompetenciaDTO> competencias = ViewBag.competencias;
-    //IList<NivelCapacidadDTO> niveles = ViewBag.niveles;
+    IList<NivelCapacidadDTO> niveles = ViewBag.niveles;
 }
 
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Funciones de puestos de trabajo", "Administre las funciones de los puestos de trabajo"));}

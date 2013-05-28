@@ -46,18 +46,6 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
-        // TODO:
-        public ActionResult CerrarProcesoEvaluacion([DataSourceRequest] DataSourceRequest request, int procesoEvaluacionID)
-        {
-            using (DP2Context context = new DP2Context()) 
-            {
-                 ProcesoEvaluacion proceso = context.TablaProcesoEvaluaciones.FindByID(procesoEvaluacionID);
-                // TODO:
-                 return Json(new[] { proceso.ToDTO() }.ToDataSourceResult(request, ModelState));
-                // return View(proceso);
-            }
-        }
-
         // Grid de procesos de evaluacion
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
@@ -244,13 +232,14 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
-        public ActionResult IniciarProcesoEvaluacion( int procesoEvaluacionID) 
+      [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult IniciarProcesoEvaluacion( int procesoID) 
         {
             using (DP2Context context = new DP2Context()) 
             {
-                ProcesoEvaluacion p = context.TablaProcesoEvaluaciones.FindByID(procesoEvaluacionID, false);
+                ProcesoEvaluacion p = context.TablaProcesoEvaluaciones.FindByID(procesoID, false);
           
-                List<ColaboradorXProcesoEvaluacion> list = context.TablaColaboradorXProcesoEvaluaciones.Where(x => x.ProcesoEvaluacionID == procesoEvaluacionID);
+                List<ColaboradorXProcesoEvaluacion> list = context.TablaColaboradorXProcesoEvaluaciones.Where(x => x.ProcesoEvaluacionID == procesoID);
                 using (CorreoController correoController = new CorreoController()){
                     correoController.EnviarEmailsInicio(list, p);
                 }
@@ -258,8 +247,24 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 EstadoProcesoEvaluacion enProceso = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso));
                 p.EstadoProcesoEvaluacion = enProceso;
                 context.TablaProcesoEvaluaciones.ModifyElement(p);
-                return View();
+                return Json(new { success = true });
+                //return View();
             }
         }
+
+
+      [AcceptVerbs(HttpVerbs.Post)]
+      public ActionResult CerrarProcesoEvaluacion(int procesoID)
+      {
+          using (DP2Context context = new DP2Context())
+          {
+              ProcesoEvaluacion proceso = context.TablaProcesoEvaluaciones.FindByID(procesoID);
+              //Procesar resultados parciales y modificar estados 
+              EstadoProcesoEvaluacion terminado = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Terminado));
+              proceso.EstadoProcesoEvaluacion = terminado;
+              context.TablaProcesoEvaluaciones.ModifyElement(proceso);
+              return Json(new { success = true });
+          }
+      }
     }
 }

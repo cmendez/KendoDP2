@@ -28,8 +28,10 @@ namespace KendoDP2.Models.Helpers
 				//new SidebarSuboption("Evaluaciones", "Registrar Evaluaciones", "Index", "icon-check"),
                 new SidebarSuboption("Procesos de evaluación", "ProcesoEvaluacion", "Index", "icon-road"),
                 new SidebarSuboption("Evaluación de puestos de trabajo", "PuestosEvaluacion", "Index", "icon-ok-sign"),
-                new SidebarSuboption("Envio de correo", "Correo", "Index", "icon-ok-sign"),
-                new SidebarSuboption("Acordion", "Acordion", "Index", "icon-ok-sign"),
+
+                //new SidebarSuboption("Envio de correo", "Correo", "Index", "icon-ok-sign"),
+                //new SidebarSuboption("Acordion", "Acordion", "Index", "icon-ok-sign"),
+				new SidebarSuboption("Rol Evaluador", "RolEvaluador", "Index", "icon-ok-sign")
                 new SidebarSuboption("Rendir Evaluacion", "Evaluacion", "Index", "icon-ok-sign")
 				//new SidebarSuboption("Por perfil BORRADOR", "Configuracion360", "Index", "icon-group")
             })));				
@@ -38,6 +40,7 @@ namespace KendoDP2.Models.Helpers
             // Objetivos
             Opciones.Add(new SidebarOption("Objetivos", "Objetivos", "icon-bookmark", new List<SidebarSuboption>(new SidebarSuboption[]{
                new SidebarSuboption("Objetivos de la empresa", "Objetivosempresa", "Index", "icon-ok"),
+               //new SidebarSuboption("Objetivos en mis subordinados", "Acordion", "Index", "icon-ok"),
                new SidebarSuboption("Mis Objetivos", "Misobjetivos", "Index", "icon-ok"),
                new SidebarSuboption("Objetivos de subordinados", "Objetivossubordinados", "Index", "icon-ok")
             })));
@@ -59,7 +62,8 @@ namespace KendoDP2.Models.Helpers
             })));
 
             Opciones.Add(new SidebarOption("Reclutamiento", "Reclutamiento", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
-                new SidebarSuboption("Ofertas Laborales","SolicitudOfertasLaborales","Index","icon-tag")
+                new SidebarSuboption("Ofertas Laborales","SolicitudOfertasLaborales","Index","icon-tag"),
+                new SidebarSuboption("Ofertas Laborales Internas", "OfertasLaboralesInternas","Index","icon-file-alt")
             })));
 
             Opciones.Add(new SidebarOption("BolsaTrabajo", "Bolsa de Trabajo", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
@@ -104,7 +108,7 @@ namespace KendoDP2.Models.Helpers
             Icon = icon;
             Controller = controller;
             Method = method;
-        }
+        } 
     }
 
 

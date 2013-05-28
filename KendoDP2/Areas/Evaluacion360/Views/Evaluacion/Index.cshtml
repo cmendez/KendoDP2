@@ -15,12 +15,15 @@
         </div>
 	</div>
      <div class="portlet-body">
+        <div>
+            <a class="k-button k-button-icontext k-add-button" href="#"><span class="k-icon k-add"></span>Terminar evaluación</a>
+        </div>  
         @(Html.Kendo().ListView<Evaluacion>()
             .Name("listView")
             .TagName("div")
             .ClientTemplateId("template")
                 .DataSource(dataSource => dataSource
-                .Model(model => model.Id("EvaluacionID"))
+                .Model(model => model.Id("ID"))
                 .PageSize(6)
                 .Create(create => create.Action("Editing_Create", "ListView"))
                 .Read(read => read.Action("Editing_Read", "ListView"))
@@ -29,6 +32,7 @@
             )
             .Pageable()
             .Editable()
+            
         )
          
     </div>  

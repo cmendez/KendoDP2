@@ -56,6 +56,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         public string Nombre { get; set; }
         
         [DisplayName("Estado")]
+        [ScaffoldColumn(false)]
         public int EstadoProcesoEvaluacionID { get; set; }
 
         [DisplayName("Fecha de cierre a evaluadores")]
@@ -67,6 +68,8 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         [UIHint("GridForeignKey")]
         [DisplayName("Autorizado por")]
         public int AutorizadorID { get; set; }
+
+        public ICollection<ColaboradorXProcesoEvaluacion> PersonaXProcesoEvaluaciones { get; set; }
 
         public ProcesoEvaluacionDTO() { }
         public ProcesoEvaluacionDTO(ProcesoEvaluacion p)

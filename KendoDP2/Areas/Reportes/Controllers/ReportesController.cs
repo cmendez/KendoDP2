@@ -114,6 +114,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 ObjetivoRDTO ob4 = new ObjetivoRDTO();
                 ob4.idObjetivo = 4;
                 ob4.descripcion = "Objetivo4";
+                ob4.descripcion = "Objetivo4";
                 ListaObjetivos.Add(ob4);
 
                 List<ObjetivoRDTO> ListaObjetivos2 = new List<ObjetivoRDTO>();
@@ -218,6 +219,14 @@ namespace KendoDP2.Areas.Reportes.Controllers
             }
         }
 
+        //public ActionResult PostulacionySeleccion(int idpuesto)
+        //{
+        //    using (DP2Context context = new DP2Context())
+        //    {
+        //        List<BSCAvanceDTO> ListaAvanceBSC = context.TablaOfertaLaborales.Where()Select(p => p.ToRAvanceBSCDTO()).ToList();
+        //        return Json(ListaAvanceBSC, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
         
         //public ActionResult SeleccionXUniversidades(int idPuesto, string fecha)
         //{
