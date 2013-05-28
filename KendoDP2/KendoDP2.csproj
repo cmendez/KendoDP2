@@ -1983,6 +1983,8 @@
     <Content Include="Views\Shared\_NoLayout.cshtml" />
     <Content Include="Views\Shared\_CustomJavascripts.cshtml" />
     <Content Include="Views\Public\Index.cshtml" />
+    <Content Include="Views\Shared\_PublicLayout.cshtml" />
+    <Content Include="Views\Shared\_PublicNavigationBar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
