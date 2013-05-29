@@ -222,6 +222,10 @@
     <Compile Include="Areas\Evaluacion360\Models\GestorServiciosPrivados.cs" />
     <Compile Include="Areas\Evaluacion360\Models\TipoEvaluador.cs" />
     <Compile Include="Areas\Eventos\EventosAreaRegistration.cs" />
+    <Compile Include="Areas\Eventos\Models\DP2Context.cs" />
+    <Compile Include="Areas\Eventos\Models\EstadoEvento.cs" />
+    <Compile Include="Areas\Eventos\Models\Evento.cs" />
+    <Compile Include="Areas\Eventos\Models\Invitado.cs" />
     <Compile Include="Areas\Objetivos\Controllers\AcordionController.cs" />
     <Compile Include="Areas\Objetivos\Controllers\MisObjetivosController.cs" />
     <Compile Include="Areas\Objetivos\Controllers\ObjetivosEmpresaController.cs" />
@@ -2016,7 +2020,6 @@
     <Folder Include="Areas\Configuracion\Views\Shared\" />
     <Folder Include="Areas\Evaluacion360\Views\Shared\" />
     <Folder Include="Areas\Eventos\Controllers\" />
-    <Folder Include="Areas\Eventos\Models\" />
     <Folder Include="Areas\Eventos\Views\Shared\" />
     <Folder Include="Areas\Objetivos\Views\Shared\" />
     <Folder Include="Areas\Personal\Views\Colaboradores\" />

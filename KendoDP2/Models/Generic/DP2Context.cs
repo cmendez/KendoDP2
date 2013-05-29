@@ -25,6 +25,7 @@ namespace KendoDP2.Models.Generic
             RegistrarTablasEvaluacion360();
             RegistrarTablasObjetivos();
             RegistrarTablasReclutamiento();
+            RegistrarTablasEventos();
         }
 
         //Seeds
@@ -79,6 +80,11 @@ namespace KendoDP2.Models.Generic
             seedProcesosDeEvaluacion();
             //seedColaboradorXProcesoEvaluacion();
             //SeedEvaluacion();
+
+            // Area Eventos
+            SeedEstadoEvento();
+            SeedEvento();
+            SeedInvitado();
         }
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
