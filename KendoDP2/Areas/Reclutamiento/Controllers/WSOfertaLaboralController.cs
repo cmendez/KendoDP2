@@ -59,13 +59,16 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 
         }
 
-        public JsonResult getOfertasLaboralesXEstado(string estado)
+        public JsonResult getOfertasLaboralesXEstado(string estadoOfertaLaboral)
         {
             using (DP2Context context = new DP2Context())
             {
                 try
                 {
-                    return JsonSuccessGet();
+                    EstadosSolicitudOfertaLaboral e = context.TablaEstadosSolicitudes.One(x => x.Descripcion.Equals(estadoOfertaLaboral));
+                    List<OfertaLaboralDTO> ofertas = context.TablaOfertaLaborales
+                        .Where(x => x.EstadoSolicitudOfertaLaboralID == e.ID).Select(x => x.ToDTO()).ToList();
+                    return JsonSuccessGet(ofertas);
                 }
                 catch (Exception ex)
                 {
