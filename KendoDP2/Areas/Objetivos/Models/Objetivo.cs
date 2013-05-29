@@ -159,7 +159,7 @@ namespace KendoDP2.Areas.Objetivos.Models
             BSCID = o.GetBSCIDRaiz(context);
 
             FechaCreacion = o.FechaCreacion.HasValue ? o.FechaCreacion.GetValueOrDefault().ToString("dd/MM/yyyy") : String.Empty;
-            FechaFinalizacion = o.FechaCreacion.HasValue ? o.FechaCreacion.GetValueOrDefault().ToString("dd/MM/yyyy") : String.Empty;
+            FechaFinalizacion = o.FechaFinalizacion.HasValue ? o.FechaFinalizacion.GetValueOrDefault().ToString("dd/MM/yyyy") : String.Empty;
 
             //PeriodoID = o.PeriodoID;
 
