@@ -105,14 +105,18 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                     List<ColaboradorDTO> lista = new List<ColaboradorDTO>();
                     foreach (var puesto in puestosDebajoJefe)
                     {
-                        Colaborador colaboradorDebajoJefe = context.TablaColaboradoresXPuestos
-                            .One(x => x.PuestoID == puesto.ID && !x.FechaSalidaPuesto.HasValue).Colaborador;
+                        ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos
+                            .One(x => x.PuestoID == puesto.ID && !x.FechaSalidaPuesto.HasValue);
+                        if(cxp == null) continue;
+                        Colaborador colaboradorDebajoJefe = cxp.Colaborador;
                         List<Puesto> puestosDebajoAmiwi = context.TablaPuestos.Where(x => x.PuestoSuperiorID == puesto.ID);
                         List<ColaboradorDTO> lista2 = new List<ColaboradorDTO>();
                         foreach (var puesto2 in puestosDebajoAmiwi)
                         {
-                            Colaborador colaboradorDebajoAmiwi = context.TablaColaboradoresXPuestos
-                                .One(x => x.PuestoID == puesto2.ID && !x.FechaSalidaPuesto.HasValue).Colaborador;
+                            cxp = context.TablaColaboradoresXPuestos
+                                .One(x => x.PuestoID == puesto2.ID && !x.FechaSalidaPuesto.HasValue);
+                            if(cxp == null) continue;
+                            Colaborador colaboradorDebajoAmiwi = cxp.Colaborador;
                             lista2.Add(new ColaboradorDTO(colaboradorDebajoAmiwi));
                         }
                         ColaboradorDTO aux2 = new ColaboradorDTO(colaboradorDebajoJefe, lista2);

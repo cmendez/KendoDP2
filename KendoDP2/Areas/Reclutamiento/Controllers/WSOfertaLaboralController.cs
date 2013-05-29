@@ -58,5 +58,20 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             }
 
         }
+
+        public JsonResult getOfertasLaboralesXEstado(string estado)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                try
+                {
+                    return JsonSuccessGet();
+                }
+                catch (Exception ex)
+                {
+                    JsonErrorGet("Error en la BD: " + ex.Message);
+                }
+            }
+        }
     }
 }
