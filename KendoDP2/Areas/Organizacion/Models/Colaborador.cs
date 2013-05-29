@@ -180,9 +180,11 @@ namespace KendoDP2.Areas.Organizacion.Models
 
         public List<ObjetivoDTO> Objetivos { get; set; }
 
+        public List<ColaboradorDTO> Subordinados { get; set; }
+
         public ColaboradorDTO() { }
 
-        public ColaboradorDTO(Colaborador c)
+        public ColaboradorDTO(Colaborador c, List<ColaboradorDTO> listac = null)
         {
             NombreCompleto = c.ApellidoPaterno + " " + c.ApellidoMaterno + ", " + c.Nombres;
             ID = c.ID;
@@ -203,6 +205,8 @@ namespace KendoDP2.Areas.Organizacion.Models
             FechaNacimiento = c.FechaNacimiento;
             FechaIngreso = c.FechaIngresoEmpresa;
             ResumenEjecutivo = c.ResumenEjecutivo;
+
+            Subordinados = listac;
 
             try {
                 ColaboradorXPuesto cruce = c.ColaboradoresPuesto. OrderByDescending(a => a.ID).First();

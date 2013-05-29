@@ -11,9 +11,12 @@
     SelectList comboTipoDocumentos = new SelectList(tipodocumentos, "ID", "Descripcion");
     SelectList comboGradosAcademicos = new SelectList(gradosacademicos, "ID", "Descripcion");
 }
+@using (Ajax.BeginForm(new AjaxOptions {HttpMethod = "POST", Url = Url.Action("Postular", "Public")} )) 
+{
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     @Html.HiddenFor(m => m.ID)
+    @Html.Hidden("ofertaID", ofertaID)
     <div  style="width:900px;">
         <div class="row-fluid">
             <!-- contenedor superior izquierdo: campos -->
@@ -139,7 +142,7 @@
     </div>
     <!-- contenedor inferior: campos -->
 
-    <a class="btn green" href="javascript:Postular();"> Postular </a>
+    <a class="btn green" href="javascript:submitForm();"> Postular </a>
     <a class="btn green" href="javascript:Cancelar();"> Cancelar </a>
 
 <script>
@@ -148,7 +151,9 @@
         //           status = $(".status");
         //if (validator.validate()) {
         $("#form0").submit();
-        alert('Se actualizaron los datos');
+        $("#datagrid").data('kendoGrid').dataSource.read();
+        $("#Details2").data('kendoWindow').close();
+        aalert("Postulacion efectuada con exito");
         //}
     }
 
@@ -172,3 +177,4 @@
                 $("#Details2").data('kendoWindow').close();
             }})}
 </script>
+}

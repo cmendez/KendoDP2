@@ -7,6 +7,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     IList<PuestoDTO> puestos = ViewBag.puestos;
     IList<CompetenciaDTO> competencias = ViewBag.competencias;
+    int puestoID = ViewBag.puestoID;
+    int index = 0;
+    for(int i = 0; i < puestos.Count; i++){
+        if(puestos[i].ID == puestoID){
+            index = i;
+        }
+    }
     //IList<NivelCapacidadDTO> niveles = ViewBag.niveles;
 }
 
@@ -32,7 +39,7 @@
                     .Suggest(true)
                     .HtmlAttributes(new { style = "width:100%" })
                     .Events(e => e.Close("comboPuestosSelection"))
-                    .SelectedIndex(0)
+                    .SelectedIndex(index)
                 )
 
 @*                @{var comboPuesto = Html.Kendo().ComboBox()
@@ -57,7 +64,7 @@
                     <div class="tabbable tabbable-custom tabs-left">
                     <!-- Only required for left/right tabs -->
                     <ul class="nav nav-tabs tabs-left">
-                        <li class="active"><a href="#tab_competencias_@(puesto.ID)" data-toggle="tab">Competencias</a></li>
+                        <li class="active"><a href="#tab_competencias_@(puesto.ID)" data-toggle="tab">Funciones</a></li>
                        
                     </ul>
                     <div class="tab-content">
