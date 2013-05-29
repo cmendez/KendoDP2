@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Globalization;
 
 namespace KendoDP2.Areas.Objetivos.Models
 {
@@ -158,8 +159,8 @@ namespace KendoDP2.Areas.Objetivos.Models
             ObjetivoPadreID = o.ObjetivoPadreID.GetValueOrDefault();
             BSCID = o.GetBSCIDRaiz(context);
 
-            FechaCreacion = o.FechaCreacion.HasValue ? o.FechaCreacion.GetValueOrDefault().ToString("dd/MM/yyyy") : String.Empty;
-            FechaFinalizacion = o.FechaFinalizacion.HasValue ? o.FechaFinalizacion.GetValueOrDefault().ToString("dd/MM/yyyy") : String.Empty;
+            FechaCreacion = o.FechaCreacion.HasValue ? o.FechaCreacion.GetValueOrDefault().ToString("D", new CultureInfo("es-ES")) : String.Empty;
+            FechaFinalizacion = o.FechaFinalizacion.HasValue ? o.FechaFinalizacion.GetValueOrDefault().ToString("D", new CultureInfo("es-ES")) : String.Empty;
 
             //PeriodoID = o.PeriodoID;
 
