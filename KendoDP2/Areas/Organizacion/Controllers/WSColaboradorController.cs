@@ -145,7 +145,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return JsonErrorGet();
+                    return JsonErrorGet("Error en la BD: " + ex.Message);
                 }
 
             }

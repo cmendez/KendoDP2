@@ -246,7 +246,7 @@
     <Compile Include="Areas\Organizacion\Models\PuestoXArea.cs" />
     <Compile Include="Areas\Organizacion\Models\EstadosPuesto.cs" />
     <Compile Include="Areas\Reclutamiento\Models\EstadoPostulantePorOferta.cs" />
-    <Compile Include="Areas\Reclutamiento\OrganizacionAreaRegistration.cs" />
+    <Compile Include="Areas\Organizacion\OrganizacionAreaRegistration.cs" />
     <Compile Include="Areas\Organizacion\Controllers\ColaboradoresController.cs" />
     <Compile Include="Areas\Organizacion\Models\Area.cs" />
     <Compile Include="Areas\Organizacion\Models\ColaboradorXPuesto.cs" />
