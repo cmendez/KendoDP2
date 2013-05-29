@@ -133,5 +133,22 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             }
 
         }
+
+        public JsonResult getEventos(string colaboradorID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                try
+                {
+
+                    return JsonSuccessGet();
+                }
+                catch (Exception ex)
+                {
+                    return JsonErrorGet();
+                }
+
+            }
+        }
     }
 }
