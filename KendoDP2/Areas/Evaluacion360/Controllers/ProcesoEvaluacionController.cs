@@ -266,5 +266,16 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
               return View();
           }
       }
+
+        public ActionResult Editing_ReadCapEvaluacion([DataSourceRequest] DataSourceRequest request)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                int nivelID = 3;
+                int competenciaID = 1;
+                // return Json(context.TablaCapacidades.All().Select(x => x.ToDTO()).ToDataSourceResult(request));            
+                return Json(context.TablaCapacidades.Where(c => c.NivelCapacidadID == nivelID && c.CompetenciaID == competenciaID).OrderBy(y => y.CompetenciaID).Select(p => p.ToDTO()).ToDataSourceResult(request));
+            }
+        }
     }
 }
