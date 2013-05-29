@@ -139,6 +139,9 @@ namespace KendoDP2.Areas.Objetivos.Models
         public int TipoObjetivoBSCID { get; set; }
         public int ObjetivoPadreID { get; set; }
         public int BSCID { get; set; }
+
+        public DateTime? FechaDePropuesta { get; set; }
+        public DateTime? FechaFinalizacion { get; set; }
         
         public ObjetivoDTO() { }
         
@@ -151,8 +154,15 @@ namespace KendoDP2.Areas.Objetivos.Models
             Peso = o.Peso;
             AvanceFinal = o.AvanceFinal;
             TipoObjetivoBSCID = o.TipoObjetivoBSCID.GetValueOrDefault();
+
             ObjetivoPadreID = o.ObjetivoPadreID.GetValueOrDefault();
             BSCID = o.GetBSCIDRaiz(context);
+
+            FechaDePropuesta = o.FechaCreacion;
+            FechaFinalizacion = o.FechaFinalizacion;
+
+            //PeriodoID = o.PeriodoID;
+
         }
 
     }

@@ -100,7 +100,8 @@ namespace KendoDP2.Areas.BolsaTrabajo.Controllers
                 {
                     Postulante postulante = new Postulante(colaborador);
                     context.TablaPostulante.AddElement(postulante);
-                    OfertaLaboralXPostulante cruce = new OfertaLaboralXPostulante { Postulante = postulante, OfertaLaboral = oferta };
+                    EstadoPostulantePorOferta eo = context.TablaEstadoPostulanteXOferta.FindByID(1);
+                    OfertaLaboralXPostulante cruce = new OfertaLaboralXPostulante { Postulante = postulante, OfertaLaboral = oferta, EstadoPostulantePorOferta = eo };
                     context.TablaOfertaLaboralXPostulante.AddElement(cruce);
 
                     return Json(new { success = true });
