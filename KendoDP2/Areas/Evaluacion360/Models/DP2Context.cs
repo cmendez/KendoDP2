@@ -167,12 +167,12 @@ namespace KendoDP2.Models.Generic
             TablaProcesoEvaluaciones.AddElement(new ProcesoEvaluacion { AutorizadorID = 2, FechaCierre = new DateTime(2013, 12, 1), Nombre = "Proceso por defecto", EstadoProcesoEvaluacionID = TablaEstadoProcesoEvaluacion.One(e => e.Descripcion == ConstantsEstadoProcesoEvaluacion.Creado).ID });
         }
 
-       /* private void seedColaboradorXProcesoEvaluacion() 
+        /*private void seedColaboradorXProcesoEvaluacion() 
         {
-            TablaColaboradorXProcesoEvaluaciones.AddElement(new ColaboradorXProcesoEvaluacion { ColaboradorID=5, ProcesoEvaluacionID=1, EstadoColaboradorXProcesoEvaluacionID = 1, ReferenciasPorAreas=0, ReferenciaDirecta =true});
-            TablaColaboradorXProcesoEvaluaciones.AddElement(new ColaboradorXProcesoEvaluacion {  ColaboradorID=3, ProcesoEvaluacionID=1, EstadoColaboradorXProcesoEvaluacionID = 1, ReferenciasPorAreas=0, ReferenciaDirecta =true});
-        }
-        
+            TablaColaboradorXProcesoEvaluaciones.AddElement(new ColaboradorXProcesoEvaluacion { ColaboradorID=1, ProcesoEvaluacionID=1, EstadoColaboradorXProcesoEvaluacionID = TablaEstadoColaboradorXProcesoEvaluaciones.One(e=>e.Nombre==ConstantsEstadoColaboradorXProcesoEvaluacion.Pendiente).ID, ReferenciasPorAreas=0, ReferenciaDirecta =true});
+            TablaColaboradorXProcesoEvaluaciones.AddElement(new ColaboradorXProcesoEvaluacion { ColaboradorID =3, ProcesoEvaluacionID = 1, EstadoColaboradorXProcesoEvaluacionID = TablaEstadoColaboradorXProcesoEvaluaciones.One(e => e.Nombre == ConstantsEstadoColaboradorXProcesoEvaluacion.Pendiente).ID, ReferenciasPorAreas = 0, ReferenciaDirecta = true });
+        }*/
+        /*
         private void SeedEvaluacion() 
         {
             TablaEvaluaciones.AddElement(new Evaluacion { Nombre = "Evaluacion 1", FechaCierre = new DateTime(2013, 12, 15), Puntuacion = 0, EvaluadoID=3,EvaluadorID=5});

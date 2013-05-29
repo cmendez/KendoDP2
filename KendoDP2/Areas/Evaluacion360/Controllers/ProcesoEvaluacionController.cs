@@ -232,14 +232,14 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
-      [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult IniciarProcesoEvaluacion( int procesoID) 
+
+        public ActionResult IniciarProcesoEvaluacion(int procesoEvaluacionID) 
         {
             using (DP2Context context = new DP2Context()) 
             {
-                ProcesoEvaluacion p = context.TablaProcesoEvaluaciones.FindByID(procesoID, false);
-          
-                List<ColaboradorXProcesoEvaluacion> list = context.TablaColaboradorXProcesoEvaluaciones.Where(x => x.ProcesoEvaluacionID == procesoID);
+                ProcesoEvaluacion p = context.TablaProcesoEvaluaciones.FindByID(procesoEvaluacionID, false);
+
+                List<ColaboradorXProcesoEvaluacion> list = context.TablaColaboradorXProcesoEvaluaciones.Where(x => x.ProcesoEvaluacionID == procesoEvaluacionID);
                 using (CorreoController correoController = new CorreoController()){
                     correoController.EnviarEmailsInicio(list, p);
                 }
@@ -247,23 +247,23 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 EstadoProcesoEvaluacion enProceso = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso));
                 p.EstadoProcesoEvaluacion = enProceso;
                 context.TablaProcesoEvaluaciones.ModifyElement(p);
-                return Json(new { success = true });
-                //return View();
+                //return Json(new { success = true });
+                return View();
             }
         }
 
 
-      [AcceptVerbs(HttpVerbs.Post)]
-      public ActionResult CerrarProcesoEvaluacion(int procesoID)
+     
+        public ActionResult CerrarProcesoEvaluacion(int procesoEvaluacionID)
       {
           using (DP2Context context = new DP2Context())
           {
-              ProcesoEvaluacion proceso = context.TablaProcesoEvaluaciones.FindByID(procesoID);
+              ProcesoEvaluacion proceso = context.TablaProcesoEvaluaciones.FindByID(procesoEvaluacionID);
               //Procesar resultados parciales y modificar estados 
               EstadoProcesoEvaluacion terminado = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Terminado));
               proceso.EstadoProcesoEvaluacion = terminado;
               context.TablaProcesoEvaluaciones.ModifyElement(proceso);
-              return Json(new { success = true });
+              return View();
           }
       }
     }

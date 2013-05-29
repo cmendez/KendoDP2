@@ -53,6 +53,41 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
+        public ActionResult SeleccionarEvaluadores(int procesoEvaluacionID, int colaboradorID) {
+                                                          
+            using (DP2Context context = new DP2Context())
+            {
+
+                ViewBag.idEvaluado = colaboradorID * 100;
+                Colaborador colaborador = consigueAlEmpleado(colaboradorID);
+                Puesto suPerfil = consigueSuPerfil(colaboradorID);
+                List<PuestoXEvaluadores> puestoXEvaluadores = consigueSusEvaluadores(colaboradorID);
+
+                //foreach (PuestoXEvaluadores puestoXEvaluador in puestoXEvaluadores) {
+                //    puestoXEvaluador.Cantidad = 1;
+
+                //}
+                ViewBag.elEvaluado = colaborador.ToDTO();
+
+                ViewBag.puestoXEvaluadores = puestoXEvaluadores.Select(p => p.ToDTO()).ToList();
+
+                List<ColaboradorDTO> elJefe = new List<ColaboradorDTO>();
+                elJefe.Add(consigueSuJefe(colaboradorID).ToDTO());
+                ViewBag.suJefe = elJefe;
+                List<ColaboradorDTO> elMismo = new List<ColaboradorDTO>();
+                elMismo.Add(colaborador.ToDTO());
+                ViewBag.elMismo = elMismo;
+                ViewBag.susSubordinados = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
+                ViewBag.susPares = consigueSusPares(colaboradorID).Select(p => p.ToDTO()).ToList();
+                ViewBag.otros = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
+
+
+                ViewBag.Area = ""; //Solo es temporal
+                //ViewBag.susSubordinados = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
+                return View();
+            }
+        }
+
         public ActionResult enviar_evaluaciones(int evaluadoId, FormCollection form)
         {
 

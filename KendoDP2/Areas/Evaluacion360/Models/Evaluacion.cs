@@ -9,7 +9,6 @@ namespace KendoDP2.Areas.Evaluacion360.Models
     public class Evaluacion: DBObject 
     {
 
-        public String Nombre {get; set;}
         public DateTime FechaCierre { get; set; }
         //public int Estado;
         public int Puntuacion { get; set; }
