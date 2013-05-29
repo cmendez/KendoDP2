@@ -196,6 +196,7 @@
     <Compile Include="Areas\Evaluacion360\Controllers\CorreoController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\EvaluacionController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\EvaluadoresController.cs" />
+    <Compile Include="Areas\Evaluacion360\Controllers\GestorDatosDeColaboradoresController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\ProcesoEvaluacionController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\PuestosEvaluacionController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\RolEvaluadorController.cs" />
@@ -218,12 +219,12 @@
     <Compile Include="Areas\Evaluacion360\Models\ProcesoEvaluacion.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Evaluador.cs" />
     <Compile Include="Areas\Evaluacion360\Models\NivelCapacidad.cs" />
+    <Compile Include="Areas\Evaluacion360\Models\GestorServiciosPrivados.cs" />
     <Compile Include="Areas\Evaluacion360\Models\TipoEvaluador.cs" />
     <Compile Include="Areas\Objetivos\Controllers\AcordionController.cs" />
     <Compile Include="Areas\Objetivos\Controllers\MisObjetivosController.cs" />
     <Compile Include="Areas\Objetivos\Controllers\ObjetivosEmpresaController.cs" />
     <Compile Include="Areas\Objetivos\Controllers\ObjetivosSubordinadosController.cs" />
-    <Compile Include="Areas\Objetivos\Controllers\WSMisObjetivosController.cs" />
     <Compile Include="Areas\Objetivos\Controllers\WSObjetivosEmpresaController.cs" />
     <Compile Include="Areas\Objetivos\Models\DP2Context.cs" />
     <Compile Include="Areas\Objetivos\Models\Objetivo.cs" />
@@ -1858,6 +1859,7 @@
     <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesInternas\PostulantesFase2AprobarFase3.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesInternas\PostulantesFase3Contratar.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\EditorMotivoRechazo.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\Shared\ViewPostulanteInterno.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\areas_icon.png" />
     <Content Include="Images\favicon.ico" />

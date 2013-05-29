@@ -51,6 +51,7 @@ namespace KendoDP2.Models.Generic
             SeedPuestoXEvaluadores();
             SeedCapacidad();
             SeedCompetenciasXPuesto();
+            
             // Area Objetivos
             SeedTipoObjetivoBSC();
             // Area Organizacion (segunda parte)
@@ -76,6 +77,8 @@ namespace KendoDP2.Models.Generic
             SeedColaboradorXPuesto();
             // Area Evaluacion360
             seedProcesosDeEvaluacion();
+            //seedColaboradorXProcesoEvaluacion();
+            //SeedEvaluacion();
         }
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
