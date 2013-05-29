@@ -69,7 +69,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 }
                 catch (Exception ex)
                 {
-                    JsonErrorGet("Error en la BD: " + ex.Message);
+                    return JsonErrorGet("Error en la BD: " + ex.Message);
                 }
             }
         }
