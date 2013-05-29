@@ -1,0 +1,140 @@
+﻿@using Kendo.Mvc.UI
+@*using el nombre de espacios de Empleado*@
+@using KendoDP2.Areas.Organizacion.Models
+@using KendoDP2.Areas.Evaluacion360.Models
+
+@{
+    ViewBag.Title = "SeleccionarEvaluadores";    
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    IList<ColaboradorDTO> suJefe = ViewBag.suJefe;
+    IList<ColaboradorDTO> elMismo = ViewBag.elMismo;
+    IList<ColaboradorDTO> susSubordinados = ViewBag.susSubordinados;
+    IList<ColaboradorDTO> susPares = ViewBag.susPares;
+    IList<ColaboradorDTO> susClientes = ViewBag.Clientes;
+    IList<ColaboradorDTO> otros = ViewBag.otros;
+
+    //IList</*Subordinado*/ColaboradorDTO> suJefe = ViewBag.suJefe;        
+}
+@*<h2>Index</h2>
+
+<h3>@ViewBag.idEvaluado</h3>*@
+
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Evaluadores", "Seleccione los evaluadores para el evaluado"));}
+
+<div class="portlet box green">
+    <div class="portlet-title">
+        <h4><i class="icon-reorder"></i>Elección de evaluadores para @ViewBag.elEvaluado.NombreCompleto</h4>
+        <div class="tools">
+	        <a href="javascript:;" class="collapse"></a>
+        </div>
+	</div>
+    <div class="portlet-body">
+  
+        @*<div class="span12">*@
+        @*Jefes son un caso especial... para mas tarde.*@
+
+        @*<div class="">*@
+
+        @*@for(int i = 0; i < ViewBag.PuestoXEvaluadores.Cantidad; i++) {
+
+        *@
+        @*@ViewBag.elEvaluado.ID;*@
+
+        @using (Html.BeginForm("enviar_evaluaciones", "Evaluadores", new { evaluadoId = ViewBag.elEvaluado.ID }, FormMethod.Post))
+        {
+            foreach(PuestoXEvaluadoresDTO puestoEvaluador in ViewBag.PuestoXEvaluadores) {
+                if (puestoEvaluador.Cantidad > 0) {
+                    @puestoEvaluador.ClaseEntorno;
+                }
+                @*puestoEvaluador.ClaseEntorno.Replace(" ", string.Empty);*@
+                @*puestoEvaluador.Cantidad;  *@
+            
+                for(int i = 0 ; i < puestoEvaluador.Cantidad; i++)
+                {
+                    @*i;*@
+                    @(Html.Kendo().ComboBox().Name(puestoEvaluador.ClaseEntorno.Replace(" ", string.Empty) + "_" + i + "_" + "Combo")
+                        //.Name("Combo" + puestoEvaluador.ClaseEntorno + i)
+                        .Placeholder("Seleccione un colaborador")
+                        .DataTextField("NombreCompleto")
+                        .DataValueField("ID")
+                        .Filter("contains")
+                        .BindTo(puestoEvaluador.ClaseEntorno.CompareTo("El mismo") == 0  ? elMismo : 
+                                puestoEvaluador.ClaseEntorno.CompareTo("Jefe") == 0 ? suJefe : 
+                                puestoEvaluador.ClaseEntorno.CompareTo("Pares") == 0  ? susPares : 
+                                puestoEvaluador.ClaseEntorno.CompareTo("Subordinados") == 0  ? susSubordinados : 
+                                puestoEvaluador.ClaseEntorno.CompareTo("Clientes") == 0  ? susClientes : 
+                                puestoEvaluador.ClaseEntorno.CompareTo("Otros") == 0  ? otros : otros )
+                        .Suggest(true)
+                        .HtmlAttributes(new { style = "width:100%" })
+                        //.Events(e => e.Close("comboCompetenciasSelection"))
+                        .SelectedIndex(puestoEvaluador.ClaseEntorno.CompareTo("El mismo") == 0 || puestoEvaluador.ClaseEntorno.CompareTo("Jefe") == 0 ? 0 : -1)
+                        //.Enable(puestoEvaluador.ClaseEntorno.CompareTo("El mismo") == 0 || puestoEvaluador.ClaseEntorno.CompareTo("Jefe") == 0 ? false : true)
+                        );                
+                
+                
+                }         
+            }
+
+            @*</div>*@
+
+            @*<div class="span12">*@
+            <br />
+            <br />
+            @*<a href="@Url.Action("enviar_evaluaciones", "Evaluadores")" class="btn"><i class="icon-plus"></i> Enviar evaluaciones</a>*@
+            <input type="submit" value="Enviar evaluaciones"/>
+        }
+            @*@Html.ActionLink("Enviar evaluaciones", "enviar_evaluaciones")*@
+            @*</div>*@
+
+@*        <div>Jefe</div>
+
+            Html.Kendo().ComboBox()
+                .Name("ComboJefe")
+                //.Placeholder("Seleccione un subordinado")
+                .DataTextField("NombreCompleto")
+                .DataValueField("ID")
+                .Filter("contains")
+                .BindTo(susSubordinados)
+                .Suggest(true)
+                .HtmlAttributes(new { style = "width:100%" })
+                //.Events(e => e.Close("comboCompetenciasSelection"))
+                .SelectedIndex(1)
+                .Enable(false);
+
+        }*@
+        @*</div>*@
+
+        @*<div class="">*@
+            @*Subordinados:
+
+                    @(Html.Kendo().ComboBox()
+                        .Name("ComboSubordinados")
+                        .Placeholder("Seleccione un subordinado")
+                        .DataTextField("NombreCompleto")
+                        .DataValueField("ID")
+                        .Filter("contains")
+                        .BindTo(susSubordinados)
+                        .Suggest(true)
+                        .HtmlAttributes(new { style = "width:100%" })
+                        //.Events(e => e.Close("comboCompetenciasSelection"))
+                        .SelectedIndex(0)
+                    )
+
+                    @(Html.Kendo().ComboBox()
+                        .Name("ComboSubordinados2")
+                        .Placeholder("Seleccione un subordinado")
+                        .DataTextField("NombreCompleto")
+                        .DataValueField("ID")
+                        .Filter("contains")
+                        .BindTo(susSubordinados)
+                        .Suggest(true)
+                        .HtmlAttributes(new { style = "width:100%" })
+                        //.Events(e => e.Close("comboCompetenciasSelection"))
+                        .SelectedIndex(0)
+                    )*@
+        @*</div>*@
+
+
+    </div>
+</div>
