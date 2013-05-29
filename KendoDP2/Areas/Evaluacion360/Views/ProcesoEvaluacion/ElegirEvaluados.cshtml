@@ -6,6 +6,7 @@
     IList<KendoDP2.Areas.Organizacion.Models.ColaboradorDTO> colaboradores = ViewBag.colaboradores;
     IList<KendoDP2.Areas.Organizacion.Models.AreaDTO> areas = ViewBag.areas;
     IList<KendoDP2.Areas.Evaluacion360.Models.EstadoColaboradorXProcesoEvaluacionDTO> estados = ViewBag.estados;
+    SelectList lista = new SelectList(areas, "ID", "Nombre");
 }
 
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Elegir evaluados", "Elija los colaboradores evaluados en este proceso"));}
@@ -59,7 +60,8 @@
                         columns.Bound(p => p.ColaboradorDTO.ApellidoPaterno);
                         columns.Bound(p => p.ColaboradorDTO.ApellidoMaterno);
                         columns.Bound(p => p.ColaboradorDTO.Nombre);
-                        columns.Bound(p => p.ColaboradorDTO.Area);
+                        columns.ForeignKey((p => p.ColaboradorDTO.AreaID), lista);
+                        //columns.Bound(p => p.ColaboradorDTO.Area);
                         columns.Bound(p => p.ColaboradorDTO.Puesto);
                         columns.ForeignKey(p => p.EstadoColaboradorXProcesoEvaluacionID, new SelectList(estados, "ID", "Nombre"));
                         columns.Command(command =>
@@ -70,10 +72,9 @@
                 )
                 .ToolBar(toolbar => 
                     {
-                        toolbar.Custom().Text("Iniciar proceso").Action("IniciarProcesoEvaluacion", "ProcesoEvaluacion"); 
-                        toolbar.Custom().Text("Cerrar Proceso").Action("CerrarProcesoEvaluacion", "ProcesoEvaluacion");
-                        //toolbar.Template(@<text><a class='k-button'>Test toolbar</a></text>);
-                            //"<a class='k-button' href='" + Url.Action("ElegirEvaluados", "ProcesoEvaluacion") + ">Test toolbar</a>");
+                        //toolbar.Custom().Text("Iniciar proceso").Action("IniciarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" });
+                        //toolbar.Custom().Text("Cerrar Proceso").Action("CerrarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" });
+                        toolbar.Template(@<text><a class='k-button'  id='btnIniciar' href='javascript:IniciarProcesoEvaluacionJS()'>Iniciar Proceso Evaluación </a><a class='k-button' id='btnCerrar' href='javascript:CerrarProcesoEvaluacionJS()'>Cerrar Proceso Evaluación </a></text>);
                     }
                         )
                         .Editable(
@@ -170,6 +171,50 @@
             success: function(response){
                 cargaTiles();
                 $("#ColaboradoresDeProcesoEvaluacionGrid").data('kendoGrid').dataSource.read();
+            }
+        });
+    }
+
+    function CerrarProcesoEvaluacionJS(){
+        $.ajax({
+            url: '@Url.Action("CerrarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" })',
+             dataType: 'JSON',
+             type: 'POST',
+             data: {procesoID: @Model.ID},
+            success: function(data){
+                if(data.success){
+                    $("#ColaboradoresDeProcesoEvaluacionGrid").data('kendoGrid').dataSource.read();
+                    //$("#btnIniciar).
+                    alert("El proceso ha sido finalizado.");
+                }
+                else {
+                    
+                }
+            }
+         });
+    }
+
+    function IniciarProcesoEvaluacionJS(){
+        //Console.log("Iniciando proceso...");
+        if (false) // colocar validacion de total evaluados
+        {// mostrar alerta
+            // return
+        } 
+
+        $.ajax({
+            url: '@Url.Action("IniciarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" })',
+            dataType: 'JSON',
+            type: 'POST',
+            data: {procesoID: @Model.ID},
+            success: function(data){
+                if(data.success){
+                    $("#ColaboradoresDeProcesoEvaluacionGrid").data('kendoGrid').dataSource.read();
+                    //$("#btnIniciar).
+                    alert("El proceso ha sido iniciado");
+                }
+                else {
+                    
+                }
             }
         });
     }

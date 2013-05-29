@@ -20,15 +20,26 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             ViewBag.Area = "Objetivos";
         }
 
-        public ActionResult Index()
+        public ActionResult Index(int? colaboradorID)
         {
             using (DP2Context context = new DP2Context())
             {
-                int colaboradorID = DP2MembershipProvider.GetPersonaID(this);
-                int puestoID = context.TablaColaboradores.FindByID(colaboradorID).ToDTO().PuestoID;
-                Puesto puesto = context.TablaPuestos.FindByID(puestoID);
+                int colaboradorLogueadoID = DP2MembershipProvider.GetPersonaID(this);
+                colaboradorID = colaboradorID ?? colaboradorLogueadoID;
+                ViewBag.puedeCrear = ViewBag.puedeEditar = colaboradorID == colaboradorLogueadoID; 
                 ViewBag.periodos = context.TablaPeriodos.All().Select(c => c.ToDTO()).ToList();
-                ViewBag.objetivos = puesto.Objetivos.Select(c => c.ToDTO(context)).ToList();
+                ViewBag.colaboradores = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
+                int puestoID = context.TablaColaboradores.FindByID(colaboradorID.GetValueOrDefault()).ToDTO().PuestoID;
+                if (puestoID > 0)
+                {
+                    Puesto puesto = context.TablaPuestos.FindByID(puestoID);
+                    ViewBag.objetivos = puesto.Objetivos.Select(c => c.ToDTO(context)).ToList();
+                }
+                else
+                {
+                    ViewBag.objetivos = new List<ObjetivoDTO>();
+                }
+                ViewBag.colaboradorID = colaboradorID;
                 return View();
             }
         }
@@ -37,7 +48,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                return Json(context.TablaObjetivos.Where(o => o.ObjetivoPadreID == objetivoPadreID && o.PuestoAsignadoID == null).Select(o => o.ToDTO(context)).ToDataSourceResult(request));
+                return Json(context.TablaObjetivos.Where(o => o.ObjetivoPadreID == objetivoPadreID && o.PuestoAsignadoID == null).Select(o => o.ToDTO(context)).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
             }
         }
 

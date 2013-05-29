@@ -32,6 +32,7 @@ namespace KendoDP2.Models.Generic
         public DbSet<PuestoXEvaluadores> InternalPuestoXEvaluadores { get; set; }
         public DbSet<CompetenciaXPuesto> InternalCompetenciaXPuesto { get; set; }
         public DbSet<AreaXProcesoEvaluacion> InternalAreaXProcesoEvaluaciones { get; set; }
+        public DbSet<ProcesoXEvaluado> InternalProcesoXEvaluado { get; set; }
 
         public DBGenericRequester<Competencia> TablaCompetencias { get; set; }
         public DBGenericRequester<Capacidad> TablaCapacidades { get; set; }
@@ -47,7 +48,9 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<PuestoXEvaluadores> TablaPuestoXEvaluadores { get; set; }
         public DBGenericRequester<CompetenciaXPuesto> TablaCompetenciaXPuesto { get; set; }
         public DBGenericRequester<AreaXProcesoEvaluacion> TablaAreaXProcesoEvaluaciones { get; set; }
+        public DBGenericRequester<ProcesoXEvaluado> TablaProcesoXEvaluado { get; set; }
         public DBGenericRequester<EstadoProcesoEvaluacion> TablaEstadoProcesoEvaluacion { get; set; }
+
 
         private void RegistrarTablasEvaluacion360()
         {
@@ -65,9 +68,9 @@ namespace KendoDP2.Models.Generic
             TablaPuestoXEvaluadores = new DBGenericRequester<PuestoXEvaluadores>(this, InternalPuestoXEvaluadores);
             TablaCompetenciaXPuesto = new DBGenericRequester<CompetenciaXPuesto>(this, InternalCompetenciaXPuesto);
             TablaAreaXProcesoEvaluaciones = new DBGenericRequester<AreaXProcesoEvaluacion>(this, InternalAreaXProcesoEvaluaciones);
+            TablaProcesoXEvaluado = new DBGenericRequester<ProcesoXEvaluado>(this, InternalProcesoXEvaluado);
             TablaEstadoProcesoEvaluacion = new DBGenericRequester<EstadoProcesoEvaluacion>(this, InternalEstadoProcesoEvaluacion);
-
-      }
+		}
 
         // Area Evaluacion360
 
@@ -92,19 +95,37 @@ namespace KendoDP2.Models.Generic
         {
             //TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(TablaPuestos.One(p => p.Nombre.Eq a.Nombre.Equals("La gran Área")).ID));
 
-            int puestoPresidenteID = TablaPuestos.One(p => p.Nombre.Equals("Presidente")).ID;
+            List<Puesto> losPuestos = TablaPuestos.All();
+
+            foreach (Puesto puesto in losPuestos)
+            {
+                int suID = puesto.ID;
 
 
-            TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoPresidenteID, true, "El mismo", 1, 50));
-            TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoPresidenteID, true, "Jefe", 1, 50));
-            TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoPresidenteID, false, "Pares", 0, 0));
-            TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoPresidenteID, false, "Subordinados", 0, 0));
-            TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoPresidenteID, false, "Clientes", 0, 0));
-            TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoPresidenteID, false, "Otros", 0, 0));
+                TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(suID, true, "El mismo", 1, 50));
+                TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(suID, true, "Jefe", 1, 25));
+                TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(suID, false, "Pares", 0, 0));
+                TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(suID, false, "Subordinados", 2, 25));
+                TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(suID, false, "Clientes", 0, 0));
+                TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(suID, false, "Otros", 0, 0));
+
+
+            }
+
+            //int puestoPresidenteID = TablaPuestos.One(p => p.Nombre.Equals("Presidente")).ID;
+
+
+            //TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoPresidenteID, true, "El mismo", 1, 50));
+            //TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoPresidenteID, true, "Jefe", 1, 25));
+            //TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoPresidenteID, false, "Pares", 0, 0));
+            //TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoPresidenteID, false, "Subordinados", 2, 25));
+            //TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoPresidenteID, false, "Clientes", 0, 0));
+            //TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoPresidenteID, false, "Otros", 0, 0));
 
 
         }
 
+        
         private void SeedPerfiles()
         {
             TablaPerfiles.AddElement(new Perfil("Gerente general"));
@@ -137,7 +158,24 @@ namespace KendoDP2.Models.Generic
         private void SeedEstadoPersonaXProcesoEvaluaciones()
         {
             TablaEstadoColaboradorXProcesoEvaluaciones.AddElement(new EstadoColaboradorXProcesoEvaluacion { Nombre = ConstantsEstadoColaboradorXProcesoEvaluacion.Pendiente });
+            TablaEstadoColaboradorXProcesoEvaluaciones.AddElement(new EstadoColaboradorXProcesoEvaluacion { Nombre = ConstantsEstadoColaboradorXProcesoEvaluacion.Iniciado });
             TablaEstadoColaboradorXProcesoEvaluaciones.AddElement(new EstadoColaboradorXProcesoEvaluacion { Nombre = ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado });
         }
+
+        private void seedProcesosDeEvaluacion()
+        {
+            TablaProcesoEvaluaciones.AddElement(new ProcesoEvaluacion { AutorizadorID = 2, FechaCierre = new DateTime(2013, 12, 1), Nombre = "Proceso por defecto", EstadoProcesoEvaluacionID = TablaEstadoProcesoEvaluacion.One(e => e.Descripcion == ConstantsEstadoProcesoEvaluacion.Creado).ID });
+        }
+
+       /* private void seedColaboradorXProcesoEvaluacion() 
+        {
+            TablaColaboradorXProcesoEvaluaciones.AddElement(new ColaboradorXProcesoEvaluacion { ColaboradorID=5, ProcesoEvaluacionID=1, EstadoColaboradorXProcesoEvaluacionID = 1, ReferenciasPorAreas=0, ReferenciaDirecta =true});
+            TablaColaboradorXProcesoEvaluaciones.AddElement(new ColaboradorXProcesoEvaluacion {  ColaboradorID=3, ProcesoEvaluacionID=1, EstadoColaboradorXProcesoEvaluacionID = 1, ReferenciasPorAreas=0, ReferenciaDirecta =true});
+        }
+        
+        private void SeedEvaluacion() 
+        {
+            TablaEvaluaciones.AddElement(new Evaluacion { Nombre = "Evaluacion 1", FechaCierre = new DateTime(2013, 12, 15), Puntuacion = 0, EvaluadoID=3,EvaluadorID=5});
+        }*/
     }
 }

@@ -47,6 +47,18 @@ namespace KendoDP2.Areas.Organizacion.Models
             }
             return capacidades;
         }
+
+        public void ReparteObjetivosASubordinados(DP2Context context)
+        {
+            foreach (var objetivoAbuelo in this.Objetivos) foreach (var objetivoPadre in objetivoAbuelo.ObjetivosHijos) 
+                foreach (var objetivoIntermedio in objetivoPadre.ObjetivosHijos.Where(c => c.IsObjetivoIntermedio))
+                    foreach (var puestoHijo in this.Puestos)
+                        if (!puestoHijo.Objetivos.Any(x => x.ObjetivoPadreID == objetivoIntermedio.ID))
+                        {
+                            Objetivo nuevo = new Objetivo { Nombre = objetivoIntermedio.Nombre, ObjetivoPadre = objetivoIntermedio, PuestoAsignado = puestoHijo };
+                            context.TablaObjetivos.AddElement(nuevo);
+                        }
+        }
         
         public Puesto() { }
 
@@ -61,11 +73,6 @@ namespace KendoDP2.Areas.Organizacion.Models
             LoadFromDTO(a);
         }
 
-       // public Puesto(PuestoDTO p)
-        //{
-       //     LoadFromDTO(p);
-        //}
-
         public Puesto LoadFromDTO(PuestoDTO p)
         {
             ID = p.ID;
@@ -75,7 +82,6 @@ namespace KendoDP2.Areas.Organizacion.Models
             if (p.PuestoSuperiorID > 0) PuestoSuperiorID = p.PuestoSuperiorID;
             return this;
         }
-
 
         public PuestoDTO ToDTO()
         {

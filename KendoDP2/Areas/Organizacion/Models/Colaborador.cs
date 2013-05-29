@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using KendoDP2.Areas.Evaluacion360.Models;
 using System.ComponentModel.DataAnnotations.Schema;
+using KendoDP2.Models.Generic;
 
 namespace KendoDP2.Areas.Organizacion.Models
 {
@@ -177,10 +178,13 @@ namespace KendoDP2.Areas.Organizacion.Models
         [DisplayName("Nueva Contraseña")]
         public string NuevaContrasenha { get; set; }
 
+        public List<ObjetivoDTO> Objetivos { get; set; }
+
+        public List<ColaboradorDTO> Subordinados { get; set; }
 
         public ColaboradorDTO() { }
 
-        public ColaboradorDTO(Colaborador c)
+        public ColaboradorDTO(Colaborador c, List<ColaboradorDTO> listac = null)
         {
             NombreCompleto = c.ApellidoPaterno + " " + c.ApellidoMaterno + ", " + c.Nombres;
             ID = c.ID;
@@ -202,6 +206,8 @@ namespace KendoDP2.Areas.Organizacion.Models
             FechaIngreso = c.FechaIngresoEmpresa;
             ResumenEjecutivo = c.ResumenEjecutivo;
 
+            Subordinados = listac;
+
             try {
                 ColaboradorXPuesto cruce = c.ColaboradoresPuesto. OrderByDescending(a => a.ID).First();
                 AreaID = cruce.Puesto.AreaID;
@@ -213,6 +219,20 @@ namespace KendoDP2.Areas.Organizacion.Models
                 AreaID = 0;
                 PuestoID = 0;
                 Sueldo = 0;
+            }
+
+
+            
+
+            try
+            {
+                //Objetivos = c.Objetivos.Select(o => o.ToDTO()).ToList();
+                Objetivos = c.Objetivos.Select(o => o.ToDTO(new DP2Context())).ToList();
+            }
+            catch (Exception)
+            {
+                //Objetivos no se han cargado
+                Objetivos = new List<ObjetivoDTO>();
             }
 
 
