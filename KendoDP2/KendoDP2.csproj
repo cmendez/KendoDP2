@@ -1842,7 +1842,6 @@
     <Content Include="Areas\Evaluacion360\Views\RolEvaluador\Index.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\Evaluadores\enviar_evaluaciones.cshtml" />
     <Content Include="Areas\Objetivos\Views\Acordion\Index.cshtml" />
-    <Content Include="Areas\Organizacion\Views\Puestos\ElegirFunciones.cshtml" />
     <Content Include="Areas\Organizacion\Views\Funciones\Index.cshtml" />
     <Content Include="Areas\BolsaTrabajo\Views\ConvocatoriasInternas\Index.cshtml" />
     <Content Include="Areas\BolsaTrabajo\Views\Shared\ViewOfertaLaboralInterna.cshtml" />
@@ -1854,7 +1853,6 @@
     <Content Include="Areas\BolsaTrabajo\Views\Web.config" />
     <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesInternas\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Funciones\Index.cshtml" />
-    <Content Include="Areas\Organizacion\Views\Puestos\ElegirFunciones.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesInternas\AprobarPorFasePostulantesOfertaLaboral.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesInternas\PostulantesFase1AprobarFase2.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesInternas\PostulantesFase2AprobarFase3.cshtml" />

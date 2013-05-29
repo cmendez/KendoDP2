@@ -44,7 +44,7 @@
                         c.ForeignKey(p => p.AreaID, new SelectList(areas, "ID", "Nombre"));
                         c.ForeignKey(p => p.PuestoSuperiorID, new SelectList(puestos, "ID", "Nombre"));
                         c.Template(@<text></text>).Title("Funciones").ClientTemplate(
-                        "<a class='k-button' href='" + Url.Action("ElegirFunciones", "Puestos") + "?puestoID=#=ID#'>Funciones</a>");
+                        "<a class='k-button' href='" + Url.Action("Index", "Funciones") + "?puestoID=#=ID#'>Funciones</a>");
                         c.Command(cmd =>
                         {
                             cmd.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar");
