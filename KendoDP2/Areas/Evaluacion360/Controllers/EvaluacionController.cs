@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KendoDP2.Models.Generic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,11 +16,19 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             : base()
         {
             ViewBag.Area = "Evaluacion360";
+            
         }
 
         public ActionResult Index()
         {
-            return View();
+            // Recibir esta variable como parámetro
+            int evaluadoID = 2;
+            using (DP2Context context = new DP2Context())
+            {
+                ViewBag.evaluado = context.TablaColaboradores.One(c => c.ID == evaluadoID).ToDTO();
+                    //context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
+                return View();
+            }
         }
 
     }

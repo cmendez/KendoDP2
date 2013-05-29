@@ -1,8 +1,11 @@
 ﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Organizacion.Models
 @using KendoDP2.Areas.Evaluacion360.Models
 @{
     ViewBag.Title = "Evaluación";
-    Layout = "~/Views/Shared/_Layout.cshtml";  
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ColaboradorDTO evaluado = ViewBag.evaluado;
+     
 }
 
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Evaluación", "Rinda sus evaluaciones asignadas."));}
@@ -18,6 +21,27 @@
         <div>
             <a class="k-button k-button-icontext k-add-button" href="#"><span class="k-icon k-add"></span>Terminar evaluación</a>
         </div>  
+        <h5> Datos del evaluado </h5>
+        <div class="k-pager-wrap">
+            <div class="row-fluid">
+                <div class="span8 profile-info">
+                    <h3>@evaluado.NombreCompleto</h3>
+                    <p>@evaluado.Puesto</p>
+                    <p>@evaluado.Area</p>
+                    <ul class="unstyled inline">
+                        <li><i class="icon-calendar"></i> @evaluado.FechaIngreso</li>
+                        <li><i class="icon-map-marker"></i> </li>
+                        <li><i class="icon-star"></i> Cantinflas </li>
+                    </ul>
+                </div>
+                <!--end span8-->
+            </div>
+            <!--end row-fluid-->
+        </div>
+         <!--end k-pager-wrap-->
+
+         Aquí se listan las preguntas...
+
         @(Html.Kendo().ListView<Evaluacion>()
             .Name("listView")
             .TagName("div")
