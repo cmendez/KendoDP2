@@ -7,6 +7,7 @@ using KendoDP2.Models.Generic;
 using KendoDP2.Areas.Organizacion.Models;
 using KendoDP2.Areas.Reportes.Models;
 using KendoDP2.Areas.Objetivos.Models;
+using KendoDP2.Areas.Reclutamiento.Models;
 using ExtensionMethods;
 
 namespace KendoDP2.Areas.Reportes.Controllers
@@ -219,14 +220,36 @@ namespace KendoDP2.Areas.Reportes.Controllers
             }
         }
 
-        //public ActionResult PostulacionySeleccion(int idpuesto)
-        //{
-        //    using (DP2Context context = new DP2Context())
-        //    {
-        //        List<BSCAvanceDTO> ListaAvanceBSC = context.TablaOfertaLaborales.Where()Select(p => p.ToRAvanceBSCDTO()).ToList();
-        //        return Json(ListaAvanceBSC, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
+        public ActionResult PostulacionySeleccion(int idpuesto)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                //List<OfertaLaboralDTO> ListaOfertas = context.TablaOfertaLaborales.Where(p => p.PuestoID==idpuesto).Select(p => p.Postulantes).ToList();
+                //List<OfertaLaboralXPostulante> ListaOfertas = context.TablaOfertaLaborales.Where(p => p.PuestoID==idpuesto).Select(p => p.Postulantes);
+                List<PostulanteDTO> ListaPostulantes =context.TablaOfertaLaboralXPostulante.Where(p => p.OfertaLaboral.PuestoID==idpuesto).Select(p=>p.Postulante.ToDTO()).ToList();
+                List<ROfertasLaborales> ListaROfertas = new  List<ROfertasLaborales>() ;
+                
+                foreach (PostulanteDTO pos in ListaPostulantes)
+                {
+                    ROfertasLaborales prov = ListaROfertas.Find(p => p.nombreProveniencia == pos.CentroEstudios);
+
+                    if (prov == null)
+                    {
+                        prov = new ROfertasLaborales();
+                        prov.nombreProveniencia = pos.CentroEstudios;
+                        prov.cantPostulantes = 1;
+                        prov.cantElegidos = 0;
+                        ListaROfertas.Add(prov);
+                    }
+                    else
+                    {
+                        prov.cantPostulantes += 1;
+                    }
+                };
+                
+                return Json(ListaROfertas, JsonRequestBehavior.AllowGet);
+            }
+        }
         
         //public ActionResult SeleccionXUniversidades(int idPuesto, string fecha)
         //{
