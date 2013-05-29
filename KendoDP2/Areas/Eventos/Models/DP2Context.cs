@@ -8,7 +8,7 @@ using KendoDP2.Areas.Eventos.Models;
 
 namespace KendoDP2.Models.Generic
 {
-    public partial class DP2Context : DBObject
+    public partial class DP2Context : DbContext
     {
         public DbSet<Evento> InternalEventos { get; set; }
         public DbSet<EstadoEvento> InternalEstadoEvento { get; set; }
