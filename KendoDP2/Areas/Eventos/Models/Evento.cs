@@ -5,6 +5,7 @@ using System.Web;
 
 using KendoDP2.Models.Generic;
 using KendoDP2.Areas.Organizacion.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KendoDP2.Areas.Eventos.Models
 {
@@ -22,23 +23,23 @@ namespace KendoDP2.Areas.Eventos.Models
         public int CreadorID { get; set; }
         public virtual Colaborador Creador { get; set; }
 
+        [InverseProperty("Evento")]
         public virtual ICollection<Invitado> Invitados { get; set; }
 
         public Evento() { }
         public Evento(EventoDTO e)
         {
+            ID = e.ID;
             Nombre = e.Nombre;
             Inicio = Convert.ToDateTime(e.Inicio);
             Fin = Convert.ToDateTime(e.Fin);
             EstadoID = e.EstadoID;
-
+            CreadorID = e.CreadorID;
         }
-
         public Evento LoadFromDTO(EventoDTO e)
         {
             return this;
         }
-
         public EventoDTO ToDTO()
         {
             return new EventoDTO(this);
@@ -47,7 +48,7 @@ namespace KendoDP2.Areas.Eventos.Models
 
     public class EventoDTO
     {
-
+        public int ID { get; set; }
         public string Nombre { get; set; }
         public string Inicio { get; set; }
         public string Fin { get; set; }
@@ -62,8 +63,10 @@ namespace KendoDP2.Areas.Eventos.Models
 
         public List<ColaboradorDTO> Invitados { get; set; }
 
+        public EventoDTO() { }
         public EventoDTO(Evento e)
         {
+            ID = e.ID;
             Nombre = e.Nombre;
             Inicio = e.Inicio.ToString("dd/MM/yyyy");
             Fin = e.Fin.ToString("dd/MM/yyyy");
@@ -75,7 +78,7 @@ namespace KendoDP2.Areas.Eventos.Models
             Invitados = new List<ColaboradorDTO>();
             foreach (var invitado in e.Invitados)
             {
-                //Invitados.Add(invitado.fiohadoihf.ToDTO());
+                Invitados.Add(invitado.Asistente.ToDTO());
             }
         }
 

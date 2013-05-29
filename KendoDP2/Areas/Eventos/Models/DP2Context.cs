@@ -25,12 +25,14 @@ namespace KendoDP2.Models.Generic
             TablaInvitado = new DBGenericRequester<Invitado>(this, InternalInvitado);
         }
 
-        private void SeedEvento()
+        private void SeedEstadoEvento()
         {
-
+            TablaEstadoEvento.AddElement(new EstadoEvento { Descripcion = "Estado1" });
+            TablaEstadoEvento.AddElement(new EstadoEvento { Descripcion = "Estado2" });
+            TablaEstadoEvento.AddElement(new EstadoEvento { Descripcion = "Estado3" });
         }
 
-        private void SeedEstadoEvento()
+        private void SeedEvento()
         {
 
         }
