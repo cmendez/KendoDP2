@@ -90,11 +90,11 @@
                             .Items(items =>
                             {
                                 //items.Add().Text("El 01/01/2013 alcancé el 20% - " + @Url.Action("Aprobar") + " - " + @Url.Action("Cambiar valor"));
-                                items.Add().Text("El " + ((DateTime)unoDeSusObjetivos.FechaFinalizacion).ToString("D", new CultureInfo("es-ES")) + " tengo planeado conseguir este objetivo").HtmlAttributes(new { style = "color: rgb(71, 0, 255)" });
+                                items.Add().Text("El " + unoDeSusObjetivos.FechaFinalizacion + " tengo planeado conseguir este objetivo").HtmlAttributes(new { style = "color: rgb(71, 0, 255)" });
                                 items.Add().Text("El dia de hoy: martes, 28 de mayo de 2013").HtmlAttributes(new { style = "font-weight: bold"});
                                 items.Add().Text("El lunes, 27 de mayo de 2013 17:10 alcancé el 20% - Aprobar - Cambiar valor");
                                 items.Add().Text("El lunes, 27 de mayo de 2013 15:12 alcancé el 10%");
-                                items.Add().Text("El " + ((DateTime)unoDeSusObjetivos.FechaDePropuesta).ToString("f", new CultureInfo("es-ES")) + " me propuse este objetivo").HtmlAttributes(new { style = "color: rgb(98, 163, 0)" });
+                                items.Add().Text("El " + unoDeSusObjetivos.FechaCreacion + " me propuse este objetivo").HtmlAttributes(new { style = "color: rgb(98, 163, 0)" });
                                 //items.Add().Text("Sub Item 3");
                                 //items.Add().Text("Sub Item 4");
                             });
