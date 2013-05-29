@@ -96,9 +96,13 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         [UIHint("GridForeignKey")]
         public int PuestoID { get; set; }
 
+        public string Puesto { get; set; }
+
         [DisplayName("Area")]
         [UIHint("GridForeignKey")]
         public int AreaID { get; set; }
+
+        public string Area { get; set; }
 
         [DisplayName("Responsable")]
         public int ResponsableID { get; set; }
@@ -143,7 +147,9 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         {
             ID = o.ID;
             PuestoID = o.PuestoID;
+            Puesto = o.Puesto.Descripcion;
             AreaID = o.AreaID;
+            Area = o.Area.Descripcion;
             ResponsableID = o.ResponsableID;
             EstadoSolicitudOfertaLaboralID = o.EstadoSolicitudOfertaLaboralID;
             ModoSolicitudID = o.ModoSolicitudOfertaLaboralID;
