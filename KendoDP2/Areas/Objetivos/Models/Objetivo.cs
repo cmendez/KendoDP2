@@ -140,8 +140,8 @@ namespace KendoDP2.Areas.Objetivos.Models
         public int ObjetivoPadreID { get; set; }
         public int BSCID { get; set; }
 
-        public DateTime? FechaDePropuesta { get; set; }
-        public DateTime? FechaFinalizacion { get; set; }
+        public string FechaCreacion { get; set; }
+        public string FechaFinalizacion { get; set; }
         
         public ObjetivoDTO() { }
         
@@ -158,8 +158,8 @@ namespace KendoDP2.Areas.Objetivos.Models
             ObjetivoPadreID = o.ObjetivoPadreID.GetValueOrDefault();
             BSCID = o.GetBSCIDRaiz(context);
 
-            FechaDePropuesta = o.FechaCreacion;
-            FechaFinalizacion = o.FechaFinalizacion;
+            FechaCreacion = o.FechaCreacion.HasValue ? o.FechaCreacion.GetValueOrDefault().ToString("dd/MM/yyyy") : String.Empty;
+            FechaFinalizacion = o.FechaCreacion.HasValue ? o.FechaCreacion.GetValueOrDefault().ToString("dd/MM/yyyy") : String.Empty;
 
             //PeriodoID = o.PeriodoID;
 
