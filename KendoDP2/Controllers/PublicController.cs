@@ -86,7 +86,8 @@ namespace KendoDP2.Controllers
                 {
                     Postulante postulante = new Postulante(postulanteDTO);
                     context.TablaPostulante.AddElement(postulante);
-                    OfertaLaboralXPostulante cruce = new OfertaLaboralXPostulante { Postulante = postulante, OfertaLaboral = oferta };
+                    EstadoPostulantePorOferta estado = context.TablaEstadoPostulanteXOferta.FindByID(1);
+                    OfertaLaboralXPostulante cruce = new OfertaLaboralXPostulante { Postulante = postulante, OfertaLaboral = oferta, EstadoPostulantePorOferta = estado };
                     context.TablaOfertaLaboralXPostulante.AddElement(cruce);
 
                     return Json(new { success = true });
