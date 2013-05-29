@@ -18,7 +18,7 @@
          <dd><!--<input type="checkbox" data-bind="value:#:Nombre#" name="Nombre" required="required" />-->
             <div class="row-fluid">
                 <ul class="unstyled inline">
-                    <li><a title="Muy Malo"><i class="icon-star"></i></a></li>
+                    <li><a title="Muy Malo" onClick="reply_click(#:Peso#)"><i class="icon-star"></i></a></li>
                     <li><a title="Malo"><i class="icon-star"></i></a></li>
                     <li><a title="Bueno"><i class="icon-star"></i></a></li>
                     <li><a title="Muy Bueno"><i class="icon-star"></i></a></li>
@@ -40,7 +40,7 @@
 	</div>
      <div class="portlet-body">
         <div>
-            <a class="k-button k-button-icontext k-add-button" href="#"><span class="k-icon k-add"></span>Terminar evaluación</a>
+            <a class="k-button k-button-icontext k-add-button" href="@Url.Action("GuardarEvaluacion", "Evaluacion")"><span class="k-icon k-add"></span>Terminar evaluación</a>
         </div>  
         <h5> Datos del evaluado </h5>
         <div class="k-pager-wrap">
@@ -82,3 +82,11 @@
          
     </div>  
 </div>
+
+<script type="text/javascript">
+
+    function reply_click(pesoP) {
+        alert("hola " + pesoP);
+    }
+
+</script>

@@ -37,6 +37,8 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
-      
+        public ActionResult GuardarEvaluacion() {
+            return View();
+        }
     }
 }
