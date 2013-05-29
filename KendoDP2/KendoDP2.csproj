@@ -221,6 +221,7 @@
     <Compile Include="Areas\Evaluacion360\Models\NivelCapacidad.cs" />
     <Compile Include="Areas\Evaluacion360\Models\GestorServiciosPrivados.cs" />
     <Compile Include="Areas\Evaluacion360\Models\TipoEvaluador.cs" />
+    <Compile Include="Areas\Eventos\EventosAreaRegistration.cs" />
     <Compile Include="Areas\Objetivos\Controllers\AcordionController.cs" />
     <Compile Include="Areas\Objetivos\Controllers\MisObjetivosController.cs" />
     <Compile Include="Areas\Objetivos\Controllers\ObjetivosEmpresaController.cs" />
@@ -1861,6 +1862,7 @@
     <Content Include="Areas\Reclutamiento\Views\Shared\ViewPostulanteInterno.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\ProcesoEvaluacion\CerrarProcesoEvaluacion.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\Evaluadores\SeleccionarEvaluadores.cshtml" />
+    <Content Include="Areas\Eventos\Views\Web.config" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\areas_icon.png" />
     <Content Include="Images\favicon.ico" />
@@ -2012,6 +2014,9 @@
     <Folder Include="Areas\BolsaTrabajo\Models\" />
     <Folder Include="Areas\Configuracion\Views\Shared\" />
     <Folder Include="Areas\Evaluacion360\Views\Shared\" />
+    <Folder Include="Areas\Eventos\Controllers\" />
+    <Folder Include="Areas\Eventos\Models\" />
+    <Folder Include="Areas\Eventos\Views\Shared\" />
     <Folder Include="Areas\Objetivos\Views\Shared\" />
     <Folder Include="Areas\Personal\Views\Colaboradores\" />
     <Folder Include="Areas\Personal\Views\Shared\EditorTemplates\" />
