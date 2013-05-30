@@ -106,9 +106,13 @@ namespace KendoDP2.Areas.Reclutamiento.Models
 
         [DisplayName("Responsable")]
         public int ResponsableID { get; set; }
+
+        public string Responsable { get; set; }
         
         [DisplayName("Tipo Convocatoria")]
         public int ModoSolicitudID { get; set; }
+
+        public string ModoSolicitud { get; set; }
 
         [DisplayName("Descripción")]
         public string Descripcion { get; set; }
@@ -151,8 +155,10 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             AreaID = o.AreaID;
             Area = o.Area.Descripcion;
             ResponsableID = o.ResponsableID;
+            Responsable = o.Responsable.ToDTO().NombreCompleto;
             EstadoSolicitudOfertaLaboralID = o.EstadoSolicitudOfertaLaboralID;
             ModoSolicitudID = o.ModoSolicitudOfertaLaboralID;
+            ModoSolicitud = o.ModoSolicitudOfertaLaboral.Descripcion;
             FechaRequerimiento = o.FechaRequerimiento;
             FechaFinRequerimiento = o.FechaFinVigenciaSolicitud;
             Descripcion = o.Descripcion;

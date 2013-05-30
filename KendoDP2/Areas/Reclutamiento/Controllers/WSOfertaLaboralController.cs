@@ -68,7 +68,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     EstadosSolicitudOfertaLaboral e = context.TablaEstadosSolicitudes.One(x => x.Descripcion.Equals(estadoOfertaLaboral));
                     List<OfertaLaboralDTO> ofertas = context.TablaOfertaLaborales
                         .Where(x => x.EstadoSolicitudOfertaLaboralID == e.ID).Select(x => x.ToDTO()).ToList();
-                    return JsonSuccessGet(ofertas);
+                    return JsonSuccessGet(new { ofertasLaborales = ofertas });
                 }
                 catch (Exception ex)
                 {
