@@ -19,8 +19,8 @@ namespace KendoDP2.Areas.Eventos.Controllers
             {
                 try
                 {
-                    DateTime inicio = Convert.ToDateTime(fechaDesde);
-                    DateTime fin = Convert.ToDateTime(fechaHasta);
+                    DateTime inicio = DateTime.ParseExact(fechaDesde, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture);
+                    DateTime fin = DateTime.ParseExact(fechaHasta, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture); ;
                     List<EventoDTO> eventos = context.TablaEvento
                         .Where(x => x.CreadorID == Convert.ToInt32(colaboradorID) &&
                                     DateTime.Compare(inicio,x.Inicio) <= 0 &&
