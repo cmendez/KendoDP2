@@ -85,10 +85,10 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 try
                 {
                     OfertaLaboral ol = context.TablaOfertaLaborales.FindByID(Convert.ToInt32(ofertaLaboralID));
-                    ol.EstadoSolicitudOfertaLaboralID = 1;//falta completar esto
+                    ol.EstadoSolicitudOfertaLaboralID = context.TablaEstadosSolicitudes.One(x => x.Descripcion.Equals(nuevoEstado)).ID;
                     ol.Comentarios = comentarios;
                     context.TablaOfertaLaborales.ModifyElement(ol);
-                    return JsonSuccessPost(new { ofertalaboral = ol});
+                    return JsonSuccessPost(new { ofertalaboral = ol.ToDTO()});
                 }
                 catch (Exception ex)
                 {
