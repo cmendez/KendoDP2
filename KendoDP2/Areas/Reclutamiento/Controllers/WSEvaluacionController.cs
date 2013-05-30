@@ -23,13 +23,14 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 try
                 {
                     //Buscar OfertaLaboralXPostulante
-                    OfertaLaboralXPostulante olxp = context.TablaOfertaLaboralXPostulante.One(x => 
-                        (x.OfertaLaboralID == Convert.ToInt32(idOfertaLaboral)) && 
-                        (x.PostulanteID == Convert.ToInt32(idPostulante)));
+                    OfertaLaboralXPostulante olxp = context.TablaOfertaLaboralXPostulante
+                        .One(x =>   (x.OfertaLaboralID == Convert.ToInt32(idOfertaLaboral)) && 
+                                    (x.PostulanteID == Convert.ToInt32(idPostulante)));
                     //Buscar FasePostulacionXOfertaLaboralXPostulante 
-                    FasePostulacionXOfertaLaboralXPostulante fpxolxp = context.TablaFasePostulacionXOfertaLaboralXPostulante.
-                        One(x => (x.OfertaLaboralXPostulanteID == olxp.ID) &&
-                            (x.FasePostulacionID == context.TablaFasePostulacion.One(a => a.Descripcion.Equals(descripcionFase)).ID));
+                    FasePostulacionXOfertaLaboralXPostulante fpxolxp = context.TablaFasePostulacionXOfertaLaboralXPostulante
+                        .One(x =>   (x.OfertaLaboralXPostulanteID == olxp.ID) &&
+                                    (x.FasePostulacionID == context.TablaFasePostulacion
+                                                            .One(a => a.Descripcion.Equals(descripcionFase)).ID));
                     //Crear y cargar EvaluacionXFaseXPostulacion 
                     EvaluacionXFaseXPostulacion e = new EvaluacionXFaseXPostulacion().LoadFromDTO(evaluacion);
                     //Asignar la evaluacion a la FasePostulacionXOfertaLaboralXPostulante 
