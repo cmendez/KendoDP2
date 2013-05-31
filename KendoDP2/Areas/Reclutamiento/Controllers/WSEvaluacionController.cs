@@ -43,7 +43,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     }
                     e.Puntaje = puntajeTotal;
                     // COMO SE QUE APROBO, NO SE COMO ASIGNARLO AQUI Y NO SE SI ES EL MOMENTO ADECUADO
-                    
+                    e.FlagAprobado = true; // ESTO DEBE CALCULARSE
                     //Guardar la evaluacion por fase por postulacion, es necesario reasignar el ID o ya se guarda
                     context.TablaEvaluacionXFaseXPostulacion.AddElement(e);
                     //Guardar las respuesta, indicando la evaluacion a la que pertenecen
