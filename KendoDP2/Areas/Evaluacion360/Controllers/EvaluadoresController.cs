@@ -146,6 +146,11 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     evaluadores.evaluadores.Add(context.TablaEvaluadores.FindByID(evaluadorId));
 
                     context.TablaEvaluadores.AddElement(comoEvaluador);
+                    Examen examen = new Examen();
+                    //examen.FechaCierre = new DateTime();
+                    examen.EvaluadorID = comoEvaluador.ID;
+                    examen.Estado = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Pendiente));
+                    context.TablaExamenes.AddElement(examen);
                 }
 
                 //string nombreControl = "Pares_12_Combo";
