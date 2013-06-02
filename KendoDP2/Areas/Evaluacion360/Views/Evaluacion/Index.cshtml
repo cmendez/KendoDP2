@@ -17,13 +17,20 @@
          <dt>Capacidad: </dt> <dd>#:Nombre#</dd>
          <dd><!--<input type="checkbox" data-bind="value:#:Nombre#" name="Nombre" required="required" />-->
             <div class="row-fluid">
-                <ul class="unstyled inline">
+                <!--<ul class="unstyled inline">
                     <li><a title="Muy Malo" onClick="reply_click(#:Peso#)"><i class="icon-star"></i></a></li>
                     <li><a title="Malo"><i class="icon-star"></i></a></li>
                     <li><a title="Bueno"><i class="icon-star"></i></a></li>
                     <li><a title="Muy Bueno"><i class="icon-star"></i></a></li>
                     <li><a title="Excelente"><i class="icon-star"></i></a></li>
-                </ul>
+                </ul> -->
+                <span class="rating">
+                    <span class="star"></span>
+                    <span class="star"></span>
+                    <span class="star"></span>
+                    <span class="star"></span>
+                    <span class="star"></span>
+                </span>
             </div>
         </dd>
        </dl>
@@ -71,7 +78,7 @@
                 .Model(model => { model.Id(p => p.ID); }) @*model => model.Id("ID"))*@
                 .PageSize(6)
                 //.Create(create => create.Action("Editing_Create", "ListView"))
-                .Read(read => read.Action("Editing_ReadCapEvaluacion", "ProcesoEvaluacion"))
+                .Read(read => read.Action("Editing_ReadCapEvaluacion", "ProcesoEvaluacion" ))
                 //.Update(update => update.Action("Editing_Update", "ListView"))
                 //.Destroy(destroy => destroy.Action("Editing_Destroy", "ListView"))
             )
@@ -85,8 +92,10 @@
 
 <script type="text/javascript">
 
-    function reply_click(pesoP) {
-        alert("hola " + pesoP);
-    }
-
+    $(document).ready(function () {
+        $(".star").click(function (evt) {
+   
+        });
+            
+    });
 </script>
