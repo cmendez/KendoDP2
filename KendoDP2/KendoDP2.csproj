@@ -201,9 +201,6 @@
     <Compile Include="Areas\Evaluacion360\Controllers\PuestosEvaluacionController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\RolEvaluadoController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\GestorDatosDeColaboradoresController.cs" />
-    <Compile Include="Areas\Evaluacion360\Controllers\ProcesoEvaluacionController.cs" />
-    <Compile Include="Areas\Evaluacion360\Controllers\PuestosEvaluacionController.cs" />
-    <Compile Include="Areas\Evaluacion360\Controllers\RolEvaluadorController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\SubordinadosController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\WSCompetenciasController.cs" />
     <Compile Include="Areas\Evaluacion360\Evaluacion360AreaRegistration.cs" />

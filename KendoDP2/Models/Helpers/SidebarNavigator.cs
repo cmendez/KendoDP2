@@ -25,20 +25,13 @@ namespace KendoDP2.Models.Helpers
             Opciones.Add(new SidebarOption("Evaluacion360", "Evaluación 360°", "icon-pencil", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption("Competencias", "Competencias", "Index", "icon-plus-sign"),
                 new SidebarSuboption("Capacidades", "Capacidades", "Index", "icon-check"),
-				//new SidebarSuboption("Evaluaciones", "Registrar Evaluaciones", "Index", "icon-check"),
                 new SidebarSuboption("Procesos de evaluación", "ProcesoEvaluacion", "Index", "icon-road"),
                 new SidebarSuboption("Evaluación de puestos de trabajo", "PuestosEvaluacion", "Index", "icon-ok-sign"),
 
                 //new SidebarSuboption("Envio de correo", "Correo", "Index", "icon-ok-sign"),
-                //new SidebarSuboption("Acordion", "Acordion", "Index", "icon-ok-sign"),
-<<<<<<< HEAD
 				new SidebarSuboption("Listar procesos de evaluación", "ListarProcesosXEvaluador", "Index", "icon-ok-sign"),
                 new SidebarSuboption("Rendir Evaluacion", "Evaluacion", "Index", "icon-ok-sign"),
-=======
 				new SidebarSuboption("Rol Evaluador", "RolEvaluador", "Index", "icon-ok-sign"),
-                new SidebarSuboption("Rendir Evaluacion", "Evaluacion", "Index", "icon-ok-sign")
->>>>>>> 72ecbbfc3d20a85ec6e32ad6fcd8c5c4dc9ba453
-				//new SidebarSuboption("Por perfil BORRADOR", "Configuracion360", "Index", "icon-group")
             })));				
             
 
