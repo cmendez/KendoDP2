@@ -21,7 +21,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
         
-        public int Puntaje { get; set; }
+        public double Puntaje { get; set; }
         public bool FlagAprobado { get; set; }
         
         public string Comentarios { get; set; }
@@ -43,6 +43,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             FlagAprobado = e.FlagAprobado;
             Comentarios = e.Comentarios;
             Observaciones = e.Observaciones;
+            FasePostulacionXOfertaLaboralXPostulanteID = e.ID;
 
             return this;
         }
@@ -59,11 +60,13 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public string FechaInicio { get; set; }
         public string FechaFin { get; set; }
 
-        public int Puntaje { get; set; }
+        public double Puntaje { get; set; }
         public bool FlagAprobado { get; set; }
 
         public string Comentarios { get; set; }
         public string Observaciones { get; set; }
+
+        public int FasePostulacionXOfertaLaboralXPostulanteID { get; set; }
 
         public EvaluacionXFaseXPostulacionDTO() { }
 
@@ -76,6 +79,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             FlagAprobado = e.FlagAprobado;
             Comentarios = e.Comentarios;
             Observaciones = e.Observaciones;
+            FasePostulacionXOfertaLaboralXPostulanteID = e.FasePostulacionXOfertaLaboralXPostulanteID;
         }
     }
 }
