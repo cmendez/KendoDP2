@@ -42,7 +42,25 @@ namespace KendoDP2.Models.Generic
 
         private void SeedInvitado()
         {
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 3, EventoID = 1 });
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 4, EventoID = 1 });
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 5, EventoID = 1 });
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 6, EventoID = 1 });
 
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 3, EventoID = 2 });
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 4, EventoID = 2 });
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 5, EventoID = 2 });
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 6, EventoID = 2 });
+
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 3, EventoID = 3 });
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 4, EventoID = 3 });
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 5, EventoID = 3 });
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 6, EventoID = 3 });
+
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 3, EventoID = 4 });
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 4, EventoID = 4 });
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 5, EventoID = 4 });
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 6, EventoID = 4 });
         }
 
     }

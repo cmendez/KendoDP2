@@ -96,5 +96,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             }
 
         }
+
+        //public JsonResult 
     }
 }
