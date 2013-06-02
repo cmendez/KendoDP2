@@ -12,7 +12,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
     {
 
         public string Comentario { get; set; }
-        public double Puntaje { get; set; }
+        public int Puntaje { get; set; }
 
         public int EvaluacionXFaseXPostulacionID { get; set; }
         public virtual EvaluacionXFaseXPostulacion EvaluacionXFaseXPostulacion { get; set; }
@@ -48,7 +48,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
     {
         public int ID { get; set; }
         public string Comentario { get; set; }
-        public double Puntaje { get; set; }
+        public int Puntaje { get; set; }
         public int EvaluacionXFaseXPostulacionID { get; set; }
         public int FuncionID { get; set; }
 

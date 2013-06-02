@@ -29,8 +29,6 @@ namespace KendoDP2.Areas.Organizacion.Models
 
         public virtual ICollection<ColaboradorXProcesoEvaluacion> ColaboradorXProcesoEvaluaciones { get; set; }
 
-        public virtual ICollection<Evaluador> OcurrenciasComoEvaluador { get; set; }
-
         public int EstadosColaboradorID { get; set; }
         public virtual EstadosColaborador EstadoColaborador { get; set; }
 

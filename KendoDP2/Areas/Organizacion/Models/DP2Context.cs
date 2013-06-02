@@ -265,6 +265,5 @@ namespace KendoDP2.Models.Generic
             TablaFunciones.AddElement(new Funcion { Nombre = "Molestar 2", PuestoID = 12 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Creerse muy importante", PuestoID = 12 });
         }
-
     }
 }

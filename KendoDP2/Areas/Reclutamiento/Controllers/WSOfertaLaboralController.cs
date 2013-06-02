@@ -77,7 +77,8 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             }
         }
 
-        public JsonResult setEstadoSolicitudOfertaLaboral(string ofertaLaboralID, string nuevoEstado, string comentarios)
+        [AcceptVerbs(HttpVerbs.Post)]
+        public JsonResult aprobarSolicitudOfertaLaboral(string ofertaLaboralID, string nuevoEstado, string comentarios)
         {
             using (DP2Context context = new DP2Context())
             {
@@ -87,40 +88,11 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     ol.EstadoSolicitudOfertaLaboralID = context.TablaEstadosSolicitudes.One(x => x.Descripcion.Equals(nuevoEstado)).ID;
                     ol.Comentarios = comentarios;
                     context.TablaOfertaLaborales.ModifyElement(ol);
-                    return JsonSuccessGet(new { ofertalaboral = ol.ToDTO()});
+                    return JsonSuccessPost(new { ofertalaboral = ol.ToDTO()});
                 }
                 catch (Exception ex)
                 {
-                    return JsonErrorGet("Error en la BD: " + ex.Message);
-                }
-            }
-
-        }
-
-        public JsonResult registrarPostulacion(string colaboradorID, string ofertaLaboralID)
-        {
-            using (DP2Context context = new DP2Context())
-            {
-                try
-                {
-                    OfertaLaboralXPostulante ofxp = new OfertaLaboralXPostulante();
-                    ofxp.OfertaLaboralID = Convert.ToInt32(ofertaLaboralID);
-                    ofxp.PostulanteID = Convert.ToInt32(colaboradorID);
-                    ofxp.EstadoPostulantePorOfertaID = context.TablaEstadoPostulanteXOferta.One(x => x.Descripcion.Equals("Inscrito")).ID;
-                    context.TablaOfertaLaboralXPostulante.AddElement(ofxp);
-
-                    ofxp = context.TablaOfertaLaboralXPostulante.FindByID(ofxp.ID);
-
-                    FasePostulacionXOfertaLaboralXPostulante fpxolxp = new FasePostulacionXOfertaLaboralXPostulante();
-                    fpxolxp.FasePostulacionID = context.TablaFasePostulacion.One(x => x.Descripcion.Equals("Registrado")).ID;
-                    fpxolxp.OfertaLaboralXPostulanteID = ofxp.ID;
-                    context.TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(fpxolxp);
-
-                    return JsonSuccessGet(new { postulacion = ofxp.ToDTO() });
-                }
-                catch (Exception ex)
-                {
-                    return JsonErrorGet("Error en la BD: " + ex.Message);
+                    return JsonErrorPost("Error en la BD: " + ex.Message);
                 }
             }
 
