@@ -22,7 +22,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         //public DateTime? FechaCierre { get; set; }
 
         public int EvaluadorID { get; set; }
-        public virtual Evaluador evaluador { get; set; }
+        //public virtual Evaluador evaluador { get; set; }
 
         public int EstadoEvaluacionID { get; set; }
         public virtual EstadoColaboradorXProcesoEvaluacion Estado { get; set; }
