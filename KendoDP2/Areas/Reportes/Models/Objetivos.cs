@@ -71,7 +71,7 @@ namespace KendoDP2.Areas.Reportes.Models
             NotaFinalCliente = 50;
             NotaFinalFinanciero = 50;
             NotaFinalProcesosInternos = 50;
-            int aaaa;
+            //int aaaa;
         }
 
     }

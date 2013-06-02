@@ -31,8 +31,13 @@ namespace KendoDP2.Models.Helpers
 
                 //new SidebarSuboption("Envio de correo", "Correo", "Index", "icon-ok-sign"),
                 //new SidebarSuboption("Acordion", "Acordion", "Index", "icon-ok-sign"),
+<<<<<<< HEAD
 				new SidebarSuboption("Listar procesos de evaluación", "ListarProcesosXEvaluador", "Index", "icon-ok-sign"),
                 new SidebarSuboption("Rendir Evaluacion", "Evaluacion", "Index", "icon-ok-sign"),
+=======
+				new SidebarSuboption("Rol Evaluador", "RolEvaluador", "Index", "icon-ok-sign"),
+                new SidebarSuboption("Rendir Evaluacion", "Evaluacion", "Index", "icon-ok-sign")
+>>>>>>> 72ecbbfc3d20a85ec6e32ad6fcd8c5c4dc9ba453
 				//new SidebarSuboption("Por perfil BORRADOR", "Configuracion360", "Index", "icon-group")
             })));				
             
@@ -40,7 +45,7 @@ namespace KendoDP2.Models.Helpers
             // Objetivos
             Opciones.Add(new SidebarOption("Objetivos", "Objetivos", "icon-bookmark", new List<SidebarSuboption>(new SidebarSuboption[]{
                new SidebarSuboption("Objetivos de la empresa", "Objetivosempresa", "Index", "icon-ok"),
-               //new SidebarSuboption("Objetivos en mis subordinados", "Acordion", "Index", "icon-ok"),
+               new SidebarSuboption("Monitoreo en mi Equipo de trabajo", "Acordion", "Index", "icon-ok"),
                new SidebarSuboption("Mis Objetivos", "Misobjetivos", "Index", "icon-ok"),
                new SidebarSuboption("Objetivos de subordinados", "Objetivossubordinados", "Index", "icon-ok")
             })));
@@ -54,7 +59,7 @@ namespace KendoDP2.Models.Helpers
             Opciones.Add(new SidebarOption("Organizacion", "Organizacion", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption("Organización","Organizaciones","Index","icon-group"),
                 new SidebarSuboption("Colaboradores", "Colaboradores", "Index", "icon-user"),
-                new SidebarSuboption("Funciones", "Funciones", "Index", "icon-sitemap"),
+                new SidebarSuboption("Funciones", "Funciones", "Index", "icon-check"),
                 new SidebarSuboption("Puestos", "Puestos", "Index", "icon-tag"),
                 new SidebarSuboption("Áreas", "Areas", "Index", "icon-sitemap"),
                 new SidebarSuboption("Página Personal","Intranet","Index","icon-tag"),

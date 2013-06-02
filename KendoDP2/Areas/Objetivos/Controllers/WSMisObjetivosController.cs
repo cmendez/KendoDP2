@@ -19,10 +19,24 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 ColaboradorDTO col = context.TablaColaboradores.FindByID(idUsuario).ToDTO();
                 int puestoID = col.PuestoID;
                 Puesto puesto = context.TablaPuestos.FindByID(puestoID);
-                ViewBag.periodos = context.TablaPeriodos.All().Select(c => c.ToDTO()).ToList();
-                var objetivos = puesto.Objetivos.Select(c => c.ToDTO(context)).ToList();
-                List<ObjetivoDTO> ret = objetivos.Where(x => x.BSCID == idPeriodo).ToList();
-                return Json(new { nombreColaborador = col.NombreCompleto, objetivos = ret }, JsonRequestBehavior.AllowGet);
+                List<ObjetivoDTO> objetivos = puesto.Objetivos.Select(c => c.ToDTO(context)).ToList();
+                List<ObjetivoDTO> ret = new List<ObjetivoDTO>();
+                foreach(ObjetivoDTO objetivo in objetivos){
+                    ret.AddRange(context.TablaObjetivos.Where(o => o.ObjetivoPadreID == objetivo.ID && o.PuestoAsignadoID == null).Select(o => o.ToDTO(context)));
+                }
+                return Json(ret.Where(x => x.BSCID == idPeriodo).ToList(), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetAllMisObjetivosSuperiores(int idUsuario, int idPeriodo)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                ColaboradorDTO col = context.TablaColaboradores.FindByID(idUsuario).ToDTO();
+                int puestoID = col.PuestoID;
+                Puesto puesto = context.TablaPuestos.FindByID(puestoID);
+                List<ObjetivoDTO> objetivos = puesto.Objetivos.Select(c => c.ToDTO(context)).ToList();
+                return Json(objetivos.Where(x => x.BSCID == idPeriodo).ToList(), JsonRequestBehavior.AllowGet);
             }
         }
     }

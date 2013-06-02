@@ -26,13 +26,36 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             }
         }
 
+        /*
+            Nombre:Owo
+            Peso:50
+            TipoObjetivoBSCID:1
+            BSCID:1
+        */
         public ActionResult CrearObjetivoEmpresa(ObjetivoDTO objetivo)
         {
             using (DP2Context context = new DP2Context())
             {
                 Objetivo o = new Objetivo(objetivo, context);
                 context.TablaObjetivos.AddElement(o);
-                return Json(new { success = true });
+                return Json(new { success = true, ID = o.ID }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        /*
+            ID = 10
+            Nombre:Owo
+            Peso:50
+            TipoObjetivoBSCID:1
+            BSCID:1
+        */
+        public ActionResult UpdateObjetivoEmpresa(ObjetivoDTO objetivo)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                Objetivo o = context.TablaObjetivos.FindByID(objetivo.ID).LoadFromDTO(objetivo, context);
+                context.TablaObjetivos.ModifyElement(o);
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
         }
 

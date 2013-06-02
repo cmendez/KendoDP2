@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Kendo.Mvc.UI;
+using KendoDP2.Areas.Evaluacion360.Models;
+using KendoDP2.Areas.Organizacion.Models;
+using KendoDP2.Models.Generic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,12 +19,26 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             : base()
         {
             ViewBag.Area = "Evaluacion360";
+            
         }
 
         public ActionResult Index()
         {
-            return View();
+            // Recibir esta variable como parámetro
+            int evaluadoID = 2;
+            using (DP2Context context = new DP2Context())
+            {
+                ColaboradorDTO  evaluado = context.TablaColaboradores.One(c => c.ID == evaluadoID).ToDTO();
+                ViewBag.evaluado = evaluado;
+                CompetenciaXPuesto competenciaPuesto = context.TablaCompetenciaXPuesto.One(x => x.PuestoID == evaluado.PuestoID);
+                IList<Capacidad> capacidades = context.TablaCapacidades.Where(x => x.NivelCapacidadID==competenciaPuesto.NivelID && x.CompetenciaID == competenciaPuesto.CompetenciaID).ToList();
+                IList<CompetenciaXPuesto> competencias = context.TablaCompetenciaXPuesto.Where(x => x.PuestoID == evaluado.PuestoID);
+                return View();
+            }
         }
 
+        public ActionResult GuardarEvaluacion() {
+            return View();
+        }
     }
 }

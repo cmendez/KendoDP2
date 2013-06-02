@@ -69,5 +69,86 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             
         }
 
+        public JsonResult tieneJefe(string colaboradorID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                try
+                {
+                    Puesto puestoUltimo = context.TablaColaboradoresXPuestos
+                        .One(x =>   (x.ColaboradorID == Convert.ToInt32(colaboradorID)) && 
+                                    (!x.FechaSalidaPuesto.HasValue))
+                        .Puesto;
+                    return puestoUltimo.PuestoSuperiorID.HasValue ? 
+                        JsonSuccessGet(true) : JsonSuccessGet(false);
+                }
+                catch (Exception ex)
+                {
+                    return JsonErrorGet("Error en la BD: " + ex.Message);
+                }
+            }
+        }
+
+        public JsonResult getEquipoTrabajo(string colaboradorID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                try
+                {
+                    //jalo a mi jefe
+                    int puestoSuperiorID = context.TablaColaboradoresXPuestos
+                        .One(x => x.ColaboradorID == Convert.ToInt32(colaboradorID) && !x.FechaSalidaPuesto.HasValue)
+                        .Puesto.PuestoSuperiorID.GetValueOrDefault();
+                    Colaborador jefe = context.TablaColaboradoresXPuestos
+                        .One(x => x.PuestoID == puestoSuperiorID && !x.FechaSalidaPuesto.HasValue).Colaborador;
+                    List<Puesto> puestosDebajoJefe = context.TablaPuestos.Where(x => x.PuestoSuperiorID == puestoSuperiorID);
+                    List<ColaboradorDTO> lista = new List<ColaboradorDTO>();
+                    foreach (var puesto in puestosDebajoJefe)
+                    {
+                        ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos
+                            .One(x => x.PuestoID == puesto.ID && !x.FechaSalidaPuesto.HasValue);
+                        if(cxp == null) continue;
+                        Colaborador colaboradorDebajoJefe = cxp.Colaborador;
+                        List<Puesto> puestosDebajoAmiwi = context.TablaPuestos.Where(x => x.PuestoSuperiorID == puesto.ID);
+                        List<ColaboradorDTO> lista2 = new List<ColaboradorDTO>();
+                        foreach (var puesto2 in puestosDebajoAmiwi)
+                        {
+                            cxp = context.TablaColaboradoresXPuestos
+                                .One(x => x.PuestoID == puesto2.ID && !x.FechaSalidaPuesto.HasValue);
+                            if(cxp == null) continue;
+                            Colaborador colaboradorDebajoAmiwi = cxp.Colaborador;
+                            lista2.Add(new ColaboradorDTO(colaboradorDebajoAmiwi));
+                        }
+                        ColaboradorDTO aux2 = new ColaboradorDTO(colaboradorDebajoJefe, lista2);
+                        lista.Add(aux2);
+                    }
+                    ColaboradorDTO aux = new ColaboradorDTO(jefe, lista);
+
+                    return JsonSuccessGet(aux);
+                }
+                catch (Exception ex)
+                {
+                    return JsonErrorGet("Error en la BD: " + ex.Message);
+                }
+            }
+
+        }
+
+        public JsonResult getEventos(string colaboradorID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                try
+                {
+
+                    return JsonSuccessGet();
+                }
+                catch (Exception ex)
+                {
+                    return JsonErrorGet("Error en la BD: " + ex.Message);
+                }
+
+            }
+        }
     }
 }

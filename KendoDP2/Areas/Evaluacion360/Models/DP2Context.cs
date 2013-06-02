@@ -125,6 +125,7 @@ namespace KendoDP2.Models.Generic
 
         }
 
+        
         private void SeedPerfiles()
         {
             TablaPerfiles.AddElement(new Perfil("Gerente general"));
@@ -166,6 +167,7 @@ namespace KendoDP2.Models.Generic
             TablaProcesoEvaluaciones.AddElement(new ProcesoEvaluacion { AutorizadorID = 2, FechaCierre = new DateTime(2013, 12, 1), Nombre = "Proceso por defecto", EstadoProcesoEvaluacionID = TablaEstadoProcesoEvaluacion.One(e => e.Descripcion == ConstantsEstadoProcesoEvaluacion.Creado).ID });
         }
 
+<<<<<<< HEAD
 
         
        private void seedColaboradorXProcesoEvaluacion()
@@ -188,5 +190,17 @@ namespace KendoDP2.Models.Generic
        }*/
 
 
+=======
+        /*private void seedColaboradorXProcesoEvaluacion() 
+        {
+            TablaColaboradorXProcesoEvaluaciones.AddElement(new ColaboradorXProcesoEvaluacion { ColaboradorID=1, ProcesoEvaluacionID=1, EstadoColaboradorXProcesoEvaluacionID = TablaEstadoColaboradorXProcesoEvaluaciones.One(e=>e.Nombre==ConstantsEstadoColaboradorXProcesoEvaluacion.Pendiente).ID, ReferenciasPorAreas=0, ReferenciaDirecta =true});
+            TablaColaboradorXProcesoEvaluaciones.AddElement(new ColaboradorXProcesoEvaluacion { ColaboradorID =3, ProcesoEvaluacionID = 1, EstadoColaboradorXProcesoEvaluacionID = TablaEstadoColaboradorXProcesoEvaluaciones.One(e => e.Nombre == ConstantsEstadoColaboradorXProcesoEvaluacion.Pendiente).ID, ReferenciasPorAreas = 0, ReferenciaDirecta = true });
+        }*/
+        /*
+        private void SeedEvaluacion() 
+        {
+            TablaEvaluaciones.AddElement(new Evaluacion { Nombre = "Evaluacion 1", FechaCierre = new DateTime(2013, 12, 15), Puntuacion = 0, EvaluadoID=3,EvaluadorID=5});
+        }*/
+>>>>>>> 72ecbbfc3d20a85ec6e32ad6fcd8c5c4dc9ba453
     }
 }

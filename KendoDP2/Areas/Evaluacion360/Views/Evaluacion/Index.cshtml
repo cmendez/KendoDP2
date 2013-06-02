@@ -1,11 +1,35 @@
 ﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Organizacion.Models
 @using KendoDP2.Areas.Evaluacion360.Models
 @{
     ViewBag.Title = "Evaluación";
-    Layout = "~/Views/Shared/_Layout.cshtml";  
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ColaboradorDTO evaluado = ViewBag.evaluado;
+     
 }
 
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Evaluación", "Rinda sus evaluaciones asignadas."));}
+
+<script type="text/x-kendo-tmpl" id="template">
+    <div>
+       <dl>
+         <dt>Peso: </dt> <dd>#:Peso#</dd>
+         <dt>Capacidad: </dt> <dd>#:Nombre#</dd>
+         <dd><!--<input type="checkbox" data-bind="value:#:Nombre#" name="Nombre" required="required" />-->
+            <div class="row-fluid">
+                <ul class="unstyled inline">
+                    <li><a title="Muy Malo" onClick="reply_click(#:Peso#)"><i class="icon-star"></i></a></li>
+                    <li><a title="Malo"><i class="icon-star"></i></a></li>
+                    <li><a title="Bueno"><i class="icon-star"></i></a></li>
+                    <li><a title="Muy Bueno"><i class="icon-star"></i></a></li>
+                    <li><a title="Excelente"><i class="icon-star"></i></a></li>
+                </ul>
+            </div>
+        </dd>
+       </dl>
+      
+     </div>
+</script>
 
 <div class="portlet box green">
      <div class="portlet-title">
@@ -16,19 +40,40 @@
 	</div>
      <div class="portlet-body">
         <div>
-            <a class="k-button k-button-icontext k-add-button" href="#"><span class="k-icon k-add"></span>Terminar evaluación</a>
+            <a class="k-button k-button-icontext k-add-button" href="@Url.Action("GuardarEvaluacion", "Evaluacion")"><span class="k-icon k-add"></span>Terminar evaluación</a>
         </div>  
-        @(Html.Kendo().ListView<Evaluacion>()
-            .Name("listView")
+        <h5> Datos del evaluado </h5>
+        <div class="k-pager-wrap">
+            <div class="row-fluid">
+                <div class="span8 profile-info">
+                    <h3>@evaluado.NombreCompleto</h3>
+                    <p>@evaluado.Puesto</p>
+                    <p>@evaluado.Area</p>
+                    <ul class="unstyled inline">
+                        <li><i class="icon-calendar"></i> @evaluado.FechaIngreso</li>
+                        <li><i class="icon-map-marker"></i> </li>
+                        <li><i class="icon-star"></i> Cantinflas </li>
+                    </ul>
+                </div>
+                <!--end span8-->
+            </div>
+            <!--end row-fluid-->
+        </div>
+         <!--end k-pager-wrap-->
+
+         Aquí se listan las preguntas...
+
+        @(Html.Kendo().ListView<Capacidad>()
+            .Name("Evaluacion")
             .TagName("div")
             .ClientTemplateId("template")
-                .DataSource(dataSource => dataSource
-                .Model(model => model.Id("ID"))
+            .DataSource(dataSource => dataSource
+                .Model(model => { model.Id(p => p.ID); }) @*model => model.Id("ID"))*@
                 .PageSize(6)
-                .Create(create => create.Action("Editing_Create", "ListView"))
-                .Read(read => read.Action("Editing_Read", "ListView"))
-                .Update(update => update.Action("Editing_Update", "ListView"))
-                .Destroy(destroy => destroy.Action("Editing_Destroy", "ListView"))
+                //.Create(create => create.Action("Editing_Create", "ListView"))
+                .Read(read => read.Action("Editing_ReadCapEvaluacion", "ProcesoEvaluacion"))
+                //.Update(update => update.Action("Editing_Update", "ListView"))
+                //.Destroy(destroy => destroy.Action("Editing_Destroy", "ListView"))
             )
             .Pageable()
             .Editable()
@@ -37,3 +82,11 @@
          
     </div>  
 </div>
+
+<script type="text/javascript">
+
+    function reply_click(pesoP) {
+        alert("hola " + pesoP);
+    }
+
+</script>

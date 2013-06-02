@@ -33,8 +33,7 @@
                     columns.ForeignKey((p => p.AutorizadorID), lista);
                     columns.ForeignKey(p => p.EstadoProcesoEvaluacionID, new SelectList(estados, "ID", "Descripcion")).Visible(true);
 
-                    columns.Template(@<text></text>).Title("Proceso").ClientTemplate(
-                        "<a class='k-button' href='" + Url.Action("ElegirEvaluados", "ProcesoEvaluacion") + "?procesoEvaluacionID=#=ID#'>Ver Proceso</a>");
+                    columns.Template(@<text></text>).Title("Proceso").ClientTemplate("<a class='k-button' href='" + Url.Action("ElegirEvaluados", "ProcesoEvaluacion") + "?procesoEvaluacionID=#=ID#'>Ver Proceso</a>");
                     columns.Command(command =>
                     { 
                         command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar"); 

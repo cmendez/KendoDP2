@@ -58,5 +58,44 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             }
 
         }
+
+        public JsonResult getOfertasLaboralesXEstado(string estadoOfertaLaboral)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                try
+                {
+                    EstadosSolicitudOfertaLaboral e = context.TablaEstadosSolicitudes.One(x => x.Descripcion.Equals(estadoOfertaLaboral));
+                    List<OfertaLaboralDTO> ofertas = context.TablaOfertaLaborales
+                        .Where(x => x.EstadoSolicitudOfertaLaboralID == e.ID).Select(x => x.ToDTO()).ToList();
+                    return JsonSuccessGet(new { ofertasLaborales = ofertas });
+                }
+                catch (Exception ex)
+                {
+                    return JsonErrorGet("Error en la BD: " + ex.Message);
+                }
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public JsonResult aprobarSolicitudOfertaLaboral(string ofertaLaboralID, string nuevoEstado, string comentarios)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                try
+                {
+                    OfertaLaboral ol = context.TablaOfertaLaborales.FindByID(Convert.ToInt32(ofertaLaboralID));
+                    ol.EstadoSolicitudOfertaLaboralID = context.TablaEstadosSolicitudes.One(x => x.Descripcion.Equals(nuevoEstado)).ID;
+                    ol.Comentarios = comentarios;
+                    context.TablaOfertaLaborales.ModifyElement(ol);
+                    return JsonSuccessPost(new { ofertalaboral = ol.ToDTO()});
+                }
+                catch (Exception ex)
+                {
+                    return JsonErrorPost("Error en la BD: " + ex.Message);
+                }
+            }
+
+        }
     }
 }

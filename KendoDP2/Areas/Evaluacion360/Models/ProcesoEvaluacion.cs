@@ -81,4 +81,5 @@ namespace KendoDP2.Areas.Evaluacion360.Models
             EstadoProcesoEvaluacionID = p.EstadoProcesoEvaluacionID; 
         }
     }
+
 }
