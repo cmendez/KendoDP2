@@ -69,8 +69,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 List<OfertaLaboralXPostulante> postulantesOferta = oferta.Postulantes.ToList();
                 ViewBag.postulantesOferta = postulantesOferta.Select(p => p.ToDTO());
                 ViewBag.ofertaID = ofertaLaboralID;
-
-                return View("PostulantesFase1AprobarFase2");
+                return View("PostulantesFase1AprobarFase2");        
             }
         }
 
@@ -82,8 +81,8 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 List<OfertaLaboralXPostulante> postulantesOferta = oferta.Postulantes.ToList();
                 ViewBag.postulantesOferta = postulantesOferta.Select(p => p.ToDTO());
                 ViewBag.ofertaID = ofertaLaboralID;
-
                 return View("PostulantesFase2AprobarFase3");
+          
             }
         }
 
@@ -95,8 +94,9 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 List<OfertaLaboralXPostulante> postulantesOferta = oferta.Postulantes.ToList();
                 ViewBag.postulantesOferta = postulantesOferta.Select(p => p.ToDTO());
                 ViewBag.ofertaID = ofertaLaboralID;
-
-                return View("PostulantesFase3Contratar");
+             
+                    return View("PostulantesFase3Contratar");
+                
             }
         }
 
@@ -211,8 +211,12 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 ViewBag.cruce = postulanteOferta.ID;
                 ViewBag.ofertaID = ofertaID; ViewBag.area = oferta.Area.ToDTO();
                 ViewBag.puesto = oferta.Puesto.ToDTO();
-
-                return PartialView("EditorMotivoRechazo",postulanteOferta.ToDTO());
+                if (oferta.ModoSolicitudOfertaLaboral.Descripcion.Equals("Convocatoria Interna"))
+                {
+                    return PartialView("EditorMotivoRechazo", postulanteOferta.ToDTO());
+                }
+                else
+                    return PartialView("EditorMotivoRechazoExterno", postulanteOferta.ToDTO());
             }
 
         }
@@ -275,6 +279,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 ViewBag.gradoAcademico = postulanteOferta.Postulante.Colaborador.GradoAcademico.ToDTO();
                 ViewBag.ofertaID = ofertaID;
                 return PartialView("ViewPostulanteInterno", postulanteOferta.ToDTO());
+               
             }
         }
 

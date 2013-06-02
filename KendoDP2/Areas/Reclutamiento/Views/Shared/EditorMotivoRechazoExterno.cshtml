@@ -1,0 +1,136 @@
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Reclutamiento.Models
+@using KendoDP2.Areas.Configuracion.Models
+@using KendoDP2.Areas.Organizacion.Models
+@using KendoDP2.Areas.Evaluacion360.Models
+
+@model KendoDP2.Areas.Reclutamiento.Models.OfertaLaboralXPostulanteDTO
+@{
+    AreaDTO area = ViewBag.area;
+    EstadosSolicitudOfertaLaboralDTO estadoSolicitudOferta = ViewBag.estadoSolicitudOferta;
+    ModoSolicitudOfertaLaboralDTO modoSolicitudOferta = ViewBag.modoSolicitudOferta;
+    PuestoDTO puesto = ViewBag.puesto;
+    ColaboradorDTO responsable = ViewBag.responsable;
+    int ofertaID = ViewBag.ofertaID;
+    bool yaRechazadoAprobado = false;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    
+    <div style="width: 900px;">
+        <div class="row-fluid">
+            <!-- contenedor superior izquierdo: campos -->
+            <div class="span9">
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Postulante.NombreCompleto)</div>
+                    </div>
+                    <div class="span7 responsive">
+                        @Html.TextBoxFor(model => model.Postulante.NombreCompleto, new { @readonly = "readonly" })
+
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.Label("Area")</div>
+                    </div>
+                    <div class="span7 responsive">
+                        @Html.TextBox("Area", area.Nombre, new { @readonly = "readonly" })
+
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.Label("Puesto")</div>
+                    </div>
+                    <div class="span7">
+                        @Html.TextBox("Puesto", puesto.Nombre, new { @readonly = "readonly" })
+                    </div>
+                </div>
+
+                
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.PuntajeTotal)</div>
+                    </div>
+                    <div class="span7 responsive">
+                        @Html.TextBoxFor(model => model.PuntajeTotal, new { @readonly = "readonly" })
+
+                    </div>
+                </div>
+
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Observaciones)</div>
+                    </div>
+                    <div class="span7 responsive">
+                        @Html.TextAreaFor(model => model.Observaciones)
+                        @Html.ValidationMessageFor(model => model.Observaciones)
+                    </div>
+                </div>
+
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.MotivoRechazo)</div>
+                    </div>
+                    <div class="span7 responsive">
+                        @Html.TextAreaFor(model => model.MotivoRechazo)
+                        @Html.ValidationMessageFor(model => model.MotivoRechazo)
+                    </div>
+                </div>
+
+             </div>
+            <!-- fin contenedor superior izquierdo: campos -->
+            <!-- contenedor superior derecho: Datos -->
+            
+            <!-- fin contenedor superior derecho: foto -->
+        </div>
+    </div>
+    
+    
+    if (!yaRechazadoAprobado)
+    {
+        <a class="btn green" href="javascript:CambiaEstadoRechazar();"> Rechazar </a>
+    }
+    else
+    {
+        <label class="label">Este postulante ya fue aprobado para la siguiente fase</label>
+        <br />
+    }
+    <!-- fin contenedor inferior: campos -->
+
+ 
+    
+    
+    <script>
+        function CambiaEstadoRechazar(){
+            $.ajax({
+                url: '@Url.Action("RechazarPostulante", "OfertasLaboralesInternas", new { Area = "Reclutamiento" })',
+                dataType: 'JSON',
+                type: 'POST',
+                data: {
+                    postulanteXOfertaID : @Model.ID,
+                    ofertaID: @ofertaID,
+                    observaciones: $("#Observaciones").val(),
+                    motivoRechazo: $("#MotivoRechazo").val()   
+                },
+                success: function(response){
+                    recargaGrid();
+                    $("#Details").data('kendoWindow').close();
+            }
+            });
+    }
+    </script>
+    
+   
+
+}
+
