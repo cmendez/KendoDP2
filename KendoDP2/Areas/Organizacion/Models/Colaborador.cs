@@ -10,6 +10,7 @@ using KendoDP2.Areas.Evaluacion360.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 using KendoDP2.Models.Generic;
 using KendoDP2.Areas.Eventos.Models;
+using System.Reflection;
 
 namespace KendoDP2.Areas.Organizacion.Models
 {
@@ -53,6 +54,19 @@ namespace KendoDP2.Areas.Organizacion.Models
             LoadFromDTO(c);
         }
 
+        public Colaborador(Colaborador participanteDeEvaluacion)
+        {
+            Type t = participanteDeEvaluacion.GetType();
+            //foreach (FieldInfo fieldInf in t.GetFields())
+            //{
+            //    fieldInf.SetValue(this, fieldInf.GetValue(participanteDeEvaluacion));
+            //}
+            foreach (PropertyInfo propInf in t.GetProperties())
+            {
+                propInf.SetValue(this, propInf.GetValue(participanteDeEvaluacion));
+            }
+        }
+
         public Colaborador LoadFromDTO(ColaboradorDTO c)
         {
             ID = c.ID;
@@ -81,6 +95,11 @@ namespace KendoDP2.Areas.Organizacion.Models
         new public ColaboradorDTO ToDTO()
         {
             return new ColaboradorDTO(this);
+        }
+
+        public ColaboradorDTO paraObservacion360()
+        {
+            return new ColaboradorEvaluadorDTO(this);
         }
     }
 
@@ -259,6 +278,16 @@ namespace KendoDP2.Areas.Organizacion.Models
                 Documento = o.NumeroDocumento;
             }
         }
+    }
+
+    public class ColaboradorEvaluadorDTO : ColaboradorDTO
+    {
+        String FaseDeSuEvaluacion { get; set; }
+
+        public ColaboradorEvaluadorDTO(Colaborador empleado) : base(empleado)
+        {
+        }
+
     }
       
     

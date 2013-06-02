@@ -58,6 +58,19 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             using (DP2Context context = new DP2Context())
             {
 
+                ViewBag.Area = ""; //Solo es temporal
+                ViewBag.elProceso = procesoEvaluacionID;
+
+                if (losEvaluadoresDeEsteColaboradorYaFueronElegidos(procesoEvaluacionID, colaboradorID))
+                {
+                    Colaborador elEmpleado = consigueAlEmpleado(colaboradorID);
+                    ViewBag.elEvaluado = elEmpleado.ToDTO();
+                    ViewBag.losEvaluadoresYaFueronSeleccionados = true;
+
+                    return View();
+                }
+
+                ViewBag.losEvaluadoresYaFueronSeleccionados = false;
                 ViewBag.idEvaluado = colaboradorID * 100;
                 Colaborador colaborador = consigueAlEmpleado(colaboradorID);
                 Puesto suPerfil = consigueSuPerfil(colaboradorID);
@@ -82,13 +95,13 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 ViewBag.otros = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
 
 
-                ViewBag.Area = ""; //Solo es temporal
+                
                 //ViewBag.susSubordinados = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
                 return View();
             }
         }
 
-        public ActionResult enviar_evaluaciones(int evaluadoId, FormCollection form)
+        public ActionResult enviar_evaluaciones(int idDelProceso, int evaluadoId, FormCollection form)
         {
 
             using (DP2Context context = new DP2Context())
@@ -102,9 +115,10 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
                 ProcesoXEvaluado evaluadores = new ProcesoXEvaluado();
 
-                evaluadores.procesoID = 1;
+                evaluadores.procesoID = idDelProceso;
                 evaluadores.evaluadoID = evaluadoId;
-                evaluadores.evaluadores = new List<Colaborador>();
+                //evaluadores.evaluadores = new List<Colaborador>();
+                evaluadores.evaluadores = new List<Evaluador>();
 
                 for (int i = 0; i < llaves.Count / 2; i++)
                 {
@@ -118,8 +132,20 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
 
                     //evaluadores.evaluadores.Add(new Colaborador { ID = evaluadorId });
-                    evaluadores.evaluadores.Add(context.TablaColaboradores.FindByID(evaluadorId));
+                    //evaluadores.evaluadores.Add(context.TablaColaboradores.FindByID(evaluadorId));
 
+
+                    //evaluadores.evaluadores.Add(context.TablaColaboradores.FindByID(evaluadorId));
+
+                    Colaborador elParticipante = context.TablaColaboradores.FindByID(evaluadorId);
+                    //Evaluador comoEvaluador = Evaluador.enrolarlo(elParticipante, idDelProceso);
+                    Evaluador comoEvaluador = new Evaluador(evaluadoId, elParticipante, idDelProceso);
+
+
+
+                    evaluadores.evaluadores.Add(context.TablaEvaluadores.FindByID(evaluadorId));
+
+                    context.TablaEvaluadores.AddElement(comoEvaluador);
                 }
 
                 //string nombreControl = "Pares_12_Combo";
@@ -137,6 +163,34 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 return View();
 
             }
+        }
+
+        private bool losEvaluadoresDeEsteColaboradorYaFueronElegidos(int procesoEvaluacionID, int colaboradorID)
+        {
+
+            try
+            {
+
+                using (DP2Context laBaseDeDatos = new DP2Context())
+                {
+                    //if (laBaseDeDatos.TablaProcesoXEvaluado.One(pxe => pxe.evaluadoID == colaboradorID && pxe.procesoID == procesoEvaluacionID).evaluadores.Count == 0)
+                    if (laBaseDeDatos.TablaEvaluadores.Where(e => e.ElEvaluado == colaboradorID && e.ProcesoEnElQueParticipanID == procesoEvaluacionID).Count == 0)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+
+                }
+
+            }
+            catch (NullReferenceException aunSinEvaluadores)
+            {
+                return false;
+            }
+
         }
 
         private Colaborador consigueAlEmpleado(int idEvaluado) {
