@@ -34,15 +34,33 @@ namespace KendoDP2.Models.Generic
 
         private void SeedEvento()
         {
-            TablaEvento.AddElement(new Evento { Nombre = "Evento 1", Inicio = DateTime.ParseExact("29/05/2013 00:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("30/06/2013 23:59:59", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, CreadorID = 2 });
-            TablaEvento.AddElement(new Evento { Nombre = "Evento 1", Inicio = DateTime.ParseExact("29/05/2013 00:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("30/06/2013 23:59:59", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, CreadorID = 2 });
-            TablaEvento.AddElement(new Evento { Nombre = "Evento 1", Inicio = DateTime.ParseExact("29/05/2013 00:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("30/06/2013 23:59:59", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, CreadorID = 2 });
-            TablaEvento.AddElement(new Evento { Nombre = "Evento 1", Inicio = DateTime.ParseExact("29/05/2013 00:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("30/06/2013 23:59:59", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, CreadorID = 2 });
+            TablaEvento.AddElement(new Evento { Nombre = "Evento 1", Inicio = DateTime.ParseExact("04/06/2013 15:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("04/06/2013 18:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, CreadorID = 2 });
+            TablaEvento.AddElement(new Evento { Nombre = "Evento 1", Inicio = DateTime.ParseExact("05/06/2013 15:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("05/06/2013 18:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, CreadorID = 2 });
+            TablaEvento.AddElement(new Evento { Nombre = "Evento 1", Inicio = DateTime.ParseExact("08/06/2013 15:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("08/06/2013 20:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, CreadorID = 2 });
+            TablaEvento.AddElement(new Evento { Nombre = "Evento 1", Inicio = DateTime.ParseExact("10/06/2013 15:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("10/06/2013 21:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, CreadorID = 2 });
         }
 
         private void SeedInvitado()
         {
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 3, EventoID = 1 });
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 4, EventoID = 1 });
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 5, EventoID = 1 });
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 6, EventoID = 1 });
 
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 3, EventoID = 2 });
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 4, EventoID = 2 });
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 5, EventoID = 2 });
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 6, EventoID = 2 });
+
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 3, EventoID = 3 });
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 4, EventoID = 3 });
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 5, EventoID = 3 });
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 6, EventoID = 3 });
+
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 3, EventoID = 4 });
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 4, EventoID = 4 });
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 5, EventoID = 4 });
+            TablaInvitado.AddElement(new Invitado { ColaboradorID = 6, EventoID = 4 });
         }
 
     }
