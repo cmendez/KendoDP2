@@ -49,7 +49,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 // context.TablaColaboradores.FindByID(ColaboradorID).Evaluadores.where(x => x.ProcesoEvaluacionXColaborador.ProcesoEvaluacionID == procesoID).toList();
                 
                 return Json(context.TablaProcesoEvaluaciones.Where( x=> x.ID ==
-                    (context.TablaEvaluaciones.One( y => y.EvaluadorID == ColaboradorID).ID)).Select(x => x.ToDTO()).
+                    (context.TablaExamenes.One( y => y.EvaluadorID == ColaboradorID).ID)).Select(x => x.ToDTO()).
                     ToDataSourceResult(request));
                 
                 //return Json(context.TablaEvaluaciones.Where(x => x.EvaluadorID == ColaboradorID).Select(x => x.ToDTO()).ToDataSourceResult(request));                                          
