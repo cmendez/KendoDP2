@@ -165,5 +165,28 @@ namespace KendoDP2.Models.Generic
         {
             TablaProcesoEvaluaciones.AddElement(new ProcesoEvaluacion { AutorizadorID = 2, FechaCierre = new DateTime(2013, 12, 1), Nombre = "Proceso por defecto", EstadoProcesoEvaluacionID = TablaEstadoProcesoEvaluacion.One(e => e.Descripcion == ConstantsEstadoProcesoEvaluacion.Creado).ID });
         }
+
+
+        
+       private void seedColaboradorXProcesoEvaluacion()
+       {
+           TablaColaboradorXProcesoEvaluaciones.AddElement(new ColaboradorXProcesoEvaluacion { ColaboradorID = 1, ProcesoEvaluacionID = 1, EstadoColaboradorXProcesoEvaluacionID = 1 });        
+           TablaColaboradorXProcesoEvaluaciones.AddElement(new ColaboradorXProcesoEvaluacion { ColaboradorID = 3, ProcesoEvaluacionID = 1, EstadoColaboradorXProcesoEvaluacionID = 1 });
+           TablaColaboradorXProcesoEvaluaciones.AddElement(new ColaboradorXProcesoEvaluacion { ColaboradorID = 4, ProcesoEvaluacionID = 1, EstadoColaboradorXProcesoEvaluacionID = 1 });
+           TablaColaboradorXProcesoEvaluaciones.AddElement(new ColaboradorXProcesoEvaluacion { ColaboradorID = 5, ProcesoEvaluacionID = 1, EstadoColaboradorXProcesoEvaluacionID = 1 });
+        }
+
+
+       /*private void seedEvaluacion()
+       {
+           TablaEvaluaciones.AddElement(new Evaluacion { Nombre= "evaluacion1",EvaluadoID = 2, EvaluadorID = 1, Puntuacion=100});
+           TablaEvaluaciones.AddElement(new Evaluacion { Nombre = "evaluacion2", EvaluadoID = 3, EvaluadorID = 1, Puntuacion = 50 });
+           TablaEvaluaciones.AddElement(new Evaluacion { Nombre = "evaluacion3", EvaluadoID = 4, EvaluadorID = 1, Puntuacion = 70 });
+           TablaEvaluaciones.AddElement(new Evaluacion { Nombre = "evaluacion4", EvaluadoID = 5, EvaluadorID = 1, Puntuacion = 80 });           
+           
+           
+       }*/
+
+
     }
 }
