@@ -50,5 +50,65 @@ namespace KendoDP2.Areas.Evaluacion360.Models
             return colaboradores;
         }
 
+        public static List<Colaborador> consigueSusSubordinados(int deEsteColaborador)
+        {
+            Colaborador colaborador = new DP2Context().TablaColaboradores.FindByID(deEsteColaborador);
+            List<Colaborador> colaboradores = new List<Colaborador>();
+            colaboradores.Add(colaborador);
+            colaboradores.Add(colaborador);
+            colaboradores.Add(colaborador);
+            return colaboradores;
+
+        }
+
+
+        public static List<Colaborador> consigueSusSubordinadosFicticios(int deEsteColaborador)
+        {
+            //Colaborador colaborador = new DP2Context().TablaColaboradores.FindByID(deEsteColaborador);
+            List<Colaborador> colaboradores = new List<Colaborador>();
+            colaboradores.Add(new DP2Context().TablaColaboradores.FindByID(2));
+            colaboradores.Add(new DP2Context().TablaColaboradores.FindByID(22));
+            colaboradores.Add(new DP2Context().TablaColaboradores.FindByID(15));
+            return colaboradores;
+
+        }
+
+
+        public static List<ProcesoEvaluacionDTO> listaTodosLosProcesos()
+        {
+
+            using (DP2Context laBD = new DP2Context())
+            {
+                //String unaFrase;
+                //unaFrase.First();
+                List<ProcesoEvaluacionDTO> lasEvaluaciones = laBD.TablaProcesoEvaluaciones.All().Select(p => p.ToDTO()).ToList();
+                return lasEvaluaciones;
+            }
+        }
+
+
+        //public static ProcesoXEvaluado devuelveDatosDeParticipacion(int dentroDeEsteProceso, int porEsteColaborador)
+        //{
+        //    using (DP2Context losDatos = new DP2Context())
+        //    {
+        //        ProcesoXEvaluado laRelacion = losDatos.TablaProcesoXEvaluado.One(p => p.procesoID == dentroDeEsteProceso && p.evaluadoID == porEsteColaborador);
+        //        //Por hacer
+        //        return laRelacion;
+        //    }
+        //}
+
+        public static List<Evaluador> devuelveDatosDeParticipacion(int dentroDeEsteProceso, int porEsteColaborador)
+        {
+            using (DP2Context losDatos = new DP2Context())
+            {
+                List<Evaluador> laRelacion = losDatos.TablaEvaluadores.Where(p => p.ProcesoEnElQueParticipanID == dentroDeEsteProceso && p.ElEvaluado == porEsteColaborador).ToList();
+                return laRelacion;
+            }
+        }
+
+        public static Puesto devolverPuestoVigente(Colaborador deEsteEmpleado)
+        {
+            return new DP2Context().TablaPuestos.One(p => p.ID == 2);
+        }
     }
 }
