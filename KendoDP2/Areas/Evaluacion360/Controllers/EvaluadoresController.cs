@@ -13,9 +13,6 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 {
     public class EvaluadoresController : Controller
     {
-        //
-        // GET: /Evaluacion360/Evaluadores/
-
         public ActionResult Index(int idEvaluado)
         {
 
@@ -24,9 +21,9 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             {
 
                 ViewBag.idEvaluado = idEvaluado * 100;
-                Colaborador colaborador = consigueAlEmpleado(idEvaluado);
-                Puesto suPerfil = consigueSuPerfil(idEvaluado);
-                List<PuestoXEvaluadores> puestoXEvaluadores = consigueSusEvaluadores(idEvaluado);
+                Colaborador colaborador = consigueAlEmpleado(idEvaluado, context);
+                Puesto suPerfil = consigueSuPerfil(idEvaluado, context);
+                List<PuestoXEvaluadores> puestoXEvaluadores = consigueSusEvaluadores(idEvaluado, context);
 
                 //foreach (PuestoXEvaluadores puestoXEvaluador in puestoXEvaluadores) {
                 //    puestoXEvaluador.Cantidad = 1;
@@ -37,13 +34,13 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 ViewBag.puestoXEvaluadores = puestoXEvaluadores.Select(p => p.ToDTO()).ToList();
 
                 List<ColaboradorDTO> elJefe = new List<ColaboradorDTO>();
-                elJefe.Add(consigueSuJefe(idEvaluado).ToDTO());
+                elJefe.Add(consigueSuJefe(idEvaluado, context).ToDTO());
                 ViewBag.suJefe = elJefe;
                 List<ColaboradorDTO> elMismo = new List<ColaboradorDTO>();
                 elMismo.Add(colaborador.ToDTO());
                 ViewBag.elMismo = elMismo;
                 ViewBag.susSubordinados = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
-                ViewBag.susPares = consigueSusPares(idEvaluado).Select(p => p.ToDTO()).ToList();
+                ViewBag.susPares = consigueSusPares(idEvaluado, context).Select(p => p.ToDTO()).ToList();
                 ViewBag.otros = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
 
 
@@ -61,9 +58,9 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 ViewBag.Area = ""; //Solo es temporal
                 ViewBag.elProceso = procesoEvaluacionID;
 
-                if (losEvaluadoresDeEsteColaboradorYaFueronElegidos(procesoEvaluacionID, colaboradorID))
+                if (losEvaluadoresDeEsteColaboradorYaFueronElegidos(procesoEvaluacionID, colaboradorID, context))
                 {
-                    Colaborador elEmpleado = consigueAlEmpleado(colaboradorID);
+                    Colaborador elEmpleado = consigueAlEmpleado(colaboradorID, context);
                     ViewBag.elEvaluado = elEmpleado.ToDTO();
                     ViewBag.losEvaluadoresYaFueronSeleccionados = true;
 
@@ -72,9 +69,9 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
                 ViewBag.losEvaluadoresYaFueronSeleccionados = false;
                 ViewBag.idEvaluado = colaboradorID * 100;
-                Colaborador colaborador = consigueAlEmpleado(colaboradorID);
-                Puesto suPerfil = consigueSuPerfil(colaboradorID);
-                List<PuestoXEvaluadores> puestoXEvaluadores = consigueSusEvaluadores(colaboradorID);
+                Colaborador colaborador = consigueAlEmpleado(colaboradorID, context);
+                Puesto suPerfil = consigueSuPerfil(colaboradorID, context);
+                List<PuestoXEvaluadores> puestoXEvaluadores = consigueSusEvaluadores(colaboradorID, context);
 
                 //foreach (PuestoXEvaluadores puestoXEvaluador in puestoXEvaluadores) {
                 //    puestoXEvaluador.Cantidad = 1;
@@ -85,13 +82,13 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 ViewBag.puestoXEvaluadores = puestoXEvaluadores.Select(p => p.ToDTO()).ToList();
 
                 List<ColaboradorDTO> elJefe = new List<ColaboradorDTO>();
-                elJefe.Add(consigueSuJefe(colaboradorID).ToDTO());
+                elJefe.Add(consigueSuJefe(colaboradorID, context).ToDTO());
                 ViewBag.suJefe = elJefe;
                 List<ColaboradorDTO> elMismo = new List<ColaboradorDTO>();
                 elMismo.Add(colaborador.ToDTO());
                 ViewBag.elMismo = elMismo;
                 ViewBag.susSubordinados = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
-                ViewBag.susPares = consigueSusPares(colaboradorID).Select(p => p.ToDTO()).ToList();
+                ViewBag.susPares = consigueSusPares(colaboradorID, context).Select(p => p.ToDTO()).ToList();
                 ViewBag.otros = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
 
 
@@ -103,7 +100,6 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
         public ActionResult enviar_evaluaciones(int idDelProceso, int evaluadoId, FormCollection form)
         {
-
             using (DP2Context context = new DP2Context())
             {
                 System.Collections.Specialized.NameObjectCollectionBase.KeysCollection llaves = form.Keys;
@@ -129,11 +125,8 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
                     int evaluadorId = Int32.Parse(form[nombreControl].CompareTo("") == 0 ? "2" : form[nombreControl]);
 
-
-
                     //evaluadores.evaluadores.Add(new Colaborador { ID = evaluadorId });
                     //evaluadores.evaluadores.Add(context.TablaColaboradores.FindByID(evaluadorId));
-
 
                     //evaluadores.evaluadores.Add(context.TablaColaboradores.FindByID(evaluadorId));
 
@@ -165,16 +158,11 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
-        private bool losEvaluadoresDeEsteColaboradorYaFueronElegidos(int procesoEvaluacionID, int colaboradorID)
+        private bool losEvaluadoresDeEsteColaboradorYaFueronElegidos(int procesoEvaluacionID, int colaboradorID, DP2Context context)
         {
-
             try
             {
-
-                using (DP2Context laBaseDeDatos = new DP2Context())
-                {
-                    //if (laBaseDeDatos.TablaProcesoXEvaluado.One(pxe => pxe.evaluadoID == colaboradorID && pxe.procesoID == procesoEvaluacionID).evaluadores.Count == 0)
-                    if (laBaseDeDatos.TablaEvaluadores.Where(e => e.ElEvaluado == colaboradorID && e.ProcesoEnElQueParticipanID == procesoEvaluacionID).Count == 0)
+                    if (context.TablaEvaluadores.Where(e => e.ElEvaluado == colaboradorID && e.ProcesoEnElQueParticipanID == procesoEvaluacionID).Count == 0)
                     {
                         return false;
                     }
@@ -182,9 +170,6 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     {
                         return true;
                     }
-
-                }
-
             }
             catch (NullReferenceException aunSinEvaluadores)
             {
@@ -193,46 +178,37 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
         }
 
-        private Colaborador consigueAlEmpleado(int idEvaluado) {
-        
-            return new DP2Context().TablaColaboradores.FindByID(idEvaluado);
-        
+        private Colaborador consigueAlEmpleado(int idEvaluado, DP2Context context) {
+            return context.TablaColaboradores.FindByID(idEvaluado);
         }
 
-        private Puesto consigueSuPerfil(int idEvaluado)
+        private Puesto consigueSuPerfil(int idEvaluado, DP2Context context)
         {
-            Colaborador elColaborador = new DP2Context().TablaColaboradores.FindByID(idEvaluado);
-            //elColaborador.ColaboradoresPuesto.GetEnumerator;
-
+            Colaborador elColaborador = context.TablaColaboradores.FindByID(idEvaluado);
             foreach (ColaboradorXPuesto cxp in elColaborador.ColaboradoresPuesto)
             {
                 return cxp.Puesto;
             }
-
             return null;
-
-            //return new DP2Context().TablaPuestos.FindByID(idEvaluado);
-            //return new Perfil("un perfil");
         }
 
-        private List<PuestoXEvaluadores> consigueSusEvaluadores(int idEvaluado)
+        private List<PuestoXEvaluadores> consigueSusEvaluadores(int idEvaluado, DP2Context context)
         {
-            Puesto perfil = consigueSuPerfil(idEvaluado);
+            Puesto perfil = consigueSuPerfil(idEvaluado, context);
             //List<PuestoXEvaluadores> puestoYSusEvaluadores();
             List<PuestoXEvaluadores> puestoYSusEvaluadores = new DP2Context().TablaPuestoXEvaluadores.Where(e => e.PuestoID == perfil.ID).ToList();
             return puestoYSusEvaluadores;
         }
 
-        private Colaborador consigueSuJefe(int idEvaluado)
+        private Colaborador consigueSuJefe(int idEvaluado, DP2Context context)
         {
-            Colaborador colaborador = new DP2Context().TablaColaboradores.FindByID(22);
-
+            Colaborador colaborador = context.TablaColaboradores.FindByID(22);
             return colaborador;
         }
 
-        private List<Colaborador> consigueSusPares(int idEvaluado)
+        private List<Colaborador> consigueSusPares(int idEvaluado, DP2Context context)
         {
-            Colaborador colaborador = new DP2Context().TablaColaboradores.FindByID(idEvaluado);
+            Colaborador colaborador = context.TablaColaboradores.FindByID(idEvaluado);
             List<Colaborador> colaboradores = new List<Colaborador>();
             colaboradores.Add(colaborador);
             colaboradores.Add(colaborador);
