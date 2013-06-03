@@ -199,6 +199,7 @@ namespace KendoDP2.Models.Generic
             TablaEstadoPostulanteXOferta.AddElement(new EstadoPostulantePorOferta { Descripcion = "Rechazado Fase 1" });
             TablaEstadoPostulanteXOferta.AddElement(new EstadoPostulantePorOferta { Descripcion = "Rechazado Fase 2" });
             TablaEstadoPostulanteXOferta.AddElement(new EstadoPostulantePorOferta { Descripcion = "Rechazado Fase 3" });
+            TablaEstadoPostulanteXOferta.AddElement(new EstadoPostulantePorOferta { Descripcion = "Contratado" });
 
         }
         

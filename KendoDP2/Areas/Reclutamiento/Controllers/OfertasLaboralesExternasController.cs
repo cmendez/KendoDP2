@@ -141,7 +141,6 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             }
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Contratar(int ofertaID, int postulanteXOfertaLaboralID)
         {
             using (DP2Context context = new DP2Context())
@@ -167,68 +166,20 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 };
 
                 Colaborador c = new Colaborador(colaboradorDTO);
-                if (ValidaColaboradores(c.TipoDocumentoID, c.NumeroDocumento) == 0)
-                {
-                    c.EstadoColaborador = context.TablaEstadosColaboradores.One(x => x.Descripcion.Equals("Contratado"));
-                    context.TablaColaboradores.AddElement(c);
+                c.EstadoColaborador = context.TablaEstadosColaboradores.One(x => x.Descripcion.Equals("Contratado"));
+                context.TablaColaboradores.AddElement(c);
+                Puesto pe = context.TablaPuestos.FindByID(colaboradorDTO.PuestoID);
+                ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = pe.ID, Sueldo = colaboradorDTO.Sueldo };
+                context.TablaColaboradoresXPuestos.AddElement(cruce);
 
-                    Puesto p = context.TablaPuestos.FindByID(colaboradorDTO.PuestoID);
-                    ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaboradorDTO.Sueldo };
-
-                    context.TablaColaboradoresXPuestos.AddElement(cruce);
-                }
-                else
-                {
-                    ModelState.AddModelError("Tipo Documento", "El Numero de documento es invalido");
-
-                }
-
-               // Create(colaboradorDTO);
-
+                postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Contratado"));
+                context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
+                
                 return RedirectToAction("Index", "Colaboradores", new { Area = "Organizacion" });
             }
 
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create([DataSourceRequest] DataSourceRequest request, ColaboradorDTO colaborador)
-        {
-            using (DP2Context context = new DP2Context())
-            {
-                //en caso no funcione solo se sacan los if's y se deja tal como esta
-                Colaborador c = new Colaborador(colaborador);
-                if (ValidaColaboradores(c.TipoDocumentoID, c.NumeroDocumento) == 0)
-                {
-                    c.EstadoColaborador = context.TablaEstadosColaboradores.One(x => x.Descripcion.Equals("Contratado"));
-                    context.TablaColaboradores.AddElement(c);
-
-                    Puesto p = context.TablaPuestos.FindByID(colaborador.PuestoID);
-                    ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo };
-
-                    context.TablaColaboradoresXPuestos.AddElement(cruce);
-
-                    return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
-                }
-                else
-                {
-                    ModelState.AddModelError("Tipo Documento", "El Numero de documento es invalido");
-                    return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
-
-                }
-            }
-        }
-
-        public int ValidaColaboradores(int tipoDocumentoID, string documento)
-        {
-            using (DP2Context context = new DP2Context())
-            {
-                IList<Colaborador> colaboradores = context.TablaColaboradores.All().Where(c => ((c.TipoDocumentoID == tipoDocumentoID) && (c.NumeroDocumento == documento))).ToList();
-                if (colaboradores.Count() == 0)
-                    return 0;
-                else
-                    return 1;
-            }
-        }
-
+      
     }
 }

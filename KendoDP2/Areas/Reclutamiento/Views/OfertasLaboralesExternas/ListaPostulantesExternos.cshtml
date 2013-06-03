@@ -99,7 +99,13 @@
             },
             success: function(response){
                 alert("El postulante fue aprobado para evaluación");
+                console.log("success ");
+                console.log(response);
                 recargaGrid();
+            },
+            complete: function(response){
+                console.log("complete ");
+                console.log(response);
             }
         });
     }

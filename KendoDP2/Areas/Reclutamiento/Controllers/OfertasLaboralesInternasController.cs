@@ -157,12 +157,18 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 OfertaLaboral o = context.TablaOfertaLaborales.FindByID(ofertaID);
                 OfertaLaboralXPostulante postulanteOferta = o.Postulantes.Where(p => p.ID == postulanteXOfertaID).FirstOrDefault();
 
+                if (postulanteOferta.EstadoPostulantePorOferta.Descripcion.Equals("Inscrito"))
+                {
+                    postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Aprobado Fase 1"));
+                    context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
+                    return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+                }
+                else
+                {
+                    ModelState.AddModelError("", "El postulante ya fue aprobado o rechazado para otra fase.");
+                    return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+                }
 
-                postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Aprobado Fase 1"));
-                              
-                context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
-
-                return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
 
         }
@@ -175,11 +181,18 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 OfertaLaboral o = context.TablaOfertaLaborales.FindByID(ofertaID);
                 OfertaLaboralXPostulante postulanteOferta = o.Postulantes.Where(p => p.ID == postulanteXOfertaID).FirstOrDefault();
 
-                postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Aprobado Fase 2"));
+                if (postulanteOferta.EstadoPostulantePorOferta.Descripcion.Equals("Aprobado Fase 1"))
+                {
+                    postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Aprobado Fase 2"));
+                    context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
+                    return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+                }
+                else
+                {
+                    ModelState.AddModelError("", "El postulante ya fue rechazado para otra fase.");
+                    return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+                }
                 
-                context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
-
-                return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
 
         }
@@ -192,11 +205,20 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 OfertaLaboral o = context.TablaOfertaLaborales.FindByID(ofertaID);
                 OfertaLaboralXPostulante postulanteOferta = o.Postulantes.Where(p => p.ID == postulanteXOfertaID).FirstOrDefault();
 
-                postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Aprobado Fase 3"));
+                if (postulanteOferta.EstadoPostulantePorOferta.Descripcion.Equals("Aprobado Fase 1"))
+                {
+                    postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Aprobado Fase 3"));
+                    context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
 
-                context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
-
-                return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+                    return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+                }
+                else
+                {
+                    ModelState.AddModelError("", "El postulante ya fue rechazado para otra fase.");
+                    return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+                }
+                
+                
             }
 
         }
@@ -211,6 +233,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 ViewBag.cruce = postulanteOferta.ID;
                 ViewBag.ofertaID = ofertaID; ViewBag.area = oferta.Area.ToDTO();
                 ViewBag.puesto = oferta.Puesto.ToDTO();
+                ViewBag.yaRechazadoAprobado =  postulanteOferta.EstadoPostulantePorOferta.Descripcion.StartsWith("Rechaz");
                 if (oferta.ModoSolicitudOfertaLaboral.Descripcion.Equals("Convocatoria Interna"))
                 {
                     return PartialView("EditorMotivoRechazo", postulanteOferta.ToDTO());
@@ -253,15 +276,26 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             }
         }
 
-        public ActionResult Contratar(int ofertaID, int postulanteXOfertaLaboralID)
+        public ActionResult Contratar([DataSourceRequest] DataSourceRequest request, int ofertaID, int postulanteXOfertaLaboralID)
         {
             using (DP2Context context = new DP2Context())
             {
                 OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
                 OfertaLaboralXPostulante postulanteOferta = oferta.Postulantes.Where(p => p.ID == postulanteXOfertaLaboralID).FirstOrDefault();
                 // aca asignar el nuevo puesto
+                if (postulanteOferta.EstadoPostulantePorOferta.Descripcion.Equals("Aprobado Fase 3"))
+                {
+                    postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Contratado"));
+                    context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
 
-                return RedirectToAction("Linea", "Historial", new { Area = "Organizacion", ID = DP2MembershipProvider.GetPersonaID(this) }); 
+                    return RedirectToAction("Linea", "Historial", new { Area = "Organizacion", ID = DP2MembershipProvider.GetPersonaID(this) });
+                }
+                else
+                {
+                    ModelState.AddModelError("", "El postulante ya fue contratado o rechazado para esta oferta laboral.");
+                    return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+                }
+                 
             }
 
         }
@@ -282,6 +316,8 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                
             }
         }
+
+
 
         }
       
