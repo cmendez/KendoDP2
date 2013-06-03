@@ -58,7 +58,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     //}
 
                     return JsonSuccessGet(new { id1 = idOfertaLaboral, id2 = idPostulante, obj1 = respuestas,
-                        obj2 = evaluacion, obj3 = olxp  });
+                        obj2 = evaluacion, obj3 = olxp.ToDTO()  });
 
                     //return JsonSuccessPost(new { evaluacion = e.ToDTO(), respuestas = lstRespuesta.Select(x => x.ToDTO()).ToList() });
                 }
