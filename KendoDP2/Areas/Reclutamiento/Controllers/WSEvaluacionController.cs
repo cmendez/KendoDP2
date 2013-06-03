@@ -13,7 +13,8 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 {
     public class WSEvaluacionController : WSController
     {
-        [AcceptVerbs(HttpVerbs.Post)]
+        //[AcceptVerbs(HttpVerbs.Post)]
+        [HttpPost]
         public JsonResult setRespuestasXEvaluacion(string idOfertaLaboral, string idPostulante, 
                                                     string descripcionFase, List<RespuestaDTO> respuestas,
                                                     EvaluacionXFaseXPostulacionDTO evaluacion)
@@ -57,24 +58,18 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                         lstRespuesta.Add(rAux);
                     }
 
-                    return JsonSuccessPost(new { id1 = idOfertaLaboral, id2 = idPostulante, id3 = descripcionFase, obj1 = respuestas,
-                        obj2 = evaluacion, obj3 = olxp.ToDTO(), obj4 =  fpxolxp != null ? fpxolxp.ID : -1,
-                        obj5 = fp != null ? fp.ID : -1, obj6 = e.ToDTO(), obj7 = lstRespuesta.Select(x => x.ToDTO()).ToList()
-                    });
+                    //return JsonSuccessPost(new { id1 = idOfertaLaboral, id2 = idPostulante, id3 = descripcionFase, obj1 = respuestas,
+                    //    obj2 = evaluacion, obj3 = olxp.ToDTO(), obj4 =  fpxolxp != null ? fpxolxp.ID : -1,
+                    //    obj5 = fp != null ? fp.ID : -1, obj6 = e.ToDTO(), obj7 = lstRespuesta.Select(x => x.ToDTO()).ToList()
+                    //});
 
-                    //return JsonSuccessPost(new { evaluacion = e.ToDTO(), respuestas = lstRespuesta.Select(x => x.ToDTO()).ToList() });
+                    return JsonSuccessPost(new { evaluacion = e.ToDTO(), respuestas = lstRespuesta.Select(x => x.ToDTO()).ToList() });
                 }
                 catch (Exception ex)
                 {
                     return JsonErrorPost("Error en la BD: " + ex.Message);
                 }
             }
-        }
-
-        [HttpPost]
-        public JsonResult prueba(int id)
-        {
-            return JsonSuccessPost(id);
         }
 
         //public JsonResult setEvaluacion(string idOfertaLaboral, string idPostulante, string descripcionFase, 

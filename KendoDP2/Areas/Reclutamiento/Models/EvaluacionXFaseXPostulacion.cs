@@ -56,12 +56,12 @@ namespace KendoDP2.Areas.Reclutamiento.Models
     public class EvaluacionXFaseXPostulacionDTO
     {
         public int ID { get; set; }
+        public int FasePostulacionXOfertaLaboralXPostulanteID { get; set; }
+
         public string FechaInicio { get; set; }
         public string FechaFin { get; set; }
-
         public int Puntaje { get; set; }
         public bool FlagAprobado { get; set; }
-
         public string Comentarios { get; set; }
         public string Observaciones { get; set; }
 
@@ -70,6 +70,8 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public EvaluacionXFaseXPostulacionDTO(EvaluacionXFaseXPostulacion e)
         {
             ID = e.ID;
+            FasePostulacionXOfertaLaboralXPostulanteID = e.FasePostulacionXOfertaLaboralXPostulanteID;
+
             FechaInicio = e.FechaInicio.ToString("dd/MM/yyyy HH:mm:ss");
             FechaFin = e.FechaFin.ToString("dd/MM/yyyy HH:mm:ss");
             Puntaje = e.Puntaje;
