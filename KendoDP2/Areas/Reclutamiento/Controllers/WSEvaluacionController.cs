@@ -31,21 +31,21 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     FasePostulacionXOfertaLaboralXPostulante fpxolxp = context.TablaFasePostulacionXOfertaLaboralXPostulante
                         .One(x => (x.OfertaLaboralXPostulanteID == olxp.ID) &&
                                     (x.FasePostulacionID == (fp != null ? fp.ID : 4)));
-                    ////Crear y cargar EvaluacionXFaseXPostulacion 
-                    //EvaluacionXFaseXPostulacion e = new EvaluacionXFaseXPostulacion().LoadFromDTO(evaluacion);
-                    ////Asignar la evaluacion a la FasePostulacionXOfertaLaboralXPostulante 
-                    //e.FasePostulacionXOfertaLaboralXPostulanteID = fpxolxp.ID;
-                    //e.FasePostulacionXOfertaLaboralXPostulante = context.TablaFasePostulacionXOfertaLaboralXPostulante.FindByID(fpxolxp.ID);
-                    ////Calcular el puntaje y asignarlo
-                    //int puntajeTotal = 0;
-                    //foreach (var obj in respuestas)
-                    //{
-                    //    puntajeTotal += obj.Puntaje;
-                    //}
-                    //e.Puntaje = puntajeTotal;
-                    //// COMO SE QUE APROBO, NO SE COMO ASIGNARLO AQUI Y NO SE SI ES EL MOMENTO ADECUADO
-                    //e.FlagAprobado = true; // ESTO DEBE CALCULARSE
-                    ////Guardar la evaluacion por fase por postulacion, es necesario reasignar el ID o ya se guarda
+                    //Crear y cargar EvaluacionXFaseXPostulacion 
+                    EvaluacionXFaseXPostulacion e = new EvaluacionXFaseXPostulacion().LoadFromDTO(evaluacion);
+                    //Asignar la evaluacion a la FasePostulacionXOfertaLaboralXPostulante 
+                    e.FasePostulacionXOfertaLaboralXPostulanteID = fpxolxp.ID;
+                    e.FasePostulacionXOfertaLaboralXPostulante = fpxolxp;
+                    //Calcular el puntaje y asignarlo
+                    int puntajeTotal = 0;
+                    foreach (var obj in respuestas)
+                    {
+                        puntajeTotal += obj.Puntaje;
+                    }
+                    e.Puntaje = puntajeTotal;
+                    // COMO SE QUE APROBO, NO SE COMO ASIGNARLO AQUI Y NO SE SI ES EL MOMENTO ADECUADO
+                    e.FlagAprobado = true; // ESTO DEBE CALCULARSE
+                    //Guardar la evaluacion por fase por postulacion, es necesario reasignar el ID o ya se guarda
                     //context.TablaEvaluacionXFaseXPostulacion.AddElement(e);
                     ////Guardar las respuesta, indicando la evaluacion a la que pertenecen
                     //List<Respuesta> lstRespuesta = new List<Respuesta>();
@@ -59,7 +59,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 
                     return JsonSuccessGet(new { id1 = idOfertaLaboral, id2 = idPostulante, id3 = descripcionFase, obj1 = respuestas,
                         obj2 = evaluacion, obj3 = olxp.ToDTO(), obj4 =  fpxolxp != null ? fpxolxp.ID : -1,
-                        obj5 = fp != null ? fp.ID : -1
+                        obj5 = fp != null ? fp.ID : -1, obj6 = e.ToDTO()
                     });
 
                     //return JsonSuccessPost(new { evaluacion = e.ToDTO(), respuestas = lstRespuesta.Select(x => x.ToDTO()).ToList() });
