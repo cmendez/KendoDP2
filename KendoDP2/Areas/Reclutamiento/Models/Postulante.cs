@@ -66,32 +66,42 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         [ScaffoldColumn(false)]
         public int ID { get; set; }
 
+        [Required(ErrorMessage = "El campo Nombres es obligatorio")]
         [DisplayName("Nombres")]
         public string Nombres { get; set; }
 
+        [Required(ErrorMessage = "El campo Apellido Paterno es obligatorio")]
         [DisplayName("Apellido Paterno")]
         public string ApellidoPaterno { get; set; }
 
+        [Required(ErrorMessage = "El campo Apellido Materno es obligatorio")]
         [DisplayName("Apellido Materno")]
         public string ApellidoMaterno { get; set; }
 
+        [Required(ErrorMessage = "El campo Centro de estudios es obligatorio")]
         [DisplayName("Centro de estudios")]
         public string CentroEstudios { get; set; }
 
+        [Required(ErrorMessage = "El campo Correo Electrónico es obligatorio")]
         [DisplayName("Correo Electrónico")]
         public string CorreoElectronico { get; set; }
 
+        [Required(ErrorMessage = "El campo Grado Académico es obligatorio")]
         public int GradoAcademicoID { get; set; }
         [DisplayName("Grado Académico")]
         public string GradoAcademico { get; set; }
 
+        [Required(ErrorMessage = "El campo Tipo de Documento es obligatorio")]
         public int TipoDocumentoID { get; set; }
         [DisplayName("Tipo de Documento")]
         public string TipoDocumento { get; set; }
 
+        [Required(ErrorMessage = "El campo Número de Documento es obligatorio")]
         [DisplayName("Número de Documento")]
         public string NumeroDocumento { get; set; }
 
+        [Required(ErrorMessage = "Subir un CV es obligatorio")]
+        [Range(1, int.MaxValue, ErrorMessage = "Subir un CV es obligatorio")]
         [DisplayName("Curriculum Vitae")]
         public int CurriculumVitaeID { get; set; }
 

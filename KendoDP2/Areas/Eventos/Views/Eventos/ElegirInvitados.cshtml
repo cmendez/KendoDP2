@@ -1,0 +1,103 @@
+﻿@using KendoDP2.Areas.Organizacion.Models
+@using Kendo.Mvc.UI
+
+@model KendoDP2.Areas.Eventos.Models.Evento
+
+@{
+    ViewBag.Title = "Elegir Invitados";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IList<KendoDP2.Areas.Organizacion.Models.ColaboradorDTO> colaboradores = ViewBag.colaboradores;
+    IList<KendoDP2.Areas.Organizacion.Models.AreaDTO> areas = ViewBag.areas;
+    SelectList lista = new SelectList(areas, "ID", "Nombre");
+}
+
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Elegir Invitados", "Elija los colaboradores invitados para este evento creado"));}
+
+<div class="portlet box green">
+    <div class="portlet-title">
+        <h4><i class="icon-reorder"></i>Elegir Invitados</h4>
+        <div class="tools">
+            <a href="javascript:;" class="collapse"></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="row-fluid">
+            <div class="span2">
+                @(Html.Kendo().ComboBox()
+                    .Name("ComboColaboradores")
+                    .Placeholder("Agregue un colaborador...")
+                    .DataTextField("NombreCompleto")
+                    .DataValueField("ID")
+                    .Filter("contains")
+                    .BindTo(colaboradores)
+                    .Suggest(true)
+                    .HtmlAttributes(new { style = "width:100%" })
+                    .Events(e => e.Close("comboColaboradoresSelection"))
+                )
+                <hr />
+                @(Html.Kendo().ComboBox()
+                    .Name("ComboAreas")
+                    .Placeholder("Agregue un área...")
+                    .DataTextField("Nombre")
+                    .DataValueField("ID")
+                    .Filter("contains")
+                    .BindTo(areas)
+                    .Suggest(true)
+                    .HtmlAttributes(new { style = "width:100%" })
+                    .Events(e => e.Close("comboAreasSelection"))
+                )
+                <hr />
+                <div id="event_box_areas">
+                </div>
+                <hr />
+                <div id="event_box_colaboradores">
+                </div>
+                <hr />
+            </div>
+            <div class="span10">
+                @(Html.Kendo().Grid<KendoDP2.Areas.Organizacion.Models.ColaboradorDTO>()
+                .Name("ColaboradoresDeProcesoEvaluacionGrid")
+                .Columns(columns =>
+                    {
+                        columns.Bound(p => p.NombreCompleto);
+                        columns.Bound(p => p.CorreoElectronico);
+                        columns.ForeignKey((p => p.AreaID), lista);
+                        columns.Bound(p => p.Puesto);
+                        columns.Command(command =>
+                        {
+                            command.Destroy().Text("Eliminar");
+                        }).Width(200);
+                    }
+                )
+                        )
+                        .Editable(
+                            e => e.DisplayDeleteConfirmation("¿Está seguro de que desea eliminar este registro?")
+                        )
+                        .Pageable(paper => paper.Refresh(true))
+                        .Filterable()
+                        .Sortable()
+                        .Scrollable(w => w.Height(330))
+                        .DataSource(dataSource => dataSource
+                            .Ajax()
+                            .PageSize(20)
+                            .Model(model => { model.Id(p => p.ID); })
+                            .Read(read => read.Action("ReadInvitados", "Eventos", new { EventoID = Model.ID }))
+                            .Destroy(update => update.Action("EliminaInvitados", "Eventos"))
+                            .Events(e => e.RequestEnd("requestEnd"))
+                        )
+                        )
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript"> 
+    $(document).ready(function(){
+        cargaTiles();
+    });
+    function requestEnd(e){
+        cargaTiles();
+    }
+
+   
+</script>

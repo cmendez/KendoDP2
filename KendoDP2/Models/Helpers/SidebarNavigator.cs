@@ -25,13 +25,15 @@ namespace KendoDP2.Models.Helpers
             Opciones.Add(new SidebarOption("Evaluacion360", "Evaluación 360°", "icon-pencil", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption("Competencias", "Competencias", "Index", "icon-plus-sign"),
                 new SidebarSuboption("Capacidades", "Capacidades", "Index", "icon-check"),
+				//new SidebarSuboption("Evaluaciones", "Registrar Evaluaciones", "Index", "icon-check"),
                 new SidebarSuboption("Procesos de evaluación", "ProcesoEvaluacion", "Index", "icon-road"),
                 new SidebarSuboption("Evaluación de puestos de trabajo", "PuestosEvaluacion", "Index", "icon-ok-sign"),
 
                 //new SidebarSuboption("Envio de correo", "Correo", "Index", "icon-ok-sign"),
-				new SidebarSuboption("Listar procesos de evaluación", "ListarProcesosXEvaluador", "Index", "icon-ok-sign"),
-                new SidebarSuboption("Rendir Evaluacion", "Evaluacion", "Index", "icon-ok-sign"),
+                //new SidebarSuboption("Acordion", "Acordion", "Index", "icon-ok-sign"),
 				new SidebarSuboption("Rol Evaluador", "RolEvaluador", "Index", "icon-ok-sign"),
+                new SidebarSuboption("Rendir Evaluacion", "Evaluacion", "Index", "icon-ok-sign")
+				//new SidebarSuboption("Por perfil BORRADOR", "Configuracion360", "Index", "icon-group")
             })));				
             
 
@@ -61,7 +63,8 @@ namespace KendoDP2.Models.Helpers
 
             Opciones.Add(new SidebarOption("Reclutamiento", "Reclutamiento", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption("Ofertas Laborales","SolicitudOfertasLaborales","Index","icon-tag"),
-                new SidebarSuboption("Ofertas Laborales Internas", "OfertasLaboralesInternas","Index","icon-file-alt")
+                new SidebarSuboption("Administrar Ofertas Laborales Internas", "OfertasLaboralesInternas","Index","icon-book"),
+                new SidebarSuboption("Administrar Ofertas Laborales Externas", "OfertasLaboralesExternas","Index","icon-book")
             })));
 
             Opciones.Add(new SidebarOption("BolsaTrabajo", "Bolsa de Trabajo", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{

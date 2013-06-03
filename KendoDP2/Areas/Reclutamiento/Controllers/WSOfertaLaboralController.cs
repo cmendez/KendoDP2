@@ -77,7 +77,8 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             }
         }
 
-        public JsonResult setEstadoSolicitudOfertaLaboral(string ofertaLaboralID, string nuevoEstado, string comentarios)
+        [AcceptVerbs(HttpVerbs.Post)]
+        public JsonResult aprobarSolicitudOfertaLaboral(string ofertaLaboralID, string nuevoEstado, string comentarios)
         {
             using (DP2Context context = new DP2Context())
             {
@@ -87,11 +88,11 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     ol.EstadoSolicitudOfertaLaboralID = context.TablaEstadosSolicitudes.One(x => x.Descripcion.Equals(nuevoEstado)).ID;
                     ol.Comentarios = comentarios;
                     context.TablaOfertaLaborales.ModifyElement(ol);
-                    return JsonSuccessGet(new { ofertalaboral = ol.ToDTO()});
+                    return JsonSuccessPost(new { ofertalaboral = ol.ToDTO()});
                 }
                 catch (Exception ex)
                 {
-                    return JsonErrorGet("Error en la BD: " + ex.Message);
+                    return JsonErrorPost("Error en la BD: " + ex.Message);
                 }
             }
 
