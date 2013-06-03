@@ -41,6 +41,10 @@ namespace KendoDP2.Areas.Reclutamiento.Models
     {
         public int ID { get; set; }
                 
+
+        public int OfertaLaboralID { get; set; }
+
+        public int PostulanteID { get; set; }
         public PostulanteDTO Postulante { get; set; }
 
         public bool FlagAprobado { get; set; }
@@ -67,6 +71,8 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         {
             ID = op.ID;
             Postulante = op.Postulante.ToDTO();
+            OfertaLaboralID = op.OfertaLaboralID;
+            PostulanteID = op.PostulanteID;
             FlagAprobado = op.FlagAprobado;
             PuntajeTotal = op.PuntajeTotal;
             MotivoRechazo = op.MotivoRechazo;
