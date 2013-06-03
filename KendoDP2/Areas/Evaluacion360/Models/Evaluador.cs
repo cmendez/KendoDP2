@@ -18,7 +18,8 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         //public int EvaluadorID { get; set; }
 
         //public virtual Examen Evaluacion { get; set; }
-        //public int? EvaluacionID { get; set; }
+
+        public int EvaluacionID { get; set; }
 
 
         public int ElIDDelEvaluador { get; set; }
@@ -84,7 +85,8 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         public int EvaluadorID { get; set; }
 
         public virtual Examen Evaluacion { get; set; }
-        public int EvaluacionID { get; set; }*/
+
+        public int EvaluacionID { get; set; }
 
         public String LaEtapa { get; set; }
 
