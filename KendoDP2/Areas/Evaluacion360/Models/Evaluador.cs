@@ -4,62 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using KendoDP2.Areas.Organizacion.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KendoDP2.Areas.Evaluacion360.Models
 {
-    public class Evaluador : DBObject
-    {
-        public virtual ColaboradorXProcesoEvaluacion Evaluado { get; set; }
-        public int EvaluadoID { get; set; }
-    //    public int ProcesoEnElQueParticipaID { get; set; }
-        //public virtual ColaboradorXProcesoEvaluacion Evaluado { get; set; }
-        //public int EvaluadoID { get; set; }
-
-        public virtual Colaborador EvaluadorX { get; set; }
-        public int EvaluadorID { get; set; }
-    //    [ForeignKey("ProcesoEnElQueParticipaID")]
-    //    public ProcesoEvaluacion ElProceso { get; set; }
-        //public virtual Colaborador EvaluadorX { get; set; }
-        //public int EvaluadorID { get; set; }
-
-        //public virtual Examen Evaluacion { get; set; }
-
-        public virtual Evaluacion Evaluacion { get; set; }
-    //    public String FaseDeLaEvaluacion { get; set; }
-        public int EvaluacionID { get; set; }
-
-    //    List<Colaborador> personasALasQueEvalua { get; set; }
-
-    //    public Evaluador()
-    //    {
-
-    //    }
-
-    //    public Evaluador(Colaborador participante, int unCicloDeEvaluacion)
-    //        : base(participante)
-    //    {
-    //        ProcesoEnElQueParticipaID = unCicloDeEvaluacion;
-    //        FaseDeLaEvaluacion = "Pendiente";
-    //    }
-
-    //    //public EvaluadorDTO aFormatoDelCliente(Evaluador empleado)
-    //    //{
-    //    //    return new EvaluadorDTO(empleado);
-    //    //}
-
-    //    public EvaluadorDTO aFormatoDelCliente()
-    //    {
-    //        return new EvaluadorDTO(this);
-    //    }
-
-    //    public static Evaluador enrolarlo(Colaborador esteEmpleado, int aEsteProceso)
-    //    {
-    //        return new Evaluador(esteEmpleado, aEsteProceso);
-    //    }
-    //}
-
     public class Evaluador : DBObject
     {
 
@@ -125,8 +73,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         public virtual Colaborador EvaluadorX { get; set; }
         public int EvaluadorID { get; set; }
 
-        public virtual Evaluacion Evaluacion { get; set; }
-        public virtual Examen Evaluacion { get; set; }*/
+        public virtual Examen Evaluacion { get; set; }
 
         public int EvaluacionID { get; set; }
 
@@ -139,6 +86,5 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         }
 
     }
-
-    }
+    
 }
