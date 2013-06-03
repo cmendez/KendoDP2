@@ -91,8 +91,6 @@ namespace KendoDP2.Areas.Eventos.Controllers
                 Evento evento = context.TablaEvento.FindByID(eventoID);
                 ViewBag.colaboradores = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
                 ViewBag.areas = context.TablaAreas.All().Select(c => c.ToDTO()).ToList();
-                ViewBag.estados = context.TablaEstadoColaboradorXProcesoEvaluaciones.All().Select(c => c.ToDTO()).ToList();
-                ViewBag.areas = context.TablaAreas.All().Select(c => c.ToDTO()).ToList();
                 return View("ElegirInvitados");
 
             }
