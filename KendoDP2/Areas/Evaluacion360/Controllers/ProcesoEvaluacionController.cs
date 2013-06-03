@@ -267,15 +267,28 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
           }
       }
 
-        public ActionResult Editing_ReadCapEvaluacion([DataSourceRequest] DataSourceRequest request, int puestoID, int evaluadoID)
+        public ActionResult Editing_ReadCapEvaluacion([DataSourceRequest] DataSourceRequest request, int puestoID, int tablaEvaluadoresID)
         {
             using (DP2Context context = new DP2Context())
             {
-                Examen examen = context.TablaExamenes.One(x=>x.EvaluadorID == evaluadoID);
+                Examen examen = context.TablaExamenes.One(x => x.EvaluadorID == tablaEvaluadoresID);
                 
                 //return Json(context.TablaCapacidades.Where(c => c.NivelCapacidadID == nivelID && c.CompetenciaID == competenciaID).OrderBy(y => y.CompetenciaID).Select(p => p.ToDTO()).ToDataSourceResult(request));
                 return Json(context.TablaPreguntas.Where(x => x.ExamenID == examen.ID).ToDataSourceResult(request));
             }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult GuardarPuntuacionPregunta([DataSourceRequest] DataSourceRequest request, int preguntaID, int puntuacion)
+        {
+
+            using (DP2Context context = new DP2Context()) {
+                Pregunta p = context.TablaPreguntas.FindByID(preguntaID);
+                p.Puntuacion = puntuacion;
+                context.TablaPreguntas.ModifyElement(p);
+                return Json(new { success = true });
+            }
+     
         }
     }
 }
