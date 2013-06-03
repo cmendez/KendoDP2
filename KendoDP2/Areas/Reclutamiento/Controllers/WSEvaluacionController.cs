@@ -46,14 +46,14 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     // COMO SE QUE APROBO, NO SE COMO ASIGNARLO AQUI Y NO SE SI ES EL MOMENTO ADECUADO
                     e.FlagAprobado = true; // ESTO DEBE CALCULARSE
                     //Guardar la evaluacion por fase por postulacion, es necesario reasignar el ID o ya se guarda
-                    //context.TablaEvaluacionXFaseXPostulacion.AddElement(e);
+                    context.TablaEvaluacionXFaseXPostulacion.AddElement(e);
                     //Guardar las respuesta, indicando la evaluacion a la que pertenecen
                     List<Respuesta> lstRespuesta = new List<Respuesta>();
                     foreach (var obj in respuestas)
                     {
                         Respuesta rAux = new Respuesta().LoadFromDTO(obj);
                         rAux.EvaluacionXFaseXPostulacionID = e.ID;
-                        //context.TablaRespuesta.AddElement(rAux);
+                        context.TablaRespuesta.AddElement(rAux);
                         lstRespuesta.Add(rAux);
                     }
 
