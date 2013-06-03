@@ -47,19 +47,19 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     e.FlagAprobado = true; // ESTO DEBE CALCULARSE
                     //Guardar la evaluacion por fase por postulacion, es necesario reasignar el ID o ya se guarda
                     //context.TablaEvaluacionXFaseXPostulacion.AddElement(e);
-                    ////Guardar las respuesta, indicando la evaluacion a la que pertenecen
-                    //List<Respuesta> lstRespuesta = new List<Respuesta>();
-                    //foreach (var obj in respuestas)
-                    //{
-                    //    Respuesta rAux = new Respuesta().LoadFromDTO(obj);
-                    //    rAux.EvaluacionXFaseXPostulacionID = e.ID;
-                    //    context.TablaRespuesta.AddElement(rAux);
-                    //    lstRespuesta.Add(rAux);
-                    //}
+                    //Guardar las respuesta, indicando la evaluacion a la que pertenecen
+                    List<Respuesta> lstRespuesta = new List<Respuesta>();
+                    foreach (var obj in respuestas)
+                    {
+                        Respuesta rAux = new Respuesta().LoadFromDTO(obj);
+                        rAux.EvaluacionXFaseXPostulacionID = e.ID;
+                        //context.TablaRespuesta.AddElement(rAux);
+                        lstRespuesta.Add(rAux);
+                    }
 
                     return JsonSuccessGet(new { id1 = idOfertaLaboral, id2 = idPostulante, id3 = descripcionFase, obj1 = respuestas,
                         obj2 = evaluacion, obj3 = olxp.ToDTO(), obj4 =  fpxolxp != null ? fpxolxp.ID : -1,
-                        obj5 = fp != null ? fp.ID : -1, obj6 = e.ToDTO()
+                        obj5 = fp != null ? fp.ID : -1, obj6 = e.ToDTO(), obj7 = lstRespuesta.Select(x => x.ToDTO()).ToList()
                     });
 
                     //return JsonSuccessPost(new { evaluacion = e.ToDTO(), respuestas = lstRespuesta.Select(x => x.ToDTO()).ToList() });
