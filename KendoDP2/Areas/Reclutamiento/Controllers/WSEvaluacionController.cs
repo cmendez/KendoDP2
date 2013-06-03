@@ -27,10 +27,10 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                         .One(x => (x.OfertaLaboralID == Convert.ToInt32(idOfertaLaboral)) &&
                                     (x.PostulanteID == Convert.ToInt32(idPostulante)));
                     //Buscar FasePostulacionXOfertaLaboralXPostulante 
+                    FasePostulacion fp = context.TablaFasePostulacion.One(x => x.Descripcion.Equals(descripcionFase));
                     FasePostulacionXOfertaLaboralXPostulante fpxolxp = context.TablaFasePostulacionXOfertaLaboralXPostulante
                         .One(x => (x.OfertaLaboralXPostulanteID == olxp.ID) &&
-                                    (x.FasePostulacionID == context.TablaFasePostulacion
-                                                            .One(a => a.Descripcion.Equals(descripcionFase)).ID));
+                                    (x.FasePostulacionID == (fp != null ? fp.ID : 4)));
                     ////Crear y cargar EvaluacionXFaseXPostulacion 
                     //EvaluacionXFaseXPostulacion e = new EvaluacionXFaseXPostulacion().LoadFromDTO(evaluacion);
                     ////Asignar la evaluacion a la FasePostulacionXOfertaLaboralXPostulante 
@@ -58,7 +58,9 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     //}
 
                     return JsonSuccessGet(new { id1 = idOfertaLaboral, id2 = idPostulante, id3 = descripcionFase, obj1 = respuestas,
-                        obj2 = evaluacion, obj3 = olxp.ToDTO(), obj4 =  fpxolxp != null ? fpxolxp.ID : -1 });
+                        obj2 = evaluacion, obj3 = olxp.ToDTO(), obj4 =  fpxolxp != null ? fpxolxp : null,
+                        obj5 = fp != null ? fp : null
+                    });
 
                     //return JsonSuccessPost(new { evaluacion = e.ToDTO(), respuestas = lstRespuesta.Select(x => x.ToDTO()).ToList() });
                 }
