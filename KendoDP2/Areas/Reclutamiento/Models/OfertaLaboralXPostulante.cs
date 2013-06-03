@@ -65,6 +65,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public OfertaLaboralXPostulanteDTO(OfertaLaboralXPostulante op)
         {
             ID = op.ID;
+            Postulante = op.Postulante.ToDTO();
             OfertaLaboralID = op.OfertaLaboralID;
             PostulanteID = op.PostulanteID;
             FlagAprobado = op.FlagAprobado;
