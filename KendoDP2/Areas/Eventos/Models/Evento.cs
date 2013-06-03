@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-
+using Kendo.Mvc.Extensions;
 using KendoDP2.Models.Generic;
 using KendoDP2.Areas.Organizacion.Models;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace KendoDP2.Areas.Eventos.Models
 {
@@ -14,11 +16,19 @@ namespace KendoDP2.Areas.Eventos.Models
         public string Nombre { get; set; }
         public DateTime Inicio { get; set; }
         public DateTime Fin { get; set; }
-
+        
+        /*public string Inicio { get; set; }
+        public string Fin { get; set; }
+        public string HoraInicio { get; set; }
+        public string MinutoInicio { get; set; }
+        public string HoraFin { get; set; }
+        public string MinutoFin { get; set; }
+        */
         public int EstadoID { get; set; }
         public virtual EstadoEvento Estado { get; set; }
 
-        //public string Tipo { get; set; }
+        public int TipoEventoID { get; set; }
+        public virtual TipoEvento TipoEvento { get; set; }
 
         public int CreadorID { get; set; }
         public virtual Colaborador Creador { get; set; }
@@ -33,8 +43,11 @@ namespace KendoDP2.Areas.Eventos.Models
             Nombre = e.Nombre;
             Inicio = DateTime.ParseExact(e.Inicio, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture);
             Fin = DateTime.ParseExact(e.Fin, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture);
+            //Inicio = e.Inicio;
+            //Fin = e.Fin;
             EstadoID = e.EstadoID;
             CreadorID = e.CreadorID;
+            TipoEventoID = e.TipoEventoID;
         }
         public Evento LoadFromDTO(EventoDTO e)
         {
@@ -48,20 +61,37 @@ namespace KendoDP2.Areas.Eventos.Models
 
     public class EventoDTO
     {
+        [ScaffoldColumn(false)]
         public int ID { get; set; }
+
+        [Required]
+        [MaxLength(200)]
+        [DisplayName("Nombre Evento")]
         public string Nombre { get; set; }
+
+        [DisplayName("Inicio Evento")]
+        [Required]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public string Inicio { get; set; }
+
+        [DisplayName("Fin Evento")]
+        [Required]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public string Fin { get; set; }
 
+        [DisplayName("Estado")]
         public int EstadoID { get; set; }
-        public string Estado { get; set; }
 
-        //public string Tipo { get; set; }
+        [DisplayName("Tipo Evento")]
+        public int TipoEventoID { get; set; }
 
+        [DisplayName("Creador Evento")]
         public int CreadorID { get; set; }
+        
+        [DisplayName("Creador")]
         public string Creador { get; set; }
 
-        public List<ColaboradorDTO> Invitados { get; set; }
+       // public List<ColaboradorDTO> Invitados { get; set; }
 
         public EventoDTO() { }
         public EventoDTO(Evento e)
@@ -70,16 +100,17 @@ namespace KendoDP2.Areas.Eventos.Models
             Nombre = e.Nombre;
             Inicio = e.Inicio.ToString("dd/MM/yyyy HH:mm:ss");
             Fin = e.Fin.ToString("dd/MM/yyyy HH:mm:ss");
+            //Inicio = e.Inicio;
+            //Fin = e.Fin;
             EstadoID = e.EstadoID;
-            Estado = e.Estado.Descripcion;
             CreadorID = e.CreadorID;
             Creador = e.Creador.ToDTO().NombreCompleto;
-
-            Invitados = new List<ColaboradorDTO>();
-            foreach (var invitado in e.Invitados)
-            {
-                Invitados.Add(invitado.Asistente.ToDTO());
-            }
+            TipoEventoID = e.TipoEventoID;
+           // Invitados = new List<ColaboradorDTO>();
+            //foreach (var invitado in e.Invitados)
+            //{
+              //  Invitados.Add(invitado.Asistente.ToDTO());
+            //}
         }
 
     }

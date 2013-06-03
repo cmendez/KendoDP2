@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 using ExtensionMethods;
 using KendoDP2.Models.Generic;
+
 using KendoDP2.Areas.Reclutamiento.Models;
 
 namespace KendoDP2.Areas.Reclutamiento.Controllers
@@ -27,27 +28,27 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                         .One(x => (x.OfertaLaboralID == Convert.ToInt32(idOfertaLaboral)) &&
                                     (x.PostulanteID == Convert.ToInt32(idPostulante)));
                     //Buscar FasePostulacionXOfertaLaboralXPostulante 
+                    FasePostulacion fp = context.TablaFasePostulacion.One(x => x.Descripcion.Equals(descripcionFase));
                     FasePostulacionXOfertaLaboralXPostulante fpxolxp = context.TablaFasePostulacionXOfertaLaboralXPostulante
                         .One(x => (x.OfertaLaboralXPostulanteID == olxp.ID) &&
-                                    (x.FasePostulacionID == context.TablaFasePostulacion
-                                                            .One(a => a.Descripcion.Equals(descripcionFase)).ID));
+                                    (x.FasePostulacionID == (fp != null ? fp.ID : 4)));
                     //Crear y cargar EvaluacionXFaseXPostulacion 
                     EvaluacionXFaseXPostulacion e = new EvaluacionXFaseXPostulacion().LoadFromDTO(evaluacion);
                     //Asignar la evaluacion a la FasePostulacionXOfertaLaboralXPostulante 
                     e.FasePostulacionXOfertaLaboralXPostulanteID = fpxolxp.ID;
-                    e.FasePostulacionXOfertaLaboralXPostulante = context.TablaFasePostulacionXOfertaLaboralXPostulante.FindByID(fpxolxp.ID);
+                    e.FasePostulacionXOfertaLaboralXPostulante = fpxolxp;
                     //Calcular el puntaje y asignarlo
-                    double puntajeTotal = 0;
+                    int puntajeTotal = 0;
                     foreach (var obj in respuestas)
                     {
                         puntajeTotal += obj.Puntaje;
                     }
                     e.Puntaje = puntajeTotal;
-                    // ************** COMO SE QUE APROBO, NO SE COMO ASIGNARLO AQUI Y NO SE SI ES EL MOMENTO ADECUADO **************
-                    e.FlagAprobado = false; // ESTO DEBE CALCULARSE
-                    ////Guardar la evaluacion por fase por postulacion, es necesario reasignar el ID o ya se guarda
+                    // COMO SE QUE APROBO, NO SE COMO ASIGNARLO AQUI Y NO SE SI ES EL MOMENTO ADECUADO
+                    e.FlagAprobado = true; // ESTO DEBE CALCULARSE
+                    //Guardar la evaluacion por fase por postulacion, es necesario reasignar el ID o ya se guarda
                     context.TablaEvaluacionXFaseXPostulacion.AddElement(e);
-                    ////Guardar las respuesta, indicando la evaluacion a la que pertenecen
+                    //Guardar las respuesta, indicando la evaluacion a la que pertenecen
                     List<Respuesta> lstRespuesta = new List<Respuesta>();
                     foreach (var obj in respuestas)
                     {
@@ -56,6 +57,11 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                         context.TablaRespuesta.AddElement(rAux);
                         lstRespuesta.Add(rAux);
                     }
+
+                    //return JsonSuccessPost(new { id1 = idOfertaLaboral, id2 = idPostulante, id3 = descripcionFase, obj1 = respuestas,
+                    //    obj2 = evaluacion, obj3 = olxp.ToDTO(), obj4 =  fpxolxp != null ? fpxolxp.ID : -1,
+                    //    obj5 = fp != null ? fp.ID : -1, obj6 = e.ToDTO(), obj7 = lstRespuesta.Select(x => x.ToDTO()).ToList()
+                    //});
 
                     return JsonSuccessPost(new { evaluacion = e.ToDTO(), respuestas = lstRespuesta.Select(x => x.ToDTO()).ToList() });
                 }
@@ -165,10 +171,5 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         //    }
         //}
 
-        [HttpPost]
-        public JsonResult prueba(string id)
-        {
-            return JsonSuccessPost(new { idfsd = id});
-        }
     }
 }

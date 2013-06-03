@@ -95,58 +95,36 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             {
                 try
                 {
-                    // Obtengo el ID de mi jefe
+                    //jalo a mi jefe
                     int puestoSuperiorID = context.TablaColaboradoresXPuestos
-                        .One(x =>   x.ColaboradorID == Convert.ToInt32(colaboradorID) && 
-                                    !x.FechaSalidaPuesto.HasValue)
+                        .One(x => x.ColaboradorID == Convert.ToInt32(colaboradorID) && !x.FechaSalidaPuesto.HasValue)
                         .Puesto.PuestoSuperiorID.GetValueOrDefault();
-                    ColaboradorXPuesto cxpInicial = context.TablaColaboradoresXPuestos
-                        .One(x =>   x.PuestoID == puestoSuperiorID && 
-                                    !x.FechaSalidaPuesto.HasValue);
-                    Colaborador colaboradorNivel1;
-                    List<Puesto> puestosNivel2;
-                    List<ColaboradorDTO> colaboradoresNivel2 = new List<ColaboradorDTO>();
-
-                    if (cxpInicial != null) //Si el Jefe Existe
-                    {
-                        colaboradorNivel1 = cxpInicial.Colaborador;
-                        puestosNivel2 = context.TablaPuestos.Where(x => x.PuestoSuperiorID == puestoSuperiorID);
-                    }
-                    else //Hago Nivel 1 al colaboradorID
-                    {
-                        colaboradorNivel1 = context.TablaColaboradores.FindByID(Convert.ToInt32(colaboradorID));
-                        int puestoColaboradorID = context.TablaColaboradoresXPuestos
-                            .One(x =>   x.ColaboradorID == Convert.ToInt32(colaboradorID) &&
-                                        !x.FechaSalidaPuesto.HasValue)
-                            .Puesto.ID;
-                        puestosNivel2 = context.TablaPuestos.Where(x => x.PuestoSuperiorID == puestoColaboradorID);
-                    }
-
-                    foreach (var puesto in puestosNivel2)
+                    Colaborador jefe = context.TablaColaboradoresXPuestos
+                        .One(x => x.PuestoID == puestoSuperiorID && !x.FechaSalidaPuesto.HasValue).Colaborador;
+                    List<Puesto> puestosDebajoJefe = context.TablaPuestos.Where(x => x.PuestoSuperiorID == puestoSuperiorID);
+                    List<ColaboradorDTO> lista = new List<ColaboradorDTO>();
+                    foreach (var puesto in puestosDebajoJefe)
                     {
                         ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos
-                            .One(x =>   x.PuestoID == puesto.ID && 
-                                        !x.FechaSalidaPuesto.HasValue);
+                            .One(x => x.PuestoID == puesto.ID && !x.FechaSalidaPuesto.HasValue);
                         if(cxp == null) continue;
-                        Colaborador colaboradorNivel2 = cxp.Colaborador;
-                        List<Puesto> puestosNivel3 = context.TablaPuestos.Where(x => x.PuestoSuperiorID == puesto.ID);
-                        List<ColaboradorDTO> colaboradoresNivel3 = new List<ColaboradorDTO>();
-                        foreach (var puesto2 in puestosNivel3)
+                        Colaborador colaboradorDebajoJefe = cxp.Colaborador;
+                        List<Puesto> puestosDebajoAmiwi = context.TablaPuestos.Where(x => x.PuestoSuperiorID == puesto.ID);
+                        List<ColaboradorDTO> lista2 = new List<ColaboradorDTO>();
+                        foreach (var puesto2 in puestosDebajoAmiwi)
                         {
                             cxp = context.TablaColaboradoresXPuestos
-                                .One(x =>   x.PuestoID == puesto2.ID && 
-                                            !x.FechaSalidaPuesto.HasValue);
+                                .One(x => x.PuestoID == puesto2.ID && !x.FechaSalidaPuesto.HasValue);
                             if(cxp == null) continue;
-                            Colaborador colaboradorNivel3 = cxp.Colaborador;
-                            ColaboradorDTO colaboradorNivel3DTO = new ColaboradorDTO(colaboradorNivel3);
-                            colaboradoresNivel3.Add(colaboradorNivel3DTO);
+                            Colaborador colaboradorDebajoAmiwi = cxp.Colaborador;
+                            lista2.Add(new ColaboradorDTO(colaboradorDebajoAmiwi));
                         }
-                        ColaboradorDTO colaboradorNivel2DTO = new ColaboradorDTO(colaboradorNivel2, colaboradoresNivel3);
-                        colaboradoresNivel2.Add(colaboradorNivel2DTO);
+                        ColaboradorDTO aux2 = new ColaboradorDTO(colaboradorDebajoJefe, lista2);
+                        lista.Add(aux2);
                     }
-                    ColaboradorDTO colaboradorNivel1DTO = new ColaboradorDTO(colaboradorNivel1, colaboradoresNivel2);
+                    ColaboradorDTO aux = new ColaboradorDTO(jefe, lista);
 
-                    return JsonSuccessGet(new { jefe = colaboradorNivel1DTO });
+                    return JsonSuccessGet(aux);
                 }
                 catch (Exception ex)
                 {
