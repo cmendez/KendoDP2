@@ -197,6 +197,7 @@
     <Compile Include="Areas\Evaluacion360\Controllers\EvaluacionController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\EvaluadoresController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\GestorDatosDeColaboradoresController.cs" />
+    <Compile Include="Areas\Evaluacion360\Controllers\ListarProcesosXEvaluadorController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\ProcesoEvaluacionController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\PuestosEvaluacionController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\RolEvaluadorController.cs" />
@@ -1880,6 +1881,10 @@
     <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesExternas\PostulantesExternosFase3.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\ViewPostulanteExterno.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\EditorMotivoRechazoExterno.cshtml" />
+    <Content Include="Areas\Evaluacion360\Views\Configuracion360\Index.cshtml" />
+    <Content Include="Areas\Evaluacion360\Views\Copy of Acordion\Index.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\areas_icon.png" />
     <Content Include="Images\favicon.ico" />
