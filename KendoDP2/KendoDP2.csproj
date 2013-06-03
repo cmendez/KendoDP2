@@ -222,6 +222,7 @@
     <Compile Include="Areas\Evaluacion360\Models\NivelCapacidad.cs" />
     <Compile Include="Areas\Evaluacion360\Models\GestorServiciosPrivados.cs" />
     <Compile Include="Areas\Evaluacion360\Models\TipoEvaluador.cs" />
+    <Compile Include="Areas\Eventos\Controllers\EventosController.cs" />
     <Compile Include="Areas\Eventos\Controllers\WSEventoController.cs" />
     <Compile Include="Areas\Eventos\EventosAreaRegistration.cs" />
     <Compile Include="Areas\Eventos\Models\DP2Context.cs" />
@@ -252,6 +253,7 @@
     <Compile Include="Areas\Organizacion\Models\Organizacion.cs" />
     <Compile Include="Areas\Organizacion\Models\PuestoXArea.cs" />
     <Compile Include="Areas\Organizacion\Models\EstadosPuesto.cs" />
+    <Compile Include="Areas\Reclutamiento\Controllers\OfertasLaboralesExternasController.cs" />
     <Compile Include="Areas\Reclutamiento\Models\EstadoPostulantePorOferta.cs" />
     <Compile Include="Areas\Organizacion\OrganizacionAreaRegistration.cs" />
     <Compile Include="Areas\Organizacion\Controllers\ColaboradoresController.cs" />
@@ -1871,6 +1873,13 @@
     <Content Include="Areas\Eventos\Views\Web.config" />
     <Content Include="Areas\Evaluacion360\Views\Evaluacion\GuardarEvaluacion.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\Subordinados\Index.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesExternas\Index.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesExternas\ListaPostulantesExternos.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesExternas\PostulantesExternosFase1.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesExternas\PostulantesExternosFase2.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesExternas\PostulantesExternosFase3.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\Shared\ViewPostulanteExterno.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\Shared\EditorMotivoRechazoExterno.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\areas_icon.png" />
     <Content Include="Images\favicon.ico" />
@@ -2026,7 +2035,6 @@
     <Folder Include="Areas\Objetivos\Views\Shared\" />
     <Folder Include="Areas\Personal\Views\Colaboradores\" />
     <Folder Include="Areas\Personal\Views\Shared\EditorTemplates\" />
-    <Folder Include="Areas\Reclutamiento\Views\ConvocatoriasInternas\" />
     <Folder Include="Areas\Reportes\Views\Shared\" />
     <Folder Include="Areas\Seguridad\Views\Shared\" />
     <Folder Include="Content\assets\plugins\jquery-file-upload\server\php\files\thumbnail\" />

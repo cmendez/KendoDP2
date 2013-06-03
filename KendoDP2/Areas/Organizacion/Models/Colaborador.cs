@@ -32,7 +32,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         public int EstadosColaboradorID { get; set; }
         public virtual EstadosColaborador EstadoColaborador { get; set; }
 
-        public int PaisID { get; set; }
+        public int? PaisID { get; set; }
         public virtual Pais Pais { get; set; }
 
         public int ImagenColaboradorID { get; set; }
@@ -75,7 +75,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             ApellidoMaterno = c.ApellidoMaterno;
             Direccion = c.Direccion;
             Telefono = c.Telefono;
-            PaisID = c.PaisID;
+            if(c.PaisID > 0) PaisID = c.PaisID;
             GradoAcademicoID = c.GradoAcademicoID;
             EstadosColaboradorID = c.EstadoColaboradorID;
             TipoDocumentoID = c.TipoDocumentoID;
@@ -212,7 +212,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             NombreCompleto = c.ApellidoPaterno + " " + c.ApellidoMaterno + ", " + c.Nombres;
             ID = c.ID;
             GradoAcademicoID = c.GradoAcademicoID.GetValueOrDefault();
-            PaisID = c.PaisID;
+            PaisID = c.PaisID.GetValueOrDefault();
             Nombre = c.Nombres;
             ApellidoPaterno = c.ApellidoPaterno;
             ApellidoMaterno = c.ApellidoMaterno;

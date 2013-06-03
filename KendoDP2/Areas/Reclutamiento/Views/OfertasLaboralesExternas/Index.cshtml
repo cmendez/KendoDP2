@@ -3,7 +3,7 @@
 @using KendoDP2.Areas.Reclutamiento.Models
 
 @{
-    ViewBag.Title = "Ofertas Laborales Internas";
+    ViewBag.Title = "Ofertas Laborales Externas";
     Layout = "~/Views/Shared/_Layout.cshtml";
     IList<AreaDTO> areas = ViewBag.areas;
     IList<EstadosSolicitudOfertaLaboralDTO> estadosSolicitudOferta = ViewBag.estadosSolicitudOferta;
@@ -13,11 +13,11 @@
     SelectList listaPuestos = new SelectList(puestos, "ID", "Nombre");
 
 }
-@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Administrar Ofertas Laborales Internas", "Revise la lista de postulantes y apruebelos por fase de evaluación"));}
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Administrar Ofertas Laborales Externas", "Revise la lista de postulantes y apruebelos por fase de evaluación"));}
 
 <div class="portlet box green">
     <div class="portlet-title">
-        <h4><i class="icon-reorder"></i>Ofertas Laborales Internas</h4>
+        <h4><i class="icon-reorder"></i>Ofertas Laborales Externas</h4>
         <div class="tools">
 	        <a href="javascript:;" class="collapse"></a>
         </div>
@@ -27,7 +27,7 @@
 
            <div class="row-fluid">
             @(Html.Kendo().Grid<OfertaLaboralDTO>()
-                .Name("OfertasLaboralesInternasGrid")
+                .Name("OfertasLaboralesExternasGrid")
                 .Columns(columns =>
                     {
                         columns.Bound(p => p.ID);
@@ -36,13 +36,13 @@
                         columns.ForeignKey(p => p.AreaID, lista);
                         columns.ForeignKey(p => p.PuestoID, listaPuestos);
                         columns.Template(@<text></text>).Title("Postulantes").ClientTemplate(
-                        "<a class='k-button' href='" + Url.Action("VerPostulantes", "OfertasLaboralesInternas") + "?ofertaLaboralID=#=ID#'>Ver Todos</a>");
+                        "<a class='k-button' href='" + Url.Action("VerPostulantes", "OfertasLaboralesExternas") + "?ofertaLaboralID=#=ID#'>Ver Todos</a>");
                         columns.Template(@<text></text>).Title("Postulantes Fase 1").ClientTemplate(
-                        "<a class='k-button' href='" + Url.Action("VerPostulantesFase1", "OfertasLaboralesInternas") + "?ofertaLaboralID=#=ID#'>Fase 1</a>");
+                        "<a class='k-button' href='" + Url.Action("VerPostulantesFase1", "OfertasLaboralesExternas") + "?ofertaLaboralID=#=ID#'>Fase 1</a>");
                         columns.Template(@<text></text>).Title("Postulantes Fase 2").ClientTemplate(
-                        "<a class='k-button' href='" + Url.Action("VerPostulantesFase2", "OfertasLaboralesInternas") + "?ofertaLaboralID=#=ID#'>Fase 2</a>");
+                        "<a class='k-button' href='" + Url.Action("VerPostulantesFase2", "OfertasLaboralesExternas") + "?ofertaLaboralID=#=ID#'>Fase 2</a>");
                         columns.Template(@<text></text>).Title("Postulantes Fase 3").ClientTemplate(
-                        "<a class='k-button' href='" + Url.Action("VerPostulantesFase3", "OfertasLaboralesInternas") + "?ofertaLaboralID=#=ID#'>Fase 3</a>");
+                        "<a class='k-button' href='" + Url.Action("VerPostulantesFase3", "OfertasLaboralesExternas") + "?ofertaLaboralID=#=ID#'>Fase 3</a>");
                     }
                                         )
                                             .Editable(editable => editable
@@ -59,7 +59,7 @@
                                             .Ajax()
                                             .PageSize(20)
                                             .Model(model => model.Id(p => p.ID))
-                                            .Read(read => read.Action("Read", "OfertasLaboralesInternas"))
+                                            .Read(read => read.Action("Read", "OfertasLaboralesExternas"))
                                         )
                                        )
         </div>
@@ -77,18 +77,7 @@
 @*  *@
 <script>
 
-    function verPostulantes(e) {
-        console.log(e);
-        e.preventDefault();
-
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        ID = dataItem.ID;
-        var wnd = $("#Details").data("kendoWindow");
-        $("#Details").load("@Url.Action("GetViewOferta", "ConvocatoriasInternas", new { Area = "BolsaTrabajo" })?ofertaID=" + ID, function () {
-            wnd.center().open();
-        });
-    }
-
+   
     function aprobarFase(e) {
         console.log(e);
         e.preventDefault();
