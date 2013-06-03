@@ -82,6 +82,7 @@ namespace KendoDP2.Models.Generic
             //SeedEvaluacion();
             // Area Eventos
             SeedEstadoEvento();
+            SeedTiposEventos();
             SeedEvento();
             SeedInvitado();
         }
