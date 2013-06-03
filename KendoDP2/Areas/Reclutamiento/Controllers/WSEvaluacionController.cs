@@ -26,11 +26,11 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     OfertaLaboralXPostulante olxp = context.TablaOfertaLaboralXPostulante
                         .One(x => (x.OfertaLaboralID == Convert.ToInt32(idOfertaLaboral)) &&
                                     (x.PostulanteID == Convert.ToInt32(idPostulante)));
-                    ////Buscar FasePostulacionXOfertaLaboralXPostulante 
-                    //FasePostulacionXOfertaLaboralXPostulante fpxolxp = context.TablaFasePostulacionXOfertaLaboralXPostulante
-                    //    .One(x =>   (x.OfertaLaboralXPostulanteID == olxp.ID) &&
-                    //                (x.FasePostulacionID == context.TablaFasePostulacion
-                    //                                        .One(a => a.Descripcion.Equals(descripcionFase)).ID));
+                    //Buscar FasePostulacionXOfertaLaboralXPostulante 
+                    FasePostulacionXOfertaLaboralXPostulante fpxolxp = context.TablaFasePostulacionXOfertaLaboralXPostulante
+                        .One(x => (x.OfertaLaboralXPostulanteID == olxp.ID) &&
+                                    (x.FasePostulacionID == context.TablaFasePostulacion
+                                                            .One(a => a.Descripcion.Equals(descripcionFase)).ID));
                     ////Crear y cargar EvaluacionXFaseXPostulacion 
                     //EvaluacionXFaseXPostulacion e = new EvaluacionXFaseXPostulacion().LoadFromDTO(evaluacion);
                     ////Asignar la evaluacion a la FasePostulacionXOfertaLaboralXPostulante 
@@ -57,8 +57,8 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     //    lstRespuesta.Add(rAux);
                     //}
 
-                    return JsonSuccessGet(new { id1 = idOfertaLaboral, id2 = idPostulante, obj1 = respuestas,
-                        obj2 = evaluacion, obj3 = olxp.ToDTO()  });
+                    return JsonSuccessGet(new { id1 = idOfertaLaboral, id2 = idPostulante, id3 = descripcionFase, obj1 = respuestas,
+                        obj2 = evaluacion, obj3 = olxp.ToDTO(), obj4 =  fpxolxp != null ? fpxolxp.ID : -1 });
 
                     //return JsonSuccessPost(new { evaluacion = e.ToDTO(), respuestas = lstRespuesta.Select(x => x.ToDTO()).ToList() });
                 }
