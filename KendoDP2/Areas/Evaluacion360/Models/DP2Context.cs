@@ -22,6 +22,7 @@ namespace KendoDP2.Models.Generic
         public DbSet<NivelCapacidad> InternalNivelCapacidades { get; set; }
         public DbSet<Perfil> InternalPerfiles { get; set; }
         public DbSet<Examen> InternalExamenes { get; set; }
+        public DbSet<Pregunta> InternalPreguntas { get; set; }
         public DbSet<Evaluador> InternalEvaluadores { get; set; }
         public DbSet<TipoEvaluador> InternalTipoEvaluadores { get; set; }
         public DbSet<ProcesoEvaluacion> InternalProcesoEvaluaciones { get; set; }
@@ -50,6 +51,7 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<AreaXProcesoEvaluacion> TablaAreaXProcesoEvaluaciones { get; set; }
         public DBGenericRequester<ProcesoXEvaluado> TablaProcesoXEvaluado { get; set; }
         public DBGenericRequester<EstadoProcesoEvaluacion> TablaEstadoProcesoEvaluacion { get; set; }
+        public DBGenericRequester<Pregunta> TablaPreguntas { get; set; }
 
 
         private void RegistrarTablasEvaluacion360()
@@ -70,6 +72,7 @@ namespace KendoDP2.Models.Generic
             TablaAreaXProcesoEvaluaciones = new DBGenericRequester<AreaXProcesoEvaluacion>(this, InternalAreaXProcesoEvaluaciones);
             TablaProcesoXEvaluado = new DBGenericRequester<ProcesoXEvaluado>(this, InternalProcesoXEvaluado);
             TablaEstadoProcesoEvaluacion = new DBGenericRequester<EstadoProcesoEvaluacion>(this, InternalEstadoProcesoEvaluacion);
+            TablaPreguntas = new DBGenericRequester<Pregunta>(this, InternalPreguntas);
 		}
 
         // Area Evaluacion360
@@ -83,7 +86,9 @@ namespace KendoDP2.Models.Generic
 
         private void SeedCapacidad()
         {
-            TablaCapacidades.AddElement(new Capacidad("Trabajador",1,1));
+            TablaCapacidades.AddElement(new Capacidad("Trabajador ", 1, 1, 30));
+            TablaCapacidades.AddElement(new Capacidad("Responsable", 1, 1, 30));
+            TablaCapacidades.AddElement(new Capacidad("Mal amigo", 1, 1, 40));
         }
 
         private void SeedCompetenciasXPuesto()

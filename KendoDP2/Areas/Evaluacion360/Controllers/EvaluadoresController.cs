@@ -146,11 +146,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     evaluadores.evaluadores.Add(context.TablaEvaluadores.FindByID(evaluadorId));
 
                     context.TablaEvaluadores.AddElement(comoEvaluador);
-                    Examen examen = new Examen();
-                    //examen.FechaCierre = new DateTime();
-                    examen.EvaluadorID = comoEvaluador.ID;
-                    examen.Estado = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Pendiente));
-                    context.TablaExamenes.AddElement(examen);
+                    //CrearEvaluaciones(comoEvaluador, context);
                 }
 
                 //string nombreControl = "Pares_12_Combo";
@@ -168,6 +164,42 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 return View();
 
             }
+        }
+        public void CrearEvaluaciones(Evaluador evaluador, DP2Context context) {
+
+                //Guardar la evaluación
+                Examen examen = new Examen();
+                examen.EvaluadorID = evaluador.ID;
+
+            //  modificar
+                int idcolEvaluado = context.TablaEvaluadores.FindByID(examen.EvaluadorID).ElEvaluado;
+                examen.Estado = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Pendiente));
+                context.TablaExamenes.AddElement(examen);
+
+                //Obtener capacidades y guardarlas para cada pregunta
+                //int colaboradorID = evaluador.Evaluado.ColaboradorID;
+                int colaboradorID = idcolEvaluado;// evaluador.ElEvaluado;
+                ColaboradorDTO evaluado = context.TablaColaboradores.FindByID(colaboradorID, false).ToDTO();
+               
+                // Obtener capacidades  
+                IList<CompetenciaXPuesto> cxp = context.TablaCompetenciaXPuesto.Where(x=> x.PuestoID == evaluado.PuestoID);
+                IList<Capacidad> listaCapacidades = new List<Capacidad>();
+                foreach (CompetenciaXPuesto c in cxp) {
+                    int nivelID = c.NivelID;
+                    // Esto está mal, hay que corregirlo
+                    listaCapacidades = context.TablaCapacidades.Where( x=> x.CompetenciaID == c.CompetenciaID && x.NivelCapacidadID == c.NivelID);
+                    foreach(Capacidad capacidad in listaCapacidades) {
+                        Pregunta p = new Pregunta();
+                        //p.capacidad = listaCapacidades[0];
+                        //p.examen = examen;
+
+                        p.ExamenID = examen.ID;
+                        p.CapacidadID = capacidad.ID;
+                        p.TextoPregunta = capacidad.Nombre;
+                        p.Puntuacion = 0;
+                        context.TablaPreguntas.AddElement(p);
+                    }
+                }   
         }
 
         private bool losEvaluadoresDeEsteColaboradorYaFueronElegidos(int procesoEvaluacionID, int colaboradorID)

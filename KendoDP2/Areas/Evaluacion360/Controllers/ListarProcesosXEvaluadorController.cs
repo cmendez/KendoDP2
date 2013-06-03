@@ -49,7 +49,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 // context.TablaColaboradores.FindByID(ColaboradorID).Evaluadores.where(x => x.ProcesoEvaluacionXColaborador.ProcesoEvaluacionID == procesoID).toList();
                 
                 return Json(context.TablaProcesoEvaluaciones.Where( x=> x.ID ==
-                    (context.TablaEvaluaciones.One( y => y.EvaluadorID == ColaboradorID).ID)).Select(x => x.ToDTO()).
+                    (context.TablaExamenes.One( y => y.EvaluadorID == ColaboradorID).ID)).Select(x => x.ToDTO()).
                     ToDataSourceResult(request));
                 
                 //return Json(context.TablaEvaluaciones.Where(x => x.EvaluadorID == ColaboradorID).Select(x => x.ToDTO()).ToDataSourceResult(request));                                          
@@ -78,11 +78,13 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
         public ActionResult ReadEvaluados([DataSourceRequest] DataSourceRequest request, int procesoID)
         {
-            using (DP2Context context = new DP2Context())
-            {
-                int ColaboradorID = DP2MembershipProvider.GetPersonaID(this);
-                return Json(context.TablaColaboradores.FindByID(ColaboradorID).OcurrenciasComoEvaluador.Where(x => x.Evaluado.ProcesoEvaluacionID == procesoID).ToList());
-            }
+            //using (DP2Context context = new DP2Context())
+            //{
+            //    int ColaboradorID = DP2MembershipProvider.GetPersonaID(this);
+            //    return Json(context.TablaColaboradores.FindByID(ColaboradorID).OcurrenciasComoEvaluador.Where(x => x.Evaluado.ProcesoEvaluacionID == procesoID).ToList());
+            //}
+
+            return null;
         }
 
     }

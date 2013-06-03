@@ -29,10 +29,10 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             using (DP2Context context = new DP2Context())
             {
                 ColaboradorDTO  evaluado = context.TablaColaboradores.One(c => c.ID == evaluadoID).ToDTO();
-                CompetenciaXPuesto competenciaPuesto = context.TablaCompetenciaXPuesto.One(x => x.PuestoID == evaluado.PuestoID);
+           /*     CompetenciaXPuesto competenciaPuesto = context.TablaCompetenciaXPuesto.One(x => x.PuestoID == evaluado.PuestoID);
                 IList<Capacidad> capacidades = context.TablaCapacidades.Where(x => x.NivelCapacidadID==competenciaPuesto.NivelID && x.CompetenciaID == competenciaPuesto.CompetenciaID).ToList();
                 IList<CompetenciaXPuesto> competencias = context.TablaCompetenciaXPuesto.Where(x => x.PuestoID == evaluado.PuestoID);
-              
+              */
                 ViewBag.evaluado = evaluado;
                 return View();
             }

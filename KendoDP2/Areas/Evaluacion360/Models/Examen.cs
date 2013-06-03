@@ -24,9 +24,10 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         public int EvaluadorID { get; set; }
         public virtual Evaluador evaluador { get; set; }
 
-        public int EstadoEvaluacionID { get; set; }
+        public int EstadoExamenID { get; set; }
         public virtual EstadoColaboradorXProcesoEvaluacion Estado { get; set; }
 
+        public int NotaExamen { get; set; }
         public Examen() { }
 
     }

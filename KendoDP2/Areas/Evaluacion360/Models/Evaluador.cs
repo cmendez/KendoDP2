@@ -11,14 +11,14 @@ namespace KendoDP2.Areas.Evaluacion360.Models
 {
     public class Evaluador : DBObject
     {
-        public virtual ColaboradorXProcesoEvaluacion Evaluado { get; set; }
-        public int EvaluadoID { get; set; }
+        //public virtual ColaboradorXProcesoEvaluacion Evaluado { get; set; }
+        //public int EvaluadoID { get; set; }
 
-        public virtual Colaborador EvaluadorX { get; set; }
-        public int EvaluadorID { get; set; }
+        //public virtual Colaborador EvaluadorX { get; set; }
+        //public int EvaluadorID { get; set; }
 
-        public virtual Evaluacion Evaluacion { get; set; }
-        public int EvaluacionID { get; set; }
+        //public virtual Examen Evaluacion { get; set; }
+        //public int? EvaluacionID { get; set; }
 
 
         public int ElIDDelEvaluador { get; set; }
@@ -77,14 +77,14 @@ namespace KendoDP2.Areas.Evaluacion360.Models
 
     public class EvaluadorDTO : ColaboradorDTO
     {
-        public virtual ColaboradorXProcesoEvaluacion Evaluado { get; set; }
+        /*public virtual ColaboradorXProcesoEvaluacion Evaluado { get; set; }
         public int EvaluadoID { get; set; }
 
         public virtual Colaborador EvaluadorX { get; set; }
         public int EvaluadorID { get; set; }
 
-        public virtual Evaluacion Evaluacion { get; set; }
-        public int EvaluacionID { get; set; }
+        public virtual Examen Evaluacion { get; set; }
+        public int EvaluacionID { get; set; }*/
 
         public String LaEtapa { get; set; }
 
