@@ -196,10 +196,11 @@
     <Compile Include="Areas\Evaluacion360\Controllers\CorreoController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\EvaluacionController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\EvaluadoresController.cs" />
-    <Compile Include="Areas\Evaluacion360\Controllers\GestorDatosDeColaboradoresController.cs" />
+    <Compile Include="Areas\Evaluacion360\Controllers\ListarProcesosXEvaluadorController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\ProcesoEvaluacionController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\PuestosEvaluacionController.cs" />
-    <Compile Include="Areas\Evaluacion360\Controllers\RolEvaluadorController.cs" />
+    <Compile Include="Areas\Evaluacion360\Controllers\RolEvaluadoController.cs" />
+    <Compile Include="Areas\Evaluacion360\Controllers\GestorDatosDeColaboradoresController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\SubordinadosController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\WSCompetenciasController.cs" />
     <Compile Include="Areas\Evaluacion360\Evaluacion360AreaRegistration.cs" />
@@ -214,7 +215,7 @@
     <Compile Include="Areas\Evaluacion360\Models\CompetenciaXPuesto.cs" />
     <Compile Include="Areas\Evaluacion360\Models\EstadoColaboradorXProcesoEvaluacion.cs" />
     <Compile Include="Areas\Evaluacion360\Models\ColaboradorXProcesoEvaluacion.cs" />
-    <Compile Include="Areas\Evaluacion360\Models\Evaluacion.cs" />
+    <Compile Include="Areas\Evaluacion360\Models\Examen.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Pregunta.cs" />
     <Compile Include="Areas\Evaluacion360\Models\PuestoXEvaluadores.cs" />
     <Compile Include="Areas\Evaluacion360\Models\ProcesoEvaluacion.cs" />
@@ -235,6 +236,7 @@
     <Compile Include="Areas\Objetivos\Controllers\ObjetivosSubordinadosController.cs" />
     <Compile Include="Areas\Objetivos\Controllers\WSMisObjetivosController.cs" />
     <Compile Include="Areas\Objetivos\Controllers\WSObjetivosEmpresaController.cs" />
+    <Compile Include="Areas\Objetivos\Controllers\WSObjetivosSubordinadosController.cs" />
     <Compile Include="Areas\Objetivos\Models\DP2Context.cs" />
     <Compile Include="Areas\Objetivos\Models\Objetivo.cs" />
     <Compile Include="Areas\Objetivos\Models\BSC.cs" />
@@ -1867,6 +1869,8 @@
     <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesInternas\PostulantesFase2AprobarFase3.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesInternas\PostulantesFase3Contratar.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\EditorMotivoRechazo.cshtml" />
+    <Content Include="Areas\Evaluacion360\Views\ListarProcesosXEvaluador\Index.cshtml" />
+    <Content Include="Areas\Evaluacion360\Views\ListarProcesosXEvaluador\ListarEvaluados.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\ViewPostulanteInterno.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\ProcesoEvaluacion\CerrarProcesoEvaluacion.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\Evaluadores\SeleccionarEvaluadores.cshtml" />

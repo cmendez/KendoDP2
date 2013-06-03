@@ -40,17 +40,16 @@ namespace KendoDP2.Areas.Reclutamiento.Models
     public class OfertaLaboralXPostulanteDTO
     {
         public int ID { get; set; }
-                
+
+        public int OfertaLaboralID { get; set; }
+
+        public int PostulanteID { get; set; }
         public PostulanteDTO Postulante { get; set; }
 
         public bool FlagAprobado { get; set; }
-        
         public int PuntajeTotal { get; set; }
-        
         public string MotivoRechazo { get; set; }
-        
         public string Comentarios { get; set; }
-        
         public string Observaciones { get; set; }
 
         //no olvidar que se puede mandar las fases a traves de un list
@@ -66,14 +65,15 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public OfertaLaboralXPostulanteDTO(OfertaLaboralXPostulante op)
         {
             ID = op.ID;
-            Postulante = op.Postulante.ToDTO();
+            OfertaLaboralID = op.OfertaLaboralID;
+            PostulanteID = op.PostulanteID;
             FlagAprobado = op.FlagAprobado;
             PuntajeTotal = op.PuntajeTotal;
             MotivoRechazo = op.MotivoRechazo;
             Comentarios = op.Comentarios;
             Observaciones = op.Observaciones;
             EstadoPostulantePorOfertaID = op.EstadoPostulantePorOfertaID;
-            EstadoPostulantePorOfertaNombre = op.EstadoPostulantePorOferta.Descripcion;
+            EstadoPostulantePorOfertaNombre = op.EstadoPostulantePorOferta != null ? op.EstadoPostulantePorOferta.Descripcion: String.Empty;
 
 
         }

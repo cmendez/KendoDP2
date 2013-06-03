@@ -80,7 +80,6 @@ namespace KendoDP2.Models.Generic
             seedProcesosDeEvaluacion();
             //seedColaboradorXProcesoEvaluacion();
             //SeedEvaluacion();
-
             // Area Eventos
             SeedEstadoEvento();
             SeedEvento();

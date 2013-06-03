@@ -21,7 +21,8 @@ namespace KendoDP2.Models.Generic
         public DbSet<Capacidad> InternalCapacidades { get; set; }
         public DbSet<NivelCapacidad> InternalNivelCapacidades { get; set; }
         public DbSet<Perfil> InternalPerfiles { get; set; }
-        public DbSet<Evaluacion> InternalEvaluaciones { get; set; }
+        public DbSet<Examen> InternalExamenes { get; set; }
+        public DbSet<Pregunta> InternalPreguntas { get; set; }
         public DbSet<Evaluador> InternalEvaluadores { get; set; }
         public DbSet<TipoEvaluador> InternalTipoEvaluadores { get; set; }
         public DbSet<ProcesoEvaluacion> InternalProcesoEvaluaciones { get; set; }
@@ -38,7 +39,7 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<Capacidad> TablaCapacidades { get; set; }
         public DBGenericRequester<NivelCapacidad> TablaNivelCapacidades { get; set; }
         public DBGenericRequester<Perfil> TablaPerfiles { get; set; }
-        public DBGenericRequester<Evaluacion> TablaEvaluaciones { get; set; }
+        public DBGenericRequester<Examen> TablaExamenes { get; set; }
         public DBGenericRequester<Evaluador> TablaEvaluadores { get; set; }
         public DBGenericRequester<TipoEvaluador> TablaTipoEvaluador { get; set; }
         public DBGenericRequester<ProcesoEvaluacion> TablaProcesoEvaluaciones { get; set; }
@@ -50,6 +51,7 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<AreaXProcesoEvaluacion> TablaAreaXProcesoEvaluaciones { get; set; }
         public DBGenericRequester<ProcesoXEvaluado> TablaProcesoXEvaluado { get; set; }
         public DBGenericRequester<EstadoProcesoEvaluacion> TablaEstadoProcesoEvaluacion { get; set; }
+        public DBGenericRequester<Pregunta> TablaPreguntas { get; set; }
 
 
         private void RegistrarTablasEvaluacion360()
@@ -58,7 +60,7 @@ namespace KendoDP2.Models.Generic
             TablaCapacidades = new DBGenericRequester<Capacidad>(this, InternalCapacidades);
             TablaNivelCapacidades = new DBGenericRequester<NivelCapacidad>(this, InternalNivelCapacidades);
             TablaPerfiles = new DBGenericRequester<Perfil>(this, InternalPerfiles);
-            TablaEvaluaciones = new DBGenericRequester<Evaluacion>(this, InternalEvaluaciones);
+            TablaExamenes = new DBGenericRequester<Examen>(this, InternalExamenes);
             TablaEvaluadores = new DBGenericRequester<Evaluador>(this, InternalEvaluadores);
             TablaTipoEvaluador = new DBGenericRequester<TipoEvaluador>(this, InternalTipoEvaluadores);
             TablaProcesoEvaluaciones = new DBGenericRequester<ProcesoEvaluacion>(this, InternalProcesoEvaluaciones);
@@ -70,6 +72,7 @@ namespace KendoDP2.Models.Generic
             TablaAreaXProcesoEvaluaciones = new DBGenericRequester<AreaXProcesoEvaluacion>(this, InternalAreaXProcesoEvaluaciones);
             TablaProcesoXEvaluado = new DBGenericRequester<ProcesoXEvaluado>(this, InternalProcesoXEvaluado);
             TablaEstadoProcesoEvaluacion = new DBGenericRequester<EstadoProcesoEvaluacion>(this, InternalEstadoProcesoEvaluacion);
+            TablaPreguntas = new DBGenericRequester<Pregunta>(this, InternalPreguntas);
 		}
 
         // Area Evaluacion360
@@ -83,7 +86,9 @@ namespace KendoDP2.Models.Generic
 
         private void SeedCapacidad()
         {
-            TablaCapacidades.AddElement(new Capacidad("Trabajador",1,1));
+            TablaCapacidades.AddElement(new Capacidad("Trabajador ", 1, 1, 30));
+            TablaCapacidades.AddElement(new Capacidad("Responsable", 1, 1, 30));
+            TablaCapacidades.AddElement(new Capacidad("Mal amigo", 1, 1, 40));
         }
 
         private void SeedCompetenciasXPuesto()
@@ -167,15 +172,16 @@ namespace KendoDP2.Models.Generic
             TablaProcesoEvaluaciones.AddElement(new ProcesoEvaluacion { AutorizadorID = 2, FechaCierre = new DateTime(2013, 12, 1), Nombre = "Proceso por defecto", EstadoProcesoEvaluacionID = TablaEstadoProcesoEvaluacion.One(e => e.Descripcion == ConstantsEstadoProcesoEvaluacion.Creado).ID });
         }
 
-        /*private void seedColaboradorXProcesoEvaluacion() 
-        {
-            TablaColaboradorXProcesoEvaluaciones.AddElement(new ColaboradorXProcesoEvaluacion { ColaboradorID=1, ProcesoEvaluacionID=1, EstadoColaboradorXProcesoEvaluacionID = TablaEstadoColaboradorXProcesoEvaluaciones.One(e=>e.Nombre==ConstantsEstadoColaboradorXProcesoEvaluacion.Pendiente).ID, ReferenciasPorAreas=0, ReferenciaDirecta =true});
-            TablaColaboradorXProcesoEvaluaciones.AddElement(new ColaboradorXProcesoEvaluacion { ColaboradorID =3, ProcesoEvaluacionID = 1, EstadoColaboradorXProcesoEvaluacionID = TablaEstadoColaboradorXProcesoEvaluaciones.One(e => e.Nombre == ConstantsEstadoColaboradorXProcesoEvaluacion.Pendiente).ID, ReferenciasPorAreas = 0, ReferenciaDirecta = true });
-        }*/
-        /*
-        private void SeedEvaluacion() 
-        {
-            TablaEvaluaciones.AddElement(new Evaluacion { Nombre = "Evaluacion 1", FechaCierre = new DateTime(2013, 12, 15), Puntuacion = 0, EvaluadoID=3,EvaluadorID=5});
-        }*/
+       /*private void seedEvaluacion()
+       {
+           TablaEvaluaciones.AddElement(new Evaluacion { Nombre= "evaluacion1",EvaluadoID = 2, EvaluadorID = 1, Puntuacion=100});
+           TablaEvaluaciones.AddElement(new Evaluacion { Nombre = "evaluacion2", EvaluadoID = 3, EvaluadorID = 1, Puntuacion = 50 });
+           TablaEvaluaciones.AddElement(new Evaluacion { Nombre = "evaluacion3", EvaluadoID = 4, EvaluadorID = 1, Puntuacion = 70 });
+           TablaEvaluaciones.AddElement(new Evaluacion { Nombre = "evaluacion4", EvaluadoID = 5, EvaluadorID = 1, Puntuacion = 80 });           
+           
+           
+       }*/
+
+
     }
 }
