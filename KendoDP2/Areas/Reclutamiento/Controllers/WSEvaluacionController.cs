@@ -35,6 +35,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     EvaluacionXFaseXPostulacion e = new EvaluacionXFaseXPostulacion().LoadFromDTO(evaluacion);
                     //Asignar la evaluacion a la FasePostulacionXOfertaLaboralXPostulante 
                     e.FasePostulacionXOfertaLaboralXPostulanteID = fpxolxp.ID;
+                    e.FasePostulacionXOfertaLaboralXPostulante = context.TablaFasePostulacionXOfertaLaboralXPostulante.FindByID(fpxolxp.ID);
                     //Calcular el puntaje y asignarlo
                     int puntajeTotal = 0;
                     foreach (var obj in respuestas)
@@ -56,7 +57,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                         lstRespuesta.Add(rAux);
                     }
 
-                    return JsonSuccessPost(new { evaluacion = e, respuestas = lstRespuesta.Select(x => x.ToDTO()).ToList() });
+                    return JsonSuccessPost(new { evaluacion = e.ToDTO(), respuestas = lstRespuesta.Select(x => x.ToDTO()).ToList() });
                 }
                 catch (Exception ex)
                 {
