@@ -23,9 +23,9 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 try
                 {
                     //Buscar OfertaLaboralXPostulante
-                    //OfertaLaboralXPostulante olxp = context.TablaOfertaLaboralXPostulante
-                    //    .One(x =>   (x.OfertaLaboralID == Convert.ToInt32(idOfertaLaboral)) && 
-                    //                (x.PostulanteID == Convert.ToInt32(idPostulante)));
+                    OfertaLaboralXPostulante olxp = context.TablaOfertaLaboralXPostulante
+                        .One(x => (x.OfertaLaboralID == Convert.ToInt32(idOfertaLaboral)) &&
+                                    (x.PostulanteID == Convert.ToInt32(idPostulante)));
                     ////Buscar FasePostulacionXOfertaLaboralXPostulante 
                     //FasePostulacionXOfertaLaboralXPostulante fpxolxp = context.TablaFasePostulacionXOfertaLaboralXPostulante
                     //    .One(x =>   (x.OfertaLaboralXPostulanteID == olxp.ID) &&
@@ -57,7 +57,8 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     //    lstRespuesta.Add(rAux);
                     //}
 
-                    return JsonSuccessGet(new { id1 = idOfertaLaboral, id2 = idPostulante, obj1 = respuestas, obj2 = evaluacion  });
+                    return JsonSuccessGet(new { id1 = idOfertaLaboral, id2 = idPostulante, obj1 = respuestas,
+                        obj2 = evaluacion, obj3 = olxp  });
 
                     //return JsonSuccessPost(new { evaluacion = e.ToDTO(), respuestas = lstRespuesta.Select(x => x.ToDTO()).ToList() });
                 }
