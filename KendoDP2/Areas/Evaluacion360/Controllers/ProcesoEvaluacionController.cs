@@ -238,6 +238,13 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             using (DP2Context context = new DP2Context()) 
             {
                 ProcesoEvaluacion p = context.TablaProcesoEvaluaciones.FindByID(procesoEvaluacionID, false);
+                ViewBag.enProceso = false;
+                ViewBag.proceso = p;
+                // Validar que el proceso no haya sido iniciado previamente
+                if (p.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso)).ID) {
+                    ViewBag.enProceso = true;
+                    return View();
+                }
 
                 List<ColaboradorXProcesoEvaluacion> list = context.TablaColaboradorXProcesoEvaluaciones.Where(x => x.ProcesoEvaluacionID == procesoEvaluacionID);
                 using (CorreoController correoController = new CorreoController()){
@@ -247,7 +254,6 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 EstadoProcesoEvaluacion enProceso = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso));
                 p.EstadoProcesoEvaluacion = enProceso;
                 context.TablaProcesoEvaluaciones.ModifyElement(p);
-                //return Json(new { success = true });
                 return View();
             }
         }
@@ -282,7 +288,6 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
         public void CalcularYGuardarResultadosProceso(ProcesoEvaluacion proceso, DP2Context context) 
         {
-            //IList<ColaboradorXProcesoEvaluacion> evaluados = context.TablaColaboradorXProcesoEvaluaciones.Where(x => x.ProcesoEvaluacionID == proceso.ID);
             IList<Evaluador> evaluados = context.TablaEvaluadores.Where(x => x.ProcesoEnElQueParticipanID == proceso.ID);
             foreach (Evaluador e in evaluados) {
                 int evaluadoID = e.ElEvaluado;
