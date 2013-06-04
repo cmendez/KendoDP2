@@ -52,7 +52,7 @@ namespace KendoDP2.Areas.Eventos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                    Evento c = new Evento(evento);
+                    Evento c = new Evento().LoadFromDTO(evento);
                     int creadorID = DP2MembershipProvider.GetPersonaID(this);
                     c.CreadorID = creadorID;
                     c.Creador = context.TablaColaboradores.FindByID(creadorID);
