@@ -20,14 +20,14 @@ namespace KendoDP2.Areas.Reportes.Models
         public int avance { get; set; }
         public int hijos { get; set; }
 
-        public ObjetivoRDTO(Objetivo o)
+        public ObjetivoRDTO(Objetivo o,DP2Context context)
         {
 
             idObjetivo = o.ID;
             descripcion = o.Nombre;
-            numPersonas = 5;
-            avance = 50;
-
+            numPersonas = o.ObjetivosHijos.Count;
+            avance = o.AvanceFinal;
+            
         }
 
         public ObjetivoRDTO()

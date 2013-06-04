@@ -27,12 +27,30 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             LoadFromDTO(p);
         }
 
-        public Postulante(Organizacion.Models.Colaborador colaborador)
+        public Postulante(Colaborador c)
         {
-            this.Colaborador = colaborador;
-            this.GradoAcademico = colaborador.GradoAcademico;
-            this.TipoDocumento = colaborador.TipoDocumento;
+            ColaboradorID = c.ID;
+
+            Nombres = c.Nombres;
+            ApellidoPaterno = c.ApellidoPaterno;
+            ApellidoMaterno = c.ApellidoMaterno;
+            CentroEstudios = c.CentroEstudios;
+            CorreoElectronico = c.CorreoElectronico;
+
+            if(c.GradoAcademicoID > 0) GradoAcademicoID = c.GradoAcademicoID.GetValueOrDefault();
+            TipoDocumentoID = c.TipoDocumentoID;
+            NumeroDocumento = c.NumeroDocumento;
+
+            CurriculumVitaeID = c.CurriculumVitaeID;
+
         }
+
+        //public Postulante(Organizacion.Models.Colaborador colaborador)
+        //{
+        //    this.Colaborador = colaborador;
+        //    this.GradoAcademico = colaborador.GradoAcademico;
+        //    this.TipoDocumento = colaborador.TipoDocumento;
+        //}
 
         public Postulante LoadFromDTO(PostulanteDTO p)
         {
