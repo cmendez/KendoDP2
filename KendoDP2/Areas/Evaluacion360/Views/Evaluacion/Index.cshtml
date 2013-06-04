@@ -11,31 +11,33 @@
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Evaluación", "Rinda sus evaluaciones asignadas."));}
 
 <script type="text/x-kendo-tmpl" id="template">
-    <div>
-       <dl>
-        @* <dt>ID: </dt> <dd>#:ID#</dd>
-         <dt>Peso: </dt> <dd>#:Peso#</dd>*@
-         <dt>Capacidad: </dt> <dd>#:TextoPregunta#</dd>
-         @*<dt>Puntuación: </dt> <dd>#:Puntuacion#</dd>
-         <dd><input type="text" id="puntPregunta__#:ID#" required="required" style="display:block;" />*@
-            <div class="row-fluid">
-                <span class="rating">
-                    <span class="star" id="strella1__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 100, #:Peso#, strella1__#:ID#)"></span>
-                    <span class="star" id="strella2__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 80, #:Peso#, strella1__#:ID#)"></span>
-                    <span class="star" id="strella3__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 60, #:Peso#, strella1__#:ID#)"></span>
-                    <span class="star" id="strella4__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 40, #:Peso#, strella1__#:ID#)"></span>
-                    <span class="star" id="strella5__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 20, #:Peso#, strella1__#:ID#)"></span>
-                </span>
+    <div class="row-fluid" style="padding-left: 50px;">
+        <div class="span3 responsive">
+            <dl>
+                <dt>Capacidad: </dt> <dd>#:TextoPregunta#</dd>        
+            </dl>
+        </div>
+        <div class="span3 responsive" id="estadoCalificacion__#:ID#" style="display:none; padding-top: 20px;">
+                <a class = "btn red icn-only mini" onClick="MostrarRating(#:ID#)"><i class="icon-pencil icon-white"></i> Editar respuesta</a>
+             
             </div>
-        </dd>
-       </dl>
-      
+            <div class="row-fluid"   id="rating__#:ID#">
+              
+                <span class="rating">
+                    <span class="star" id="strella1__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 100, #:Peso#, rating__#:ID#)"></span>
+                    <span class="star" id="strella2__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 80, #:Peso#, rating__#:ID#)"></span>
+                    <span class="star" id="strella3__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 60, #:Peso#, rating__#:ID#)"></span>
+                    <span class="star" id="strella4__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 40, #:Peso#, rating__#:ID#)"></span>
+                    <span class="star" id="strella5__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 20, #:Peso#, rating__#:ID#)"></span>
+                </span>
+                
+            </div>
      </div>
 </script>
 <style>
  .selectedS {
-  content: "\f005";
-  color: #e3cf7a;
+  
+  color: red;
 }
 </style>
 <div class="portlet box green">
@@ -46,10 +48,10 @@
         </div>
 	</div>
      <div class="portlet-body">
-        <div>
+        <!--<div>
             <a class="k-button k-button-icontext k-add-button" href="@Url.Action("GuardarEvaluacion", "Evaluacion", new { tablaEvaluadoresID= tablaEvaluadoresID})"><span class="k-icon k-add"></span>Terminar evaluación</a>
-        </div>  
-        <h5> Datos del evaluado </h5>
+        </div>  -->
+        <h5> Datos del evaluado: </h5>
         <div class="k-pager-wrap">
             <div class="row-fluid">
                 <div class="span8 profile-info">
@@ -68,7 +70,7 @@
         </div>
          <!--end k-pager-wrap-->
 
-         Contenido de evaluación: 
+         <h5> Contenido de evaluación: </h5> 
 
         @(Html.Kendo().ListView<Capacidad>()
             .Name("Evaluacion")
@@ -82,31 +84,31 @@
             .Pageable()
             .Editable()
         )
-         
+        <div>
+            <a class="k-button k-button-icontext k-add-button" href="@Url.Action("GuardarEvaluacion", "Evaluacion", new { tablaEvaluadoresID= tablaEvaluadoresID})"><span class="k-icon k-add"></span>Terminar evaluación</a>
+        </div>
     </div>  
+   
 </div>
 
 <script type="text/javascript">
+    function MostrarRating(id) {
+        $("#rating__"+id).css("display", "block");
+        $("#estadoCalificacion__"+id).css("display", "none");
+    }
 
     function GuardarPuntuacionPorPregunta(preguntaIDParam, puntuacion, peso, idElem) {
-        var puntuacionParam = puntuacion*peso;//parseInt($("#puntPregunta__" + preguntaIDParam).val()) * peso;
-   
-        //$(idElem).css("color","#e3cf7a");
+        var puntuacionParam = puntuacion*peso;
         $.ajax({
            url: '@Url.Action("GuardarPuntuacionPregunta", "ProcesoEvaluacion", new { Area = "Evaluacion360"})',
             dataType: 'JSON',
             type: 'POST',
             data: { preguntaID : preguntaIDParam, puntuacion : puntuacionParam },
-            success: function(response){
-                alert("se actualizó la pregunta" + response);
-                //mantener pintadas las estrellitas correspondientes
+            success: function(response) {
+                $("#rating__" + preguntaIDParam).css("display", "none");
+                $("#estadoCalificacion__" + preguntaIDParam).css("display", "block");
             }
         });
     }
-    $(document).ready(function () {
-        $(".star").click(function (evt) {
-   
-        });
-            
-    });
+
 </script>
