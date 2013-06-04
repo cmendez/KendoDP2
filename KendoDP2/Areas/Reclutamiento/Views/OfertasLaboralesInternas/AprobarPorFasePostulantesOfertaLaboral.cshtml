@@ -24,6 +24,11 @@
     <div class="portlet-body">
             <a id="hidden-link" class="hidden" href="#" target="_blank"></a>
            <div class="row-fluid">
+               <div class="span1">@Html.ActionLink("Ir a fase 1", "VerPostulantesFase1", "OfertasLaboralesInternas", new { ofertaLaboralID = ofertaID }, null)</div>
+               <div class="span1">@Html.ActionLink("Ir a fase 2", "VerPostulantesFase2", "OfertasLaboralesInternas", new { ofertaLaboralID = ofertaID }, null)</div>
+               <div class="span1">@Html.ActionLink("Ir a fase 3", "VerPostulantesFase3", "OfertasLaboralesInternas", new { ofertaLaboralID = ofertaID }, null)</div>
+           </div>
+           <div class="row-fluid">
             @(Html.Kendo().Grid<OfertaLaboralXPostulanteDTO>()
                 .Name("PostulantesPorOfertaLaboralInternaGrid")
                 .Columns(columns =>
@@ -32,7 +37,7 @@
                         columns.Bound(p => p.Postulante.Colaborador.CorreoElectronico);
                         columns.Bound(p => p.EstadoPostulantePorOfertaNombre);
                         columns.Template(@<text></text>).Title("Curriculum Vitae").ClientTemplate(
-                        "<a class='k-button' href='javascript:bajarCV(#=Postulante.Postulante.CurriculumVitaeID#);'>Descargar CV</a>");
+                        "<a class='k-button' href='javascript:bajarCV(#=Postulante.Colaborador.CurriculumVitaeID#);'>Descargar CV</a>");
                         columns.Command(command =>
                         {
                             command.Custom("Ver").Click("verPostulante").SendDataKeys(true);
@@ -97,7 +102,7 @@
                 postulanteXOfertaID: postulanteXOfertaID
             },
             success: function(response){
-                alert("El postulante fue aprobado para evaluación");
+                handleError(response, "El postulante fue aprobado para la evaluación");
                 recargaGrid();
             }
         });
