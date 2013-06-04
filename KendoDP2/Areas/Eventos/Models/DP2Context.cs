@@ -45,10 +45,10 @@ namespace KendoDP2.Models.Generic
 
         private void SeedEvento()
         {
-            //TablaEvento.AddElement(new Evento { Nombre = "Evento 1", Inicio = DateTime.ParseExact("29/05/2013 00:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("30/06/2013 23:59:59", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, CreadorID = 2 });
-            //TablaEvento.AddElement(new Evento { Nombre = "Evento 1", Inicio = DateTime.ParseExact("29/05/2013 00:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("30/06/2013 23:59:59", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, CreadorID = 2 });
-            //TablaEvento.AddElement(new Evento { Nombre = "Evento 1", Inicio = DateTime.ParseExact("29/05/2013 00:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("30/06/2013 23:59:59", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, CreadorID = 2 });
-            //TablaEvento.AddElement(new Evento { Nombre = "Evento 1", Inicio = DateTime.ParseExact("29/05/2013 00:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("30/06/2013 23:59:59", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, CreadorID = 2 });
+            TablaEvento.AddElement(new Evento { Nombre = "Evento 1", Inicio = DateTime.ParseExact("29/05/2013 00:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("30/06/2013 23:59:59", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, TipoEventoID = 1, CreadorID = 2 });
+            TablaEvento.AddElement(new Evento { Nombre = "Evento 1", Inicio = DateTime.ParseExact("29/05/2013 00:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("30/06/2013 23:59:59", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, TipoEventoID = 1, CreadorID = 2 });
+            TablaEvento.AddElement(new Evento { Nombre = "Evento 1", Inicio = DateTime.ParseExact("29/05/2013 00:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("30/06/2013 23:59:59", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, TipoEventoID = 1, CreadorID = 2 });
+            TablaEvento.AddElement(new Evento { Nombre = "Evento 1", Inicio = DateTime.ParseExact("29/05/2013 00:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("30/06/2013 23:59:59", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, TipoEventoID = 1, CreadorID = 2 });
 
         }
 
