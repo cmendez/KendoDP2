@@ -139,7 +139,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     evaluadores.evaluadores.Add(context.TablaEvaluadores.FindByID(evaluadorId));
 
                     context.TablaEvaluadores.AddElement(comoEvaluador);
-                    //CrearEvaluaciones(comoEvaluador, context);
+                    CrearEvaluaciones(comoEvaluador, context);
                 }
 
                 //string nombreControl = "Pares_12_Combo";
@@ -166,7 +166,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
             //  modificar
                 int idcolEvaluado = context.TablaEvaluadores.FindByID(examen.EvaluadorID).ElEvaluado;
-                examen.Estado = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Pendiente));
+                examen.EstadoExamenID = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Pendiente)).ID;
                 context.TablaExamenes.AddElement(examen);
 
                 //Obtener capacidades y guardarlas para cada pregunta
@@ -183,13 +183,12 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     listaCapacidades = context.TablaCapacidades.Where( x=> x.CompetenciaID == c.CompetenciaID && x.NivelCapacidadID == c.NivelID);
                     foreach(Capacidad capacidad in listaCapacidades) {
                         Pregunta p = new Pregunta();
-                        //p.capacidad = listaCapacidades[0];
-                        //p.examen = examen;
-
                         p.ExamenID = examen.ID;
                         p.CapacidadID = capacidad.ID;
                         p.TextoPregunta = capacidad.Nombre;
                         p.Puntuacion = 0;
+                        p.Peso = capacidad.Peso;
+
                         context.TablaPreguntas.AddElement(p);
                     }
                 }   

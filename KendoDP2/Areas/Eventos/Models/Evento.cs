@@ -14,16 +14,10 @@ namespace KendoDP2.Areas.Eventos.Models
     public class Evento : DBObject
     {
         public string Nombre { get; set; }
+
         public DateTime Inicio { get; set; }
         public DateTime Fin { get; set; }
         
-        /*public string Inicio { get; set; }
-        public string Fin { get; set; }
-        public string HoraInicio { get; set; }
-        public string MinutoInicio { get; set; }
-        public string HoraFin { get; set; }
-        public string MinutoFin { get; set; }
-        */
         public int EstadoID { get; set; }
         public virtual EstadoEvento Estado { get; set; }
 
@@ -43,8 +37,6 @@ namespace KendoDP2.Areas.Eventos.Models
             Nombre = e.Nombre;
             Inicio = DateTime.ParseExact(e.Inicio, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture);
             Fin = DateTime.ParseExact(e.Fin, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture);
-            //Inicio = e.Inicio;
-            //Fin = e.Fin;
             EstadoID = e.EstadoID;
             CreadorID = e.CreadorID;
             TipoEventoID = e.TipoEventoID;
@@ -81,9 +73,11 @@ namespace KendoDP2.Areas.Eventos.Models
 
         [DisplayName("Estado")]
         public int EstadoID { get; set; }
+        public string Estado { get; set; }
 
         [DisplayName("Tipo Evento")]
         public int TipoEventoID { get; set; }
+        public string TipoEvento { get; set; }
 
         [DisplayName("Creador Evento")]
         public int CreadorID { get; set; }
@@ -91,7 +85,7 @@ namespace KendoDP2.Areas.Eventos.Models
         [DisplayName("Creador")]
         public string Creador { get; set; }
 
-       // public List<ColaboradorDTO> Invitados { get; set; }
+        public List<ColaboradorDTO> Invitados { get; set; }
 
         public EventoDTO() { }
         public EventoDTO(Evento e)
@@ -100,17 +94,20 @@ namespace KendoDP2.Areas.Eventos.Models
             Nombre = e.Nombre;
             Inicio = e.Inicio.ToString("dd/MM/yyyy HH:mm:ss");
             Fin = e.Fin.ToString("dd/MM/yyyy HH:mm:ss");
-            //Inicio = e.Inicio;
-            //Fin = e.Fin;
             EstadoID = e.EstadoID;
+            Estado = e.Estado != null ? e.Estado.Descripcion : String.Empty;
+            TipoEventoID = e.TipoEventoID;
+            TipoEvento = e.TipoEvento != null ? e.TipoEvento.Descripcion : String.Empty;
             CreadorID = e.CreadorID;
             Creador = e.Creador.ToDTO().NombreCompleto;
-            TipoEventoID = e.TipoEventoID;
-           // Invitados = new List<ColaboradorDTO>();
-            //foreach (var invitado in e.Invitados)
-            //{
-              //  Invitados.Add(invitado.Asistente.ToDTO());
-            //}
+            if (e.Invitados != null && e.Invitados.Count > 0)
+            {
+                Invitados = new List<ColaboradorDTO>();
+                foreach (var invitado in e.Invitados)
+                {
+                    Invitados.Add(invitado.Asistente.ToDTO());
+                }
+            }
         }
 
     }
