@@ -186,6 +186,7 @@
     <Compile Include="Areas\Configuracion\ConfiguracionAreaRegistration.cs" />
     <Compile Include="Areas\Configuracion\Controllers\PeriodosController.cs" />
     <Compile Include="Areas\Configuracion\Controllers\WSPeriodosController.cs" />
+    <Compile Include="Areas\Configuracion\Models\CentrosEstudio.cs" />
     <Compile Include="Areas\Configuracion\Models\DP2Context.cs" />
     <Compile Include="Areas\Configuracion\Models\Pais.cs" />
     <Compile Include="Areas\Configuracion\Models\Periodo.cs" />

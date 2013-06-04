@@ -161,6 +161,7 @@ namespace KendoDP2.Areas.Organizacion.Models
 
         [DisplayName("Centro de estudios")]
         [StringLength(100)]
+        [Required]
         public string CentroEstudios { get; set; }
 
         [DisplayName("Grado Académico")]
