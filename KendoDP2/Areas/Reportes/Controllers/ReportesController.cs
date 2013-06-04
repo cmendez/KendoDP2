@@ -22,31 +22,10 @@ namespace KendoDP2.Areas.Reportes.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                List<ObjetivoRDTO> ListaObjetivos = new List<ObjetivoRDTO>();
-
-                ObjetivoRDTO ob1 = new ObjetivoRDTO();
-                ob1.idObjetivo = 1;
-                ob1.descripcion = "Objetivo1";
-                ListaObjetivos.Add(ob1);
-
-                ObjetivoRDTO ob2 = new ObjetivoRDTO();
-                ob2.idObjetivo = 1;
-                ob2.descripcion = "Objetivo2";
-                ListaObjetivos.Add(ob2);
-
-                ObjetivoRDTO ob3 = new ObjetivoRDTO();
-                ob3.idObjetivo = 3;
-                ob3.descripcion = "Objetivo3";
-                ListaObjetivos.Add(ob3);
-
-                ObjetivoRDTO ob4 = new ObjetivoRDTO();
-                ob4.idObjetivo = 4;
-                ob4.descripcion = "Objetivo4";
-                ListaObjetivos.Add(ob4);
-
-                List<ObjetivoRDTO> ListaObjetivosR = context.TablaObjetivos.Where(o => o.ObjetivoPadreID == PadreId).Select(p => p.ToRDTO()).ToList();
+                //List<ObjetivoDTO> ListaObjetivosDTO = context.TablaObjetivos.All().Select(p => p.ToDTO(context)).ToList();
+                List<ObjetivoRDTO> ListaObjetivosR = context.TablaObjetivos.Where(o => o.ObjetivoPadreID ==PadreId).Select(p => p.ToRDTO(context)).ToList();
                 foreach (ObjetivoRDTO obj in ListaObjetivosR){
-                    obj.hijos = context.TablaObjetivos.Where(o=> o.ObjetivoPadreID == obj.idObjetivo).Select(p => p.ToRDTO()).ToList().Count;
+                    obj.hijos = context.TablaObjetivos.Where(o=> o.ObjetivoPadreID == obj.idObjetivo).Select(p => p.ToRDTO(context)).ToList().Count;
                 }
                 //return Json(ListaObjetivos, JsonRequestBehavior.AllowGet);
                 return Json(ListaObjetivosR, JsonRequestBehavior.AllowGet);
@@ -95,31 +74,9 @@ namespace KendoDP2.Areas.Reportes.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                List<ObjetivoRDTO> ListaObjetivos = new List<ObjetivoRDTO>();
-
-                ObjetivoRDTO ob1 = new ObjetivoRDTO();
-                ob1.idObjetivo = 1;
-                ob1.descripcion = "Objetivo1";
-                ListaObjetivos.Add(ob1);
-
-                ObjetivoRDTO ob2 = new ObjetivoRDTO();
-                ob2.idObjetivo = 1;
-                ob2.descripcion = "Objetivo2";
-                ListaObjetivos.Add(ob2);
-
-                ObjetivoRDTO ob3 = new ObjetivoRDTO();
-                ob3.idObjetivo = 3;
-                ob3.descripcion = "Objetivo3";
-                ListaObjetivos.Add(ob3);
-
-                ObjetivoRDTO ob4 = new ObjetivoRDTO();
-                ob4.idObjetivo = 4;
-                ob4.descripcion = "Objetivo4";
-                ob4.descripcion = "Objetivo4";
-                ListaObjetivos.Add(ob4);
-
+                
                 List<ObjetivoRDTO> ListaObjetivos2 = new List<ObjetivoRDTO>();
-                ListaObjetivos2 = context.TablaObjetivos.Where(o => o.TipoObjetivoBSCID == BSCId && o.BSCID == idperiodo).Select(p => p.ToRDTO()).ToList();
+                ListaObjetivos2 = context.TablaObjetivos.Where(o => o.TipoObjetivoBSCID == BSCId && o.BSCID == idperiodo ).Select(p => p.ToRDTO(context)).ToList();
 
                 return Json(ListaObjetivos2, JsonRequestBehavior.AllowGet);
                 //return Json(ListaObjetivos, JsonRequestBehavior.AllowGet);
@@ -130,7 +87,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                return Json(context.TablaObjetivos.Where(o => o.ObjetivoPadreID == PadreId).Select(p => p.ToRDTO()).ToList(), JsonRequestBehavior.AllowGet);
+                return Json(context.TablaObjetivos.Where(o => o.ObjetivoPadreID == PadreId).Select(p => p.ToRDTO(context)).ToList(), JsonRequestBehavior.AllowGet);
             }
         }
 
