@@ -239,6 +239,7 @@
     <Compile Include="Areas\Objetivos\Controllers\ObjetivosSubordinadosController.cs" />
     <Compile Include="Areas\Objetivos\Controllers\WSMisObjetivosController.cs" />
     <Compile Include="Areas\Objetivos\Controllers\WSObjetivosEmpresaController.cs" />
+    <Compile Include="Areas\Objetivos\Controllers\WSObjetivosSubornidadosController.cs" />
     <Compile Include="Areas\Objetivos\Models\DP2Context.cs" />
     <Compile Include="Areas\Objetivos\Models\Objetivo.cs" />
     <Compile Include="Areas\Objetivos\Models\BSC.cs" />

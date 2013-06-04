@@ -9,7 +9,7 @@
     
 }
 
-@using (Html.BeginForm())
+@using (Ajax.BeginForm("CambiarPassword", "Intranet", new AjaxOptions{HttpMethod = "POST"}))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -18,7 +18,7 @@
         <div class="row-fluid">
             <!-- contenedor superior izquierdo: campos -->
             @Html.Label("Cuenta de Usuario:", new { style = "font-weight: bold;" })
-
+            @Html.HiddenFor(m => m.ID)
             <div class="space10"></div>
 
             <div class="span7">
@@ -40,7 +40,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.Contrasenha)
+                            @Html.PasswordFor(model => model.Contrasenha)
                             @Html.ValidationMessageFor(model => model.Contrasenha)
                         </div>
                     </div>
@@ -52,7 +52,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.NuevaContrasenha)
+                            @Html.PasswordFor(model => model.NuevaContrasenha)
                             @Html.ValidationMessageFor(model => model.NuevaContrasenha)
                         </div>
                     </div>
@@ -62,4 +62,14 @@
 
         </div>
         </div>
+    <div class="submit-btn">
+                                                   <a href="javascript:CambiarPassword()" class="btn green">Guardar</a>
+                                                </div>
 }        
+
+<script type="text/javascript">
+    function CambiarPassword(){
+        var form = $("#form1");
+        var p1 = $("#Contrasenha");
+    }
+</script>

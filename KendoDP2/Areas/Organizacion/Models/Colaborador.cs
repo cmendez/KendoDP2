@@ -229,6 +229,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             FechaNacimiento = c.FechaNacimiento;
             FechaIngreso = c.FechaIngresoEmpresa;
             ResumenEjecutivo = c.ResumenEjecutivo;
+            Usuario = c.Username;
 
             Subordinados = listac;
 
