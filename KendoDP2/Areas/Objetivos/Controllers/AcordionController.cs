@@ -31,7 +31,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
 
                 }
 
-                List<ColaboradorDTO> subordinadosCliente = subordinadosBaseDeDatos.Where(s => s.ID == 21 || s.ID == 22 || s.ID == 23).Select(s => s.ToDTO()).ToList();
+                List<ColaboradorDTO> subordinadosCliente = subordinadosBaseDeDatos.Where(s => s.ID == 21 || s.ID == 22 || s.ID == 23 || s.ID == 3 || s.ID == 4).Select(s => s.ToDTO()).ToList();
 
                 ViewBag.Colaboradores = subordinadosCliente;
                 ViewBag.Area = "";
