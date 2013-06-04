@@ -11,28 +11,33 @@
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Evaluación", "Rinda sus evaluaciones asignadas."));}
 
 <script type="text/x-kendo-tmpl" id="template">
-    <div class="row-fluid" style="padding-left: 50px;">
-        <div class="span3 responsive">
-            <dl>
-                <dt>Capacidad: </dt> <dd>#:TextoPregunta#</dd>        
-            </dl>
-        </div>
-        <div class="span3 responsive" id="estadoCalificacion__#:ID#" style="display:none; padding-top: 20px;">
-                <a class = "btn red icn-only mini" onClick="MostrarRating(#:ID#)"><i class="icon-pencil icon-white"></i> Editar respuesta</a>
-             
-            </div>
-            <div class="row-fluid"   id="rating__#:ID#">
-              
-                <span class="rating">
-                    <span class="star" id="strella1__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 100, #:Peso#, rating__#:ID#)"></span>
-                    <span class="star" id="strella2__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 80, #:Peso#, rating__#:ID#)"></span>
-                    <span class="star" id="strella3__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 60, #:Peso#, rating__#:ID#)"></span>
-                    <span class="star" id="strella4__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 40, #:Peso#, rating__#:ID#)"></span>
-                    <span class="star" id="strella5__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 20, #:Peso#, rating__#:ID#)"></span>
-                </span>
-                
-            </div>
-     </div>
+    <table class="table table-hover table-striped table-bordered" >
+        <tbody>
+            <tr>
+                <td>
+                    <div class="span3 responsive">
+                        <dl>
+                            <dt>Capacidad: </dt> <dd>#:TextoPregunta#</dd>        
+                        </dl>
+                    </div>
+                </td>
+                <td style="width: 200px">
+                    <div class="span3 responsive" id="estadoCalificacion__#:ID#" style="display:none; padding-top: 20px;">
+                        <a class = "btn red icn-only mini" onClick="MostrarRating(#:ID#)"><i class="icon-pencil icon-white"></i></a>
+                    </div>
+                    <div class="row-fluid"   id="rating__#:ID#">
+                        <span class="rating">
+                            <span class="star" id="strella1__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 100, #:Peso#, rating__#:ID#)"></span>
+                            <span class="star" id="strella2__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 80, #:Peso#, rating__#:ID#)"></span>
+                            <span class="star" id="strella3__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 60, #:Peso#, rating__#:ID#)"></span>
+                            <span class="star" id="strella4__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 40, #:Peso#, rating__#:ID#)"></span>
+                            <span class="star" id="strella5__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 20, #:Peso#, rating__#:ID#)"></span>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+     </table>
 </script>
 <style>
  .selectedS {
