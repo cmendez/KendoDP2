@@ -118,17 +118,12 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     Postulante p = context.TablaPostulante.One(x => x.ColaboradorID == Convert.ToInt32(colaboradorID));
                     if (p == null) // Si no encuentro al colaborador como postulante, creo el postulante
                     {
-                        p = new Postulante { ColaboradorID = c.ID };
-                        context.TablaPostulante.AddElement(p);
+                        context.TablaPostulante.AddElement(p = new Postulante(c));
                     }
 
                     ofxp.PostulanteID = p.ID;
                     ofxp.EstadoPostulantePorOfertaID = context.TablaEstadoPostulanteXOferta.One(x => x.Descripcion.Equals("Inscrito")).ID;
                     context.TablaOfertaLaboralXPostulante.AddElement(ofxp);
-
-                    //ofxp = context.TablaOfertaLaboralXPostulante.FindByID(ofxp.ID);
-
-                    //throw new Exception(ofxp.ID.ToString());
 
                     FasePostulacionXOfertaLaboralXPostulante fpxolxp = new FasePostulacionXOfertaLaboralXPostulante();
                     fpxolxp.FasePostulacionID = context.TablaFasePostulacion.One(x => x.Descripcion.Equals("Registrado")).ID;

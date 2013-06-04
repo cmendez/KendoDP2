@@ -35,8 +35,25 @@ namespace KendoDP2.Areas.Eventos.Models
         {
             ID = e.ID;
             Nombre = e.Nombre;
-            Inicio = DateTime.ParseExact(e.Inicio, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture);
-            Fin = DateTime.ParseExact(e.Fin, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture);
+            
+            if (e.Inicio.Contains(":"))
+            {
+                Inicio = DateTime.ParseExact(e.Inicio, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture);
+            }
+            else
+            {
+                Inicio = DateTime.ParseExact(e.Inicio, "dd/MM/yyyy", System.Globalization.CultureInfo.CurrentCulture);
+            }
+
+            if (e.Fin.Contains(":"))
+            {
+                Fin = DateTime.ParseExact(e.Fin, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture);
+            }
+            else
+            {
+                Fin = DateTime.ParseExact(e.Fin, "dd/MM/yyyy", System.Globalization.CultureInfo.CurrentCulture);
+            }
+
             EstadoID = e.EstadoID;
             CreadorID = e.CreadorID;
             TipoEventoID = e.TipoEventoID;
