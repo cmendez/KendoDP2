@@ -31,5 +31,17 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             }
         }
 
+        // GET: /Reclutamiento/ReclutamientoMobile/Jefe?userName=admin
+        public ActionResult Jefe(string userName)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                var ofertas1 = context.TablaOfertaLaborales.All().Select(p => p.ToMobileJefeDTO(userName)).ToList();
+                var estado = context.TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID;
+                //var ofertas2 = context.TablaOfertaLaborales.Where(a=>a.EstadoSolicitudOfertaLaboralID == estado).Select(p => p.ToMobilePostulanteDTO()).ToList();
+                return Json(ofertas1, JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }

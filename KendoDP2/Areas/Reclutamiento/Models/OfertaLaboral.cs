@@ -85,6 +85,11 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         {
             return new OfertaLaboralMobilePostulanteDTO(this, userName);
         }
+
+        public OfertaLaboralMobileJefeDTO ToMobileJefeDTO(string userName)
+        {
+            return new OfertaLaboralMobileJefeDTO (this, userName);
+        }
     }
 
     public class OfertaLaboralDTO
@@ -218,7 +223,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
 
 
     //WS para android para que cualquier colaborador pueda ver a qué puestos puede postular
-    public class OfertaLaboralMobilePostulanteDTO 
+    public class OfertaLaboralMobilePostulanteDTO
     {
         public int ID { get; set; }
         public string NombreAreaPuesto { get; set; }
@@ -300,4 +305,54 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             return ListaDTO;
         }
     }
+
+    //WS para android para que el jefe pueda ver cuáles son los postulantes a las ofertas laborales
+    public class OfertaLaboralMobileJefeDTO 
+    {
+        public int ID { get; set; }
+        public string NombreAreaPuesto { get; set; }
+        public string DescripcionOferta { get; set; }
+        public ICollection<CompetenciaConPonderadoDTO> CompetenciasPonderadasPuesto { get; set; }
+        public ICollection<PostulanteConCompetenciasDTO> ColaboradoresConCompetencias { get; set; }
+
+        public OfertaLaboralMobileJefeDTO(OfertaLaboral oferta, string userName)
+        {
+            ID = oferta.ID;
+            NombreAreaPuesto = oferta.Area.Nombre + "-" +oferta.Puesto.Nombre;
+            DescripcionOferta = oferta.Descripcion;
+            //Las competencias del puesto:
+            CompetenciasPonderadasPuesto = ListaCompetenciasConPonderadoToDTO(oferta.Puesto.CompetenciasXPuesto);
+            //Los colaboradores:
+            ColaboradoresConCompetencias = ListaColaboradoresConCompetenciaToDTO(CompetenciasPonderadasPuesto, oferta.Postulantes);
+        }
+
+        public static ICollection<CompetenciaConPonderadoDTO> ListaCompetenciasConPonderadoToDTO(ICollection<CompetenciaXPuesto> competencias)
+        {
+            List<CompetenciaConPonderadoDTO> ListaDTO = new List<CompetenciaConPonderadoDTO>();
+            CompetenciaConPonderadoDTO comp;
+
+            foreach (CompetenciaXPuesto c in competencias)
+            {
+                comp = new CompetenciaConPonderadoDTO(c);
+                ListaDTO.Add(comp);
+            }
+            return ListaDTO;
+        }
+
+        public ICollection<PostulanteConCompetenciasDTO> ListaColaboradoresConCompetenciaToDTO(ICollection<CompetenciaConPonderadoDTO> 
+            competenciasPuesto, ICollection<OfertaLaboralXPostulante> postulantes)
+        {
+            List<PostulanteConCompetenciasDTO> listaColaboradores = new List<PostulanteConCompetenciasDTO>();
+            PostulanteConCompetenciasDTO postulanteCompetencias;
+
+            foreach (OfertaLaboralXPostulante postulante in postulantes)
+            {
+                postulanteCompetencias = new PostulanteConCompetenciasDTO(competenciasPuesto, postulante.Postulante);
+                listaColaboradores.Add(postulanteCompetencias);
+            }
+
+            return listaColaboradores;
+        }
+    }
+    
 }
