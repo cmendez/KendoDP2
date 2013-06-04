@@ -258,25 +258,57 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
       {
           using (DP2Context context = new DP2Context())
           {
-              ViewBag.terminado = false;
               ProcesoEvaluacion proceso = context.TablaProcesoEvaluaciones.FindByID(procesoEvaluacionID);
+              ViewBag.terminado = false;
               ViewBag.proceso = proceso;
+
+              // Validar que el proceso no esté cerrado ya
               if (proceso.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Terminado)).ID)
               {
                   ViewBag.terminado = true;
-                  return View(proceso);
+                  return View();
               }
               
-              //Procesar resultados parciales y modificar estados 
-                
-              // 
+              // Procesar resultados parciales y modificar estados 
+              //CalcularYGuardarResultadosProceso(proceso, context);
+
+              // Actualiza estado del proceso
               EstadoProcesoEvaluacion terminado = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Terminado));
               proceso.EstadoProcesoEvaluacion = terminado;
               context.TablaProcesoEvaluaciones.ModifyElement(proceso);
-              return View(proceso);
+              return View();
           }
-      }
+        }
 
+        public void CalcularYGuardarResultadosProceso(ProcesoEvaluacion proceso, DP2Context context) 
+        {
+            //IList<ColaboradorXProcesoEvaluacion> evaluados = context.TablaColaboradorXProcesoEvaluaciones.Where(x => x.ProcesoEvaluacionID == proceso.ID);
+            IList<Evaluador> evaluados = context.TablaEvaluadores.Where(x => x.ProcesoEnElQueParticipanID == proceso.ID);
+            foreach (Evaluador e in evaluados) {
+                int evaluadoID = e.ElEvaluado;
+                int evaluadorID = e.ElIDDelEvaluador;
+                
+                // Obtener todas las instancias de tabla evaluador para calcula las notas de cada evaluacion
+                IList<Evaluador> evaluadores = context.TablaEvaluadores.Where(x=> x.ElIDDelEvaluador == evaluadorID && x.ElEvaluado == evaluadoID && x.ProcesoEnElQueParticipanID == proceso.ID);
+                //evaluados.Select(x => x.ElIDDelEvaluador == evaluadorID && x.ElEvaluado == evaluadoID);
+                int notaEvaluadoXProceso = 0;
+                int examenesTerminados = 0;
+                foreach (Evaluador evaluador in evaluadores) {
+                    Examen examen = context.TablaExamenes.One(x=> x.EvaluadorID == evaluador.ID);
+                    // Solo considerar las evaluaciones que fueron terminadas
+                    if (examen.EstadoExamenID == context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID) {
+                        examenesTerminados++;
+                        int pesoExamenXEvaluador = 1; //TODO: obtener de tabla
+                        notaEvaluadoXProceso+= (pesoExamenXEvaluador * examen.NotaExamen);
+                    }
+                }
+                ColaboradorXProcesoEvaluacion colaboradorEvaluadoXPorProceso = context.TablaColaboradorXProcesoEvaluaciones.One(x => x.ProcesoEvaluacionID ==proceso.ID && x.ColaboradorID == evaluadoID);
+                colaboradorEvaluadoXPorProceso.Puntuacion = notaEvaluadoXProceso;  //dividir entre total de evaluadores?
+                context.TablaColaboradorXProcesoEvaluaciones.ModifyElement(colaboradorEvaluadoXPorProceso);
+            }
+
+        }
+        
         public ActionResult Editing_ReadCapEvaluacion([DataSourceRequest] DataSourceRequest request, int puestoID, int tablaEvaluadoresID)
         {
             using (DP2Context context = new DP2Context())
