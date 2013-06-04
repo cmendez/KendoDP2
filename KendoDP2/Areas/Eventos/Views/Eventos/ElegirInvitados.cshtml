@@ -139,7 +139,7 @@
         $("#event_box_areas").append(newDiv);
     }
     function agregaTileDeColaborador(colaboradorID, nombreCompleto){
-        var newDiv = '<a href="javascript: (' + colaboradorID + ');" class="label external-event">' + nombreCompleto + '<i class="icon-remove"></i></a>'; 
+        var newDiv = '<a href="javascript:removeColaborador(' + colaboradorID + ');" class="label external-event">' + nombreCompleto + '<i class="icon-remove"></i></a>'; 
         $("#event_box_colaboradores").append(newDiv);
     }
 

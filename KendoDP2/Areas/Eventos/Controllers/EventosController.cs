@@ -164,9 +164,7 @@ namespace KendoDP2.Areas.Eventos.Controllers
                     Evento = context.TablaEvento.FindByID(eventoID),
                     Area = context.TablaAreas.FindByID(areaID)
                 });
-                List<Area> areasHijas = context.TablaAreas.FindByID(areaID).GetAreasHijas(context);
-                List<int> areasHijasIDs = areasHijas.Select(c => c.ID).ToList();
-                context.TablaColaboradores.All().Select(c => c.ToDTO()).Where(c => areasHijasIDs.Contains(c.AreaID)).Each(c => AddColaboradorToEvento(c.ID, eventoID, context, false));
+                context.TablaColaboradores.All().Select(c => c.ToDTO()).Where(c => areaID == c.AreaID).Each(c => AddColaboradorToEvento(c.ID, eventoID, context, false));
                 return Json(new { success = true });
             }
         }
@@ -219,9 +217,7 @@ namespace KendoDP2.Areas.Eventos.Controllers
             using (DP2Context context = new DP2Context())
             {
                 context.TablaAreaXEvento.RemoveElementByID(context.TablaAreaXEvento.One(x => x.EventoID == eventoID && x.AreaID == areaID).ID);
-                List<Area> areasHijas = context.TablaAreas.FindByID(areaID).GetAreasHijas(context);
-                List<int> areasHijasIDs = areasHijas.Select(c => c.ID).ToList();
-                foreach (ColaboradorDTO c in context.TablaColaboradores.All().Select(c => c.ToDTO()).Where(c => areasHijasIDs.Contains(c.AreaID)).ToList())
+                foreach (ColaboradorDTO c in context.TablaColaboradores.All().Select(c => c.ToDTO()).Where(c => areaID == (c.AreaID)).ToList())
                 {
                     Invitado cruce = context.TablaInvitado.One(x => x.ColaboradorID == c.ID && x.EventoID == eventoID);
                     if (cruce != null)
