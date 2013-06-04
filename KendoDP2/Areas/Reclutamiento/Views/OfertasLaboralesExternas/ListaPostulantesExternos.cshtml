@@ -97,14 +97,8 @@
                 postulanteXOfertaID: postulanteXOfertaID
             },
             success: function(response){
-                alert("El postulante fue aprobado para evaluación");
-                console.log("success ");
-                console.log(response);
+                showError(response, "El postulante fue aprobado para evaluación");
                 recargaGrid();
-            },
-            complete: function(response){
-                console.log("complete ");
-                console.log(response);
             }
         });
     }

@@ -104,7 +104,7 @@
                 postulanteXOfertaID: postulanteXOfertaID
             },
             success: function(response){
-                alert("Cambiar el puesto del colaborador");
+                handleError(response, "Cambiar el puesto del colaborador");
                 recargaGrid();
             }
         });

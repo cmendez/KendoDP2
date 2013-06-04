@@ -101,7 +101,7 @@
                 postulanteXOfertaID: postulanteXOfertaID
             },
             success: function(response){
-                alert("El postulante fue aprobado para evaluación");
+                handleError(response, "El postulante fue aprobado para evaluación");
                 recargaGrid();
             }
         });
