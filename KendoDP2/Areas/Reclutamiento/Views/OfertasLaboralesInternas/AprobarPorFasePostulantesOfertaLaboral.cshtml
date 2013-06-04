@@ -32,13 +32,12 @@
                         columns.Bound(p => p.Postulante.Colaborador.CorreoElectronico);
                         columns.Bound(p => p.EstadoPostulantePorOfertaNombre);
                         columns.Template(@<text></text>).Title("Curriculum Vitae").ClientTemplate(
-                        "<a class='k-button' href='javascript:bajarCV(#=Postulante.Colaborador.CurriculumVitaeID#);'>Descargar CV</a>");
+                        "<a class='k-button' href='javascript:bajarCV(#=Postulante.Postulante.CurriculumVitaeID#);'>Descargar CV</a>");
                         columns.Command(command =>
                         {
                             command.Custom("Ver").Click("verPostulante").SendDataKeys(true);
                             command.Custom("Aprobar").Click("aprobarFase1").SendDataKeys(true);
-                            command.Custom("Rechazar").Click("rechazarPase").SendDataKeys(true);
-                        }).Width(250);
+                        }).Width(200);
                     }
                         )
                             .Editable(editable => editable

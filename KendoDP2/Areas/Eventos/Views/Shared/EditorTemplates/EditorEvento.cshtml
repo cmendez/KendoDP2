@@ -85,58 +85,8 @@
         </div>
         </div>
  
- 
-<script>
-    $("#AreaID").change(function () {
-        var areaID = $(this).val();
-        $.getJSON("@Url.Action("_GetPuestos", "Colaboradores", new {Area = "Organizacion"})",
-               { areaID: areaID },
-               function (puestos) {
-                   var select = $("#PuestoID");
-                   select.find('option').remove().end();
-                   select.append($('<option/>', {
-                       value: 0,
-                       text: ""
-                   }));
-                     $.each(puestos, function (index, itemData) {
-                       select.append($('<option/>', {
-                           value: itemData.ID,
-                           text: itemData.Nombre
-                       }));
-                     });
-                     if (puestos.length > 0)
-                         select.find('option:first').attr("selected", "selected");
-              
-               });
-    });
 
-    
-
-
-</script>
-    
-<script type="text/javascript">
-    var canload = true;
-    function loadImage(force) {
-        force = typeof force !== 'undefined' ? force : false;
-        if (canload || force) {
-            $("#imagen").attr("src", "/Organizacion/Colaboradores/ViewImageDeColaborador?colaboradorID=" + $("#ID").val());
-            canload = false;
-        }
-    }
-    function loadImageWithID(ID) {
-        $("#imagen").attr("src", "/Misc/GetImagen?archivoID=" + ID);
-    }
-    function bajarCV() {
-        if ($("#CurriculumVitaeID").val() == '0' || $("#CurriculumVitaeID").val() == 0)
-            alert("No hay ningun curriculum registrado");
-        else {
-            $("#bajar-cv-anchor").attr("href", "/Organizacion/Colaboradores/BajarCurriculum?curriculumVitaeID=" + $("#CurriculumVitaeID").val());
-            $("a#bajar-cv-anchor")[0].click();
-        }
-    }
-</script> 
-        
+       
 
 }        
 
