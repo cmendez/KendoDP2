@@ -304,8 +304,9 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     Examen examen = context.TablaExamenes.One(x=> x.EvaluadorID == evaluador.ID);
                     // Solo considerar las evaluaciones que fueron terminadas
                     if (examen.EstadoExamenID == context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID) {
-                        
-                        PuestoXEvaluadores puestoXEvaluador = context.TablaPuestoXEvaluadores.Where(x=>x.PuestoID== context.TablaColaboradoresXPuestos.One(x=>x.Colaborador.ID == evaluadorID).PuestoID );
+
+                        //PuestoXEvaluadores puestoXEvaluador = context.TablaPuestoXEvaluadores.Where(x => x.PuestoID == context.TablaColaboradoresXPuestos.One(x => x.Colaborador.ID == evaluadorID).PuestoID);
+                        PuestoXEvaluadores puestoXEvaluador = null;
                         int pesoExamenXEvaluador = puestoXEvaluador.Peso; //TODO: obtener de tabla
                         acumuladoPesos += pesoExamenXEvaluador;
                         notaEvaluadoXProceso+= (pesoExamenXEvaluador * examen.NotaExamen);
