@@ -27,6 +27,8 @@ namespace KendoDP2.Areas.Eventos.Models
         public int CreadorID { get; set; }
         public virtual Colaborador Creador { get; set; }
 
+        public string LugarEvento { get; set; }
+
         [InverseProperty("Evento")]
         public virtual ICollection<Invitado> Invitados { get; set; }
 
@@ -102,6 +104,10 @@ namespace KendoDP2.Areas.Eventos.Models
         [DisplayName("Creador")]
         public string Creador { get; set; }
 
+        [DisplayName("Lugar del Evento")]
+        [MaxLength(100)]
+        public string LugarEvento { get; set; }
+
         public List<ColaboradorDTO> Invitados { get; set; }
 
         public EventoDTO() { }
@@ -117,6 +123,7 @@ namespace KendoDP2.Areas.Eventos.Models
             TipoEvento = e.TipoEvento != null ? e.TipoEvento.Descripcion : String.Empty;
             CreadorID = e.CreadorID;
             Creador = e.Creador.ToDTO().NombreCompleto;
+            LugarEvento = e.LugarEvento;
             if (e.Invitados != null && e.Invitados.Count > 0)
             {
                 Invitados = new List<ColaboradorDTO>();
