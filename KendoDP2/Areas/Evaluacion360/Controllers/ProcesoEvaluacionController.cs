@@ -41,6 +41,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 ViewBag.areas = context.TablaAreas.All().Select(c => c.ToDTO()).ToList();
                 ViewBag.estados = context.TablaEstadoColaboradorXProcesoEvaluaciones.All().Select(c => c.ToDTO()).ToList();
                 ViewBag.areas = context.TablaAreas.All().Select(c => c.ToDTO()).ToList();
+                ViewBag.idProceso = proceso.ID;
                 return View(proceso);
 
             }
@@ -296,19 +297,23 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 // Obtener todas las instancias de tabla evaluador para calcula las notas de cada evaluacion
                 IList<Evaluador> evaluadores = context.TablaEvaluadores.Where(x=> x.ElIDDelEvaluador == evaluadorID && x.ElEvaluado == evaluadoID && x.ProcesoEnElQueParticipanID == proceso.ID);
                 //evaluados.Select(x => x.ElIDDelEvaluador == evaluadorID && x.ElEvaluado == evaluadoID);
+               
                 int notaEvaluadoXProceso = 0;
-                int examenesTerminados = 0;
+                int acumuladoPesos = 0;
                 foreach (Evaluador evaluador in evaluadores) {
                     Examen examen = context.TablaExamenes.One(x=> x.EvaluadorID == evaluador.ID);
                     // Solo considerar las evaluaciones que fueron terminadas
                     if (examen.EstadoExamenID == context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID) {
-                        examenesTerminados++;
-                        int pesoExamenXEvaluador = 1; //TODO: obtener de tabla
+
+                        //PuestoXEvaluadores puestoXEvaluador = context.TablaPuestoXEvaluadores.Where(x => x.PuestoID == context.TablaColaboradoresXPuestos.One(x => x.Colaborador.ID == evaluadorID).PuestoID);
+                        PuestoXEvaluadores puestoXEvaluador = null;
+                        int pesoExamenXEvaluador = puestoXEvaluador.Peso; //TODO: obtener de tabla
+                        acumuladoPesos += pesoExamenXEvaluador;
                         notaEvaluadoXProceso+= (pesoExamenXEvaluador * examen.NotaExamen);
                     }
                 }
                 ColaboradorXProcesoEvaluacion colaboradorEvaluadoXPorProceso = context.TablaColaboradorXProcesoEvaluaciones.One(x => x.ProcesoEvaluacionID ==proceso.ID && x.ColaboradorID == evaluadoID);
-                colaboradorEvaluadoXPorProceso.Puntuacion = notaEvaluadoXProceso;  //dividir entre total de evaluadores?
+                colaboradorEvaluadoXPorProceso.Puntuacion = notaEvaluadoXProceso/acumuladoPesos;  //dividir entre total de evaluadores?
                 context.TablaColaboradorXProcesoEvaluaciones.ModifyElement(colaboradorEvaluadoXPorProceso);
             }
 

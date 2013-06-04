@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Globalization;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KendoDP2.Areas.Objetivos.Models
 {
@@ -36,6 +37,8 @@ namespace KendoDP2.Areas.Objetivos.Models
 
         public bool IsObjetivoIntermedio { get; set; }
 
+        [InverseProperty("Objetivos")]
+        public virtual Colaborador Dueño { get; set; }
 
         public Objetivo() {
             FechaCreacion = DateTime.Now;
