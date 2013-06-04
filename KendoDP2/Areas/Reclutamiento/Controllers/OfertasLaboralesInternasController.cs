@@ -106,9 +106,9 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             {
 
                 OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
-                List<OfertaLaboralXPostulante> postulantesOferta = oferta.Postulantes.ToList();
+                List<OfertaLaboralXPostulanteDTO> postulantesOferta = oferta.Postulantes.Select(c => c.ToDTO()).ToList();
 
-                return Json(postulantesOferta.Select(x => x.ToDTO()).ToDataSourceResult(request));
+                return Json(postulantesOferta.ToDataSourceResult(request));
             }
         }
 

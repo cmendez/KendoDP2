@@ -605,3 +605,7 @@ var App = function () {
     };
 
 }();
+
+function showError(response, message_on_success) {
+    console.log(response);
+}
