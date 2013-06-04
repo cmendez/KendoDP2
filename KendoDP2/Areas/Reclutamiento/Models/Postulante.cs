@@ -127,6 +127,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             TipoDocumento = p.TipoDocumento.Descripcion;
             NumeroDocumento = p.NumeroDocumento;
             Colaborador = p.Colaborador == null ? new ColaboradorDTO() : p.Colaborador.ToDTO();
+            CurriculumVitaeID = p.CurriculumVitaeID;
         }
     }
 }
