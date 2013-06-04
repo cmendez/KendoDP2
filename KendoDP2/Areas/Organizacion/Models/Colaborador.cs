@@ -161,6 +161,7 @@ namespace KendoDP2.Areas.Organizacion.Models
 
         [DisplayName("Centro de estudios")]
         [StringLength(100)]
+        [Required]
         public string CentroEstudios { get; set; }
 
         [DisplayName("Grado Académico")]
@@ -228,6 +229,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             FechaNacimiento = c.FechaNacimiento;
             FechaIngreso = c.FechaIngresoEmpresa;
             ResumenEjecutivo = c.ResumenEjecutivo;
+            Usuario = c.Username;
 
             Subordinados = listac;
 

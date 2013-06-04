@@ -35,10 +35,12 @@
                         columns.ForeignKey(p => p.EstadoID, listaEstados);
                         columns.Template(@<text></text>).Title("Invitados").ClientTemplate(
                         "<a class='k-button' href='" + Url.Action("ListaInvitados", "Eventos") + "?eventoID=#=ID#'>Agregar Invitados</a>");
-                        columns.Command(command => { command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar");
-                                                     command.Destroy().Text("Eliminar");
-                                                   }).Width(200);
-                        
+                        columns.Command(command =>
+                        {
+                            command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar");
+                            command.Destroy().Text("Eliminar");
+                        }).Width(200);
+
                     }
                 )
                 .ToolBar(toolbar =>
@@ -60,7 +62,7 @@
                 .DataSource(dataSource => dataSource
                     .Ajax()
                     .PageSize(20)
-                    .Model(model => model.Id(p => p.ID))
+                    .Model(model => { model.Id(p => p.ID); model.Field(x => x.Invitados).Editable(false); })
                     .Create(update => update.Action("Create", "Eventos"))
                     .Read(read => read.Action("Read", "Eventos"))
                     .Update(update => update.Action("Update", "Eventos"))

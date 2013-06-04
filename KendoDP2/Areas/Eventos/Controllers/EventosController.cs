@@ -38,7 +38,6 @@ namespace KendoDP2.Areas.Eventos.Controllers
 
         }
 
-        // Grid periodos
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
             using (DP2Context context = new DP2Context())
@@ -53,7 +52,7 @@ namespace KendoDP2.Areas.Eventos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                    Evento c = new Evento(evento);
+                    Evento c = new Evento().LoadFromDTO(evento);
                     int creadorID = DP2MembershipProvider.GetPersonaID(this);
                     c.CreadorID = creadorID;
                     c.Creador = context.TablaColaboradores.FindByID(creadorID);
@@ -91,9 +90,149 @@ namespace KendoDP2.Areas.Eventos.Controllers
                 Evento evento = context.TablaEvento.FindByID(eventoID);
                 ViewBag.colaboradores = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
                 ViewBag.areas = context.TablaAreas.All().Select(c => c.ToDTO()).ToList();
-                return View("ElegirInvitados");
+                return View("ElegirInvitados", evento.ToDTO());
 
             }
         }
+
+        //Para cargar y registrar invitados
+
+        public ActionResult ReadInvitados([DataSourceRequest] DataSourceRequest request, int eventoID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                return Json(context.TablaInvitado.Where(x => x.EventoID == eventoID)
+                    .Select(x => x.ToDTO()).ToDataSourceResult(request));
+            }
+        }
+
+        // devuelve si se cambio a true ReferenciaDirecta
+        private bool AddColaboradorToEvento(int colaboradorID, int eventoID, DP2Context context, bool esReferenciaDirecta)
+        {
+            var cruce = context.TablaInvitado.One(x => x.ColaboradorID == colaboradorID && x.EventoID == eventoID);
+            if (cruce == null)
+            { // nuevo
+                context.TablaInvitado.AddElement(
+                    new Invitado
+                    {
+                        ColaboradorID = colaboradorID,
+                        EventoID= eventoID,
+                        ReferenciaDirecta = esReferenciaDirecta,
+                        ReferenciasPorAreas = esReferenciaDirecta ? 0 : 1
+                    });
+                return esReferenciaDirecta;
+            }
+            else if (!esReferenciaDirecta)
+            {
+                cruce.ReferenciasPorAreas++;
+                context.TablaInvitado.ModifyElement(cruce);
+                return false;
+            }
+            else
+            { // no tenia referencia directa
+                if (!cruce.ReferenciaDirecta)
+                {
+                    cruce.ReferenciaDirecta = true;
+                    context.TablaInvitado.ModifyElement(cruce);
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult AddInvitadosColaborador(int eventoID, int colaboradorID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                bool isNuevaReferenciaDirecta = AddColaboradorToEvento(colaboradorID, eventoID, context, true);
+                return Json(new { success = isNuevaReferenciaDirecta });
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult AddInvitadosAreas(int eventoID, int areaID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                if (context.TablaAreaXEvento.One(x => x.EventoID == eventoID && x.AreaID == areaID) != null)
+                {
+                    return Json(new { success = false });
+                }
+                context.TablaAreaXEvento.AddElement(new AreaXEvento
+                {
+                    Evento = context.TablaEvento.FindByID(eventoID),
+                    Area = context.TablaAreas.FindByID(areaID)
+                });
+                context.TablaColaboradores.All().Select(c => c.ToDTO()).Where(c => areaID == c.AreaID).Each(c => AddColaboradorToEvento(c.ID, eventoID, context, false));
+                return Json(new { success = true });
+            }
+        }
+        
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult DestroyInvitados([DataSourceRequest] DataSourceRequest request, Invitado cruce)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                context.TablaInvitado.RemoveElementByID(cruce.ID, true);
+                return Json(ModelState.ToDataSourceResult());
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult DestroyInvitadoDirecto(int eventoID, int colaboradorID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                var cruce = context.TablaInvitado.One(x => x.EventoID == eventoID && x.ColaboradorID == colaboradorID);
+                if (cruce != null)
+                {
+                    context.TablaInvitado.RemoveElementByID(cruce.ID, true);
+                }
+                return Json(new { sucess = true });
+            }
+        }
+
+        public ActionResult GetInvitadosDirectos(int eventoID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                var lista = context.TablaInvitado.Where(x => x.EventoID == eventoID && x.ReferenciaDirecta).ToList().Select(c => c.ToDTO()).ToList();
+                return Json(new { data = lista }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetAreas(int eventoID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                var lista = context.TablaAreaXEvento.Where(x => x.EventoID == eventoID).ToList().Select(c => c.ToDTO()).ToList();
+                return Json(new { data = lista }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult DestroyArea(int eventoID, int areaID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                context.TablaAreaXEvento.RemoveElementByID(context.TablaAreaXEvento.One(x => x.EventoID == eventoID && x.AreaID == areaID).ID);
+                foreach (ColaboradorDTO c in context.TablaColaboradores.All().Select(c => c.ToDTO()).Where(c => areaID == (c.AreaID)).ToList())
+                {
+                    Invitado cruce = context.TablaInvitado.One(x => x.ColaboradorID == c.ID && x.EventoID == eventoID);
+                    if (cruce != null)
+                    {
+                        cruce.ReferenciasPorAreas--;
+                        context.TablaInvitado.ModifyElement(cruce);
+                        if (cruce.ReferenciasPorAreas == 0 && !cruce.ReferenciaDirecta)
+                        {
+                            context.TablaInvitado.RemoveElementByID(cruce.ID, true);
+                        }
+                    }
+                }
+                return Json(new { success = true });
+            }
+        }
+
     }
 }

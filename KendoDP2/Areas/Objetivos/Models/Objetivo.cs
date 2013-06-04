@@ -72,6 +72,7 @@ namespace KendoDP2.Areas.Objetivos.Models
             Peso = peso;
             ObjetivoPadre = context.TablaObjetivos.FindByID(objetivoPadreID);
             FechaCreacion = DateTime.Now;
+
         }
 
         public Objetivo(ObjetivoDTO o, DP2Context context) : this()
@@ -101,9 +102,9 @@ namespace KendoDP2.Areas.Objetivos.Models
             return new ObjetivoDTO(this, context);
         }
 
-        public ObjetivoRDTO ToRDTO()
+        public ObjetivoRDTO ToRDTO(DP2Context context)
         {
-            return new ObjetivoRDTO(this);
+            return new ObjetivoRDTO(this,context);
         }
 
     }

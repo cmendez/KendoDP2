@@ -186,6 +186,7 @@
     <Compile Include="Areas\Configuracion\ConfiguracionAreaRegistration.cs" />
     <Compile Include="Areas\Configuracion\Controllers\PeriodosController.cs" />
     <Compile Include="Areas\Configuracion\Controllers\WSPeriodosController.cs" />
+    <Compile Include="Areas\Configuracion\Models\CentrosEstudio.cs" />
     <Compile Include="Areas\Configuracion\Models\DP2Context.cs" />
     <Compile Include="Areas\Configuracion\Models\Pais.cs" />
     <Compile Include="Areas\Configuracion\Models\Periodo.cs" />
@@ -226,6 +227,7 @@
     <Compile Include="Areas\Eventos\Controllers\EventosController.cs" />
     <Compile Include="Areas\Eventos\Controllers\WSEventoController.cs" />
     <Compile Include="Areas\Eventos\EventosAreaRegistration.cs" />
+    <Compile Include="Areas\Eventos\Models\AreaXEvento.cs" />
     <Compile Include="Areas\Eventos\Models\DP2Context.cs" />
     <Compile Include="Areas\Eventos\Models\EstadoEvento.cs" />
     <Compile Include="Areas\Eventos\Models\Evento.cs" />
@@ -237,6 +239,7 @@
     <Compile Include="Areas\Objetivos\Controllers\ObjetivosSubordinadosController.cs" />
     <Compile Include="Areas\Objetivos\Controllers\WSMisObjetivosController.cs" />
     <Compile Include="Areas\Objetivos\Controllers\WSObjetivosEmpresaController.cs" />
+    <Compile Include="Areas\Objetivos\Controllers\WSObjetivosSubornidadosController.cs" />
     <Compile Include="Areas\Objetivos\Models\DP2Context.cs" />
     <Compile Include="Areas\Objetivos\Models\Objetivo.cs" />
     <Compile Include="Areas\Objetivos\Models\BSC.cs" />

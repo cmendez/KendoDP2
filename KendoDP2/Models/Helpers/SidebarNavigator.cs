@@ -67,10 +67,13 @@ namespace KendoDP2.Models.Helpers
                 new SidebarSuboption("Administrar Ofertas Laborales Externas", "OfertasLaboralesExternas","Index","icon-book")
             })));
 
-            Opciones.Add(new SidebarOption("BolsaTrabajo", "Bolsa de Trabajo", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
+            Opciones.Add(new SidebarOption("BolsaTrabajo", "Bolsa de Trabajo", "icon-thumbs-up", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption("Convocatoria Interna","ConvocatoriasInternas","Index","icon-tag")
             })));
 
+            Opciones.Add(new SidebarOption("Eventos", "Eventos", "icon-calendar", new List<SidebarSuboption>(new SidebarSuboption[]{
+                new SidebarSuboption("Eventos","Eventos","Index","icon-calendar")
+            })));
         }
     }
 

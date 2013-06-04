@@ -27,6 +27,8 @@ namespace KendoDP2.Areas.Eventos.Models
         public int CreadorID { get; set; }
         public virtual Colaborador Creador { get; set; }
 
+        public string LugarEvento { get; set; }
+
         [InverseProperty("Evento")]
         public virtual ICollection<Invitado> Invitados { get; set; }
 
@@ -35,15 +37,48 @@ namespace KendoDP2.Areas.Eventos.Models
         {
             ID = e.ID;
             Nombre = e.Nombre;
-            Inicio = DateTime.ParseExact(e.Inicio, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture);
-            Fin = DateTime.ParseExact(e.Fin, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture);
+            
+            if (e.Inicio.Contains(":"))
+            {
+                Inicio = DateTime.ParseExact(e.Inicio, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture);
+            }
+            else
+            {
+                Inicio = DateTime.ParseExact(e.Inicio, "dd/MM/yyyy", System.Globalization.CultureInfo.CurrentCulture);
+            }
+
+            if (e.Fin.Contains(":"))
+            {
+                Fin = DateTime.ParseExact(e.Fin, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture);
+            }
+            else
+            {
+                Fin = DateTime.ParseExact(e.Fin, "dd/MM/yyyy", System.Globalization.CultureInfo.CurrentCulture);
+            }
+
             EstadoID = e.EstadoID;
             CreadorID = e.CreadorID;
             TipoEventoID = e.TipoEventoID;
         }
         public Evento LoadFromDTO(EventoDTO e)
         {
+            ID = e.ID;
+            EstadoID = e.EstadoID;
+            CreadorID = e.CreadorID;
+            TipoEventoID = e.TipoEventoID;
+            Nombre = e.Nombre;
+            LugarEvento = e.LugarEvento;
+            Inicio = Convert.ToDateTime(FormatRawDateTimeForKendo(e.Inicio));
+            Fin = Convert.ToDateTime(FormatRawDateTimeForKendo(e.Fin));
             return this;
+        }
+        private static string FormatRawDateTimeForKendo(string datetime)
+        {
+            //Tue Jun 04 2013 02:00:00 GMT-0500
+            string right = datetime.Substring(datetime.IndexOf(' '));
+            //Jun 04 2013 02:00:00 GMT-0500
+            string left = right.Substring(0, datetime.LastIndexOf(':'));
+            return left;
         }
         public EventoDTO ToDTO()
         {
@@ -61,14 +96,14 @@ namespace KendoDP2.Areas.Eventos.Models
         [DisplayName("Nombre Evento")]
         public string Nombre { get; set; }
 
-        [DisplayName("Inicio Evento")]
+        [DisplayName("Fecha Inicio Evento")]
         [Required]
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.DateTime), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm tt}", ApplyFormatInEditMode = true)]
         public string Inicio { get; set; }
 
-        [DisplayName("Fin Evento")]
+        [DisplayName("Fin Fin Evento")]
         [Required]
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.DateTime), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}", ApplyFormatInEditMode = true)]
         public string Fin { get; set; }
 
         [DisplayName("Estado")]
@@ -85,6 +120,10 @@ namespace KendoDP2.Areas.Eventos.Models
         [DisplayName("Creador")]
         public string Creador { get; set; }
 
+        [DisplayName("Lugar del Evento")]
+        [MaxLength(100)]
+        public string LugarEvento { get; set; }
+
         public List<ColaboradorDTO> Invitados { get; set; }
 
         public EventoDTO() { }
@@ -100,6 +139,7 @@ namespace KendoDP2.Areas.Eventos.Models
             TipoEvento = e.TipoEvento != null ? e.TipoEvento.Descripcion : String.Empty;
             CreadorID = e.CreadorID;
             Creador = e.Creador.ToDTO().NombreCompleto;
+            LugarEvento = e.LugarEvento;
             if (e.Invitados != null && e.Invitados.Count > 0)
             {
                 Invitados = new List<ColaboradorDTO>();

@@ -21,11 +21,8 @@ namespace KendoDP2.Areas.Evaluacion360.Models
 
         public int ReferenciasPorAreas { get; set; }
         public bool ReferenciaDirecta { get; set; }
-
-        // Agregar 
-        // ColaboradorEvaluado
-        // FechaTerminacionEvaluacion
-        // Puntuacion
+        // sobre 100 siempre
+        public int? Puntuacion { get; set; }
         
         public ColaboradorXProcesoEvaluacionDTO ToDTO()
         {
