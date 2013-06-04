@@ -14,11 +14,13 @@ namespace KendoDP2.Models.Generic
         public DbSet<EstadoEvento> InternalEstadoEvento { get; set; }
         public DbSet<TipoEvento> InternalTiposEvento { get; set; }
         public DbSet<Invitado> InternalInvitado { get; set; }
+        public DbSet<AreaXEvento> InternalAreaXEvento { get; set; }
 
         public DBGenericRequester<Evento> TablaEvento { get; set; }
         public DBGenericRequester<EstadoEvento> TablaEstadoEvento { get; set; }
         public DBGenericRequester<TipoEvento> TablaTiposEvento { get; set; }
         public DBGenericRequester<Invitado> TablaInvitado { get; set; }
+        public DBGenericRequester<AreaXEvento> TablaAreaXEvento { get; set; }
 
         private void RegistrarTablasEventos()
         {
@@ -26,6 +28,7 @@ namespace KendoDP2.Models.Generic
             TablaEstadoEvento = new DBGenericRequester<EstadoEvento>(this, InternalEstadoEvento);
             TablaTiposEvento = new DBGenericRequester<TipoEvento>(this, InternalTiposEvento);
             TablaInvitado = new DBGenericRequester<Invitado>(this, InternalInvitado);
+            TablaAreaXEvento = new DBGenericRequester<AreaXEvento>(this, InternalAreaXEvento);
         }
 
         private void SeedEstadoEvento()

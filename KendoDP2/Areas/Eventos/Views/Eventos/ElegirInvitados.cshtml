@@ -1,7 +1,7 @@
 ﻿@using KendoDP2.Areas.Organizacion.Models
 @using Kendo.Mvc.UI
 
-@model KendoDP2.Areas.Eventos.Models.Evento
+@model KendoDP2.Areas.Eventos.Models.EventoDTO
 
 @{
     ViewBag.Title = "Elegir Invitados";
@@ -55,21 +55,20 @@
                 <hr />
             </div>
             <div class="span10">
-                @(Html.Kendo().Grid<KendoDP2.Areas.Organizacion.Models.ColaboradorDTO>()
-                .Name("ColaboradoresDeProcesoEvaluacionGrid")
+                @(Html.Kendo().Grid<KendoDP2.Areas.Eventos.Models.InvitadoDTO>()
+                .Name("ColaboradoresPorEventoGrid")
                 .Columns(columns =>
                     {
-                        columns.Bound(p => p.NombreCompleto);
-                        columns.Bound(p => p.CorreoElectronico);
-                        columns.ForeignKey((p => p.AreaID), lista);
-                        columns.Bound(p => p.Puesto);
+                        columns.Bound(p => p.ColaboradorDTO.NombreCompleto);
+                        columns.Bound(p => p.ColaboradorDTO.CorreoElectronico);
+                        columns.ForeignKey((p => p.ColaboradorDTO.AreaID), lista);
                         columns.Command(command =>
                         {
                             command.Destroy().Text("Eliminar");
                         }).Width(200);
                     }
                 )
-                        )
+                        
                         .Editable(
                             e => e.DisplayDeleteConfirmation("¿Está seguro de que desea eliminar este registro?")
                         )
@@ -82,7 +81,7 @@
                             .PageSize(20)
                             .Model(model => { model.Id(p => p.ID); })
                             .Read(read => read.Action("ReadInvitados", "Eventos", new { EventoID = Model.ID }))
-                            .Destroy(update => update.Action("EliminaInvitados", "Eventos"))
+                            .Destroy(update => update.Action("DestroyInvitados", "Eventos"))
                             .Events(e => e.RequestEnd("requestEnd"))
                         )
                         )
@@ -99,5 +98,125 @@
         cargaTiles();
     }
 
-   
+    
+    function cargaTilesAreas(){
+        $.ajax({
+            url: '@Url.Action("GetAreas", "Eventos", new { Area = "Eventos" })',
+            dataType: 'JSON',
+            type: 'GET',
+            data: { eventoID : @Model.ID },
+            success: function(response){
+                $("#event_box_areas").html('');
+                for(var i = 0; i < response.data.length; i++){
+                    agregaTileDeArea(response.data[i].AreaDTO.ID, response.data[i].AreaDTO.Nombre);
+                }
+            }
+        });
+    }
+    
+    function cargaTilesColaboradores(){
+        $.ajax({
+            url: '@Url.Action("GetInvitadosDirectos", "Eventos", new { Area = "Eventos" })',
+            dataType: 'JSON',
+            type: 'GET',
+            data: { eventoID : @Model.ID },
+            success: function(response){
+                $("#event_box_colaboradores").html('');
+                console.log('asdf');
+                for(var i = 0; i < response.data.length; i++){
+                    agregaTileDeColaborador(response.data[i].ColaboradorDTO.ID, response.data[i].ColaboradorDTO.NombreCompleto);
+                }
+            }
+        });
+    }
+
+    function cargaTiles(){
+        cargaTilesAreas();
+        cargaTilesColaboradores();
+    }
+    function agregaTileDeArea(areaID, areaNombre){
+        var newDiv = '<a href="javascript:removeArea(' + areaID + ');" class="label external-event">' + areaNombre + '<i class="icon-remove"></i></a>'; 
+        $("#event_box_areas").append(newDiv);
+    }
+    function agregaTileDeColaborador(colaboradorID, nombreCompleto){
+        var newDiv = '<a href="javascript: (' + colaboradorID + ');" class="label external-event">' + nombreCompleto + '<i class="icon-remove"></i></a>'; 
+        $("#event_box_colaboradores").append(newDiv);
+    }
+
+    function removeColaborador(colaboradorID){
+        $.ajax({
+            url: '@Url.Action("DestroyInvitadoDirecto", "Eventos", new { Area = "Eventos" })',
+            dataType: 'JSON',
+            type: 'POST',
+            data: { eventoID : @Model.ID, colaboradorID : colaboradorID },
+            success: function(response){
+                cargaTiles();
+                $("#ColaboradoresPorEventoGrid").data('kendoGrid').dataSource.read();
+            }
+        });
+    }
+    function removeArea(areaID){
+        $.ajax({
+            url: '@Url.Action("DestroyArea", "Eventos", new { Area = "Eventos" })',
+            dataType: 'JSON',
+            type: 'POST',
+            data: { eventoID : @Model.ID, areaID : areaID },
+            success: function(response){
+                cargaTiles();
+                $("#ColaboradoresPorEventoGrid").data('kendoGrid').dataSource.read();
+            }
+        });
+    }
+
+    function comboAreasSelection(e) {
+        var comboAreas = $('#ComboAreas').data('kendoComboBox');
+        if (comboAreas.selectedIndex == -1)
+            return;
+        var areaID = comboAreas.dataItem(comboAreas.selectedIndex).ID;
+        var areaNombre = comboAreas.dataItem(comboAreas.selectedIndex).Nombre;
+        console.log("area seleccionada:" + areaID);
+
+        $.ajax({
+            url: '@Url.Action("AddInvitadosAreas", "Eventos", new { Area = "Eventos" })',
+            dataType: 'JSON',
+            type: 'POST',
+            data: {eventoID: @Model.ID, areaID: areaID},
+            success: function(data){
+                if(data.success){
+                    cargaTilesAreas();
+                    $("#ColaboradoresPorEventoGrid").data('kendoGrid').dataSource.read();
+                }
+                else {
+                }
+            },
+            error: function(){
+                alert("Hubo un error en la operación");
+            }
+        });
+    };
+
+    function comboColaboradoresSelection(e) {
+        var comboColaboradores = $("#ComboColaboradores").data('kendoComboBox');
+        if (comboColaboradores.selectedIndex == -1)
+            return;
+        var colaboradorID = comboColaboradores.dataItem(comboColaboradores.selectedIndex).ID;
+        var colaboradorNombre = comboColaboradores.dataItem(comboColaboradores.selectedIndex).NombreCompleto;
+        $.ajax({
+            url: '@Url.Action("AddInvitadosColaborador", "Eventos", new { Area = "Eventos" })',
+            dataType: 'JSON',
+            type: 'POST',
+            data: {eventoID: @Model.ID, colaboradorID: colaboradorID},
+            success: function(data){
+                if(data.success){
+                    cargaTilesColaboradores();
+                    $("#ColaboradoresPorEventoGrid").data('kendoGrid').dataSource.read();
+                }
+                else
+                    alert("El colaborador seleccionado ya se encuentra en la lista de evaluados");
+            },
+            error: function(){        
+                alert("Hubo un error en la operación");
+            }
+        });
+    }
 </script>

@@ -61,14 +61,14 @@ namespace KendoDP2.Areas.Eventos.Models
         [DisplayName("Nombre Evento")]
         public string Nombre { get; set; }
 
-        [DisplayName("Inicio Evento")]
+        [DisplayName("Fecha Inicio Evento")]
         [Required]
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.DateTime), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}", ApplyFormatInEditMode = true)]
         public string Inicio { get; set; }
 
-        [DisplayName("Fin Evento")]
+        [DisplayName("Fin Fin Evento")]
         [Required]
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.DateTime), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}", ApplyFormatInEditMode = true)]
         public string Fin { get; set; }
 
         [DisplayName("Estado")]

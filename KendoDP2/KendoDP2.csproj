@@ -226,6 +226,7 @@
     <Compile Include="Areas\Eventos\Controllers\EventosController.cs" />
     <Compile Include="Areas\Eventos\Controllers\WSEventoController.cs" />
     <Compile Include="Areas\Eventos\EventosAreaRegistration.cs" />
+    <Compile Include="Areas\Eventos\Models\AreaXEvento.cs" />
     <Compile Include="Areas\Eventos\Models\DP2Context.cs" />
     <Compile Include="Areas\Eventos\Models\EstadoEvento.cs" />
     <Compile Include="Areas\Eventos\Models\Evento.cs" />
