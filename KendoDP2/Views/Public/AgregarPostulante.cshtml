@@ -29,7 +29,8 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.TextBoxFor(model => model.Nombres)
+                            @Html.ValidationMessageFor(modelName => modelName.Nombres)
+                            @Html.TextBoxFor(model => model.Nombres) 
                         </div>
                     </div>
                 </div>
@@ -40,6 +41,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
+                            @Html.ValidationMessageFor(modelName => modelName.ApellidoPaterno)
                             @Html.TextBoxFor(model => model.ApellidoPaterno)
                         </div>
                     </div>
@@ -51,6 +53,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
+                            @Html.ValidationMessageFor(modelName => modelName.ApellidoMaterno)
                             @Html.TextBoxFor(model => model.ApellidoMaterno)
                         </div>
                     </div>
@@ -62,6 +65,7 @@
                         <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.TipoDocumento)</div>
                     </div>
                     <div class="span7 responsive">
+                        @Html.ValidationMessageFor(modelName => modelName.TipoDocumentoID)
                         @Html.DropDownList("TipoDocumentoID", comboTipoDocumentos)
                     </div>
                 </div>
@@ -72,6 +76,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
+                            @Html.ValidationMessageFor(modelName => modelName.NumeroDocumento)
                             @Html.TextBoxFor(model => model.NumeroDocumento)
                         </div>
                     </div>
@@ -83,6 +88,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
+                            @Html.ValidationMessageFor(modelName => modelName.CorreoElectronico)
                             @Html.TextBoxFor(model => model.CorreoElectronico)
                         </div>
                     </div>
@@ -94,6 +100,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
+                            @Html.ValidationMessageFor(modelName => modelName.CentroEstudios)
                             @Html.TextBoxFor(model => model.CentroEstudios)
                         </div>
                     </div>
@@ -104,6 +111,7 @@
                         <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.GradoAcademico)</div>
                     </div>
                     <div class="span7 responsive">
+                        @Html.ValidationMessageFor(modelName => modelName.GradoAcademicoID)
                         @Html.DropDownList("GradoAcademicoID", comboGradosAcademicos)
                     </div>
                 </div>
@@ -115,6 +123,7 @@
                 </div>
                 <div class="span7">
                 @Html.HiddenFor(m => m.CurriculumVitaeID)
+                    @Html.ValidationMessageFor(modelName => modelName.CurriculumVitaeID) 
                 <input type="file" id="Archivo2" name="Archivo2" />
                 <script>
                     $("#Archivo2").kendoUpload({
@@ -132,7 +141,7 @@
                             $("#CurriculumVitaeID").val(archivoID).change();
                         }
                     });
-                </script> 
+                </script>
                 </div>
             </div>
             <!-- fin contenedor superior izquierdo: campos -->
@@ -147,28 +156,29 @@
 
 <script>
     function submitForm() {
-        //var validator = $("#formulario").kendoValidator().data("kendoValidator"),
-        //           status = $(".status");
-        //if (validator.validate()) {
-        $("#form0").submit();
-        $("#datagrid").data('kendoGrid').dataSource.read();
-        $("#Details2").data('kendoWindow').close();
-        aalert("Postulacion efectuada con exito");
-        //}
-    }
-
-    function Postular(){
-        $.ajax({
-            url: '@Url.Action("Postular", "Public")',
-                dataType: 'JSON',
-                type: 'POST',
-                data: { ofertaID : @ofertaID, postulanteDTO : @Model },
-            success: function(response){
-                alert("Postulacion efectuada con exito");
-                $("#datagrid").data('kendoGrid').dataSource.read();
-                $("#Details2").data('kendoWindow').close();
-            }
-            });
+        var validator = $("#form0").kendoValidator().data("kendoValidator"), status = $(".status");
+        if (validator.validate()) {
+                $.ajax({
+                    url: '@Url.Action("ValidarDoc", "Public")',
+                    datatype: 'JSON',
+                    type: 'POST',
+                    data : { 
+                        ofertaID : $("#ofertaID").val(), 
+                        tipo : $("#TipoDocumentoID").val(), 
+                        num :  $("#NumeroDocumento").val(),
+                    },
+                    success: function (result) {
+                        if(result.success){
+                            $("#form0").submit();
+                            $("#datagrid").data('kendoGrid').dataSource.read();
+                            $("#Details2").data('kendoWindow').close();
+                            alert("Postulación realizada con éxito");
+                        } else {
+                            alert("Alguien con el mismo documento ya ha postulado a esta oferta laboral");
+                        }
+                    }
+               });
+        }
     }
 
     function Cancelar(){

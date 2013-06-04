@@ -8,7 +8,15 @@ namespace KendoDP2.Areas.Evaluacion360.Models
 {
     public class Pregunta: DBObject
     {
-        public String Texto { get; set; }
+        public String TextoPregunta { get; set; }
+        public int ExamenID { get; set; }
+        //public virtual  Examen examen { get; set; }
+
+        public int CapacidadID { get; set; }
+        //public virtual Capacidad capacidad;
+     
+        public int Puntuacion { get; set; }
+        public int Peso { get; set; }
 
     }
 }

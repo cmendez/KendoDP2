@@ -19,14 +19,14 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             ViewBag.Area = "Organizacion";
         }
 
-        public ActionResult Index()
+        public ActionResult Index(int? puestoID)
         {
             using (DP2Context context = new DP2Context())
             {
                 ViewBag.PageSize = 8;
                 ViewBag.puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).ToList();
                 ViewBag.competencias = context.TablaCompetencias.All().Select(c => c.ToDTO()).ToList();
-
+                ViewBag.puestoID = puestoID ?? 0;
                 return View();
             }
         }
@@ -74,5 +74,25 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 return Json(ModelState.ToDataSourceResult());
             }
         }
+
+
+        //***************************************
+        //***************************************
+
+        public ActionResult ReadEvaluados([DataSourceRequest] DataSourceRequest request, int procesoID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                return Json(context.TablaColaboradorXProcesoEvaluaciones.Where(x => x.ProcesoEvaluacionID == procesoID)
+                    .Select(x => x.ToDTO()).ToDataSourceResult(request));
+            }
+        }
+
+
+
+
+
+        //***************************************
+
     }
 }

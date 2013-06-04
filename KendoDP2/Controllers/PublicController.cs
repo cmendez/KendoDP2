@@ -77,7 +77,7 @@ namespace KendoDP2.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Postular(int ofertaID, PostulanteDTO postulanteDTO)
+        public ActionResult Postular(int ofertaID, PostulanteDTO postulanteDTO = null)
         {
             using (DP2Context context = new DP2Context())
             {
@@ -92,6 +92,20 @@ namespace KendoDP2.Controllers
 
                     return Json(new { success = true });
                 }
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult ValidarDoc(int ofertaID, int tipo = 0, string num = ""){
+            using (DP2Context context = new DP2Context())
+            {
+                OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
+                if (oferta.Postulantes.Any(p => p.Postulante.NumeroDocumento == num && p.Postulante.TipoDocumentoID == tipo))
+                {
+                    return Json(new { success = false });
+                }
+
+                return Json(new { success = true });
             }
         }
     }

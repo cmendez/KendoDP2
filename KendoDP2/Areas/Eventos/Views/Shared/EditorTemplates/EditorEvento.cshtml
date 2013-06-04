@@ -1,0 +1,92 @@
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Configuracion.Models
+@using KendoDP2.Areas.Organizacion.Models
+@using KendoDP2.Areas.Eventos.Models
+
+@model KendoDP2.Areas.Eventos.Models.EventoDTO
+@{
+    IList<AreaDTO> areas = ViewBag.areas;
+    IList<EstadoEventoDTO> estadosEventos = ViewBag.estadosEventos;
+    IList<PuestoDTO> puestos = ViewBag.puestos;
+    IList<TipoEventoDTO> tipoEventos = ViewBag.tipoEventos;
+    
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div  style="width:900px;">
+        <div class="row-fluid">
+            <!-- contenedor superior izquierdo: campos -->
+            <div class="span10">
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Nombre)</div>
+                    </div>
+                    <div class="span7">
+                        <div class="editor-field" style="width: 100%; text-align: left;">
+                            @Html.EditorFor(model => model.Nombre)
+                            @Html.ValidationMessageFor(model => model.Nombre)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Inicio)</div>
+                    </div>
+                    <div class="span7">
+                        <div class="editor-field" style="width: 100%; text-align: left;">
+                            @Html.EditorFor(model => model.Inicio)
+                            @Html.ValidationMessageFor(model => model.Inicio)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Fin)</div>
+                    </div>
+                    <div class="span7">
+                        <div class="editor-field" style="width: 100%; text-align: left;">
+                            @Html.EditorFor(model => model.Fin)
+                            @Html.ValidationMessageFor(model => model.Fin)
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.EstadoID)</div>
+                    </div>
+                    <div class="span7 responsive">
+                        @Html.DropDownListFor(model => model.EstadoID, 
+                            new SelectList(estadosEventos, "ID", "Descripcion"), new { style = "width:100%" })
+                    </div>
+                </div>
+
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.TipoEventoID)</div>
+                    </div>
+                    <div class="span7 responsive">
+                        @Html.DropDownListFor(model => model.TipoEventoID, 
+                            new SelectList(tipoEventos, "ID", "Descripcion"), new { style = "width:100%" })
+                    </div>
+                </div>
+                        
+        
+            </div>
+   
+        </div>
+        </div>
+ 
+
+       
+
+}        
+

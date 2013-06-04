@@ -1,0 +1,50 @@
+﻿@using KendoDP2.Areas.Evaluacion360.Models
+
+@{
+    ViewBag.Title = "Index";
+    ICollection<ProcesoEvaluacionDTO> eventosDeEvaluacion = ViewBag.losProcesosDeEvaluacion;
+    ICollection<SupervisionASubordinadoDTO> colaboradoresDelNivelInferior = ViewBag.losSubordinados;
+}
+
+<h2>Index</h2>
+
+Data entregada por el servidor:
+<br />
+<br />
+Eventos de evaluacion:
+<br />
+<br />
+
+@foreach (ProcesoEvaluacionDTO periodoApreciacion in eventosDeEvaluacion)
+{
+    @periodoApreciacion.ID <br />
+    @periodoApreciacion.Nombre <br />
+    <br />
+    //periodoApreciacion.in
+}
+
+
+Los empleados a su cargo:
+<br />
+@foreach (SupervisionASubordinadoDTO unEmpleado in colaboradoresDelNivelInferior)
+{
+    @unEmpleado.PersonaID <br/>
+    @unEmpleado.PersonaNombre <br/>
+    @unEmpleado.CargoID <br/>
+    @unEmpleado.CargoNombre <br/>
+    @*
+    @unEmpleado. <br/>*@
+    
+    <div>Una presentación de los participantes que lo evaluan</div>
+    
+    foreach (EvaluadorDTO colaborador in unEmpleado.Evaluadores)
+    {
+        @colaborador.ID <br/>
+        @colaborador.Nombre <br/>
+        @colaborador.LaEtapa <br/>
+        <br />
+
+    }
+    <br />
+    
+}

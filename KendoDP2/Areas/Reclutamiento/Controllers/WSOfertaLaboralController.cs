@@ -58,5 +58,91 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             }
 
         }
+
+        public JsonResult getOfertasLaboralesXEstado(string estadoOfertaLaboral)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                try
+                {
+                    EstadosSolicitudOfertaLaboral e = context.TablaEstadosSolicitudes.One(x => x.Descripcion.Equals(estadoOfertaLaboral));
+                    List<OfertaLaboralDTO> ofertas = context.TablaOfertaLaborales
+                        .Where(x => x.EstadoSolicitudOfertaLaboralID == e.ID).Select(x => x.ToDTO()).ToList();
+                    return JsonSuccessGet(new { ofertasLaborales = ofertas });
+                }
+                catch (Exception ex)
+                {
+                    return JsonErrorGet("Error en la BD: " + ex.Message);
+                }
+            }
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public JsonResult aprobarSolicitudOfertaLaboral(string ofertaLaboralID, string nuevoEstado, string comentarios)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                try
+                {
+                    OfertaLaboral ol = context.TablaOfertaLaborales.FindByID(Convert.ToInt32(ofertaLaboralID));
+                    ol.EstadoSolicitudOfertaLaboralID = context.TablaEstadosSolicitudes.One(x => x.Descripcion.Equals(nuevoEstado)).ID;
+                    ol.Comentarios = comentarios;
+                    context.TablaOfertaLaborales.ModifyElement(ol);
+                    return JsonSuccessPost(new { ofertalaboral = ol.ToDTO()});
+                }
+                catch (Exception ex)
+                {
+                    return JsonErrorPost("Error en la BD: " + ex.Message);
+                }
+            }
+
+        }
+
+        public JsonResult registrarPostulacion(string colaboradorID, string ofertaLaboralID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                try
+                {
+                    Colaborador c = context.TablaColaboradores.FindByID(Convert.ToInt32(colaboradorID));
+                    if (c == null) throw new Exception("No existe Colaborador con ID = " + colaboradorID);
+
+                    OfertaLaboral ol = context.TablaOfertaLaborales.FindByID(Convert.ToInt32(ofertaLaboralID));
+                    if (ol == null) throw new Exception("No existe Oferta Laboral con ID = " + ofertaLaboralID);
+
+
+                    OfertaLaboralXPostulante ofxp = new OfertaLaboralXPostulante();
+                    ofxp.OfertaLaboralID = ol.ID;
+                    
+                    //Crear el postulante a partir de ese colaborador
+                    Postulante p = context.TablaPostulante.One(x => x.ColaboradorID == Convert.ToInt32(colaboradorID));
+                    if (p == null) // Si no encuentro al colaborador como postulante, creo el postulante
+                    {
+                        p = new Postulante { ColaboradorID = c.ID };
+                        context.TablaPostulante.AddElement(p);
+                    }
+
+                    ofxp.PostulanteID = p.ID;
+                    ofxp.EstadoPostulantePorOfertaID = context.TablaEstadoPostulanteXOferta.One(x => x.Descripcion.Equals("Inscrito")).ID;
+                    context.TablaOfertaLaboralXPostulante.AddElement(ofxp);
+
+                    //ofxp = context.TablaOfertaLaboralXPostulante.FindByID(ofxp.ID);
+
+                    //throw new Exception(ofxp.ID.ToString());
+
+                    FasePostulacionXOfertaLaboralXPostulante fpxolxp = new FasePostulacionXOfertaLaboralXPostulante();
+                    fpxolxp.FasePostulacionID = context.TablaFasePostulacion.One(x => x.Descripcion.Equals("Registrado")).ID;
+                    fpxolxp.OfertaLaboralXPostulanteID = ofxp.ID;
+                    context.TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(fpxolxp);
+
+                    return JsonSuccessGet(new { postulacion = ofxp.ToDTO(), fasePostulacionID = fpxolxp.ID });
+                }
+                catch (Exception ex)
+                {
+                    return JsonErrorGet("Error en la BD: " + ex.Message + ex.InnerException);
+                }
+            }
+
+        }
     }
 }

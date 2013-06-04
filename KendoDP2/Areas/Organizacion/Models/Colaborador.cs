@@ -9,6 +9,8 @@ using System.ComponentModel.DataAnnotations;
 using KendoDP2.Areas.Evaluacion360.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 using KendoDP2.Models.Generic;
+using KendoDP2.Areas.Eventos.Models;
+using System.Reflection;
 
 namespace KendoDP2.Areas.Organizacion.Models
 {
@@ -30,7 +32,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         public int EstadosColaboradorID { get; set; }
         public virtual EstadosColaborador EstadoColaborador { get; set; }
 
-        public int PaisID { get; set; }
+        public int? PaisID { get; set; }
         public virtual Pais Pais { get; set; }
 
         public int ImagenColaboradorID { get; set; }
@@ -42,11 +44,27 @@ namespace KendoDP2.Areas.Organizacion.Models
 
         public string ResumenEjecutivo { get; set; }
 
+        [InverseProperty("Asistente")]
+        public virtual ICollection<Invitado> EventosInvitado { get; set; }
+
         public Colaborador() { }
 
         public Colaborador(ColaboradorDTO c)
         {
             LoadFromDTO(c);
+        }
+
+        public Colaborador(Colaborador participanteDeEvaluacion)
+        {
+            Type t = participanteDeEvaluacion.GetType();
+            //foreach (FieldInfo fieldInf in t.GetFields())
+            //{
+            //    fieldInf.SetValue(this, fieldInf.GetValue(participanteDeEvaluacion));
+            //}
+            foreach (PropertyInfo propInf in t.GetProperties())
+            {
+                propInf.SetValue(this, propInf.GetValue(participanteDeEvaluacion));
+            }
         }
 
         public Colaborador LoadFromDTO(ColaboradorDTO c)
@@ -57,7 +75,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             ApellidoMaterno = c.ApellidoMaterno;
             Direccion = c.Direccion;
             Telefono = c.Telefono;
-            PaisID = c.PaisID;
+            if(c.PaisID > 0) PaisID = c.PaisID;
             GradoAcademicoID = c.GradoAcademicoID;
             EstadosColaboradorID = c.EstadoColaboradorID;
             TipoDocumentoID = c.TipoDocumentoID;
@@ -77,6 +95,11 @@ namespace KendoDP2.Areas.Organizacion.Models
         new public ColaboradorDTO ToDTO()
         {
             return new ColaboradorDTO(this);
+        }
+
+        public ColaboradorDTO paraObservacion360()
+        {
+            return new ColaboradorEvaluadorDTO(this);
         }
     }
 
@@ -180,14 +203,16 @@ namespace KendoDP2.Areas.Organizacion.Models
 
         public List<ObjetivoDTO> Objetivos { get; set; }
 
+        public List<ColaboradorDTO> Subordinados { get; set; }
+
         public ColaboradorDTO() { }
 
-        public ColaboradorDTO(Colaborador c)
+        public ColaboradorDTO(Colaborador c, List<ColaboradorDTO> listac = null)
         {
             NombreCompleto = c.ApellidoPaterno + " " + c.ApellidoMaterno + ", " + c.Nombres;
             ID = c.ID;
             GradoAcademicoID = c.GradoAcademicoID.GetValueOrDefault();
-            PaisID = c.PaisID;
+            PaisID = c.PaisID.GetValueOrDefault();
             Nombre = c.Nombres;
             ApellidoPaterno = c.ApellidoPaterno;
             ApellidoMaterno = c.ApellidoMaterno;
@@ -204,8 +229,10 @@ namespace KendoDP2.Areas.Organizacion.Models
             FechaIngreso = c.FechaIngresoEmpresa;
             ResumenEjecutivo = c.ResumenEjecutivo;
 
+            Subordinados = listac;
+
             try {
-                ColaboradorXPuesto cruce = c.ColaboradoresPuesto. OrderByDescending(a => a.ID).First();
+                ColaboradorXPuesto cruce = c.ColaboradoresPuesto.OrderByDescending(a => a.ID).First();
                 AreaID = cruce.Puesto.AreaID;
                 Area = cruce.Puesto.Area.Nombre;
                 PuestoID = cruce.Puesto.ID;
@@ -251,6 +278,16 @@ namespace KendoDP2.Areas.Organizacion.Models
                 Documento = o.NumeroDocumento;
             }
         }
+    }
+
+    public class ColaboradorEvaluadorDTO : ColaboradorDTO
+    {
+        String FaseDeSuEvaluacion { get; set; }
+
+        public ColaboradorEvaluadorDTO(Colaborador empleado) : base(empleado)
+        {
+        }
+
     }
       
     

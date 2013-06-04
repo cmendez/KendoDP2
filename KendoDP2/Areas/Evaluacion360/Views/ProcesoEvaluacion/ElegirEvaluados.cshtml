@@ -63,7 +63,8 @@
                         columns.ForeignKey((p => p.ColaboradorDTO.AreaID), lista);
                         //columns.Bound(p => p.ColaboradorDTO.Area);
                         columns.Bound(p => p.ColaboradorDTO.Puesto);
-                        columns.ForeignKey(p => p.EstadoColaboradorXProcesoEvaluacionID, new SelectList(estados, "ID", "Nombre"));
+                        columns.ForeignKey(p => p.EstadoColaboradorXProcesoEvaluacionID, new SelectList(estados, "ID", "Nombre"));      
+                        columns.Template(@<text></text>).Title("Evaluadores").ClientTemplate("<a class='k-button' href='" + Url.Action("SeleccionarEvaluadores", "Evaluadores") + "?procesoEvaluacionID=#=ID#&colaboradorID=#=ColaboradorDTO.ID#'>Elegir</a>");
                         columns.Command(command =>
                         {
                             command.Destroy().Text("Eliminar");
@@ -72,9 +73,9 @@
                 )
                 .ToolBar(toolbar => 
                     {
-                        //toolbar.Custom().Text("Iniciar proceso").Action("IniciarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" });
-                        //toolbar.Custom().Text("Cerrar Proceso").Action("CerrarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" });
-                        toolbar.Template(@<text><a class='k-button'  id='btnIniciar' href='javascript:IniciarProcesoEvaluacionJS()'>Iniciar Proceso Evaluación </a><a class='k-button' id='btnCerrar' href='javascript:CerrarProcesoEvaluacionJS()'>Cerrar Proceso Evaluación </a></text>);
+                        toolbar.Custom().Text("Iniciar proceso").Action("IniciarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" });
+                        toolbar.Custom().Text("Cerrar Proceso").Action("CerrarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" });
+                        //toolbar.Template(@<text><a class='k-button'  id='btnIniciar' href='javascript:IniciarProcesoEvaluacionJS()'>Iniciar Proceso Evaluación </a><a class='k-button' id='btnCerrar' href='javascript:CerrarProcesoEvaluacionJS()'>Cerrar Proceso Evaluación </a></text>);
                     }
                         )
                         .Editable(
@@ -98,7 +99,7 @@
     </div>
 </div>
 
-<script type="text/javascript">
+<script type="text/javascript"> 
     $(document).ready(function(){
         cargaTiles();
     });
@@ -171,50 +172,6 @@
             success: function(response){
                 cargaTiles();
                 $("#ColaboradoresDeProcesoEvaluacionGrid").data('kendoGrid').dataSource.read();
-            }
-        });
-    }
-
-    function CerrarProcesoEvaluacionJS(){
-        $.ajax({
-            url: '@Url.Action("CerrarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" })',
-             dataType: 'JSON',
-             type: 'POST',
-             data: {procesoID: @Model.ID},
-            success: function(data){
-                if(data.success){
-                    $("#ColaboradoresDeProcesoEvaluacionGrid").data('kendoGrid').dataSource.read();
-                    //$("#btnIniciar).
-                    alert("El proceso ha sido finalizado.");
-                }
-                else {
-                    
-                }
-            }
-         });
-    }
-
-    function IniciarProcesoEvaluacionJS(){
-        //Console.log("Iniciando proceso...");
-        if (false) // colocar validacion de total evaluados
-        {// mostrar alerta
-            // return
-        } 
-
-        $.ajax({
-            url: '@Url.Action("IniciarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" })',
-            dataType: 'JSON',
-            type: 'POST',
-            data: {procesoID: @Model.ID},
-            success: function(data){
-                if(data.success){
-                    $("#ColaboradoresDeProcesoEvaluacionGrid").data('kendoGrid').dataSource.read();
-                    //$("#btnIniciar).
-                    alert("El proceso ha sido iniciado");
-                }
-                else {
-                    
-                }
             }
         });
     }

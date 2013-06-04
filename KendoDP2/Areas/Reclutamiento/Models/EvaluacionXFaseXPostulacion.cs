@@ -18,8 +18,8 @@ namespace KendoDP2.Areas.Reclutamiento.Models
 
         public ICollection<Respuesta> RespuestasDeLaEvaluacion { get; set; }
 
-        public string FechaInicio { get; set; }
-        public string FechaFin { get; set; }
+        public DateTime FechaInicio { get; set; }
+        public DateTime FechaFin { get; set; }
         
         public int Puntaje { get; set; }
         public bool FlagAprobado { get; set; }
@@ -37,8 +37,8 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public EvaluacionXFaseXPostulacion LoadFromDTO(EvaluacionXFaseXPostulacionDTO e)
         {
             ID = e.ID;
-            FechaInicio = e.FechaInicio;
-            FechaFin = e.FechaFin;
+            FechaInicio = DateTime.ParseExact(e.FechaInicio, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture);
+            FechaFin = DateTime.ParseExact(e.FechaFin, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture);
             Puntaje = e.Puntaje;
             FlagAprobado = e.FlagAprobado;
             Comentarios = e.Comentarios;
@@ -56,12 +56,12 @@ namespace KendoDP2.Areas.Reclutamiento.Models
     public class EvaluacionXFaseXPostulacionDTO
     {
         public int ID { get; set; }
+        public int FasePostulacionXOfertaLaboralXPostulanteID { get; set; }
+
         public string FechaInicio { get; set; }
         public string FechaFin { get; set; }
-
         public int Puntaje { get; set; }
         public bool FlagAprobado { get; set; }
-
         public string Comentarios { get; set; }
         public string Observaciones { get; set; }
 
@@ -70,8 +70,10 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public EvaluacionXFaseXPostulacionDTO(EvaluacionXFaseXPostulacion e)
         {
             ID = e.ID;
-            FechaInicio = e.FechaInicio;
-            FechaFin = e.FechaFin;
+            FasePostulacionXOfertaLaboralXPostulanteID = e.FasePostulacionXOfertaLaboralXPostulanteID;
+
+            FechaInicio = e.FechaInicio.ToString("dd/MM/yyyy HH:mm:ss");
+            FechaFin = e.FechaFin.ToString("dd/MM/yyyy HH:mm:ss");
             Puntaje = e.Puntaje;
             FlagAprobado = e.FlagAprobado;
             Comentarios = e.Comentarios;

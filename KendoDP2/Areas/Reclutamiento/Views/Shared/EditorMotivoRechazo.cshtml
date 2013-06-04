@@ -12,7 +12,7 @@
     PuestoDTO puesto = ViewBag.puesto;
     ColaboradorDTO responsable = ViewBag.responsable;
     int ofertaID = ViewBag.ofertaID;
-    bool yaRechazadoAprobado = false;
+    bool yaRechazadoAprobado = ViewBag.yaRechazadoAprobado;
 }
 
 @using (Html.BeginForm())
@@ -102,7 +102,7 @@
     }
     else
     {
-        <label class="label">Este postulante ya fue aprobado para la siguiente fase</label>
+        <label class="label">Este postulante no puede ser rechazado.</label>
         <br />
     }
     <!-- fin contenedor inferior: campos -->
@@ -113,8 +113,7 @@
     <script>
         function CambiaEstadoRechazar(){
             $.ajax({
-                url: '@Url.Action("RechazarPostulante", "OfertasLaboralesInternas", new { Area = "Reclutamiento" })',
-                dataType: 'JSON',
+                url: '@Url.Action("RechazarPostulante", "OfertasLaboralesInternas", new { Area = "Reclutamiento" })',                dataType: 'JSON',
                 type: 'POST',
                 data: {
                     postulanteXOfertaID : @Model.ID,
