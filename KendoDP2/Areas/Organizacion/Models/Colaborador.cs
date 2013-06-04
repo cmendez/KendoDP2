@@ -232,7 +232,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             Subordinados = listac;
 
             try {
-                ColaboradorXPuesto cruce = c.ColaboradoresPuesto. OrderByDescending(a => a.ID).First();
+                ColaboradorXPuesto cruce = c.ColaboradoresPuesto.OrderByDescending(a => a.ID).First();
                 AreaID = cruce.Puesto.AreaID;
                 Area = cruce.Puesto.Area.Nombre;
                 PuestoID = cruce.Puesto.ID;
