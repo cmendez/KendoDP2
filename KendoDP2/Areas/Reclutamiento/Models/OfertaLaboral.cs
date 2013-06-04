@@ -227,7 +227,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public ICollection<FuncionDTO> Funciones { get; set; }
         public ICollection<CompetenciaConPonderadoDTO> CompetenciasPonderadasPuesto { get; set; }
         public ICollection<CompetenciaConPonderadoDTO> CompetenciasPonderadasColaborador { get; set; }
-        public double MatchLevel { get; set; }
+        public int MatchLevel { get; set; }
 
         public OfertaLaboralMobilePostulanteDTO(OfertaLaboral oferta, string userName)
         {
@@ -236,24 +236,41 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             DescripcionOferta = oferta.Descripcion;
             SueldoTentativo = oferta.SueldoTentativo;
             Funciones = ListaFuncionesToDTO(oferta.Puesto.Funciones);
+            //Las competencias del puesto:
             CompetenciasPonderadasPuesto = ListaCompetenciasConPonderadoToDTO(oferta.Puesto.CompetenciasXPuesto);
-            //Las competencias del puesto del colaborador:
+            //Las competencias colaborador (se obtienen del puesto de este):
             var context = new DP2Context();
             Colaborador colaboradorActual = context.TablaColaboradores.Where(a => a.Username.Equals(userName)).First();
             Puesto puesto = context.TablaColaboradoresXPuestos.Where(a=>a.ColaboradorID == colaboradorActual.ID).Select(a=>a.Puesto).First();
             CompetenciasPonderadasColaborador = ListaCompetenciasConPonderadoToDTO(puesto.CompetenciasXPuesto);
+            //Quitar las competencias del colaborador que no importan para el puesto
+            List<int> posicionesAux = new List<int>();
+            int pos = 0;
+            foreach (CompetenciaConPonderadoDTO competenciaColaborador in CompetenciasPonderadasColaborador)
+            {
+                if (!CompetenciasPonderadasPuesto.Any(a => a.CompetenciaID == competenciaColaborador.CompetenciaID))
+                    posicionesAux.Add(pos);
+                pos++;
+            }
+            foreach (int posAux in posicionesAux)
+            {
+                CompetenciasPonderadasColaborador.Remove(CompetenciasPonderadasColaborador.ElementAt(posAux));
+            }
             //MatchLevel:
-            double sumaCompetenciasPuesto = 1;
+            double sumaCompetenciasPuesto = 0;
             foreach (CompetenciaConPonderadoDTO competencia in CompetenciasPonderadasPuesto)
             {
-                sumaCompetenciasPuesto += competencia.Ponderado;
+                sumaCompetenciasPuesto += competencia.Porcentaje;
             }
             double sumaCompetenciasColaborador = 0;
             foreach (CompetenciaConPonderadoDTO competencia in CompetenciasPonderadasColaborador)
             {
-                sumaCompetenciasColaborador += competencia.Ponderado;
+                sumaCompetenciasColaborador += competencia.Porcentaje;
             }
-            MatchLevel = sumaCompetenciasColaborador / sumaCompetenciasPuesto;
+            if (sumaCompetenciasPuesto != 0)
+                MatchLevel = (int)((sumaCompetenciasColaborador / sumaCompetenciasPuesto) * 100);
+            else
+                MatchLevel = 100;
         }
 
         //Funciones Auxiliares

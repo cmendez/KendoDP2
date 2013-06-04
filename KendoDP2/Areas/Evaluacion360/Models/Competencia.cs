@@ -115,17 +115,27 @@ namespace KendoDP2.Areas.Evaluacion360.Models
     {
         public int CompetenciaID { get; set; }
         public string CompetenciaNombre { get; set; }
-        public double Ponderado { get; set; }
+        public int Porcentaje { get; set; }
 
         public CompetenciaConPonderadoDTO(CompetenciaXPuesto competencia)
         {
             CompetenciaID = competencia.ID;
             CompetenciaNombre = competencia.Competencia.Nombre;
 
+            var context = new DP2Context();
+            //Nivel Máximo
+            int maxLevel=0; 
+            var niveles = context.TablaNivelCapacidades.All();
+            if (niveles.Count > 0)
+            {
+                NivelCapacidad ultimo = niveles[niveles.Count - 1];
+                maxLevel = ultimo.Nivel;
+            }else
+                //Esto es solo por si por error existe un nivel máximo 0
+                maxLevel = 1;
             //Pormedio de los niveles de cada capacidad
             int sumaNivelAux = 0;
             int cont = 0;
-            var context = new DP2Context();
             var capacidades = context.TablaCapacidades.Where(a => a.CompetenciaID == competencia.CompetenciaID).ToList();
 
             foreach(Capacidad capacidad in capacidades)
@@ -134,7 +144,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
                 cont++;
             }
 
-            Ponderado = sumaNivelAux / cont;
+            Porcentaje = (int)((sumaNivelAux / cont)*1.0 / maxLevel * 100);
         }
     }
 
