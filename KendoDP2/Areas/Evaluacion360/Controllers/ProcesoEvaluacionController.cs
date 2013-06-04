@@ -258,12 +258,22 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
       {
           using (DP2Context context = new DP2Context())
           {
+              ViewBag.terminado = false;
               ProcesoEvaluacion proceso = context.TablaProcesoEvaluaciones.FindByID(procesoEvaluacionID);
+              ViewBag.proceso = proceso;
+              if (proceso.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Terminado)).ID)
+              {
+                  ViewBag.terminado = true;
+                  return View(proceso);
+              }
+              
               //Procesar resultados parciales y modificar estados 
+                
+              // 
               EstadoProcesoEvaluacion terminado = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Terminado));
               proceso.EstadoProcesoEvaluacion = terminado;
               context.TablaProcesoEvaluaciones.ModifyElement(proceso);
-              return View();
+              return View(proceso);
           }
       }
 
