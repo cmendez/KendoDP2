@@ -277,7 +277,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
               }
               
               // Procesar resultados parciales y modificar estados 
-              //CalcularYGuardarResultadosProceso(proceso, context);
+             // CalcularYGuardarResultadosProceso(proceso, context);
 
               // Actualiza estado del proceso
               EstadoProcesoEvaluacion terminado = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Terminado));
@@ -305,8 +305,8 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     // Solo considerar las evaluaciones que fueron terminadas
                     if (examen.EstadoExamenID == context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID) {
                         
-                        PuestoXEvaluadores puestoXEvaluador = context.TablaPuestoXEvaluadores.Where(x=>x.PuestoID== context.TablaColaboradoresXPuestos.One(x=>x.Colaborador.ID == evaluadorID).PuestoID );
-                        int pesoExamenXEvaluador = puestoXEvaluador.Peso; //TODO: obtener de tabla
+                        PuestoXEvaluadores puestoXEvaluador = context.TablaPuestoXEvaluadores.One(x=>x.PuestoID==context.TablaColaboradoresXPuestos.One(y=>y.Colaborador.ID == evaluadorID).PuestoID );
+                        int pesoExamenXEvaluador = puestoXEvaluador.Peso;
                         acumuladoPesos += pesoExamenXEvaluador;
                         notaEvaluadoXProceso+= (pesoExamenXEvaluador * examen.NotaExamen);
                     }
