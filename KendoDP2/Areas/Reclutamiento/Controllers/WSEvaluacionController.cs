@@ -22,20 +22,32 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             {
                 try
                 {
+                    Postulante p = context.TablaPostulante.FindByID(Convert.ToInt32(idPostulante));
+                    if (p == null) throw new Exception("No existe el Postulante con ID = " + idPostulante);
+
+                    OfertaLaboral ol = context.TablaOfertaLaborales.FindByID(Convert.ToInt32(idOfertaLaboral));
+                    if (ol == null) throw new Exception("No existe la Oferta Laboral con ID = " + idOfertaLaboral);
+
+                    FasePostulacion fp = context.TablaFasePostulacion.One(x => x.Descripcion.Equals(descripcionFase));
+                    if (fp == null) throw new Exception("No existe la Fase de Postulacion cuya descripcion sea = " + descripcionFase);
+
                     //Buscar OfertaLaboralXPostulante
                     OfertaLaboralXPostulante olxp = context.TablaOfertaLaboralXPostulante
-                        .One(x =>   (x.OfertaLaboralID == Convert.ToInt32(idOfertaLaboral)) &&
-                                    (x.PostulanteID == Convert.ToInt32(idPostulante)));
+                        .One(x => x.OfertaLaboralID == ol.ID && x.PostulanteID == p.ID);
+                    if (olxp == null) throw new Exception("El postulante " + p.ToDTO().NombreCompleto + " no ha postulado a la Oferta Laboral " + ol.Descripcion);
+
                     //Buscar FasePostulacionXOfertaLaboralXPostulante 
-                    FasePostulacion fp = context.TablaFasePostulacion.One(x => x.Descripcion.Equals(descripcionFase));
                     FasePostulacionXOfertaLaboralXPostulante fpxolxp = context.TablaFasePostulacionXOfertaLaboralXPostulante
-                        .One(x =>   (x.OfertaLaboralXPostulanteID == olxp.ID) &&
-                                    (x.FasePostulacionID == (fp != null ? fp.ID : 4)));
+                        .One(x => x.OfertaLaboralXPostulanteID == olxp.ID && x.FasePostulacionID == fp.ID);
+                    if (fpxolxp == null) throw new Exception("La Oferta Laboral " + ol.Descripcion + " no ha llegado a la Fase de Postulacion " + fp.Descripcion);
+                    
                     //Crear y cargar EvaluacionXFaseXPostulacion 
                     EvaluacionXFaseXPostulacion e = new EvaluacionXFaseXPostulacion().LoadFromDTO(evaluacion);
+                    
                     //Asignar la evaluacion a la FasePostulacionXOfertaLaboralXPostulante 
                     e.FasePostulacionXOfertaLaboralXPostulanteID = fpxolxp.ID;
                     e.FasePostulacionXOfertaLaboralXPostulante = fpxolxp;
+                    
                     //Calcular el puntaje y asignarlo
                     double puntajeTotal = 0;
                     foreach (var obj in respuestas)
@@ -43,10 +55,13 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                         puntajeTotal += obj.Puntaje;
                     }
                     e.Puntaje = puntajeTotal;
-                    // COMO SE QUE APROBO, NO SE COMO ASIGNARLO AQUI Y NO SE SI ES EL MOMENTO ADECUADO
+
+                    // ********************************** COMO SE QUE APROBO, NO SE COMO ASIGNARLO AQUI Y NO SE SI ES EL MOMENTO ADECUADO **********************************
                     e.FlagAprobado = true; // ESTO DEBE CALCULARSE
+                    
                     //Guardar la evaluacion por fase por postulacion, es necesario reasignar el ID o ya se guarda
                     context.TablaEvaluacionXFaseXPostulacion.AddElement(e);
+                    
                     //Guardar las respuesta, indicando la evaluacion a la que pertenecen
                     List<Respuesta> lstRespuesta = new List<Respuesta>();
                     foreach (var obj in respuestas)
@@ -56,11 +71,6 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                         context.TablaRespuesta.AddElement(rAux);
                         lstRespuesta.Add(rAux);
                     }
-
-                    //return JsonSuccessPost(new { id1 = idOfertaLaboral, id2 = idPostulante, id3 = descripcionFase, obj1 = respuestas,
-                    //    obj2 = evaluacion, obj3 = olxp.ToDTO(), obj4 =  fpxolxp != null ? fpxolxp.ID : -1,
-                    //    obj5 = fp != null ? fp.ID : -1, obj6 = e.ToDTO(), obj7 = lstRespuesta.Select(x => x.ToDTO()).ToList()
-                    //});
 
                     return JsonSuccessPost(new { evaluacion = e.ToDTO(), respuestas = lstRespuesta.Select(x => x.ToDTO()).ToList() });
                 }
