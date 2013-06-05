@@ -29,6 +29,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 ViewBag.pais = context.TablaPaises.All().Select(c => c.ToDTO()).ToList();
                 ViewBag.areas = context.TablaAreas.All().Select(c => c.ToDTO()).ToList();
                 ViewBag.puestos = context.TablaPuestos.All().Select(c => c.ToDTO()).ToList();
+                ViewBag.colaboradores = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
                 return View();
             }
             
