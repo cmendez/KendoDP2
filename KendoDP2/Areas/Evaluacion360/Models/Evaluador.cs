@@ -63,6 +63,17 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         {
             return aFormatoDelCliente();
         }
+
+        public EvaluadorDTO ToDTO()
+        {
+            return new EvaluadorDTO(this);
+        }
+
+        public Evaluador2DTO ToDTOEvaluacion()
+        {
+            return new Evaluador2DTO(this);
+        }
+    
     }
 
     public class EvaluadorDTO : ColaboradorDTO
@@ -83,8 +94,50 @@ namespace KendoDP2.Areas.Evaluacion360.Models
             : base(new DP2Context().TablaColaboradores.One(e => e.ID == participante.ElIDDelEvaluador))
         {
             LaEtapa = participante.FaseDeLaEvaluacion;
+
+
         }
 
     }
+
+
+
+    public class Evaluador2DTO
+    {
+        // evaluadoID
+        // evaluadorID != colaboradorID
+        public int ID { get; set; }
+        public ColaboradorDTO evaluado { get; set; }
+        public EstadoProcesoEvaluacionDTO estadoevaluacion { get; set; }
+
+        public ProcesoEvaluacionDTO procesoevaluacion { get; set; }
+
+        public int ElIDDelEvaluador { get; set; }
+
+        public int ElEvaluado { get; set; }
+
+        public int ProcesoEnElQueParticipanID { get; set; }
+        public  ColaboradorDTO colaborador { get; set; }
+
+         public Evaluador2DTO()
+        {
+
+        }
+
+         public Evaluador2DTO(Evaluador evaluador)
+         {
+             // =evaluador
+             evaluado = (new DP2Context()).TablaColaboradores.FindByID(evaluador.ElEvaluado).ToDTO();
+             estadoevaluacion = (new DP2Context()).TablaEstadoProcesoEvaluacion.FindByID(evaluador.ProcesoEnElQueParticipanID).ToDTO();
+             ID = evaluador.ID;
+             ElIDDelEvaluador = evaluador.ElIDDelEvaluador;
+             ElEvaluado = evaluador.ElEvaluado;
+             ProcesoEnElQueParticipanID = evaluador.ProcesoEnElQueParticipanID;
+
+             procesoevaluacion = (new DP2Context()).TablaProcesoEvaluaciones.FindByID(evaluador.ProcesoEnElQueParticipanID).ToDTO();
+         }
+    }
+
+
     
 }
