@@ -38,6 +38,20 @@ namespace KendoDP2.Areas.Eventos.Controllers
 
         }
 
+        public ActionResult VistaEventos()
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                ViewBag.areas = context.TablaAreas.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.estadosEventos = context.TablaEstadoEvento.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.tipoEventos = context.TablaTiposEvento.All().Select(p => p.ToDTO()).ToList();
+                return View("ViewEventos");
+
+            }
+
+        }
+
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
             using (DP2Context context = new DP2Context())

@@ -45,24 +45,25 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             {
                 int ColaboradorID = DP2MembershipProvider.GetPersonaID(this);
                 //var ret = context.TablaColaboradores.FindByID(ColaboradorID).ColaboradorXProcesoEvaluaciones.Select(x => x.ProcesoEvaluacion.ToDTO()).ToList();
-                
-                // context.TablaColaboradores.FindByID(ColaboradorID).Evaluadores.where(x => x.ProcesoEvaluacionXColaborador.ProcesoEvaluacionID == procesoID).toList();
-                
-                return Json(context.TablaProcesoEvaluaciones.Where( x=> x.ID ==
-                    (context.TablaExamenes.One( y => y.EvaluadorID == ColaboradorID).ID)).Select(x => x.ToDTO()).
-                    ToDataSourceResult(request));
-                
-                //return Json(context.TablaEvaluaciones.Where(x => x.EvaluadorID == ColaboradorID).Select(x => x.ToDTO()).ToDataSourceResult(request));                                          
 
-                //return Json(context.TablaColaboradorXProcesoEvaluaciones.Where(x => x.ProcesoEvaluacionID == procesoID)
-                //.Select(x => x.ToDTO()).ToDataSourceResult(request));
+                // context.TablaColaboradores.FindByID(ColaboradorID).Evaluadores.where(x => x.ProcesoEvaluacionXColaborador.ProcesoEvaluacionID == procesoID).toList();
+                List<ProcesoEvaluacion> listaProceso = new List<ProcesoEvaluacion>();
+
+                IList<Evaluador> listaProcesosEvaluador = (context.TablaEvaluadores.Where(a => a.ElIDDelEvaluador == ColaboradorID));
+
+                for (int i = 0; i < listaProcesosEvaluador.Count; i++)
+                {
+                    listaProceso.Add(context.TablaProcesoEvaluaciones.FindByID(listaProcesosEvaluador.ElementAt(i).ProcesoEnElQueParticipanID));
+                }
+
+                return Json(listaProceso.Select(x=>x.ToDTO()).ToDataSourceResult(request));
 
             }
         }
 
 
 
-       /* public ActionResult ListarEvaluados(int procesoEvaluacionID)
+        public ActionResult ListarEvaluados(int procesoEvaluacionID)
         {
             using (DP2Context context = new DP2Context())
             {
@@ -73,18 +74,27 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 return View(proceso);
 
             }
-        }*/
+        }
 
 
         public ActionResult ReadEvaluados([DataSourceRequest] DataSourceRequest request, int procesoID)
         {
-            //using (DP2Context context = new DP2Context())
-            //{
-            //    int ColaboradorID = DP2MembershipProvider.GetPersonaID(this);
-            //    return Json(context.TablaColaboradores.FindByID(ColaboradorID).OcurrenciasComoEvaluador.Where(x => x.Evaluado.ProcesoEvaluacionID == procesoID).ToList());
-            //}
+            using (DP2Context context = new DP2Context())
+            {
+                int ColaboradorID = DP2MembershipProvider.GetPersonaID(this);
+                //return Json(context.TablaColaboradores.FindByID(ColaboradorID).OcurrenciasComoEvaluador.Where(x => x.Evaluado.ProcesoEvaluacionID == procesoID).ToList());
 
-            return null;
+                IList<Evaluador> listaEvaluaciones = new List<Evaluador>();
+
+                listaEvaluaciones = (context.TablaEvaluadores.Where(y => y.ElIDDelEvaluador == ColaboradorID &&
+                                                                                   y.ProcesoEnElQueParticipanID == procesoID));
+                //IList<EvaluadorDTO> listaEvaluaciones2 = listaEvaluaciones.Select(x => x.ToDTO());
+
+                //Json(listaEvaluaciones.Select(x=>x.ToDTO()).ToDataSourceResult(request));
+
+                return Json(listaEvaluaciones.Select(x => x.ToDTOEvaluacion()).ToDataSourceResult(request));
+
+            }
         }
 
     }

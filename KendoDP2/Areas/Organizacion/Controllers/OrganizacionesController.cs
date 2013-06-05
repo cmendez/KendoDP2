@@ -32,7 +32,6 @@ namespace KendoDP2.Areas.Organizacion.Controllers
 
         }
 
-
         [HttpPost]
         public ActionResult  UpdateOrganizacion(OrganizacionDTO org) {
             using (DP2Context context = new DP2Context())
