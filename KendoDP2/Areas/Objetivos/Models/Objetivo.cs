@@ -40,6 +40,8 @@ namespace KendoDP2.Areas.Objetivos.Models
         [InverseProperty("Objetivos")]
         public virtual Colaborador Dueño { get; set; }
 
+        public virtual ICollection<AvanceObjetivo> Avances { get; set; }
+
         public Objetivo() {
             FechaCreacion = DateTime.Now;
         }
