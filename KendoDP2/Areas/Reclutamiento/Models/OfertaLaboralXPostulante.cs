@@ -79,7 +79,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             Observaciones = op.Observaciones;
             
             EstadoPostulantePorOfertaID = op.EstadoPostulantePorOfertaID;
-            EstadoPostulantePorOfertaNombre = op.EstadoPostulantePorOferta.Descripcion;
+            EstadoPostulantePorOfertaNombre = op.EstadoPostulantePorOferta != null ? op.EstadoPostulantePorOferta.Descripcion : String.Empty;
 
         }
     }

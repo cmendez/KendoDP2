@@ -77,22 +77,27 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             }
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
-        public JsonResult aprobarSolicitudOfertaLaboral(string ofertaLaboralID, string nuevoEstado, string comentarios)
+        public JsonResult setSolicitudOfertaLaboral(string ofertaLaboralID, string nuevoEstado, string comentarios)
         {
             using (DP2Context context = new DP2Context())
             {
                 try
                 {
                     OfertaLaboral ol = context.TablaOfertaLaborales.FindByID(Convert.ToInt32(ofertaLaboralID));
-                    ol.EstadoSolicitudOfertaLaboralID = context.TablaEstadosSolicitudes.One(x => x.Descripcion.Equals(nuevoEstado)).ID;
+                    if (ol == null) throw new Exception("No existe la Oferta Laboral con ID = " + ofertaLaboralID);
+
+                    EstadosSolicitudOfertaLaboral esol = context.TablaEstadosSolicitudes.One(x => x.Descripcion.Equals(nuevoEstado));
+                    if (esol == null) throw new Exception("No existe el estado " + nuevoEstado + " para una Solicitud de Oferta Laboral");
+
+                    ol.EstadoSolicitudOfertaLaboralID = esol.ID;
                     ol.Comentarios = comentarios;
                     context.TablaOfertaLaborales.ModifyElement(ol);
-                    return JsonSuccessPost(new { ofertalaboral = ol.ToDTO()});
+
+                    return JsonSuccessGet(new { ofertalaboral = ol.ToDTO()});
                 }
                 catch (Exception ex)
                 {
-                    return JsonErrorPost("Error en la BD: " + ex.Message);
+                    return JsonErrorGet("Error en la BD: " + ex.Message);
                 }
             }
 
@@ -156,9 +161,12 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     if (p == null) throw new Exception("El colaborador " + c.ToDTO().NombreCompleto + " no existe como postulante");
                     if (p.OfertasPostuladas == null || p.OfertasPostuladas.Count == 0) throw new Exception("El colaborador " + c.ToDTO().NombreCompleto + " no ha postulado a nada");
 
-                    //context.TablaOfertaLaboralXPostulante.Where( x=> x.PostulanteID == p.ID && 
 
-                    return JsonSuccessGet();
+                    List<OfertaLaboralXPostulante> lstOLXP = context.TablaOfertaLaboralXPostulante.Where(x => x.PostulanteID == p.ID);
+                    if (lstOLXP == null || lstOLXP.Count == 0) return JsonSuccessGet();
+
+                    List<OfertaLaboral> lstOL = lstOLXP.Select(x => x.OfertaLaboral).Where(x => x.EstadoSolicitudOfertaLaboralID == esol.ID).ToList();
+                    return JsonSuccessGet(new { ofertasLaborales = lstOL });
                     
                 }
                 catch (Exception ex)
