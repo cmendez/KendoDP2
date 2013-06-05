@@ -1,0 +1,79 @@
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Organizacion.Models
+@using KendoDP2.Areas.Reclutamiento.Models
+
+@{
+    ViewBag.Title = "Organigrama de la empresa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/primitive/css/jquery-ui-1.10.3.custom.css")" />
+<script type="text/javascript" src="@Url.Content("~/Content/primitive/js/jquery-ui-1.10.3.custom.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/primitive/js/primitives.min.js")"></script>
+<link href="@Url.Content("~/Content/primitive/css/primitives.latest.css")" media="screen" rel="stylesheet" type="text/css" />
+
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Organigrama", "Navega en el organigrama de la empresa"));}
+
+<div class="portlet box green">
+    <div class="portlet-title">
+        <h4><i class="icon-reorder"></i>Organización</h4>
+        <div class="tools">
+	        <a href="javascript:;" class="collapse"></a>
+        </div>
+	</div>   
+
+    <div class="portlet-body">
+        <div class="row-fluid">
+
+<div class="basicdiagram" style="width:640px; height:480px; border-style:dotted; border-width:1px;" />
+
+            </div>
+        </div>
+   </div>
+
+<script type='text/javascript'>//<![CDATA[ 
+		$(window).load(function(){
+			var options = new primitives.orgdiagram.Config();    
+
+			var rootItem = new primitives.orgdiagram.ItemConfig();
+			rootItem.title = "Miguel Vega";
+			rootItem.description = "Presidente, Directorio";
+			rootItem.groupTitle = "Directorio";
+			rootItem.image = "http://www.basicprimitives.com/demo/images/photos/a.png";
+
+			var itemB = new primitives.orgdiagram.ItemConfig();
+			itemB.title = "César Vásquez";
+			itemB.description = "VP, Human Resources";
+			itemB.groupTitle = "HHRR";
+			itemB.image = "http://www.basicprimitives.com/demo/images/photos/b.png";
+			rootItem.items.push(itemB);
+
+			var itemC = new primitives.orgdiagram.ItemConfig();
+			itemC.title = "Diana Lepage";
+			itemC.description = "Business Solutions, US";
+			itemC.groupTitle = "Ventas";
+			itemC.image = "http://www.basicprimitives.com/demo/images/photos/c.png";
+			rootItem.items.push(itemC);
+			
+			var itemD = new primitives.orgdiagram.ItemConfig();
+			itemD.title = "Gonzalo Cahuín";
+			itemD.description = "Business Solutions, US";
+			itemD.groupTitle = "Operaciones";
+			itemD.image = "http://www.basicprimitives.com/demo/images/photos/c.png";
+			itemC.items.push(itemD);
+
+			var itemE = new primitives.orgdiagram.ItemConfig();
+			itemE.title = "Manuel Solórzano";
+			itemE.description = "Business Solutions, US";
+			itemE.groupTitle = "Aseo";
+			itemE.image = "http://www.basicprimitives.com/demo/images/photos/c.png";
+			itemD.items.push(itemE);
+
+			options.rootItem = rootItem;
+			options.cursorItem = rootItem;
+			options.hasSelectorCheckbox = primitives.common.Enabled.False;
+			  
+			jQuery(".basicdiagram").orgDiagram(options);
+		});//]]>  
+
+		</script>
