@@ -77,7 +77,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             }
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
+        [HttpPost]
         public JsonResult aprobarSolicitudOfertaLaboral(string ofertaLaboralID, string nuevoEstado, string comentarios)
         {
             using (DP2Context context = new DP2Context())
@@ -156,9 +156,12 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     if (p == null) throw new Exception("El colaborador " + c.ToDTO().NombreCompleto + " no existe como postulante");
                     if (p.OfertasPostuladas == null || p.OfertasPostuladas.Count == 0) throw new Exception("El colaborador " + c.ToDTO().NombreCompleto + " no ha postulado a nada");
 
-                    //context.TablaOfertaLaboralXPostulante.Where( x=> x.PostulanteID == p.ID && 
 
-                    return JsonSuccessGet();
+                    List<OfertaLaboralXPostulante> lstOLXP = context.TablaOfertaLaboralXPostulante.Where(x => x.PostulanteID == p.ID);
+                    if (lstOLXP == null || lstOLXP.Count == 0) return JsonSuccessGet();
+
+                    List<OfertaLaboral> lstOL = lstOLXP.Select(x => x.OfertaLaboral).Where(x => x.EstadoSolicitudOfertaLaboralID == esol.ID).ToList();
+                    return JsonSuccessGet(new { ofertasLaborales = lstOL });
                     
                 }
                 catch (Exception ex)
