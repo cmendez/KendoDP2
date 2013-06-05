@@ -139,5 +139,33 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             }
 
         }
+
+        public JsonResult getOfertasLaboralesColaborador(string colaboradorID, string estadoOfertaLaboral)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                try
+                {
+                    EstadosSolicitudOfertaLaboral esol = context.TablaEstadosSolicitudes.One(x => x.Descripcion.Equals(estadoOfertaLaboral));
+                    if (esol == null) throw new Exception("No existe el estado " + estadoOfertaLaboral + " para una Solicitud de Oferta Laboral");
+
+                    Colaborador c = context.TablaColaboradores.FindByID(Convert.ToInt32(colaboradorID));
+                    if (c == null) throw new Exception("No existe el Colaborador con ID = " + colaboradorID);
+
+                    Postulante p = context.TablaPostulante.One(x => x.ColaboradorID == c.ID);
+                    if (p == null) throw new Exception("El colaborador " + c.ToDTO().NombreCompleto + " no existe como postulante");
+                    if (p.OfertasPostuladas == null || p.OfertasPostuladas.Count == 0) throw new Exception("El colaborador " + c.ToDTO().NombreCompleto + " no ha postulado a nada");
+
+                    //context.TablaOfertaLaboralXPostulante.Where( x=> x.PostulanteID == p.ID && 
+
+                    return JsonSuccessGet();
+                    
+                }
+                catch (Exception ex)
+                {
+                    return JsonErrorGet("Error en la BD: " + ex.Message + ex.InnerException);
+                }
+            }
+        }
     }
 }
