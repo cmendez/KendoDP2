@@ -20,61 +20,34 @@
         </div>
     </div>
     <div class="portlet-body">
-            <div class="row-fluid">
-                <div class="span2">
-                    @(Html.Kendo().ComboBox()
-                        .Name("ComboColaboradores")
-                        .Placeholder("Agregue un colaborador...")
-                        .DataTextField("NombreCompleto")
-                        .DataValueField("ID")
-                        .Filter("contains")
-                        .BindTo(colaboradores)
-                        .Suggest(true)
-                        .HtmlAttributes(new { style = "width:100%" })
-                        .Events(e => e.Close("comboColaboradoresSelection"))
-                    )
-                    <hr />
-                    @(Html.Kendo().ComboBox()
-                        .Name("ComboAreas")
-                        .Placeholder("Agregue un área...")
-                        .DataTextField("Nombre")
-                        .DataValueField("ID")
-                        .Filter("contains")
-                        .BindTo(areas)
-                        .Suggest(true)
-                        .HtmlAttributes(new { style = "width:100%" })
-                        .Events(e => e.Close("comboAreasSelection"))
-                    )
-                    <hr />
-                    <div id="event_box_areas">
-                    </div>
-                    <hr />
-                    <div id="event_box_colaboradores">
-                    </div>
-                    <hr />
+        <div class="row-fluid">
+            <div class="span2">
+                @(Html.Kendo().ComboBox()
+                    .Name("ComboColaboradores")
+                    .Placeholder("Agregue un colaborador...")
+                    .DataTextField("NombreCompleto")
+                    .DataValueField("ID")
+                    .Filter("contains")
+                    .BindTo(colaboradores)
+                    .Suggest(true)
+                    .HtmlAttributes(new { style = "width:100%" })
+                    .Events(e => e.Close("comboColaboradoresSelection"))
+                )
+                <hr />
+                @(Html.Kendo().ComboBox()
+                    .Name("ComboAreas")
+                    .Placeholder("Agregue un área...")
+                    .DataTextField("Nombre")
+                    .DataValueField("ID")
+                    .Filter("contains")
+                    .BindTo(areas)
+                    .Suggest(true)
+                    .HtmlAttributes(new { style = "width:100%" })
+                    .Events(e => e.Close("comboAreasSelection"))
+                )
+                <hr />
+                <div id="event_box_areas">
                 </div>
-<<<<<<< HEAD
-                <div class="span10">
-                    @(Html.Kendo().Grid<KendoDP2.Areas.Evaluacion360.Models.ColaboradorXProcesoEvaluacionDTO>()
-                    .Name("ColaboradoresDeProcesoEvaluacionGrid")
-                    .Columns(columns =>
-                        {
-                            columns.Bound(p => p.ColaboradorDTO.ApellidoPaterno);
-                            columns.Bound(p => p.ColaboradorDTO.ApellidoMaterno);
-                            columns.Bound(p => p.ColaboradorDTO.Nombre);
-                            columns.ForeignKey((p => p.ColaboradorDTO.AreaID), lista);
-                            //columns.Bound(p => p.ColaboradorDTO.Area);
-                            columns.Bound(p => p.ColaboradorDTO.Puesto);
-                            columns.ForeignKey(p => p.EstadoColaboradorXProcesoEvaluacionID, new SelectList(estados, "ID", "Nombre"));      
-                            columns.Template(@<text></text>).Title("Evaluadores").ClientTemplate("<a class='k-button' href='" + Url.Action("SeleccionarEvaluadores", "Evaluadores") + "?procesoEvaluacionID=#=ID#&colaboradorID=#=ColaboradorDTO.ID#'>Elegir</a>");
-                            columns.Command(command =>
-                            {
-                                command.Destroy().Text("Eliminar");
-                            }).Width(200);
-                        }
-                    )
-                    .ToolBar(toolbar => 
-=======
                 <hr />
                 <div id="event_box_colaboradores">
                 </div>
@@ -94,31 +67,36 @@
                         columns.ForeignKey(p => p.EstadoColaboradorXProcesoEvaluacionID, new SelectList(estados, "ID", "Nombre"));      
                         columns.Template(@<text></text>).Title("Evaluadores").ClientTemplate("<a class='k-button' href='" + Url.Action("SeleccionarEvaluadores", "Evaluadores") + "?procesoEvaluacionID="+procesoEvaluacionID+"&colaboradorID=#=ColaboradorDTO.ID#'>Elegir</a>");
                         columns.Command(command =>
->>>>>>> d137d64d7e754142bafa5f9426af2dc980ec0315
                         {
-                            toolbar.Custom().Text("Iniciar proceso").Action("IniciarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" });
-                            toolbar.Custom().Text("Cerrar Proceso").Action("CerrarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" });
-                            //toolbar.Template(@<text><a class='k-button'  id='btnIniciar' href='javascript:IniciarProcesoEvaluacionJS()'>Iniciar Proceso Evaluación </a><a class='k-button' id='btnCerrar' href='javascript:CerrarProcesoEvaluacionJS()'>Cerrar Proceso Evaluación </a></text>);
-                        }
-                            )
-                            .Editable(
-                                e => e.DisplayDeleteConfirmation("¿Realmente desdea eliminar este registro?")
-                            )
-                            .Pageable(paper => paper.Refresh(true))
-                            .Filterable()
-                            .Sortable()
-                            .Scrollable(w => w.Height(330))
-                            .DataSource(dataSource => dataSource
-                                .Ajax()
-                                .PageSize(20)
-                                .Model(model => { model.Id(p => p.ID); })
-                                .Read(read => read.Action("ReadEvaluados", "ProcesoEvaluacion", new { procesoID = Model.ID }))
-                                .Destroy(update => update.Action("DestroyEvaluados", "ProcesoEvaluacion"))
-                                .Events(e => e.RequestEnd("requestEnd"))
-                            )
-                            )
-                </div>
+                            command.Destroy().Text("Eliminar");
+                        }).Width(200);
+                    }
+                )
+                .ToolBar(toolbar => 
+                    {
+                        toolbar.Custom().Text("Iniciar proceso").Action("IniciarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" });
+                        toolbar.Custom().Text("Cerrar Proceso").Action("CerrarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" });
+                        //toolbar.Template(@<text><a class='k-button'  id='btnIniciar' href='javascript:IniciarProcesoEvaluacionJS()'>Iniciar Proceso Evaluación </a><a class='k-button' id='btnCerrar' href='javascript:CerrarProcesoEvaluacionJS()'>Cerrar Proceso Evaluación </a></text>);
+                    }
+                        )
+                        .Editable(
+                            e => e.DisplayDeleteConfirmation("¿Realmente desdea eliminar este registro?")
+                        )
+                        .Pageable(paper => paper.Refresh(true))
+                        .Filterable()
+                        .Sortable()
+                        .Scrollable(w => w.Height(330))
+                        .DataSource(dataSource => dataSource
+                            .Ajax()
+                            .PageSize(20)
+                            .Model(model => { model.Id(p => p.ID); })
+                            .Read(read => read.Action("ReadEvaluados", "ProcesoEvaluacion", new { procesoID = Model.ID }))
+                            .Destroy(update => update.Action("DestroyEvaluados", "ProcesoEvaluacion"))
+                            .Events(e => e.RequestEnd("requestEnd"))
+                        )
+                        )
             </div>
+        </div>
     </div>
 </div>
 
