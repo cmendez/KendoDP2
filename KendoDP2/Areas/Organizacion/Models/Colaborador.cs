@@ -7,10 +7,12 @@ using KendoDP2.Areas.Configuracion.Models;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using KendoDP2.Areas.Evaluacion360.Models;
+using KendoDP2.Areas.Organizacion.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 using KendoDP2.Models.Generic;
 using KendoDP2.Areas.Eventos.Models;
 using System.Reflection;
+
 
 namespace KendoDP2.Areas.Organizacion.Models
 {
@@ -24,6 +26,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         public string FechaSalidaEmpresa { get; set; }
 
         public virtual ICollection<Objetivo> Objetivos { get; set; }
+
         
         public virtual ICollection<ColaboradorXPuesto> ColaboradoresPuesto { get; set; }
 
@@ -41,6 +44,8 @@ namespace KendoDP2.Areas.Organizacion.Models
         public virtual ICollection<Contactos> EsContactoDe { get; set; }
         [InverseProperty("Colaborador")]
         public virtual ICollection<Contactos> Contactos { get; set; }
+
+        public virtual ICollection<Colaborador> ListaContactos { get; set; }
 
         public string ResumenEjecutivo { get; set; }
 
@@ -87,7 +92,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             ResumenEjecutivo = c.ResumenEjecutivo;
             ImagenColaboradorID = c.ImagenColaboradorID;
             CurriculumVitaeID = c.CurriculumVitaeID;
-           
+            
             return this;
         }
 
@@ -206,6 +211,8 @@ namespace KendoDP2.Areas.Organizacion.Models
 
         public List<ColaboradorDTO> Subordinados { get; set; }
 
+        public List<ContactosDTO> Contactos { get; set; }
+      
         public ColaboradorDTO() { }
 
         public ColaboradorDTO(Colaborador c, List<ColaboradorDTO> listac = null)
@@ -229,6 +236,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             FechaNacimiento = c.FechaNacimiento;
             FechaIngreso = c.FechaIngresoEmpresa;
             ResumenEjecutivo = c.ResumenEjecutivo;
+
             Usuario = c.Username;
 
             Subordinados = listac;
@@ -253,11 +261,13 @@ namespace KendoDP2.Areas.Organizacion.Models
             {
                 //Objetivos = c.Objetivos.Select(o => o.ToDTO()).ToList();
                 Objetivos = c.Objetivos.Select(o => o.ToDTO(new DP2Context())).ToList();
+                Contactos = c.Contactos.Select(o => o.ToDTO()).ToList();
             }
             catch (Exception)
             {
                 //Objetivos no se han cargado
                 Objetivos = new List<ObjetivoDTO>();
+                Contactos = new List<ContactosDTO>();
             }
 
 

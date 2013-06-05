@@ -205,7 +205,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 OfertaLaboral o = context.TablaOfertaLaborales.FindByID(ofertaID);
                 OfertaLaboralXPostulante postulanteOferta = o.Postulantes.Where(p => p.ID == postulanteXOfertaID).FirstOrDefault();
 
-                if (postulanteOferta.EstadoPostulantePorOferta.Descripcion.Equals("Aprobado Fase 1"))
+                if (postulanteOferta.EstadoPostulantePorOferta.Descripcion.Equals("Aprobado Fase 2"))
                 {
                     postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Aprobado Fase 3"));
                     context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);

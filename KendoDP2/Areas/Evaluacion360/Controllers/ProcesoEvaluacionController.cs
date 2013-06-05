@@ -307,6 +307,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                         
                         PuestoXEvaluadores puestoXEvaluador = context.TablaPuestoXEvaluadores.One(x=>x.PuestoID==context.TablaColaboradoresXPuestos.One(y=>y.Colaborador.ID == evaluadorID).PuestoID );
                         int pesoExamenXEvaluador = puestoXEvaluador.Peso;
+
                         acumuladoPesos += pesoExamenXEvaluador;
                         notaEvaluadoXProceso+= (pesoExamenXEvaluador * examen.NotaExamen);
                     }
