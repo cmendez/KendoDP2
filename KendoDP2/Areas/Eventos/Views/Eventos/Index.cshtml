@@ -1,0 +1,91 @@
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Organizacion.Models
+@using KendoDP2.Areas.Eventos.Models
+@{
+    ViewBag.Title = "Eventos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IList<AreaDTO> areas = ViewBag.areas;
+    IList<EstadoEventoDTO> estadosEventos = ViewBag.estadosEventos;
+    IList<PuestoDTO> puestos = ViewBag.puestos;
+    IList<TipoEventoDTO> tipoEventos = ViewBag.tipoEventos;
+    SelectList lista = new SelectList(areas, "ID", "Nombre");
+    SelectList listaEstados = new SelectList(estadosEventos, "ID", "Descripcion");
+    SelectList listaPuestos = new SelectList(puestos, "ID", "Nombre");
+}
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Eventos", "Administre los Eventos de la empresa"));}
+
+<div class="portlet box green">
+    <div class="portlet-title">
+        <h4><i class="icon-reorder"></i>Eventos</h4>
+        <div class="tools">
+	        <a href="javascript:;" class="collapse"></a>
+        </div>
+	</div>
+    
+    <div class="portlet-body">
+
+           <div class="row-fluid">
+            @(Html.Kendo().Grid<EventoDTO>()
+                .Name("EventoGrid")
+                .Columns(columns =>
+                    {
+                        columns.Bound(p => p.Nombre);
+                        columns.Bound(p => p.Inicio);
+                        columns.Bound(p => p.Fin);
+                        columns.ForeignKey(p => p.EstadoID, listaEstados);
+                        columns.Template(@<text></text>).Title("Invitados").ClientTemplate(
+                        "<a class='k-button' href='" + Url.Action("ListaInvitados", "Eventos") + "?eventoID=#=ID#'>Agregar Invitados</a>");
+                        columns.Command(command =>
+                        {
+                            command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar");
+                            command.Destroy().Text("Eliminar");
+                        }).Width(200);
+
+                    }
+                )
+                .ToolBar(toolbar =>
+                {
+                    toolbar.Create().Text("Registrar");
+                })
+                .Editable(editable => editable
+                    .Mode(GridEditMode.PopUp)
+                    .TemplateName("EditorEvento")
+                    .DisplayDeleteConfirmation("¿Está seguro que desea eliminar este registro?")
+                    .Window(w => { w.Title("Ingrese los datos"); w.Width(900); })
+
+                )
+                .Groupable()
+                .Pageable(paper => paper.Refresh(true))
+                .Filterable()
+                .Sortable()
+                .Scrollable(p => p.Height(330))
+                .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .PageSize(20)
+                    .Model(model => { model.Id(p => p.ID); model.Field(x => x.Invitados).Editable(false); })
+                    .Create(update => update.Action("Create", "Eventos"))
+                    .Read(read => read.Action("Read", "Eventos"))
+                    .Update(update => update.Action("Update", "Eventos"))
+                    .Destroy(update => update.Action("Destroy", "Eventos"))
+                    .Events(e => e.Error("onError"))
+                )
+               )
+        </div>
+    </div>
+</div>
+
+<script>
+    function onError(e) {
+        if (e.errors) {
+            var message = "Error:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>

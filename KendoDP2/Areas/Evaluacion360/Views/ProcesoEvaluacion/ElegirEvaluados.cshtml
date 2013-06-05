@@ -7,6 +7,7 @@
     IList<KendoDP2.Areas.Organizacion.Models.AreaDTO> areas = ViewBag.areas;
     IList<KendoDP2.Areas.Evaluacion360.Models.EstadoColaboradorXProcesoEvaluacionDTO> estados = ViewBag.estados;
     SelectList lista = new SelectList(areas, "ID", "Nombre");
+    int procesoEvaluacionID = ViewBag.idProceso;
 }
 
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Elegir evaluados", "Elija los colaboradores evaluados en este proceso"));}
@@ -52,6 +53,7 @@
                     </div>
                     <hr />
                 </div>
+<<<<<<< HEAD
                 <div class="span10">
                     @(Html.Kendo().Grid<KendoDP2.Areas.Evaluacion360.Models.ColaboradorXProcesoEvaluacionDTO>()
                     .Name("ColaboradoresDeProcesoEvaluacionGrid")
@@ -72,6 +74,27 @@
                         }
                     )
                     .ToolBar(toolbar => 
+=======
+                <hr />
+                <div id="event_box_colaboradores">
+                </div>
+                <hr />
+            </div>
+            <div class="span10">
+                @(Html.Kendo().Grid<KendoDP2.Areas.Evaluacion360.Models.ColaboradorXProcesoEvaluacionDTO>()
+                .Name("ColaboradoresDeProcesoEvaluacionGrid")
+                .Columns(columns =>
+                    {
+                        columns.Bound(p => p.ColaboradorDTO.ApellidoPaterno);
+                        columns.Bound(p => p.ColaboradorDTO.ApellidoMaterno);
+                        columns.Bound(p => p.ColaboradorDTO.Nombre);
+                        columns.ForeignKey((p => p.ColaboradorDTO.AreaID), lista);
+                        //columns.Bound(p => p.ColaboradorDTO.Area);
+                        columns.Bound(p => p.ColaboradorDTO.Puesto);
+                        columns.ForeignKey(p => p.EstadoColaboradorXProcesoEvaluacionID, new SelectList(estados, "ID", "Nombre"));      
+                        columns.Template(@<text></text>).Title("Evaluadores").ClientTemplate("<a class='k-button' href='" + Url.Action("SeleccionarEvaluadores", "Evaluadores") + "?procesoEvaluacionID="+procesoEvaluacionID+"&colaboradorID=#=ColaboradorDTO.ID#'>Elegir</a>");
+                        columns.Command(command =>
+>>>>>>> d137d64d7e754142bafa5f9426af2dc980ec0315
                         {
                             toolbar.Custom().Text("Iniciar proceso").Action("IniciarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" });
                             toolbar.Custom().Text("Cerrar Proceso").Action("CerrarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" });

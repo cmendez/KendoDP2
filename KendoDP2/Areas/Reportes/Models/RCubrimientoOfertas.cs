@@ -12,8 +12,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KendoDP2.Areas.Reportes.Models
 {
-    public class RCubrimientoOfertas
+    public class ROfertasLaborales
     {
-             
+        public string nombreProveniencia;
+        public int cantPostulantes;
+        public int cantElegidos;
     }
+
+
 }

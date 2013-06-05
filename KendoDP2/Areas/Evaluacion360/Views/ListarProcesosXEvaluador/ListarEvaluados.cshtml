@@ -20,23 +20,28 @@
     </div>
     <div class="portlet-body">
         <div class="row-fluid">
-            <div class="span2">
-                <div id="event_box_colaboradores">
-                </div>
-                <hr />
-            </div>
+            
             <div class="span10">
-                @(Html.Kendo().Grid<KendoDP2.Areas.Evaluacion360.Models.ColaboradorXProcesoEvaluacionDTO>()
+                @(Html.Kendo().Grid<KendoDP2.Areas.Evaluacion360.Models.Evaluador2DTO>()
                 .Name("ColaboradoresDeProcesoEvaluacionGrid")
                 .Columns(columns =>
                     {
-                        columns.Bound(p => p.ColaboradorDTO.ApellidoPaterno);
-                        columns.Bound(p => p.ColaboradorDTO.ApellidoMaterno);
-                        columns.Bound(p => p.ColaboradorDTO.Nombre);
-                        columns.ForeignKey((p => p.ColaboradorDTO.AreaID), lista);
+                       
+                        columns.Bound(p => p.evaluado.NombreCompleto);
+
+                        columns.Bound(p => p.procesoevaluacion.Nombre);
+
+                       // columns.Bound(p => p.procesoevaluacion.Nombre);
+                        
+                        
+                             
+                        //columns.Bound(p => p.ElIDDelEvaluador);
+                        //columns.Bound(p => p.ProcesoEnElQueParticipanID);
+                        //columns.Bound(p => p.ID);
+                        //columns.ForeignKey((p => p.ID), lista);
                         //columns.Bound(p => p.ColaboradorDTO.Area);
-                        columns.Bound(p => p.ColaboradorDTO.Puesto);
-                        columns.ForeignKey(p => p.EstadoColaboradorXProcesoEvaluacionID, new SelectList(estados, "ID", "Nombre"));
+                        //columns.Bound(p => p.ID);
+                        //columns.ForeignKey(p => p..EstadoColaboradorXProcesoEvaluacionID, new SelectList(estados, "ID", "Nombre"));
                         
                         
                         columns.Template(@<text></text>).Title("Rendir evaluacion").ClientTemplate(
@@ -56,7 +61,7 @@
                             .Model(model => { model.Id(p => p.ID); })
                             .Read(read => read.Action("ReadEvaluados", "ListarProcesosXEvaluador", new { procesoID = Model.ID }))
                         )
-                        )
+                    )
             </div>
         </div>
     </div>

@@ -53,11 +53,12 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create([DataSourceRequest] DataSourceRequest request, ObjetivoDTO objetivo)
+        public ActionResult Create([DataSourceRequest] DataSourceRequest request, ObjetivoDTO objetivo, int elUsuarioQueInicioSesion)
         {
             using (DP2Context context = new DP2Context())
             {
                 Objetivo o = new Objetivo(objetivo, context);
+                o.Dueño = context.TablaColaboradores.FindByID(elUsuarioQueInicioSesion);
                 context.TablaObjetivos.AddElement(o);
                 return Json(new[] { o.ToDTO(context) }.ToDataSourceResult(request, ModelState));
             }

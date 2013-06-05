@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using ExtensionMethods;
 using KendoDP2.Models.Generic;
 using KendoDP2.Areas.Eventos.Models;
+using KendoDP2.Areas.Organizacion.Models;
 
 namespace KendoDP2.Areas.Eventos.Controllers
 {
@@ -19,14 +20,38 @@ namespace KendoDP2.Areas.Eventos.Controllers
             {
                 try
                 {
-                    DateTime inicio = DateTime.ParseExact(fechaDesde, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture);
-                    DateTime fin = DateTime.ParseExact(fechaHasta, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture); ;
-                    List<EventoDTO> eventos = context.TablaEvento
-                        .Where(x => x.CreadorID == Convert.ToInt32(colaboradorID) &&
+                    Colaborador c = context.TablaColaboradores.FindByID(Convert.ToInt32(colaboradorID));
+                    if (c == null) throw new Exception("No existe el Colaborador con ID = " + colaboradorID);
+
+                    DateTime inicio, fin;
+                    try
+                    {
+                           inicio = DateTime.ParseExact(fechaDesde, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture);
+                    }
+                    catch (Exception)
+                    {
+                        throw new Exception("Formato de la fecha de inicio incorrecto");
+                    }
+
+                    try
+                    {
+                        fin = DateTime.ParseExact(fechaHasta, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture);
+                    }
+                    catch (Exception)
+                    {
+                        throw new Exception("Formato de la fecha de inicio incorrecto");                        
+                    }
+
+                    if (DateTime.Compare(inicio, fin) >= 0) throw new Exception("La fecha final no puede ser menor que la fecha inicial"); 
+
+                    List<Evento> eventos = context.TablaEvento
+                        .Where(x => x.CreadorID == c.ID &&
                                     DateTime.Compare(inicio,x.Inicio) <= 0 &&
-                                    DateTime.Compare(fin, x.Fin) >= 0)
-                        .Select(x => x.ToDTO()).ToList();
-                    return JsonSuccessGet(new { eventos = eventos });
+                                    DateTime.Compare(fin, x.Fin) >= 0);
+                    if (eventos == null || eventos.Count == 0) return JsonSuccessGet(new { eventos = eventos });
+                    
+                    List<EventoDTO> eventosDTO = eventos.Select(x => x.ToDTO()).ToList();
+                    return JsonSuccessGet(new { eventos = eventosDTO });
                 }
                 catch (Exception ex)
                 {

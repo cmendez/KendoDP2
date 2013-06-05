@@ -73,5 +73,28 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             return 0;
 
         }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CambiarContrasenha(int colaboradorID, string pass1, string pass2)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                Colaborador c = context.TablaColaboradores.FindByID(colaboradorID);
+                if (pass2.Length == 0)
+                {
+                    return Json(new { mensaje = "La contrasenha nueva no puede ser vacia." });
+                }
+                if (c.Password.Equals(pass1))
+                {
+                    c.Password = pass2;
+                    context.TablaColaboradores.ModifyElement(c);
+                    return Json(new { mensaje = "El cambio fue satisfactorio" });
+                }
+                else
+                {
+                    return Json(new { mensaje = "La contrasenha antigua no coincide"});
+                }
+            }
+        }
     }
 }

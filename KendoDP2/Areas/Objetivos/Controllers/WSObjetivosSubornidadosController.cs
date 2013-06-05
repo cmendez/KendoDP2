@@ -11,7 +11,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
 {
     public class WSObjetivosSubordinadosController : Controller
     {
-       
+
         public ActionResult ListarObjetivosDeSubordinados(int idColaborador, int idPeriodo)
         {
             using (DP2Context context = new DP2Context())
