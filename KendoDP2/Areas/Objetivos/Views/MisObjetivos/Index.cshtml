@@ -92,9 +92,9 @@
                                    ).Pageable(e => e.Refresh(true)).Filterable().Sortable().Scrollable(w => w.Height(330))
                                    .DataSource(dataSource => dataSource
                                        .Ajax().PageSize(20)
-                                       .Aggregates(a => {a.Add(p => p.Nombre).Count();a.Add(p => p.Peso).Sum();})
-                                       .Model(model => {model.Id(p => p.ID);model.Field(p => p.ObjetivoPadreID).DefaultValue(objetivo.ID); })
-                                       .Create(update => update.Action("Create", "MisObjetivos"))
+                                       .Aggregates(a => { a.Add(p => p.Nombre).Count(); a.Add(p => p.Peso).Sum(); })
+                                       .Model(model => { model.Id(p => p.ID); model.Field(p => p.ObjetivoPadreID).DefaultValue(objetivo.ID); })
+                                       .Create(update => update.Action("Create", "MisObjetivos", new { elUsuarioQueInicioSesion = colaboradorID }))
                                        .Read(read => read.Action("Read", "MisObjetivos", new { objetivoPadreID = objetivo.ID }))
                                        .Update(update => update.Action("Update", "MisObjetivos"))
                                        .Destroy(update => update.Action("Destroy", "MisObjetivos"))

@@ -22,7 +22,11 @@
 	</div>
     
     <div class="portlet-body">
-
+        <div class="row-fluid">
+               <div class="span1">@Html.ActionLink("Ir a fase 1", "VerPostulantesFase1", "OfertasLaboralesExternas", new { ofertaLaboralID = ofertaID }, null)</div>
+               <div class="span1">@Html.ActionLink("Ir a fase 2", "VerPostulantesFase2", "OfertasLaboralesExternas", new { ofertaLaboralID = ofertaID }, null)</div>
+               <div class="span1">@Html.ActionLink("Ver todos", "VerPostulantes", "OfertasLaboralesExternas", new { ofertaLaboralID = ofertaID}, null)</div>
+           </div>   
            <div class="row-fluid">
             @(Html.Kendo().Grid<OfertaLaboralXPostulanteDTO>()
                 .Name("PostulantesExternosPorOfertaLaboralFase3Grid")
@@ -103,7 +107,7 @@
                 postulanteXOfertaID: postulanteXOfertaID
             },
             success: function(response){
-                alert("Cambiar el puesto del colaborador");
+                showError(response, "Cambiar el puesto del colaborador");
                 recargaGrid();
             }
         });

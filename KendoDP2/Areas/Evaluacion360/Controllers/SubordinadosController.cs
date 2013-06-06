@@ -15,7 +15,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
         public ActionResult Index(int elProcesoSeleccionado, int elJefe)
         {
-
+            ViewBag.Area = "";
             ViewBag.losProcesosDeEvaluacion = GestorServiciosPrivados.listaTodosLosProcesos();
             //ViewBag.losSubordinados = .consigueAlEmpleado();
 

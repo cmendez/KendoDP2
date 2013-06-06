@@ -7,6 +7,7 @@
     IList<KendoDP2.Areas.Organizacion.Models.AreaDTO> areas = ViewBag.areas;
     IList<KendoDP2.Areas.Evaluacion360.Models.EstadoColaboradorXProcesoEvaluacionDTO> estados = ViewBag.estados;
     SelectList lista = new SelectList(areas, "ID", "Nombre");
+    int procesoEvaluacionID = ViewBag.idProceso;
 }
 
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Elegir evaluados", "Elija los colaboradores evaluados en este proceso"));}
@@ -64,7 +65,7 @@
                         //columns.Bound(p => p.ColaboradorDTO.Area);
                         columns.Bound(p => p.ColaboradorDTO.Puesto);
                         columns.ForeignKey(p => p.EstadoColaboradorXProcesoEvaluacionID, new SelectList(estados, "ID", "Nombre"));      
-                        columns.Template(@<text></text>).Title("Evaluadores").ClientTemplate("<a class='k-button' href='" + Url.Action("SeleccionarEvaluadores", "Evaluadores") + "?procesoEvaluacionID=#=ID#&colaboradorID=#=ColaboradorDTO.ID#'>Elegir</a>");
+                        columns.Template(@<text></text>).Title("Evaluadores").ClientTemplate("<a class='k-button' href='" + Url.Action("SeleccionarEvaluadores", "Evaluadores") + "?procesoEvaluacionID="+procesoEvaluacionID+"&colaboradorID=#=ColaboradorDTO.ID#'>Elegir</a>");
                         columns.Command(command =>
                         {
                             command.Destroy().Text("Eliminar");

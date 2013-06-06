@@ -31,7 +31,7 @@ namespace KendoDP2.Models.Helpers
 
                 //new SidebarSuboption("Envio de correo", "Correo", "Index", "icon-ok-sign"),
                 //new SidebarSuboption("Acordion", "Acordion", "Index", "icon-ok-sign"),
-				new SidebarSuboption("Rol Evaluador", "RolEvaluador", "Index", "icon-ok-sign"),
+				new SidebarSuboption("Listar Procesos por Evaluador", "ListarProcesosXEvaluador", "Index", "icon-ok-sign"),
                 new SidebarSuboption("Rendir Evaluacion", "Evaluacion", "Index", "icon-ok-sign")
 				//new SidebarSuboption("Por perfil BORRADOR", "Configuracion360", "Index", "icon-group")
             })));				
@@ -51,14 +51,15 @@ namespace KendoDP2.Models.Helpers
             })));
 
             // Organizacion
-            Opciones.Add(new SidebarOption("Organizacion", "Organizacion", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
-                new SidebarSuboption("Organización","Organizaciones","Index","icon-group"),
+            Opciones.Add(new SidebarOption("Organizacion", "Organizacion", "icon-globe", new List<SidebarSuboption>(new SidebarSuboption[]{
+                new SidebarSuboption("Organización","Organizaciones","Index","icon-cogs"),
+                new SidebarSuboption("Organigrama", "Organigrama", "Index", "icon-sitemap"),
+                new SidebarSuboption("Áreas", "Areas", "Index", "icon-certificate"),
                 new SidebarSuboption("Colaboradores", "Colaboradores", "Index", "icon-user"),
                 new SidebarSuboption("Funciones", "Funciones", "Index", "icon-check"),
                 new SidebarSuboption("Puestos", "Puestos", "Index", "icon-tag"),
-                new SidebarSuboption("Áreas", "Areas", "Index", "icon-sitemap"),
-                new SidebarSuboption("Página Personal","Intranet","Index","icon-tag"),
-                new SidebarSuboption("Linea de Carrera","Historial","Index","icon-signal")
+                new SidebarSuboption("Linea de Carrera","Historial","Index","icon-signal"),
+                new SidebarSuboption("Página Personal","Intranet","Index","icon-cloud")
             })));
 
             Opciones.Add(new SidebarOption("Reclutamiento", "Reclutamiento", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
@@ -67,10 +68,13 @@ namespace KendoDP2.Models.Helpers
                 new SidebarSuboption("Administrar Ofertas Laborales Externas", "OfertasLaboralesExternas","Index","icon-book")
             })));
 
-            Opciones.Add(new SidebarOption("BolsaTrabajo", "Bolsa de Trabajo", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
+            Opciones.Add(new SidebarOption("BolsaTrabajo", "Bolsa de Trabajo", "icon-thumbs-up", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption("Convocatoria Interna","ConvocatoriasInternas","Index","icon-tag")
             })));
 
+            Opciones.Add(new SidebarOption("Eventos", "Eventos", "icon-calendar", new List<SidebarSuboption>(new SidebarSuboption[]{
+                new SidebarSuboption("Eventos","Eventos","Index","icon-calendar")
+            })));
         }
     }
 

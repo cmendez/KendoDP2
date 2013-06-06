@@ -22,7 +22,11 @@
 	</div>
     
     <div class="portlet-body">
-
+<div class="row-fluid">
+               <div class="span1">@Html.ActionLink("Ir a fase 2", "VerPostulantesFase2", "OfertasLaboralesExternas", new { ofertaLaboralID = ofertaID }, null)</div>
+               <div class="span1">@Html.ActionLink("Ir a fase 3", "VerPostulantesFase3", "OfertasLaboralesExternas", new { ofertaLaboralID = ofertaID }, null)</div>
+               <div class="span1">@Html.ActionLink("Ver todos", "VerPostulantes", "OfertasLaboralesExternas", new { ofertaLaboralID = ofertaID}, null)</div>
+           </div>   
            <div class="row-fluid">
             @(Html.Kendo().Grid<OfertaLaboralXPostulanteDTO>()
                 .Name("PostulantesExternosPorOfertaLaboralFase1Grid")
@@ -97,7 +101,7 @@
                 postulanteXOfertaID: postulanteXOfertaID
             },
             success: function(response){
-                alert("El postulante fue aprobado para evaluación");
+                showError(response, "El postulante fue aprobado para evaluación");
                 recargaGrid();
             }
         });
