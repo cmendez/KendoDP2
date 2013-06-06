@@ -104,6 +104,10 @@ namespace KendoDP2.Areas.Objetivos.Models
             return new ObjetivoRDTO(this,context);
         }
 
+        public ObjetivoConPadreDTO ObjetivoConPadreDTO( DP2Context context){
+            return new ObjetivoConPadreDTO(this, context);
+        }
+
     }
 
     //public class ObjetivoRDTO
@@ -166,6 +170,6 @@ namespace KendoDP2.Areas.Objetivos.Models
             //PeriodoID = o.PeriodoID;
 
         }
-
+        
     }
 }

@@ -76,8 +76,14 @@ namespace KendoDP2.Areas.Reportes.Controllers
             {
                 
                 List<ObjetivoRDTO> ListaObjetivos2 = new List<ObjetivoRDTO>();
-                ListaObjetivos2 = context.TablaObjetivos.Where(o => o.TipoObjetivoBSCID == BSCId && o.BSCID == idperiodo ).Select(p => p.ToRDTO(context)).ToList();
+                List<ObjetivoDTO> ListaObjetivos3 = new List<ObjetivoDTO>();
 
+                ListaObjetivos3 = context.TablaObjetivos.All().Select(o => o.ToDTO(context)).ToList();
+                ListaObjetivos2 = context.TablaObjetivos.Where(o => o.TipoObjetivoBSCID == BSCId && o.BSCID == idperiodo && (o.ObjetivoPadreID ==null || o.ObjetivoPadreID<0)).Select(p => p.ToRDTO(context)).ToList();
+                foreach(ObjetivoRDTO obj in ListaObjetivos2){
+                    obj.hijos = context.TablaObjetivos.Where(o => o.ObjetivoPadreID == obj.idObjetivo).ToList().Count;
+                    
+                }
                 return Json(ListaObjetivos2, JsonRequestBehavior.AllowGet);
                 //return Json(ListaObjetivos, JsonRequestBehavior.AllowGet);
             }
@@ -121,32 +127,98 @@ namespace KendoDP2.Areas.Reportes.Controllers
         //        return Json(context.TablaObjetivos.Where(o => o.ObjetivoPadreID == PadreId).Select(p => p.ToRDTO()).ToList(), JsonRequestBehavior.AllowGet);
         //    }
         //}
+        public ActionResult ListaObjetivos()
+        {
+            using (DP2Context context = new DP2Context())
+            {
+            return Json(context.TablaObjetivos.All().Select(o=>o.ObjetivoConPadreDTO(context)).ToList(), JsonRequestBehavior.AllowGet); 
+            }
+        }
         public ActionResult ObjetivosxPersona(int idObjetivo)
         {
             using (DP2Context context = new DP2Context())
             {
+                //Buscaremos el objetivo padre para ver si es un objetivo intermedio
+                List<ObjetivoConPadreDTO> listaObjAux = context.TablaObjetivos.Where(p => p.ObjetivoPadreID == idObjetivo).Select(p => p.ObjetivoConPadreDTO(context)).ToList();
+                List<ObjetivosXPersonaRDTO> ListaReporteAvanceXPersona = new List<ObjetivosXPersonaRDTO>();
+                if (listaObjAux.Count>0 && listaObjAux[0].padreEsIntermedio)
+                {
+                    //Se mostrarán a todos los colaboradores que tengan objetivos con padre igual al intermedio encontrado
+                    List<ColaboradorDTO> Colaboradores = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
+                    foreach (ColaboradorDTO col in Colaboradores)
+                    {
+                        if (col.Objetivos.Find(obj => obj.ObjetivoPadreID == listaObjAux[0].ObjetivoPadreID)!=null)
+                        {
+                            ObjetivosXPersonaRDTO perXObj = new ObjetivosXPersonaRDTO();
+                            perXObj.nombreColaborador = col.NombreCompleto;
+                            perXObj.avance = col.Objetivos.Find(obj => obj.ObjetivoPadreID == listaObjAux[0].ObjetivoPadreID).AvanceFinal;
+                        }
+                    }
+                }
+                #region porProbar
+                
+                //Considerando que los ob
+                
+                //List<ObjetivosXPersonaRDTO> ListaReporteAvanceXPersona = new List<ObjetivosXPersonaRDTO>();
+                //List<ColaboradorDTO> ColabObjetivos = new List<ColaboradorDTO>();
+                //List<ObjetivoDTO> ObjetivosXPersona = new List<ObjetivoDTO>();
+                //foreach (ColaboradorDTO Colaborador in Colaboradores)
+                //{
+                //    foreach (ObjetivoDTO ob in Colaborador.Objetivos)
+                //    {
+                        
+                //        if (ob.ObjetivoPadreID == idObjetivo)
+                //        {
+                //            ObjetivosXPersona.Add(ob);
+                //            if (ColabObjetivos.Find(c => c.NombreCompleto==Colaborador.NombreCompleto)==null)
+                //            {
+                //                ColabObjetivos.Add(Colaborador);
+                //            }
+                //        }
+                //    }
+                //}
+                //foreach (ColaboradorDTO colab in ColabObjetivos)
+                //{
+                //    int avance = 0;
+                //    int totalobj = 0;
+                //    foreach (ObjetivoDTO obj in colab.Objetivos){
+                //        if (obj.ObjetivoPadreID == idObjetivo)
+                //        {
+                //            avance += obj.AvanceFinal;
+                //            totalobj+=1;
+                //        }
+                //    }
+                //    ObjetivosXPersonaRDTO objxcolrep = new ObjetivosXPersonaRDTO();
+                //    objxcolrep.nombreColaborador = colab.NombreCompleto;
+                //    objxcolrep.avance = avance / totalobj;
+                //    ListaReporteAvanceXPersona.Add(objxcolrep);
+                //}
 
+                
+#endregion
+
+                return Json(ListaReporteAvanceXPersona, JsonRequestBehavior.AllowGet); 
                 //int idpuesto=context.TablaObjetivos.One(d => d.ID.Equals(idObjetivo)).PuestoAsignadoID.Value;
                 
                 //List<ColaboradorXPuestoDTO> ColaboradoresXPuesto =context.TablaColaboradoresXPuestos.Where( p => p.PuestoID==idpuesto).Select (p => p.ToDTO()).ToList();
 
-                List<ObjetivosXPersonaRDTO> ListaObjetivosXPersona = new List<ObjetivosXPersonaRDTO>();
+                
 
                 //foreach (ColaboradorXPuestoDTO ColXPues in ColaboradoresXPuesto)
                 //{
                 //    ListaObjetivosXPersona.Add(new ObjetivosXPersonaRDTO { ColaboradorDTO =ColXPues.ColaboradorDTO, avance = 50});
                 //}
-                List<ColaboradorDTO> Colaboradores = context.TablaColaboradores.All().Select(p => p.ToDTO()).ToList();
+                //List<ColaboradorDTO> Colaboradores = context.TablaColaboradores.All().Select(p => p.ToDTO()).ToList();
                 
                 //List<ColaboradorXPuestoDTO> ColaboradoresXPuesto = context.TablaColaboradoresXPuestos.Where(p => p.PuestoID == idpuesto).Select(p => p.ToDTO()).ToList();
                 //ColaboradorDTO col = context.TablaColaboradores.FindByID(1).ToDTO();
 
-                ListaObjetivosXPersona.Add(new ObjetivosXPersonaRDTO { nombreColaborador = Colaboradores[10].NombreCompleto, avance = 50 });
-                ListaObjetivosXPersona.Add(new ObjetivosXPersonaRDTO { nombreColaborador = Colaboradores[9].NombreCompleto, avance = 50 });
-                ListaObjetivosXPersona.Add(new ObjetivosXPersonaRDTO { nombreColaborador = Colaboradores[11].NombreCompleto, avance = 50 });
-                ListaObjetivosXPersona.Add(new ObjetivosXPersonaRDTO { nombreColaborador = Colaboradores[8].NombreCompleto, avance = 50 });
+                //ListaObjetivosXPersona.Add(new ObjetivosXPersonaRDTO { nombreColaborador = Colaboradores[10].NombreCompleto, avance = 50 });
+                //ListaObjetivosXPersona.Add(new ObjetivosXPersonaRDTO { nombreColaborador = Colaboradores[9].NombreCompleto, avance = 50 });
+                //ListaObjetivosXPersona.Add(new ObjetivosXPersonaRDTO { nombreColaborador = Colaboradores[11].NombreCompleto, avance = 50 });
+                //ListaObjetivosXPersona.Add(new ObjetivosXPersonaRDTO { nombreColaborador = Colaboradores[8].NombreCompleto, avance = 50 });
 
-                return Json(ListaObjetivosXPersona, JsonRequestBehavior.AllowGet); 
+                //return Json(ListaObjetivosXPersona, JsonRequestBehavior.AllowGet); 
             }
 
         }
