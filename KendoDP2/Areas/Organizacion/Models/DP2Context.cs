@@ -235,8 +235,8 @@ namespace KendoDP2.Models.Generic
             TablaPuestos.AddElement(new Puesto { Nombre = "Jefe de Ventas area 2", Descripcion = "Por ahí 14", AreaID = TablaAreas.One(a => a.Nombre.Equals("Ventas")).ID, PuestoSuperiorID = 3 });
             TablaPuestos.AddElement(new Puesto { Nombre = "Jefe de TI area 1", Descripcion = "Por ahí 15", AreaID = TablaAreas.One(a => a.Nombre.Equals("TI")).ID, PuestoSuperiorID = 4 });
             TablaPuestos.AddElement(new Puesto { Nombre = "Jefe de TI area 2", Descripcion = "Por ahí 16", AreaID = TablaAreas.One(a => a.Nombre.Equals("TI")).ID, PuestoSuperiorID = 4 });
-            TablaPuestos.AddElement(new Puesto { Nombre = "Jefe de márketing area 1", Descripcion = "Por ahí 17", AreaID = TablaAreas.One(a => a.Nombre.Equals("márketing")).ID, PuestoSuperiorID = 5 });
-            TablaPuestos.AddElement(new Puesto { Nombre = "Jefe de márketing area 2", Descripcion = "Por ahí 18", AreaID = TablaAreas.One(a => a.Nombre.Equals("márketing")).ID, PuestoSuperiorID = 5 });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Jefe de márketing area 1", Descripcion = "Por ahí 17", AreaID = TablaAreas.One(a => a.Nombre.Equals("Márketing")).ID, PuestoSuperiorID = 5 });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Jefe de márketing area 2", Descripcion = "Por ahí 18", AreaID = TablaAreas.One(a => a.Nombre.Equals("Márketing")).ID, PuestoSuperiorID = 5 });
             TablaPuestos.AddElement(new Puesto { Nombre = "Jefe de operaciones area 1", Descripcion = "Por ahí 19", AreaID = TablaAreas.One(a => a.Nombre.Equals("Operaciones")).ID, PuestoSuperiorID = 6 });
             TablaPuestos.AddElement(new Puesto { Nombre = "Jefe de operaciones area 2", Descripcion = "Por ahí 20", AreaID = TablaAreas.One(a => a.Nombre.Equals("Operaciones")).ID, PuestoSuperiorID = 6 });
             TablaPuestos.AddElement(new Puesto { Nombre = "Jefe de responsabilidad area 1", Descripcion = "Por ahí 21", AreaID = TablaAreas.One(a => a.Nombre.Equals("Responsabilidad social")).ID, PuestoSuperiorID = 7 });
