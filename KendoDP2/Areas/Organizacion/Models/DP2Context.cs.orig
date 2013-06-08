@@ -77,6 +77,7 @@ namespace KendoDP2.Models.Generic
         //private void SeedColaboradoresModuloTres()
         private void SeedColaboradorYPuestosModuloTres()
         {
+<<<<<<< HEAD
             TablaColaboradores.AddElement(new Colaborador { ID = 1,  Nombres = "Fortino Mario Alonso", ApellidoPaterno = "Moreno", ApellidoMaterno = "Reyes", Username = "admin", Password = "admin", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = TablaGradosAcademicos.One(x => x.Descripcion.Equals("Bachiller")),Roles=TablaRoles.All() });
             TablaColaboradores.AddElement(new Colaborador { ID = 2, Nombres = "Miguel", ApellidoPaterno = "Vega", ApellidoMaterno = "Buendía", Username = "mvega", Password = "mvega", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = TablaGradosAcademicos.One(x => x.Descripcion.Equals("Bachiller")), Roles = TablaRoles.All() });
             TablaColaboradores.AddElement(new Colaborador { ID = 3, Nombres = "Pako", ApellidoPaterno = "Sarmiento", ApellidoMaterno = "XXX", Username = "psarmiento", Password = "psarmiento", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = TablaGradosAcademicos.One(x => x.Descripcion.Equals("Bachiller")), Roles = TablaRoles.All() });
@@ -96,6 +97,55 @@ namespace KendoDP2.Models.Generic
             TablaColaboradores.AddElement(new Colaborador { ID = 17, Nombres = "Joao", ApellidoPaterno = "Chavez", ApellidoMaterno = "XXX", Username = "jchavez", Password = "jchavez", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, CorreoElectronico = "ktucto+RH@gmail.com", GradoAcademico = TablaGradosAcademicos.One(x => x.Descripcion.Equals("Bachiller")), Roles = TablaRoles.All() });
             TablaColaboradores.AddElement(new Colaborador { ID = 18, Nombres = "Carlos", ApellidoPaterno = "Lengua", ApellidoMaterno = "XXX", Username = "clengua", Password = "clengua", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = TablaGradosAcademicos.One(x => x.Descripcion.Equals("Bachiller")), Roles = TablaRoles.All() });
             TablaColaboradores.AddElement(new Colaborador { ID = 19, Nombres = "Juan", ApellidoPaterno = "Perez", ApellidoMaterno = "Fernández", Username = "jperez", Password = "jperez", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 });
+
+            Colaborador crios = new Colaborador { ID = 20, Nombres = "Carmen", ApellidoPaterno = "Rios", ApellidoMaterno = "De La Puente", Username = "crios", Password = "crios", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1, Roles = TablaRoles.All() };
+
+            crios.Objetivos = new List<Objetivo> { 
+                                        new Objetivo { Nombre = "Elaborar un plan de posgrado en administración", FechaFinalizacion = DateTime.Today.AddDays(7.0), Peso = 80, AvanceFinal = 10, TipoObjetivoBSCID = 1, BSCID = 1 },
+                                        new Objetivo { Nombre = "Participar en talleres de gestión del talento", FechaFinalizacion = DateTime.Today.AddDays(7.0), Peso = 20, AvanceFinal = 10, TipoObjetivoBSCID = 1, BSCID = 1 }
+                                        //new Objetivo { Nombre = "", FechaFinalizacion = DateTime.Today.AddDays(7.0), Peso = 10, AvanceFinal = 10 }
+            };
+
+
+            TablaColaboradores.AddElement(crios);
+
+            Colaborador jquintana = new Colaborador { ID = 21, Nombres = "Jimena", ApellidoPaterno = "Quintana", ApellidoMaterno = "Alvarado", Username = "jquintana", Password = "jquintana", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 };
+
+            jquintana.Objetivos = new List<Objetivo> { 
+                                        new Objetivo { Nombre = "Certificarme en gestión de proyectos", FechaFinalizacion = DateTime.Today.AddDays(7.0), Peso = 80, AvanceFinal = 10, TipoObjetivoBSCID = 1, BSCID = 1 },
+                                        new Objetivo { Nombre = "Participar en talleres de gestión del talento", FechaFinalizacion = DateTime.Today.AddDays(7.0), Peso = 20, AvanceFinal = 10, TipoObjetivoBSCID = 1 , BSCID = 1}
+            };
+
+            TablaColaboradores.AddElement(jquintana);
+
+            Colaborador rchavez = new Colaborador { ID = 22, Nombres = "Rodrigo", ApellidoPaterno = "Chavez", ApellidoMaterno = "Moreno", Username = "rchavez", Password = "rchavez", TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID, PaisID = 1, EstadosColaboradorID = 1 };
+
+            rchavez.Objetivos = new List<Objetivo>();
+
+            //Objetivo aumentarLasVentas = new Objetivo("Aumentar las ventas", 1, 50, 100); //100 es "no tiene padre"
+            Objetivo aumentarLasVentas = new Objetivo("Aumentar las ventas", 1, 50, this); //100 es "no tiene padre"
+            aumentarLasVentas.FechaFinalizacion = DateTime.Today.AddDays(7.0);
+            //aumentarLasVentas.IsAsignadoAPersona = true;
+            aumentarLasVentas.AvanceFinal = 10; //10%
+
+            //Objetivo reducirCostos = new Objetivo("Reducir los costos", 1, 25, 100);
+            Objetivo reducirCostos = new Objetivo("Reducir los costos", 1, 25, this);
+            reducirCostos.FechaFinalizacion = DateTime.Today.AddDays(7.0);
+            //reducirCostos.IsAsignadoAPersona = true;
+            reducirCostos.AvanceFinal = 10; //10%
+
+            //Objetivo ganarClientes = new Objetivo("Ganar nuevos clientes", 1, 25, 100);
+            Objetivo ganarClientes = new Objetivo("Ganar nuevos clientes", 1, 25, this);
+            ganarClientes.FechaFinalizacion = DateTime.Today.AddDays(7.0);
+            //ganarClientes.IsAsignadoAPersona = true;
+            ganarClientes.AvanceFinal = 10; //10%
+
+            rchavez.Objetivos.Add(aumentarLasVentas);
+            rchavez.Objetivos.Add(reducirCostos);
+            rchavez.Objetivos.Add(ganarClientes);
+
+            TablaColaboradores.AddElement(rchavez);        
+=======
 
             //modulo 3  - no tocar
 
@@ -126,6 +176,7 @@ namespace KendoDP2.Models.Generic
 
             TablaObjetivos.AddElement(new Objetivo());
         
+>>>>>>> 14340d7eacfc303d989eedc85359519530028bf3
         
         }
 
@@ -272,8 +323,13 @@ namespace KendoDP2.Models.Generic
 
         private void SeedColaboradorXPuesto()
         {
+<<<<<<< HEAD
             TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 1, Puesto=TablaPuestos.One(p=>p.ID==1), ColaboradorID = 2, Colaborador= TablaColaboradores.One(i=>i.ID==2), Sueldo = 2300, FechaIngresoPuesto = new DateTime(2010, 1, 1), FechaSalidaPuesto = DateTime.MaxValue, Comentarios = "Hizo una gran labor", IsEliminado = false });
+            TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 2, Puesto=TablaPuestos.One(p=>p.ID==2), ColaboradorID = 3, Colaborador = TablaColaboradores.One(i => i.ID == 3), Sueldo = 2500, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = DateTime.MaxValue, Comentarios = "Continua haciendo una gran labor", IsEliminado = false });
             TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 5, Puesto=TablaPuestos.One(p=>p.ID==5), ColaboradorID = 22, Colaborador = TablaColaboradores.One(i => i.ID == 23), Sueldo = 2000, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = DateTime.MaxValue, Comentarios = "Ninguno", IsEliminado = false });
+=======
+            TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 1, ColaboradorID = 2, Sueldo = 2300, FechaIngresoPuesto = new DateTime(2010, 1, 1), FechaSalidaPuesto = null, Comentarios = "Hizo una gran labor", IsEliminado = false });
+            TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 2, ColaboradorID = 3, Sueldo = 2500, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Continua haciendo una gran labor", IsEliminado = false });
             TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 3, ColaboradorID = 4, Sueldo = 2500, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Continua haciendo una gran labor", IsEliminado = false });
             TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 4, ColaboradorID = 5, Sueldo = 2500, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Continua haciendo una gran labor", IsEliminado = false });
             TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 5, ColaboradorID = 23, Sueldo = 2000, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Ninguno", IsEliminado = false });
@@ -320,6 +376,7 @@ namespace KendoDP2.Models.Generic
             //TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 11, ColaboradorID = 21, Sueldo = 2500, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Continua haciendo una gran labor", IsEliminado = false });
             //TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 11, ColaboradorID = 22, Sueldo = 2500, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Continua haciendo una gran labor", IsEliminado = false });
 
+>>>>>>> 14340d7eacfc303d989eedc85359519530028bf3
         }
 
 

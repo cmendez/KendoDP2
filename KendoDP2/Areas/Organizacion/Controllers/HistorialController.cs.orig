@@ -26,7 +26,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         public ActionResult Index()
         {
             using (DP2Context context = new DP2Context())
-            {
+            {    
                 ViewBag.areas = context.TablaAreas.All().Select(p => p.ToDTO()).ToList();
                 ViewBag.puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).ToList();
                 return View();

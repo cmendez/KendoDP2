@@ -65,6 +65,8 @@ namespace KendoDP2.Models.Generic
             TablaObjetivos.AddElement(new Objetivo("Objetivo Formación 2", 1, 2, presidente.ID, 50, this));
             TablaObjetivos.AddElement(new Objetivo("Objetivo Formación 1.1", TablaObjetivos.One(d => d.Nombre.Equals("Objetivo Formación 1")).ID, 50, this));
             TablaObjetivos.AddElement(new Objetivo("Objetivo Formación 1.2", TablaObjetivos.One(d => d.Nombre.Equals("Objetivo Formación 1")).ID, 50, this));
+           
+       
         }
     }
 }

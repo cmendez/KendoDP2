@@ -40,9 +40,7 @@ namespace KendoDP2.Models.Generic
             SeedPuestos();
             SeedOrganizacion();
             // Area Seguridad
-            SeedSidebarNavigator();
             SeedRoles();
-            SeedUsuarios();
             // Area Evaluacion360
             SeedPerfiles();
             SeedCompetencias();
@@ -85,7 +83,7 @@ namespace KendoDP2.Models.Generic
             SeedEstadoEvento();
             SeedTiposEventos();
             SeedEvento();
-            SeedInvitado();
+            //SeedInvitado();
         }
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

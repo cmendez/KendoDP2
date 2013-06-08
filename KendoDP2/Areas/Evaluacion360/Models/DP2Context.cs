@@ -90,6 +90,7 @@ namespace KendoDP2.Models.Generic
 
         private void SeedCapacidad()
         {
+      
             // COMPETENCIA 1
                 // nivel 1
                 TablaCapacidades.AddElement(new Capacidad("Trabaja sin necesidad de supervisión directa. ", 1, 1, 30));
