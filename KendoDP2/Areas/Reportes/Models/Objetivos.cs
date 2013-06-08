@@ -60,6 +60,7 @@ namespace KendoDP2.Areas.Reportes.Models
         public int numPersonas { get; set; }
         public int avance { get; set; }
         public int hijos { get; set; }
+        public int peso { get; set; }
         public bool esIntermedio { get; set; }
 
         public ObjetivoRDTO(Objetivo o,DP2Context context)
@@ -77,7 +78,7 @@ namespace KendoDP2.Areas.Reportes.Models
                     if (obj.ObjetivoPadreID == o.ID) numPersonas += 1; 
                 }
             }
-                
+            peso = o.Peso;
             hijos = o.ObjetivosHijos.Count;            
             avance = o.AvanceFinal;
             esIntermedio = o.IsObjetivoIntermedio;
@@ -91,20 +92,13 @@ namespace KendoDP2.Areas.Reportes.Models
         }
     }
 
-    public class ObjetivosXPersonaRDTO
+    public class PersonaXObjetivoDTO
     {
         public int avance { get; set; }
        
         public string nombreColaborador { get; set; }
 
-        public ObjetivosXPersonaRDTO()
-        {
-        }
-
-        public ObjetivosXPersonaRDTO(int idcol)
-        {
-            
-        }
+        public int idObjetivo { get; set; }
     }
 
     public class BSCAvanceDTO
