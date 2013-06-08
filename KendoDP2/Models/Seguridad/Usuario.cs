@@ -13,13 +13,15 @@ namespace KendoDP2.Models.Seguridad
 
         public virtual List<Rol> Roles { get; set; }
 
-        public Usuario(string username, string password, Rol rol)
+        public Usuario(string username, string password, IList<Rol> roles)
         {
             Username = username;
             Password = password;
             Roles = new List<Rol>();
-            Roles.Add(rol);
-            rol.Usuarios.Add(this);
+            foreach(Rol r in roles)
+            {
+                Roles.Add(r);
+            }
         }
 
         public UsuarioDTO ToDTO()
@@ -30,6 +32,20 @@ namespace KendoDP2.Models.Seguridad
         public Usuario()
         {
         }
+
+        public Usuario(UsuarioDTO dto)
+        {
+            LoadFromDTO(dto);
+        }
+
+        public Usuario LoadFromDTO(UsuarioDTO dto)
+        {
+            ID = dto.ID;
+            IsEliminado = dto.IsEliminado;
+            Password = dto.Password;
+            Username = dto.Username;
+            return this;
+        }
     }
 
     public class UsuarioDTO
@@ -37,13 +53,22 @@ namespace KendoDP2.Models.Seguridad
         public string Username { get; set; }
         public string Password { get; set; }
         public int ID { get; set; }
-        
+        public bool IsEliminado { get; set; }
+        public List<RolDTO> Roles { get; set; }
+
         public UsuarioDTO() { }
         
         public UsuarioDTO(Usuario u)
         {
             Username = u.Username;
             Password = u.Password;
+            IsEliminado=u.IsEliminado;
+            Roles = new List<RolDTO>();
+            foreach(Rol r in u.Roles)
+            {
+                RolDTO rr = new RolDTO(r);
+                Roles.Add(rr);
+            }
             ID = u.ID;
         }
     }

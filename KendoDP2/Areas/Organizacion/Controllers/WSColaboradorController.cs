@@ -66,7 +66,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                     return JsonErrorGet("Error: " + ex.Message);
                 }
             }
-            
+
         }
 
         public JsonResult tieneJefe(string colaboradorID)
@@ -76,10 +76,10 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 try
                 {
                     Puesto puestoUltimo = context.TablaColaboradoresXPuestos
-                        .One(x =>   (x.ColaboradorID == Convert.ToInt32(colaboradorID)) && 
+                        .One(x => (x.ColaboradorID == Convert.ToInt32(colaboradorID)) &&
                                     (!x.FechaSalidaPuesto.HasValue))
                         .Puesto;
-                    return puestoUltimo.PuestoSuperiorID.HasValue ? 
+                    return puestoUltimo.PuestoSuperiorID.HasValue ?
                         JsonSuccessGet(true) : JsonSuccessGet(false);
                 }
                 catch (Exception ex)
@@ -97,11 +97,11 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 {
                     // Obtengo el ID de mi jefe
                     int puestoSuperiorID = context.TablaColaboradoresXPuestos
-                        .One(x =>   x.ColaboradorID == Convert.ToInt32(colaboradorID) && 
+                        .One(x => x.ColaboradorID == Convert.ToInt32(colaboradorID) &&
                                     !x.FechaSalidaPuesto.HasValue)
                         .Puesto.PuestoSuperiorID.GetValueOrDefault();
                     ColaboradorXPuesto cxpInicial = context.TablaColaboradoresXPuestos
-                        .One(x =>   x.PuestoID == puestoSuperiorID && 
+                        .One(x => x.PuestoID == puestoSuperiorID &&
                                     !x.FechaSalidaPuesto.HasValue);
                     Colaborador colaboradorNivel1;
                     List<Puesto> puestosNivel2;
@@ -116,7 +116,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                     {
                         colaboradorNivel1 = context.TablaColaboradores.FindByID(Convert.ToInt32(colaboradorID));
                         int puestoColaboradorID = context.TablaColaboradoresXPuestos
-                            .One(x =>   x.ColaboradorID == Convert.ToInt32(colaboradorID) &&
+                            .One(x => x.ColaboradorID == Convert.ToInt32(colaboradorID) &&
                                         !x.FechaSalidaPuesto.HasValue)
                             .Puesto.ID;
                         puestosNivel2 = context.TablaPuestos.Where(x => x.PuestoSuperiorID == puestoColaboradorID);
@@ -125,18 +125,18 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                     foreach (var puesto in puestosNivel2)
                     {
                         ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos
-                            .One(x =>   x.PuestoID == puesto.ID && 
+                            .One(x => x.PuestoID == puesto.ID &&
                                         !x.FechaSalidaPuesto.HasValue);
-                        if(cxp == null) continue;
+                        if (cxp == null) continue;
                         Colaborador colaboradorNivel2 = cxp.Colaborador;
                         List<Puesto> puestosNivel3 = context.TablaPuestos.Where(x => x.PuestoSuperiorID == puesto.ID);
                         List<ColaboradorDTO> colaboradoresNivel3 = new List<ColaboradorDTO>();
                         foreach (var puesto2 in puestosNivel3)
                         {
                             cxp = context.TablaColaboradoresXPuestos
-                                .One(x =>   x.PuestoID == puesto2.ID && 
+                                .One(x => x.PuestoID == puesto2.ID &&
                                             !x.FechaSalidaPuesto.HasValue);
-                            if(cxp == null) continue;
+                            if (cxp == null) continue;
                             Colaborador colaboradorNivel3 = cxp.Colaborador;
                             ColaboradorDTO colaboradorNivel3DTO = new ColaboradorDTO(colaboradorNivel3);
                             colaboradoresNivel3.Add(colaboradorNivel3DTO);

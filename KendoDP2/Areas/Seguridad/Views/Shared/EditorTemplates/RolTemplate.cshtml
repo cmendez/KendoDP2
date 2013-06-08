@@ -1,0 +1,35 @@
+﻿@*@model Helena.Areas.Campanas.Models.CampanaView
+@using Helena.Areas.Campanas.Models     
+@using Telerik.Web.Mvc.UI*@
+
+
+
+
+@using (Html.BeginForm())
+{ 
+    @Html.ValidationSummary(true)
+    <fieldset>    
+        <legend></legend>   
+        <div class="editor-label">
+        @Html.LabelFor(model => model.)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.NombreCampana)
+            @Html.ValidationMessageFor(model => model.NombreCampana)
+        </div>
+        <div class="editor-label">
+        @Html.LabelFor(model => model.Descripcion)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Descripcion)
+            @Html.ValidationMessageFor(model => model.Descripcion)
+        </div>
+        <div class="editor-label">
+        @Html.LabelFor(model => model.Estado)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.Estado)
+            @Html.ValidationMessageFor(model => model.Estado)
+        </div>
+    </fieldset>
+}
