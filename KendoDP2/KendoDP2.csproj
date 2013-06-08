@@ -295,7 +295,9 @@
     <Compile Include="Areas\Reportes\Models\RCubrimientoOfertas.cs" />
     <Compile Include="Areas\Reportes\ReportesAreaRegistration.cs" />
     <Compile Include="Areas\Seguridad\Controllers\RolesController.cs" />
+    <Compile Include="Areas\Seguridad\Controllers\UsuariosController.cs" />
     <Compile Include="Areas\Seguridad\Controllers\WSUsuariosController.cs" />
+    <Compile Include="Areas\Seguridad\Models\Area.cs" />
     <Compile Include="Areas\Seguridad\Models\DP2Context.cs" />
     <Compile Include="Areas\Seguridad\SeguridadAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -1904,6 +1906,8 @@
     <Content Include="Areas\Eventos\Views\Web.config" />
     <Content Include="Areas\Evaluacion360\Views\Evaluacion\GuardarEvaluacion.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\Subordinados\Index.cshtml" />
+    <Content Include="Areas\Seguridad\Views\Usuarios\Index.cshtml" />
+    <Content Include="Areas\Seguridad\Views\Roles\UsuarioRoles.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesExternas\Index.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesExternas\ListaPostulantesExternos.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesExternas\PostulantesExternosFase1.cshtml" />
@@ -2075,7 +2079,6 @@
     <Folder Include="Areas\Personal\Views\Colaboradores\" />
     <Folder Include="Areas\Personal\Views\Shared\EditorTemplates\" />
     <Folder Include="Areas\Reportes\Views\Shared\" />
-    <Folder Include="Areas\Seguridad\Views\Shared\" />
     <Folder Include="Content\assets\plugins\jquery-file-upload\server\php\files\thumbnail\" />
   </ItemGroup>
   <ItemGroup>
