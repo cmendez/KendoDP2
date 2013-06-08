@@ -77,12 +77,10 @@ var Calendar = function () {
 
             //predefined events
             $('#event_box').html("");
-            addEvent("My Event 1");
-            addEvent("My Event 2");
-            addEvent("My Event 3");
-            addEvent("My Event 4");
-            addEvent("My Event 5");
-            addEvent("My Event 6");
+            addEvent("Evento 1");
+            addEvent("Evento 2");
+            addEvent("Evento 3");
+            
 
             $('#calendar').html("");
             $('#calendar').fullCalendar({

@@ -9,8 +9,6 @@
     
 }
 
-@using (Html.BeginForm())
-{
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     
@@ -18,7 +16,7 @@
         <div class="row-fluid">
             <!-- contenedor superior izquierdo: campos -->
             @Html.Label("Cuenta de Usuario:", new { style = "font-weight: bold;" })
-
+            @Html.HiddenFor(m => m.ID)
             <div class="space10"></div>
 
             <div class="span7">
@@ -40,7 +38,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.Contrasenha)
+                            @Html.PasswordFor(model => model.Contrasenha)
                             @Html.ValidationMessageFor(model => model.Contrasenha)
                         </div>
                     </div>
@@ -52,7 +50,7 @@
                     </div>
                     <div class="span7">
                         <div class="editor-field" style="width: 100%; text-align: left;">
-                            @Html.EditorFor(model => model.NuevaContrasenha)
+                            @Html.PasswordFor(model => model.NuevaContrasenha)
                             @Html.ValidationMessageFor(model => model.NuevaContrasenha)
                         </div>
                     </div>
@@ -62,4 +60,24 @@
 
         </div>
         </div>
-}        
+    <div class="submit-btn">
+                                                   <a href="javascript:CambiarPassword()" class="btn green">Guardar</a>
+                                                </div>
+
+<script type="text/javascript">
+    function CambiarPassword(){
+        var p1 = $("#Contrasenha");
+        var p2 = $("#NuevaContrasenha");
+        $.ajax(
+            {
+                type: "POST",
+                dataType : 'JSON',
+                url: '@Url.Action("CambiarContrasenha", "Intranet", new { Area = "Organizacion"})',
+                data: { colaboradorID: $("#ID").val(), pass1: p1.val(), pass2: p2.val() },
+                success: function (e) {
+                    alert(e.mensaje);
+                }
+            }
+            );
+    }
+</script>

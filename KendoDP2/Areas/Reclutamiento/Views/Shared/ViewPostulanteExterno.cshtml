@@ -1,0 +1,149 @@
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Reclutamiento.Models
+@using KendoDP2.Areas.Configuracion.Models
+@using KendoDP2.Areas.Organizacion.Models
+@using KendoDP2.Areas.Evaluacion360.Models
+
+@model KendoDP2.Areas.Reclutamiento.Models.OfertaLaboralXPostulanteDTO
+@{
+    TipoDocumentoDTO tipoDocumento = ViewBag.tipoDocumento;
+    GradoAcademicoDTO gradoAcademic = ViewBag.gradoAcademico;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    
+    <div style="width: 900px;">
+        <div class="row-fluid">
+            <!-- contenedor superior izquierdo: campos -->
+            <div class="span9">
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Postulante.NombreCompleto)</div>
+                    </div>
+                    <div class="span7 responsive">
+                        @Html.TextBoxFor(model => model.Postulante.NombreCompleto, new { @readonly = "readonly" })
+
+                    </div>
+                </div>
+
+                                
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.PuntajeTotal)</div>
+                    </div>
+                    <div class="span7 responsive">
+                        @Html.TextBoxFor(model => model.PuntajeTotal, new { @readonly = "readonly" })
+
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Postulante.TipoDocumentoID)</div>
+                    </div>
+                    <div class="span7 responsive">
+                        @Html.TextBox("TipoDocumento", tipoDocumento.Descripcion, new { @readonly = "readonly" })
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Postulante.NumeroDocumento)</div>
+                    </div>
+                    <div class="span7">
+                        <div class="editor-field" style="width: 100%; text-align: left;">
+                            @Html.TextBoxFor(model => model.Postulante.NumeroDocumento, new { @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+
+             
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Postulante.CorreoElectronico)</div>
+                    </div>
+                    <div class="span7">
+                        <div class="editor-field" style="width: 100%; text-align: left;">
+                            @Html.TextBoxFor(model => model.Postulante.CorreoElectronico, new { @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Postulante.CentroEstudios)</div>
+                    </div>
+                    <div class="span7">
+                        <div class="editor-field" style="width: 100%; text-align: left;">
+                            @Html.TextBoxFor(model => model.Postulante.CentroEstudios, new { @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Postulante.GradoAcademicoID)</div>
+                    </div>
+                    <div class="span7 responsive">
+                        @Html.TextBox("GradoAcademico", gradoAcademic.Descripcion, new { @readonly = "readonly" })
+                    </div>
+                </div>
+
+            <div class="row-fluid">
+                <div class="span5">
+                    <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Postulante.CurriculumVitaeID)</div>
+                    <a href="#" id="bajar-cv-anchor" class="hidden" target="_blank"></a>
+                </div>
+                <div class="span7">
+                @Html.HiddenFor(m => m.Postulante.CurriculumVitaeID)
+                 <a href="javascript:bajarCV();">Descargar Curriculum</a>
+                 </div>
+            </div>
+
+                
+             <div class="row-fluid">
+                    <div class="span5">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.Observaciones)</div>
+                    </div>
+                    <div class="span7 responsive">
+                        @Html.TextAreaFor(model => model.Observaciones, new { @readonly = "readonly" })
+                    </div>
+             </div>
+
+
+            
+             </div>
+            <!-- fin contenedor superior izquierdo: campos -->
+            <!-- contenedor superior derecho: Datos -->
+            
+            <!-- fin contenedor superior derecho: foto -->
+        </div>
+    </div>
+    
+    
+    
+    <!-- fin contenedor inferior: campos -->
+
+ 
+    
+    
+    <script>
+        var cvID = @Model.Postulante.Colaborador.CurriculumVitaeID;
+        function bajarCV() {
+            if (cvID == '0' || cvID == 0)
+                alert("No hay ningun curriculum registrado");
+            else {
+                $("#bajar-cv-anchor").attr("href", "/Organizacion/Colaboradores/BajarCurriculum?curriculumVitaeID=" + cvID);
+                $("a#bajar-cv-anchor")[0].click();
+            }
+        }
+    </script>
+    
+   
+
+}
+

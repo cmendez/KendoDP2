@@ -97,7 +97,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 {
                     // Obtengo el ID de mi jefe
                     int puestoSuperiorID = context.TablaColaboradoresXPuestos
-                        .One(x => x.ColaboradorID == Convert.ToInt32(colaboradorID) &&
+                        .One(x =>   x.ColaboradorID == Convert.ToInt32(colaboradorID) && 
                                     !x.FechaSalidaPuesto.HasValue)
                         .Puesto.PuestoSuperiorID.GetValueOrDefault();
                     ColaboradorXPuesto cxpInicial = context.TablaColaboradoresXPuestos
@@ -125,7 +125,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                     foreach (var puesto in puestosNivel2)
                     {
                         ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos
-                            .One(x => x.PuestoID == puesto.ID &&
+                                                        .One(x =>   x.PuestoID == puesto.ID && 
                                         !x.FechaSalidaPuesto.HasValue);
                         if (cxp == null) continue;
                         Colaborador colaboradorNivel2 = cxp.Colaborador;
@@ -145,7 +145,6 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                         colaboradoresNivel2.Add(colaboradorNivel2DTO);
                     }
                     ColaboradorDTO colaboradorNivel1DTO = new ColaboradorDTO(colaboradorNivel1, colaboradoresNivel2);
-
                     return JsonSuccessGet(new { jefe = colaboradorNivel1DTO });
                 }
                 catch (Exception ex)

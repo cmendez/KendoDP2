@@ -605,3 +605,19 @@ var App = function () {
     };
 
 }();
+
+function handleError(response, message_on_success) {
+    if (response.Errors) {
+        var message = "Errores:\n";
+        $.each(response.Errors, function (key, value) {
+            if ('errors' in value) {
+                $.each(value.errors, function () {
+                    message += this + "\n";
+                });
+            }
+        });
+        alert(message);
+    } else if (message_on_success && message_on_success.length > 0) {
+        alert(message_on_success);
+    }
+}

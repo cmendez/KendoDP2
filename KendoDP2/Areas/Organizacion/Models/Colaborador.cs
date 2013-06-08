@@ -7,10 +7,12 @@ using KendoDP2.Areas.Configuracion.Models;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using KendoDP2.Areas.Evaluacion360.Models;
+using KendoDP2.Areas.Organizacion.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 using KendoDP2.Models.Generic;
 using KendoDP2.Areas.Eventos.Models;
 using System.Reflection;
+
 
 namespace KendoDP2.Areas.Organizacion.Models
 {
@@ -24,17 +26,16 @@ namespace KendoDP2.Areas.Organizacion.Models
         public string FechaSalidaEmpresa { get; set; }
 
         public virtual ICollection<Objetivo> Objetivos { get; set; }
+
         
         public virtual ICollection<ColaboradorXPuesto> ColaboradoresPuesto { get; set; }
 
         public virtual ICollection<ColaboradorXProcesoEvaluacion> ColaboradorXProcesoEvaluaciones { get; set; }
 
-        public virtual ICollection<Evaluador> OcurrenciasComoEvaluador { get; set; }
-
         public int EstadosColaboradorID { get; set; }
         public virtual EstadosColaborador EstadoColaborador { get; set; }
 
-        public int PaisID { get; set; }
+        public int? PaisID { get; set; }
         public virtual Pais Pais { get; set; }
 
         public int ImagenColaboradorID { get; set; }
@@ -43,6 +44,8 @@ namespace KendoDP2.Areas.Organizacion.Models
         public virtual ICollection<Contactos> EsContactoDe { get; set; }
         [InverseProperty("Colaborador")]
         public virtual ICollection<Contactos> Contactos { get; set; }
+
+        public virtual ICollection<Colaborador> ListaContactos { get; set; }
 
         public string ResumenEjecutivo { get; set; }
 
@@ -77,7 +80,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             ApellidoMaterno = c.ApellidoMaterno;
             Direccion = c.Direccion;
             Telefono = c.Telefono;
-            PaisID = c.PaisID;
+            if(c.PaisID > 0) PaisID = c.PaisID;
             GradoAcademicoID = c.GradoAcademicoID;
             EstadosColaboradorID = c.EstadoColaboradorID;
             TipoDocumentoID = c.TipoDocumentoID;
@@ -89,7 +92,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             ResumenEjecutivo = c.ResumenEjecutivo;
             ImagenColaboradorID = c.ImagenColaboradorID;
             CurriculumVitaeID = c.CurriculumVitaeID;
-           
+            
             return this;
         }
 
@@ -163,6 +166,7 @@ namespace KendoDP2.Areas.Organizacion.Models
 
         [DisplayName("Centro de estudios")]
         [StringLength(100)]
+        [Required]
         public string CentroEstudios { get; set; }
 
         [DisplayName("Grado Académico")]
@@ -207,6 +211,8 @@ namespace KendoDP2.Areas.Organizacion.Models
 
         public List<ColaboradorDTO> Subordinados { get; set; }
 
+        public List<ContactosDTO> Contactos { get; set; }
+      
         public ColaboradorDTO() { }
 
         public ColaboradorDTO(Colaborador c, List<ColaboradorDTO> listac = null)
@@ -214,7 +220,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             NombreCompleto = c.ApellidoPaterno + " " + c.ApellidoMaterno + ", " + c.Nombres;
             ID = c.ID;
             GradoAcademicoID = c.GradoAcademicoID.GetValueOrDefault();
-            PaisID = c.PaisID;
+            PaisID = c.PaisID.GetValueOrDefault();
             Nombre = c.Nombres;
             ApellidoPaterno = c.ApellidoPaterno;
             ApellidoMaterno = c.ApellidoMaterno;
@@ -231,10 +237,12 @@ namespace KendoDP2.Areas.Organizacion.Models
             FechaIngreso = c.FechaIngresoEmpresa;
             ResumenEjecutivo = c.ResumenEjecutivo;
 
+            Usuario = c.Username;
+
             Subordinados = listac;
 
             try {
-                ColaboradorXPuesto cruce = c.ColaboradoresPuesto. OrderByDescending(a => a.ID).First();
+                ColaboradorXPuesto cruce = c.ColaboradoresPuesto.OrderByDescending(a => a.ID).First();
                 AreaID = cruce.Puesto.AreaID;
                 Area = cruce.Puesto.Area.Nombre;
                 PuestoID = cruce.Puesto.ID;
@@ -253,11 +261,13 @@ namespace KendoDP2.Areas.Organizacion.Models
             {
                 //Objetivos = c.Objetivos.Select(o => o.ToDTO()).ToList();
                 Objetivos = c.Objetivos.Select(o => o.ToDTO(new DP2Context())).ToList();
+                Contactos = c.Contactos.Select(o => o.ToDTO()).ToList();
             }
             catch (Exception)
             {
                 //Objetivos no se han cargado
                 Objetivos = new List<ObjetivoDTO>();
+                Contactos = new List<ContactosDTO>();
             }
 
 

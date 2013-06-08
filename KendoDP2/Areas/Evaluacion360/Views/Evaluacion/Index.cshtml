@@ -5,39 +5,47 @@
     ViewBag.Title = "Evaluación";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ColaboradorDTO evaluado = ViewBag.evaluado;
-     
+    int tablaEvaluadoresID = ViewBag.instanciaEvaluadores;
+    String today = DateTime.Now.ToString("yyyy-MM-dd");
 }
 
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Evaluación", "Rinda sus evaluaciones asignadas."));}
 
 <script type="text/x-kendo-tmpl" id="template">
-    <div>
-       <dl>
-         <dt>Peso: </dt> <dd>#:Peso#</dd>
-         <dt>Capacidad: </dt> <dd>#:Nombre#</dd>
-         <dd><!--<input type="checkbox" data-bind="value:#:Nombre#" name="Nombre" required="required" />-->
-            <div class="row-fluid">
-                <!--<ul class="unstyled inline">
-                    <li><a title="Muy Malo" onClick="reply_click(#:Peso#)"><i class="icon-star"></i></a></li>
-                    <li><a title="Malo"><i class="icon-star"></i></a></li>
-                    <li><a title="Bueno"><i class="icon-star"></i></a></li>
-                    <li><a title="Muy Bueno"><i class="icon-star"></i></a></li>
-                    <li><a title="Excelente"><i class="icon-star"></i></a></li>
-                </ul> -->
-                <span class="rating">
-                    <span class="star"></span>
-                    <span class="star"></span>
-                    <span class="star"></span>
-                    <span class="star"></span>
-                    <span class="star"></span>
-                </span>
-            </div>
-        </dd>
-       </dl>
-      
-     </div>
+    <table class="table table-hover table-striped table-bordered" >
+        <tbody>
+            <tr>
+                <td>
+                    <div class="span3 responsive">
+                        <dl>
+                            <dt>Capacidad: </dt> <dd>#:TextoPregunta#</dd>        
+                        </dl>
+                    </div>
+                </td>
+                <td style="width: 200px">
+                    <div class="span3 responsive" id="estadoCalificacion__#:ID#" style="display:none; padding-top: 20px;">
+                        <a class = "btn red icn-only mini" onClick="MostrarRating(#:ID#)"><i class="icon-pencil icon-white"></i></a>
+                    </div>
+                    <div class="row-fluid"   id="rating__#:ID#" style="padding-top: 20px;">
+                        <span class="rating">
+                            <span class="star" id="strella1__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 100, #:Peso#, rating__#:ID#)"></span>
+                            <span class="star" id="strella2__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 80, #:Peso#, rating__#:ID#)"></span>
+                            <span class="star" id="strella3__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 60, #:Peso#, rating__#:ID#)"></span>
+                            <span class="star" id="strella4__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 40, #:Peso#, rating__#:ID#)"></span>
+                            <span class="star" id="strella5__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 20, #:Peso#, rating__#:ID#)"></span>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+     </table>
 </script>
-
+<style>
+ .selectedS {
+  
+  color: red;
+}
+</style>
 <div class="portlet box green">
      <div class="portlet-title">
         <h4><i class="icon-reorder"></i>Procesos de evaluación</h4>
@@ -46,29 +54,30 @@
         </div>
 	</div>
      <div class="portlet-body">
-        <div>
-            <a class="k-button k-button-icontext k-add-button" href="@Url.Action("GuardarEvaluacion", "Evaluacion")"><span class="k-icon k-add"></span>Terminar evaluación</a>
-        </div>  
-        <h5> Datos del evaluado </h5>
+        <h5> Datos del evaluado: </h5>
         <div class="k-pager-wrap">
             <div class="row-fluid">
-                <div class="span8 profile-info">
+                <div class="span3" id="divImagenColaborador" style="text-align: center;">
+                    <img id="imagenColaborador" src="http://localhost:2642/Organizacion/Colaboradores/ViewImageDeColaborador?colaboradorID=@evaluado.ID"  width="150" height="80">
+                </div>
+                <div class="span3 profile-info">
                     <h3>@evaluado.NombreCompleto</h3>
-                    <p>@evaluado.Puesto</p>
-                    <p>@evaluado.Area</p>
+                    
+                    <span><strong>Área: </strong> <em>@evaluado.Area</em><br>
+                    <strong>Puesto: </strong> <em>@evaluado.Puesto</em></span>
                     <ul class="unstyled inline">
-                        <li><i class="icon-calendar"></i> @evaluado.FechaIngreso</li>
-                        <li><i class="icon-map-marker"></i> </li>
-                        <li><i class="icon-star"></i> Cantinflas </li>
+                        <li><i class="icon-calendar"></i><strong> Desde: </strong>@(evaluado.FechaIngreso != null?evaluado.FechaIngreso: "-- " ) </li>
+                        <li><i class="icon-calendar"></i><strong> Hasta: </strong>@today </li>
                     </ul>
                 </div>
-                <!--end span8-->
+                <!--end span8--> 
+              
             </div>
             <!--end row-fluid-->
         </div>
          <!--end k-pager-wrap-->
 
-         Aquí se listan las preguntas...
+         <h5> Contenido de evaluación: </h5> 
 
         @(Html.Kendo().ListView<Capacidad>()
             .Name("Evaluacion")
@@ -77,25 +86,36 @@
             .DataSource(dataSource => dataSource
                 .Model(model => { model.Id(p => p.ID); }) @*model => model.Id("ID"))*@
                 .PageSize(6)
-                //.Create(create => create.Action("Editing_Create", "ListView"))
-                .Read(read => read.Action("Editing_ReadCapEvaluacion", "ProcesoEvaluacion" ))
-                //.Update(update => update.Action("Editing_Update", "ListView"))
-                //.Destroy(destroy => destroy.Action("Editing_Destroy", "ListView"))
+                .Read(read => read.Action("Editing_ReadCapEvaluacion", "ProcesoEvaluacion" ,  new { puestoID= evaluado.PuestoID, tablaEvaluadoresID = tablaEvaluadoresID }))
             )
             .Pageable()
             .Editable()
-            
         )
-         
+        <div> <!-- k-button k-button-icontext k-add-button-->
+            <a class="btn green" href="@Url.Action("GuardarEvaluacion", "Evaluacion", new { tablaEvaluadoresID= tablaEvaluadoresID})"><span class="icon-ok"></span>Terminar evaluación</a>
+        </div>
     </div>  
+   
 </div>
 
 <script type="text/javascript">
+    function MostrarRating(id) {
+        $("#rating__"+id).css("display", "block");
+        $("#estadoCalificacion__"+id).css("display", "none");
+    }
 
-    $(document).ready(function () {
-        $(".star").click(function (evt) {
-   
+    function GuardarPuntuacionPorPregunta(preguntaIDParam, puntuacion, peso, idElem) {
+        var puntuacionParam = puntuacion*peso;
+        $.ajax({
+           url: '@Url.Action("GuardarPuntuacionPregunta", "ProcesoEvaluacion", new { Area = "Evaluacion360"})',
+            dataType: 'JSON',
+            type: 'POST',
+            data: { preguntaID : preguntaIDParam, puntuacion : puntuacionParam },
+            success: function(response) {
+                $("#rating__" + preguntaIDParam).css("display", "none");
+                $("#estadoCalificacion__" + preguntaIDParam).css("display", "block");
+            }
         });
-            
-    });
+    }
+
 </script>

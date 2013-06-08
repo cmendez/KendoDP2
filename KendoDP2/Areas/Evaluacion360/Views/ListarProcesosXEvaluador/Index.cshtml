@@ -31,17 +31,13 @@
                     columns.ForeignKey((p => p.AutorizadorID), lista);
                     columns.ForeignKey(p => p.EstadoProcesoEvaluacionID, new SelectList(estados, "ID", "Descripcion")).Visible(true);
 
-                    
-                    columns.Template(@<text></text>).Title("Proceso").ClientTemplate(
+
+                    columns.Template(@<text></text>).Title("Detalle").ClientTemplate(
                         "<a class='k-button' href='" + Url.Action("ListarEvaluados", "ListarProcesosXEvaluador") + "?procesoEvaluacionID=#=ID#'>Detalle</a>");
-                    
- 
-                    columns.Template(@<text></text>).Title("Resultados").ClientTemplate(
-                        "<a class='k-button' href='" + Url.Action("Resultados", "ListarProcesosXEvaluador") + "?procesoEvaluacionID=#=ID#'>Resultados de evaluacion</a>");
-                        
-                        } 
+
+                }
             )
-            
+
             .Pageable(paper => paper.Refresh(true))
             .Filterable()
             .Sortable()
@@ -50,8 +46,8 @@
                 .Ajax()
                 .PageSize(20)
                 .ServerOperation(false)
-                .Model(model => { model.Id(p => p.ID); })                
-                .Read(read => read.Action("Read", "ListarProcesosXEvaluador"))           
+                .Model(model => { model.Id(p => p.ID); })
+                .Read(read => read.Action("Read", "ListarProcesosXEvaluador"))
             )
         )
     </div>
