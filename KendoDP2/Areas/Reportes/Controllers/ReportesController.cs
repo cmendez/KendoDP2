@@ -18,76 +18,60 @@ namespace KendoDP2.Areas.Reportes.Controllers
         //
         // GET: /Reportes/Reportes/
 
-        public ActionResult ListarObjetivosXPadre(int PadreId)
-        {
-            using (DP2Context context = new DP2Context())
-            {
-                //List<ObjetivoDTO> ListaObjetivosDTO = context.TablaObjetivos.All().Select(p => p.ToDTO(context)).ToList();
-                List<ObjetivoRDTO> ListaObjetivosR = context.TablaObjetivos.Where(o => o.ObjetivoPadreID ==PadreId).Select(p => p.ToRDTO(context)).ToList();
-                foreach (ObjetivoRDTO obj in ListaObjetivosR){
-                    obj.hijos = context.TablaObjetivos.Where(o=> o.ObjetivoPadreID == obj.idObjetivo).Select(p => p.ToRDTO(context)).ToList().Count;
-                }
-                //return Json(ListaObjetivos, JsonRequestBehavior.AllowGet);
-                return Json(ListaObjetivosR, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-
-        public ActionResult ListarObjetivos(int idperiodo)
-        {
-            using (DP2Context context = new DP2Context())
-            {
-                List<ObjetivoRDTO> ListaObjetivos = new List<ObjetivoRDTO>();
-
-                ObjetivoRDTO ob1 = new ObjetivoRDTO();
-                ob1.idObjetivo = 1;
-                ob1.descripcion = "Objetivo1";
-                ListaObjetivos.Add(ob1);
-
-                ObjetivoRDTO ob2 = new ObjetivoRDTO();
-                ob2.idObjetivo = 1;
-                ob2.descripcion = "Objetivo2";
-                ListaObjetivos.Add(ob2);
-
-                ObjetivoRDTO ob3 = new ObjetivoRDTO();
-                ob3.idObjetivo = 3;
-                ob3.descripcion = "Objetivo3";
-                ListaObjetivos.Add(ob3);
-
-                ObjetivoRDTO ob4 = new ObjetivoRDTO();
-                ob4.idObjetivo = 4;
-                ob4.descripcion = "Objetivo4";
-                ListaObjetivos.Add(ob4);
-
-                //TablaObjetivos.AddElement(new Objetivo { Nombre = "Objetivo Financiero 1", TipoObjetivoBSCID = 1, Peso = 50, FechaCreacion = DateTime.Now, Creador = TablaColaboradores.FindByID(1) });
-                //TablaObjetivos.AddElement(new Objetivo { Nombre = "Objetivo Financiero 2", TipoObjetivoBSCID = 1, Peso = 50, FechaCreacion = DateTime.Now, Creador= TablaColaboradores.FindByID(1) });
-                //TablaObjetivos.AddElement(new Objetivo { Nombre = "Objetivo Financiero 1.1", TipoObjetivoBSCID = 1, Peso = 50, FechaCreacion = DateTime.Now, ObjetivoPadreID = 1, Creador = TablaColaboradores.FindByID(1) });
-                //TablaObjetivos.AddElement(new Objetivo { Nombre = "Objetivo Financiero 1.2", TipoObjetivoBSCID = 1, Peso = 50, FechaCreacion = DateTime.Now, ObjetivoPadreID = 1, Creador = TablaColaboradores.FindByID(1) });
-
-
-                return Json(ListaObjetivos, JsonRequestBehavior.AllowGet);
-                //return Json(ob.ToDTO(), JsonRequestBehavior.AllowGet);
-            }
-        }
-
         public ActionResult ListarObjetivosXBSC(int BSCId, int idperiodo)
         {
             using (DP2Context context = new DP2Context())
             {
-                
+
                 List<ObjetivoRDTO> ListaObjetivos2 = new List<ObjetivoRDTO>();
                 List<ObjetivoDTO> ListaObjetivos3 = new List<ObjetivoDTO>();
 
                 ListaObjetivos3 = context.TablaObjetivos.All().Select(o => o.ToDTO(context)).ToList();
-                ListaObjetivos2 = context.TablaObjetivos.Where(o => o.TipoObjetivoBSCID == BSCId && o.BSCID == idperiodo && (o.ObjetivoPadreID ==null || o.ObjetivoPadreID<0)).Select(p => p.ToRDTO(context)).ToList();
-                foreach(ObjetivoRDTO obj in ListaObjetivos2){
+                ListaObjetivos2 = context.TablaObjetivos.Where(o => o.TipoObjetivoBSCID == BSCId && o.BSCID == idperiodo && (o.ObjetivoPadreID == null || o.ObjetivoPadreID < 0)).Select(p => p.ToRDTO(context)).ToList();
+                foreach (ObjetivoRDTO obj in ListaObjetivos2)
+                {
                     obj.hijos = context.TablaObjetivos.Where(o => o.ObjetivoPadreID == obj.idObjetivo).ToList().Count;
-                    
+
                 }
                 return Json(ListaObjetivos2, JsonRequestBehavior.AllowGet);
                 //return Json(ListaObjetivos, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ActionResult ListarObjetivosXPadre(int PadreId)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                //List<ObjetivoDTO> ListaObjetivosDTO = context.TablaObjetivos.All().Select(p => p.ToDTO(context)).ToList();
+                List<ObjetivoRDTO> ListaObjetivosR=new List<ObjetivoRDTO>();
+                List<ObjetivoRDTO> ListaObjetivosHijos = context.TablaObjetivos.Where(o => o.ObjetivoPadreID ==PadreId).Select(p => p.ToRDTO(context)).ToList();
+                if (ListaObjetivosHijos.Count > 0)
+                {
+                    if (ListaObjetivosHijos[0].esIntermedio)
+                    {
+                    //La nueva lista de objetivos serán los hijos de los objetivos intermedios
+                        foreach (ObjetivoRDTO objhijo in ListaObjetivosHijos){
+                            ObjetivoRDTO unObjetivoNieto=context.TablaObjetivos.Where(o => o.ObjetivoPadreID ==objhijo.idObjetivo).Select(p => p.ToRDTO(context)).ToList()[0];
+                            objhijo.descripcion=unObjetivoNieto.descripcion;
+                        }                        
+                    }
+                    //else
+                    //{
+                    //    ListaObjetivosR=ListaObjetivosHijos;
+                    //    //foreach (ObjetivoRDTO obj in ListaObjetivosR){
+                    //    //obj.hijos = context.TablaObjetivos.Where(o=> o.ObjetivoPadreID == obj.idObjetivo).Select(p => p.ToRDTO(context)).ToList().Count;
+                    //}
+                }
+                                
+                //return Json(ListaObjetivos, JsonRequestBehavior.AllowGet);
+                return Json(ListaObjetivosHijos, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        
+
+        
 
         public ActionResult ListarObjetivosXPadre2(int PadreId)
         {
