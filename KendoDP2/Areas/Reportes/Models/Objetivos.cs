@@ -22,7 +22,9 @@ namespace KendoDP2.Areas.Reportes.Models
         public int ObjetivoPadreID { get; set; }
         public bool padreEsIntermedio { get; set; }
         public ObjetivoDTO ObjetivoPadreDTO { get; set; }
+        public ColaboradorDTO dueño { get; set; }
         public int BSCID { get; set; }
+        public int puestoID { get; set; }
 
         public string FechaCreacion { get; set; }
         public string FechaFinalizacion { get; set; }
@@ -45,7 +47,14 @@ namespace KendoDP2.Areas.Reportes.Models
                 ObjetivoPadreDTO = null;
             }
             ObjetivoPadreID = o.ObjetivoPadreID.GetValueOrDefault();
-            
+
+            puestoID = o.PuestoAsignadoID.GetValueOrDefault();
+
+            if (o.Dueño != null)
+            {
+                dueño = o.Dueño.ToDTO();
+            }
+
             BSCID = o.GetBSCIDRaiz(context);
 
             //PeriodoID = o.PeriodoID;
