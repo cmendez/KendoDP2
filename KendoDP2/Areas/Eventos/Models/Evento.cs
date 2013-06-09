@@ -138,7 +138,7 @@ namespace KendoDP2.Areas.Eventos.Models
             TipoEventoID = e.TipoEventoID;
             TipoEvento = e.TipoEvento != null ? e.TipoEvento.Descripcion : String.Empty;
             CreadorID = e.CreadorID;
-            Creador = e.Creador.ToDTO().NombreCompleto;
+            Creador = e.Creador != null ? e.Creador.ToDTO().NombreCompleto : String.Empty;
             LugarEvento = e.LugarEvento;
             if (e.Invitados != null && e.Invitados.Count > 0)
             {
