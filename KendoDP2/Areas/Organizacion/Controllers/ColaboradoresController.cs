@@ -37,6 +37,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         }
 
         // Grid periodos
+        [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult EditingInline_Read([DataSourceRequest] DataSourceRequest request)
         {
             using (DP2Context context = new DP2Context())
