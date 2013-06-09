@@ -16,7 +16,6 @@ namespace KendoDP2.Areas.Reclutamiento.Models
 {
     public class OfertaLaboral : DBObject
     {
-        public int hola { get; set; }
         public int PuestoID { get; set; }
         public virtual Puesto Puesto { get; set; }
 
