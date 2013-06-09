@@ -183,7 +183,8 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                             x.EstadoSolicitudOfertaLaboralID == esol.ID && //Que coincida con el estado de la oferta laboral que deseo
                             x.Postulantes.Select(y => y.PostulanteID).Contains(p.ID) //No sea una oferta ya postulada
                     );
-                    if (lstOL == null) throw new Exception("No se encontraron ofertas laborales que cumplan los requisitos (Misma area que el postulante/Coincida con el estado/No hayan sido ya postuladas)");
+                    if (lstOL == null || lstOL.Count == 0) 
+                        throw new Exception("No se encontraron ofertas laborales que cumplan los requisitos (Misma area que el postulante/Coincida con el estado/No hayan sido ya postuladas)");
 
                     List<OfertaLaboralDTO> lstOLDTO = lstOL.Select(x => x.ToDTO()).ToList();
                     return JsonSuccessGet(new { ofertasLaborales = lstOLDTO });
