@@ -102,11 +102,6 @@ namespace KendoDP2.Areas.Organizacion.Models
             return new ColaboradorDTO(this);
         }
 
-        public NodoOrganigramaDTO ToNodoOrganigramaDTO(DP2Context context)
-        {
-            return new NodoOrganigramaDTO(context, this);
-        }
-
         public ColaboradorDTO paraObservacion360()
         {
             return new ColaboradorEvaluadorDTO(this);
