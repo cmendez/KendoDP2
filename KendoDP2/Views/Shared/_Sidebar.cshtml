@@ -4,7 +4,7 @@
 @helper ShowNavigator(){
     ObtenerMenu navigator = new ObtenerMenu();
 
-    foreach (SidebarOption option in navigator.MenuUsuario(User.Identity.Name).Opciones)
+    foreach (SidebarOption option in navigator.menu.Opciones)//.MenuUsuario(User.Identity.Name).Opciones)
     {
         if(option.Suboptions.Count == 0)
         {

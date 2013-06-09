@@ -35,7 +35,7 @@
                         columns.Bound(P => P.Colaborador.ApellidoMaterno);
                         columns.ForeignKey(p => p.Puesto.AreaID, listaAreas);
                         columns.ForeignKey(p => p.Puesto.ID, listaPuestos);
-                        columns.Template(@<text></text>).ClientTemplate("<a class='btn btn-success'href='" + Url.Action("Linea", "Historial") + "/#=ID#'>Linea</a>");
+                        columns.Template(@<text></text>).ClientTemplate("<a class='btn btn-success'href='" + Url.Action("Linea", "Historial") + "/#=Colaborador.ID#'>Linea</a>");
                         columns.Command(command =>
                         {
                             command.Edit().Text("Agregar Puesto").UpdateText("Guardar").CancelText("Cancelar");

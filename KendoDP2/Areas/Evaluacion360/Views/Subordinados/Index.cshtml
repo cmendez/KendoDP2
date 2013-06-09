@@ -8,45 +8,158 @@
     ICollection<SupervisionASubordinadoDTO> colaboradoresDelNivelInferior = ViewBag.losSubordinados;
 }
 
-<h2>Index</h2>
+@*@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Mis subordinados", ""));}*@
+@*@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Evaluaciones 360 y mis subordinados", ""));}*@
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Evaluaciones 360 y Mis subordinados", ""));}
 
-Data entregada por el servidor:
-<br />
-<br />
-Eventos de evaluacion:
-<br />
-<br />
-
-@foreach (ProcesoEvaluacionDTO periodoApreciacion in eventosDeEvaluacion)
-{
-    @periodoApreciacion.ID <br />
-    @periodoApreciacion.Nombre <br />
-    <br />
-    //periodoApreciacion.in
-}
+<div class="portlet box green">
+    <div class="portlet-title">
+        @*<h4><i class="icon-reorder"></i> Supervisión de objetivos</h4>*@
+        @*<h4><i class="icon-reorder"></i> Estado de los exámenes</h4>*@
+        <h4><i class="icon-reorder"></i> Seguimiento de exámenes</h4>
+        <div class="tools">
+            <a href="javascript:;" class="collapse"></a>
+        </div>
+    </div>
+    <div class="portlet-body">
 
 
-Los empleados a su cargo:
-<br />
-@foreach (SupervisionASubordinadoDTO unEmpleado in colaboradoresDelNivelInferior)
-{
-    @unEmpleado.PersonaID <br/>
-    @unEmpleado.PersonaNombre <br/>
-    @unEmpleado.CargoID <br/>
-    @unEmpleado.CargoNombre <br/>
-    @*
-    @unEmpleado. <br/>*@
+@*        <div class="container-fluid">
+          <div class="row-fluid">
+            <div class="span2">
+              <!--Sidebar content-->
+            </div>
+            <div class="span10">
+              <!--Body content-->
+            </div>
+          </div>
+        </div>*@
+
+
+        <div class="container-fluid">
+          <div class="row-fluid">
+            <div class="span6">
+                <!--Sidebar content-->
+                <div class="row-fluid">
+                    @*<div class="span2">
+                        Evento de evaluación:
+                    </div>*@
+
+                    <div class="span4">
+                        Evento de evaluación:
+                    </div>
+
+                    @*<div class="span5 text-right">
+                        @(Html.Kendo().ComboBox()
+                            .Name("elEventoSeleccionado")
+                            .HtmlAttributes(new { style = "width: 220px;" })
+                            .Filter("contains")
+                            .DataTextField("Nombre")
+                            .DataValueField("ID")
+                            .BindTo(eventosDeEvaluacion)
+                            .SelectedIndex(0)
+                            .Suggest(true)
+                        )
+                    </div>*@
+
+                    <div class="span8 text-right">
+                        @(Html.Kendo().ComboBox()
+                            .Name("elEventoSeleccionado")
+                            //.HtmlAttributes(new { style = "width: 220px;" })
+                            .HtmlAttributes(new { style = "width: 320px;" })
+                            .Filter("contains")
+                            .DataTextField("Nombre")
+                            .DataValueField("ID")
+                            .BindTo(eventosDeEvaluacion)
+                            .SelectedIndex(0)
+                            .Suggest(true)
+                        )
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="row-fluid">
+                    @*<div class="span7">*@
+                    <div class="span12">
+                        @foreach (ProcesoEvaluacionDTO periodoApreciacion in eventosDeEvaluacion)
+                        {
+
+                            @(Html.Kendo().PanelBar()
+                                .Name("SupervisionEvaluaciones" + periodoApreciacion.ID)
+                                .ExpandAll(false)
+                                .Items(panelbar =>
+                                {
+                                    foreach (SupervisionASubordinadoDTO unEmpleado in colaboradoresDelNivelInferior)
+                                    {
+                                        panelbar.Add().Text(unEmpleado.PersonaNombre + " - " + unEmpleado.CargoNombre)
+                                        .Items(items =>
+                                        {
+
+                                            foreach (EvaluadorDTO colaborador in unEmpleado.Evaluadores)
+                                            {
+                                                items.Add().Text(colaborador.Nombre + ". Su evaluación está " + colaborador.LaEtapa).HtmlAttributes(new { style = "font-weight: bold" });
+                                            }
+                                        });
+                                    }
+
+                                })
+                            )
+                        }
+                    </div>
+                </div>
+                    <!--Sidebar content-->
+                </div>
+                <div class="span6">
+                    <!--Body content-->
+                    @*<div class="span5" style="border: solid; border-color: #35aa47">*@
+                    <div class="span12" style="border: solid; border-color: #35aa47; padding: 10px 50px 10px 10px">
+                    @*<div class="span12">*@
+                        
+                        <div class="span12">
+                            <strong>Datos del proceso de evaluación:</strong>
+                        </div>
+                        <div class="span12">
     
-    <div>Una presentación de los participantes que lo evaluan</div>
-    
-    foreach (EvaluadorDTO colaborador in unEmpleado.Evaluadores)
-    {
-        @colaborador.ID <br/>
-        @colaborador.Nombre <br/>
-        @colaborador.LaEtapa <br/>
-        <br />
+                            Identificador:
+                            @*<div class="span12">*@
+                            <div class="well well-small">
+                            ...1                            
+                            </div>
+                            @*<div class="well">
+                            ...1                            
+                            </div>*@
+                        </div>
+                        <div class="span12">
 
-    }
-    <br />
+                            Nombre:
     
-}
+                            <div class="well well-small">
+                            .Un proceso                          
+                            </div>
+                        </div>
+                        <div class="span12">
+
+                            Fecha de finalización:
+    
+                            <div class="well well-small">
+                            10/10/2014                         
+                            </div>
+                        </div>
+                        <div class="span12">
+
+                            Autorizado por:
+
+                            <div class="well well-small">
+                              El gerente general                        
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>

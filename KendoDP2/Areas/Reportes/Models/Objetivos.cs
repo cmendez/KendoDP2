@@ -22,7 +22,10 @@ namespace KendoDP2.Areas.Reportes.Models
         public int ObjetivoPadreID { get; set; }
         public bool padreEsIntermedio { get; set; }
         public ObjetivoDTO ObjetivoPadreDTO { get; set; }
+        public int  iddueño { get; set; }
+        public ColaboradorDTO dueño { get; set; }
         public int BSCID { get; set; }
+        public int puestoID { get; set; }
 
         public string FechaCreacion { get; set; }
         public string FechaFinalizacion { get; set; }
@@ -45,7 +48,14 @@ namespace KendoDP2.Areas.Reportes.Models
                 ObjetivoPadreDTO = null;
             }
             ObjetivoPadreID = o.ObjetivoPadreID.GetValueOrDefault();
-            
+
+            puestoID = o.PuestoAsignadoID.GetValueOrDefault();
+
+            if (o.Dueño != null)
+            {
+                dueño = o.Dueño.ToDTO();
+            }
+
             BSCID = o.GetBSCIDRaiz(context);
 
             //PeriodoID = o.PeriodoID;
@@ -62,6 +72,7 @@ namespace KendoDP2.Areas.Reportes.Models
         public int hijos { get; set; }
         public int peso { get; set; }
         public bool esIntermedio { get; set; }
+        public int idPuesto { get; set; }
 
         public ObjetivoRDTO(Objetivo o,DP2Context context)
         {
@@ -82,7 +93,14 @@ namespace KendoDP2.Areas.Reportes.Models
             hijos = o.ObjetivosHijos.Count;            
             avance = o.AvanceFinal;
             esIntermedio = o.IsObjetivoIntermedio;
-            
+            if (o.PuestoAsignado != null)
+            {
+                idPuesto = o.PuestoAsignado.ID;
+            }
+            else
+            {
+                idPuesto = -1;
+            }
         }
 
         public ObjetivoRDTO()

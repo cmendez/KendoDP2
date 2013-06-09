@@ -244,7 +244,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 ViewBag.proceso = p;
                 // Validar que el proceso no haya sido iniciado previamente
                 if (p.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso)).ID)
-                {
+                {   
                     ViewBag.enProceso = true;
                     return View();
                 }
