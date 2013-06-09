@@ -85,7 +85,13 @@ namespace KendoDP2.Models.Generic
             TablaCompetencias.AddElement(new Competencia("DEMUESTRA CURIOSIDAD, IMAGINACIÓN Y PENSAMIENTO CONCEPTUAL.  (LO IMAGINAMOS, LO HACEMOS)"));
             TablaCompetencias.AddElement(new Competencia("TRABAJA EN EQUIPO Y BRINDA COLABORACIÓN"));
             TablaCompetencias.AddElement(new Competencia("SE ORIENTA AL LOGRO"));
- 
+            TablaCompetencias.AddElement(new Competencia("Matemáticas"));
+            TablaCompetencias.AddElement(new Competencia("Comunicación linguística"));
+            TablaCompetencias.AddElement(new Competencia("Tratamiento de información digital"));
+            TablaCompetencias.AddElement(new Competencia("Sociabilidad y ciudadanía"));
+            TablaCompetencias.AddElement(new Competencia("Aprendizaje"));
+            TablaCompetencias.AddElement(new Competencia("Iniciativa personal"));
+            TablaCompetencias.AddElement(new Competencia("Manejo de situaciones"));
         }
 
         private void SeedCapacidad()
@@ -170,6 +176,27 @@ namespace KendoDP2.Models.Generic
                 TablaCapacidades.AddElement(new Capacidad("1. Toma decisiones como miembro del equipo, considerando los factores del entorno.", 3, 6, 30));
                 TablaCapacidades.AddElement(new Capacidad("Expresa sus propios puntos de vista, y escucha a los demás, está abierto a nuevas ideas. ", 3, 6, 30));
                 TablaCapacidades.AddElement(new Capacidad("Acompaña y respalda públicamente las decisiones y acciones del equipo", 1, 6, 40));
+                
+            TablaCapacidades.AddElement(new Capacidad("Razonamiento mátematico", 5, 1, 30));
+            TablaCapacidades.AddElement(new Capacidad("Lógica matemática", 4, 1, 30));
+            TablaCapacidades.AddElement(new Capacidad("Cálculo", 6, 1, 40));
+            TablaCapacidades.AddElement(new Capacidad("Relaciones interpersonales", 3, 2, 30));
+            TablaCapacidades.AddElement(new Capacidad("Comunicación de ideas", 4, 2, 30));
+            TablaCapacidades.AddElement(new Capacidad("Claridez en el habla", 5, 2, 40));
+            TablaCapacidades.AddElement(new Capacidad("Ofimática", 3, 3, 30));
+            TablaCapacidades.AddElement(new Capacidad("Lógica digital", 7, 3, 30));
+            TablaCapacidades.AddElement(new Capacidad("Manejo de archivos", 2, 3, 40));
+            TablaCapacidades.AddElement(new Capacidad("Empatía", 5, 4, 30));
+            TablaCapacidades.AddElement(new Capacidad("Compañerismo", 6, 4, 30));
+            TablaCapacidades.AddElement(new Capacidad("Preocupación grupal", 8, 5, 40));
+            TablaCapacidades.AddElement(new Capacidad("Investigador", 4, 5, 30));
+            TablaCapacidades.AddElement(new Capacidad("Certero", 5, 5, 30));
+            TablaCapacidades.AddElement(new Capacidad("Trabajador ", 1, 6, 30));
+            TablaCapacidades.AddElement(new Capacidad("Responsable", 1, 6, 30));
+            TablaCapacidades.AddElement(new Capacidad("Manejo de presión", 3, 6, 40));
+            TablaCapacidades.AddElement(new Capacidad("Manejo de grupos", 7, 7, 30));
+            TablaCapacidades.AddElement(new Capacidad("Responsabilidad", 5, 7, 30));
+
         }
 
         private void SeedCompetenciasXPuesto()
@@ -286,7 +313,7 @@ namespace KendoDP2.Models.Generic
 
         private void SeedNivelCapacidades()
         {
-            for (int i = 1; i <= 3; i++)
+            for (int i = 1; i <= 8; i++)
                 TablaNivelCapacidades.AddElement(new NivelCapacidad(i));
         }
 
