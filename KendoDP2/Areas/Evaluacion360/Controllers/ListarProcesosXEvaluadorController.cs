@@ -54,9 +54,12 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 for (int i = 0; i < listaProcesosEvaluador.Count; i++)
                 {
                     listaProceso.Add(context.TablaProcesoEvaluaciones.FindByID(listaProcesosEvaluador.ElementAt(i).ProcesoEnElQueParticipanID));
+                    
+                    //listaProceso.Add(context.TablaProcesoEvaluaciones.One(b => b.ID == (listaProcesosEvaluador.ElementAt(i).ProcesoEnElQueParticipanID) &&
+                      //  b.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(e=> e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso)).ID));
                 }
 
-                return Json(listaProceso.Select(x=>x.ToDTO()).ToDataSourceResult(request));
+                return Json(listaProceso.GroupBy(x => x.ID).Select(y => y.FirstOrDefault()).Select(x=>x.ToDTO()).ToDataSourceResult(request));
 
             }
         }
