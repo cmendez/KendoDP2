@@ -144,7 +144,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
                 cont++;
             }
 
-            Porcentaje = (int)((sumaNivelAux / cont)*1.0 / maxLevel * 100);
+            Porcentaje = (int)((sumaNivelAux / maxLevel) * 1.0 / cont * 100);
         }
     }
 

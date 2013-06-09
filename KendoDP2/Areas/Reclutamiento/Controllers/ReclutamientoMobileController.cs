@@ -20,8 +20,8 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             return View();
         }
 
-        // GET: /Reclutamiento/ReclutamientoMobile/Colaborador?userName=admin
-
+        // GET: /Reclutamiento/ReclutamientoMobile/Colaborador?userName=cperez
+        //14 cperez //2 admin
         public ActionResult Colaborador(string userName)
         {
             using (DP2Context context = new DP2Context()){

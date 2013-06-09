@@ -251,17 +251,15 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             Puesto puesto = context.TablaColaboradoresXPuestos.Where(a=>a.ColaboradorID == colaboradorActual.ID).Select(a=>a.Puesto).First();
             CompetenciasPonderadasColaborador = ListaCompetenciasConPonderadoToDTO(puesto.CompetenciasXPuesto);
             //Quitar las competencias del colaborador que no importan para el puesto
-            List<int> posicionesAux = new List<int>();
-            int pos = 0;
+            List<int> competenciasIdEliminar = new List<int>();
             foreach (CompetenciaConPonderadoDTO competenciaColaborador in CompetenciasPonderadasColaborador)
             {
                 if (!CompetenciasPonderadasPuesto.Any(a => a.CompetenciaID == competenciaColaborador.CompetenciaID))
-                    posicionesAux.Add(pos);
-                pos++;
+                    competenciasIdEliminar.Add(competenciaColaborador.CompetenciaID);
             }
-            foreach (int posAux in posicionesAux)
+            foreach (int idEliminar in competenciasIdEliminar)
             {
-                CompetenciasPonderadasColaborador.Remove(CompetenciasPonderadasColaborador.ElementAt(posAux));
+                CompetenciasPonderadasColaborador.Remove(CompetenciasPonderadasColaborador.Where(a=>a.CompetenciaID == idEliminar).First());
             }
             //MatchLevel:
             double sumaCompetenciasPuesto = 0;

@@ -17,6 +17,7 @@ namespace KendoDP2.Areas.Organizacion.Models
     public class Colaborador : Persona
     {
         public string Direccion { get; set; }
+        public string Hola { get; set; }
         public bool IsActivo { get; set; }
         public string Telefono { get; set; }
         public string FechaNacimiento { get; set; }
