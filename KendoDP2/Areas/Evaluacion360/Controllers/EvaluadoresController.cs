@@ -110,6 +110,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 //string claseEntorno = coincidencias.Groups["claseEntorno"].Value;
 
                 ProcesoXEvaluado evaluadores = new ProcesoXEvaluado();
+                ProcesoEvaluacion proceso = context.TablaProcesoEvaluaciones.FindByID(idDelProceso);
 
                 evaluadores.procesoID = idDelProceso;
                 evaluadores.evaluadoID = evaluadoId;
@@ -135,11 +136,12 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     //Evaluador comoEvaluador = Evaluador.enrolarlo(elParticipante, idDelProceso);
                     Evaluador comoEvaluador = new Evaluador(evaluadoId, elParticipante, idDelProceso);
 
-                    //Enviar email
+                    //Enviar email: katy agregó esto
                     correoController.SendEmailRH("pruebas.rhpp+RHADMIN@gmail.com",
                                                 elParticipante.CorreoElectronico,
-                                                "Inicio Proceso evaluacion: test ",
+                                                "Inicio Proceso evaluacion: " + proceso.Nombre.ToUpper(),
                                                 correoController.getMensajeParaEvaluador(elParticipante.ToDTO().NombreCompleto));
+                    //Fin: Enviar email
 
                     evaluadores.evaluadores.Add(context.TablaEvaluadores.FindByID(evaluadorId));
 
@@ -157,6 +159,11 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 ProcesoXEvaluado enBaseDeDatos = context.TablaProcesoXEvaluado.FindByID(evaluadores.ID);
                 context.Entry(enBaseDeDatos).Collection(u => u.evaluadores).Load();
                 //ColaboradorXEvaluadores enBaseDeDatos = new DP2Context().InternalColaboradorXProcesoEvaluaciones.Include().TablaColaboradorXEvaluadores.FindByID(evaluadores.ID);
+
+                //Actualizar proceso 
+                EstadoProcesoEvaluacion enProceso  = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso));
+                proceso.EstadoProcesoEvaluacion = enProceso;
+                context.TablaProcesoEvaluaciones.ModifyElement(proceso);
 
                 ViewBag.Area = "";
                 return View();
