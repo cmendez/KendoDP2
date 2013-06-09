@@ -78,7 +78,7 @@ namespace KendoDP2.Models.Generic
                 EstadoSolicitudOfertaLaboralID = 1,
                 FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"),
                 FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
-                Descripcion = "",
+                Descripcion = "Trabajo en el directorio",
                 ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
                 SueldoTentativo = 15000,
                 Comentarios = "",
@@ -93,7 +93,22 @@ namespace KendoDP2.Models.Generic
                 EstadoSolicitudOfertaLaboralID = 1,
                 FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"),
                 FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
-                Descripcion = "",
+                Descripcion = "Trabajo de gerencia",
+                ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
+                SueldoTentativo = 15000,
+                Comentarios = "",
+                NumeroVacantes = 3
+            });
+
+            TablaOfertaLaborales.AddElement(new OfertaLaboral
+            {
+                PuestoID = 3,
+                AreaID = TablaPuestos.One(a => a.ID == 3).AreaID,
+                ResponsableID = TablaColaboradores.One(a => a.ApellidoPaterno.Equals("Solorzano")).ID,
+                EstadoSolicitudOfertaLaboralID = TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID,
+                FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"),
+                FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
+                Descripcion = "Trabajo en ventas",
                 ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
                 SueldoTentativo = 15000,
                 Comentarios = "",
@@ -103,29 +118,12 @@ namespace KendoDP2.Models.Generic
             TablaOfertaLaborales.AddElement(new OfertaLaboral
             {
                 PuestoID = 1,
-                AreaID = TablaAreas.One(a => a.Nombre.Equals("Directorio")).ID,
+                AreaID = TablaPuestos.One(a=>a.ID == 1).AreaID,
                 ResponsableID = TablaColaboradores.One(a => a.ApellidoPaterno.Equals("Solorzano")).ID,
                 EstadoSolicitudOfertaLaboralID = TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID,
                 FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"),
                 FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
-                Descripcion = "",
-                ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
-                               
-                
-                SueldoTentativo = 15000,
-                Comentarios = "",
-                NumeroVacantes = 3
-            });
-
-            TablaOfertaLaborales.AddElement(new OfertaLaboral
-            {
-                PuestoID = 1,
-                AreaID = TablaAreas.One(a => a.Nombre.Equals("Directorio")).ID,
-                ResponsableID = TablaColaboradores.One(a => a.ApellidoPaterno.Equals("Solorzano")).ID,
-                EstadoSolicitudOfertaLaboralID = TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID,
-                FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"),
-                FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
-                Descripcion = "",
+                Descripcion = "Trabajo en el directorio",
                 ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
                 SueldoTentativo = 15000,
                 Comentarios = "",
@@ -134,15 +132,14 @@ namespace KendoDP2.Models.Generic
 
             TablaOfertaLaborales.AddElement(new OfertaLaboral
             {
-                PuestoID = 1,
-                AreaID = TablaAreas.One(a => a.Nombre.Equals("Directorio")).ID,
+                PuestoID = 6,
+                AreaID = TablaPuestos.One(a => a.ID == 1).AreaID,
                 ResponsableID = TablaColaboradores.One(a => a.ApellidoPaterno.Equals("Solorzano")).ID,
                 EstadoSolicitudOfertaLaboralID = TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID,
                 FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"),
-                FechaPublicacion = DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"),
                 FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
-                Descripcion = "",
-                ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Pública")).ID,
+                Descripcion = "Trabajo en operaciones",
+                ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
                 SueldoTentativo = 15000,
                 Comentarios = "",
                 NumeroVacantes = 3
