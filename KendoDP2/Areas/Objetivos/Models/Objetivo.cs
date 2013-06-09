@@ -153,10 +153,6 @@ namespace KendoDP2.Areas.Objetivos.Models
 
         public string FechaCreacion { get; set; }
         public string FechaFinalizacion { get; set; }
-
-        //public AvanceObjetivoDTO 
-        //public List<AvanceObjetivoDTO> losAvances
-        public List<AvanceObjetivoDTO> LosProgresos { get; set; }
         
         public ObjetivoDTO() { }
         
@@ -177,14 +173,6 @@ namespace KendoDP2.Areas.Objetivos.Models
             FechaFinalizacion = o.FechaFinalizacion.HasValue ? o.FechaFinalizacion.GetValueOrDefault().ToString("D", new CultureInfo("es-ES")) : String.Empty;
 
             //PeriodoID = o.PeriodoID;
-
-            //foreach (AvanceObjetivo unAdelanto in o.Avances)
-            //{
-            //    //
-
-            //}
-
-            LosProgresos = o.Avances.Select(a => a.enFormatoDTO()).ToList();
 
         }
         
