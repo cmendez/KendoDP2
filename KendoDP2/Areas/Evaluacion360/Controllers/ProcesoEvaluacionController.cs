@@ -52,7 +52,28 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                return Json(context.TablaProcesoEvaluaciones.All().Select(p => p.ToDTO()).ToDataSourceResult(request));
+                IEnumerable<ProcesoEvaluacionDTO> listaProcesos = context.TablaProcesoEvaluaciones.All().Select(p => p.ToDTO()); 
+                
+                //Obtener la persona loggeada y su puesto
+                int idUsuario = DP2MembershipProvider.GetPersonaID(this);
+                Colaborador c = context.TablaColaboradores.FindByID(idUsuario);
+                ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos.One( x => x.ColaboradorID == c.ID && !x.IsEliminado);
+                // no tiene puesto asociado, se muestran todos los procesos
+                if (cxp == null) {
+                    return Json(listaProcesos.ToDataSourceResult(request));
+                }
+                // tiene asignado un puesto
+                else 
+                {
+                    Puesto puesto = context.TablaPuestos.FindByID(cxp.PuestoID);
+                    // No es presidente, admin 
+                    if (puesto != null && puesto.PuestoSuperiorID != null) {
+                        listaProcesos = context.TablaColaboradorXProcesoEvaluaciones.Where(e => context.TablaPuestos.FindByID(context.TablaColaboradores.FindByID(e.ColaboradorID).ToDTO().PuestoID).PuestoSuperiorID == puesto.ID).Select(x => x.ProcesoEvaluacion.ToDTO());
+                        return Json(listaProcesos.ToDataSourceResult(request));
+                    }
+                } 
+                  
+                return Json(listaProcesos.ToDataSourceResult(request));
             }
         }
 
@@ -92,13 +113,28 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         }
 
         // Grid de evaluados
-
         public ActionResult ReadEvaluados([DataSourceRequest] DataSourceRequest request, int procesoID)
         {
             using (DP2Context context = new DP2Context())
             {
-                return Json(context.TablaColaboradorXProcesoEvaluaciones.Where(x => x.ProcesoEvaluacionID == procesoID)
-                    .Select(x => x.ToDTO()).ToDataSourceResult(request));
+                //Obtener la persona loggeada y su puesto
+                int idUsuario = DP2MembershipProvider.GetPersonaID(this);
+                IEnumerable<ColaboradorXProcesoEvaluacion> listaEvaluados = context.TablaColaboradorXProcesoEvaluaciones.Where(x => x.ProcesoEvaluacionID == procesoID);
+                ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == idUsuario && !x.IsEliminado);
+                // No tiene puesto asociado, se muestran todos los evaluados
+                if (cxp == null) {
+                    // nada
+                }
+                // Tiene asignado un puesto
+                else 
+                {
+                    Puesto puesto = context.TablaPuestos.FindByID(cxp.PuestoID);
+                    // No es presidente ni admin, mostrar lista filtrada
+                    if (puesto != null && puesto.PuestoSuperiorID != null) {
+                        listaEvaluados = listaEvaluados.Where(x=> context.TablaPuestos.FindByID(x.Colaborador.ToDTO().PuestoID).PuestoSuperiorID == puesto.ID);
+                    }
+                } 
+                return Json(listaEvaluados.Select(x=>x.ToDTO()).ToDataSourceResult(request));
             }
         }
 
