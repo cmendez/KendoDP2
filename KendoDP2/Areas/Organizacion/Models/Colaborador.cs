@@ -36,7 +36,7 @@ namespace KendoDP2.Areas.Organizacion.Models
 
         public int? PaisID { get; set; }
         public virtual Pais Pais { get; set; }
-
+      
         public int ImagenColaboradorID { get; set; }
 
         [InverseProperty("Contacto")]
@@ -97,6 +97,11 @@ namespace KendoDP2.Areas.Organizacion.Models
         new public ColaboradorDTO ToDTO()
         {
             return new ColaboradorDTO(this);
+        }
+
+        public NodoOrganigramaDTO ToNodoOrganigramaDTO(DP2Context context)
+        {
+            return new NodoOrganigramaDTO(context, this);
         }
 
         public ColaboradorDTO paraObservacion360()
