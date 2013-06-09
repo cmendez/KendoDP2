@@ -119,7 +119,6 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 //tengo la lista de examenes
                 //ahora saco la lista de preguntas
 
-
                 IList<Pregunta> listaPreguntas = new List<Pregunta>();
 
                 for (int i = 0; i < listaExamenes.Count; i++)
@@ -128,28 +127,8 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 //colaborador = (context.TablaColaboradores.One().ColaboradoresPuesto.Where();
                 //puestoUsuario = (context.TablaPuestos.Where(x => x.Nombre == colaborador.));
-
-
-
-
                 //IList<EvaluadorDTO> listaEvaluaciones2 = listaEvaluaciones.Select(x => x.ToDTO());
                 //Json(listaEvaluaciones.Select(x=>x.ToDTO()).ToDataSourceResult(request));
 

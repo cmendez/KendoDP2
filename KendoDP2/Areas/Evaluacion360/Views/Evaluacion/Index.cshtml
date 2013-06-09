@@ -6,6 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ColaboradorDTO evaluado = ViewBag.evaluado;
     int tablaEvaluadoresID = ViewBag.instanciaEvaluadores;
+    String today = DateTime.Now.ToString("yyyy-MM-dd");
 }
 
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Evaluación", "Rinda sus evaluaciones asignadas."));}
@@ -53,23 +54,24 @@
         </div>
 	</div>
      <div class="portlet-body">
-        <!--<div>
-            <a class="k-button k-button-icontext k-add-button" href="@Url.Action("GuardarEvaluacion", "Evaluacion", new { tablaEvaluadoresID= tablaEvaluadoresID})"><span class="k-icon k-add"></span>Terminar evaluación</a>
-        </div>  -->
         <h5> Datos del evaluado: </h5>
         <div class="k-pager-wrap">
             <div class="row-fluid">
-                <div class="span8 profile-info">
+                <div class="span3" id="divImagenColaborador" style="text-align: center;">
+                    <img id="imagenColaborador" src="http://localhost:2642/Organizacion/Colaboradores/ViewImageDeColaborador?colaboradorID=@evaluado.ID"  width="150" height="80">
+                </div>
+                <div class="span3 profile-info">
                     <h3>@evaluado.NombreCompleto</h3>
-                    <p>@evaluado.Puesto</p>
-                    <p>@evaluado.Area</p>
+                    
+                    <span><strong>Área: </strong> <em>@evaluado.Area</em><br>
+                    <strong>Puesto: </strong> <em>@evaluado.Puesto</em></span>
                     <ul class="unstyled inline">
-                        <li><i class="icon-calendar"></i> @evaluado.FechaIngreso</li>
-                        <li><i class="icon-map-marker"></i> </li>
-                        <!--<li><i class="icon-star"></i> Cantinflas </li> -->
+                        <li><i class="icon-calendar"></i><strong> Desde: </strong>@(evaluado.FechaIngreso != null?evaluado.FechaIngreso: "-- " ) </li>
+                        <li><i class="icon-calendar"></i><strong> Hasta: </strong>@today </li>
                     </ul>
                 </div>
-                <!--end span8-->
+                <!--end span8--> 
+              
             </div>
             <!--end row-fluid-->
         </div>

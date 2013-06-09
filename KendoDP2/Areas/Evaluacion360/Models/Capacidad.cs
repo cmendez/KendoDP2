@@ -11,7 +11,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
     public class Capacidad : DBObject
     {
         public string Nombre { get; set; }
-
+        public string Reset { get; set; }
         public int NivelCapacidadID { get; set; }
         public virtual NivelCapacidad NivelCapacidad { get; set; }
 

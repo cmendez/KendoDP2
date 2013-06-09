@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using KendoDP2.Models.Generic;
+using KendoDP2.Models.Seguridad;
 
 namespace KendoDP2.Models.Helpers
 {
@@ -28,6 +29,7 @@ namespace KendoDP2.Models.Helpers
 				//new SidebarSuboption("Evaluaciones", "Registrar Evaluaciones", "Index", "icon-check"),
                 new SidebarSuboption("Procesos de evaluación", "ProcesoEvaluacion", "Index", "icon-road"),
                 new SidebarSuboption("Evaluación de puestos de trabajo", "PuestosEvaluacion", "Index", "icon-ok-sign"),
+<<<<<<< HEAD
 
                 //new SidebarSuboption("Envio de correo", "Correo", "Index", "icon-ok-sign"),
                 //new SidebarSuboption("Acordion", "Acordion", "Index", "icon-ok-sign"),
@@ -35,6 +37,9 @@ namespace KendoDP2.Models.Helpers
                 new SidebarSuboption("Mis evaluaciones", "ListarProcesosXEvaluado", "Index", "icon-ok-sign"),
                 new SidebarSuboption("Rendir Evaluacion", "Evaluacion", "Index", "icon-ok-sign")
 				//new SidebarSuboption("Por perfil BORRADOR", "Configuracion360", "Index", "icon-group")
+=======
+            	new SidebarSuboption("Mis pendientes", "ListarProcesosXEvaluador", "Index", "icon-ok-sign"),
+>>>>>>> ac27bef160f25e7f25b539ac6e0ae1291591344f
             })));				
             
 
@@ -49,6 +54,13 @@ namespace KendoDP2.Models.Helpers
             // Configuracion
             Opciones.Add(new SidebarOption("Configuracion", "Configuración", "icon-wrench", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption("Períodos", "Periodos", "Index", "icon-time")
+            })));
+
+            // Segiuridad
+            Opciones.Add(new SidebarOption("Seguridad", "Seguridad", "icon-lock", new List<SidebarSuboption>(new SidebarSuboption[]{
+                new SidebarSuboption("Roles", "Roles", "Index", "icon-user-md"),
+                new SidebarSuboption("Usuarios", "Usuarios", "Index", "icon-user"),
+
             })));
 
             // Organizacion
@@ -79,7 +91,7 @@ namespace KendoDP2.Models.Helpers
         }
     }
 
-    public class SidebarOption : DBObject
+    public class SidebarOption
     {
         public string Area { get; set; }
         public string Controller { get; set; }
@@ -102,7 +114,7 @@ namespace KendoDP2.Models.Helpers
         }
     }
 
-    public class SidebarSuboption : DBObject
+    public class SidebarSuboption
     {
         public string Title { get; set; }
         public string Controller { get; set; }
@@ -117,5 +129,51 @@ namespace KendoDP2.Models.Helpers
         } 
     }
 
+    public class ObtenerMenu
+    {
+        public SidebarNavigator menu { get; set; }
+
+        public ObtenerMenu()
+        {
+            menu = new SidebarNavigator();
+        }
+
+        public SidebarNavigator MenuUsuario(string username)
+        {
+            SidebarNavigator salida = new SidebarNavigator();
+            salida.Opciones.Clear();
+            salida.Opciones = new List<SidebarOption>();
+
+            using(DP2Context context = new DP2Context())
+            {
+                UsuarioDTO logeo =context.TablaUsuarios.One(i => i.Username == username).ToDTO();
+                foreach (SidebarOption option in menu.Opciones)
+                {
+                    if (option.Suboptions.Count == 0)
+                    {
+                        if (logeo.Roles.Where(c => c.Nombre == option.Controller).Where(c => c.Permiso == true).Count() == 1)
+                        {
+                            salida.Opciones.Add(new SidebarOption(option.Area,option.Controller,option.Method, option.Title, option.Icon));
+                        }
+                        
+                    }else
+                    {
+                        salida.Opciones.Add(new SidebarOption(option.Area, option.Title, option.Icon, new List<SidebarSuboption>()));
+
+                        foreach(SidebarSuboption subopt in option.Suboptions)
+                        {
+                            if (logeo.Roles.Where(c => c.Nombre == subopt.Controller).Where(c => c.Permiso == true).Count() == 1)
+                            {
+                                SidebarSuboption aux = new SidebarSuboption(subopt.Title, subopt.Controller, subopt.Method, subopt.Icon);
+                                salida.Opciones.Where(i => i.Area == option.Area).SingleOrDefault().Suboptions.Add(aux);
+                            }
+                            
+                        }
+                    }
+                }
+            }
+            return salida;
+        }
+    }
 
 }

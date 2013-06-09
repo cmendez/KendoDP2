@@ -50,6 +50,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create([DataSourceRequest] DataSourceRequest request, OfertaLaboralDTO oferta)
         {
+            int ID = 0;
             using (DP2Context context = new DP2Context())
             {
                 oferta.EstadoSolicitudOfertaLaboralID = context.TablaEstadosSolicitudes.One(x => x.Descripcion.Equals("Pendiente")).ID;
@@ -71,7 +72,11 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     }
                 }
                    */
-                context.TablaOfertaLaborales.AddElement(o);
+                ID = context.TablaOfertaLaborales.AddElement(o);
+            }
+            using (DP2Context context = new DP2Context())
+            {
+                OfertaLaboral o = context.TablaOfertaLaborales.FindByID(ID);
                 return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
         }

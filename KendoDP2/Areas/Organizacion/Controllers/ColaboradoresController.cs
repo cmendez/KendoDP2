@@ -181,5 +181,15 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             
         }
 
+        public ActionResult EditingInline_Read([DataSourceRequest] DataSourceRequest request, int colaboradorID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+              //  return Json(context.TablaColaboradores.Where(c => c.Colaborador1ID == colaboradorID).Select(p => p.ToDTO()).ToDataSourceResult(request));
+               return Json( context.TablaColaboradores.FindByID(colaboradorID).EsContactoDe.Where(x => x.ColaboradorID == colaboradorID).Select(x => x.Contacto).ToList());
+            }
+        }
+
+
     }
 }

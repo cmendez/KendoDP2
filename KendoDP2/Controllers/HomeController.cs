@@ -21,8 +21,13 @@ namespace KendoDP2.Controllers
         public ActionResult Index()
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";
-
-            return View();
+            using (DP2Context context = new DP2Context())
+            {
+                var T=  context.TablaUsuarios.One(o => o.Username == User.Identity.Name).ToDTO();
+                Session["enlinea"]=T;
+                return View();    
+            }
+            
         }
 
         [Authorize()]

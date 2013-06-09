@@ -5,6 +5,7 @@ using System.Web;
 
 using System.Data.Entity;
 using KendoDP2.Areas.Eventos.Models;
+using KendoDP2.Areas.Organizacion.Models;
 
 namespace KendoDP2.Models.Generic
 {
@@ -33,9 +34,9 @@ namespace KendoDP2.Models.Generic
 
         private void SeedEstadoEvento()
         {
-            TablaEstadoEvento.AddElement(new EstadoEvento { Descripcion = "Estado1" });
-            TablaEstadoEvento.AddElement(new EstadoEvento { Descripcion = "Estado2" });
-            TablaEstadoEvento.AddElement(new EstadoEvento { Descripcion = "Estado3" });
+            TablaEstadoEvento.AddElement(new EstadoEvento { Descripcion = "Estado 1" });
+            TablaEstadoEvento.AddElement(new EstadoEvento { Descripcion = "Estado 2" });
+            TablaEstadoEvento.AddElement(new EstadoEvento { Descripcion = "Estado 3" });
         }
 
         private void SeedTiposEventos()
@@ -48,34 +49,40 @@ namespace KendoDP2.Models.Generic
 
         private void SeedEvento()
         {
-            TablaEvento.AddElement(new Evento { Nombre = "Evento 1", Inicio = DateTime.ParseExact("03/06/2013 18:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("03/06/2013 21:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, TipoEventoID = 1, CreadorID = 2 });
-            TablaEvento.AddElement(new Evento { Nombre = "Evento 1", Inicio = DateTime.ParseExact("04/06/2013 18:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("04/06/2013 21:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, TipoEventoID = 1, CreadorID = 2 });
-            TablaEvento.AddElement(new Evento { Nombre = "Evento 1", Inicio = DateTime.ParseExact("05/06/2013 18:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("05/06/2013 21:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, TipoEventoID = 1, CreadorID = 2 });
-            TablaEvento.AddElement(new Evento { Nombre = "Evento 1", Inicio = DateTime.ParseExact("06/06/2013 18:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("06/06/2013 21:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, TipoEventoID = 1, CreadorID = 2 });
+            List<Colaborador> lstC = TablaColaboradores.All();
+
+            foreach (var colaborador in lstC)
+            {
+                TablaEvento.AddElement(new Evento { Nombre = "Evento A", Inicio = DateTime.ParseExact("03/06/2013 07:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("03/06/2013 10:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, TipoEventoID = 1, CreadorID = colaborador.ID });
+                TablaEvento.AddElement(new Evento { Nombre = "Evento B", Inicio = DateTime.ParseExact("04/06/2013 07:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("04/06/2013 10:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, TipoEventoID = 2, CreadorID = colaborador.ID });
+                TablaEvento.AddElement(new Evento { Nombre = "Evento C", Inicio = DateTime.ParseExact("05/06/2013 07:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("05/06/2013 10:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, TipoEventoID = 3, CreadorID = colaborador.ID });
+
+                TablaEvento.AddElement(new Evento { Nombre = "Evento A", Inicio = DateTime.ParseExact("03/06/2013 11:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("03/06/2013 14:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 2, TipoEventoID = 1, CreadorID = colaborador.ID });
+                TablaEvento.AddElement(new Evento { Nombre = "Evento B", Inicio = DateTime.ParseExact("04/06/2013 11:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("04/06/2013 14:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 2, TipoEventoID = 2, CreadorID = colaborador.ID });
+                TablaEvento.AddElement(new Evento { Nombre = "Evento C", Inicio = DateTime.ParseExact("05/06/2013 11:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("05/06/2013 14:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 2, TipoEventoID = 3, CreadorID = colaborador.ID });
+
+                TablaEvento.AddElement(new Evento { Nombre = "Evento A", Inicio = DateTime.ParseExact("03/06/2013 15:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("03/06/2013 18:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 3, TipoEventoID = 1, CreadorID = colaborador.ID });
+                TablaEvento.AddElement(new Evento { Nombre = "Evento B", Inicio = DateTime.ParseExact("04/06/2013 15:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("04/06/2013 18:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 3, TipoEventoID = 2, CreadorID = colaborador.ID });
+                TablaEvento.AddElement(new Evento { Nombre = "Evento C", Inicio = DateTime.ParseExact("05/06/2013 15:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("05/06/2013 18:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 3, TipoEventoID = 3, CreadorID = colaborador.ID });
+            }
 
         }
 
         private void SeedInvitado()
         {
-            TablaInvitado.AddElement(new Invitado { ColaboradorID = 3, EventoID = 1 });
-            TablaInvitado.AddElement(new Invitado { ColaboradorID = 4, EventoID = 1 });
-            TablaInvitado.AddElement(new Invitado { ColaboradorID = 5, EventoID = 1 });
-            TablaInvitado.AddElement(new Invitado { ColaboradorID = 6, EventoID = 1 });
+            List<Evento> lstE = TablaEvento.All();
+            List<Colaborador> lstC = TablaColaboradores.All();
 
-            TablaInvitado.AddElement(new Invitado { ColaboradorID = 3, EventoID = 2 });
-            TablaInvitado.AddElement(new Invitado { ColaboradorID = 4, EventoID = 2 });
-            TablaInvitado.AddElement(new Invitado { ColaboradorID = 5, EventoID = 2 });
-            TablaInvitado.AddElement(new Invitado { ColaboradorID = 6, EventoID = 2 });
-
-            TablaInvitado.AddElement(new Invitado { ColaboradorID = 3, EventoID = 3 });
-            TablaInvitado.AddElement(new Invitado { ColaboradorID = 4, EventoID = 3 });
-            TablaInvitado.AddElement(new Invitado { ColaboradorID = 5, EventoID = 3 });
-            TablaInvitado.AddElement(new Invitado { ColaboradorID = 6, EventoID = 3 });
-
-            TablaInvitado.AddElement(new Invitado { ColaboradorID = 3, EventoID = 4 });
-            TablaInvitado.AddElement(new Invitado { ColaboradorID = 4, EventoID = 4 });
-            TablaInvitado.AddElement(new Invitado { ColaboradorID = 5, EventoID = 4 });
-            TablaInvitado.AddElement(new Invitado { ColaboradorID = 6, EventoID = 4 });
+            foreach (var evento in lstE)
+            {
+                var colaboradorHOSTID = evento.CreadorID;
+                foreach (var colaborador in lstC)
+                {
+                    if (colaborador.ID != colaboradorHOSTID)
+                        TablaInvitado.AddElement(new Invitado { ColaboradorID = colaborador.ID, EventoID = evento.ID });
+                }
+            }
+            
         }
 
     }

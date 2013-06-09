@@ -241,6 +241,7 @@
     <Compile Include="Areas\Objetivos\Controllers\WSMisObjetivosController.cs" />
     <Compile Include="Areas\Objetivos\Controllers\WSObjetivosEmpresaController.cs" />
     <Compile Include="Areas\Objetivos\Controllers\WSObjetivosSubornidadosController.cs" />
+    <Compile Include="Areas\Objetivos\Models\AvanceObjetivo.cs" />
     <Compile Include="Areas\Objetivos\Models\DP2Context.cs" />
     <Compile Include="Areas\Objetivos\Models\Objetivo.cs" />
     <Compile Include="Areas\Objetivos\Models\BSC.cs" />
@@ -289,6 +290,7 @@
     <Compile Include="Areas\Reclutamiento\Models\OfertaLaboral.cs" />
     <Compile Include="Areas\Reclutamiento\Models\OfertaLaboralXPostulante.cs" />
     <Compile Include="Areas\Reclutamiento\Models\Postulante.cs" />
+    <Compile Include="Areas\Reclutamiento\Models\ReclutamientoMobileModel.cs" />
     <Compile Include="Areas\Reclutamiento\Models\Respuesta.cs" />
     <Compile Include="Areas\Reclutamiento\ReclutamientoAreaRegistration.cs" />
     <Compile Include="Areas\Reportes\Controllers\ReportesController.cs" />
@@ -296,7 +298,9 @@
     <Compile Include="Areas\Reportes\Models\RCubrimientoOfertas.cs" />
     <Compile Include="Areas\Reportes\ReportesAreaRegistration.cs" />
     <Compile Include="Areas\Seguridad\Controllers\RolesController.cs" />
+    <Compile Include="Areas\Seguridad\Controllers\UsuariosController.cs" />
     <Compile Include="Areas\Seguridad\Controllers\WSUsuariosController.cs" />
+    <Compile Include="Areas\Seguridad\Models\Area.cs" />
     <Compile Include="Areas\Seguridad\Models\DP2Context.cs" />
     <Compile Include="Areas\Seguridad\SeguridadAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -1100,40 +1104,11 @@
     <Content Include="Content\assets\plugins\font-awesome\docs\design.html" />
     <Content Include="Content\assets\plugins\font-awesome\docs\index.html" />
     <Content Include="Content\assets\plugins\font-awesome\docs\test.html" />
-    <Content Include="Content\assets\plugins\fullcalendar\changelog.txt" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\agenda-views.html" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\basic-views.html" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\cupertino\images\animated-overlay.gif" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\cupertino\images\ui-bg_diagonals-thick_90_eeeeee_40x40.png" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\cupertino\images\ui-bg_flat_15_cd0a0a_40x100.png" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\cupertino\images\ui-bg_glass_100_e4f1fb_1x400.png" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\cupertino\images\ui-bg_glass_50_3baae3_1x400.png" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\cupertino\images\ui-bg_glass_80_d7ebf9_1x400.png" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\cupertino\images\ui-bg_highlight-hard_100_f2f5f7_1x100.png" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\cupertino\images\ui-bg_highlight-hard_70_000000_1x100.png" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\cupertino\images\ui-bg_highlight-soft_100_deedf7_1x100.png" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\cupertino\images\ui-bg_highlight-soft_25_ffef8f_1x100.png" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\cupertino\images\ui-icons_2694e8_256x240.png" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\cupertino\images\ui-icons_2e83ff_256x240.png" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\cupertino\images\ui-icons_3d80b3_256x240.png" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\cupertino\images\ui-icons_72a7cf_256x240.png" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\cupertino\images\ui-icons_ffffff_256x240.png" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\cupertino\theme.css" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\default.html" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\external-dragging.html" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\gcal.html" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\json.html" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\selectable.html" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\theme.html" />
-    <Content Include="Content\assets\plugins\fullcalendar\fullcalendar\bootstrap-fullcalendar.css" />
-    <Content Include="Content\assets\plugins\fullcalendar\fullcalendar\fullcalendar.css" />
-    <Content Include="Content\assets\plugins\fullcalendar\fullcalendar\fullcalendar.js" />
-    <Content Include="Content\assets\plugins\fullcalendar\fullcalendar\fullcalendar.min.js" />
-    <Content Include="Content\assets\plugins\fullcalendar\fullcalendar\fullcalendar.print.css" />
-    <Content Include="Content\assets\plugins\fullcalendar\fullcalendar\gcal.js" />
-    <Content Include="Content\assets\plugins\fullcalendar\jquery\jquery-1.9.1.min.js" />
-    <Content Include="Content\assets\plugins\fullcalendar\jquery\jquery-ui-1.10.2.custom.min.js" />
-    <Content Include="Content\assets\plugins\fullcalendar\license.txt" />
+    <Content Include="Content\assets\plugins\fullcalendar\css\fullcalendar.css" />
+    <Content Include="Content\assets\plugins\fullcalendar\scripts\fullcalendar.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\scripts\fullcalendar.min.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\css\fullcalendar.print.css" />
+    <Content Include="Content\assets\plugins\fullcalendar\scripts\gcal.js" />
     <Content Include="Content\assets\plugins\glyphicons\css\glyphicons.css" />
     <Content Include="Content\assets\plugins\glyphicons\css\style.css" />
     <Content Include="Content\assets\plugins\glyphicons\fonts\glyphicons-regular.svg" />
@@ -1783,7 +1758,6 @@
     <Content Include="Content\assets\plugins\font-awesome\README.md" />
     <Content Include="Content\assets\plugins\font-awesome\sass\font-awesome.sass" />
     <Content Include="Content\assets\plugins\font-awesome\sass\font-awesome.scss" />
-    <Content Include="Content\assets\plugins\fullcalendar\demos\json-events.php" />
     <Content Include="Content\assets\plugins\glyphicons\fonts\glyphicons-regular.eot" />
     <Content Include="Content\assets\plugins\glyphicons\fonts\glyphicons-regular.otf" />
     <Content Include="Content\assets\plugins\glyphicons\fonts\glyphicons-regular.ttf" />
@@ -1905,6 +1879,8 @@
     <Content Include="Areas\Eventos\Views\Web.config" />
     <Content Include="Areas\Evaluacion360\Views\Evaluacion\GuardarEvaluacion.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\Subordinados\Index.cshtml" />
+    <Content Include="Areas\Seguridad\Views\Usuarios\Index.cshtml" />
+    <Content Include="Areas\Seguridad\Views\Roles\UsuarioRoles.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesExternas\Index.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesExternas\ListaPostulantesExternos.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesExternas\PostulantesExternosFase1.cshtml" />
@@ -1922,6 +1898,7 @@
     <Content Include="Areas\Organizacion\Views\Organigrama\Index.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\ListarProcesosXEvaluado\Index.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\ListarProcesosXEvaluado\ListarResultados.cshtml" />
+    <Content Include="Areas\Evaluacion360\Views\Subordinados\TemporalDeCodigo.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\areas_icon.png" />
     <Content Include="Images\favicon.ico" />
@@ -2077,7 +2054,6 @@
     <Folder Include="Areas\Personal\Views\Colaboradores\" />
     <Folder Include="Areas\Personal\Views\Shared\EditorTemplates\" />
     <Folder Include="Areas\Reportes\Views\Shared\" />
-    <Folder Include="Areas\Seguridad\Views\Shared\" />
     <Folder Include="Content\assets\plugins\jquery-file-upload\server\php\files\thumbnail\" />
   </ItemGroup>
   <ItemGroup>
