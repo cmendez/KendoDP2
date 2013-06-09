@@ -79,9 +79,15 @@ namespace KendoDP2.Models.Generic
 
         private void SeedCompetencias()
         {
-            TablaCompetencias.AddElement(new Competencia("Ser chiquito"));
-            TablaCompetencias.AddElement(new Competencia("Ser grande"));
-            TablaCompetencias.AddElement(new Competencia("Ser kiwi"));
+            TablaCompetencias.AddElement(new Competencia("Matemáticas"));
+            TablaCompetencias.AddElement(new Competencia("Comunicación linguística"));
+            TablaCompetencias.AddElement(new Competencia("Artística y cultural"));
+            TablaCompetencias.AddElement(new Competencia("Tratamiento de información digital"));
+            TablaCompetencias.AddElement(new Competencia("Sociabilidad y ciudadanía"));
+            TablaCompetencias.AddElement(new Competencia("Aprendizaje"));
+            TablaCompetencias.AddElement(new Competencia("Autonomía"));
+            TablaCompetencias.AddElement(new Competencia("Iniciativa personal"));
+            TablaCompetencias.AddElement(new Competencia("Manejo de situaciones"));
         }
 
         private void SeedCapacidad()
@@ -93,7 +99,17 @@ namespace KendoDP2.Models.Generic
 
         private void SeedCompetenciasXPuesto()
         {
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,1,1));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1, 1, 1));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(2, 1, 1));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(4, 1, 1));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(9, 1, 1));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1, 3, 1));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1, 3, 1));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1, 3, 1));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1, 3, 1));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1, 6, 1));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1, 6, 1));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1, 6, 1));
         }
 
         private void SeedPuestoXEvaluadores()

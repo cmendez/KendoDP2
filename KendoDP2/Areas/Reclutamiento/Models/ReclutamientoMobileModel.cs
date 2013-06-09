@@ -8,13 +8,13 @@ using KendoDP2.Areas.Evaluacion360.Models;
 
 namespace KendoDP2.Areas.Reclutamiento.Models
 {
-    public class ReclutamientoMobile
+    public class ReclutamientoMobileModel
     {
     }
 
     public class PostulanteConCompetenciasDTO
     {
-        public int? IdPostulante { get; set; }
+        public int IdPostulante { get; set; }
         public string Nombre { get; set; }
         public ICollection<CompetenciaConPonderadoDTO> CompetenciasPostulante { get; set; }
         public int MatchLevel { get; set; }
@@ -22,13 +22,14 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public PostulanteConCompetenciasDTO(ICollection<CompetenciaConPonderadoDTO> competenciasPuesto, Postulante postulante)
         {
             //puede ser null?
-            IdPostulante = postulante.ColaboradorID;
+            IdPostulante = postulante.ID;
             Nombre = postulante.Nombres + " " + postulante.ApellidoPaterno + " " + postulante.ApellidoMaterno;
             //Competencias
             var context = new DP2Context();
             //si postulante.ColaboradorID es null, se caerá
-            Colaborador colaborador = context.TablaColaboradores.Where(a => a.ID == IdPostulante).First();
-            Puesto puesto = context.TablaColaboradoresXPuestos.Where(a => a.ColaboradorID == colaborador.ID).Select(a => a.Puesto).First();
+            //Colaborador colaborador = context.TablaColaboradores.Where(a => a.ID == postulante.Colaborador.ID).First();
+            Puesto puesto = context.TablaColaboradoresXPuestos.Where(a => a.ColaboradorID == postulante.ColaboradorID)
+                .Select(a => a.Puesto).First();
             CompetenciasPostulante = OfertaLaboralMobileJefeDTO.ListaCompetenciasConPonderadoToDTO(puesto.CompetenciasXPuesto);
         }
 

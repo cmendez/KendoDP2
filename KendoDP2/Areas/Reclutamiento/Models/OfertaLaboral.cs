@@ -228,7 +228,8 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public int ID { get; set; }
         public string NombreAreaPuesto { get; set; }
         public string DescripcionOferta { get; set; }
-        public int SueldoTentativo { get; set; } 
+        public int SueldoTentativo { get; set; }
+        public string FechaFinVigencia { get; set; }
         public ICollection<FuncionDTO> Funciones { get; set; }
         public ICollection<CompetenciaConPonderadoDTO> CompetenciasPonderadasPuesto { get; set; }
         public ICollection<CompetenciaConPonderadoDTO> CompetenciasPonderadasColaborador { get; set; }
@@ -241,6 +242,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             DescripcionOferta = oferta.Descripcion;
             SueldoTentativo = oferta.SueldoTentativo;
             Funciones = ListaFuncionesToDTO(oferta.Puesto.Funciones);
+            FechaFinVigencia = oferta.FechaFinVigenciaSolicitud;
             //Las competencias del puesto:
             CompetenciasPonderadasPuesto = ListaCompetenciasConPonderadoToDTO(oferta.Puesto.CompetenciasXPuesto);
             //Las competencias colaborador (se obtienen del puesto de este):

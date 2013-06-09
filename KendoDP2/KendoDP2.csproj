@@ -284,7 +284,7 @@
     <Compile Include="Areas\Reclutamiento\Models\OfertaLaboral.cs" />
     <Compile Include="Areas\Reclutamiento\Models\OfertaLaboralXPostulante.cs" />
     <Compile Include="Areas\Reclutamiento\Models\Postulante.cs" />
-    <Compile Include="Areas\Reclutamiento\Models\ReclutamientoMobile.cs" />
+    <Compile Include="Areas\Reclutamiento\Models\ReclutamientoMobileModel.cs" />
     <Compile Include="Areas\Reclutamiento\Models\Respuesta.cs" />
     <Compile Include="Areas\Reclutamiento\ReclutamientoAreaRegistration.cs" />
     <Compile Include="Areas\Reportes\Controllers\ReportesController.cs" />
