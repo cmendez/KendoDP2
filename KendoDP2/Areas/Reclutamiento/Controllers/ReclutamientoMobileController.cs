@@ -42,10 +42,17 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                var ofertas1 = context.TablaOfertaLaborales.All().Select(p => p.ToMobileJefeDTO(userName)).ToList();
+                //var ofertas1 = context.TablaOfertaLaborales.All().Select(p => p.ToMobileJefeDTO(userName)).ToList();
+                var fechaActual = DateTime.Now;
                 var estado = context.TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID;
-                //var ofertas2 = context.TablaOfertaLaborales.Where(a=>a.EstadoSolicitudOfertaLaboralID == estado).Select(p => p.ToMobilePostulanteDTO()).ToList();
-                return Json(ofertas1, JsonRequestBehavior.AllowGet);
+                var modo = context.TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID;
+                var responsableId = context.TablaUsuarios.One(a=>a.Username.Equals(userName)).ID;
+                var ofertas2 = context.TablaOfertaLaborales.Where(a => a.EstadoSolicitudOfertaLaboralID == estado)
+                    .Where(a => a.ModoSolicitudOfertaLaboralID == modo)
+                    .Where(a => DateTime.ParseExact(a.FechaFinVigenciaSolicitud, "dd/MM/yyyy", CultureInfo.CurrentCulture).CompareTo(fechaActual) >= 1)
+                    .Where(a => a.ResponsableID == responsableId)
+                    .Select(p => p.ToMobileJefeDTO(userName)).ToList();
+                return Json(ofertas2, JsonRequestBehavior.AllowGet);
             }
         }
 
