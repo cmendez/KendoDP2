@@ -22,13 +22,13 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public PostulanteConCompetenciasDTO(ICollection<CompetenciaConPonderadoDTO> competenciasPuesto, Postulante postulante)
         {
             //puede ser null?
-            IdPostulante = postulante.ID;
+            IdPostulante = postulante.Colaborador.ID;
             Nombre = postulante.Nombres + " " + postulante.ApellidoPaterno + " " + postulante.ApellidoMaterno;
             //Competencias
             var context = new DP2Context();
             //si postulante.ColaboradorID es null, se caerá
             //Colaborador colaborador = context.TablaColaboradores.Where(a => a.ID == postulante.Colaborador.ID).First();
-            Puesto puesto = context.TablaColaboradoresXPuestos.Where(a => a.ColaboradorID == postulante.ColaboradorID)
+            Puesto puesto = context.TablaColaboradoresXPuestos.Where(a => a.ID == postulante.Colaborador.ID)
                 .Select(a => a.Puesto).First();
             CompetenciasPostulante = OfertaLaboralMobileJefeDTO.ListaCompetenciasConPonderadoToDTO(puesto.CompetenciasXPuesto);
         }

@@ -258,6 +258,7 @@
     <Compile Include="Areas\Organizacion\Models\DP2Context.cs" />
     <Compile Include="Areas\Organizacion\Models\Funcion.cs" />
     <Compile Include="Areas\Organizacion\Models\FuncionXPuesto.cs" />
+    <Compile Include="Areas\Organizacion\Models\NodoOrganigramaDTO.cs" />
     <Compile Include="Areas\Organizacion\Models\Organizacion.cs" />
     <Compile Include="Areas\Organizacion\Models\PuestoXArea.cs" />
     <Compile Include="Areas\Organizacion\Models\EstadosPuesto.cs" />
