@@ -12,6 +12,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         public string Correo { get; set; }
         public string Telefono { get; set; }
         public string ImagenURL { get; set; }
+        public int PuestoId { get; set; }
         public string Puesto { get; set; }
         public string Area { get; set; }
         public bool HasChildren { get; set; }
@@ -27,6 +28,7 @@ namespace KendoDP2.Areas.Organizacion.Models
                 this.ImagenURL = colaborador.ImagenColaboradorID > 0 ? "/Misc/GetImagen?archivoID=" + colaborador.ImagenColaboradorID : "../Images/unknown-person.jpg";
                 
             //  Información del puesto:
+                this.PuestoId = colaborador.ColaboradoresPuesto.Last().PuestoID;
                 this.Puesto = colaborador.ColaboradoresPuesto.Last().Puesto.Nombre;
 
             //  Información del área
