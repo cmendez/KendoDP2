@@ -409,13 +409,17 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
         private bool EsAdmin(int idUsuario, DP2Context context)
         {
-            ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == idUsuario && !x.IsEliminado);
-            Puesto puesto = context.TablaPuestos.FindByID(cxp.PuestoID);
             bool esAdmin = true;
-            // No es presidente, admin 
-            if (puesto != null && puesto.PuestoSuperiorID != null)
+            
+            ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == idUsuario && !x.IsEliminado);
+            if (cxp != null)
             {
-                esAdmin = false;
+                Puesto puesto = context.TablaPuestos.FindByID(cxp.PuestoID);
+                // No es presidente, admin 
+                if (puesto != null && puesto.PuestoSuperiorID != null)
+                {
+                    esAdmin = false;
+                }
             }
             return esAdmin;
         }
