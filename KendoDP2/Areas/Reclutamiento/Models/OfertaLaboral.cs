@@ -252,11 +252,33 @@ namespace KendoDP2.Areas.Reclutamiento.Models
                 .Select(a=>a.Puesto).First();
             var CompetenciasPonderadasColaboradorAux = ListaCompetenciasConPonderadoToDTO(puesto.CompetenciasXPuesto);
             //Filtrar las competencias que me interesan matchear
-            CompetenciasPonderadasColaborador = new List<CompetenciaConPonderadoDTO>();
+            var CompetenciasPonderadasColaboradorFiltrado = new List<CompetenciaConPonderadoDTO>();
             foreach (CompetenciaConPonderadoDTO competenciaColaborador in CompetenciasPonderadasColaboradorAux)
             {
                 if (CompetenciasPonderadasPuesto.Any(a => a.CompetenciaNombre.Equals(competenciaColaborador.CompetenciaNombre)))
-                    CompetenciasPonderadasColaborador.Add(competenciaColaborador);
+                    CompetenciasPonderadasColaboradorFiltrado.Add(competenciaColaborador);
+            }
+            //Llenar las competencias vacías
+            CompetenciasPonderadasColaborador = new List<CompetenciaConPonderadoDTO>();
+            int cont = 0;
+            foreach (CompetenciaConPonderadoDTO competenciaPuesto in CompetenciasPonderadasPuesto)
+            {
+                if (!CompetenciasPonderadasColaboradorFiltrado
+                    .Any(a => a.CompetenciaNombre.Equals(competenciaPuesto.CompetenciaNombre)))
+                {
+                    //crear la comp
+                    CompetenciaConPonderadoDTO competenciaVacia = new CompetenciaConPonderadoDTO();
+                    competenciaVacia.CompetenciaID = -1;
+                    competenciaVacia.CompetenciaNombre = competenciaPuesto.CompetenciaNombre;
+                    competenciaVacia.Porcentaje = 0;
+                    //agregarla
+                    CompetenciasPonderadasColaborador.Add(competenciaVacia);
+                }
+                else
+                {
+                    CompetenciasPonderadasColaborador.Add(CompetenciasPonderadasColaboradorFiltrado.ElementAt(cont));
+                    cont++;
+                }
             }
             //MatchLevel:
             double sumaCompetenciasPuesto = 0;
