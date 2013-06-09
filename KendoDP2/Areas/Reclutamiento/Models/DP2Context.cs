@@ -104,7 +104,7 @@ namespace KendoDP2.Models.Generic
             {
                 PuestoID = 3,
                 AreaID = TablaPuestos.One(a => a.ID == 3).AreaID,
-                ResponsableID = TablaColaboradores.One(a => a.ApellidoPaterno.Equals("Solorzano")).ID,
+                ResponsableID = TablaColaboradores.One(a => a.Username.Equals("cperez")).ID,
                 EstadoSolicitudOfertaLaboralID = TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID,
                 FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"),
                 FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
@@ -112,14 +112,14 @@ namespace KendoDP2.Models.Generic
                 ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
                 SueldoTentativo = 15000,
                 Comentarios = "",
-                NumeroVacantes = 3
+                NumeroVacantes = 3,
             });
 
             TablaOfertaLaborales.AddElement(new OfertaLaboral
             {
                 PuestoID = 1,
                 AreaID = TablaPuestos.One(a=>a.ID == 1).AreaID,
-                ResponsableID = TablaColaboradores.One(a => a.ApellidoPaterno.Equals("Solorzano")).ID,
+                ResponsableID = TablaColaboradores.One(a => a.Username.Equals("cperez")).ID,
                 EstadoSolicitudOfertaLaboralID = TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID,
                 FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"),
                 FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
@@ -134,7 +134,7 @@ namespace KendoDP2.Models.Generic
             {
                 PuestoID = 6,
                 AreaID = TablaPuestos.One(a => a.ID == 1).AreaID,
-                ResponsableID = TablaColaboradores.One(a => a.ApellidoPaterno.Equals("Solorzano")).ID,
+                ResponsableID = TablaColaboradores.One(a => a.Username.Equals("cperez")).ID,
                 EstadoSolicitudOfertaLaboralID = TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID,
                 FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"),
                 FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),

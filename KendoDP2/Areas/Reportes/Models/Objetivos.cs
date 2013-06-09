@@ -26,6 +26,7 @@ namespace KendoDP2.Areas.Reportes.Models
         public ColaboradorDTO dueño { get; set; }
         public int BSCID { get; set; }
         public int puestoID { get; set; }
+        
 
         public string FechaCreacion { get; set; }
         public string FechaFinalizacion { get; set; }
@@ -73,6 +74,8 @@ namespace KendoDP2.Areas.Reportes.Models
         public int peso { get; set; }
         public bool esIntermedio { get; set; }
         public int idPuesto { get; set; }
+        public bool tienepadre { get; set; }
+        public int BSCId { get; set; }
 
         public ObjetivoRDTO(Objetivo o,DP2Context context)
         {
@@ -93,6 +96,8 @@ namespace KendoDP2.Areas.Reportes.Models
             hijos = o.ObjetivosHijos.Count;            
             avance = o.AvanceFinal;
             esIntermedio = o.IsObjetivoIntermedio;
+            tienepadre = o.ObjetivoPadreID.Value>0;
+            BSCId = o.BSCID.Value;
             if (o.PuestoAsignado != null)
             {
                 idPuesto = o.PuestoAsignado.ID;

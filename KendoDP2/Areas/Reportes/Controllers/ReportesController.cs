@@ -121,12 +121,18 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 //    PersonasXObjetivo.Add(pxo);
                 //}
                 List<ObjetivoConPadreDTO> ListaObjetivosHijos = context.TablaObjetivos.Where(o => o.ObjetivoPadreID == idObjetivo).Select(o => o.ObjetivoConPadreDTO(context)).ToList();
-                List<ColaboradorXPuestoDTO> ListaColaboradoresXPuesto = context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == ListaObjetivosHijos[0].puestoID).Select(p => p.ToDTO()).ToList();
                 List<ColaboradorDTO> ListaColaboradores = new List<ColaboradorDTO>();
-                foreach (ColaboradorXPuestoDTO cxp in ListaColaboradoresXPuesto)
+
+                foreach (ObjetivoConPadreDTO objhijo in ListaObjetivosHijos)
                 {
-                    ListaColaboradores.Add(cxp.Colaborador);
+                    ListaColaboradores.AddRange(context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == objhijo.puestoID).Select(p => p.ToDTO().Colaborador));
                 }
+                //List<ColaboradorXPuestoDTO> ListaColaboradoresXPuesto = context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == ListaObjetivosHijos[0].puestoID).Select(p => p.ToDTO()).ToList();
+                
+                //foreach (ColaboradorXPuestoDTO cxp in ListaColaboradoresXPuesto)
+                //{
+                //    ListaColaboradores.Add(cxp.Colaborador);
+                //}
                 foreach (ColaboradorDTO c in ListaColaboradores)
                 {
                     PersonaXObjetivoDTO pxo = new PersonaXObjetivoDTO();
