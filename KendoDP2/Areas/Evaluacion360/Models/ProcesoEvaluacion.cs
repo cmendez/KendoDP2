@@ -82,4 +82,61 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         }
     }
 
+    public class ResultadoEvaluacionesRDTO
+    {
+        //public int id
+        //public string idEmpleado;
+        public string IdEmpleado { get;  set; }
+        public string IdCargo { get; set; }
+
+        //public Evaluacio
+        //public ResultadoDeUnaEvaluacionRDTO
+        //public PuntajeDeUnaEvaluacionRDTO evaluaciones;
+        public List<PuntajeEnUnEventoDeEvaluacionRDTO> evaluaciones;
+
+        public ResultadoEvaluacionesRDTO()
+        {
+
+        }
+    }
+
+
+    public class PuntajeEnUnEventoDeEvaluacionRDTO
+    {
+        public string IdEmpleado { get; set; }
+        //public string IdCargo { get; set; }
+        public string IdDelCargo { get; set; }
+
+        public string IdDelProceso { get; set; }
+        public string Estado { get; set; }
+        //public List<ResultadoCompetenciaRDTO> 
+
+        //public string PuntajeGlo
+        public string ResultadoGlobal { get; set; }
+        public List<ResultadoCompetenciaRDTO> puntajes;
+
+        public PuntajeEnUnEventoDeEvaluacionRDTO()
+        {
+
+        }
+
+    }
+
+    public class ResultadoCompetenciaRDTO
+    {
+        public string IdEmpleado { get; set; }
+        public string IdDelCargo { get; set; }
+        public string IdDelProceso { get; set; }
+        public string IdDeLaCompetencia { get; set; }
+        //public string DescripcionCompetencia { get; set; }
+        public string DescripcionDeLaCompetencia { get; set; }
+        public string NotaSobreCien { get; set; }
+
+        public ResultadoCompetenciaRDTO()
+        {
+
+        }
+
+    }
+
 }
