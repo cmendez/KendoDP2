@@ -172,12 +172,27 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     if (p == null) throw new Exception("El colaborador " + c.ToDTO().NombreCompleto + " no existe como postulante");
                     if (p.OfertasPostuladas == null || p.OfertasPostuladas.Count == 0) throw new Exception("El colaborador " + c.ToDTO().NombreCompleto + " no ha postulado a nada");
 
+                    //ColaboradorXPuesto actual = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == c.ID && !x.FechaSalidaPuesto.HasValue);
+                    ColaboradorXPuesto actual = c.ColaboradoresPuesto.Single(x => !x.FechaSalidaPuesto.HasValue);
+                    if (actual == null) throw new Exception("El colaborador " + c.ToDTO().NombreCompleto + " no tiene un puesto actual determinado");
 
-                    List<OfertaLaboralXPostulante> lstOLXP = context.TablaOfertaLaboralXPostulante.Where(x => x.PostulanteID == p.ID);
-                    if (lstOLXP == null || lstOLXP.Count == 0) return JsonSuccessGet();
+                    int areaID = actual.Puesto.AreaID;
+                    //List<OfertaLaboral> lstOL = context.TablaOfertaLaborales.All();
+                    List<OfertaLaboral> lstOL = context.TablaOfertaLaborales.Where(
+                            x => // x.AreaID == areaID && //De la misma area que el postulante (colaborador) //SI QUIERES FILTRAR POR AREA, ACTIVAS AQUI NO MAS
+                            x.EstadoSolicitudOfertaLaboralID == esol.ID && //Que coincida con el estado de la oferta laboral que deseo
+                            x.Postulantes.Select(y => y.PostulanteID).Contains(p.ID) //No sea una oferta ya postulada
+                    );
+                    if (lstOL == null) throw new Exception("No se encontraron ofertas laborales que cumplan los requisitos (Misma area que el postulante/Coincida con el estado/No hayan sido ya postuladas)");
 
-                    List<OfertaLaboral> lstOL = lstOLXP.Select(x => x.OfertaLaboral).Where(x => x.EstadoSolicitudOfertaLaboralID == esol.ID).ToList();
-                    return JsonSuccessGet(new { ofertasLaborales = lstOL });
+                    List<OfertaLaboralDTO> lstOLDTO = lstOL.Select(x => x.ToDTO()).ToList();
+                    return JsonSuccessGet(new { ofertasLaborales = lstOLDTO });
+
+                    //IEnumerable<OfertaLaboral> lstOL = p.OfertasPostuladas.Select(x => x.OfertaLaboral).Where(x => x.EstadoSolicitudOfertaLaboralID == esol.ID);
+                    //if (lstOL == null) throw new Exception("De las ofertas postuladas por el colaborador " + c.ToDTO().NombreCompleto + " , ninguna esta en estado " + estadoOfertaLaboral);
+                    
+                    //List<OfertaLaboralDTO> lstOLDTO = lstOL.ToList().Select(x => x.ToDTO()).ToList();
+                    //return JsonSuccessGet(new { ofertasLaborales = lstOLDTO });
                     
                 }
                 catch (Exception ex)
