@@ -113,7 +113,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                context.TablaProcesoEvaluaciones.RemoveElementByID(proceso.ID, true);
+                context.TablaProcesoEvaluaciones.RemoveElementByID(proceso.ID);
                 return Json(ModelState.ToDataSourceResult());
             }
         }
