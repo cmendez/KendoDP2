@@ -293,25 +293,30 @@
                                         <div style="height: auto;" id="accordion3-3" class="accordion collapse in">
                                             <form action="#">
                                                 @Html.Partial("EditorColaboradorContrasenha", colaboradorDTO)
+<<<<<<< HEAD
+
+=======
+>>>>>>> e938f506f1553ee5fe9b6bd068ad12a7b79c8b18
                                                 <div class="submit-btn">
                                                     <a href="#" class="btn green">Guardar</a>
                                                     <a href="#" class="btn">Cancelar</a>
                                                 </div>
                                             </form>
                                         </div>
-@*=======
-                                                >
-                                             </form>
+<<<<<<< HEAD
+
+                                     </div>
+                                </div>
+                             </div>
+
+
                                           </div>
                                        </div>
->>>>>>> d137d64d7e754142bafa5f9426af2dc980ec0315*@
+
                                     </div>
-                                </div>
-                            </div>
+                           
                             <!--end span9-->
-                        </div>
-                    </div>
-                </div>
+             
                 <!--end tab-pane-->
                 <div class="tab-pane" id="tab_1_4">
                     <div class="row-fluid add-portfolio">
@@ -517,16 +522,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
                 @*********************CONTACTOS*****************************@
                 <div class="tab-pane" id="tab_1_7">
                     <div class="row-fluid">
@@ -551,9 +546,9 @@
                 .Name("ContactosGrid")
                 .Columns(columns =>
                     {
-                        columns.Bound(p => p.ContactoDTO.Nombre);
-                        columns.Bound(p => p.ContactoDTO.ApellidoPaterno);
-                        columns.Bound(p => p.ContactoDTO.ApellidoMaterno);
+                        //columns.Bound(p => p.ContactoDTO.Nombre);
+                        //columns.Bound(p => p.ContactoDTO.ApellidoPaterno);
+                        //columns.Bound(p => p.ContactoDTO.ApellidoMaterno);
                         columns.Bound(p => p.Relacion);
 
 
@@ -577,10 +572,9 @@
                             .PageSize(20)
                             .Model(model => { model.Id(p => p.ID); })
 
-                            .Read(read => read.Action("EditingInline_Read", "Colaboradores", new { colaboradorID = colaboradorDTO.ID }))
+                            .Read(read => read.Action("EditingInline_Read2", "Colaboradores", new { colaboradorID = colaboradorDTO.ID }))
                             .Update(update => update.Action("EditingInline_Update", "Colaboradores"))
                             .Destroy(update => update.Action("EditingInline_Destroy", "Colaboradores"))
-                            .Events(e => e.Error("onError"))
                         )
                         )
                     </div>
@@ -595,32 +589,33 @@
 
 
 
-            </div>
-        </div>
         <!--END TABS-->
+        </div>
+    </div>
     </div>
 </div>
+                
 <script type="text/javascript">
     function loadImage(img_name) {
         $("#" + img_name).attr("src", "/Organizacion/Colaboradores/ViewImageDeColaborador?colaboradorID=" + '@colaboradorDTO.ID');
     }
 
     $(document).ready(function ready() {
-        comboPuestosSelection();
-        //comboColaboradoresSelection();
+        //comboPuestosSelection();
+        comboColaboradoresSelection();
     });
 
     var last_container = null;
     function comboColaboradoresSelection() {
         var comboPuestos = $("#ComboColaboradores").data("kendoComboBox");
         if (comboPuestos.selectedIndex == -1)
-            return;
+           return;
 
         var puestoID = comboPuestos.dataItem(comboPuestos.selectedIndex).ID;
 
-        if (last_container != null)
+       if (last_container != null)
             last_container.hide();
-        last_container = $("#container-" + puestoID);
+       last_container = $("#container-" + puestoID);
         last_container.show();
     }
 
@@ -648,13 +643,13 @@
         var colaboradorID = comboColaboradores.dataItem(comboColaboradores.selectedIndex).ID;
         var colaboradorNombre = comboColaboradores.dataItem(comboColaboradores.selectedIndex).NombreCompleto;
         $.ajax({
-            url: '@Url.Action("AddEvaluadosColaborador", "ProcesoEvaluacion", new { Area = "Evaluacion360" })',
+            url: '@Url.Action("AddEvaluadosColaborador", "Colaboradores", new { Area = "Organizacion" })',
                     dataType: 'JSON',
                     type: 'POST',
-                    data: { colaboradorID: colaboradorID },
+                    data: {colaboradorID: @colaboradorDTO.ID, contactoID: contactoID},
                     success: function (data) {
                         if (data.success) {
-                            $("#ConctactosGrid").data('kendoGrid').dataSource.read();
+                            $("#ContactosGrid").data('kendoGrid').dataSource.read();
                         }
                         else
                             alert("El colaborador seleccionado ya se encuentra en la lista de evaluados");
