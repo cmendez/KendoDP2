@@ -26,5 +26,20 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 return Json(objetivos.Select(c => c.ToDTO(context)).ToList(), JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ActionResult Create(ObjetivoDTO objetivo)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                Objetivo o = new Objetivo(objetivo, context);
+                o.IsObjetivoIntermedio = true;
+                context.TablaObjetivos.AddElement(o);
+                Objetivo padre1 = context.TablaObjetivos.FindByID(o.ObjetivoPadreID.GetValueOrDefault());
+                Objetivo padre2 = context.TablaObjetivos.FindByID(padre1.ObjetivoPadreID.GetValueOrDefault());
+                Puesto puesto = context.TablaPuestos.FindByID(padre2.PuestoAsignadoID.GetValueOrDefault());
+                puesto.ReparteObjetivosASubordinados(context);
+                return Json(new { objetivoID = o.ID }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
