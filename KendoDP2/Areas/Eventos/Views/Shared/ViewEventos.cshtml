@@ -11,11 +11,15 @@
     SelectList listaEstados = new SelectList(estadosEventos, "ID", "Descripcion");
     SelectList listaPuestos = new SelectList(puestos, "ID", "Nombre");
 }
+<link href='@Url.Content("~/Content/assets/plugins/fullcalendar/css/fullcalendar.css")' rel='stylesheet' />
+<link href='@Url.Content("~/Content/assets/plugins/fullcalendar/css/fullcalendar.print.css")' rel='stylesheet' media='print' />
+<script src='@Url.Content("~/Content/assets/plugins/fullcalendar/scripts/fullcalendar.min.js")'></script>
+
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Calendario de Eventos", "Administre los Eventos de la empresa"));}
 
 <!-- BEGIN PAGE CONTENT-->
             <div class="row-fluid">
-               <div class="portlet box blue calendar">
+               <div class="portlet box blue ">
                   <div class="portlet-title">
                      <div class="caption"><i class="icon-reorder"></i>Calendario de Eventos</div>
                   </div>
@@ -49,10 +53,72 @@
             </div>
             <!-- END PAGE CONTENT-->
 
-<script src="@Url.Content("~/Content/assets/scripts/calendar.js")"></script>
-<script>
-    jQuery(document).ready(function() {
-    App.init();
-    Calendar.init();
-    });
+<script type="text/javascript">
+$(document).ready(function() {
+	
+		var date = new Date();
+		var d = date.getDate();
+		var m = date.getMonth();
+		var y = date.getFullYear();
+		
+		$('#calendar').fullCalendar({
+			editable: true,
+			events: [
+				{
+					title: 'All Day Event',
+					start: new Date(y, m, 1)
+				},
+				{
+					title: 'Long Event',
+					start: new Date(y, m, d-5),
+					end: new Date(y, m, d-2)
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: new Date(y, m, d-3, 16, 0),
+					allDay: false
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: new Date(y, m, d+4, 16, 0),
+					allDay: false
+				},
+				{
+					title: 'Meeting',
+					start: new Date(y, m, d, 10, 30),
+					allDay: false
+				},
+				{
+					title: 'Lunch',
+					start: new Date(y, m, d, 12, 0),
+					end: new Date(y, m, d, 14, 0),
+					allDay: false
+				},
+				{
+					title: 'Birthday Party',
+					start: new Date(y, m, d+1, 19, 0),
+					end: new Date(y, m, d+1, 22, 30),
+					allDay: false
+				},
+				{
+					title: 'Click for Google',
+					start: new Date(y, m, 28),
+					end: new Date(y, m, 29),
+					url: 'http://google.com/'
+				}
+			]
+		});
+		
+	});
+
 </script>
+<style>
+
+	#calendar {
+		width: 900px;
+		margin: 0 auto;
+		}
+
+</style>

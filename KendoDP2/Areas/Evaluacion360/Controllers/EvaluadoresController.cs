@@ -116,6 +116,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 //evaluadores.evaluadores = new List<Colaborador>();
                 evaluadores.evaluadores = new List<Evaluador>();
 
+                CorreoController correoController = new CorreoController();
                 for (int i = 0; i < llaves.Count / 2; i++)
                 {
                     string nombreControl = llaves[i * 2 + 1];
@@ -134,7 +135,11 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     //Evaluador comoEvaluador = Evaluador.enrolarlo(elParticipante, idDelProceso);
                     Evaluador comoEvaluador = new Evaluador(evaluadoId, elParticipante, idDelProceso);
 
-
+                    //Enviar email
+                    correoController.SendEmailRH("pruebas.rhpp+RHADMIN@gmail.com",
+                                                elParticipante.CorreoElectronico,
+                                                "Inicio Proceso evaluacion: test ",
+                                                correoController.getMensajeParaEvaluador(elParticipante.ToDTO().NombreCompleto));
 
                     evaluadores.evaluadores.Add(context.TablaEvaluadores.FindByID(evaluadorId));
 
@@ -158,6 +163,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
             }
         }
+
         public void CrearEvaluaciones(Evaluador evaluador, DP2Context context) {
 
                 //Guardar la evaluación
