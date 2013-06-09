@@ -156,9 +156,9 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         {
             ID = o.ID;
             PuestoID = o.PuestoID;
-            Puesto = o.Puesto.Descripcion;
+            Puesto = o.Puesto.Nombre;
             AreaID = o.AreaID;
-            Area = o.Area.Descripcion;
+            Area = o.Area.Nombre;
             ResponsableID = o.ResponsableID;
             Responsable = o.Responsable.ToDTO().NombreCompleto;
             EstadoSolicitudOfertaLaboralID = o.EstadoSolicitudOfertaLaboralID;
