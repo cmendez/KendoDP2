@@ -56,8 +56,8 @@ namespace KendoDP2.Areas.Eventos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                List<EventoDTO> colaboradores = context.TablaEvento.All().Select(p => p.ToDTO()).OrderBy(x => x.ID).ToList();
-                return Json(colaboradores.ToDataSourceResult(request));
+                List<EventoDTO> eventos = context.TablaEvento.All().Where(p => (p.TipoEvento.Descripcion.Equals("Evento Empresa") || p.TipoEvento.Descripcion.Equals("Evento Fechas Especiales"))).Select(p => p.ToDTO()).OrderBy(x => x.ID).ToList();
+                return Json(eventos.ToDataSourceResult(request));
             }
         }
 
