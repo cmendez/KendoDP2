@@ -5,6 +5,7 @@ using System.Web;
 
 using KendoDP2.Models.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel;
 
 namespace KendoDP2.Areas.Reclutamiento.Models
 {
@@ -56,6 +57,8 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         //no olvidar que se puede mandar las fases a traves de un list
         //probando algo nuevo
         public int EstadoPostulantePorOfertaID { get; set; }
+
+        [DisplayName("Estado Postulante")]
         public string EstadoPostulantePorOfertaNombre { get; set; }
         
         public OfertaLaboralXPostulanteDTO()
