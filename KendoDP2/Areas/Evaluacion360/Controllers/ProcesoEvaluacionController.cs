@@ -240,22 +240,44 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             {
                 ProcesoEvaluacion p = context.TablaProcesoEvaluaciones.FindByID(procesoEvaluacionID, false);
                 ViewBag.enProceso = false;
+                ViewBag.noHayEvaluados = false;
                 ViewBag.proceso = p;
                 // Validar que el proceso no haya sido iniciado previamente
-                if (p.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso)).ID) {
+                if (p.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso)).ID)
+                {
                     ViewBag.enProceso = true;
                     return View();
                 }
+                else {
+                    List<ColaboradorXProcesoEvaluacion> listaEvaluados = context.TablaColaboradorXProcesoEvaluaciones.Where(x => x.ProcesoEvaluacionID == procesoEvaluacionID);
+                    if (listaEvaluados.Count() == 0 || listaEvaluados == null)
+                    {
+                        ViewBag.noHayEvaluados = true;
+                        return View();
+                    }
 
-                List<ColaboradorXProcesoEvaluacion> list = context.TablaColaboradorXProcesoEvaluaciones.Where(x => x.ProcesoEvaluacionID == procesoEvaluacionID);
-                using (CorreoController correoController = new CorreoController()){
-                    correoController.EnviarEmailsInicio(list, p);
+                    // Obtener la lista de "jefes" para notificar vía email el inicio del proceso
+                    List<Colaborador> listaJefes = new List<Colaborador>();
+                    
+                    foreach (ColaboradorXProcesoEvaluacion evaluado in listaEvaluados)
+                    {
+                        ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos.One(x=> x.ColaboradorID==evaluado.ColaboradorID && !x.IsEliminado);
+                        Puesto puestoSuperior = context.TablaPuestos.FindByID(cxp.PuestoID).PuestoSuperior;
+                        ColaboradorXPuesto jefePuesto = context.TablaColaboradoresXPuestos.One(x => x.PuestoID == puestoSuperior.ID && !x.IsEliminado);
+                        listaJefes.Add(context.TablaColaboradores.One(x => x.ID == jefePuesto.ColaboradorID));
+                    }
+                    // Notificar jefes
+                    using (CorreoController correoController = new CorreoController())
+                    {
+                        correoController.EnviarEmailsInicio(listaJefes, p);
+                    }
+
+                    EstadoProcesoEvaluacion enProceso = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso));
+                    p.EstadoProcesoEvaluacion = enProceso;
+                    context.TablaProcesoEvaluaciones.ModifyElement(p);
+                    return View();
                 }
-
-                EstadoProcesoEvaluacion enProceso = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso));
-                p.EstadoProcesoEvaluacion = enProceso;
-                context.TablaProcesoEvaluaciones.ModifyElement(p);
-                return View();
+                
             }
         }
 
@@ -277,7 +299,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
               }
               
               // Procesar resultados parciales y modificar estados 
-              //CalcularYGuardarResultadosProceso(proceso, context);
+             // CalcularYGuardarResultadosProceso(proceso, context);
 
               // Actualiza estado del proceso
               EstadoProcesoEvaluacion terminado = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Terminado));
@@ -304,10 +326,10 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     Examen examen = context.TablaExamenes.One(x=> x.EvaluadorID == evaluador.ID);
                     // Solo considerar las evaluaciones que fueron terminadas
                     if (examen.EstadoExamenID == context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID) {
+                        
+                        PuestoXEvaluadores puestoXEvaluador = context.TablaPuestoXEvaluadores.One(x=>x.PuestoID==context.TablaColaboradoresXPuestos.One(y=>y.Colaborador.ID == evaluadorID).PuestoID );
+                        int pesoExamenXEvaluador = puestoXEvaluador.Peso;
 
-                        //PuestoXEvaluadores puestoXEvaluador = context.TablaPuestoXEvaluadores.Where(x => x.PuestoID == context.TablaColaboradoresXPuestos.One(x => x.Colaborador.ID == evaluadorID).PuestoID);
-                        PuestoXEvaluadores puestoXEvaluador = null;
-                        int pesoExamenXEvaluador = puestoXEvaluador.Peso; //TODO: obtener de tabla
                         acumuladoPesos += pesoExamenXEvaluador;
                         notaEvaluadoXProceso+= (pesoExamenXEvaluador * examen.NotaExamen);
                     }

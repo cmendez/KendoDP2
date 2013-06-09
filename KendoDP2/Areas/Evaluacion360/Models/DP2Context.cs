@@ -79,21 +79,107 @@ namespace KendoDP2.Models.Generic
 
         private void SeedCompetencias()
         {
-            TablaCompetencias.AddElement(new Competencia("Ser chiquito"));
-            TablaCompetencias.AddElement(new Competencia("Ser grande"));
-            TablaCompetencias.AddElement(new Competencia("Ser kiwi"));
+            TablaCompetencias.AddElement(new Competencia("CONFIA EN SI MISMO Y SE MOTIVA POR EL RETO"));
+            TablaCompetencias.AddElement(new Competencia("COMPRENDE LA ORGANIZACIÓN Y SU ENTORNO.  SABE CÓMO HACER QUE LAS COSAS SUCEDAN"));
+            TablaCompetencias.AddElement(new Competencia("LOGRA IMPACTO E INFLUENCIA EN LA COMUNICACIÓN Y RELACIONES"));
+            TablaCompetencias.AddElement(new Competencia("DEMUESTRA CURIOSIDAD, IMAGINACIÓN Y PENSAMIENTO CONCEPTUAL.  (LO IMAGINAMOS, LO HACEMOS)"));
+            TablaCompetencias.AddElement(new Competencia("TRABAJA EN EQUIPO Y BRINDA COLABORACIÓN"));
+            TablaCompetencias.AddElement(new Competencia("SE ORIENTA AL LOGRO"));
+ 
         }
 
         private void SeedCapacidad()
         {
-            TablaCapacidades.AddElement(new Capacidad("Trabajador ", 1, 1, 30));
-            TablaCapacidades.AddElement(new Capacidad("Responsable", 1, 1, 30));
-            TablaCapacidades.AddElement(new Capacidad("Mal amigo", 1, 1, 40));
+      
+            // COMPETENCIA 1
+                // nivel 1
+                TablaCapacidades.AddElement(new Capacidad("Trabaja sin necesidad de supervisión directa. ", 1, 1, 30));
+                TablaCapacidades.AddElement(new Capacidad("Muestra seguridad y una actitud positiva ante los problemas u obstáculos.", 1, 1, 30));
+                TablaCapacidades.AddElement(new Capacidad("Tiene claridad de cuáles son sus fortalezas y oportunidades de mejora a nivel de habilidades", 1, 1, 40));
+                // nivel 2
+                TablaCapacidades.AddElement(new Capacidad("Toma la iniciativa para proponer nuevas ideas en el desarrollo de su trabajo ", 2, 1, 20));
+                TablaCapacidades.AddElement(new Capacidad("Muestra una actitud positiva hacia el cambio y se reta constantemente.", 2, 1, 40));
+                TablaCapacidades.AddElement(new Capacidad("Actúa con rapidez y decisión ante una crisis. Para encontrar una solución puede probar nuevas formas de hacer las cosas ", 2, 1, 40));
+                // nivel 3
+                TablaCapacidades.AddElement(new Capacidad("Demuestra compromiso con su propio desarrollo, actualiza sus conocimientos para profundizar y ampliar su ámbito de conocimiento", 3, 1, 40));
+                TablaCapacidades.AddElement(new Capacidad("Genera planes de acción para evitar problemas en el corto plazo ", 3, 1, 30));
+                TablaCapacidades.AddElement(new Capacidad("Interactúa con otros de forma segura, tranquila y firme, comunicando sus opiniones con convicción, incluso en situaciones de crisis o conflicto.", 3, 1, 30));
+            // COMPETENCIA 2
+                // nivel 1
+                TablaCapacidades.AddElement(new Capacidad("Entiende el funcionamiento de la organización ( estructura , lìneas de reporte ) y sabe trabajar adecuadamente en ella. ", 1, 2, 30));
+                TablaCapacidades.AddElement(new Capacidad("Utiliza la estructura formal de la organización para conseguir los resultados y en determinadas ocasiones busca soporte en la estructura informal de la organización", 1, 2, 30));
+                TablaCapacidades.AddElement(new Capacidad("Conoce quiénes son las personas clave en la toma de decisiones y las involucra en el momento adecuado. ", 1, 2, 40));
+                // nivel 2
+                TablaCapacidades.AddElement(new Capacidad("Identifica qué conductas, reacciones se pueden o no tener en ciertos momentos o roles. Sabe relacionarse con diferentes interlocutores.", 2, 2, 30));
+                TablaCapacidades.AddElement(new Capacidad("Demuestra los valores BELCORP en su gestión diaria (Pasión, Orgullo, Compromiso, Liderazgo)", 2, 2, 30));
+                TablaCapacidades.AddElement(new Capacidad("Conoce la estructura informal (las relaciones entre áreas, unidades y personas) y sabe cómo aprovecharla para obtener la mejor respuesta posible.", 2, 2, 40));
+                // nivel 3
+                TablaCapacidades.AddElement(new Capacidad("Conoce y usa las fuentes de poder formales e informales para lograr que las cosas sucedan.", 3, 2, 30));
+                TablaCapacidades.AddElement(new Capacidad("Monitorea a la organización (resultados de negocio y cambios de estructura). Sabe y entiende qué está pasando con las personas, con la estructura y con el negocio.", 3, 2, 30));
+                TablaCapacidades.AddElement(new Capacidad("Sabe cuándo y cómo solicitar el apoyo de diferentes áreas o personas en la organización para lograr mejores resultados.", 3, 2, 40));
+            
+            // COMPETENCIA 3
+                // nivel 1
+                TablaCapacidades.AddElement(new Capacidad("Utiliza la persuasión directa en una presentación o discusión", 1, 3, 30));
+                TablaCapacidades.AddElement(new Capacidad("Se apoya de ejemplos concretos, ayudas visuales, demostraciones, de acuerdo a la situaciòn", 1, 3, 30));
+                TablaCapacidades.AddElement(new Capacidad("Para lograr sus objetivos apela a la razón, a hechos y datos", 1, 3, 40));
+                // nivel 2
+                TablaCapacidades.AddElement(new Capacidad("Da dos o más pasos (acciones o estrategias) para persuadir sin intentar adaptarse específicamente a los intereses de los interlocutores. ", 2, 3, 30));
+                TablaCapacidades.AddElement(new Capacidad("Elabora dos o más argumentos o puntos de vista diferentes en una presentación o discusión. Prepara cuidadosamente los datos y sustentos para una presentación. ", 2, 3, 30));
+                TablaCapacidades.AddElement(new Capacidad("Anticipa las reacciones de los demás y se preparara para responder de manera adecuada a dichas reacciones.", 2, 3, 40));
+                // nivel 3
+                TablaCapacidades.AddElement(new Capacidad("Busca información especializada o de expertos para apoyar decisiones, influenciar o negociar. ", 3, 3, 30));
+                TablaCapacidades.AddElement(new Capacidad("Lleva a cabo acciones inusuales o  particulares especialmente pensadas para producir un impacto determinado.", 3, 3, 30));
+                TablaCapacidades.AddElement(new Capacidad("Piensa en el efecto que una acción o cualquier otro detalle producirá en la imagen que los demás tienen de él.", 1, 3, 40));
+            // COMPETENCIA 4
+                // nivel 1
+                TablaCapacidades.AddElement(new Capacidad("Busca tener un mayor entendimiento realizando preguntas que lo orienten (por ejemplo, busca a los directamente involucrados para conocer más a fondo la situación y el problema).", 1, 4, 30));
+                TablaCapacidades.AddElement(new Capacidad("Utiliza la información disponible para solucionar un problema y en caso no cuente con la necesaria, la investiga ", 1, 4, 30));
+                TablaCapacidades.AddElement(new Capacidad("Utiliza reglas sencillas, el sentido común y la experiencia previa para identificar problemas y soluciones.", 1, 4, 40));
+                // nivel 2
+                TablaCapacidades.AddElement(new Capacidad("Es intelectualmente curioso(a). Muestra interés frente a los problemas u oportunidades, busca nuevos enfoques para enfrentarlos. Hace preguntas para profundizar.", 2, 4, 30));
+                TablaCapacidades.AddElement(new Capacidad("Utiliza diversas fuentes de información que le permitan ampliar su ámbito de conocimiento. ", 2, 4, 30));
+                TablaCapacidades.AddElement(new Capacidad("Identifica pautas, tendencias o vacíos en la información que maneja.", 2, 4, 40));
+                // nivel 3
+                TablaCapacidades.AddElement(new Capacidad("Reúne información y la analiza. Es capaz de generar hipótesis, investigar y sacar conclusiones.", 3, 4, 30));
+                TablaCapacidades.AddElement(new Capacidad("Piensa de manera creativa para generar soluciones a problemas", 3, 4, 30));
+                TablaCapacidades.AddElement(new Capacidad("1. Presenta propuestas para la soluciòn de problemas sustentadas en análisis e investigación", 1, 4, 40));
+            // COMPETENCIA 5
+                // nivel 1
+                TablaCapacidades.AddElement(new Capacidad("Participa activamente en la formación y consolidación del equipo, muestra un espíritu constructivo y actitud positiva. ", 1, 5, 30));
+                TablaCapacidades.AddElement(new Capacidad("Cumple con las responsabilidades asignadas por el equipo", 1, 5, 30));
+                TablaCapacidades.AddElement(new Capacidad("Demuestra compromiso con el equipo contribuyendo más allá de su estricta responsabilidad, para alcanzar los objetivos establecidos por el equipo (da una milla extra cuando la situación lo requiere).", 1, 5, 40));
+                // nivel 2
+                TablaCapacidades.AddElement(new Capacidad("Comparte sus conocimientos, expertise, así como la información relevante y útil con todos los miembros del equipo.", 2, 5, 30));
+                TablaCapacidades.AddElement(new Capacidad("Respeta las decisiones del equipo y  promueve en todos los miembros el cumplimiento de los compromisos individuales.", 2, 5, 30));
+                TablaCapacidades.AddElement(new Capacidad("Mantiene al equipo informado de cambios en objetivos comunes y de situaciones que puedan afectar el logro de los objetivos.", 2, 5, 40));
+                // nivel 3
+                TablaCapacidades.AddElement(new Capacidad("1. Toma decisiones como miembro del equipo, considerando los factores del entorno    ", 3, 5, 30));
+                TablaCapacidades.AddElement(new Capacidad("Expresa sus propios puntos de vista, y escucha a los demás, está abierto a nuevas ideas. ", 3, 5, 30));
+                TablaCapacidades.AddElement(new Capacidad("Acompaña y respalda públicamente las decisiones y acciones del equipo", 1, 5, 40));
+            // COMPETENCIA 6
+                // nivel 1
+                TablaCapacidades.AddElement(new Capacidad("Està en contacto con el cliente interno y externo y tiene alta disposiciòn a atender sus necesidades ", 1, 6, 30));
+                TablaCapacidades.AddElement(new Capacidad("Mantiene una comunicación clara con el cliente interno y externo, entiende su requerimiento y concreta compromisos claros ", 1, 6, 30));
+                TablaCapacidades.AddElement(new Capacidad("Es proactivo evalua diferentes opciones para responder a su cliente interno o externo", 1, 6, 40));
+                // nivel 2
+                TablaCapacidades.AddElement(new Capacidad("Comparte sus conocimientos, expertise, así como la información relevante y útil con todos los miembros del equipo.", 2, 6, 30));
+                TablaCapacidades.AddElement(new Capacidad("Respeta las decisiones del equipo y  promueve en todos los miembros el cumplimiento de los compromisos individuales.", 2, 6, 30));
+                TablaCapacidades.AddElement(new Capacidad("Mantiene al equipo informado de cambios en objetivos comunes y de situaciones que puedan afectar el logro de los objetivos.", 2, 6, 40));
+                // nivel 3
+                TablaCapacidades.AddElement(new Capacidad("1. Toma decisiones como miembro del equipo, considerando los factores del entorno.", 3, 6, 30));
+                TablaCapacidades.AddElement(new Capacidad("Expresa sus propios puntos de vista, y escucha a los demás, está abierto a nuevas ideas. ", 3, 6, 30));
+                TablaCapacidades.AddElement(new Capacidad("Acompaña y respalda públicamente las decisiones y acciones del equipo", 1, 6, 40));
         }
 
         private void SeedCompetenciasXPuesto()
         {
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,1,1));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,1,3));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(2, 1, 3));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(3, 1, 3));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(4, 2, 3));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5, 2, 3));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(6, 2, 3));
         }
 
         private void SeedPuestoXEvaluadores()

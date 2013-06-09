@@ -1,0 +1,48 @@
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Models.Seguridad
+
+@{
+    ViewBag.Title = "Rol";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Rol", "Administre los permisos al usuario"));}
+
+<div class="portlet box green">
+    <div class="portlet-title">
+        <h4><i class="icon-reorder"></i>Roles</h4>
+        <div class="tools">
+	        <a href="javascript:;" class="collapse"></a>
+        </div>
+	</div>
+    <div class="portlet-body">
+        @(Html.Kendo().Grid<RolDTO>()
+            .Name("RolGrid")
+            .Columns(columns =>
+                {
+                    columns.Bound(p => p.ID);
+                    columns.Bound(p => p.Area);
+                    columns.Bound(p => p.Nombre);
+                    columns.Command(command => { command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar"); command.Destroy().Text("Eliminar"); }).Width(200);
+                }
+            )
+            .Editable(editable=>editable
+                .Mode(GridEditMode.PopUp)
+                .DisplayDeleteConfirmation("¿Está seguro que desea eliminar este registro?")
+                .Window(w => w.Title("Ingrese el nuevo Rol"))
+            )
+            .Pageable(paper => paper.Refresh(true))
+            .Filterable()
+            .Sortable()
+            .Scrollable(w => w.Height(330))
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .PageSize(20)
+                .Model(model => model.Id(p => p.ID))
+                .Read(read => read.Action("Read_U", "Roles"))
+                .Update(update => update.Action("Update_U", "Roles"))
+                )
+        )
+     
+    </div>
+</div>

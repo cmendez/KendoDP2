@@ -40,6 +40,8 @@ namespace KendoDP2.Areas.Objetivos.Models
         [InverseProperty("Objetivos")]
         public virtual Colaborador Dueño { get; set; }
 
+        public virtual ICollection<AvanceObjetivo> Avances { get; set; }
+
         public Objetivo() {
             FechaCreacion = DateTime.Now;
         }
@@ -107,6 +109,10 @@ namespace KendoDP2.Areas.Objetivos.Models
             return new ObjetivoRDTO(this,context);
         }
 
+        public ObjetivoConPadreDTO ObjetivoConPadreDTO( DP2Context context){
+            return new ObjetivoConPadreDTO(this, context);
+        }
+
     }
 
     //public class ObjetivoRDTO
@@ -169,6 +175,6 @@ namespace KendoDP2.Areas.Objetivos.Models
             //PeriodoID = o.PeriodoID;
 
         }
-
+        
     }
 }

@@ -2,9 +2,10 @@
 
 
 @helper ShowNavigator(){
-    SidebarNavigator navigator = new SidebarNavigator();
-    
-    foreach(SidebarOption option in navigator.Opciones) {
+    ObtenerMenu navigator = new ObtenerMenu();
+
+    foreach (SidebarOption option in navigator.menu.Opciones)//.MenuUsuario(User.Identity.Name).Opciones)
+    {
         if(option.Suboptions.Count == 0)
         {
             <li class="@GetOptionArea(option.Area)">

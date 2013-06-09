@@ -3,14 +3,14 @@
 @{
     ViewBag.Title = "Linea de Carrera";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    IList<AreaDTO> areas = ViewBag.areas;
-    IList<EstadosColaboradorDTO> estadosColaborador = ViewBag.estadosColaborador;
-    IList<PuestoDTO> puestos = ViewBag.puestos;
-    SelectList lista = new SelectList(areas, "ID", "Nombre");
-    SelectList listaEstados = new SelectList(estadosColaborador, "ID", "Descripcion");
-    SelectList listaPuestos = new SelectList(puestos, "ID", "Nombre");
 
+    IList<AreaDTO> areas = ViewBag.areas;
+    IList<PuestoDTO> puestos = ViewBag.puestos;
+    SelectList listaAreas = new SelectList(areas, "ID", "Nombre");
+    SelectList listaPuestos = new SelectList(puestos, "ID", "Nombre");
+    
 }
+
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Colaboradores", "Administre los colaboradores de la empresa"));}
 
 <div class="portlet box green">
@@ -24,18 +24,18 @@
     <div class="portlet-body">
 
            <div class="row-fluid">
-            @(Html.Kendo().Grid<ColaboradorDTO>()
+            @(Html.Kendo().Grid<ColaboradorXPuestoDTO>()
                 .Name("ColaboradorGrid")
                 .Columns(columns =>
                     {
                         columns.Bound(p => p.ID);
-                        columns.Bound(p => p.Nombre);
-                        columns.Bound(p => p.ApellidoPaterno);
-                        columns.Bound(p => p.ApellidoMaterno);
-                        columns.ForeignKey(p => p.EstadoColaboradorID, listaEstados);
-                        columns.ForeignKey(p => p.AreaID, lista);
-                        columns.ForeignKey(p => p.PuestoID, listaPuestos);
-                        columns.Template(@<text></text>).ClientTemplate("<a href='" + Url.Action("Linea", "Historial") + "/#=ID#'>Linea</a>");
+                        columns.Bound(P => P.Colaborador.ID);
+                        columns.Bound(P=>P.Colaborador.Nombre);
+                        columns.Bound(P => P.Colaborador.ApellidoPaterno);
+                        columns.Bound(P => P.Colaborador.ApellidoMaterno);
+                        columns.ForeignKey(p => p.Puesto.AreaID, listaAreas);
+                        columns.ForeignKey(p => p.Puesto.ID, listaPuestos);
+                        columns.Template(@<text></text>).ClientTemplate("<a class='btn btn-success'href='" + Url.Action("Linea", "Historial") + "/#=Colaborador.ID#'>Linea</a>");
                         columns.Command(command =>
                         {
                             command.Edit().Text("Agregar Puesto").UpdateText("Guardar").CancelText("Cancelar");
@@ -46,7 +46,7 @@
                         .Editable(editable => editable
                             .Mode(GridEditMode.PopUp)
                             .TemplateName("EditorColaboradorLineadeCarrera")
-                            .Window(w => { w.Title("Ingrese los datos"); w.Width(900); })
+                            .Window(w => { w.Title("Ingrese los datos del nuevo puesto"); w.Width(700); })
                         )
 
                         .Groupable()
