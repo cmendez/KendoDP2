@@ -46,10 +46,11 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 //Colaborador col= context.TablaColaboradores.FindByID(2);
                 //col.Objetivos.Add(context.TablaObjetivos.FindByID(22));
                 //context.TablaColaboradores.ModifyElement(col);
-
-
-                context.TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = context.TablaPuestos.One(perfil => perfil.Nombre.Equals("Gerente general")).ID, ColaboradorID = context.TablaColaboradores.One(e => e.Nombres.CompareTo("colaborador modulo tres a") == 0).ID, Sueldo = 2500, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Ninguno", IsEliminado = false });
-                
+                PuestoDTO pu= context.TablaPuestos.One(perfil => perfil.Nombre.Equals("Gerente general")).ToDTO();
+                if (context.TablaColaboradoresXPuestos.Where(cxp => cxp.Colaborador.Nombres.CompareTo("colaborador modulo tres a") == 0 && cxp.Puesto.ID == pu.ID).Count==0)
+                {
+                    context.TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = context.TablaPuestos.One(perfil => perfil.Nombre.Equals("Gerente general")).ID, ColaboradorID = context.TablaColaboradores.One(e => e.Nombres.CompareTo("colaborador modulo tres a") == 0).ID, Sueldo = 2500, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Ninguno", IsEliminado = false });
+                }
 
                 List<ObjetivoRDTO> ListaObjetivos2 = new List<ObjetivoRDTO>();
                 List<ObjetivoDTO> ListaObjetivos3 = new List<ObjetivoDTO>();
@@ -84,10 +85,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
                             List<ObjetivoRDTO> Objetivosnietos=context.TablaObjetivos.Where(o => o.ObjetivoPadreID ==objhijo.idObjetivo).Select(p => p.ToRDTO(context)).ToList();
                             if (Objetivosnietos.Count>0 )
                             objhijo.descripcion = Objetivosnietos[0].descripcion;
-                            if (objhijo.idPuesto > 0)
-                            {
-                                objhijo.numPersonas = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.PuestoSuperior.ID == objhijo.idPuesto).Count;
-                            }
+                            objhijo.numPersonas = objhijo.hijos;
                             
                         }                        
                     }
