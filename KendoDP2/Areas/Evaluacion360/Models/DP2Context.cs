@@ -174,12 +174,63 @@ namespace KendoDP2.Models.Generic
 
         private void SeedCompetenciasXPuesto()
         {
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,1,3));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(2, 1, 3));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(3, 1, 3));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(4, 2, 3));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5, 2, 3));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(6, 2, 3));
+            //(int competenciaId, int puestoId, int nivelId)
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,1,3, 30));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(2, 1, 3, 30));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(3, 1, 3, 40));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(4, 2, 3,30));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5, 2, 3, 30));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(6, 2, 3, 40));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,3,1, 30));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(2,3,2, 70));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(3,4,3, 50));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(4,4,1,50));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5,5,2, 50));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(6,5,3, 50));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,6,1,60));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(2,6,2, 40));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(3,7,3, 80));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(4,7,1, 20));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5,8,2, 75));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(6,8,3, 25));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,9,1, 40));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(2,9,2, 30));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(3,9,3, 30));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(4,10,1, 20));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5,10,2, 40));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(6,10,3, 40));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,11,1, 30));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(2,11,2, 30));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(3,11,3, 40));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(4,12,1, 100));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5,13,2, 80));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(6,13,3, 20));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,14,1, 100));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(2,15,2, 50));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(3,15,3, 50));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(4,16,1, 40));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5,16,2, 30));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(6,16,3, 30));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,17,1, 100));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(3,18,2, 35));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(2,18,2, 65 ));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(3,19,3, 55));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(4,19,1, 45));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5,20,2, 30));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(6,20,3, 70));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,21,1, 60));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(2,21,2, 20));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(3,21,3, 20));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(4,22,1, 20));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5,22,2, 40));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(6,22,3, 40));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,23,1, 30));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(2,23,2, 30));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(3,23,3, 40));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(4,24,1, 30));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5,24,2, 30));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(6,24,3, 40));
+
         }
 
         private void SeedPuestoXEvaluadores()

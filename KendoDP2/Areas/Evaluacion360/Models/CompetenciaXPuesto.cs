@@ -34,11 +34,12 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         {
         }
 
-        public CompetenciaXPuesto (int competenciaId, int puestoId, int nivelId)
+        public CompetenciaXPuesto (int competenciaId, int puestoId, int nivelId, int peso)
         {
             CompetenciaID = competenciaId;
             PuestoID = puestoId;
             NivelID = nivelId;
+            Peso = peso;
         }
 
         public CompetenciaXPuestoDTO enFormatoParaElCliente()
