@@ -190,7 +190,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             {
               //  return Json(context.TablaColaboradores.Where(c => c.Colaborador1ID == colaboradorID).Select(p => p.ToDTO()).ToDataSourceResult(request));
                //return Json( context.TablaColaboradores.FindByID(colaboradorID).Contactos.Where(x => x.ColaboradorID == colaboradorID).Select(x => x.Contacto).ToList());
-                return Json(context.TablaColaboradores.FindByID(colaboradorID).Contactos.Where(x => x.ColaboradorID == colaboradorID).Select(x => x.Contacto).ToList().ToDataSourceResult(request), JsonRequestBehavior.AllowGet) ;
+                return Json(context.TablaColaboradores.FindByID(colaboradorID).Contactos.Where(x => x.ColaboradorID == colaboradorID).Select(x => x.ToDTO()).ToList().ToDataSourceResult(request)) ;
             }
         }
 

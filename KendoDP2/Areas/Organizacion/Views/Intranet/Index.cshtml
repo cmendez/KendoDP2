@@ -546,9 +546,9 @@
                 .Name("ContactosGrid")
                 .Columns(columns =>
                     {
-                        columns.Bound(p => p.ContactoDTO.Nombre);
-                        columns.Bound(p => p.ContactoDTO.ApellidoPaterno);
-                        columns.Bound(p => p.ContactoDTO.ApellidoMaterno);
+                        //columns.Bound(p => p.ContactoDTO.Nombre);
+                        //columns.Bound(p => p.ContactoDTO.ApellidoPaterno);
+                        //columns.Bound(p => p.ContactoDTO.ApellidoMaterno);
                         columns.Bound(p => p.Relacion);
 
 
@@ -575,7 +575,6 @@
                             .Read(read => read.Action("EditingInline_Read2", "Colaboradores", new { colaboradorID = colaboradorDTO.ID }))
                             .Update(update => update.Action("EditingInline_Update", "Colaboradores"))
                             .Destroy(update => update.Action("EditingInline_Destroy", "Colaboradores"))
-                            .Events(e => e.Error("onError"))
                         )
                         )
                     </div>
@@ -602,7 +601,7 @@
     }
 
     $(document).ready(function ready() {
-        comboPuestosSelection();
+        //comboPuestosSelection();
         comboColaboradoresSelection();
     });
 
