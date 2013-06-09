@@ -39,7 +39,7 @@ namespace KendoDP2.Areas.Eventos.Controllers
                     }
                     catch (Exception)
                     {
-                        throw new Exception("Formato de la fecha de inicio incorrecto");                        
+                        throw new Exception("Formato de la fecha de fin incorrecto");                        
                     }
 
                     if (DateTime.Compare(inicio, fin) >= 0) throw new Exception("La fecha final no puede ser menor que la fecha inicial"); 

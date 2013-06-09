@@ -75,7 +75,7 @@ namespace KendoDP2.Models.Generic
                 PuestoID = 1,
                 AreaID = TablaAreas.One(a => a.Nombre.Equals("Directorio")).ID,
                 ResponsableID = TablaColaboradores.One(a => a.ApellidoPaterno.Equals("Solorzano")).ID,
-                EstadoSolicitudOfertaLaboralID = 1,
+                EstadoSolicitudOfertaLaboralID = TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID,
                 FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"),
                 FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
                 Descripcion = "Trabajo en el directorio",
@@ -184,6 +184,8 @@ namespace KendoDP2.Models.Generic
                 GradoAcademicoID = TablaGradosAcademicos.One(ga => ga.Descripcion.Equals("Licenciado")).ID,
             });
 
+            //Colaborador que va a tener creado su entidad Postulante para postular a una OfertaLaboral
+            TablaPostulante.AddElement(new Postulante(TablaColaboradores.One(x => x.Nombres.Equals("Colaborador Postulante"))));
         }
 
         private void SeedEstadoPostulantePorOferta()
@@ -234,6 +236,19 @@ namespace KendoDP2.Models.Generic
                 Comentarios = String.Empty,
                 Observaciones = String.Empty
             });
+
+            //Colaborador que va a tener creado su entidad Postulante para postular a una OfertaLaboral
+            TablaOfertaLaboralXPostulante.AddElement(new OfertaLaboralXPostulante
+            {
+                OfertaLaboralID = 1,
+                PostulanteID = TablaPostulante.One(x => x.Nombres.Equals("Colaborador Postulante")).ID,
+                EstadoPostulantePorOfertaID  = 1,
+                FlagAprobado = false,
+                PuntajeTotal = 0,
+                MotivoRechazo = String.Empty,
+                Comentarios = String.Empty,
+                Observaciones = String.Empty
+            });
         }
 
         private void SeedFasePostulacionXOfertaLaboralXPostulante()
@@ -246,6 +261,12 @@ namespace KendoDP2.Models.Generic
             TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado Externo")).ID, OfertaLaboralXPostulanteID = 2 });
             TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado RRHH")).ID, OfertaLaboralXPostulanteID = 2 });
             TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado Jefe")).ID, OfertaLaboralXPostulanteID = 2 });
+            
+            //Colaborador que va a tener creado su entidad Postulante para postular a una OfertaLaboral
+            TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Registrado")).ID, OfertaLaboralXPostulanteID = 3 });
+            TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado Externo")).ID, OfertaLaboralXPostulanteID = 3 });
+            TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado RRHH")).ID, OfertaLaboralXPostulanteID = 3 });
+            TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado Jefe")).ID, OfertaLaboralXPostulanteID = 3 });
         }
     }
 }
