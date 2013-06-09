@@ -74,7 +74,6 @@ namespace KendoDP2.Models.Generic
             //SeedBSC();
             SeedObjetivos();
             SeedColaboradorXPuesto();
-            SeedObjetivosPersonales();
             // Area Evaluacion360
             seedProcesosDeEvaluacion();
             //seedColaboradorXProcesoEvaluacion();

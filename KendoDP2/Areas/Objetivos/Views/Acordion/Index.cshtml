@@ -141,45 +141,28 @@
                             //.Expanded(true)
                             .Items(items =>
                             {
-                                //items.Add
-                                //foreach(KendoDP2.Areas.Objetivos.Models.AvanceObjetivoDTO unProgreso in  unoDeSusObjetivos.LosProgresos)
-                                foreach (KendoDP2.Areas.Objetivos.Models.AvanceObjetivoDTO unPaso in unoDeSusObjetivos.LosProgresos)
-                                {
-                                    //unPaso
-                                    //items.Add().Text("El " + unPaso.FechaCreacion + " alcancé el " + unPaso.Valor + "%");
-                                    //items.Add().Text("El " + unPaso.FechaCreacion + " alcancé el " + unPaso.Valor + "%").Url("javascript:escogeOpcion();");
-                                    //items.Add().Text("El " + unPaso.FechaCreacion + " alcancé el " + unPaso.Valor + "%").Url("javascript:escogeOpcion(unPaso.Valor);");
-                                    //items.Add().Text("El " + unPaso.FechaCreacion + " alcancé el " + unPaso.Valor + "%").Url("javascript:escogeOpcion(" + unPaso.Valor + ");");
-                                    //items.Add().Text("El " + unPaso.FechaCreacion + " alcancé el " + unPaso.Valor + "%").Url("javascript:escogeOpcion(" + unPaso.ID + ", " + unPaso.Valor + ");");
-
-                                    //if (unPaso.fueRevisado)
-                                    if (unPaso.FueRevisado)
-                                    {
-                                        //if (unPaso.Valor == unPaso.ValorJefe)
-                                        if (unPaso.Valor == unPaso.ValorDelJefe)
-                                        {
-                                            //El jefe aprobo el avance presentado por el subordinado
-                                            //items.Add().Text("El " + unPaso.FechaCreacion + " alcancé el " + unPaso.Valor + "%").Url("javascript:escogeOpcion(" + unPaso.ID + ", " + unPaso.Valor + ");");
-                                            items.Add().Text("El " + unPaso.FechaCreacion + " alcancé el " + unPaso.Valor + "%");
-
-                                        }
-                                        else
-                                        {
-                                            //El jefe modifico el valor a su criterio
-                                            //items.Add().Text("El " + unPaso.FechaCreacion + " alcancé el " + unPaso.Valor + "%. El jefe dispuso un valor de " + unPaso.ValorDelJefe + "%.").Url("javascript:escogeOpcion(" + unPaso.ID + ", " + unPaso.Valor + ");");
-                                            items.Add().Text("El " + unPaso.FechaCreacion + " alcancé el " + unPaso.Valor + "%. El jefe dispuso un valor de " + unPaso.ValorDelJefe + "%.");
-
-                                        }
-
-                                    }
-                                    else
-                                    {
-                                        items.Add().Text("El " + unPaso.FechaCreacion + " alcancé el " + unPaso.Valor + "%. Presione este elemento para aprobarlo.").Url("javascript:escogeOpcion(" + unPaso.ID + ", " + unPaso.Valor + ");");
-                                        
-                                    }
-                                
-                                
-                                }
+                                //items.Add().Text("El 01/01/2013 alcancé el 20% - " + @Url.Action("Aprobar") + " - " + @Url.Action("Cambiar valor"));
+                                items.Add().Text("El " + unoDeSusObjetivos.FechaFinalizacion + " tengo planeado conseguir este objetivo").HtmlAttributes(new { style = "color: rgb(71, 0, 255)" });
+                                items.Add().Text("El dia de hoy: martes, 28 de mayo de 2013").HtmlAttributes(new { style = "font-weight: bold"});
+                                //items.Add().Text("El lunes, 27 de mayo de 2013 17:10 alcancé el 20% - Aprobar - Cambiar valor");
+                                //items.Add().Text("El lunes, 27 de mayo de 2013 15:12 alcancé el 10%");
+                                //items.Add().Content("El lunes, 27 de mayo de 2013 17:10 alcancé el 20% - Una palabra <br/><a href='http://www.google.com.pe'><button>Aprobar</button></a> - Cambiar valor");
+                                @*items.Add().Content(@<text>"El lunes, 27 de mayo de 2013 17:10 alcancé el 20% - Una palabra <a href='http://www.google.com.pe'><button>Aprobar</button></a> - Cambiar valor"</text>);*@
+                                //items.Add().("El lunes, 27 de mayo de 2013 17:10 alcancé el 20% - Una palabra - Aprobar - Cambiar valor");
+                                //items.Add().LoadContentFrom("http://www.google.com.pe");
+                                //items.Add().Text("El lunes, 27 de mayo de 2013 17:10 alcancé el 20% - Una palabra - Aprobar - Cambiar valor").Url("http://www.google.com.pe");
+                                //items.Add().Text("El lunes, 27 de mayo de 2013 17:10 alcancé el 20% - Una palabra - Aprobar - Cambiar valor").Url("javascript:escogeOpcion();");
+                                items.Add().Text("El lunes, 27 de mayo de 2013 17:10 alcancé el 20% - Haga click aqui para revisar.").Url("javascript:escogeOpcion();");
+                                //items.Add().Text("El lunes, 27 de mayo de 2013 17:10 alcancé el 20% - Una palabra - Aprobar - Cambiar valor").Action("Index", "Acordion");
+                                //items.Add().
+                                items.Add().Text("El " + (DateTime.Today.AddDays(-3.0)).ToString("D", new CultureInfo("es-ES")) + " alcancé el 20% - Aprobar - Cambiar valor");
+                                items.Add().Text("El " + (DateTime.Today.AddDays(-5.0)).ToString("D", new CultureInfo("es-ES")) + " alcancé el 10%");                                
+                                //Producción
+                                //items.Add().Text("El " + ((DateTime)unoDeSusObjetivos.FechaDePropuesta).ToString("f", new CultureInfo("es-ES")) + " me propuse este objetivo").HtmlAttributes(new { style = "color: rgb(98, 163, 0)" });
+                                //Demostración
+                                items.Add().Text("El " + (DateTime.Today.AddDays(-7.0)).ToString("f", new CultureInfo("es-ES")) + " me propuse este objetivo").HtmlAttributes(new { style = "color: rgb(98, 163, 0)" });
+                                //items.Add().Text("Sub Item 3");
+                                //items.Add().Text("Sub Item 4");
                             });
                         }
                     
@@ -221,10 +204,6 @@
 </div>
 
 <script>
-
-    //var elPasoID;
-    var elPasoIDSeleccionado;
-
     //function select(e) {
     function escogeOpcion(e) {
         //kendoConsole.log("Select: " + $(e.item).find("> .k-link").text());
@@ -233,15 +212,10 @@
         $("#CambioValor").data("kendoWindow").open();
     }
 
-    //function escogeOpcion(avance) {
-    function escogeOpcion(progresoID, avance) {
+    function escogeOpcion() {
         //kendoConsole.log("Select: " + $(e.item).find("> .k-link").text());
         //console.log($(e));
         //console.log($(e.item));
-        //$('#percentage').data('kendoNumericTextBox').value(0.8);
-        elPasoIDSeleccionado = progresoID;
-        console.log("elPasoIDSeleccionado = " + elPasoIDSeleccionado);
-        $('#percentage').data('kendoNumericTextBox').value(avance / 100);
         $("#CambioValor").data("kendoWindow").open();
     }
 
@@ -250,30 +224,6 @@
         $('#actualizar').on('click', function () {
 
             $("#CambioValor").data("kendoWindow").close();
-
-            $.ajax({
-                // edit to add steve's suggestion.
-                //url: "/ControllerName/ActionName",
-                //url: '<%= Url.Action("ActionName", "ControllerName") %>',
-                //url: '@*Url.Action("ControllerName","ActionName")*@',
-                //url: '@*Url.Action("Acordion","capturarValidacionDelJefe", new { nivelID = niveles[i].ID, competenciaID = competencia.ID })*@',
-                //url: '@*@Url.Action("Acordion","capturarValidacionDelJefe", new { progresoID = 3, valorConsideradoPorElJefe = 90})*@',
-                //me
-                type: "POST",
-                //data: { name: "John", location: "Boston" },
-                //data: { progresoID: "3", valorConsideradoPorElJefe: "90" },
-                //data: { progresoID: elPasoIDSeleccionado, valorConsideradoPorElJefe: $('#percentage').data('kendoNumericTextBox').value() },
-                //data: { progresoID: elPasoIDSeleccionado, valorConsideradoPorElJefe: (int)($('#percentage').data('kendoNumericTextBox').value() * 100) },
-                data: { progresoID: elPasoIDSeleccionado, valorConsideradoPorElJefe: parseInt($('#percentage').data('kendoNumericTextBox').value() * 100, 10) },
-                //url: '@*@Url.Action("capturarValidacionDelJefe", new { progresoID = 3, valorConsideradoPorElJefe = 90 })*@',
-                url: '@Url.Action("capturarValidacionDelJefe")',
-                success: function (data) {
-                    // your data could be a View or Json or what ever you returned in your action method 
-                    // parse your data here
-                    //alert(data);
-                }
-            });
-
             location.reload(true);
         })
     });
