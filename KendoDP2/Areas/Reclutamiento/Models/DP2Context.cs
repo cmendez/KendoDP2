@@ -104,7 +104,7 @@ namespace KendoDP2.Models.Generic
             {
                 PuestoID = 3,
                 AreaID = TablaPuestos.One(a => a.ID == 3).AreaID,
-                ResponsableID = TablaColaboradores.One(a => a.ApellidoPaterno.Equals("Solorzano")).ID,
+                ResponsableID = TablaColaboradores.One(a => a.Username.Equals("cperez")).ID,
                 EstadoSolicitudOfertaLaboralID = TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID,
                 FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"),
                 FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
@@ -112,14 +112,14 @@ namespace KendoDP2.Models.Generic
                 ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
                 SueldoTentativo = 15000,
                 Comentarios = "",
-                NumeroVacantes = 3
+                NumeroVacantes = 3,
             });
 
             TablaOfertaLaborales.AddElement(new OfertaLaboral
             {
                 PuestoID = 1,
                 AreaID = TablaPuestos.One(a=>a.ID == 1).AreaID,
-                ResponsableID = TablaColaboradores.One(a => a.ApellidoPaterno.Equals("Solorzano")).ID,
+                ResponsableID = TablaColaboradores.One(a => a.Username.Equals("cperez")).ID,
                 EstadoSolicitudOfertaLaboralID = TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID,
                 FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"),
                 FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
@@ -134,7 +134,7 @@ namespace KendoDP2.Models.Generic
             {
                 PuestoID = 6,
                 AreaID = TablaPuestos.One(a => a.ID == 1).AreaID,
-                ResponsableID = TablaColaboradores.One(a => a.ApellidoPaterno.Equals("Solorzano")).ID,
+                ResponsableID = TablaColaboradores.One(a => a.Username.Equals("cperez")).ID,
                 EstadoSolicitudOfertaLaboralID = TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID,
                 FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"),
                 FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
@@ -184,6 +184,11 @@ namespace KendoDP2.Models.Generic
                 GradoAcademicoID = TablaGradosAcademicos.One(ga => ga.Descripcion.Equals("Licenciado")).ID,
             });
 
+            //Este es un colaborador postulante
+            /*TablaPostulante.AddElement(new Postulante
+            {
+                ColaboradorID = 12,
+            });*/
         }
 
         private void SeedEstadoPostulantePorOferta()
@@ -234,6 +239,21 @@ namespace KendoDP2.Models.Generic
                 Comentarios = String.Empty,
                 Observaciones = String.Empty
             });
+            
+            //Un Colaborador como postulante
+            /*
+            TablaOfertaLaboralXPostulante.AddElement(new OfertaLaboralXPostulante
+            {
+                OfertaLaboralID =  TablaOfertaLaborales.One(x=>x.Descripcion.Equals("Trabajo en ventas")).ID,
+                PostulanteID = TablaPostulante.One(x => x.Colaborador.Username.Equals("jcahuin")).ID,
+                //Solo me sirven los 2 primeros atributos, hasta donde sé
+                EstadoPostulantePorOfertaID = 1,
+                FlagAprobado = false,
+                PuntajeTotal = 0,
+                MotivoRechazo = String.Empty,
+                Comentarios = String.Empty,
+                Observaciones = String.Empty
+            });*/
         }
 
         private void SeedFasePostulacionXOfertaLaboralXPostulante()
