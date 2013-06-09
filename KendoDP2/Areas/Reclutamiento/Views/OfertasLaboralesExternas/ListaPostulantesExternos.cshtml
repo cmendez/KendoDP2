@@ -23,9 +23,9 @@
     
     <div class="portlet-body">
         <div class="row-fluid">
-               <div class="span1">@Html.ActionLink("Ir a fase 1", "VerPostulantesFase1", "OfertasLaboralesExternas", new { ofertaLaboralID = ofertaID }, null)</div>
-               <div class="span1">@Html.ActionLink("Ir a fase 2", "VerPostulantesFase2", "OfertasLaboralesExternas", new { ofertaLaboralID = ofertaID }, null)</div>
-               <div class="span1">@Html.ActionLink("Ir a fase 3", "VerPostulantesFase3", "OfertasLaboralesExternas", new { ofertaLaboralID = ofertaID }, null)</div>
+               <div class="span2">@Html.ActionLink("Ir a fase 1", "VerPostulantesFase1", "OfertasLaboralesExternas", new { ofertaLaboralID = ofertaID }, new {@class = "btn yellow" })</div>
+               <div class="span2">@Html.ActionLink("Ir a fase 2", "VerPostulantesFase2", "OfertasLaboralesExternas", new { ofertaLaboralID = ofertaID }, new {@class = "btn blue" })</div>
+               <div class="span2">@Html.ActionLink("Ir a fase 3", "VerPostulantesFase3", "OfertasLaboralesExternas", new { ofertaLaboralID = ofertaID }, new {@class = "btn red" })</div>
            </div>    
         <a id="hidden-link" class="hidden" href="#" target="_blank"></a>
            <div class="row-fluid">
