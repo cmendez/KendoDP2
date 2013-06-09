@@ -181,21 +181,24 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             
         }
 
+
+        [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult EditingInline_Read2([DataSourceRequest] DataSourceRequest request, int colaboradorID)
         {
             using (DP2Context context = new DP2Context())
             {
               //  return Json(context.TablaColaboradores.Where(c => c.Colaborador1ID == colaboradorID).Select(p => p.ToDTO()).ToDataSourceResult(request));
-               return Json( context.TablaColaboradores.FindByID(colaboradorID).EsContactoDe.Where(x => x.ColaboradorID == colaboradorID).Select(x => x.Contacto).ToList());
+               //return Json( context.TablaColaboradores.FindByID(colaboradorID).Contactos.Where(x => x.ColaboradorID == colaboradorID).Select(x => x.Contacto).ToList());
+                return Json(context.TablaColaboradores.FindByID(colaboradorID).Contactos.Where(x => x.ColaboradorID == colaboradorID).Select(x => x.Contacto).ToList().ToDataSourceResult(request), JsonRequestBehavior.AllowGet) ;
             }
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult AddEvaluadosColaborador(int procesoID, int colaboradorID)
+        public ActionResult AddEvaluadosColaborador(int colaboradorID, int conctactoID)
         {
             using (DP2Context context = new DP2Context())
             {
-                bool isNuevaReferenciaDirecta = AddColaboradorToProceso(colaboradorID, procesoID, context, true);
+                bool isNuevaReferenciaDirecta = AddColaboradorToProceso(colaboradorID, conctactoID, context, true);
                 return Json(new { success = isNuevaReferenciaDirecta });
             }
         }

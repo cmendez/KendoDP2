@@ -603,20 +603,20 @@
 
     $(document).ready(function ready() {
         comboPuestosSelection();
-        //comboColaboradoresSelection();
+        comboColaboradoresSelection();
     });
 
     var last_container = null;
     function comboColaboradoresSelection() {
         var comboPuestos = $("#ComboColaboradores").data("kendoComboBox");
         if (comboPuestos.selectedIndex == -1)
-            return;
+           return;
 
         var puestoID = comboPuestos.dataItem(comboPuestos.selectedIndex).ID;
 
-        if (last_container != null)
+       if (last_container != null)
             last_container.hide();
-        last_container = $("#container-" + puestoID);
+       last_container = $("#container-" + puestoID);
         last_container.show();
     }
 
