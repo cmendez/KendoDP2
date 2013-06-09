@@ -14,7 +14,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         public int ElIDDelEvaluador { get; set; }
 
         public int ElEvaluado { get; set; }
-
+        
         public int ProcesoEnElQueParticipanID { get; set; }
 
         [ForeignKey("ProcesoEnElQueParticipanID")]

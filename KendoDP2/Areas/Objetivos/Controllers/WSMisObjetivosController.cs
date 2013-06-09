@@ -39,5 +39,37 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 return Json(objetivos.Where(x => x.BSCID == idPeriodo).ToList(), JsonRequestBehavior.AllowGet);
             }
         }
+
+        /*
+         * Nombre
+         * Peso
+         * ObjetivoPadreID : debe ser un objetivo obtenido por una llamada a GetAllMisObjetivosSuperiores 
+         */
+        public ActionResult Create(ObjetivoDTO objetivo)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                Objetivo o = new Objetivo(objetivo, context);
+                context.TablaObjetivos.AddElement(o);
+                return Json(new { idObjetivo = o.ID } , JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        /*
+         * ID
+         * Nombre
+         * Peso
+         * ObjetivoPadreID : debe ser un objetivo obtenido por una llamada a GetAllMisObjetivosSuperiores 
+         */
+        public ActionResult Update(ObjetivoDTO objetivo)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                Objetivo o = context.TablaObjetivos.FindByID(objetivo.ID).LoadFromDTO(objetivo, context);
+                context.TablaObjetivos.ModifyElement(o);
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }

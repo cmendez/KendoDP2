@@ -74,7 +74,6 @@ namespace KendoDP2.Models.Generic
             //SeedBSC();
             SeedObjetivos();
             SeedColaboradorXPuesto();
-            SeedObjetivosPersonales();
             // Area Evaluacion360
             seedProcesosDeEvaluacion();
             //seedColaboradorXProcesoEvaluacion();
@@ -104,8 +103,8 @@ namespace KendoDP2.Models.Generic
         }
     }
 
-    public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
-    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
+    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
+    public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
     {
         protected override void Seed(DP2Context context)
         {
