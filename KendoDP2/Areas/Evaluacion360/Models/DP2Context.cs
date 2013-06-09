@@ -344,7 +344,7 @@ namespace KendoDP2.Models.Generic
 
         private void SeedEstadoProcesoEvaluacion() { 
            TablaEstadoProcesoEvaluacion.AddElement(new EstadoProcesoEvaluacion{Descripcion = ConstantsEstadoProcesoEvaluacion.Creado});
-           //TablaEstadoProcesoEvaluacion.AddElement(new EstadoProcesoEvaluacion{Descripcion = ConstantsEstadoProcesoEvaluacion.Iniciado});
+           TablaEstadoProcesoEvaluacion.AddElement(new EstadoProcesoEvaluacion{Descripcion = ConstantsEstadoProcesoEvaluacion.Iniciado});
            TablaEstadoProcesoEvaluacion.AddElement(new EstadoProcesoEvaluacion{Descripcion = ConstantsEstadoProcesoEvaluacion.EnProceso});
            TablaEstadoProcesoEvaluacion.AddElement(new EstadoProcesoEvaluacion{Descripcion = ConstantsEstadoProcesoEvaluacion.Terminado});
         }
