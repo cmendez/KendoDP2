@@ -117,6 +117,10 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         public string CompetenciaNombre { get; set; }
         public int Porcentaje { get; set; }
 
+        public CompetenciaConPonderadoDTO()
+        {
+        }
+
         public CompetenciaConPonderadoDTO(CompetenciaXPuesto competencia)
         {
             CompetenciaID = competencia.ID;
