@@ -30,6 +30,8 @@
                         columns.Bound(p => p.evaluado.NombreCompleto);
 
                         columns.Bound(p => p.procesoevaluacion.Nombre);
+                        
+                        
 
                        // columns.Bound(p => p.procesoevaluacion.Nombre);
                         
@@ -43,11 +45,15 @@
                         //columns.Bound(p => p.ID);
                         //columns.ForeignKey(p => p..EstadoColaboradorXProcesoEvaluacionID, new SelectList(estados, "ID", "Nombre"));
                         
+                        //evaluadorID ,  procesoID
                         
+                        //instanciaEvaluadores, int colaboradorEvaluadoID)
                         columns.Template(@<text></text>).Title("Rendir evaluacion").ClientTemplate(
-                        "<a class='k-button' href='" + Url.Action("", "") + "?procesoEvaluacionID=#=ID#'>Rendir evaluacion</a>");
+                        "<a class='k-button' href='" + Url.Action("Index", "Evaluacion") + "?instanciaEvaluadores=#=ID#&colaboradorEvaluadoID=#=ElEvaluado#'>Rendir evaluacion</a>");
                     
-                        
+                        //que la fecha actual es mayor a la fecha de finalizacion de proceso, el plazo expiro
+                        //inicar proceso, y cerra proceso
+                         
                         
                     }
                 )
