@@ -212,7 +212,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         public List<ColaboradorDTO> Subordinados { get; set; }
 
         public List<ContactosDTO> Contactos { get; set; }
-      
+
         public ColaboradorDTO() { }
 
         public ColaboradorDTO(Colaborador c, List<ColaboradorDTO> listac = null)
@@ -252,10 +252,9 @@ namespace KendoDP2.Areas.Organizacion.Models
                 AreaID = 0;
                 PuestoID = 0;
                 Sueldo = 0;
+                Puesto = "";
+                Sueldo = 0;
             }
-
-
-            
 
             try
             {

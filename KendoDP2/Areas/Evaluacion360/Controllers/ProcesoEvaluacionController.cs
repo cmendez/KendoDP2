@@ -52,7 +52,28 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                return Json(context.TablaProcesoEvaluaciones.All().Select(p => p.ToDTO()).ToDataSourceResult(request));
+                IEnumerable<ProcesoEvaluacionDTO> listaProcesos = context.TablaProcesoEvaluaciones.All().Select(p => p.ToDTO()); 
+                
+                //Obtener la persona loggeada y su puesto
+                int idUsuario = DP2MembershipProvider.GetPersonaID(this);
+                Colaborador c = context.TablaColaboradores.FindByID(idUsuario);
+                ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos.One( x => x.ColaboradorID == c.ID && !x.IsEliminado);
+                // no tiene puesto asociado
+                if (cxp == null) {
+                    return Json(listaProcesos.ToDataSourceResult(request));
+                }
+                // tiene asignado un puesto
+                else 
+                {
+                    Puesto puesto = context.TablaPuestos.FindByID(cxp.PuestoID);
+                    // No es presidente, admin 
+                    if (puesto != null && puesto.PuestoSuperiorID != null) {
+                        IEnumerable<ProcesoEvaluacionDTO> listafiltrada = context.TablaColaboradorXProcesoEvaluaciones.Where(e => context.TablaPuestos.FindByID(context.TablaColaboradores.FindByID(e.ColaboradorID).ToDTO().PuestoID).PuestoSuperiorID == puesto.ID).Select(x=>x.ProcesoEvaluacion.ToDTO());
+                        return Json(listafiltrada.ToDataSourceResult(request));
+                    }
+                } 
+                  
+                return Json(listaProcesos.ToDataSourceResult(request));
             }
         }
 
