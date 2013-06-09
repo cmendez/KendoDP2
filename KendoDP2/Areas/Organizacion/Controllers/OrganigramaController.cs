@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using KendoDP2.Models.Generic;
+using KendoDP2.Areas.Organizacion.Models;
 
 namespace KendoDP2.Areas.Organizacion.Controllers
 {
@@ -22,14 +23,14 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             return View();
         }
 
-        public JsonResult GetNodosHijo(int? id)
-        {
-            using (DP2Context context = new DP2Context())
-            {
-                var hijos = context.TablaAreas.Where(a => id.HasValue ? a.AreaSuperiorID == id : a.AreaSuperiorID == null).Select(a => a.ToTreeDTO()).OrderBy(a => a.Name);
-                return Json(hijos.ToList(), JsonRequestBehavior.AllowGet);
-            }
-        }
+        //public JsonResult GetNodosHijo(int? id)
+        //{
+        //    using (DP2Context context = new DP2Context())
+        //    {
+        //    //    var hijos = context.TablaColaboradores.Where(t => id.HasValue ? t.ColaboradoresPuesto.Last().Puesto.PuestoSuperiorID == id : t.ColaboradoresPuesto.Last().Puesto.PuestoSuperiorID == null).Select(t => t.ToNodoOrganigramaDTO(this)).OrderBy(t => t.Nombre);
+        //    //    return Json(hijos.ToList(), JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
     }
 }
