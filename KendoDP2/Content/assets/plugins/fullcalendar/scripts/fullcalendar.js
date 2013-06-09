@@ -4756,7 +4756,7 @@ function DayEventRenderer() {
 		var right;
 		var skinCss;
 		var html = '';
-		// calculate desired position/dimensions, create html
+	    // calculate desired position/dimensions, create html
 		for (i=0; i<segCnt; i++) {
 			seg = segs[i];
 			event = seg.event;

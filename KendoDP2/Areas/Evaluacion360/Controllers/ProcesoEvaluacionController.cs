@@ -28,10 +28,13 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 ViewBag.colaboradores = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
                 ViewBag.areas = context.TablaAreas.All().Select(c => c.ToDTO()).ToList();
                 ViewBag.estados = context.TablaEstadoProcesoEvaluacion.All().Select(e => e.ToDTO()).ToList();
+                // Identificar si el usuario loggeado tiene permisos para modificar procesos
+                ViewBag.esAdmin = EsAdmin(DP2MembershipProvider.GetPersonaID(this), context);
+
                 return View();
             }
         }
-
+      
         public ActionResult ElegirEvaluados(int procesoEvaluacionID)
         {
             using (DP2Context context = new DP2Context())
@@ -42,6 +45,9 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 ViewBag.estados = context.TablaEstadoColaboradorXProcesoEvaluaciones.All().Select(c => c.ToDTO()).ToList();
                 ViewBag.areas = context.TablaAreas.All().Select(c => c.ToDTO()).ToList();
                 ViewBag.idProceso = proceso.ID;
+                // Identificar si el usuario loggeado tiene permisos para modificar procesos
+                ViewBag.esAdmin = EsAdmin(DP2MembershipProvider.GetPersonaID(this), context);
+
                 return View(proceso);
 
             }
@@ -68,7 +74,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     Puesto puesto = context.TablaPuestos.FindByID(cxp.PuestoID);
                     // No es presidente, admin 
                     if (puesto != null && puesto.PuestoSuperiorID != null) {
-                        listaProcesos = context.TablaColaboradorXProcesoEvaluaciones.Where(e => context.TablaPuestos.FindByID(context.TablaColaboradores.FindByID(e.ColaboradorID).ToDTO().PuestoID).PuestoSuperiorID == puesto.ID).Select(x => x.ProcesoEvaluacion.ToDTO());
+                        listaProcesos = context.TablaColaboradorXProcesoEvaluaciones.Where(e => context.TablaPuestos.FindByID(context.TablaColaboradores.FindByID(e.ColaboradorID).ToDTO().PuestoID).PuestoSuperiorID == puesto.ID && e.ProcesoEvaluacion.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(z=>z.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Iniciado)).ID).Select(x => x.ProcesoEvaluacion.ToDTO());
                         return Json(listaProcesos.ToDataSourceResult(request));
                     }
                 } 
@@ -107,7 +113,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                context.TablaProcesoEvaluaciones.RemoveElementByID(proceso.ID, true);
+                context.TablaProcesoEvaluaciones.RemoveElementByID(proceso.ID);
                 return Json(ModelState.ToDataSourceResult());
             }
         }
@@ -279,7 +285,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 ViewBag.noHayEvaluados = false;
                 ViewBag.proceso = p;
                 // Validar que el proceso no haya sido iniciado previamente
-                if (p.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso)).ID)
+                if (p.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Iniciado)).ID)//EnProceso)).ID)
                 {   
                     ViewBag.enProceso = true;
                     return View();
@@ -308,8 +314,8 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                         correoController.EnviarEmailsInicio(listaJefes, p);
                     }
 
-                    EstadoProcesoEvaluacion enProceso = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso));
-                    p.EstadoProcesoEvaluacion = enProceso;
+                    EstadoProcesoEvaluacion iniciado = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Iniciado));//EnProceso));
+                    p.EstadoProcesoEvaluacion = iniciado;
                     context.TablaProcesoEvaluaciones.ModifyElement(p);
                     return View();
                 }
@@ -400,5 +406,23 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
      
         }
+
+        private bool EsAdmin(int idUsuario, DP2Context context)
+        {
+            bool esAdmin = true;
+            
+            ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == idUsuario && !x.IsEliminado);
+            if (cxp != null)
+            {
+                Puesto puesto = context.TablaPuestos.FindByID(cxp.PuestoID);
+                // No es presidente, admin 
+                if (puesto != null && puesto.PuestoSuperiorID != null)
+                {
+                    esAdmin = false;
+                }
+            }
+            return esAdmin;
+        }
+        
     }
 }

@@ -1,3 +1,4 @@
+
 ﻿using KendoDP2.Areas.Organizacion.Models;
 using KendoDP2.Models.Generic;
 using System;
@@ -5,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+
 
 namespace KendoDP2.Areas.Objetivos.Models
 {
@@ -56,4 +58,5 @@ namespace KendoDP2.Areas.Objetivos.Models
             ObjetivoID = avance.ObjetivoID;
         }
     }
+
 }
