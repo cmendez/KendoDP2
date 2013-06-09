@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using KendoDP2.Models.Generic;
+using KendoDP2.Models.Seguridad;
 
 namespace KendoDP2.Models.Helpers
 {
@@ -50,6 +51,13 @@ namespace KendoDP2.Models.Helpers
                 new SidebarSuboption("Períodos", "Periodos", "Index", "icon-time")
             })));
 
+            // Segiuridad
+            Opciones.Add(new SidebarOption("Seguridad", "Seguridad", "icon-lock", new List<SidebarSuboption>(new SidebarSuboption[]{
+                new SidebarSuboption("Roles", "Roles", "Index", "icon-user-md"),
+                new SidebarSuboption("Usuarios", "Usuarios", "Index", "icon-user"),
+
+            })));
+
             // Organizacion
             Opciones.Add(new SidebarOption("Organizacion", "Organizacion", "icon-globe", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption("Organización","Organizaciones","Index","icon-cogs"),
@@ -78,7 +86,7 @@ namespace KendoDP2.Models.Helpers
         }
     }
 
-    public class SidebarOption : DBObject
+    public class SidebarOption
     {
         public string Area { get; set; }
         public string Controller { get; set; }
@@ -101,7 +109,7 @@ namespace KendoDP2.Models.Helpers
         }
     }
 
-    public class SidebarSuboption : DBObject
+    public class SidebarSuboption
     {
         public string Title { get; set; }
         public string Controller { get; set; }
@@ -116,5 +124,51 @@ namespace KendoDP2.Models.Helpers
         } 
     }
 
+    public class ObtenerMenu
+    {
+        public SidebarNavigator menu { get; set; }
+
+        public ObtenerMenu()
+        {
+            menu = new SidebarNavigator();
+        }
+
+        public SidebarNavigator MenuUsuario(string username)
+        {
+            SidebarNavigator salida = new SidebarNavigator();
+            salida.Opciones.Clear();
+            salida.Opciones = new List<SidebarOption>();
+
+            using(DP2Context context = new DP2Context())
+            {
+                UsuarioDTO logeo =context.TablaUsuarios.One(i => i.Username == username).ToDTO();
+                foreach (SidebarOption option in menu.Opciones)
+                {
+                    if (option.Suboptions.Count == 0)
+                    {
+                        if (logeo.Roles.Where(c => c.Nombre == option.Controller).Where(c => c.Permiso == true).Count() == 1)
+                        {
+                            salida.Opciones.Add(new SidebarOption(option.Area,option.Controller,option.Method, option.Title, option.Icon));
+                        }
+                        
+                    }else
+                    {
+                        salida.Opciones.Add(new SidebarOption(option.Area, option.Title, option.Icon, new List<SidebarSuboption>()));
+
+                        foreach(SidebarSuboption subopt in option.Suboptions)
+                        {
+                            if (logeo.Roles.Where(c => c.Nombre == subopt.Controller).Where(c => c.Permiso == true).Count() == 1)
+                            {
+                                SidebarSuboption aux = new SidebarSuboption(subopt.Title, subopt.Controller, subopt.Method, subopt.Icon);
+                                salida.Opciones.Where(i => i.Area == option.Area).SingleOrDefault().Suboptions.Add(aux);
+                            }
+                            
+                        }
+                    }
+                }
+            }
+            return salida;
+        }
+    }
 
 }

@@ -82,7 +82,11 @@
                                        {
                                            columns.Bound(p => p.Nombre).ClientFooterTemplate("<strong>Cantidad:</strong> #=count#");
                                            columns.Bound(p => p.Peso).ClientFooterTemplate("<strong>Suma:</strong> #=sum#");
-                                           if (puedeEditar) { columns.Command(command => { command.Destroy().Text("Eliminar"); }).Width(200); }
+                                           columns.Bound(p => p.AvanceFinal);
+                                           if (puedeEditar) { 
+                                            
+                                               columns.Command(command => { command.Destroy().Text("Eliminar"); }).Width(200);
+                                           }
                                        })
                                    .ToolBar(toolbar => { if (puedeEditar) { toolbar.Create().Text("Registrar"); toolbar.Save().SaveText("Guardar cambios").CancelText("Cancelar cambios"); } })
                                    .Editable(editable => editable

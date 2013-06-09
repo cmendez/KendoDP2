@@ -13,7 +13,20 @@
 }
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Postulantes por Oferta Laboral Interna: Fase 3", "Revise sus resultados y apruebelos para contratación"));}
 
-<div class="portlet box green">
+<div class="alert alert-block alert-error fade in">
+                           <button type="button" class="close" data-dismiss="alert"></button>
+                           <h4 class="alert-heading">Información</h4>
+                           <p>
+                              Apruebe a los postulantes calificados para su contratación tras la evaluación por funciones de puesto.
+                              En caso quiera ver la lista general de postulantes de esta oferta presionar el boton "Ver Todos".
+                           </p>
+ </div>
+
+<div class="progress progress-danger">
+                           <div style="width: 90%;" class="bar"></div>
+</div>
+
+<div class="portlet box red">
     <div class="portlet-title">
         <h4><i class="icon-reorder"></i>Postulantes por Oferta Laboral Interna: Fase 3</h4>
         <div class="tools">
@@ -23,9 +36,9 @@
     
     <div class="portlet-body">
         <div class="row-fluid">
-               <div class="span1">@Html.ActionLink("Ir a fase 1", "VerPostulantesFase1", "OfertasLaboralesInternas", new { ofertaLaboralID = ofertaID }, null)</div>
-               <div class="span1">@Html.ActionLink("Ir a fase 2", "VerPostulantesFase2", "OfertasLaboralesInternas", new { ofertaLaboralID = ofertaID }, null)</div>
-               <div class="span1">@Html.ActionLink("Ver todos", "VerPostulantes", "OfertasLaboralesInternas", new { ofertaLaboralID = ofertaID}, null)</div>
+               <div class="span2">@Html.ActionLink("Ir a fase 1", "VerPostulantesFase1", "OfertasLaboralesInternas", new { ofertaLaboralID = ofertaID }, new {@class = "btn yellow" })</div>
+               <div class="span2">@Html.ActionLink("Ir a fase 2", "VerPostulantesFase2", "OfertasLaboralesInternas", new { ofertaLaboralID = ofertaID }, new {@class = "btn blue" })</div>
+               <div class="span2">@Html.ActionLink("Ver todos", "VerPostulantes", "OfertasLaboralesInternas", new { ofertaLaboralID = ofertaID}, new {@class = "btn green" })</div>
            </div>
            <div class="row-fluid">
             @(Html.Kendo().Grid<OfertaLaboralXPostulanteDTO>()
@@ -34,7 +47,7 @@
                     {
                         columns.Bound(p => p.Postulante.Colaborador.NombreCompleto);
                         columns.Bound(p => p.Postulante.Colaborador.CorreoElectronico);
-                        columns.Bound(p => p.Postulante.Colaborador.CentroEstudios);
+                        columns.Bound(p => p.EstadoPostulantePorOfertaNombre);
                         columns.Bound(p => p.PuntajeTotal);
                         columns.Template(@<text></text>).Title("Contratar").ClientTemplate(
                         "<a class='k-button' href='" + Url.Action("Contratar", "OfertasLaboralesInternas") + "?postulanteXOfertaLaboralID=#=ID#&ofertaID="+ ofertaID + "'>Cambiar Puesto</a>");
