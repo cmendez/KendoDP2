@@ -37,6 +37,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         }
 
         // Grid periodos
+        [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult EditingInline_Read([DataSourceRequest] DataSourceRequest request)
         {
             using (DP2Context context = new DP2Context())
@@ -181,14 +182,64 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             
         }
 
-        public ActionResult EditingInline_Read([DataSourceRequest] DataSourceRequest request, int colaboradorID)
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditingInline_Read2([DataSourceRequest] DataSourceRequest request, int colaboradorID)
         {
             using (DP2Context context = new DP2Context())
             {
               //  return Json(context.TablaColaboradores.Where(c => c.Colaborador1ID == colaboradorID).Select(p => p.ToDTO()).ToDataSourceResult(request));
-               return Json( context.TablaColaboradores.FindByID(colaboradorID).EsContactoDe.Where(x => x.ColaboradorID == colaboradorID).Select(x => x.Contacto).ToList());
+               //return Json( context.TablaColaboradores.FindByID(colaboradorID).Contactos.Where(x => x.ColaboradorID == colaboradorID).Select(x => x.Contacto).ToList());
+                return Json(context.TablaColaboradores.FindByID(colaboradorID).Contactos.Where(x => x.ColaboradorID == colaboradorID).Select(x => x.ToDTO()).ToList().ToDataSourceResult(request)) ;
             }
         }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult AddEvaluadosColaborador(int colaboradorID, int conctactoID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                bool isNuevaReferenciaDirecta = AddColaboradorToProceso(colaboradorID, conctactoID, context, true);
+                return Json(new { success = isNuevaReferenciaDirecta });
+            }
+        }
+
+
+        private bool AddColaboradorToProceso(int colaboradorID, int contactoID, DP2Context context, bool esReferenciaDirecta)
+        {
+            var cruce = context.TablaContactos.One(x => x.ColaboradorID == colaboradorID && x.ContactoID == contactoID);
+            
+
+            if (cruce == null)
+            { // nuevo
+                context.TablaContactos.AddElement(
+                    new Contactos
+                    {
+                        ColaboradorID = colaboradorID,
+                        ContactoID = contactoID,
+                        Relacion = "Equipo de Área",
+                      
+                    });
+                return esReferenciaDirecta;
+            }
+            else if (!esReferenciaDirecta)
+            {
+                
+                return false;
+            }
+            else
+            { // no tenia referencia directa
+              //  if (!cruce.ReferenciaDirecta)
+               // {
+                 //   cruce.ReferenciaDirecta = true;
+                  //  context.TablaColaboradorXProcesoEvaluaciones.ModifyElement(cruce);
+                   // return true;
+               // }
+                return false;
+            }
+        }
+
+
 
 
     }

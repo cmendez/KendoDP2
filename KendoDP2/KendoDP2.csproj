@@ -1238,6 +1238,7 @@
     <Content Include="Content\assets\plugins\jquery-ui\jquery-ui-1.10.1.custom.css" />
     <Content Include="Content\assets\plugins\jquery-ui\jquery-ui-1.10.1.custom.min.css" />
     <Content Include="Content\assets\plugins\jquery-ui\jquery-ui-1.10.1.custom.min.js" />
+    <Content Include="Content\assets\plugins\jquery-ui\jquery-ui-1.10.2.custom.min.js" />
     <Content Include="Content\assets\plugins\jquery-ui\jquery-ui-1.9.2.custom.min.js" />
     <Content Include="Content\assets\plugins\jquery-validation\changelog.txt" />
     <Content Include="Content\assets\plugins\jquery-validation\demo\ajaxSubmit-intergration-demo.html" />
