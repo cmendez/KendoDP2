@@ -22,10 +22,10 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             
         }
 
-        public ActionResult Index()//int instanciaEvaluadores, int colaboradorEvaluadoID)
+        public ActionResult Index(int instanciaEvaluadores, int colaboradorEvaluadoIDP)
         {
             // Recibir esta variable como parámetro
-            int colaboradorEvaluadoID = 2; //colaboradorEvaluadoID;
+            int colaboradorEvaluadoID =colaboradorEvaluadoIDP;
             using (DP2Context context = new DP2Context())
             {
                 ColaboradorDTO evaluado = context.TablaColaboradores.One(c => c.ID == colaboradorEvaluadoID).ToDTO();
@@ -34,7 +34,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 IList<CompetenciaXPuesto> competencias = context.TablaCompetenciaXPuesto.Where(x => x.PuestoID == evaluado.PuestoID);
               */
                 ViewBag.evaluado = evaluado;
-                ViewBag.instanciaEvaluadores = 1; //instanciaEvaluadores;
+                ViewBag.instanciaEvaluadores = instanciaEvaluadores;
                 return View();
             }
         }
@@ -44,7 +44,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             // Calcular nota de evaluacion
             using (DP2Context context = new DP2Context()){
                 Examen examen = context.TablaExamenes.One(x => x.EvaluadorID == tablaEvaluadoresID);
-               
+               // Falta agregar el promedio final (incluye competencias)
                 IList<Pregunta> preguntas = context.TablaPreguntas.Where(x => x.ExamenID == examen.ID);
                 int nota = preguntas.Sum(x => x.Puntuacion);
                 examen.NotaExamen = Convert.ToInt32(Decimal.Floor(nota/100));
