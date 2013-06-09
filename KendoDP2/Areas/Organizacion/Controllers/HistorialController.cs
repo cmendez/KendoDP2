@@ -27,11 +27,6 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                ViewBag.colaboradores = context.TablaColaboradores.All().Select(p => p.ToDTO()).ToList();
-                ViewBag.tipoDocumentos = context.TablaTiposDocumentos.All().Select(p => p.ToDTO()).ToList();
-                ViewBag.estadosColaborador = context.TablaEstadosColaboradores.All().Select(p => p.ToDTO()).ToList();
-                ViewBag.pais = context.TablaPaises.All().Select(p => p.ToDTO()).ToList();
-                ViewBag.gradoAcademico = context.TablaGradosAcademicos.All().Select(p => p.ToDTO()).ToList();
                 ViewBag.areas = context.TablaAreas.All().Select(p => p.ToDTO()).ToList();
                 ViewBag.puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).ToList();
                 return View();
@@ -39,34 +34,48 @@ namespace KendoDP2.Areas.Organizacion.Controllers
 
         }
 
+        
         public ActionResult EditingInline_Read([DataSourceRequest] DataSourceRequest request)
         {
             using (DP2Context context = new DP2Context())
             {
-                List<ColaboradorDTO> colaboradores = context.TablaColaboradores.All().Select(p => p.ToDTO()).OrderBy(x => x.ID).ToList();
-                return Json(colaboradores.ToDataSourceResult(request));
+                List<ColaboradorXPuestoDTO> salida = new List<ColaboradorXPuestoDTO>();
+                List<ColaboradorXPuesto> colaboradores_X_Puesto = context.TablaColaboradoresXPuestos.All().OrderBy(x => x.ID).ToList();
+                foreach (ColaboradorXPuesto c in colaboradores_X_Puesto)
+                {
+                    ColaboradorXPuestoDTO aux = new ColaboradorXPuestoDTO(c);
+                    aux.FechaIngresoPuesto = new DateTime();
+                    aux.FechaSalidaPuesto = new DateTime();
+                    aux.Sueldo = 0;
+                    aux.Comentarios = "";
+                    salida.Add(aux);
+                }
+
+                return Json(salida.ToDataSourceResult(request));
             }
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult EditingInline_Update([DataSourceRequest] DataSourceRequest request, FormCollection frm)
+        public ActionResult EditingInline_Update([DataSourceRequest] DataSourceRequest request, ColaboradorXPuestoDTO cxp)
         {
-            ColaboradorDTO colaborador = new ColaboradorDTO();
-
+            ColaboradorXPuestoDTO cc= new ColaboradorXPuestoDTO();
+            TryUpdateModel(cc);
             using (DP2Context context = new DP2Context())
             {
-                ColaboradorXPuesto cxp = new ColaboradorXPuesto();
-                cxp.Colaborador=context.TablaColaboradores.One(z=>z.ID==Convert.ToInt16(frm[4]));
-                cxp.ColaboradorID = Convert.ToInt16(frm[4]);
-                cxp.Comentarios = "";
-                cxp.FechaIngresoPuesto = new DateTime(Convert.ToInt16(frm["FechaIngresoPuesto"].Substring(0, 4)), Convert.ToInt16(frm["FechaIngresoPuesto"].Substring(5, 2)), Convert.ToInt16(frm["FechaIngresoPuesto"].Substring(8, 2)));
-                cxp.FechaSalidaPuesto = new DateTime(Convert.ToInt16(frm["FechaSalidaPuesto"].Substring(0, 4)), Convert.ToInt16(frm["FechaSalidaPuesto"].Substring(5, 2)), Convert.ToInt16(frm["FechaSalidaPuesto"].Substring(8, 2)));
-                cxp.Puesto = context.TablaPuestos.One(i => i.ID == Convert.ToInt16(frm["PuestoID"]));
-                cxp.PuestoID = Convert.ToInt32(frm["PuestoID"]);
-                cxp.Sueldo = Convert.ToInt32(frm["sueldo"]);
+                Colaborador colab = context.TablaColaboradores.One(CL => CL.ID == cxp.Colaborador.ID);
+                ColaboradorXPuesto C = new ColaboradorXPuesto();
+                C.Colaborador = context.TablaColaboradores.One(CL => CL.ID == cxp.Colaborador.ID);
+                C.ColaboradorID = cxp.Colaborador.ID;
+                C.Comentarios = cxp.Comentarios;
+                C.FechaIngresoPuesto = cxp.FechaIngresoPuesto;
+                C.FechaSalidaPuesto = cxp.FechaSalidaPuesto;
+                C.Sueldo = cxp.Sueldo;
+                C.Puesto = context.TablaPuestos.One(CL => CL.ID == cxp.PuestoID);
+                C.PuestoID = cxp.PuestoID;
 
-                context.TablaColaboradoresXPuestos.AddElement(cxp);
-
+                colab.ColaboradoresPuesto.Add(C);
+                context.TablaColaboradoresXPuestos.AddElement(C);
+                context.TablaColaboradores.ModifyElement(colab);
                 return Json(context.TablaColaboradores.All().Select(i=>i.ToDTO()).ToDataSourceResult(request, ModelState));
             }
         }
@@ -93,6 +102,20 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             }
         }
 
+        public JsonResult _GetArea()
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                List<AreaDTO> p = new List<AreaDTO>();
+                try
+                {
+                    p = context.TablaAreas.All().Select(i => i.ToDTO()).ToList();
+                }
+                catch (Exception) { }
+                return Json(p, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public JsonResult _GetPuestos(int areaID)
         {
             using (DP2Context context = new DP2Context())
@@ -100,25 +123,11 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 List<Puesto> p = new List<Puesto>();
                 try
                 {
-                    p = context.TablaAreas.FindByID(areaID).Puestos.ToList();
+                    p = context.TablaPuestos.Where(i=>i.AreaID==areaID).ToList();
                 }
                 catch (Exception) { }
                 return Json(p.Select(x => x.ToDTO()).ToList(), JsonRequestBehavior.AllowGet);
             }
         }
-
-
-
-        //public ActionResult Detalles()
-        //{
-        //    using (DP2Context context = new DP2Context())
-        //    {
-        //        ColaboradorDTO DTO = context.TablaColaboradores.One(C => C.Username.Equals(User.Identity.Name)).ToDTO();
-        //        ViewBag.ColaboradorDTO = DTO;
-        //        ViewBag.Historial = context.TablaColaboradoresXPuestos.One(C => C.ColaboradorID == DTO.ID);
-        //        return View();
-        //    }
-        //}
-
     }
 }

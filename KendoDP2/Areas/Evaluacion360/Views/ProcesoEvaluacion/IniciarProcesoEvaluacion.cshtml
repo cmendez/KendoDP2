@@ -4,6 +4,19 @@
 }
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Proceso Evaluacion", "Proceso Iniciado"));}
 
-@*<h2>Proces de evaluación Cerrado</h2>*@
 
-<h3> El proceso ha sido iniciado correctamente. </h3>
+@if (ViewBag.enProceso)
+    {
+        <h3>El proceso <em> "@ViewBag.proceso.Nombre" </em>  ya ha iniciado.</h3>
+    
+    } else {
+        if (ViewBag.noHayEvaluados) {
+            <h3>  No se puede iniciar el proceso sin crear la lista de evaluados.</h3> <br>
+            <h5> Proceso: <em> "@ViewBag.proceso.Nombre" </em> </h5>
+        }
+        else{
+            <h3>  Se ha sido iniciado correctamente el proceso <em> "@ViewBag.proceso.Nombre" </em> </h3>
+        }
+    }
+    
+

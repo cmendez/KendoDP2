@@ -1,0 +1,68 @@
+﻿@model KendoDP2.Areas.Evaluacion360.Models.ProcesoEvaluacion
+
+@{
+    ViewBag.Title = "Listar evaluados";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IList<KendoDP2.Areas.Organizacion.Models.ColaboradorDTO> colaboradores = ViewBag.colaboradores;
+    IList<KendoDP2.Areas.Organizacion.Models.AreaDTO> areas = ViewBag.areas;
+    IList<KendoDP2.Areas.Evaluacion360.Models.EstadoColaboradorXProcesoEvaluacionDTO> estados = ViewBag.estados;
+    SelectList lista = new SelectList(areas, "ID", "Nombre");
+}
+
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Listar evaluados", "Elija el colaborador a evaluar"));}
+
+<div class="portlet box green">
+    <div class="portlet-title">
+        <h4><i class="icon-reorder"></i>Procesos de evaluación</h4>
+        <div class="tools">
+            <a href="javascript:;" class="collapse"></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="row-fluid">
+            
+            <div class="span10">
+                @(Html.Kendo().Grid<KendoDP2.Areas.Evaluacion360.Models.Evaluador2DTO>()
+                .Name("ColaboradoresDeProcesoEvaluacionGrid")
+                .Columns(columns =>
+                    {
+                       
+                        columns.Bound(p => p.evaluado.NombreCompleto);
+
+                        columns.Bound(p => p.procesoevaluacion.Nombre);
+
+                       // columns.Bound(p => p.procesoevaluacion.Nombre);
+                        
+                        
+                             
+                        //columns.Bound(p => p.ElIDDelEvaluador);
+                        //columns.Bound(p => p.ProcesoEnElQueParticipanID);
+                        //columns.Bound(p => p.ID);
+                        //columns.ForeignKey((p => p.ID), lista);
+                        //columns.Bound(p => p.ColaboradorDTO.Area);
+                        //columns.Bound(p => p.ID);
+                        //columns.ForeignKey(p => p..EstadoColaboradorXProcesoEvaluacionID, new SelectList(estados, "ID", "Nombre"));
+                        
+                        
+                        columns.Template(@<text></text>).Title("Rendir evaluacion").ClientTemplate(
+                        "<a class='k-button' href='" + Url.Action("Index", "Evaluacion") + "?instanciaEvaluadores=#=ID#&colaboradorEvaluadoIDP=#=ElEvaluado#'>Rendir evaluacion</a>");
+                    
+                        
+                        
+                    }
+                )
+                        .Pageable(paper => paper.Refresh(true))
+                        .Filterable()
+                        .Sortable()
+                        .Scrollable(w => w.Height(330))
+                        .DataSource(dataSource => dataSource
+                            .Ajax()
+                            .PageSize(20)
+                            .Model(model => { model.Id(p => p.ID); })
+                            .Read(read => read.Action("ReadEvaluados", "ListarProcesosXEvaluador", new { procesoID = Model.ID }))
+                        )
+                    )
+            </div>
+        </div>
+    </div>
+</div>

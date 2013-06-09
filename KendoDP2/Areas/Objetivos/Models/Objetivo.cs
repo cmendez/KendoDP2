@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Globalization;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KendoDP2.Areas.Objetivos.Models
 {
@@ -36,6 +37,10 @@ namespace KendoDP2.Areas.Objetivos.Models
 
         public bool IsObjetivoIntermedio { get; set; }
 
+        [InverseProperty("Objetivos")]
+        public virtual Colaborador Dueño { get; set; }
+
+        public virtual ICollection<AvanceObjetivo> Avances { get; set; }
 
         public Objetivo() {
             FechaCreacion = DateTime.Now;
@@ -69,6 +74,7 @@ namespace KendoDP2.Areas.Objetivos.Models
             Peso = peso;
             ObjetivoPadre = context.TablaObjetivos.FindByID(objetivoPadreID);
             FechaCreacion = DateTime.Now;
+
         }
 
         public Objetivo(ObjetivoDTO o, DP2Context context) : this()
@@ -98,9 +104,13 @@ namespace KendoDP2.Areas.Objetivos.Models
             return new ObjetivoDTO(this, context);
         }
 
-        public ObjetivoRDTO ToRDTO()
+        public ObjetivoRDTO ToRDTO(DP2Context context)
         {
-            return new ObjetivoRDTO(this);
+            return new ObjetivoRDTO(this,context);
+        }
+
+        public ObjetivoConPadreDTO ObjetivoConPadreDTO( DP2Context context){
+            return new ObjetivoConPadreDTO(this, context);
         }
 
     }
@@ -165,6 +175,6 @@ namespace KendoDP2.Areas.Objetivos.Models
             //PeriodoID = o.PeriodoID;
 
         }
-
+        
     }
 }

@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "UsuarioRoles";
+    List<string> Areas = ViewBag.Areas;
+}
+
+@using Kendo.Mvc.UI
+@using KendoDP2.Models.Seguridad
+
+<h2>UsuarioRoles</h2>
+<div class="row-fluid information-container">
+    @foreach (var a in Areas)
+    {
+        <div id="roles-container-@(a)" class="hidden">
+            <div class="tabbable tabbable-custom tabs-left">
+                <ul class="nav nav-tabs tabs-left">
+                    @for (int i = 1; i <= Areas.Count; i++)
+                    {
+                        <li class="@(i == 1 ? "active" : "")"><a href="#tab_@(i)_@(a)" data-toggle="tab">@a</a></li>
+                    }
+                </ul>
+                <div class="tab-content">
+                    @for (int i = 1; i <= Areas.Count; i++)
+                    {
+                        <div class="tab-pane @(i == 0 ? "active" : "")" id="tab_@(i+1)_@(a)">
+                            @(Html.Kendo().Grid()
+                                .Name("grid")
+                                .Columns(columns =>
+                                {
+                                    columns.Bound(p => p);
+                                    columns.Bound(p => p.UnitPrice).Width(100);
+                                    columns.Bound(p => p.UnitsInStock).Width(100);
+                                    columns.Bound(p => p.Discontinued).Width(100);
+                                    columns.Command(command => { command.Edit(); command.Destroy(); }).Width(160);
+                                })
+                                .ToolBar(toolbar => toolbar.Create())
+                                .Editable(editable => editable.Mode(GridEditMode.PopUp))
+                                .Pageable()
+                                .Sortable()
+                                .Scrollable()
+                                .HtmlAttributes(new { style = "height:430px;" })
+                                .DataSource(dataSource => dataSource
+                                    .Ajax()
+                                    .PageSize(20)
+                                    .Events(events => events.Error("error_handler"))
+                                    .Model(model => model.Id(p => p.ProductID))
+                                    .Create(update => update.Action("EditingInline_Create", "Grid"))
+                                    .Read(read => read.Action("EditingInline_Read", "Grid"))
+                                    .Update(update => update.Action("EditingInline_Update", "Grid"))
+                                    .Destroy(update => update.Action("EditingInline_Destroy", "Grid"))
+                                )
+                            )
+
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
