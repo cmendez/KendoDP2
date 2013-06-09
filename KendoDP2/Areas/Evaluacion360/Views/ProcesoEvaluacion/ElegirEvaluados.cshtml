@@ -21,38 +21,41 @@
     </div>
     <div class="portlet-body">
         <div class="row-fluid">
+        @if (ViewBag.esAdmin)
+        {
             <div class="span2">
                 @(Html.Kendo().ComboBox()
-                    .Name("ComboColaboradores")
-                    .Placeholder("Agregue un colaborador...")
-                    .DataTextField("NombreCompleto")
-                    .DataValueField("ID")
-                    .Filter("contains")
-                    .BindTo(colaboradores)
-                    .Suggest(true)
-                    .HtmlAttributes(new { style = "width:100%" })
-                    .Events(e => e.Close("comboColaboradoresSelection"))
+                        .Name("ComboColaboradores")
+                        .Placeholder("Agregue un colaborador...")
+                        .DataTextField("NombreCompleto")
+                        .DataValueField("ID")
+                        .Filter("contains")
+                        .BindTo(colaboradores)
+                        .Suggest(true)
+                        .HtmlAttributes(new { style = "width:100%" })
+                        .Events(e => e.Close("comboColaboradoresSelection"))
                 )
                 <hr />
                 @(Html.Kendo().ComboBox()
-                    .Name("ComboAreas")
-                    .Placeholder("Agregue un área...")
-                    .DataTextField("Nombre")
-                    .DataValueField("ID")
-                    .Filter("contains")
-                    .BindTo(areas)
-                    .Suggest(true)
-                    .HtmlAttributes(new { style = "width:100%" })
-                    .Events(e => e.Close("comboAreasSelection"))
+                       .Name("ComboAreas")
+                       .Placeholder("Agregue un área...")
+                       .DataTextField("Nombre")
+                       .DataValueField("ID")
+                       .Filter("contains")
+                       .BindTo(areas)
+                       .Suggest(true)
+                       .HtmlAttributes(new { style = "width:100%" })
+                       .Events(e => e.Close("comboAreasSelection"))
                 )
                 <hr />
-                <div id="event_box_areas">
+                    <div id="event_box_areas">
+                    </div>
+                    <hr />
+                    <div id="event_box_colaboradores">
+                    </div>
+                    <hr />
                 </div>
-                <hr />
-                <div id="event_box_colaboradores">
-                </div>
-                <hr />
-            </div>
+            }   
             <div class="span10">
                 @(Html.Kendo().Grid<KendoDP2.Areas.Evaluacion360.Models.ColaboradorXProcesoEvaluacionDTO>()
                 .Name("ColaboradoresDeProcesoEvaluacionGrid")
@@ -66,10 +69,11 @@
                         columns.Bound(p => p.ColaboradorDTO.Puesto);
                         columns.ForeignKey(p => p.EstadoColaboradorXProcesoEvaluacionID, new SelectList(estados, "ID", "Nombre"));      
                         columns.Template(@<text></text>).Title("Evaluadores").ClientTemplate("<a class='k-button' href='" + Url.Action("SeleccionarEvaluadores", "Evaluadores") + "?procesoEvaluacionID="+procesoEvaluacionID+"&colaboradorID=#=ColaboradorDTO.ID#'>Elegir</a>");
-                        columns.Command(command =>
-                        {
-                            command.Destroy().Text("Eliminar");
-                        }).Width(200);
+                        if (ViewBag.esAdmin) 
+                            columns.Command(command =>
+                            {
+                                command.Destroy().Text("Eliminar");
+                            }).Width(200);
                     }
                 )
                 .ToolBar(toolbar => 
@@ -102,7 +106,7 @@
 
 <script type="text/javascript"> 
     $(document).ready(function(){
-        cargaTiles();
+        //cargaTiles();
     });
     function requestEnd(e){
         cargaTiles();
@@ -143,6 +147,7 @@
         cargaTilesAreas();
         cargaTilesColaboradores();
     }
+
     function agregaTileDeArea(areaID, areaNombre){
         var newDiv = '<a href="javascript:removeArea(' + areaID + ');" class="label external-event">' + areaNombre + '<i class="icon-remove"></i></a>'; 
         $("#event_box_areas").append(newDiv);

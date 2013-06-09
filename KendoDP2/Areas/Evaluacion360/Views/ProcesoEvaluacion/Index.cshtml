@@ -2,6 +2,7 @@
 @using KendoDP2.Areas.Evaluacion360.Models
 @using KendoDP2.Areas.Organizacion.Models
 
+
 @{
     ViewBag.Title = "Proceso de evaluación";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -34,13 +35,16 @@
                     columns.ForeignKey(p => p.EstadoProcesoEvaluacionID, new SelectList(estados, "ID", "Descripcion")).Visible(true);
 
                     columns.Template(@<text></text>).Title("Proceso").ClientTemplate("<a class='k-button' href='" + Url.Action("ElegirEvaluados", "ProcesoEvaluacion") + "?procesoEvaluacionID=#=ID#'>Ver Proceso</a>");
-                    columns.Command(command =>
-                    { 
-                        command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar"); 
-                        command.Destroy().Text("Eliminar");
-                    }).Width(200);
+                    if (ViewBag.esAdmin)
+                    {
+                        columns.Command(command =>
+                        {
+                            command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar");
+                            command.Destroy().Text("Eliminar");
+                        }).Width(200);
+                    }
                 }
-            )
+            ) 
             .ToolBar(toolbar => toolbar.Create().Text("Registrar"))
             .Editable(editable => editable
                 .Mode(GridEditMode.PopUp)
