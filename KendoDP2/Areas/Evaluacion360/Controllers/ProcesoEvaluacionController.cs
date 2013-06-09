@@ -28,10 +28,13 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 ViewBag.colaboradores = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
                 ViewBag.areas = context.TablaAreas.All().Select(c => c.ToDTO()).ToList();
                 ViewBag.estados = context.TablaEstadoProcesoEvaluacion.All().Select(e => e.ToDTO()).ToList();
+                // Identificar si el usuario loggeado tiene permisos para modificar procesos
+                ViewBag.esAdmin = EsAdmin(DP2MembershipProvider.GetPersonaID(this), context);
+
                 return View();
             }
         }
-
+      
         public ActionResult ElegirEvaluados(int procesoEvaluacionID)
         {
             using (DP2Context context = new DP2Context())
@@ -42,6 +45,9 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 ViewBag.estados = context.TablaEstadoColaboradorXProcesoEvaluaciones.All().Select(c => c.ToDTO()).ToList();
                 ViewBag.areas = context.TablaAreas.All().Select(c => c.ToDTO()).ToList();
                 ViewBag.idProceso = proceso.ID;
+                // Identificar si el usuario loggeado tiene permisos para modificar procesos
+                ViewBag.esAdmin = EsAdmin(DP2MembershipProvider.GetPersonaID(this), context);
+
                 return View(proceso);
 
             }
@@ -400,5 +406,19 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
      
         }
+
+        private bool EsAdmin(int idUsuario, DP2Context context)
+        {
+            ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == idUsuario && !x.IsEliminado);
+            Puesto puesto = context.TablaPuestos.FindByID(cxp.PuestoID);
+            bool esAdmin = true;
+            // No es presidente, admin 
+            if (puesto != null && puesto.PuestoSuperiorID != null)
+            {
+                esAdmin = false;
+            }
+            return esAdmin;
+        }
+        
     }
 }
