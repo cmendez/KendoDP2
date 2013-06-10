@@ -92,6 +92,11 @@ namespace KendoDP2.Areas.Organizacion.Models
             return new PuestoTreeDTO(this);
         }
 
+        public NodoOrganigramaDTO ToNodoOrganigramaDTO()
+        {
+            return new NodoOrganigramaDTO(this);
+        }
+
         public List<Puesto> GetAreasHijas(DP2Context context)
         {
             List<Puesto> resultado = new List<Puesto>();
@@ -182,4 +187,5 @@ namespace KendoDP2.Areas.Organizacion.Models
             hasChildren = p.Puestos.Any(i => !i.IsEliminado);
         }
     }
+
 }
