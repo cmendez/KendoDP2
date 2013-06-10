@@ -23,54 +23,66 @@
     </div>
     <div class="portlet-body">
         <div class="row-fluid">
+             <div style="text-align: center; vertical-align: middle"> <img id="loadingImage" src="http://grifocalpointblog.org/wp-content/themes/blogga/images/ajax-loader.gif"/> </div>
             <div class="basicdiagram" style="width: auto; height: 480px;" />
         </div>
     </div>
 </div>
 
 <script type='text/javascript'>
-    $(window).load(function () {
+
+    function armarArbol(raiz) {
         var options = new primitives.orgdiagram.Config();
+        
+        var item = agregarNodo(raiz);
 
-        var rootItem = new primitives.orgdiagram.ItemConfig();
-        rootItem.title = "Miguel Vega";
-        rootItem.description = "Presidente, Directorio";
-        rootItem.groupTitle = "Directorio";
-        rootItem.image = "/Misc/GetImagen?archivoID=1";
-
-        var itemB = new primitives.orgdiagram.ItemConfig();
-        itemB.title = "César Vásquez";
-        itemB.description = "VP, Human Resources";
-        itemB.groupTitle = "HHRR";
-        itemB.image = "../Images/unknown-person.jpg";
-        rootItem.items.push(itemB);
-
-        var itemC = new primitives.orgdiagram.ItemConfig();
-        itemC.title = "Diana Lepage";
-        itemC.description = "Business Solutions, US";
-        itemC.groupTitle = "Ventas";
-        itemC.image = "../Images/job-vacancy.jpg";
-        rootItem.items.push(itemC);
-
-        var itemD = new primitives.orgdiagram.ItemConfig();
-        itemD.title = "Gonzalo Cahuín";
-        itemD.description = "Business Solutions, US";
-        itemD.groupTitle = "Operaciones";
-        itemD.image = "http://www.basicprimitives.com/demo/images/photos/c.png";
-        itemC.items.push(itemD);
-
-        var itemE = new primitives.orgdiagram.ItemConfig();
-        itemE.title = "Manuel Solórzano";
-        itemE.description = "Business Solutions, US";
-        itemE.groupTitle = "Aseo";
-        itemE.image = "http://www.basicprimitives.com/demo/images/photos/c.png";
-        itemD.items.push(itemE);
-
-        options.rootItem = rootItem;
-        options.cursorItem = rootItem;
+        options.rootItem = item;
+        options.cursorItem = item;
         options.hasSelectorCheckbox = primitives.common.Enabled.False;
 
-        jQuery(".basicdiagram").orgDiagram(options);
+        $(document).ajaxStop(function () {
+            $("#loadingImage").hide();
+            jQuery(".basicdiagram").orgDiagram(options);
+        });
+    }
+
+    function agregarNodo(nodo) {
+        var item = new primitives.orgdiagram.ItemConfig();
+        item.title = nodo.Puesto;
+        item.groupTitle = nodo.Area;
+        item.description = nodo.Nombre + "\n" + nodo.Correo + "\n" + nodo.Telefono
+        item.image = nodo.ImagenURL;
+
+        if (nodo.HasChildren) {
+            $.ajax({
+                url: '@Url.Action("GetNodosHijo", "Organigrama", new { Area = "Organizacion" })',
+                datatype: 'JSON',
+                type: 'GET',
+                data: {
+                    id: nodo.PuestoId
+                },
+                success: function (result) {
+                    for (i = 0; i < result.length; i++) {
+                        item.items.push(agregarNodo(result[i]));
+                    }
+                }
+            });
+        }
+        return item;
+    }
+
+    $(window).load(function () {
+        $.ajax({
+            url: '@Url.Action("GetNodosHijo", "Organigrama", new { Area = "Organizacion" })',
+             datatype: 'JSON',
+             type: 'GET',
+             data: {
+                 id: null
+             },
+             success: function (result) {
+                 armarArbol(result[0]);
+             }
+         });
     });
 
 </script>
