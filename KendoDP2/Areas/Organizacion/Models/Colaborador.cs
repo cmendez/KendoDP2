@@ -37,7 +37,7 @@ namespace KendoDP2.Areas.Organizacion.Models
 
         public int? PaisID { get; set; }
         public virtual Pais Pais { get; set; }
-
+      
         public int ImagenColaboradorID { get; set; }
 
         [InverseProperty("Contacto")]

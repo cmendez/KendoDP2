@@ -16,14 +16,18 @@
 
 <div class="portlet box green">
     <div class="portlet-title">
-        <h4><i class="icon-reorder"></i>Eventos</h4>
+        <div class="caption"><i class="icon-reorder"></i>Eventos</div>
         <div class="tools">
 	        <a href="javascript:;" class="collapse"></a>
         </div>
 	</div>
     
     <div class="portlet-body">
-
+     
+         <a id="hidden-link" class="hidden" href="#" target="_blank"></a>
+           <div class="row-fluid">
+               <div class="span2">@Html.ActionLink("Ver Calendario", "VistaEventos", "Eventos", new {@class = "btn green" })</div>
+            </div>
            <div class="row-fluid">
             @(Html.Kendo().Grid<EventoDTO>()
                 .Name("EventoGrid")

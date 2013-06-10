@@ -190,16 +190,15 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             {
               //  return Json(context.TablaColaboradores.Where(c => c.Colaborador1ID == colaboradorID).Select(p => p.ToDTO()).ToDataSourceResult(request));
                //return Json( context.TablaColaboradores.FindByID(colaboradorID).Contactos.Where(x => x.ColaboradorID == colaboradorID).Select(x => x.Contacto).ToList());
-                return Json(context.TablaColaboradores.FindByID(colaboradorID).Contactos.Where(x => x.ColaboradorID == colaboradorID).Select(x => x.Contacto).ToList().ToDataSourceResult(request), JsonRequestBehavior.AllowGet) ;
+                return Json(context.TablaColaboradores.FindByID(colaboradorID).Contactos.Where(x => x.ColaboradorID == colaboradorID).Select(x => x.ToDTO()).ToList().ToDataSourceResult(request)) ;
             }
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult AddEvaluadosColaborador(int colaboradorID, int conctactoID)
+        public ActionResult AddEvaluadosColaborador(int colaboradorID, int contactoID)
         {
             using (DP2Context context = new DP2Context())
             {
-                bool isNuevaReferenciaDirecta = AddColaboradorToProceso(colaboradorID, conctactoID, context, true);
+                bool isNuevaReferenciaDirecta = AddColaboradorToProceso(colaboradorID, contactoID, context, true);
                 return Json(new { success = isNuevaReferenciaDirecta });
             }
         }
@@ -240,6 +239,21 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         }
 
 
+        public ActionResult GetViewContacto(int contactoID)
+        {
+
+            using (DP2Context context = new DP2Context())
+            {
+
+                Colaborador contacto = context.TablaColaboradores.FindByID(contactoID);
+
+                ViewBag.tipoDocumento = contacto.TipoDocumento.ToDTO();
+                ViewBag.gradoAcademico = contacto.GradoAcademico.ToDTO();
+                ViewBag.contactoID = contactoID;
+                return PartialView("ViewContacto", contacto.ToDTO());
+
+            }
+        }
 
 
     }

@@ -21,16 +21,57 @@ namespace KendoDP2.Areas.Reclutamiento.Models
 
         public PostulanteConCompetenciasDTO(ICollection<CompetenciaConPonderadoDTO> competenciasPuesto, Postulante postulante)
         {
-            //puede ser null?
-            IdPostulante = postulante.ID;
+            IdPostulante = postulante.Colaborador.ID;
             Nombre = postulante.Nombres + " " + postulante.ApellidoPaterno + " " + postulante.ApellidoMaterno;
             //Competencias
             var context = new DP2Context();
-            //si postulante.ColaboradorID es null, se caerá
-            //Colaborador colaborador = context.TablaColaboradores.Where(a => a.ID == postulante.Colaborador.ID).First();
-            Puesto puesto = context.TablaColaboradoresXPuestos.Where(a => a.ColaboradorID == postulante.ColaboradorID)
+            Puesto puesto = context.TablaColaboradoresXPuestos.Where(a => a.ID == postulante.Colaborador.ID)
                 .Select(a => a.Puesto).First();
-            CompetenciasPostulante = OfertaLaboralMobileJefeDTO.ListaCompetenciasConPonderadoToDTO(puesto.CompetenciasXPuesto);
+            var CompetenciasPostulanteAux = OfertaLaboralMobileJefeDTO.ListaCompetenciasConPonderadoToDTO(puesto.CompetenciasXPuesto);
+            //Filtrar las competencias que me interesan matchear
+            var CompetenciasPostulanteAuxFiltrado = new List<CompetenciaConPonderadoDTO>();
+            foreach (CompetenciaConPonderadoDTO competenciaColaborador in CompetenciasPostulanteAux)
+            {
+                if (competenciasPuesto.Any(a => a.CompetenciaNombre.Equals(competenciaColaborador.CompetenciaNombre)))
+                    CompetenciasPostulanteAuxFiltrado.Add(competenciaColaborador);
+            }
+            //Llenar las competencias vacías
+            CompetenciasPostulante = new List<CompetenciaConPonderadoDTO>();
+            int cont = 0;
+            foreach (CompetenciaConPonderadoDTO competenciaPuesto in competenciasPuesto)
+            {
+                if (!CompetenciasPostulanteAuxFiltrado
+                    .Any(a => a.CompetenciaNombre.Equals(competenciaPuesto.CompetenciaNombre)))
+                {
+                    //crear la comp
+                    CompetenciaConPonderadoDTO competenciaVacia = new CompetenciaConPonderadoDTO();
+                    competenciaVacia.CompetenciaID = -1;
+                    competenciaVacia.CompetenciaNombre = competenciaPuesto.CompetenciaNombre;
+                    competenciaVacia.Porcentaje = 0;
+                    //agregarla
+                    CompetenciasPostulante.Add(competenciaVacia);
+                }
+                else
+                {
+                    CompetenciasPostulante.Add(CompetenciasPostulanteAuxFiltrado.ElementAt(cont));
+                    cont++;
+                }
+            }
+            //MatchLevel
+            double sumaCompetenciasPuesto = 0;
+            foreach (CompetenciaConPonderadoDTO competencia in competenciasPuesto)
+            {
+                sumaCompetenciasPuesto += competencia.Porcentaje;
+            }
+            double sumaCompetenciasColaborador = 0;
+            foreach (CompetenciaConPonderadoDTO competencia in CompetenciasPostulante)
+            {
+                sumaCompetenciasColaborador += competencia.Porcentaje;
+            }
+            if (sumaCompetenciasPuesto != 0)
+                MatchLevel = (int)((sumaCompetenciasColaborador / sumaCompetenciasPuesto) * 100);
+            else
+                MatchLevel = 100;
         }
 
     }

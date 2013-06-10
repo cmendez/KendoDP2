@@ -32,8 +32,8 @@ var defaults = {
 	
 	// editing
 	//editable: false,
-	//disableDragging: false,
-	//disableResizing: false,
+	disableDragging: false,
+	disableResizing: false,
 	
 	allDayDefault: true,
 	ignoreTimezone: true,
@@ -46,13 +46,13 @@ var defaults = {
 	// time formats
 	titleFormat: {
 		month: 'MMMM yyyy',
-		week: "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}",
-		day: 'dddd, MMM d, yyyy'
+		week: "d MMM [ yyyy]{ '&#8212;'d MMM yyyy}",
+		day: 'dddd, d MMMM, yyyy'
 	},
 	columnFormat: {
 		month: 'ddd',
-		week: 'ddd M/d',
-		day: 'dddd M/d'
+		week: 'ddd d/M',
+		day: 'dddd d/M'
 	},
 	timeFormat: { // for event elements
 		'': 'h(:mm)t' // default
@@ -61,19 +61,19 @@ var defaults = {
 	// locale
 	isRTL: false,
 	firstDay: 0,
-	monthNames: ['January','February','March','April','May','June','July','August','September','October','November','December'],
-	monthNamesShort: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
-	dayNames: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
-	dayNamesShort: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
+	monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+	monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dec'],
+	dayNames: ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'],
+	dayNamesShort: ['Dom','Lun','Mar','Mie','Jue','Vie','Sab'],
 	buttonText: {
 		prev: "<span class='fc-text-arrow'>&lsaquo;</span>",
 		next: "<span class='fc-text-arrow'>&rsaquo;</span>",
 		prevYear: "<span class='fc-text-arrow'>&laquo;</span>",
 		nextYear: "<span class='fc-text-arrow'>&raquo;</span>",
-		today: 'today',
-		month: 'month',
-		week: 'week',
-		day: 'day'
+		today: 'Hoy',
+		month: 'Mes',
+		week: 'Semana',
+		day: 'Dia'
 	},
 	
 	// jquery-ui theming
@@ -93,7 +93,7 @@ var defaults = {
 // right-to-left defaults
 var rtlDefaults = {
 	header: {
-		left: 'next,prev today',
+		left: 'Siguiente,Anterior',
 		center: '',
 		right: 'title'
 	},
@@ -118,7 +118,6 @@ var fcViews = fc.views = {};
 
 
 $.fn.fullCalendar = function(options) {
-
 
 	// method calling
 	if (typeof options == 'string') {
@@ -2905,7 +2904,7 @@ function AgendaDayView(element, calendar) {
 
 setDefaults({
 	allDaySlot: true,
-	allDayText: 'all-day',
+	allDayText: 'Todo el dia',
 	firstHour: 6,
 	slotMinutes: 30,
 	defaultEventMinutes: 120,
@@ -4434,7 +4433,7 @@ function View(element, calendar, viewName) {
 	
 	
 	function isEventDraggable(event) {
-		return isEventEditable(event) && !opt('disableDragging');
+	    return isEventEditable(event) ;//&& !opt('disableDragging');
 	}
 	
 	

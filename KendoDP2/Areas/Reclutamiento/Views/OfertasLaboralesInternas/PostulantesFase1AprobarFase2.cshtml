@@ -25,7 +25,7 @@
 </div>
 <div class="portlet box yellow">
     <div class="portlet-title">
-        <h4><i class="icon-reorder"></i>Postulantes por Oferta Laboral Interna: Fase 1</h4>
+        <div class="caption"><i class="icon-reorder"></i>Postulantes por Oferta Laboral Interna: Fase 1</div>
         <div class="tools">
 	        <a href="javascript:;" class="collapse"></a>
         </div>
@@ -94,6 +94,15 @@
 
 )
 
+@(Html.Kendo().Window().Name("Details3")
+    .Title("Seleccionar Fecha de la Evaluación")
+    .Visible(false)
+    .Modal(true)
+    .Draggable(true)
+    .Width(500)
+
+)
+
 <script>
 
     function recargaGrid(){
@@ -101,20 +110,15 @@
     }
 
     function aprobarSiguienteFase(e) {
+        e.preventDefault();
+
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        var postulanteXOfertaID = dataItem.ID;
-        $.ajax({
-            url: '@Url.Action("AprobarFase2", "OfertasLaboralesInternas", new { Area = "Reclutamiento" })',
-            dataType: 'JSON',
-            type: 'POST',
-            data: {
-                ofertaID: @ofertaID,
-                postulanteXOfertaID: postulanteXOfertaID
-            },
-            success: function(response){
-                handleError(response, "El postulante fue aprobado para evaluación");
-                recargaGrid();
-            }
+        ID = dataItem.ID;
+        var wnd = $("#Details3").data("kendoWindow");
+        $("#Details3").load("@Url.Action("GetViewSeleccionFechaFase2","OfertasLaboralesInternas", new{Area = "Reclutamiento"})", 
+            {ofertaID : @ofertaID, postulanteXOfertaID : ID }, 
+            function () {
+            wnd.center().open();
         });
     }
 
@@ -124,7 +128,7 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         ID = dataItem.ID;
         var wnd = $("#Details").data("kendoWindow");
-        $("#Details").load("@Url.Action("GetViewMotivosRechazo","OfertasLaboralesInternas", new{Area = "Reclutamiento"})", {ofertaID : @ofertaID, postulanteXOfertaID : ID, motivoRechazo : MotivoRechazo }, function () {
+        $("#Details").load("@Url.Action("GetViewMotivosRechazo","OfertasLaboralesInternas", new{Area = "Reclutamiento"})", {ofertaID : @ofertaID, postulanteXOfertaID : ID, motivoRechazo : "" }, function () {
             wnd.center().open();
         });
     }

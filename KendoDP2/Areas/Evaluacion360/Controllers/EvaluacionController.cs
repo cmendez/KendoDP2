@@ -40,14 +40,26 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             using (DP2Context context = new DP2Context()){
                 Examen examen = context.TablaExamenes.One(x => x.EvaluadorID == tablaEvaluadoresID);
                // Falta agregar el promedio final (incluye competencias)
-                IList<Pregunta> preguntas = context.TablaPreguntas.Where(x => x.ExamenID == examen.ID);
-                int nota = preguntas.Sum(x => x.Puntuacion);
-                examen.NotaExamen = Convert.ToInt32(Decimal.Floor(nota/100));
-                
-                EstadoColaboradorXProcesoEvaluacion terminado = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado));
-                examen.EstadoExamenID = terminado.ID;
+                IList<CompetenciaXExamen> competenciasEvaluadas = context.TablaCompentenciaXExamen.Where(x=>x.ExamenID == examen.ID);
+                int nota = 0;
+                foreach (CompetenciaXExamen c in competenciasEvaluadas) {
+                    //
+                    IList<Pregunta> preguntasXCompetencia = context.TablaPreguntas.Where(x => x.competenciaID==c.CompetenciaID);
+                    int notaCompetencia = Convert.ToInt32(Decimal.Floor(preguntasXCompetencia.Sum(x => x.Puntuacion)/100));
+                    c.Nota = notaCompetencia;
 
-                context.TablaExamenes.ModifyElement(examen);
+                    nota += notaCompetencia;
+                    context.TablaCompentenciaXExamen.ModifyElement(c);
+                }
+                if (competenciasEvaluadas != null && competenciasEvaluadas.Count>0) {
+                    nota = Convert.ToInt32(Decimal.Floor(nota/competenciasEvaluadas.Count));
+                    examen.NotaExamen = nota;
+                    EstadoColaboradorXProcesoEvaluacion terminado = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado));
+                    examen.EstadoExamenID = terminado.ID;
+
+                    context.TablaExamenes.ModifyElement(examen);
+                }
+                
                 return View();
             }
             
