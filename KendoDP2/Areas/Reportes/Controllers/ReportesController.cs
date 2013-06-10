@@ -140,6 +140,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
                     ObjetivoConPadreDTO obj = ListaObjetivosHijos.Find(o => o.puestoID == c.PuestoID);
                     pxo.avance = obj.AvanceFinal;
                     pxo.idObjetivo = obj.ID;
+                    pxo.objetivos = context.TablaObjetivos.Where(ob => ob.ID==ListaObjetivosHijos.Find(o => o.puestoID == c.PuestoID).ID).Select(objj=> objj.ToRDTO(context)).ToList();
                     PersonasXObjetivo.Add(pxo);
                 }
 
