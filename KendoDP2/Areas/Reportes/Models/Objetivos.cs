@@ -105,8 +105,16 @@ namespace KendoDP2.Areas.Reportes.Models
             {
                 idpadre = -1;
             }
-            idperiodo=o.BSC.PeriodoID;
-            BSCId = o.BSCID.Value;
+            BSCId = o.GetBSCIDRaiz(context);
+            if (o.BSC!= null)
+            {
+                idperiodo = o.BSCID.Value;
+            }
+            else
+            {
+                idperiodo = -1;
+            }
+
             if (o.PuestoAsignado != null)
             {
                 idPuesto = o.PuestoAsignado.ID;
@@ -131,6 +139,8 @@ namespace KendoDP2.Areas.Reportes.Models
         public string nombreColaborador { get; set; }
 
         public int idObjetivo { get; set; }
+
+        public List<ObjetivoRDTO> objetivos { get; set; }
     }
 
     public class BSCAvanceDTO
