@@ -342,7 +342,7 @@ namespace KendoDP2.Models.Generic
 
         private void SeedNivelCapacidades()
         {
-            for (int i = 1; i <= 8; i++)
+            for (int i = 1; i <= 3; i++)
                 TablaNivelCapacidades.AddElement(new NivelCapacidad(i));
         }
 
