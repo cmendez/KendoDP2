@@ -32,6 +32,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
             foreach (Colaborador c in listaJefes)
             {
+                if (c == null) continue;
                 if (c.CorreoElectronico != null)
                     to = c.CorreoElectronico;
                 else
@@ -62,6 +63,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             mail.Body = message;
             SmtpServer.Send(mail);
         } 
+
 
         public ActionResult EnviarEmails()
         {

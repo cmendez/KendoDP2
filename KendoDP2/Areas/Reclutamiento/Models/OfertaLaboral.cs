@@ -156,9 +156,9 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         {
             ID = o.ID;
             PuestoID = o.PuestoID;
-            Puesto = o.Puesto.Descripcion;
+            Puesto = o.Puesto.Nombre;
             AreaID = o.AreaID;
-            Area = o.Area.Descripcion;
+            Area = o.Area.Nombre;
             ResponsableID = o.ResponsableID;
             Responsable = o.Responsable.ToDTO().NombreCompleto;
             EstadoSolicitudOfertaLaboralID = o.EstadoSolicitudOfertaLaboralID;
@@ -252,11 +252,33 @@ namespace KendoDP2.Areas.Reclutamiento.Models
                 .Select(a=>a.Puesto).First();
             var CompetenciasPonderadasColaboradorAux = ListaCompetenciasConPonderadoToDTO(puesto.CompetenciasXPuesto);
             //Filtrar las competencias que me interesan matchear
-            CompetenciasPonderadasColaborador = new List<CompetenciaConPonderadoDTO>();
+            var CompetenciasPonderadasColaboradorFiltrado = new List<CompetenciaConPonderadoDTO>();
             foreach (CompetenciaConPonderadoDTO competenciaColaborador in CompetenciasPonderadasColaboradorAux)
             {
                 if (CompetenciasPonderadasPuesto.Any(a => a.CompetenciaNombre.Equals(competenciaColaborador.CompetenciaNombre)))
-                    CompetenciasPonderadasColaborador.Add(competenciaColaborador);
+                    CompetenciasPonderadasColaboradorFiltrado.Add(competenciaColaborador);
+            }
+            //Llenar las competencias vacías
+            CompetenciasPonderadasColaborador = new List<CompetenciaConPonderadoDTO>();
+            int cont = 0;
+            foreach (CompetenciaConPonderadoDTO competenciaPuesto in CompetenciasPonderadasPuesto)
+            {
+                if (!CompetenciasPonderadasColaboradorFiltrado
+                    .Any(a => a.CompetenciaNombre.Equals(competenciaPuesto.CompetenciaNombre)))
+                {
+                    //crear la comp
+                    CompetenciaConPonderadoDTO competenciaVacia = new CompetenciaConPonderadoDTO();
+                    competenciaVacia.CompetenciaID = -1;
+                    competenciaVacia.CompetenciaNombre = competenciaPuesto.CompetenciaNombre;
+                    competenciaVacia.Porcentaje = 0;
+                    //agregarla
+                    CompetenciasPonderadasColaborador.Add(competenciaVacia);
+                }
+                else
+                {
+                    CompetenciasPonderadasColaborador.Add(CompetenciasPonderadasColaboradorFiltrado.ElementAt(cont));
+                    cont++;
+                }
             }
             //MatchLevel:
             double sumaCompetenciasPuesto = 0;
@@ -276,7 +298,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         }
 
         //Funciones Auxiliares
-        public ICollection<FuncionDTO> ListaFuncionesToDTO(ICollection<Funcion> funciones)
+        public static ICollection<FuncionDTO> ListaFuncionesToDTO(ICollection<Funcion> funciones)
         {
             List<FuncionDTO> ListaDTO = new List<FuncionDTO>();
             FuncionDTO fun = new FuncionDTO();
@@ -309,18 +331,27 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public int ID { get; set; }
         public string NombreAreaPuesto { get; set; }
         public string DescripcionOferta { get; set; }
+        public int SueldoTentativo { get; set; }
+        public string FechaFinVigencia { get; set; }
+        public ICollection<FuncionDTO> Funciones { get; set; }
         public ICollection<CompetenciaConPonderadoDTO> CompetenciasPonderadasPuesto { get; set; }
-        public ICollection<PostulanteConCompetenciasDTO> ColaboradoresConCompetencias { get; set; }
+        public ICollection<PostulanteConCompetenciasDTO> PostulantesConCompetencias { get; set; }
 
         public OfertaLaboralMobileJefeDTO(OfertaLaboral oferta, string userName)
         {
             ID = oferta.ID;
             NombreAreaPuesto = oferta.Area.Nombre + "-" +oferta.Puesto.Nombre;
             DescripcionOferta = oferta.Descripcion;
+            SueldoTentativo = oferta.SueldoTentativo;
+            Funciones = OfertaLaboralMobilePostulanteDTO.ListaFuncionesToDTO(oferta.Puesto.Funciones);
+            FechaFinVigencia = oferta.FechaFinVigenciaSolicitud;
             //Las competencias del puesto:
             CompetenciasPonderadasPuesto = ListaCompetenciasConPonderadoToDTO(oferta.Puesto.CompetenciasXPuesto);
-            //Los colaboradores:
-            ColaboradoresConCompetencias = ListaColaboradoresConCompetenciaToDTO(CompetenciasPonderadasPuesto, oferta.Postulantes);
+            //Los postulantes:
+            var context = new DP2Context();
+            var postulantes = context.TablaPostulante.All();
+            var ofertasXPostulantes = context.TablaOfertaLaboralXPostulante.Where(a=>a.OfertaLaboralID == oferta.ID);
+            PostulantesConCompetencias = ListaPostulantesConCompetenciaToDTO(CompetenciasPonderadasPuesto, ofertasXPostulantes);
         }
 
         public static ICollection<CompetenciaConPonderadoDTO> ListaCompetenciasConPonderadoToDTO(ICollection<CompetenciaXPuesto> competencias)
@@ -336,19 +367,19 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             return ListaDTO;
         }
 
-        public ICollection<PostulanteConCompetenciasDTO> ListaColaboradoresConCompetenciaToDTO(ICollection<CompetenciaConPonderadoDTO> 
-            competenciasPuesto, ICollection<OfertaLaboralXPostulante> postulantes)
+        public ICollection<PostulanteConCompetenciasDTO> ListaPostulantesConCompetenciaToDTO(ICollection<CompetenciaConPonderadoDTO> 
+            competenciasPuesto, ICollection<OfertaLaboralXPostulante> ofertasXpostulantes)
         {
-            List<PostulanteConCompetenciasDTO> listaColaboradores = new List<PostulanteConCompetenciasDTO>();
+            List<PostulanteConCompetenciasDTO> listaPostulantesConCompetencias = new List<PostulanteConCompetenciasDTO>();
             PostulanteConCompetenciasDTO postulanteCompetencias;
 
-            foreach (OfertaLaboralXPostulante postulante in postulantes)
+            foreach (OfertaLaboralXPostulante ofertaXpostulante in ofertasXpostulantes)
             {
-                postulanteCompetencias = new PostulanteConCompetenciasDTO(competenciasPuesto, postulante.Postulante);
-                listaColaboradores.Add(postulanteCompetencias);
+                postulanteCompetencias = new PostulanteConCompetenciasDTO(competenciasPuesto, ofertaXpostulante.Postulante);
+                listaPostulantesConCompetencias.Add(postulanteCompetencias);
             }
 
-            return listaColaboradores;
+            return listaPostulantesConCompetencias;
         }
     }
     

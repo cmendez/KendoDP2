@@ -121,12 +121,18 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 //    PersonasXObjetivo.Add(pxo);
                 //}
                 List<ObjetivoConPadreDTO> ListaObjetivosHijos = context.TablaObjetivos.Where(o => o.ObjetivoPadreID == idObjetivo).Select(o => o.ObjetivoConPadreDTO(context)).ToList();
-                List<ColaboradorXPuestoDTO> ListaColaboradoresXPuesto = context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == ListaObjetivosHijos[0].puestoID).Select(p => p.ToDTO()).ToList();
                 List<ColaboradorDTO> ListaColaboradores = new List<ColaboradorDTO>();
-                foreach (ColaboradorXPuestoDTO cxp in ListaColaboradoresXPuesto)
+
+                foreach (ObjetivoConPadreDTO objhijo in ListaObjetivosHijos)
                 {
-                    ListaColaboradores.Add(cxp.Colaborador);
+                    ListaColaboradores.AddRange(context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == objhijo.puestoID).Select(p => p.ToDTO().Colaborador));
                 }
+                //List<ColaboradorXPuestoDTO> ListaColaboradoresXPuesto = context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == ListaObjetivosHijos[0].puestoID).Select(p => p.ToDTO()).ToList();
+                
+                //foreach (ColaboradorXPuestoDTO cxp in ListaColaboradoresXPuesto)
+                //{
+                //    ListaColaboradores.Add(cxp.Colaborador);
+                //}
                 foreach (ColaboradorDTO c in ListaColaboradores)
                 {
                     PersonaXObjetivoDTO pxo = new PersonaXObjetivoDTO();
@@ -134,6 +140,8 @@ namespace KendoDP2.Areas.Reportes.Controllers
                     ObjetivoConPadreDTO obj = ListaObjetivosHijos.Find(o => o.puestoID == c.PuestoID);
                     pxo.avance = obj.AvanceFinal;
                     pxo.idObjetivo = obj.ID;
+                    //pxo.objetivos = context.TablaObjetivos.Where(ob => ob.ID==ListaObjetivosHijos.Find(o => o.puestoID == c.PuestoID).ID).Select(objj=> objj.ToRDTO(context)).ToList();
+                    pxo.objetivos = context.TablaObjetivos.Where(ob => ob.ObjetivoPadre != null && ob.ObjetivoPadre.PuestoAsignadoID == c.PuestoID).Select(objj => objj.ToRDTO(context)).ToList();
                     PersonasXObjetivo.Add(pxo);
                 }
 

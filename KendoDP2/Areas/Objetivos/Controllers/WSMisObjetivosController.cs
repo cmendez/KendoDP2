@@ -71,5 +71,21 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             }
         }
 
+
+        public ActionResult Destroy(int objetivoID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                try
+                {
+                    context.TablaObjetivos.RemoveElementByID(objetivoID);
+                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception)
+                {
+                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
     }
 }
