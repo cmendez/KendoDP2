@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
 using KendoDP2.Models.Seguridad;
+using KendoDP2.Controllers;
+using KendoDP2.Areas.Organizacion.Models;
 
 
 namespace KendoDP2.Areas.Reclutamiento.Controllers
@@ -156,11 +158,41 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             {
                 OfertaLaboral o = context.TablaOfertaLaborales.FindByID(ofertaID);
                 OfertaLaboralXPostulante postulanteOferta = o.Postulantes.Where(p => p.ID == postulanteXOfertaID).FirstOrDefault();
+                MiscController controladorGeneral = new MiscController();
+                //FasePostulacionXOfertaLaboralXPostulante fase = context.TablaFasePostulacionXOfertaLaboralXPostulante.All().FirstOrDefault();
+                var org = context.TablaOrganizaciones.All().FirstOrDefault();
 
                 if (postulanteOferta.EstadoPostulantePorOferta.Descripcion.Equals("Inscrito"))
                 {
                     postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Aprobado Fase 1"));
                     context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
+                    if (postulanteOferta.OfertaLaboral.ModoSolicitudOfertaLaboral.Descripcion.Equals("Convocatoria Interna"))
+                    {
+                        if(postulanteOferta.Postulante.Colaborador.CorreoElectronico != null)
+                        {
+                        controladorGeneral.SendEmail(postulanteOferta.Postulante.Colaborador.CorreoElectronico, "["+org.RazonSocial+"] Entrevista General",
+                            "Estimado(a) " + postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto +": \n" +
+                                " Se le notifica que tras la evaluación de sus datos presentados ha sido aceptado"+
+                                " para la primera fase de reclutamiento. Por esta razón deberá acercarse el día "+ postulanteOferta.FechaEvaluacionPrimeraFase +
+                                " al lugar" + org.Direccion+ " para la entrevista y evaluación respectiva. \n"+
+                                " Saludos cordiales \n" + "Gerencia Recursos Humanos \n");
+                        }
+                        else{
+                            ModelState.AddModelError("", "No se envío la notificación. Revise los datos e intente comunicarse por otro medio");
+                            return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+                        }
+                    }
+                    else
+                    {
+                        controladorGeneral.SendEmail(postulanteOferta.Postulante.CorreoElectronico, "[" + org.RazonSocial + "] Entrevista General",
+                            "Estimado(a) " + postulanteOferta.Postulante.ToDTO().NombreCompleto + ": \n" +
+                                "Se le notifica que tras la evaluación de sus datos presentados ha sido aceptado " +
+                                "para la primera fase de reclutamiento. Por esta razón se hace la respectiva citación: \n"+
+                                "Día: " + postulanteOferta.ToDTO().FechaEvaluacionPrimeraFase + "\n" +
+                                "Lugar: " + org.Direccion + "\n" +
+                                "para la entrevista y evaluación respectiva. \n" +
+                                "Saludos cordiales \n" + "Gerencia Recursos Humanos \n");
+                    }
                     return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
                 }
                 else
@@ -240,6 +272,22 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 }
                 else
                     return PartialView("EditorMotivoRechazoExterno", postulanteOferta.ToDTO());
+            }
+
+        }
+
+        public ActionResult GetViewSeleccionFechaFase1(int ofertaID, int postulanteXOfertaID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
+                OfertaLaboralXPostulante postulanteOferta = oferta.Postulantes.Where(p => p.ID == postulanteXOfertaID).FirstOrDefault();
+                ViewBag.cruce = postulanteOferta.ID;
+                ViewBag.ofertaID = ofertaID; 
+                ViewBag.yaAprobado = postulanteOferta.EstadoPostulantePorOferta.Descripcion.StartsWith("Aprobado");
+               
+                    return PartialView("SeleccionarFechaEvaluacionFase1", postulanteOferta.ToDTO());
+                
             }
 
         }

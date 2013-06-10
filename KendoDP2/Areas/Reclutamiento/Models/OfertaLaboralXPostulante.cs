@@ -6,6 +6,7 @@ using System.Web;
 using KendoDP2.Models.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace KendoDP2.Areas.Reclutamiento.Models
 {
@@ -30,6 +31,10 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         
         public int EstadoPostulantePorOfertaID { get; set; }
         public virtual EstadoPostulantePorOferta EstadoPostulantePorOferta { get; set; }
+
+        public string FechaEvaluacionPrimeraFase { get; set; }
+        public string FechaEvaluacionSegundaFase { get; set; }
+        public string FechaEvaluacionTerceraFase { get; set; }
 
         public OfertaLaboralXPostulanteDTO ToDTO()
         {
@@ -60,6 +65,19 @@ namespace KendoDP2.Areas.Reclutamiento.Models
 
         [DisplayName("Estado Postulante")]
         public string EstadoPostulantePorOfertaNombre { get; set; }
+
+        [DisplayName("Fecha de evaluación Fase 1")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public string FechaEvaluacionPrimeraFase { get; set; }
+
+        [DisplayName("Fecha de evaluación Fase 2")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public string FechaEvaluacionSegundaFase { get; set; }
+
+        [DisplayName("Fecha de evaluación Fase 3")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public string FechaEvaluacionTerceraFase { get; set; }
+
         
         public OfertaLaboralXPostulanteDTO()
         {
@@ -83,6 +101,10 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             
             EstadoPostulantePorOfertaID = op.EstadoPostulantePorOfertaID;
             EstadoPostulantePorOfertaNombre = op.EstadoPostulantePorOferta != null ? op.EstadoPostulantePorOferta.Descripcion : String.Empty;
+
+            FechaEvaluacionPrimeraFase = op.FechaEvaluacionPrimeraFase;
+            FechaEvaluacionSegundaFase = op.FechaEvaluacionSegundaFase;
+            FechaEvaluacionTerceraFase = op.FechaEvaluacionTerceraFase;
 
         }
     }
