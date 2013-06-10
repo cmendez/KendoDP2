@@ -27,7 +27,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                var hijos = context.TablaColaboradores.All().Select(t => t.ColaboradoresPuesto.Any());
+                var hijos = context.TablaPuestos.Where(p => id.HasValue ? p.PuestoSuperiorID == id : p.PuestoSuperiorID == null).Select(p => p.ToNodoOrganigramaDTO()).OrderBy(t => t.Nombre);
                 return Json(hijos.ToList(), JsonRequestBehavior.AllowGet);
 
                 //context.TablaColaboradores.Where(t => id.HasValue ? t.ColaboradoresPuesto.Last().Puesto.PuestoSuperiorID == id : t.ColaboradoresPuesto.Last().Puesto.PuestoSuperiorID == null).Select(t => t.ToNodoOrganigramaDTO(context)).OrderBy(t => t.Nombre);

@@ -17,11 +17,8 @@ namespace KendoDP2.Areas.Organizacion.Models
         public string Area { get; set; }
         public bool HasChildren { get; set; }
 
-        public NodoOrganigramaDTO(DP2Context context, Puesto puesto)
+        public NodoOrganigramaDTO(Puesto puesto)
         {
-            using (context)
-            {
-
              //  Información del puesto:
                 this.PuestoId = puesto.ID;
                 this.Puesto = puesto.Nombre;
@@ -33,7 +30,7 @@ namespace KendoDP2.Areas.Organizacion.Models
                 this.HasChildren = puesto.Puestos.Any(p => !p.IsEliminado);
 
             //  Si existe puesto...
-                if (puesto.ColaboradorPuestos.Last(c => c.FechaSalidaPuesto == null) != null)
+                if (puesto.ColaboradorPuestos.Where(c => c.FechaSalidaPuesto == null).Count() > 0)
                 {
                     //  Información del colaborador:
                     Colaborador colaborador = puesto.ColaboradorPuestos.Last(c => c.FechaSalidaPuesto == null).Colaborador;
@@ -51,7 +48,7 @@ namespace KendoDP2.Areas.Organizacion.Models
                     this.ImagenURL = "../Images/job-vacancy.jpg";
                 }
 
-            }
+            
         }
     }
 }
