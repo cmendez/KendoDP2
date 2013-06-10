@@ -46,13 +46,13 @@ var defaults = {
 	// time formats
 	titleFormat: {
 		month: 'MMMM yyyy',
-		week: "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}",
-		day: 'dddd, MMM d, yyyy'
+		week: "d MMM [ yyyy]{ '&#8212;'d MMM yyyy}",
+		day: 'dddd, d MMMM, yyyy'
 	},
 	columnFormat: {
 		month: 'ddd',
-		week: 'ddd M/d',
-		day: 'dddd M/d'
+		week: 'ddd d/M',
+		day: 'dddd d/M'
 	},
 	timeFormat: { // for event elements
 		'': 'h(:mm)t' // default
@@ -63,7 +63,7 @@ var defaults = {
 	firstDay: 0,
 	monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
 	monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dec'],
-	dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sabado'],
+	dayNames: ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'],
 	dayNamesShort: ['Dom','Lun','Mar','Mie','Jue','Vie','Sab'],
 	buttonText: {
 		prev: "<span class='fc-text-arrow'>&lsaquo;</span>",
@@ -2905,7 +2905,7 @@ function AgendaDayView(element, calendar) {
 
 setDefaults({
 	allDaySlot: true,
-	allDayText: 'all-day',
+	allDayText: 'Todo el dia',
 	firstHour: 6,
 	slotMinutes: 30,
 	defaultEventMinutes: 120,
