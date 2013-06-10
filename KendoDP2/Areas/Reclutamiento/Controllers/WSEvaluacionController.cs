@@ -61,6 +61,9 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     
                     //Guardar la evaluacion por fase por postulacion, es necesario reasignar el ID o ya se guarda
                     context.TablaEvaluacionXFaseXPostulacion.AddElement(e);
+                    var ofertaLaboralXPostulante = e.FasePostulacionXOfertaLaboralXPostulante.OfertaLaboralXPostulante;
+                    ofertaLaboralXPostulante.PuntajeTotal += (int)e.Puntaje;
+                    context.TablaOfertaLaboralXPostulante.ModifyElement(ofertaLaboralXPostulante);
                     
                     //Guardar las respuesta, indicando la evaluacion a la que pertenecen
                     List<Respuesta> lstRespuesta = new List<Respuesta>();

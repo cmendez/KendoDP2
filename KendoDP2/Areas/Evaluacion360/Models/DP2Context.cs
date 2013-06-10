@@ -363,6 +363,7 @@ namespace KendoDP2.Models.Generic
         private void seedProcesosDeEvaluacion()
         {
             TablaProcesoEvaluaciones.AddElement(new ProcesoEvaluacion { AutorizadorID = 2, FechaCierre = new DateTime(2013, 12, 1), Nombre = "Proceso por defecto", EstadoProcesoEvaluacionID = TablaEstadoProcesoEvaluacion.One(e => e.Descripcion == ConstantsEstadoProcesoEvaluacion.Creado).ID });
+            TablaProcesoEvaluaciones.AddElement(new ProcesoEvaluacion { AutorizadorID = 2, FechaCierre = new DateTime(2013, 12, 1), Nombre = "Otro proceso", EstadoProcesoEvaluacionID = TablaEstadoProcesoEvaluacion.One(e => e.Descripcion == ConstantsEstadoProcesoEvaluacion.Creado).ID });
         }
 
         /*private void seedColaboradorXProcesoEvaluacion() 

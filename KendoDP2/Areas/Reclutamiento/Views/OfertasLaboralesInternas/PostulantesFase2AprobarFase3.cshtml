@@ -26,7 +26,7 @@
 </div>
 <div class="portlet box blue">
     <div class="portlet-title">
-        <h4><i class="icon-reorder"></i>Postulantes por Oferta Laboral Interna: Fase 2</h4>
+        <div class="caption"><i class="icon-reorder"></i>Postulantes por Oferta Laboral Interna: Fase 2</div>
         <div class="tools">
 	        <a href="javascript:;" class="collapse"></a>
         </div>
@@ -58,8 +58,9 @@
 
                     }
                         )
+                            .ToolBar(toolbar => { toolbar.Save().SaveText("Guardar cambios").CancelText("Cancelar cambios"); })
                             .Editable(editable => editable
-                            .Mode(GridEditMode.PopUp)
+                            .Mode(GridEditMode.InCell)
                             .Window(w => { w.Title("Ver Postulante"); w.Width(900); })
 
                         )
@@ -73,6 +74,7 @@
                             .PageSize(20)
                             .Model(model => model.Id(p => p.ID))
                             .Read(read => read.Action("ReadListaPostulantesFase2", "OfertasLaboralesInternas", new { ofertaID = ofertaID }))
+                            .Update(update => update.Action("Update", "OfertasLaboralesInternas"))
                         )
                        )
         </div>
@@ -98,6 +100,16 @@
 
 )
 
+@(Html.Kendo().Window().Name("Details3")
+    .Title("Seleccionar Fecha de la Evaluación")
+    .Visible(false)
+    .Modal(true)
+    .Draggable(true)
+    .Width(500)
+
+)
+
+
 <script>
 
 
@@ -106,20 +118,15 @@
     }
 
     function aprobarSiguienteFase(e) {
+        e.preventDefault();
+
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        var postulanteXOfertaID = dataItem.ID;
-        $.ajax({
-            url: '@Url.Action("AprobarFase3", "OfertasLaboralesInternas", new { Area = "Reclutamiento" })',
-            dataType: 'JSON',
-            type: 'POST',
-            data: {
-                ofertaID: @ofertaID,
-                postulanteXOfertaID: postulanteXOfertaID
-            },
-            success: function(response){
-                handleError(response, "El postulante fue aprobado para evaluación");
-                recargaGrid();
-            }
+        ID = dataItem.ID;
+        var wnd = $("#Details3").data("kendoWindow");
+        $("#Details3").load("@Url.Action("GetViewSeleccionFechaFase3","OfertasLaboralesInternas", new{Area = "Reclutamiento"})", 
+            {ofertaID : @ofertaID, postulanteXOfertaID : ID }, 
+            function () {
+                wnd.center().open();
         });
     }
 
