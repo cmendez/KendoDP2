@@ -48,6 +48,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         }
 
         /*
+         *   ID
          *   Nombre
          *   Peso
          *   ObjetivoPadreID : debe ser un objetivo obtenido al leer mis objetivos
@@ -63,7 +64,23 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                     o2.Nombre = o.Nombre;
                     context.TablaObjetivos.ModifyElement(o2);
                 }
-                return Json(new { success = true } );
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult Destroy(int objetivoID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                try
+                {
+                    context.TablaObjetivos.RemoveElementByID(objetivoID);
+                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception)
+                {
+                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                }
             }
         }
 
