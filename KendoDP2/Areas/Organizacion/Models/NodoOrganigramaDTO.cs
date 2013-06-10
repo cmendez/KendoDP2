@@ -17,26 +17,39 @@ namespace KendoDP2.Areas.Organizacion.Models
         public string Area { get; set; }
         public bool HasChildren { get; set; }
 
-        public NodoOrganigramaDTO(DP2Context context, Colaborador colaborador)
+    //  OJO : ¡¡¡¡¡ USAR SOLO DENTRO DE UN DP2Context !!!!!
+        public NodoOrganigramaDTO(Puesto puesto)
         {
-            using (context)
-            {
-            //  Información del colaborador:
-                this.Nombre = colaborador.ApellidoPaterno + " " + colaborador.ApellidoMaterno + ", " + colaborador.Nombres;
-                this.Correo = colaborador.CorreoElectronico;
-                this.Telefono = colaborador.Telefono;
-                this.ImagenURL = colaborador.ImagenColaboradorID > 0 ? "/Misc/GetImagen?archivoID=" + colaborador.ImagenColaboradorID : "../Images/unknown-person.jpg";
-                
-            //  Información del puesto:
-                this.PuestoId = colaborador.ColaboradoresPuesto.Last().PuestoID;
-                this.Puesto = colaborador.ColaboradoresPuesto.Last().Puesto.Nombre;
+             //  Información del puesto:
+                this.PuestoId = puesto.ID;
+                this.Puesto = puesto.Nombre;
 
             //  Información del área
-                this.Area = colaborador.ColaboradoresPuesto.Last().Puesto.Area.Nombre;
+                this.Area = puesto.Area.Nombre;
 
             //  Información de los puestos inferiores:
-                this.HasChildren = colaborador.ColaboradoresPuesto.Last().Puesto.Puestos.Any(p => !p.IsEliminado);
-            }
+                this.HasChildren = puesto.Puestos.Any(p => !p.IsEliminado);
+
+            //  Si existe puesto...
+                if (puesto.ColaboradorPuestos.Where(c => c.FechaSalidaPuesto == null).Count() > 0)
+                {
+                    //  Información del colaborador:
+                    Colaborador colaborador = puesto.ColaboradorPuestos.Last(c => c.FechaSalidaPuesto == null).Colaborador;
+                    this.Nombre = colaborador.ApellidoPaterno + " " + colaborador.ApellidoMaterno + ", " + colaborador.Nombres;
+                    this.Correo = colaborador.CorreoElectronico != null? colaborador.CorreoElectronico : "";
+                    this.Telefono = colaborador.Telefono != null? colaborador.Telefono : "";
+                    this.ImagenURL = colaborador.ImagenColaboradorID > 0 ? "/Misc/GetImagen?archivoID=" + colaborador.ImagenColaboradorID : "../Images/unknown-person.jpg";
+                }
+            //  Si no existe el puesto...
+                else
+                {
+                    this.Nombre = "Vacante";
+                    this.Correo = "";
+                    this.Telefono = "";
+                    this.ImagenURL = "../Images/job-vacancy.jpg";
+                }
+
+            
         }
     }
 }
