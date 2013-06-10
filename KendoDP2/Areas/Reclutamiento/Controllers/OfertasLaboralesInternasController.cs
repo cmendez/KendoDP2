@@ -559,6 +559,18 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             return mensaje;
         }
 
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Update([DataSourceRequest] DataSourceRequest request, OfertaLaboralXPostulanteDTO ofertaPostulante)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                OfertaLaboralXPostulante o = context.TablaOfertaLaboralXPostulante.FindByID(ofertaPostulante.ID);
+                o.PuntajeTotal = ofertaPostulante.PuntajeTotal;
+                context.TablaOfertaLaboralXPostulante.ModifyElement(o);
+                return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
+            }
+        }
+
         }
       
 

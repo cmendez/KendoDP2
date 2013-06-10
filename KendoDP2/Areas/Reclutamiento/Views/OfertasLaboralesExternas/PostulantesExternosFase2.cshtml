@@ -59,8 +59,9 @@
 
                     }
                         )
-                            .Editable(editable => editable
-                            .Mode(GridEditMode.PopUp)
+                          .ToolBar(toolbar => { toolbar.Save().SaveText("Guardar cambios").CancelText("Cancelar cambios"); }) 
+                          .Editable(editable => editable
+                            .Mode(GridEditMode.InCell)
                             .Window(w => { w.Title("Ver Postulante"); w.Width(900); })
 
                         )
@@ -74,6 +75,7 @@
                             .PageSize(20)
                             .Model(model => model.Id(p => p.ID))
                             .Read(read => read.Action("ReadListaPostulantesFase2", "OfertasLaboralesInternas", new { ofertaID = ofertaID }))
+                            .Update(update => update.Action("Update", "OfertasLaboralesInternas"))
                         )
                        )
         </div>
