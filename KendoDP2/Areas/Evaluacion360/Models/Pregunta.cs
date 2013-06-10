@@ -18,5 +18,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         public int Puntuacion { get; set; }
         public int Peso { get; set; }
 
+        public int competenciaID { get; set; }
+        //public virtual CompetenciaXExamen CompetenciasXExamen { get; set; }
     }
 }

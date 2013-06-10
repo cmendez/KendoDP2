@@ -173,38 +173,40 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
         public void CrearEvaluaciones(Evaluador evaluador, DP2Context context) {
 
-                //Guardar la evaluación
-                Examen examen = new Examen();
-                examen.EvaluadorID = evaluador.ID;
+            //Guardar la evaluación
+            Examen examen = new Examen();
+            examen.EvaluadorID = evaluador.ID;
 
-            //  modificar
-                int idcolEvaluado = context.TablaEvaluadores.FindByID(examen.EvaluadorID).ElEvaluado;
-                examen.EstadoExamenID = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Pendiente)).ID;
-                context.TablaExamenes.AddElement(examen);
+            int idcolEvaluado = context.TablaEvaluadores.FindByID(examen.EvaluadorID).ElEvaluado;
+            examen.EstadoExamenID = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Pendiente)).ID;
+            context.TablaExamenes.AddElement(examen);
 
-                //Obtener capacidades y guardarlas para cada pregunta
-                //int colaboradorID = evaluador.Evaluado.ColaboradorID;
-                int colaboradorID = idcolEvaluado;// evaluador.ElEvaluado;
-                ColaboradorDTO evaluado = context.TablaColaboradores.FindByID(colaboradorID, false).ToDTO();
+            //Obtener capacidades y guardarlas para cada pregunta
+            int colaboradorID = idcolEvaluado;// evaluador.ElEvaluado;
+            ColaboradorDTO evaluado = context.TablaColaboradores.FindByID(colaboradorID, false).ToDTO();
                
-                // Obtener capacidades  
-                IList<CompetenciaXPuesto> cxp = context.TablaCompetenciaXPuesto.Where(x=> x.PuestoID == evaluado.PuestoID);
-                IList<Capacidad> listaCapacidades = new List<Capacidad>();
-                foreach (CompetenciaXPuesto c in cxp) {
-                    int nivelID = c.NivelID;
-                    // Esto está mal, hay que corregirlo
-                    listaCapacidades = context.TablaCapacidades.Where( x=> x.CompetenciaID == c.CompetenciaID && x.NivelCapacidadID == c.NivelID);
-                    foreach(Capacidad capacidad in listaCapacidades) {
-                        Pregunta p = new Pregunta();
-                        p.ExamenID = examen.ID;
-                        p.CapacidadID = capacidad.ID;
-                        p.TextoPregunta = capacidad.Nombre;
-                        p.Puntuacion = 0;
-                        p.Peso = capacidad.Peso;
-
-                        context.TablaPreguntas.AddElement(p);
-                    }
-                }   
+            // Obtener capacidades  
+            IList<CompetenciaXPuesto> cxp = context.TablaCompetenciaXPuesto.Where(x=> x.PuestoID == evaluado.PuestoID);
+            IList<Capacidad> listaCapacidades = new List<Capacidad>();
+            foreach (CompetenciaXPuesto c in cxp) {
+                int nivelID = c.NivelID;
+                //Guardar competencias por examen
+                CompetenciaXExamen cxe = new CompetenciaXExamen(c, examen);
+                context.TablaCompentenciaXExamen.AddElement(cxe);
+                
+                // Listar capacidades y guardarlas
+                listaCapacidades = context.TablaCapacidades.Where( x=> x.CompetenciaID == c.CompetenciaID && x.NivelCapacidadID == c.NivelID);
+                foreach(Capacidad capacidad in listaCapacidades) {
+                    Pregunta p = new Pregunta();
+                    p.ExamenID = examen.ID;
+                    p.CapacidadID = capacidad.ID;
+                    p.TextoPregunta = capacidad.Nombre;
+                    p.Puntuacion = 0;
+                    p.Peso = capacidad.Peso;
+                    p.competenciaID = cxe.CompetenciaID;
+                    context.TablaPreguntas.AddElement(p);
+                }
+            }   
         }
 
         private bool losEvaluadoresDeEsteColaboradorYaFueronElegidos(int procesoEvaluacionID, int colaboradorID, DP2Context context)
