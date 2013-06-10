@@ -13,7 +13,6 @@
 }
 <link href='@Url.Content("~/Content/assets/plugins/fullcalendar/css/fullcalendar.css")' rel='stylesheet' />
 <link href='@Url.Content("~/Content/assets/plugins/fullcalendar/css/fullcalendar.print.css")' rel='stylesheet' media='print' />
-<script src='@Url.Content("~/Content/assets/plugins/fullcalendar/scripts/fullcalendar.min.js")'></script>
 <script src='@Url.Content("~/Content/assets/plugins/fullcalendar/scripts/fullcalendar.js")'></script>
 
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Calendario de Eventos", "Administre los Eventos de la empresa"));}
@@ -63,22 +62,13 @@ $(document).ready(function() {
 		var y = date.getFullYear();
 		
 		$('#calendar').fullCalendar({
+            theme: true,
 			editable: true,
-			events: [
-				{
-					title: 'All Day Event',
-					start: new Date(y, m, 9)
-				},
-				{
-					title: 'Click for Google',
-					start: new Date(y, m, 28),
-					end: new Date(y, m, 29),
-					url: 'http://google.com/'
-				}
-			]
 		});
-		
-	});
+		$(".fc-event").remove();
+});
+
+
 
 </script>
 <style>
