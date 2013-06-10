@@ -208,10 +208,12 @@
     <Compile Include="Areas\Evaluacion360\Models\AreaXProcesoEvaluacion.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Capacidad.cs" />
     <Compile Include="Areas\Evaluacion360\Models\ColaboradorXEvaluadores.cs" />
+    <Compile Include="Areas\Evaluacion360\Models\ColeccionDeExamenesDeLosSubordinados.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Competencia.cs" />
     <Compile Include="Areas\Evaluacion360\Models\CompetenciaXExamen.cs" />
     <Compile Include="Areas\Evaluacion360\Models\DP2Context.cs" />
     <Compile Include="Areas\Evaluacion360\Models\EstadoProcesoEvaluacion.cs" />
+    <Compile Include="Areas\Evaluacion360\Models\LogicaSubordinadosEnEvaluacion.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Perfil.cs" />
     <Compile Include="Areas\Evaluacion360\Models\PerfilXCompetencia.cs" />
     <Compile Include="Areas\Evaluacion360\Models\CompetenciaXPuesto.cs" />
@@ -1880,7 +1882,6 @@
     <Content Include="Areas\Evaluacion360\Views\Evaluadores\SeleccionarEvaluadores.cshtml" />
     <Content Include="Areas\Eventos\Views\Web.config" />
     <Content Include="Areas\Evaluacion360\Views\Evaluacion\GuardarEvaluacion.cshtml" />
-    <Content Include="Areas\Evaluacion360\Views\Subordinados\Index.cshtml" />
     <Content Include="Areas\Seguridad\Views\Usuarios\Index.cshtml" />
     <Content Include="Areas\Seguridad\Views\Roles\UsuarioRoles.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesExternas\Index.cshtml" />
@@ -1899,6 +1900,7 @@
     <Content Include="Areas\Evaluacion360\Views\ListarProcesosXEvaluador\ListarEvaluados.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\ListarProcesosXEvaluador\resultados.cshtml" />
     <Content Include="Areas\Organizacion\Views\Organigrama\Index.cshtml" />
+    <Content Include="Areas\Evaluacion360\Views\Subordinados\Index.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\Subordinados\TemporalDeCodigo.cshtml" />
     <Content Include="Areas\Organizacion\Views\Shared\ViewContacto.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\SeleccionarFechaEvaluacionFase1.cshtml" />
