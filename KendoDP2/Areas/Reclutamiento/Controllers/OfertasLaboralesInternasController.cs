@@ -152,7 +152,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult AprobarFase1([DataSourceRequest] DataSourceRequest request, int ofertaID, int postulanteXOfertaID)
+        public ActionResult AprobarFase1([DataSourceRequest] DataSourceRequest request, int ofertaID, int postulanteXOfertaID, string fecha)
         {
             using (DP2Context context = new DP2Context())
             {
@@ -165,19 +165,15 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 if (postulanteOferta.EstadoPostulantePorOferta.Descripcion.Equals("Inscrito"))
                 {
                     postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Aprobado Fase 1"));
+                    postulanteOferta.FechaEvaluacionPrimeraFase = fecha;
                     context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
                     if (postulanteOferta.OfertaLaboral.ModoSolicitudOfertaLaboral.Descripcion.Equals("Convocatoria Interna"))
                     {
                         if(postulanteOferta.Postulante.Colaborador.CorreoElectronico != null)
                         {
-                        controladorGeneral.SendEmail(postulanteOferta.Postulante.Colaborador.CorreoElectronico, "["+org.RazonSocial+"] Entrevista General",
-                            "Estimado(a) " + postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto +": \n" +
-                                "Se le notifica que tras la evaluación de sus datos presentados ha sido aceptado " +
-                                "para la primera fase de reclutamiento. Por esta razón se hace la respectiva citación: \n" +
-                                "Día: " + postulanteOferta.ToDTO().FechaEvaluacionPrimeraFase + "\n" +
-                                "Lugar: " + org.Direccion + "\n" +
-                                "para la entrevista y evaluación respectiva. \n" +
-                                "Saludos cordiales \n" + "Gerencia Recursos Humanos \n");
+                            controladorGeneral.SendEmail(postulanteOferta.Postulante.Colaborador.CorreoElectronico, "["+org.RazonSocial+"] Entrevista General",
+                                    RetornaMensajeCorreo(postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto, fecha,org.Direccion));                            
+                           
                         }
                         else{
                             ModelState.AddModelError("Alerta", "Se aprueba el pase del postulante, pero no se envía la notificación. Revise los datos e intente comunicarse por otro medio");
@@ -189,13 +185,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                         if (postulanteOferta.Postulante.CorreoElectronico != null)
                         {
                             controladorGeneral.SendEmail(postulanteOferta.Postulante.CorreoElectronico, "[" + org.RazonSocial + "] Entrevista General",
-                                "Estimado(a) " + postulanteOferta.Postulante.ToDTO().NombreCompleto + ": \n" +
-                                    "Se le notifica que tras la evaluación de sus datos presentados ha sido aceptado " +
-                                    "para la primera fase de reclutamiento. Por esta razón se hace la respectiva citación: \n" +
-                                    "Día: " + postulanteOferta.ToDTO().FechaEvaluacionPrimeraFase + "\n" +
-                                    "Lugar: " + org.Direccion + "\n" +
-                                    "para la entrevista y evaluación respectiva. \n" +
-                                    "Saludos cordiales \n" + "Gerencia Recursos Humanos \n");
+                                RetornaMensajeCorreo(postulanteOferta.Postulante.Nombres, fecha, org.Direccion));
                         }
                         else
                         {
@@ -376,7 +366,19 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             }
         }
 
+        public string RetornaMensajeCorreo(string nombre, string fecha, string lugar)
+        {
 
+            string mensaje = "Estimado(a) " + nombre + ": \n" +
+                             "Se le notifica que tras la evaluación de sus datos presentados ha sido aceptado " +
+                             "para la primera fase de reclutamiento. Por esta razón se hace la respectiva citación: \n" +
+                             "Día: " + fecha + "\n" +
+                             "Lugar: " + lugar + "\n" +
+                             "para la entrevista y evaluación respectiva. \n" +
+                             "Saludos cordiales \n" + 
+                             "Gerencia Recursos Humanos \n";
+            return mensaje;
+        }
 
         }
       

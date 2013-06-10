@@ -64,6 +64,7 @@
                 data: {
                     postulanteXOfertaID : @Model.ID,
                     ofertaID: @ofertaID,
+                    fecha: $('#FechaEvaluacionPrimeraFase').val()
                 },
                 success: function(response){
                     handleError(response, "El postulante fue aprobado para evaluación");
