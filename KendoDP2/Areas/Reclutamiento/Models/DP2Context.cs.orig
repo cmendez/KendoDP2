@@ -184,11 +184,16 @@ namespace KendoDP2.Models.Generic
                 GradoAcademicoID = TablaGradosAcademicos.One(ga => ga.Descripcion.Equals("Licenciado")).ID,
             });
 
+<<<<<<< HEAD
+            //Este es un colaborador postulante
+            /*TablaPostulante.AddElement(new Postulante
+            {
+                ColaboradorID = 12,
+            });*/
+=======
             //Colaborador que va a tener creado su entidad Postulante para postular a una OfertaLaboral
             TablaPostulante.AddElement(new Postulante(TablaColaboradores.One(x => x.Nombres.Equals("Colaborador Postulante"))));
-
-            //Colaborador como postulante (Mono):
-            TablaPostulante.AddElement(new Postulante(TablaColaboradores.One(x => x.Username.Equals("jcahuin"))));
+>>>>>>> 0733e6e5b19406f7e673cbc48578c9dd8b2e0532
         }
 
         private void SeedEstadoPostulantePorOferta()
@@ -239,6 +244,17 @@ namespace KendoDP2.Models.Generic
                 Comentarios = String.Empty,
                 Observaciones = String.Empty
             });
+<<<<<<< HEAD
+            
+            //Un Colaborador como postulante
+            /*
+            TablaOfertaLaboralXPostulante.AddElement(new OfertaLaboralXPostulante
+            {
+                OfertaLaboralID =  TablaOfertaLaborales.One(x=>x.Descripcion.Equals("Trabajo en ventas")).ID,
+                PostulanteID = TablaPostulante.One(x => x.Colaborador.Username.Equals("jcahuin")).ID,
+                //Solo me sirven los 2 primeros atributos, hasta donde sé
+                EstadoPostulantePorOfertaID = 1,
+=======
 
             //Colaborador que va a tener creado su entidad Postulante para postular a una OfertaLaboral
             TablaOfertaLaboralXPostulante.AddElement(new OfertaLaboralXPostulante
@@ -246,25 +262,17 @@ namespace KendoDP2.Models.Generic
                 OfertaLaboralID = 1,
                 PostulanteID = TablaPostulante.One(x => x.Nombres.Equals("Colaborador Postulante")).ID,
                 EstadoPostulantePorOfertaID  = 1,
+>>>>>>> 0733e6e5b19406f7e673cbc48578c9dd8b2e0532
                 FlagAprobado = false,
                 PuntajeTotal = 0,
                 MotivoRechazo = String.Empty,
                 Comentarios = String.Empty,
                 Observaciones = String.Empty
+<<<<<<< HEAD
+            });*/
+=======
             });
-
-            //Colaborador como postulante (Mono):
-            TablaOfertaLaboralXPostulante.AddElement(new OfertaLaboralXPostulante
-            {
-                OfertaLaboralID = TablaOfertaLaborales.One(x => x.Descripcion.Equals("Trabajo en operaciones")).ID,
-                PostulanteID = TablaPostulante.One(x => x.Nombres.Equals("Juan") && x.ApellidoPaterno.Equals("Cahuin") && x.Username == null).ID,
-                EstadoPostulantePorOfertaID = 1,
-                FlagAprobado = false,
-                PuntajeTotal = 0,
-                MotivoRechazo = String.Empty,
-                Comentarios = String.Empty,
-                Observaciones = String.Empty
-            });
+>>>>>>> 0733e6e5b19406f7e673cbc48578c9dd8b2e0532
         }
 
         private void SeedFasePostulacionXOfertaLaboralXPostulante()
