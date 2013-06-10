@@ -111,36 +111,57 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 IList<Examen> listaExamenes = new List<Examen>();
                 for (int i = 0; i < listaEvaluadores.Count; i++)
                 {
-                    listaExamenes.Add(context.TablaExamenes.One(a => a.EvaluadorID == listaEvaluadores.ElementAt(i).ElIDDelEvaluador ));
+                    Examen auxexamen = context.TablaExamenes.One(a => a.EvaluadorID == listaEvaluadores.ElementAt(i).ElIDDelEvaluador && a.EstadoExamenID==3);
+
+                    if (auxexamen != null) {
+                        listaExamenes.Add(auxexamen);
+                    }
+                    //listaExamenes.Add(context.TablaExamenes.One(a => a.EvaluadorID == listaEvaluadores.ElementAt(i).ElIDDelEvaluador ));
                     //estado finalizado
-
                 }
 
-                //tengo la lista de examenes
-                //ahora saco la lista de preguntas
+                IList<CompetenciaXExamen> listaCompetenciaXExamenFinal = new List<CompetenciaXExamen>();
+                var conteo = listaExamenes.Count;
 
-                IList<Pregunta> listaPreguntas = new List<Pregunta>();
-
-                for (int i = 0; i < listaExamenes.Count; i++)
+                if (listaExamenes.Count >= 2)
                 {
-                    listaPreguntas.Add(context.TablaPreguntas.One(a => a.ExamenID == listaExamenes.ElementAt(i).ID));
+                     listaCompetenciaXExamenFinal = (context.TablaCompetenciaXExamen.Where(a => a.ExamenID == listaExamenes.ElementAt(0).ID));
+
+
+                    for (int i = 1; i < listaExamenes.Count; i++)
+                    {
+                        IList<CompetenciaXExamen> listaCompetenciaXExamenParcial = new List<CompetenciaXExamen>();
+                        listaCompetenciaXExamenParcial.AddRange(context.TablaCompetenciaXExamen.Where(a => a.ExamenID == listaExamenes.ElementAt(i).ID));
+
+                        for (int j = 0; j < listaCompetenciaXExamenParcial.Count; j++)
+                        {
+
+                            listaCompetenciaXExamenFinal.ElementAt(j).Nota = listaCompetenciaXExamenParcial.ElementAt(j).Nota + listaCompetenciaXExamenFinal.ElementAt(j).Nota;
+
+                        }
+
+                    }
+
                 }
 
+                if (listaExamenes.Count == 1) {
+                    listaCompetenciaXExamenFinal = (context.TablaCompetenciaXExamen.Where(a => a.ExamenID == listaExamenes.ElementAt(0).ID));                
+               }
 
-                //colaborador = (context.TablaColaboradores.One().ColaboradoresPuesto.Where();
-                //puestoUsuario = (context.TablaPuestos.Where(x => x.Nombre == colaborador.));
-                //IList<EvaluadorDTO> listaEvaluaciones2 = listaEvaluaciones.Select(x => x.ToDTO());
-                //Json(listaEvaluaciones.Select(x=>x.ToDTO()).ToDataSourceResult(request));
+                if (listaExamenes.Count == 0) { 
+                //devuelvo una lista vacia
+                }
 
-                return Json(listaEvaluaciones.Select(x => x.ToDTOEvaluacion()).ToDataSourceResult(request));
+                for (int j = 0; j < listaCompetenciaXExamenFinal.Count; j++)
+                {
 
+                    listaCompetenciaXExamenFinal.ElementAt(j).Nota = listaCompetenciaXExamenFinal.ElementAt(j).Nota / conteo;
+
+                }
+              
+                return Json(listaCompetenciaXExamenFinal.Select(x => x.ToDTO()).ToDataSourceResult(request));
             }
         }
-
-
-
-
-
 
     }
 }

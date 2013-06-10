@@ -27,5 +27,35 @@ namespace KendoDP2.Areas.Evaluacion360.Models
            // Nivel = cxp.NivelID;
             Descripcion = cxp.Competencia.Nombre;
         }
+
+
+        public CompetenciaXExamenDTO ToDTO()
+        {
+            return new CompetenciaXExamenDTO(this);
+        }
     }
+
+
+
+    public class CompetenciaXExamenDTO
+    {
+        public int Nota { get; set; }
+        public int ID { get; set; }       
+        public String Descripcion { get; set; }        
+        public virtual ICollection<Pregunta> ListaPreguntas { get; set; }
+
+
+
+        public CompetenciaXExamenDTO() { }
+        public CompetenciaXExamenDTO(CompetenciaXExamen p)
+        {
+            Nota=p.Nota;
+            ID=p.ExamenID;
+            Descripcion=p.Descripcion;
+            ListaPreguntas = p.ListaPreguntas;
+
+        }
+    }
+
+
 }

@@ -20,7 +20,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         // GET: /Evaluacion360/ListarProcesosXEvaluador/
 
                 public ListarProcesosXEvaluadorController()
-            : base()
+            : base() 
         {
             ViewBag.Area = "Evaluacion360";
         }
@@ -53,13 +53,31 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
                 for (int i = 0; i < listaProcesosEvaluador.Count; i++)
                 {
-                    listaProceso.Add(context.TablaProcesoEvaluaciones.FindByID(listaProcesosEvaluador.ElementAt(i).ProcesoEnElQueParticipanID));
+                    //listaProceso.Add(context.TablaProcesoEvaluaciones.FindByID(listaProcesosEvaluador.ElementAt(i).ProcesoEnElQueParticipanID));
                     
                     //listaProceso.Add(context.TablaProcesoEvaluaciones.One(b => b.ID == (listaProcesosEvaluador.ElementAt(i).ProcesoEnElQueParticipanID) &&
-                      //  b.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(e=> e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso)).ID));
+                      //  b.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(e=> e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Iniciado)).ID));
+
+                    ProcesoEvaluacion procesoauxiliar= context.TablaProcesoEvaluaciones.One(b => b.ID == (listaProcesosEvaluador.ElementAt(i).ProcesoEnElQueParticipanID) &&
+                        b.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(e=> e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Iniciado)).ID);
+
+                    if (procesoauxiliar!=null) {
+                        listaProceso.Add(procesoauxiliar);                    
+                    }
+                    //  b.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(e=> e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso)).ID));
+
                 }
 
-                return Json(listaProceso.GroupBy(x => x.ID).Select(y => y.FirstOrDefault()).Select(x=>x.ToDTO()).ToDataSourceResult(request));
+                if (listaProceso.Count==0)
+                {
+                    return Json(listaProceso.Select(x => x.ToDTO()).ToDataSourceResult(request));
+                }
+                else
+                {
+                    return Json(listaProceso.GroupBy(x => x.ID).Select(y => y.FirstOrDefault()).Select(x => x.ToDTO()).ToDataSourceResult(request));
+                }
+
+                
 
             }
         }

@@ -29,17 +29,9 @@ namespace KendoDP2.Models.Helpers
 				//new SidebarSuboption("Evaluaciones", "Registrar Evaluaciones", "Index", "icon-check"),
                 new SidebarSuboption("Procesos de evaluación", "ProcesoEvaluacion", "Index", "icon-road"),
                 new SidebarSuboption("Evaluación de puestos de trabajo", "PuestosEvaluacion", "Index", "icon-ok-sign"),
-<<<<<<< HEAD
-
-                //new SidebarSuboption("Envio de correo", "Correo", "Index", "icon-ok-sign"),
-                //new SidebarSuboption("Acordion", "Acordion", "Index", "icon-ok-sign"),
-				new SidebarSuboption("Pendientes por evaluar", "ListarProcesosXEvaluador", "Index", "icon-ok-sign"),
                 new SidebarSuboption("Mis evaluaciones", "ListarProcesosXEvaluado", "Index", "icon-ok-sign"),
-                new SidebarSuboption("Rendir Evaluacion", "Evaluacion", "Index", "icon-ok-sign")
-				//new SidebarSuboption("Por perfil BORRADOR", "Configuracion360", "Index", "icon-group")
-=======
             	new SidebarSuboption("Mis pendientes", "ListarProcesosXEvaluador", "Index", "icon-ok-sign"),
->>>>>>> ac27bef160f25e7f25b539ac6e0ae1291591344f
+
             })));				
             
 

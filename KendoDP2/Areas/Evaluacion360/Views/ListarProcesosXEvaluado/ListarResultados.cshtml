@@ -26,17 +26,16 @@
                 <hr />
             </div>
             <div class="span10">
-                @(Html.Kendo().Grid<KendoDP2.Areas.Evaluacion360.Models.ColaboradorXProcesoEvaluacionDTO>()
+                @(Html.Kendo().Grid<KendoDP2.Areas.Evaluacion360.Models.CompetenciaXExamenDTO>()
                 .Name("ColaboradoresDeProcesoEvaluacionGrid")
                 .Columns(columns =>
                     {
-                        columns.Bound(p => p.ColaboradorDTO.ApellidoPaterno);
-                        columns.Bound(p => p.ColaboradorDTO.ApellidoMaterno);
-                        columns.Bound(p => p.ColaboradorDTO.Nombre);
-                        columns.ForeignKey((p => p.ColaboradorDTO.AreaID), lista);
+                        columns.Bound(p => p.Descripcion);
+                        columns.Bound(p => p.Nota);
+
                         //columns.Bound(p => p.ColaboradorDTO.Area);
-                        columns.Bound(p => p.ColaboradorDTO.Puesto);
-                        columns.ForeignKey(p => p.EstadoColaboradorXProcesoEvaluacionID, new SelectList(estados, "ID", "Nombre"));
+                        //columns.Bound(p => p.);
+                        //columns.ForeignKey(p => p.EstadoColaboradorXProcesoEvaluacionID, new SelectList(estados, "ID", "Nombre"));
                         
                         
                         columns.Template(@<text></text>).Title("Rendir evaluacion").ClientTemplate(
