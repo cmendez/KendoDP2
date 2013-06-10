@@ -172,7 +172,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                         if(postulanteOferta.Postulante.Colaborador.CorreoElectronico != null)
                         {
                             controladorGeneral.SendEmail(postulanteOferta.Postulante.Colaborador.CorreoElectronico, "["+org.RazonSocial+"] Entrevista General",
-                                    RetornaMensajeCorreo(postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto, fecha,org.Direccion));                            
+                                    RetornaMensajeCorreoFase1(postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto, fecha,org.Direccion, postulanteOferta.OfertaLaboral.Area.Descripcion,postulanteOferta.OfertaLaboral.Puesto.Descripcion));                            
                            
                         }
                         else{
@@ -185,7 +185,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                         if (postulanteOferta.Postulante.CorreoElectronico != null)
                         {
                             controladorGeneral.SendEmail(postulanteOferta.Postulante.CorreoElectronico, "[" + org.RazonSocial + "] Entrevista General",
-                                RetornaMensajeCorreo(postulanteOferta.Postulante.Nombres, fecha, org.Direccion));
+                                RetornaMensajeCorreoFase1(postulanteOferta.Postulante.Nombres, fecha, org.Direccion, postulanteOferta.OfertaLaboral.Area.Descripcion, postulanteOferta.OfertaLaboral.Puesto.Descripcion));
                         }
                         else
                         {
@@ -207,17 +207,50 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult AprobarFase2([DataSourceRequest] DataSourceRequest request, int ofertaID, int postulanteXOfertaID)
+        public ActionResult AprobarFase2([DataSourceRequest] DataSourceRequest request, int ofertaID, int postulanteXOfertaID, string fecha)
         {
             using (DP2Context context = new DP2Context())
             {
                 OfertaLaboral o = context.TablaOfertaLaborales.FindByID(ofertaID);
                 OfertaLaboralXPostulante postulanteOferta = o.Postulantes.Where(p => p.ID == postulanteXOfertaID).FirstOrDefault();
+                MiscController controladorGeneral = new MiscController();
+                var org = context.TablaOrganizaciones.All().FirstOrDefault();
 
                 if (postulanteOferta.EstadoPostulantePorOferta.Descripcion.Equals("Aprobado Fase 1"))
                 {
                     postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Aprobado Fase 2"));
+                    postulanteOferta.FechaEvaluacionSegundaFase = fecha;
                     context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
+                    if (postulanteOferta.OfertaLaboral.ModoSolicitudOfertaLaboral.Descripcion.Equals("Convocatoria Interna"))
+                    {
+                        if (postulanteOferta.Postulante.Colaborador.CorreoElectronico != null)
+                        {
+                            controladorGeneral.SendEmail(postulanteOferta.Postulante.Colaborador.CorreoElectronico, "[" + org.RazonSocial + "] Entrevista Fase 2",
+                                    RetornaMensajeCorreoFase2(postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto, fecha, org.Direccion, postulanteOferta.OfertaLaboral.Area.Descripcion, postulanteOferta.OfertaLaboral.Puesto.Descripcion));
+
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("Alerta", "Se aprueba el pase del postulante, pero no se envía la notificación. Revise los datos e intente comunicarse por otro medio");
+                            return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+                        }
+                    }
+                    else
+                    {
+                        if (postulanteOferta.Postulante.CorreoElectronico != null)
+                        {
+                            controladorGeneral.SendEmail(postulanteOferta.Postulante.CorreoElectronico, "[" + org.RazonSocial + "] Entrevista Fase 2",
+                                RetornaMensajeCorreoFase2(postulanteOferta.Postulante.Nombres, fecha, org.Direccion, postulanteOferta.OfertaLaboral.Area.Descripcion, postulanteOferta.OfertaLaboral.Puesto.Descripcion));
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("Alerta", "Se aprueba el pase del postulante, pero no se envía la notificación. Revise los datos e intente comunicarse por otro medio");
+                            return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+
+                        }
+                    }
+                    
+                    
                     return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
                 }
                 else
@@ -231,17 +264,51 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult AprobarFase3([DataSourceRequest] DataSourceRequest request, int ofertaID, int postulanteXOfertaID)
+        public ActionResult AprobarFase3([DataSourceRequest] DataSourceRequest request, int ofertaID, int postulanteXOfertaID, string fecha)
         {
             using (DP2Context context = new DP2Context())
             {
                 OfertaLaboral o = context.TablaOfertaLaborales.FindByID(ofertaID);
                 OfertaLaboralXPostulante postulanteOferta = o.Postulantes.Where(p => p.ID == postulanteXOfertaID).FirstOrDefault();
+                MiscController controladorGeneral = new MiscController();
+                var org = context.TablaOrganizaciones.All().FirstOrDefault();
 
                 if (postulanteOferta.EstadoPostulantePorOferta.Descripcion.Equals("Aprobado Fase 2"))
                 {
                     postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Aprobado Fase 3"));
+                    postulanteOferta.FechaEvaluacionTerceraFase = fecha;
                     context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
+                    
+                    if (postulanteOferta.OfertaLaboral.ModoSolicitudOfertaLaboral.Descripcion.Equals("Convocatoria Interna"))
+                    {
+                        if (postulanteOferta.Postulante.Colaborador.CorreoElectronico != null)
+                        {
+                            controladorGeneral.SendEmail(postulanteOferta.Postulante.Colaborador.CorreoElectronico, "[" + org.RazonSocial + "] Entrevista Final",
+                                    RetornaMensajeCorreoFase3(postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto, fecha, org.Direccion, postulanteOferta.OfertaLaboral.Area.Descripcion, postulanteOferta.OfertaLaboral.Puesto.Descripcion));
+
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("Alerta", "Se aprueba el pase del postulante, pero no se envía la notificación. Revise los datos e intente comunicarse por otro medio");
+                            return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+                        }
+                    }
+                    else
+                    {
+                        if (postulanteOferta.Postulante.CorreoElectronico != null)
+                        {
+                            controladorGeneral.SendEmail(postulanteOferta.Postulante.CorreoElectronico, "[" + org.RazonSocial + "] Entrevista Final",
+                                RetornaMensajeCorreoFase3(postulanteOferta.Postulante.Nombres, fecha, org.Direccion, postulanteOferta.OfertaLaboral.Area.Descripcion, postulanteOferta.OfertaLaboral.Puesto.Descripcion));
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("Alerta", "Se aprueba el pase del postulante, pero no se envía la notificación. Revise los datos e intente comunicarse por otro medio");
+                            return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+
+                        }
+                    }
+
+
 
                     return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
                 }
@@ -293,6 +360,38 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 
         }
 
+        public ActionResult GetViewSeleccionFechaFase2(int ofertaID, int postulanteXOfertaID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
+                OfertaLaboralXPostulante postulanteOferta = oferta.Postulantes.Where(p => p.ID == postulanteXOfertaID).FirstOrDefault();
+                ViewBag.cruce = postulanteOferta.ID;
+                ViewBag.ofertaID = ofertaID;
+                ViewBag.yaAprobado = false;
+
+                return PartialView("SeleccionarFechaEvaluacionFase2", postulanteOferta.ToDTO());
+
+            }
+
+        }
+
+        public ActionResult GetViewSeleccionFechaFase3(int ofertaID, int postulanteXOfertaID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
+                OfertaLaboralXPostulante postulanteOferta = oferta.Postulantes.Where(p => p.ID == postulanteXOfertaID).FirstOrDefault();
+                ViewBag.cruce = postulanteOferta.ID;
+                ViewBag.ofertaID = ofertaID;
+                ViewBag.yaAprobado =false;
+
+                return PartialView("SeleccionarFechaEvaluacionFase3", postulanteOferta.ToDTO());
+
+            }
+
+        }
+
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult RechazarPostulante(int postulanteXOFertaID, int ofertaID, string observaciones, string motivoRechazo)
         {
@@ -320,7 +419,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 
                 op.MotivoRechazo = motivoRechazo;
                 context.TablaOfertaLaboralXPostulante.ModifyElement(op);
-
+                // aqui mandar correo 
                 return Json(new { success = true });
             }
         }
@@ -331,11 +430,26 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             {
                 OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
                 OfertaLaboralXPostulante postulanteOferta = oferta.Postulantes.Where(p => p.ID == postulanteXOfertaLaboralID).FirstOrDefault();
+                MiscController controladorGeneral = new MiscController();
+                var org = context.TablaOrganizaciones.All().FirstOrDefault();
+
                 // aca asignar el nuevo puesto
                 if (postulanteOferta.EstadoPostulantePorOferta.Descripcion.Equals("Aprobado Fase 3"))
                 {
                     postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Contratado"));
                     context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
+
+                    if (postulanteOferta.Postulante.Colaborador.CorreoElectronico != null)
+                    {
+                        controladorGeneral.SendEmail(postulanteOferta.Postulante.Colaborador.CorreoElectronico, "[" + org.RazonSocial + "] Aviso de Seleccion",
+                                RetornaMensajeCorreoCambioPuesto(postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto, postulanteOferta.OfertaLaboral.Area.Descripcion, postulanteOferta.OfertaLaboral.Puesto.Descripcion));
+
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Alerta", "Se selecciona y cambia el puesto del postulante, pero no se envía la notificación. Revise los datos e intente comunicarse por otro medio");
+                        return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+                    }
 
                     return RedirectToAction("Linea", "Historial", new { Area = "Organizacion", ID = DP2MembershipProvider.GetPersonaID(this) });
                 }
@@ -366,16 +480,81 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             }
         }
 
-        public string RetornaMensajeCorreo(string nombre, string fecha, string lugar)
+        public string RetornaMensajeCorreoFase1(string nombre, string fecha, string lugar, string area, string puesto)
         {
 
             string mensaje = "Estimado(a) " + nombre + ": \n" +
                              "Se le notifica que tras la evaluación de sus datos presentados ha sido aceptado " +
-                             "para la primera fase de reclutamiento. Por esta razón se hace la respectiva citación: \n" +
+                             "para la primera fase de reclutamiento. Por esta razón se hace la respectiva citación: \n\n" +
+                             "Puesto al cual Postula: " + puesto + "\n" +
+                             "Area Correspondiente: " + area + "\n" +
                              "Día: " + fecha + "\n" +
                              "Lugar: " + lugar + "\n" +
-                             "para la entrevista y evaluación respectiva. \n" +
-                             "Saludos cordiales \n" + 
+                             "para la entrevista y evaluación respectiva. \n\n" +
+                             "Saludos cordiales \n\n" + 
+                             "Gerencia Recursos Humanos \n";
+            return mensaje;
+        }
+
+        public string RetornaMensajeCorreoFase2(string nombre, string fecha, string lugar, string area, string puesto)
+        {
+
+            string mensaje = "Estimado(a) " + nombre + ": \n" +
+                             "Se le notifica que tras la evaluación de sus datos presentados ha sido aceptado " +
+                             "para la segunda fase de reclutamiento, que corresponde a la evaluación psicotécnica. Por esta razón se hace la respectiva citación: \n\n" +
+                             "Puesto al cual Postula: " + puesto + "\n" +
+                             "Area Correspondiente: " + area + "\n" +
+                             "Día: " + fecha + "\n" +
+                             "Lugar: " + lugar + "\n" +
+                             "para la entrevista y evaluación respectiva. \n\n" +
+                             "Saludos cordiales \n\n" +
+                             "Gerencia Recursos Humanos \n";
+            return mensaje;
+        }
+
+        public string RetornaMensajeCorreoFase3(string nombre, string fecha, string lugar, string area, string puesto)
+        {
+
+            string mensaje = "Estimado(a) " + nombre + ": \n" +
+                             "Se le notifica que tras la evaluación de sus datos presentados ha sido aceptado " +
+                             "para la tercera fase de reclutamiento. Por esta razón se hace la respectiva citación: \n\n" +
+                             "Puesto al cual Postula: " + puesto + "\n" +
+                             "Area Correspondiente: " + area + "\n" +
+                             "Día: " + fecha + "\n" +
+                             "Lugar: " + lugar + "\n" +
+                             "para la entrevista y evaluación respectiva. \n\n" +
+                             "Saludos cordiales \n\n" +
+                             "Gerencia Recursos Humanos \n";
+            return mensaje;
+        }
+
+        public string RetornaMensajeCorreoRechazaPase(string nombre, string area, string puesto)
+        {
+
+            string mensaje = "Estimado(a) " + nombre + ": \n" +
+                             "Se le notifica que tras la evaluación de sus datos, información y aptitudes, no continuará " +
+                             "dentro del proceso de reclutamiento para el siguiente puesto: \n\n" +
+                             "Puesto: " + puesto + "\n" +
+                             "Area Correspondiente: " + area + "\n" +
+                             
+                             "Solicitamos las disculpas del caso y le recordamos que puede participar en otra de nuestras convocatorias. \n\n" +
+                             "Saludos cordiales \n\n" +
+                             "Gerencia Recursos Humanos \n";
+            return mensaje;
+        }
+
+        public string RetornaMensajeCorreoCambioPuesto(string nombre, string area, string puesto)
+        {
+
+            string mensaje = "Estimado(a) " + nombre + ": \n" +
+                             "Se le notifica que tras la evaluación de sus datos, información y aptitudes, ha aprobado " +
+                             "todas las etapas del proceso y por lo tanto se le asigna el siguiente puesto: \n\n" +
+                             "Puesto: " + puesto + "\n" +
+                             "Area Correspondiente: " + area + "\n" +
+
+                             "Solicitamos se aproxime a las oficinas de Recursos humanos para realizar las coordinaciones y diligencias necesarias. \n\n" +
+                             "Felicitaciones \n"+
+                             "Saludos cordiales \n\n" +
                              "Gerencia Recursos Humanos \n";
             return mensaje;
         }

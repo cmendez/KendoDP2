@@ -1,0 +1,81 @@
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Reclutamiento.Models
+@using KendoDP2.Areas.Configuracion.Models
+@using KendoDP2.Areas.Organizacion.Models
+@using KendoDP2.Areas.Evaluacion360.Models
+
+@model KendoDP2.Areas.Reclutamiento.Models.OfertaLaboralXPostulanteDTO
+@{
+    bool yaAprobado = false;
+    int ofertaID = ViewBag.ofertaID;
+   
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    
+    <div style="width: 450px;">
+        <div class="row-fluid">
+
+            <div class="span11">
+
+                <div class="row-fluid">
+                    <div class="span6">
+                        <div class="editor-label" style="width: 100%; text-align: left;">@Html.LabelFor(model => model.FechaEvaluacionSegundaFase)</div>
+                    </div>
+                    <div class="span6 responsive">
+                        @Html.EditorFor(model => model.FechaEvaluacionSegundaFase)
+
+                    </div>
+                </div>
+
+        
+
+             </div>
+            <!-- fin contenedor superior izquierdo: campos -->
+            <!-- contenedor superior derecho: Datos -->
+            
+            <!-- fin contenedor superior derecho: foto -->
+        </div>
+    </div>
+    
+    
+    if (!yaAprobado)
+    {
+        <a class="btn green" href="javascript:CambiaEstadoFase2();"> Aceptar </a>
+    }
+    else
+    {
+        <label class="label"> Ya se aprobó el pase a la siguiente fase </label>
+        <br />
+    }
+    <!-- fin contenedor inferior: campos -->
+
+ 
+    
+    
+    <script>
+        function CambiaEstadoFase2(){
+            $.ajax({
+                url: '@Url.Action("AprobarFase2", "OfertasLaboralesInternas", new { Area = "Reclutamiento" })',                dataType: 'JSON',
+                type: 'POST',
+                data: {
+                    postulanteXOfertaID : @Model.ID,
+                    ofertaID: @ofertaID,
+                    fecha: $('#FechaEvaluacionSegundaFase').val()
+                },
+                success: function(response){
+                    handleError(response, "El postulante fue aprobado para evaluación");
+                    recargaGrid();
+                    $("#Details3").data('kendoWindow').close();
+            }
+            });
+    }
+    </script>
+    
+   
+
+}
+
