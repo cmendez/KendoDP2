@@ -26,7 +26,12 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 return Json(objetivos.Select(c => c.ToDTO(context)).ToList(), JsonRequestBehavior.AllowGet);
             }
         }
-
+        
+        /*
+         *   Nombre
+         *   Peso
+         *   ObjetivoPadreID : debe ser un objetivo obtenido al leer mis objetivos
+         */
         public ActionResult Create(ObjetivoDTO objetivo)
         {
             using (DP2Context context = new DP2Context())
@@ -41,5 +46,43 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 return Json(new { objetivoID = o.ID }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        /*
+         *   ID
+         *   Nombre
+         *   Peso
+         *   ObjetivoPadreID : debe ser un objetivo obtenido al leer mis objetivos
+         */
+        public ActionResult Update(ObjetivoDTO objetivo)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                Objetivo o = context.TablaObjetivos.FindByID(objetivo.ID).LoadFromDTO(objetivo, context);
+                context.TablaObjetivos.ModifyElement(o);
+                foreach (var o2 in o.ObjetivosHijos)
+                {
+                    o2.Nombre = o.Nombre;
+                    context.TablaObjetivos.ModifyElement(o2);
+                }
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult Destroy(int objetivoID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                try
+                {
+                    context.TablaObjetivos.RemoveElementByID(objetivoID);
+                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception)
+                {
+                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
+
     }
 }
