@@ -96,6 +96,16 @@
 
 )
 
+@(Html.Kendo().Window().Name("Details3")
+    .Title("Seleccionar Fecha de la Evaluación")
+    .Visible(false)
+    .Modal(true)
+    .Draggable(true)
+    .Width(500)
+
+)
+
+
 <script>
 
     function recargaGrid(){
@@ -103,21 +113,16 @@
     }
 
     function aprobarSiguienteFase(e) {
+        e.preventDefault();
+
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        var postulanteXOfertaID = dataItem.ID;
-        $.ajax({
-            url: '@Url.Action("AprobarFase2", "OfertasLaboralesInternas", new { Area = "Reclutamiento" })',
-            dataType: 'JSON',
-            type: 'POST',
-            data: {
-                ofertaID: @ofertaID,
-                postulanteXOfertaID: postulanteXOfertaID
-            },
-            success: function(response){
-                showError(response, "El postulante fue aprobado para evaluación");
-                recargaGrid();
-            }
-        });
+        ID = dataItem.ID;
+        var wnd = $("#Details3").data("kendoWindow");
+        $("#Details3").load("@Url.Action("GetViewSeleccionFechaFase2","OfertasLaboralesInternas", new{Area = "Reclutamiento"})", 
+            {ofertaID : @ofertaID, postulanteXOfertaID : ID }, 
+            function () {
+                wnd.center().open();
+            });
     }
 
     function rechazarPase(e) {

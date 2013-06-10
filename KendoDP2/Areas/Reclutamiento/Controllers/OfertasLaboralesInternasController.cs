@@ -483,14 +483,14 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         public string RetornaMensajeCorreoFase1(string nombre, string fecha, string lugar, string area, string puesto)
         {
 
-            string mensaje = "Estimado(a) " + nombre + ": \n" +
+            string mensaje = "Estimado(a) " + nombre + ": \n\n" +
                              "Se le notifica que tras la evaluación de sus datos presentados ha sido aceptado " +
                              "para la primera fase de reclutamiento. Por esta razón se hace la respectiva citación: \n\n" +
                              "Puesto al cual Postula: " + puesto + "\n" +
                              "Area Correspondiente: " + area + "\n" +
                              "Día: " + fecha + "\n" +
-                             "Lugar: " + lugar + "\n" +
-                             "para la entrevista y evaluación respectiva. \n\n" +
+                             "Lugar: " + lugar + "\n\n" +
+                             "Para la entrevista y evaluación respectiva. \n\n" +
                              "Saludos cordiales \n\n" + 
                              "Gerencia Recursos Humanos \n";
             return mensaje;
@@ -499,14 +499,14 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         public string RetornaMensajeCorreoFase2(string nombre, string fecha, string lugar, string area, string puesto)
         {
 
-            string mensaje = "Estimado(a) " + nombre + ": \n" +
+            string mensaje = "Estimado(a) " + nombre + ": \n\n" +
                              "Se le notifica que tras la evaluación de sus datos presentados ha sido aceptado " +
                              "para la segunda fase de reclutamiento, que corresponde a la evaluación psicotécnica. Por esta razón se hace la respectiva citación: \n\n" +
                              "Puesto al cual Postula: " + puesto + "\n" +
                              "Area Correspondiente: " + area + "\n" +
                              "Día: " + fecha + "\n" +
-                             "Lugar: " + lugar + "\n" +
-                             "para la entrevista y evaluación respectiva. \n\n" +
+                             "Lugar: " + lugar + "\n\n" +
+                             "Para la entrevista y evaluación respectiva. \n\n" +
                              "Saludos cordiales \n\n" +
                              "Gerencia Recursos Humanos \n";
             return mensaje;
@@ -515,14 +515,14 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         public string RetornaMensajeCorreoFase3(string nombre, string fecha, string lugar, string area, string puesto)
         {
 
-            string mensaje = "Estimado(a) " + nombre + ": \n" +
+            string mensaje = "Estimado(a) " + nombre + ": \n\n" +
                              "Se le notifica que tras la evaluación de sus datos presentados ha sido aceptado " +
                              "para la tercera fase de reclutamiento. Por esta razón se hace la respectiva citación: \n\n" +
                              "Puesto al cual Postula: " + puesto + "\n" +
                              "Area Correspondiente: " + area + "\n" +
                              "Día: " + fecha + "\n" +
-                             "Lugar: " + lugar + "\n" +
-                             "para la entrevista y evaluación respectiva. \n\n" +
+                             "Lugar: " + lugar + "\n\n" +
+                             "Para la entrevista y evaluación respectiva. \n\n" +
                              "Saludos cordiales \n\n" +
                              "Gerencia Recursos Humanos \n";
             return mensaje;
@@ -531,7 +531,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         public string RetornaMensajeCorreoRechazaPase(string nombre, string area, string puesto)
         {
 
-            string mensaje = "Estimado(a) " + nombre + ": \n" +
+            string mensaje = "Estimado(a) " + nombre + ": \n\n" +
                              "Se le notifica que tras la evaluación de sus datos, información y aptitudes, no continuará " +
                              "dentro del proceso de reclutamiento para el siguiente puesto: \n\n" +
                              "Puesto: " + puesto + "\n" +
@@ -546,7 +546,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         public string RetornaMensajeCorreoCambioPuesto(string nombre, string area, string puesto)
         {
 
-            string mensaje = "Estimado(a) " + nombre + ": \n" +
+            string mensaje = "Estimado(a) " + nombre + ": \n\n" +
                              "Se le notifica que tras la evaluación de sus datos, información y aptitudes, ha aprobado " +
                              "todas las etapas del proceso y por lo tanto se le asigna el siguiente puesto: \n\n" +
                              "Puesto: " + puesto + "\n" +
