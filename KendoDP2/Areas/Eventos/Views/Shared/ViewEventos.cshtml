@@ -19,13 +19,13 @@
 
 <!-- BEGIN PAGE CONTENT-->
             <div class="row-fluid">
-               <div class="portlet box blue ">
+               <div class="portlet box blue calendar">
                   <div class="portlet-title">
                      <div class="caption"><i class="icon-reorder"></i>Calendario de Eventos</div>
                   </div>
                   <div class="portlet-body light-grey">
                      <div class="row-fluid">
-                        <div class="span3 responsive" data-tablet="span12 fix-margin" data-desktop="span8">
+                        <div class="span3 responsive span8" data-tablet="span12 fix-margin" data-desktop="span8">
                            <!-- BEGIN DRAGGABLE EVENTS PORTLET-->    
                            <h3 class="event-form-title">Arrastrar Eventos</h3>
                            <div id="external-events">
@@ -44,7 +44,7 @@
                            <!-- END DRAGGABLE EVENTS PORTLET-->            
                         </div>
                         <div class="span9">
-                           <div id="calendar" class="has-toolbar"></div>
+                           <div id="calendar2" class="has-toolbar"></div>
                         </div>
                      </div>
                      <!-- END CALENDAR PORTLET-->
@@ -61,11 +61,21 @@ $(document).ready(function() {
 		var m = date.getMonth();
 		var y = date.getFullYear();
 		
-		$('#calendar').fullCalendar({
-            theme: true,
+		$('#calendar2').fullCalendar({
+		    header: {
+		        left: 'title',
+		        center: '',
+		        right: 'prev,next,today,month,agendaWeek,agendaDay'
+		    },
 			editable: true,
+			events: [
+				{
+				    title: 'All Day Event',
+				    start: new Date(y, m, 1)
+				},
+			
+			]
 		});
-		$(".fc-event").remove();
 });
 
 
@@ -73,7 +83,7 @@ $(document).ready(function() {
 </script>
 <style>
 
-	#calendar {
+	#calendar2 {
 		width: 750px;
 		margin: 0 auto;
 		}
