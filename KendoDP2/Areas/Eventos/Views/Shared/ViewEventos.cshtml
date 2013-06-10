@@ -2,7 +2,7 @@
 @using KendoDP2.Areas.Organizacion.Models
 @using KendoDP2.Areas.Eventos.Models
 @{
-    ViewBag.Title = "Calandario de Eventos";
+    ViewBag.Title = "Calendario de Eventos";
     Layout = "~/Views/Shared/_Layout.cshtml";
     IList<AreaDTO> areas = ViewBag.areas;
     IList<EstadoEventoDTO> estadosEventos = ViewBag.estadosEventos;
@@ -13,20 +13,19 @@
 }
 <link href='@Url.Content("~/Content/assets/plugins/fullcalendar/css/fullcalendar.css")' rel='stylesheet' />
 <link href='@Url.Content("~/Content/assets/plugins/fullcalendar/css/fullcalendar.print.css")' rel='stylesheet' media='print' />
-<script src='@Url.Content("~/Content/assets/plugins/fullcalendar/scripts/fullcalendar.min.js")'></script>
 <script src='@Url.Content("~/Content/assets/plugins/fullcalendar/scripts/fullcalendar.js")'></script>
 
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Calendario de Eventos", "Administre los Eventos de la empresa"));}
 
 <!-- BEGIN PAGE CONTENT-->
             <div class="row-fluid">
-               <div class="portlet box blue ">
+               <div class="portlet box blue calendar">
                   <div class="portlet-title">
                      <div class="caption"><i class="icon-reorder"></i>Calendario de Eventos</div>
                   </div>
                   <div class="portlet-body light-grey">
                      <div class="row-fluid">
-                        <div class="span3 responsive" data-tablet="span12 fix-margin" data-desktop="span8">
+                        <div class="span3 responsive span8" data-tablet="span12 fix-margin" data-desktop="span8">
                            <!-- BEGIN DRAGGABLE EVENTS PORTLET-->    
                            <h3 class="event-form-title">Arrastrar Eventos</h3>
                            <div id="external-events">
@@ -45,7 +44,7 @@
                            <!-- END DRAGGABLE EVENTS PORTLET-->            
                         </div>
                         <div class="span9">
-                           <div id="calendar" class="has-toolbar"></div>
+                           <div id="calendar2" class="has-toolbar"></div>
                         </div>
                      </div>
                      <!-- END CALENDAR PORTLET-->
@@ -62,22 +61,21 @@ $(document).ready(function() {
 		var m = date.getMonth();
 		var y = date.getFullYear();
 		
-		$('#calendar').fullCalendar({
+		$('#calendar2').fullCalendar({
+		    header: {
+		        left: 'title',
+		        center: '',
+		        right: 'prev,next,today,month,agendaWeek,agendaDay'
+		    },
 			editable: true,
 			events: [
 				{
-					title: 'All Day Event',
-					start: new Date(y, m, 9)
+				    title: 'All Day Event',
+				    start: new Date(y, m, 1)
 				},
-				{
-					title: 'Click for Google',
-					start: new Date(y, m, 28),
-					end: new Date(y, m, 29),
-					url: 'http://google.com/'
-				}
+			
 			]
 		});
-		$(".fc-event").remove();
 });
 
 
@@ -85,7 +83,7 @@ $(document).ready(function() {
 </script>
 <style>
 
-	#calendar {
+	#calendar2 {
 		width: 750px;
 		margin: 0 auto;
 		}

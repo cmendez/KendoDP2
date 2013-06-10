@@ -32,8 +32,8 @@ var defaults = {
 	
 	// editing
 	//editable: false,
-	//disableDragging: false,
-	//disableResizing: false,
+	disableDragging: false,
+	disableResizing: false,
 	
 	allDayDefault: true,
 	ignoreTimezone: true,
@@ -118,7 +118,6 @@ var fcViews = fc.views = {};
 
 
 $.fn.fullCalendar = function(options) {
-
 
 	// method calling
 	if (typeof options == 'string') {
@@ -4434,7 +4433,7 @@ function View(element, calendar, viewName) {
 	
 	
 	function isEventDraggable(event) {
-		return isEventEditable(event) && !opt('disableDragging');
+	    return isEventEditable(event) ;//&& !opt('disableDragging');
 	}
 	
 	

@@ -58,6 +58,9 @@ namespace KendoDP2.Areas.BolsaTrabajo.Controllers
             using (DP2Context context = new DP2Context())
             {
                 OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
+                int colaboradorID = DP2MembershipProvider.GetPersonaID(this);
+                Colaborador colaborador = context.TablaColaboradores.FindByID(colaboradorID);
+
                 ViewBag.responsable = oferta.Responsable.ToDTO();
                 ViewBag.modoSolicitudOferta = oferta.ModoSolicitudOfertaLaboralID >= 1 ? oferta.ModoSolicitudOfertaLaboral.ToDTO() : new ModoSolicitudOfertaLaboralDTO();
                 ViewBag.estadoSolicitudOferta = oferta.EstadoSolicitudOfertaLaboral.ToDTO();
@@ -65,6 +68,17 @@ namespace KendoDP2.Areas.BolsaTrabajo.Controllers
                 ViewBag.puesto = oferta.Puesto.ToDTO();
                 ViewBag.funciones = oferta.Puesto.Funciones.Select(c => c.ToDTO()).ToList();
                 ViewBag.capacidades = oferta.Puesto.GetCapacidadesAsociadas(context).Select(c => c.ToDTO()).ToList();
+                if (ValidaPostulantePorOferta(oferta,colaborador))
+                {
+                   OfertaLaboralXPostulante cruce = context.TablaOfertaLaboralXPostulante.All().Where(p => (oferta.ID == p.OfertaLaboralID) && (colaborador.ID == p.Postulante.ColaboradorID)).FirstOrDefault();
+                    ViewBag.fechaPostulacion = cruce.FechaPostulacion;
+                    ViewBag.estadoPostulante = cruce.EstadoPostulantePorOferta.Descripcion;
+                }
+                else
+                {
+                    ViewBag.fechaPostulacion = "";
+                    ViewBag.estadoPostulante = "Aún no has postulado";
+                }
                 return PartialView("ViewOfertaLaboralInterna", oferta.ToDTO());
             }
         }
@@ -101,7 +115,8 @@ namespace KendoDP2.Areas.BolsaTrabajo.Controllers
                     Postulante postulante = new Postulante(colaborador);
                     context.TablaPostulante.AddElement(postulante);
                     EstadoPostulantePorOferta eo = context.TablaEstadoPostulanteXOferta.FindByID(1);
-                    OfertaLaboralXPostulante cruce = new OfertaLaboralXPostulante { Postulante = postulante, OfertaLaboral = oferta, EstadoPostulantePorOferta = eo };
+                    string fechaPostulacion = DateTime.Now.ToShortDateString();
+                    OfertaLaboralXPostulante cruce = new OfertaLaboralXPostulante { Postulante = postulante, OfertaLaboral = oferta, EstadoPostulantePorOferta = eo, FechaPostulacion = fechaPostulacion };
                     context.TablaOfertaLaboralXPostulante.AddElement(cruce);
 
                     return Json(new { success = true });
