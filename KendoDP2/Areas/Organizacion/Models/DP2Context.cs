@@ -184,9 +184,10 @@ namespace KendoDP2.Models.Generic
             foreach (Colaborador c in colaboradores)
             {
                 if (c.Contactos == null) c.Contactos = new List<Contactos>();
-                foreach (Colaborador c2 in colaboradores.Where(x => !x.ID.Equals(c.ID)))
+                foreach (Colaborador c2 in colaboradores.Where(x => !x.ID.Equals(c.ID) && x.ID<5 ))
                 {
-                    c.Contactos.Add(new Contactos { ColaboradorID = c.ID, ContactoID = c2.ID });
+                    c.Contactos.Add(new Contactos { ColaboradorID = c.ID, ContactoID = c2.ID, Relacion="Organización" });
+                    
                 }
                 TablaColaboradores.ModifyElement(c);
             }
