@@ -36,8 +36,8 @@ namespace KendoDP2.Areas.Organizacion.Models
                     //  Información del colaborador:
                     Colaborador colaborador = puesto.ColaboradorPuestos.Last(c => c.FechaSalidaPuesto == null).Colaborador;
                     this.Nombre = colaborador.ApellidoPaterno + " " + colaborador.ApellidoMaterno + ", " + colaborador.Nombres;
-                    this.Correo = colaborador.CorreoElectronico;
-                    this.Telefono = colaborador.Telefono;
+                    this.Correo = colaborador.CorreoElectronico != null? colaborador.CorreoElectronico : "";
+                    this.Telefono = colaborador.Telefono != null? colaborador.Telefono : "";
                     this.ImagenURL = colaborador.ImagenColaboradorID > 0 ? "/Misc/GetImagen?archivoID=" + colaborador.ImagenColaboradorID : "../Images/unknown-person.jpg";
                 }
             //  Si no existe el puesto...
