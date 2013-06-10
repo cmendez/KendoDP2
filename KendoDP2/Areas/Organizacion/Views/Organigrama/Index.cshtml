@@ -48,11 +48,10 @@
 
     function agregarNodo(nodo) {
         var item = new primitives.orgdiagram.ItemConfig();
-        item.title = nodo.Nombre;
+        item.title = nodo.Puesto;
         item.groupTitle = nodo.Area;
-        item.description = nodo.Puesto + "\n" + nodo.Correo + "\n" + nodo.Telefono
+        item.description = nodo.Nombre + "\n" + nodo.Correo + "\n" + nodo.Telefono
         item.image = nodo.ImagenURL;
-        item.description = "VP, Human Resources";
 
         if (nodo.HasChildren) {
             $.ajax({
