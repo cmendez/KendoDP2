@@ -172,26 +172,37 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                         {
                         controladorGeneral.SendEmail(postulanteOferta.Postulante.Colaborador.CorreoElectronico, "["+org.RazonSocial+"] Entrevista General",
                             "Estimado(a) " + postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto +": \n" +
-                                " Se le notifica que tras la evaluación de sus datos presentados ha sido aceptado"+
-                                " para la primera fase de reclutamiento. Por esta razón deberá acercarse el día "+ postulanteOferta.FechaEvaluacionPrimeraFase +
-                                " al lugar" + org.Direccion+ " para la entrevista y evaluación respectiva. \n"+
-                                " Saludos cordiales \n" + "Gerencia Recursos Humanos \n");
+                                "Se le notifica que tras la evaluación de sus datos presentados ha sido aceptado " +
+                                "para la primera fase de reclutamiento. Por esta razón se hace la respectiva citación: \n" +
+                                "Día: " + postulanteOferta.ToDTO().FechaEvaluacionPrimeraFase + "\n" +
+                                "Lugar: " + org.Direccion + "\n" +
+                                "para la entrevista y evaluación respectiva. \n" +
+                                "Saludos cordiales \n" + "Gerencia Recursos Humanos \n");
                         }
                         else{
-                            ModelState.AddModelError("", "No se envío la notificación. Revise los datos e intente comunicarse por otro medio");
+                            ModelState.AddModelError("Alerta", "Se aprueba el pase del postulante, pero no se envía la notificación. Revise los datos e intente comunicarse por otro medio");
                             return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
                         }
                     }
                     else
                     {
-                        controladorGeneral.SendEmail(postulanteOferta.Postulante.CorreoElectronico, "[" + org.RazonSocial + "] Entrevista General",
-                            "Estimado(a) " + postulanteOferta.Postulante.ToDTO().NombreCompleto + ": \n" +
-                                "Se le notifica que tras la evaluación de sus datos presentados ha sido aceptado " +
-                                "para la primera fase de reclutamiento. Por esta razón se hace la respectiva citación: \n"+
-                                "Día: " + postulanteOferta.ToDTO().FechaEvaluacionPrimeraFase + "\n" +
-                                "Lugar: " + org.Direccion + "\n" +
-                                "para la entrevista y evaluación respectiva. \n" +
-                                "Saludos cordiales \n" + "Gerencia Recursos Humanos \n");
+                        if (postulanteOferta.Postulante.CorreoElectronico != null)
+                        {
+                            controladorGeneral.SendEmail(postulanteOferta.Postulante.CorreoElectronico, "[" + org.RazonSocial + "] Entrevista General",
+                                "Estimado(a) " + postulanteOferta.Postulante.ToDTO().NombreCompleto + ": \n" +
+                                    "Se le notifica que tras la evaluación de sus datos presentados ha sido aceptado " +
+                                    "para la primera fase de reclutamiento. Por esta razón se hace la respectiva citación: \n" +
+                                    "Día: " + postulanteOferta.ToDTO().FechaEvaluacionPrimeraFase + "\n" +
+                                    "Lugar: " + org.Direccion + "\n" +
+                                    "para la entrevista y evaluación respectiva. \n" +
+                                    "Saludos cordiales \n" + "Gerencia Recursos Humanos \n");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("Alerta", "Se aprueba el pase del postulante, pero no se envía la notificación. Revise los datos e intente comunicarse por otro medio");
+                            return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+                    
+                        }
                     }
                     return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
                 }
