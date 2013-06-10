@@ -288,7 +288,6 @@ namespace KendoDP2.Areas.Eventos.Controllers
 
         public JsonResult GetEventos()
         {
-            
             ICollection<Evento> Eventos = null;
             using (DP2Context context = new DP2Context())
             {
