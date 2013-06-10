@@ -47,5 +47,25 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             }
         }
 
+        /*
+         *   Nombre
+         *   Peso
+         *   ObjetivoPadreID : debe ser un objetivo obtenido al leer mis objetivos
+         */
+        public ActionResult Update(ObjetivoDTO objetivo)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                Objetivo o = context.TablaObjetivos.FindByID(objetivo.ID).LoadFromDTO(objetivo, context);
+                context.TablaObjetivos.ModifyElement(o);
+                foreach (var o2 in o.ObjetivosHijos)
+                {
+                    o2.Nombre = o.Nombre;
+                    context.TablaObjetivos.ModifyElement(o2);
+                }
+                return Json(new { success = true } );
+            }
+        }
+
     }
 }
