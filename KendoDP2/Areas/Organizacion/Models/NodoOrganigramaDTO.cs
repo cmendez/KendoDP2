@@ -17,6 +17,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         public string Area { get; set; }
         public bool HasChildren { get; set; }
 
+    //  OJO : ¡¡¡¡¡ USAR SOLO DENTRO DE UN DP2Contexs !!!!!
         public NodoOrganigramaDTO(Puesto puesto)
         {
              //  Información del puesto:
