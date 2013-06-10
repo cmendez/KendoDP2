@@ -10,8 +10,6 @@
     ICollection<ColaboradorDTO> susSubordinados = ViewBag.Colaboradores; 
 }
 
-@*<h2>Index</h2>*@
-
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Mis subordinados", ""));}
 
 <div class="portlet box green">
@@ -22,21 +20,6 @@
         </div>
     </div>
     <div class="portlet-body">
-
-@*        @(Html.Kendo().Window()
-            .Name("CambioValor")
-            .Title("Aceptación de progreso")
-            .Modal(true)
-            .Draggable()
-            .Content(@<text>
-        
-                Hoja en blanco.
-                <a href="http://www.google.com.pe">Un buscador</a>
-        
-            </text>)
-            .Resizable()
-            //.Visible(true))
-            .Visible(false))*@
 
         @(Html.Kendo().Window()
             .Name("CambioValor")
@@ -56,17 +39,14 @@
                     .Max(1)
                     .Step(0.01)
                     .Value(0.2)
-                    @*.HtmlAttributes(new { width = "20px" }))*@
                     .HtmlAttributes(new { style = "width: 70px" }))
 
-                    @*<span id="actualizar" style="display:none" class="k-button">Click here to open the window.</span>*@
                     <span id="actualizar" class="k-button">Aprobar</span>
 
                 </div>
         
             </text>)
             .Resizable()
-            //.Visible(true))
             .Visible(false))
 
 
@@ -78,95 +58,35 @@
                     <b>Del colaborador: 
                     @unSubordinado.NombreCompleto
                     </b>
-                    @*@(Html.Kendo().ComboBox()
-                          .Name("elSubordinadoSeleccionado")
-                          .HtmlAttributes(new { style = "width: 220px;" })
-                          .Filter("contains")
-                          //.Placeholder("Seleccione colaborador...")
-                          .DataTextField("NombreCompleto")
-                          .DataValueField("ID")
-                          //.BindTo(new List<SelectListItem>() {
-                          //    new SelectListItem() {
-                          //      Text = "Juan Perez", Value = "1"   
-                          //    },
-                          //    new SelectListItem() {
-                          //      Text = "Juan Perez 2", Value = "2"   
-                          //    },
-                          //    new SelectListItem() {
-                          //      Text = "Juan Perez 3", Value = "3"   
-                          //    },
-                          //    new SelectListItem() {
-                          //      Text = "Juan Perez 4", Value = "4"   
-                          //    }
-                          //})
-                          .BindTo(susSubordinados)
-                          .SelectedIndex(0)
-                          .Suggest(true)
-                    )*@
-
-                    @*@(Html.Kendo().ComboBox().Name("elSubordinadoSeleccionado")
-                            //.Name("Combo" + puestoEvaluador.ClaseEntorno + i)
-                            .Placeholder("Seleccione un colaborador")
-                            .DataTextField("NombreCompleto")
-                            .DataValueField("ID")
-                            .Filter("contains")
-                            .BindTo(susSubordinados)
-                            .Suggest(true)
-                            .HtmlAttributes(new { style = "width:100%" })
-                            //.Events(e => e.Close("comboCompetenciasSelection"))
-                            .SelectedIndex(0)
-                            //.Enable(puestoEvaluador.ClaseEntorno.CompareTo("El mismo") == 0 || puestoEvaluador.ClaseEntorno.CompareTo("Jefe") == 0 ? false : true)
-                            );  *@
                 </div>
             </div>
 
             <div class="row-fluid">
 
-@*                @(Html.Kendo().Window().Name("CambioValor").Title("Aceptación de progreso").Draggable().LoadContentFrom("http://www.google.com.pe"))*@
-
                 @(Html.Kendo().PanelBar()
                     .Name("Objetivos" + unSubordinado.ID)
                     .HtmlAttributes(new { style = "margin-right: 220px;" })
                     .ExpandAll(false)
-                    //.Events(e => e.Select("escogeOpcion"))
                     .Items(panelbar =>
                     {
-                        //var rchavez = susSubordinados.Where(s => s.ID == 23).First();
-                        //var rchavez = susSubordinados.Where(s => s.ID == 23).First();
-
-                        //foreach (KendoDP2.Areas.Objetivos.Models.ObjetivoDTO unoDeSusObjetivos in rchavez.Objetivos)
                         foreach (KendoDP2.Areas.Objetivos.Models.ObjetivoDTO unoDeSusObjetivos in unSubordinado.Objetivos)
                         {
                             panelbar.Add().Text("Objetivo: " + unoDeSusObjetivos.Nombre + " (" + unoDeSusObjetivos.Peso + "%)")
-                            //.Expanded(true)
                             .Items(items =>
                             {
-                                //items.Add
-                                //foreach(KendoDP2.Areas.Objetivos.Models.AvanceObjetivoDTO unProgreso in  unoDeSusObjetivos.LosProgresos)
                                 foreach (KendoDP2.Areas.Objetivos.Models.AvanceObjetivoDTO unPaso in unoDeSusObjetivos.LosProgresos)
                                 {
-                                    //unPaso
-                                    //items.Add().Text("El " + unPaso.FechaCreacion + " alcancé el " + unPaso.Valor + "%");
-                                    //items.Add().Text("El " + unPaso.FechaCreacion + " alcancé el " + unPaso.Valor + "%").Url("javascript:escogeOpcion();");
-                                    //items.Add().Text("El " + unPaso.FechaCreacion + " alcancé el " + unPaso.Valor + "%").Url("javascript:escogeOpcion(unPaso.Valor);");
-                                    //items.Add().Text("El " + unPaso.FechaCreacion + " alcancé el " + unPaso.Valor + "%").Url("javascript:escogeOpcion(" + unPaso.Valor + ");");
-                                    //items.Add().Text("El " + unPaso.FechaCreacion + " alcancé el " + unPaso.Valor + "%").Url("javascript:escogeOpcion(" + unPaso.ID + ", " + unPaso.Valor + ");");
-
-                                    //if (unPaso.fueRevisado)
                                     if (unPaso.FueRevisado)
                                     {
-                                        //if (unPaso.Valor == unPaso.ValorJefe)
                                         if (unPaso.Valor == unPaso.ValorDelJefe)
                                         {
                                             //El jefe aprobo el avance presentado por el subordinado
-                                            //items.Add().Text("El " + unPaso.FechaCreacion + " alcancé el " + unPaso.Valor + "%").Url("javascript:escogeOpcion(" + unPaso.ID + ", " + unPaso.Valor + ");");
                                             items.Add().Text("El " + unPaso.FechaCreacion + " alcancé el " + unPaso.Valor + "%");
 
                                         }
                                         else
                                         {
                                             //El jefe modifico el valor a su criterio
-                                            //items.Add().Text("El " + unPaso.FechaCreacion + " alcancé el " + unPaso.Valor + "%. El jefe dispuso un valor de " + unPaso.ValorDelJefe + "%.").Url("javascript:escogeOpcion(" + unPaso.ID + ", " + unPaso.Valor + ");");
                                             items.Add().Text("El " + unPaso.FechaCreacion + " alcancé el " + unPaso.Valor + "%. El jefe dispuso un valor de " + unPaso.ValorDelJefe + "%.");
 
                                         }
@@ -183,34 +103,6 @@
                             });
                         }
                     
-                        //panelbar.Add().Text("Objetivo: " + susSubordinados.Where(s => s.ID == 23).First().Objetivos.First().Nombre + " - Fecha de inicio: 01/01/2013 - Fecha de fin: 03/05/2013 - Peso: 30%")
-                        //    .Expanded(true)
-                        //    .Items(items =>
-                        //    {
-                        //        items.Add().Text("Sub Item 1");
-                        //        items.Add().Text("Sub Item 2");
-                        //        items.Add().Text("Sub Item 3");
-                        //        items.Add().Text("Sub Item 4");
-                        //    });
-
-                        //panelbar.Add().Text("Objetivo: xxXxxxXxXXxxX - Fecha de inicio: 01/01/2013 - Fecha de fin: 03/04/2013 - Peso: 30%")
-                        //    .Items(items =>
-                        //    {
-                        //        items.Add().Text("Sub Item 1");
-                        //        items.Add().Text("Sub Item 2");
-                        //        items.Add().Text("Sub Item 3");
-                        //        items.Add().Text("Sub Item 4");
-                        //    });
-
-                        //panelbar.Add().Text("Objetivo: yyYYyyyYyYyyyY - Fecha de inicio: 01/01/2013 - Fecha de fin: 03/04/2013 - Peso: 40%")
-                        //    .Items(items =>
-                        //    {
-                        //        items.Add().Text("Sub Item 1");
-                        //        items.Add().Text("Sub Item 2");
-                        //        items.Add().Text("Sub Item 3");
-                        //        items.Add().Text("Sub Item 4");
-                        //    });
-              
                    })
                 )
                 <br />
@@ -222,23 +114,15 @@
 
 <script>
 
-    //var elPasoID;
     var elPasoIDSeleccionado;
 
-    //function select(e) {
     function escogeOpcion(e) {
-        //kendoConsole.log("Select: " + $(e.item).find("> .k-link").text());
         console.log($(e));
         console.log($(e.item));
         $("#CambioValor").data("kendoWindow").open();
     }
 
-    //function escogeOpcion(avance) {
     function escogeOpcion(progresoID, avance) {
-        //kendoConsole.log("Select: " + $(e.item).find("> .k-link").text());
-        //console.log($(e));
-        //console.log($(e.item));
-        //$('#percentage').data('kendoNumericTextBox').value(0.8);
         elPasoIDSeleccionado = progresoID;
         console.log("elPasoIDSeleccionado = " + elPasoIDSeleccionado);
         $('#percentage').data('kendoNumericTextBox').value(avance / 100);
@@ -252,25 +136,10 @@
             $("#CambioValor").data("kendoWindow").close();
 
             $.ajax({
-                // edit to add steve's suggestion.
-                //url: "/ControllerName/ActionName",
-                //url: '<%= Url.Action("ActionName", "ControllerName") %>',
-                //url: '@*Url.Action("ControllerName","ActionName")*@',
-                //url: '@*Url.Action("Acordion","capturarValidacionDelJefe", new { nivelID = niveles[i].ID, competenciaID = competencia.ID })*@',
-                //url: '@*@Url.Action("Acordion","capturarValidacionDelJefe", new { progresoID = 3, valorConsideradoPorElJefe = 90})*@',
-                //me
                 type: "POST",
-                //data: { name: "John", location: "Boston" },
-                //data: { progresoID: "3", valorConsideradoPorElJefe: "90" },
-                //data: { progresoID: elPasoIDSeleccionado, valorConsideradoPorElJefe: $('#percentage').data('kendoNumericTextBox').value() },
-                //data: { progresoID: elPasoIDSeleccionado, valorConsideradoPorElJefe: (int)($('#percentage').data('kendoNumericTextBox').value() * 100) },
                 data: { progresoID: elPasoIDSeleccionado, valorConsideradoPorElJefe: parseInt($('#percentage').data('kendoNumericTextBox').value() * 100, 10) },
-                //url: '@*@Url.Action("capturarValidacionDelJefe", new { progresoID = 3, valorConsideradoPorElJefe = 90 })*@',
                 url: '@Url.Action("capturarValidacionDelJefe")',
                 success: function (data) {
-                    // your data could be a View or Json or what ever you returned in your action method 
-                    // parse your data here
-                    //alert(data);
                 }
             });
 
@@ -278,5 +147,4 @@
         })
     });
 
-    //function 
 </script>
