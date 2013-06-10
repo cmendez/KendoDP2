@@ -139,6 +139,8 @@ namespace KendoDP2.Areas.Reportes.Models
         public string nombreColaborador { get; set; }
 
         public int idObjetivo { get; set; }
+
+        public List<ObjetivoRDTO> objetivos { get; set; }
     }
 
     public class BSCAvanceDTO
