@@ -66,13 +66,13 @@ namespace KendoDP2.Areas.Eventos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                    Evento c = new Evento().LoadFromDTO(evento);
-                    int creadorID = DP2MembershipProvider.GetPersonaID(this);
-                    c.CreadorID = creadorID;
-                    c.Creador = context.TablaColaboradores.FindByID(creadorID);
-                    context.TablaEvento.AddElement(c);
-                    return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));                
-                
+                Evento c = new Evento().LoadFromDTO(evento);
+                int creadorID = DP2MembershipProvider.GetPersonaID(this);
+                c.CreadorID = creadorID;
+                c.Creador = context.TablaColaboradores.FindByID(creadorID);
+                context.TablaEvento.AddElement(c);
+                return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
+
             }
         }
 
@@ -123,44 +123,47 @@ namespace KendoDP2.Areas.Eventos.Controllers
         // devuelve si se cambio a true ReferenciaDirecta
         private bool AddColaboradorToEvento(int colaboradorID, int eventoID, DP2Context context, bool esReferenciaDirecta)
         {
-            var cruce = context.TablaInvitado.One(x => x.ColaboradorID == colaboradorID && x.EventoID == eventoID);
-            if (cruce == null)
-            { // nuevo
-                context.TablaInvitado.AddElement(
-                    new Invitado
-                    {
-                        ColaboradorID = colaboradorID,
-                        EventoID= eventoID,
-                        ReferenciaDirecta = esReferenciaDirecta,
-                        ReferenciasPorAreas = esReferenciaDirecta ? 0 : 1
-                    });
-                return esReferenciaDirecta;
-            }
-            else if (!esReferenciaDirecta)
-            {
-                cruce.ReferenciasPorAreas++;
-                context.TablaInvitado.ModifyElement(cruce);
-                return false;
-            }
-            else
-            { // no tenia referencia directa
-                if (!cruce.ReferenciaDirecta)
-                {
-                    cruce.ReferenciaDirecta = true;
-                    context.TablaInvitado.ModifyElement(cruce);
-                    return true;
+           
+                var cruce = context.TablaInvitado.One(x => x.ColaboradorID == colaboradorID && x.EventoID == eventoID);
+                if (cruce == null)
+                { // nuevo
+                    context.TablaInvitado.AddElement(
+                        new Invitado
+                        {
+                            ColaboradorID = colaboradorID,
+                            EventoID = eventoID,
+                            ReferenciaDirecta = esReferenciaDirecta,
+                            ReferenciasPorAreas = esReferenciaDirecta ? 0 : 1
+                        });
+                    return esReferenciaDirecta;
                 }
-                return false;
-            }
-        }
+                else if (!esReferenciaDirecta)
+                {
+                    cruce.ReferenciasPorAreas++;
+                    context.TablaInvitado.ModifyElement(cruce);
+                    return false;
+                }
+                else
+                { // no tenia referencia directa
+                    if (!cruce.ReferenciaDirecta)
+                    {
+                        cruce.ReferenciaDirecta = true;
+                        context.TablaInvitado.ModifyElement(cruce);
+                        return true;
+                    }
+                    return false;
+                }
+        }            
+        
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult AddInvitadosColaborador(int eventoID, int colaboradorID)
         {
             using (DP2Context context = new DP2Context())
             {
-                bool isNuevaReferenciaDirecta = AddColaboradorToEvento(colaboradorID, eventoID, context, true);
-                return Json(new { success = isNuevaReferenciaDirecta });
+                //anhado validacion a ver si sale :)
+                    bool isNuevaReferenciaDirecta = AddColaboradorToEvento(colaboradorID, eventoID, context, true);
+                    return Json(new { success = isNuevaReferenciaDirecta });
             }
         }
 
@@ -182,7 +185,7 @@ namespace KendoDP2.Areas.Eventos.Controllers
                 return Json(new { success = true });
             }
         }
-        
+
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult DestroyInvitados([DataSourceRequest] DataSourceRequest request, Invitado cruce)
         {
@@ -246,6 +249,40 @@ namespace KendoDP2.Areas.Eventos.Controllers
                 }
                 return Json(new { success = true });
             }
+        }
+
+
+        public bool ValidaCruceInvitados(int colaboradorID, int eventoID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                Evento Eve = context.TablaEvento.FindByID(eventoID);
+
+
+                ICollection<Evento> EventosCruce = context.TablaEvento.All().Where(p => ValidaCruceFechas(p.Inicio, p.Fin, Eve.Inicio, Eve.Fin)).ToList();
+                ICollection<Invitado> Invitados = null;
+
+                foreach (Evento e in EventosCruce)
+                {
+                    Invitados = e.Invitados;
+
+                    foreach (Invitado i in Invitados)
+                    {
+                        if (i.ColaboradorID == colaboradorID)
+                            return false;
+                    }
+
+                }
+
+            }
+            return true;
+        }
+
+
+
+        public bool ValidaCruceFechas(DateTime inicio1, DateTime fin1, DateTime inicio2, DateTime fin2)
+        {
+            return !(inicio1.CompareTo(fin2) >= 0 || inicio2.CompareTo(fin1) >= 0);
         }
 
     }
