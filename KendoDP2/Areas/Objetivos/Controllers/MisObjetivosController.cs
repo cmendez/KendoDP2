@@ -80,8 +80,15 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                context.TablaObjetivos.RemoveElementByID(objetivo.ID);
-                return Json(ModelState.ToDataSourceResult());
+                try
+                {
+                    context.TablaObjetivos.RemoveElementByID(objetivo.ID);
+                    return Json(ModelState.ToDataSourceResult());
+                }
+                catch (Exception)
+                {
+                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                }
             }
         }
 
