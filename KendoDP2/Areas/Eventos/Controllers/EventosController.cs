@@ -285,5 +285,30 @@ namespace KendoDP2.Areas.Eventos.Controllers
             return !(inicio1.CompareTo(fin2) >= 0 || inicio2.CompareTo(fin1) >= 0);
         }
 
+
+        public JsonResult GetEventos()
+        {
+            
+            ICollection<Evento> Eventos = null;
+            using (DP2Context context = new DP2Context())
+            {
+                Eventos= context.TablaEvento.All().Where(p => (p.TipoEvento.Descripcion.Equals("Evento Empresa")) || (p.TipoEvento.Descripcion.Equals("Evento Fechas Especiales"))).ToList();
+                var eventList = from e in Eventos
+                                select new
+                                {
+                                    id = e.ID,
+                                    title = e.Nombre,
+                                    start = e.Inicio.ToString("s"),
+                                    end = e.Fin.ToString("s"),
+                                    allDay = false
+                                };
+
+                var rows = eventList.ToArray();
+                return Json(rows, JsonRequestBehavior.AllowGet);
+                        
+            }
+
+            
+        }
     }
 }
