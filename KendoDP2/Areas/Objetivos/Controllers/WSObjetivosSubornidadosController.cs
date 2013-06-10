@@ -26,7 +26,12 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 return Json(objetivos.Select(c => c.ToDTO(context)).ToList(), JsonRequestBehavior.AllowGet);
             }
         }
-
+        
+        /*
+         *   Nombre
+         *   Peso
+         *   ObjetivoPadreID : debe ser un objetivo obtenido al leer mis objetivos
+         */
         public ActionResult Create(ObjetivoDTO objetivo)
         {
             using (DP2Context context = new DP2Context())
@@ -41,5 +46,6 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 return Json(new { objetivoID = o.ID }, JsonRequestBehavior.AllowGet);
             }
         }
+
     }
 }
