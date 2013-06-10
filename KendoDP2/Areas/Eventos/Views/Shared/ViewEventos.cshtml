@@ -68,7 +68,7 @@ $(document).ready(function() {
 		        right: 'prev,next,today,month,agendaWeek,agendaDay'
 		    },
 			editable: true,
-			events: $.getJSON("@Url.Action("GetEventos", "Eventos", new {Area = "Eventos"})")
+			events: '@Url.Action("GetEventos", "Eventos", new {Area = "Eventos"})',
  
 		});
 });
