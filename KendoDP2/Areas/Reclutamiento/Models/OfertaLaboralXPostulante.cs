@@ -36,6 +36,8 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public string FechaEvaluacionSegundaFase { get; set; }
         public string FechaEvaluacionTerceraFase { get; set; }
 
+        public string FechaPostulacion { get; set; }
+
         public OfertaLaboralXPostulanteDTO ToDTO()
         {
             return new OfertaLaboralXPostulanteDTO(this);
@@ -66,18 +68,21 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         [DisplayName("Estado Postulante")]
         public string EstadoPostulantePorOfertaNombre { get; set; }
 
-        [DisplayName("Fecha de evaluación Fase 1")]
+        [DisplayName("Fecha Evaluación Fase 1")]
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public string FechaEvaluacionPrimeraFase { get; set; }
 
-        [DisplayName("Fecha de evaluación Fase 2")]
+        [DisplayName("Fecha Evaluación Fase 2")]
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public string FechaEvaluacionSegundaFase { get; set; }
 
-        [DisplayName("Fecha de evaluación Fase 3")]
+        [DisplayName("Fecha Evaluación Fase 3")]
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public string FechaEvaluacionTerceraFase { get; set; }
 
+        [DisplayName("Fecha Postulación")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public string FechaPostulacion { get; set; }
         
         public OfertaLaboralXPostulanteDTO()
         {
@@ -105,6 +110,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             FechaEvaluacionPrimeraFase = op.FechaEvaluacionPrimeraFase;
             FechaEvaluacionSegundaFase = op.FechaEvaluacionSegundaFase;
             FechaEvaluacionTerceraFase = op.FechaEvaluacionTerceraFase;
+            FechaPostulacion = op.FechaPostulacion;
 
         }
     }

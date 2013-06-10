@@ -172,7 +172,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                         if(postulanteOferta.Postulante.Colaborador.CorreoElectronico != null)
                         {
                             controladorGeneral.SendEmail(postulanteOferta.Postulante.Colaborador.CorreoElectronico, "["+org.RazonSocial+"] Entrevista General",
-                                    RetornaMensajeCorreoFase1(postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto, fecha,org.Direccion, postulanteOferta.OfertaLaboral.Area.Descripcion,postulanteOferta.OfertaLaboral.Puesto.Descripcion));                            
+                                    RetornaMensajeCorreoFase1(postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto, fecha,org.Direccion, postulanteOferta.OfertaLaboral.Area.Nombre,postulanteOferta.OfertaLaboral.Puesto.Nombre));                            
                            
                         }
                         else{
@@ -185,7 +185,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                         if (postulanteOferta.Postulante.CorreoElectronico != null)
                         {
                             controladorGeneral.SendEmail(postulanteOferta.Postulante.CorreoElectronico, "[" + org.RazonSocial + "] Entrevista General",
-                                RetornaMensajeCorreoFase1(postulanteOferta.Postulante.Nombres, fecha, org.Direccion, postulanteOferta.OfertaLaboral.Area.Descripcion, postulanteOferta.OfertaLaboral.Puesto.Descripcion));
+                                RetornaMensajeCorreoFase1(postulanteOferta.Postulante.Nombres, fecha, org.Direccion, postulanteOferta.OfertaLaboral.Area.Nombre, postulanteOferta.OfertaLaboral.Puesto.Nombre));
                         }
                         else
                         {
@@ -226,7 +226,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                         if (postulanteOferta.Postulante.Colaborador.CorreoElectronico != null)
                         {
                             controladorGeneral.SendEmail(postulanteOferta.Postulante.Colaborador.CorreoElectronico, "[" + org.RazonSocial + "] Entrevista Fase 2",
-                                    RetornaMensajeCorreoFase2(postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto, fecha, org.Direccion, postulanteOferta.OfertaLaboral.Area.Descripcion, postulanteOferta.OfertaLaboral.Puesto.Descripcion));
+                                    RetornaMensajeCorreoFase2(postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto, fecha, org.Direccion, postulanteOferta.OfertaLaboral.Area.Nombre, postulanteOferta.OfertaLaboral.Puesto.Nombre));
 
                         }
                         else
@@ -240,7 +240,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                         if (postulanteOferta.Postulante.CorreoElectronico != null)
                         {
                             controladorGeneral.SendEmail(postulanteOferta.Postulante.CorreoElectronico, "[" + org.RazonSocial + "] Entrevista Fase 2",
-                                RetornaMensajeCorreoFase2(postulanteOferta.Postulante.Nombres, fecha, org.Direccion, postulanteOferta.OfertaLaboral.Area.Descripcion, postulanteOferta.OfertaLaboral.Puesto.Descripcion));
+                                RetornaMensajeCorreoFase2(postulanteOferta.Postulante.Nombres, fecha, org.Direccion, postulanteOferta.OfertaLaboral.Area.Nombre, postulanteOferta.OfertaLaboral.Puesto.Nombre));
                         }
                         else
                         {
@@ -284,7 +284,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                         if (postulanteOferta.Postulante.Colaborador.CorreoElectronico != null)
                         {
                             controladorGeneral.SendEmail(postulanteOferta.Postulante.Colaborador.CorreoElectronico, "[" + org.RazonSocial + "] Entrevista Final",
-                                    RetornaMensajeCorreoFase3(postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto, fecha, org.Direccion, postulanteOferta.OfertaLaboral.Area.Descripcion, postulanteOferta.OfertaLaboral.Puesto.Descripcion));
+                                    RetornaMensajeCorreoFase3(postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto, fecha, org.Direccion, postulanteOferta.OfertaLaboral.Area.Nombre, postulanteOferta.OfertaLaboral.Puesto.Nombre));
 
                         }
                         else
@@ -298,7 +298,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                         if (postulanteOferta.Postulante.CorreoElectronico != null)
                         {
                             controladorGeneral.SendEmail(postulanteOferta.Postulante.CorreoElectronico, "[" + org.RazonSocial + "] Entrevista Final",
-                                RetornaMensajeCorreoFase3(postulanteOferta.Postulante.Nombres, fecha, org.Direccion, postulanteOferta.OfertaLaboral.Area.Descripcion, postulanteOferta.OfertaLaboral.Puesto.Descripcion));
+                                RetornaMensajeCorreoFase3(postulanteOferta.Postulante.Nombres, fecha, org.Direccion, postulanteOferta.OfertaLaboral.Area.Nombre, postulanteOferta.OfertaLaboral.Puesto.Nombre));
                         }
                         else
                         {
@@ -442,7 +442,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     if (postulanteOferta.Postulante.Colaborador.CorreoElectronico != null)
                     {
                         controladorGeneral.SendEmail(postulanteOferta.Postulante.Colaborador.CorreoElectronico, "[" + org.RazonSocial + "] Aviso de Seleccion",
-                                RetornaMensajeCorreoCambioPuesto(postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto, postulanteOferta.OfertaLaboral.Area.Descripcion, postulanteOferta.OfertaLaboral.Puesto.Descripcion));
+                                RetornaMensajeCorreoCambioPuesto(postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto, postulanteOferta.OfertaLaboral.Area.Nombre, postulanteOferta.OfertaLaboral.Puesto.Nombre));
 
                     }
                     else
