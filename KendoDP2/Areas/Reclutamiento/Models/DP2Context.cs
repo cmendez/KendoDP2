@@ -123,7 +123,7 @@ namespace KendoDP2.Models.Generic
                 EstadoSolicitudOfertaLaboralID = TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID,
                 FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"),
                 FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
-                Descripcion = "Trabajo en el directorio",
+                Descripcion = "Trabajo importante en el directorio",
                 ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
                 SueldoTentativo = 15000,
                 Comentarios = "",
@@ -189,6 +189,8 @@ namespace KendoDP2.Models.Generic
 
             //Colaborador como postulante (Mono):
             TablaPostulante.AddElement(new Postulante(TablaColaboradores.One(x => x.Username.Equals("jcahuin"))));
+            TablaPostulante.AddElement(new Postulante(TablaColaboradores.One(x => x.Username.Equals("amontoya"))));
+            TablaPostulante.AddElement(new Postulante(TablaColaboradores.One(x => x.Username.Equals("hespinoza"))));
         }
 
         private void SeedEstadoPostulantePorOferta()
@@ -254,10 +256,101 @@ namespace KendoDP2.Models.Generic
             });
 
             //Colaborador como postulante (Mono):
+            //Oferta 5
             TablaOfertaLaboralXPostulante.AddElement(new OfertaLaboralXPostulante
             {
                 OfertaLaboralID = TablaOfertaLaborales.One(x => x.Descripcion.Equals("Trabajo en operaciones")).ID,
                 PostulanteID = TablaPostulante.One(x => x.Nombres.Equals("Juan") && x.ApellidoPaterno.Equals("Cahuin") && x.Username == null).ID,
+                EstadoPostulantePorOfertaID = 1,
+                FlagAprobado = false,
+                PuntajeTotal = 0,
+                MotivoRechazo = String.Empty,
+                Comentarios = String.Empty,
+                Observaciones = String.Empty
+            });
+            TablaOfertaLaboralXPostulante.AddElement(new OfertaLaboralXPostulante
+            {
+                OfertaLaboralID = TablaOfertaLaborales.One(x => x.Descripcion.Equals("Trabajo en operaciones")).ID,
+                PostulanteID = TablaPostulante.One(x => x.Nombres.Equals("Andre") && x.ApellidoPaterno.Equals("Montoya") && x.Username == null).ID,
+                EstadoPostulantePorOfertaID = 1,
+                FlagAprobado = false,
+                PuntajeTotal = 0,
+                MotivoRechazo = String.Empty,
+                Comentarios = String.Empty,
+                Observaciones = String.Empty
+            });
+            TablaOfertaLaboralXPostulante.AddElement(new OfertaLaboralXPostulante
+            {
+                OfertaLaboralID = TablaOfertaLaborales.One(x => x.Descripcion.Equals("Trabajo en operaciones")).ID,
+                PostulanteID = TablaPostulante.One(x => x.Nombres.Equals("Hans") && x.ApellidoPaterno.Equals("Espinoza") && x.Username == null).ID,
+                EstadoPostulantePorOfertaID = 1,
+                FlagAprobado = false,
+                PuntajeTotal = 0,
+                MotivoRechazo = String.Empty,
+                Comentarios = String.Empty,
+                Observaciones = String.Empty
+            });
+            //Oferta 4
+            TablaOfertaLaboralXPostulante.AddElement(new OfertaLaboralXPostulante
+            {
+                OfertaLaboralID = TablaOfertaLaborales.One(x => x.Descripcion.Equals("Trabajo importante en el directorio")).ID,
+                PostulanteID = TablaPostulante.One(x => x.Nombres.Equals("Juan") && x.ApellidoPaterno.Equals("Cahuin") && x.Username == null).ID,
+                EstadoPostulantePorOfertaID = 1,
+                FlagAprobado = false,
+                PuntajeTotal = 0,
+                MotivoRechazo = String.Empty,
+                Comentarios = String.Empty,
+                Observaciones = String.Empty
+            });
+            TablaOfertaLaboralXPostulante.AddElement(new OfertaLaboralXPostulante
+            {
+                OfertaLaboralID = TablaOfertaLaborales.One(x => x.Descripcion.Equals("Trabajo importante en el directorio")).ID,
+                PostulanteID = TablaPostulante.One(x => x.Nombres.Equals("Andre") && x.ApellidoPaterno.Equals("Montoya") && x.Username == null).ID,
+                EstadoPostulantePorOfertaID = 1,
+                FlagAprobado = false,
+                PuntajeTotal = 0,
+                MotivoRechazo = String.Empty,
+                Comentarios = String.Empty,
+                Observaciones = String.Empty
+            });
+            TablaOfertaLaboralXPostulante.AddElement(new OfertaLaboralXPostulante
+            {
+                OfertaLaboralID = TablaOfertaLaborales.One(x => x.Descripcion.Equals("Trabajo importante en el directorio")).ID,
+                PostulanteID = TablaPostulante.One(x => x.Nombres.Equals("Hans") && x.ApellidoPaterno.Equals("Espinoza") && x.Username == null).ID,
+                EstadoPostulantePorOfertaID = 1,
+                FlagAprobado = false,
+                PuntajeTotal = 0,
+                MotivoRechazo = String.Empty,
+                Comentarios = String.Empty,
+                Observaciones = String.Empty
+            });
+            //Oferta 3
+            TablaOfertaLaboralXPostulante.AddElement(new OfertaLaboralXPostulante
+            {
+                OfertaLaboralID = TablaOfertaLaborales.One(x => x.Descripcion.Equals("Trabajo en ventas")).ID,
+                PostulanteID = TablaPostulante.One(x => x.Nombres.Equals("Juan") && x.ApellidoPaterno.Equals("Cahuin") && x.Username == null).ID,
+                EstadoPostulantePorOfertaID = 1,
+                FlagAprobado = false,
+                PuntajeTotal = 0,
+                MotivoRechazo = String.Empty,
+                Comentarios = String.Empty,
+                Observaciones = String.Empty
+            });
+            TablaOfertaLaboralXPostulante.AddElement(new OfertaLaboralXPostulante
+            {
+                OfertaLaboralID = TablaOfertaLaborales.One(x => x.Descripcion.Equals("Trabajo en ventas")).ID,
+                PostulanteID = TablaPostulante.One(x => x.Nombres.Equals("Andre") && x.ApellidoPaterno.Equals("Montoya") && x.Username == null).ID,
+                EstadoPostulantePorOfertaID = 1,
+                FlagAprobado = false,
+                PuntajeTotal = 0,
+                MotivoRechazo = String.Empty,
+                Comentarios = String.Empty,
+                Observaciones = String.Empty
+            });
+            TablaOfertaLaboralXPostulante.AddElement(new OfertaLaboralXPostulante
+            {
+                OfertaLaboralID = TablaOfertaLaborales.One(x => x.Descripcion.Equals("Trabajo en ventas")).ID,
+                PostulanteID = TablaPostulante.One(x => x.Nombres.Equals("Hans") && x.ApellidoPaterno.Equals("Espinoza") && x.Username == null).ID,
                 EstadoPostulantePorOfertaID = 1,
                 FlagAprobado = false,
                 PuntajeTotal = 0,
