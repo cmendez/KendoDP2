@@ -1901,7 +1901,6 @@
     <Content Include="Areas\Evaluacion360\Views\ListarProcesosXEvaluador\resultados.cshtml" />
     <Content Include="Areas\Organizacion\Views\Organigrama\Index.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\Subordinados\Index.cshtml" />
-    <Content Include="Areas\Evaluacion360\Views\Subordinados\TemporalDeCodigo.cshtml" />
     <Content Include="Areas\Organizacion\Views\Shared\ViewContacto.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\SeleccionarFechaEvaluacionFase1.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\SeleccionarFechaEvaluacionFase2.cshtml" />
