@@ -134,7 +134,7 @@ namespace KendoDP2.Areas.Reportes.Models
             }
             else
             {
-                if (o.ObjetivoPadre.PuestoAsignadoID != null)
+                if (o.ObjetivoPadre!=null && o.ObjetivoPadre.PuestoAsignadoID != null)
                 {
                     idPuesto = o.ObjetivoPadre.PuestoAsignado.ID;
                     List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (cxp.FechaSalidaPuesto == null || DateTime.Today <= cxp.FechaSalidaPuesto));
@@ -151,7 +151,15 @@ namespace KendoDP2.Areas.Reportes.Models
                 }
                 else
                 {
-                    idPuesto = o.ObjetivoPadre.ObjetivoPadre.PuestoAsignadoID.Value;
+                    if (o.ObjetivoPadre==null)
+                    {
+                        idPuesto=-1;
+                    }
+                    else
+                    {
+                        if (o.ObjetivoPadre.ObjetivoPadre!=null)
+                        idPuesto = o.ObjetivoPadre.ObjetivoPadre.PuestoAsignadoID.Value;
+                    }
                 }
                 
             }
