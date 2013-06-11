@@ -153,7 +153,7 @@ namespace KendoDP2.Areas.Reportes.Models
                 {
                     if (o.ObjetivoPadre==null)
                     {
-                        idPuesto=-1;
+                        idPuesto=1;
                     }
                     else
                     {
