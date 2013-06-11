@@ -49,7 +49,7 @@ namespace KendoDP2.Models.Generic
 
         private void SeedEvento()
         {
-            List<Colaborador> lstC = TablaColaboradores.All();
+            List<Colaborador> lstC = TablaColaboradores.Where(x => x.ID < 6); //Solo los 6 primeros colaboradores tendran eventos
 
             foreach (var colaborador in lstC)
             {
