@@ -17,13 +17,14 @@ namespace KendoDP2.Areas.Organizacion.Models
     {
 
         public virtual ICollection<ColaboradorXPuesto> ColaboradorPuestos { get; set; }
+        
         public int AreaID { get; set; }
         public virtual Area Area { get; set; }
+        
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
+        
         public int? PuestoSuperiorID { get; set; }
-        
-        
         public virtual Puesto PuestoSuperior { get; set; }
 
        public virtual ICollection<PuestoXArea> PuestosArea { get; set; }

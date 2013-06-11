@@ -11,7 +11,6 @@ namespace KendoDP2.Areas.Organizacion.Models
     public class Funcion : DBObject
     {
         public string Nombre { get; set; }
-
         
         public int PuestoID { get; set; }
         public virtual Puesto Puesto { get; set; }

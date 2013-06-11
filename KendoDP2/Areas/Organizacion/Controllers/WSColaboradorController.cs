@@ -109,52 +109,58 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                     if (c == null) throw new Exception("No existe colaborador cuyo ID = " + colaboradorID);
 
                     // Obtengo el ID de mi jefe
-                    var puestoActual = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == c.ID && !x.FechaSalidaPuesto.HasValue);
-                    if (puestoActual == null) throw new Exception("El colaborador " + c.ToDTO().NombreCompleto + " con ID = " + colaboradorID + " no tiene asignado puesto alguno por el momento");
-                    
-                    int puestoSuperiorID = puestoActual.Puesto.PuestoSuperiorID.GetValueOrDefault();
-                    var cxpInicial = context.TablaColaboradoresXPuestos.One(x => x.PuestoID == puestoSuperiorID && !x.FechaSalidaPuesto.HasValue);
-                    
+                    var ColaboradorPuesto_Actual = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == c.ID && !x.FechaSalidaPuesto.HasValue);
+                    if (ColaboradorPuesto_Actual == null) throw new Exception("El colaborador " + c.ToDTO().NombreCompleto + " con ID = " + colaboradorID + " no tiene asignado puesto alguno por el momento");
+
+                    int puestoSuperiorID = ColaboradorPuesto_Actual.Puesto.PuestoSuperiorID.GetValueOrDefault();
+                    var ColaboradorPuesto_Superior = context.TablaColaboradoresXPuestos.One(x => x.PuestoID == puestoSuperiorID && !x.FechaSalidaPuesto.HasValue);
+                    //Aca no se valida la no existencia de ColaboradorPuesto_Superior, porque de suceder eso puesto se asume como puesto superior al puesto actual, osea al colaborador actual como eje de primer nivel
+
                     Colaborador colaboradorNivel1;
                     List<Puesto> puestosNivel2;
                     List<ColaboradorDTO> colaboradoresNivel2 = new List<ColaboradorDTO>();
 
-                    if (cxpInicial != null) //Si el Jefe Existe
+                    if (ColaboradorPuesto_Superior != null) //Si el Jefe Existe
                     {
-                        colaboradorNivel1 = cxpInicial.Colaborador;
+                        colaboradorNivel1 = ColaboradorPuesto_Superior.Colaborador;
                         puestosNivel2 = context.TablaPuestos.Where(x => x.PuestoSuperiorID == puestoSuperiorID);
                     }
                     else //Hago Nivel 1 al colaboradorID
                     {
                         colaboradorNivel1 = context.TablaColaboradores.FindByID(c.ID);
-                        int puestoColaboradorID = context.TablaColaboradoresXPuestos
-                            .One(x => x.ColaboradorID == c.ID && !x.FechaSalidaPuesto.HasValue)
-                            .Puesto.ID;
+                        int puestoColaboradorID = ColaboradorPuesto_Actual.Puesto.ID;
+                        //int puestoColaboradorID = context.TablaColaboradoresXPuestos
+                        //    .One(x => x.ColaboradorID == c.ID && !x.FechaSalidaPuesto.HasValue)
+                        //    .Puesto.ID;
                         puestosNivel2 = context.TablaPuestos.Where(x => x.PuestoSuperiorID == puestoColaboradorID);
                     }
 
                     foreach (var puesto in puestosNivel2)
                     {
                         ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos
-                                                        .One(x =>   x.PuestoID == puesto.ID && 
-                                        !x.FechaSalidaPuesto.HasValue);
+                            .One(x => x.PuestoID == puesto.ID && !x.FechaSalidaPuesto.HasValue);
                         if (cxp == null) continue;
+                        
                         Colaborador colaboradorNivel2 = cxp.Colaborador;
                         List<Puesto> puestosNivel3 = context.TablaPuestos.Where(x => x.PuestoSuperiorID == puesto.ID);
                         List<ColaboradorDTO> colaboradoresNivel3 = new List<ColaboradorDTO>();
+                        
                         foreach (var puesto2 in puestosNivel3)
                         {
                             cxp = context.TablaColaboradoresXPuestos
-                                .One(x => x.PuestoID == puesto2.ID &&
-                                            !x.FechaSalidaPuesto.HasValue);
+                                .One(x => x.PuestoID == puesto2.ID && !x.FechaSalidaPuesto.HasValue);
                             if (cxp == null) continue;
+                            
                             Colaborador colaboradorNivel3 = cxp.Colaborador;
                             ColaboradorDTO colaboradorNivel3DTO = new ColaboradorDTO(colaboradorNivel3);
                             colaboradoresNivel3.Add(colaboradorNivel3DTO);
+
                         }
+                        
                         ColaboradorDTO colaboradorNivel2DTO = new ColaboradorDTO(colaboradorNivel2, colaboradoresNivel3);
                         colaboradoresNivel2.Add(colaboradorNivel2DTO);
                     }
+                    
                     ColaboradorDTO colaboradorNivel1DTO = new ColaboradorDTO(colaboradorNivel1, colaboradoresNivel2);
                     return JsonSuccessGet(new { jefe = colaboradorNivel1DTO });
                 }
