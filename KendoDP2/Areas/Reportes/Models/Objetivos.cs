@@ -92,7 +92,7 @@ namespace KendoDP2.Areas.Reportes.Models
                 numPersonas = 0;
                 foreach (ObjetivoDTO obj in col.Objetivos)
                 {
-                    if (obj.ObjetivoPadreID == o.ID) numPersonas += 1; 
+                    if (obj.ObjetivoPadreID!=null &&obj.ObjetivoPadreID == o.ID) numPersonas += 1; 
                 }
             }
             peso = o.Peso;
@@ -157,8 +157,10 @@ namespace KendoDP2.Areas.Reportes.Models
                     }
                     else
                     {
-                        if (o.ObjetivoPadre.ObjetivoPadre!=null)
-                        idPuesto = o.ObjetivoPadre.ObjetivoPadre.PuestoAsignadoID.Value;
+                        if (o.ObjetivoPadre.ObjetivoPadre != null)
+                        {
+                            idPuesto = o.ObjetivoPadre.ObjetivoPadre.PuestoAsignadoID.Value;
+                        }
                     }
                 }
                 
