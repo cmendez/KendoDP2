@@ -73,6 +73,12 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         {
             return new Evaluador2DTO(this);
         }
+
+        //public EvaluadorSubordinadosDTO enFormatoParaElCliente()
+        public EvaluadorSubordinadosDTO enFormatoParaElClienteVistaSubordinados()
+        {
+            return new EvaluadorSubordinadosDTO(this);
+        }
     
     }
 
@@ -98,6 +104,41 @@ namespace KendoDP2.Areas.Evaluacion360.Models
 
         }
 
+    }
+
+    //Esta clase representa a un examen. Puede ser llamada tambien ProcesoXEvaluadoXEvaluadorDTO.
+    public class EvaluadorSubordinadosDTO
+    {
+        public ColaboradorDTO Evaluador { get; set; }
+        public ColaboradorDTO Evaluado { get; set; }
+        public ProcesoEvaluacionDTO Proceso { get; set; }
+        public string FaseDeLaEvaluacion { get; set; }
+
+
+        public EvaluadorSubordinadosDTO()
+        {
+
+
+        }
+
+        public EvaluadorSubordinadosDTO(Evaluador procesoXEvaluadoXEvaluador)
+        {
+            //Evaluador = procesoXEvaluadoXEvaluador.
+            //using ()
+            using (DP2Context laBD = new DP2Context())
+            {
+                Evaluador = laBD.TablaColaboradores.FindByID(procesoXEvaluadoXEvaluador.ElIDDelEvaluador).ToDTO();
+                Evaluado = laBD.TablaColaboradores.FindByID(procesoXEvaluadoXEvaluador.ElEvaluado).ToDTO();
+                //Proceso = laBD.TablaColaboradores
+                //Proceso = laBD.TablaProcesoEvaluaciones.FindByID(procesoXEvaluadoXEvaluador.ElProceso).ToDTO();
+                Proceso = laBD.TablaProcesoEvaluaciones.FindByID(procesoXEvaluadoXEvaluador.ProcesoEnElQueParticipanID).ToDTO();
+                //FaseDeLaEvaluacion = laBD.
+                FaseDeLaEvaluacion = procesoXEvaluadoXEvaluador.FaseDeLaEvaluacion;
+
+            }
+
+
+        }
     }
 
 

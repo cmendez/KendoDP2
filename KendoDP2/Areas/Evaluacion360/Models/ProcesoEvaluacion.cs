@@ -20,8 +20,9 @@ namespace KendoDP2.Areas.Evaluacion360.Models
 
         public int EstadoProcesoEvaluacionID { get; set; }
         public virtual EstadoProcesoEvaluacion EstadoProcesoEvaluacion { get; set; }
-        
+
         public ICollection<ColaboradorXProcesoEvaluacion> PersonaXProcesoEvaluaciones { get; set; }
+        //public List<ColaboradorXProcesoEvaluacion> PersonaXProcesoEvaluaciones { get; set; }
 
         public ProcesoEvaluacion() { }
 
@@ -70,6 +71,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         public int AutorizadorID { get; set; }
 
         public ICollection<ColaboradorXProcesoEvaluacion> PersonaXProcesoEvaluaciones { get; set; }
+        //public List<ColaboradorXProcesoEvaluacion> PersonaXProcesoEvaluaciones { get; set; }
 
         public ProcesoEvaluacionDTO() { }
         public ProcesoEvaluacionDTO(ProcesoEvaluacion p)

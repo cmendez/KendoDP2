@@ -68,13 +68,8 @@ $(document).ready(function() {
 		        right: 'prev,next,today,month,agendaWeek,agendaDay'
 		    },
 			editable: true,
-			events: [
-				{
-				    title: 'All Day Event',
-				    start: new Date(y, m, 1)
-				},
-			
-			]
+			events: '@Url.Action("GetEventos", "Eventos", new {Area = "Eventos"})',
+ 
 		});
 });
 
