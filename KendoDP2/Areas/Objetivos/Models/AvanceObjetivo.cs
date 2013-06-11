@@ -18,11 +18,13 @@ namespace KendoDP2.Areas.Objetivos.Models
         public bool FueRevisado { get; set; }
         public int ValorDelJefe { get; set; }
         
-        public int CreadorID { get; set; }
+        public int? CreadorID { get; set; }
         public virtual Colaborador Creador { get; set; }
 
         public int ObjetivoID { get; set; }
         public virtual Objetivo Objetivo { get; set; }
+
+        public string Comentario { get; set; }
 
         public AvanceObjetivo() { }
 
@@ -33,6 +35,7 @@ namespace KendoDP2.Areas.Objetivos.Models
         public AvanceObjetivo LoadFromDTO(AvanceObjetivoDTO avance)
         {
             ID = avance.ID;
+            Comentario = avance.Comentario;
             Valor = avance.Valor;
             FechaCreacion = avance.FechaCreacion;
             CreadorID = avance.CreadorID;
@@ -64,6 +67,8 @@ namespace KendoDP2.Areas.Objetivos.Models
         public bool FueRevisado { get; set; }
         public int ValorDelJefe { get; set; }
 
+        public string Comentario { get; set; }
+
         public AvanceObjetivoDTO() { }
 
         public AvanceObjetivoDTO(AvanceObjetivo avance)
@@ -71,11 +76,12 @@ namespace KendoDP2.Areas.Objetivos.Models
             ID = avance.ID;
             Valor = avance.Valor;
             FechaCreacion = avance.FechaCreacion;
-            CreadorID = avance.CreadorID;
+            CreadorID = avance.CreadorID.GetValueOrDefault();
             ObjetivoID = avance.ObjetivoID;
 
             FueRevisado = avance.FueRevisado;
             ValorDelJefe = avance.ValorDelJefe;
+            Comentario = avance.Comentario;
         }
     }
 

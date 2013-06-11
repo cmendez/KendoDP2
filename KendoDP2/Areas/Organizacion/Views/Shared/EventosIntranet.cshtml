@@ -10,10 +10,6 @@
     SelectList listaPuestos = new SelectList(puestos, "ID", "Nombre");
     int colaboradorLogueado = ViewBag.colaboradorLogueado;
 }
-<link href='@Url.Content("~/Content/assets/plugins/fullcalendar/css/fullcalendar.css")' rel='stylesheet' />
-<link href='@Url.Content("~/Content/assets/plugins/fullcalendar/css/fullcalendar.print.css")' rel='stylesheet' media='print' />
-<script src='@Url.Content("~/Content/assets/plugins/fullcalendar/scripts/fullcalendar.js")'></script>
-
 
 <!-- BEGIN PAGE CONTENT-->
             <div class="row-fluid">
@@ -31,29 +27,7 @@
             
             <!-- END PAGE CONTENT-->
 
-<script type="text/javascript">
-    $(document).ready(function() {
-	
-        var date = new Date();
-        var d = date.getDate();
-        var m = date.getMonth();
-        var y = date.getFullYear();
-		
-        $('#calendar3').fullCalendar({
-            header: {
-                left: 'title',
-                center: '',
-                right: 'prev,next,today,month,agendaWeek,agendaDay'
-            },
-            editable: true,
-            events: '@Url.Action("GetEventosPersonales", "Intranet", new {Area = "Organizacion"})?colaboradorID ="+ @colaboradorLogueado'
- 
-    });
-});
 
-
-
-</script>
 <style>
 
 	#calendar3 {
