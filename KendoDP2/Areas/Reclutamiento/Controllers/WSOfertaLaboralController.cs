@@ -13,8 +13,28 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 {
     public class WSOfertaLaboralController : WSController
     {
+        // /WSOfertaLaboral/getOfertaLaboral
+        public JsonResult getOfertaLaboral(string ofertaLaboralID = null)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                try
+                {
+                    List<OfertaLaboral> lstOfertaLaboral = context.TablaOfertaLaborales.All();
+                    if (lstOfertaLaboral.Count == 0) throw new Exception("No hay Ofertas Laborales");
 
-        public JsonResult getOfertasLaborales(string descripcionFase)
+                    return JsonSuccessGet(new { ofertaLaboral = lstOfertaLaboral.Select(x => x.ToDTO()).ToList() });
+
+                }
+                catch (Exception ex)
+                {
+                    return JsonErrorGet("Error en la BD: " + ex.Message + ex.InnerException);
+                }
+
+            }
+        }
+
+        public JsonResult getOfertasLaborales(string colaboradorID, string descripcionFase)
         {
             using (DP2Context context = new DP2Context())
             {
@@ -25,11 +45,17 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     if (fp.PostulacionesDeLaFase == null || fp.PostulacionesDeLaFase.Count == 0)
                         throw new Exception("La Fase de Postulacion " + fp.Descripcion + " no tiene asignada ninguna postulacion");
 
-                    // ********************************* POR ARREGLAR *********************************
-                    List<OfertaLaboralXPostulanteWSDTO> listaOfertasLaboralesYPostulantes = new List<OfertaLaboralXPostulanteWSDTO>();
-                    IEnumerable<OfertaLaboralXPostulante> listaPostulaciones =
-                        fp.PostulacionesDeLaFase.Select(x=>x.OfertaLaboralXPostulante).Distinct();
-                    List<OfertaLaboral> listaOfertasLaborales = listaPostulaciones.Select(x => x.OfertaLaboral).Distinct().ToList();
+                    Colaborador c = context.TablaColaboradores.FindByID(Convert.ToInt32(colaboradorID));
+                    if (c == null) throw new Exception("No existe el Colaborador cuyo ID = " + colaboradorID);
+
+                    var listaOfertasLaboralesYPostulantes = new List<OfertaLaboralXPostulanteWSDTO>();
+                    var listaPostulaciones = fp.PostulacionesDeLaFase.Select(x => x.OfertaLaboralXPostulante).Distinct();
+                    var listaOfertasLaborales = listaPostulaciones
+                                                .Select(x => x.OfertaLaboral)
+                                                .Distinct()
+                                                .Where(x => x.ResponsableID == c.ID) //Ofertas laborales cuyo responsable sea colaboradorID
+                                                .ToList();
+                    
                     foreach (OfertaLaboral oflab in listaOfertasLaborales)
                     {
                         List<Postulante> lstPostulante = listaPostulaciones.Where(x => x.OfertaLaboral.Equals(oflab))
@@ -181,7 +207,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     List<OfertaLaboral> lstOL = context.TablaOfertaLaborales.Where(
                             x => // x.AreaID == areaID && //De la misma area que el postulante (colaborador) //SI QUIERES FILTRAR POR AREA, ACTIVAS AQUI NO MAS
                             x.EstadoSolicitudOfertaLaboralID == esol.ID && //Que coincida con el estado de la oferta laboral que deseo
-                            x.Postulantes.Select(y => y.PostulanteID).Contains(p.ID) //No sea una oferta ya postulada
+                            !x.Postulantes.Select(y => y.PostulanteID).ToList().Contains(p.ID) //No sea una oferta ya postulada
                     );
                     if (lstOL == null || lstOL.Count == 0) 
                         throw new Exception("No se encontraron ofertas laborales que cumplan los requisitos (Misma area que el postulante/Coincida con el estado/No hayan sido ya postuladas)");

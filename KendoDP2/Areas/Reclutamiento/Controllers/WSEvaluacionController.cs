@@ -61,6 +61,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     
                     //Guardar la evaluacion por fase por postulacion, es necesario reasignar el ID o ya se guarda
                     context.TablaEvaluacionXFaseXPostulacion.AddElement(e);
+                    //El puntaje obtenido lo debo acumular el puntaje Total de la OfertaXPostulante
                     var ofertaLaboralXPostulante = e.FasePostulacionXOfertaLaboralXPostulante.OfertaLaboralXPostulante;
                     ofertaLaboralXPostulante.PuntajeTotal += (int)e.Puntaje;
                     context.TablaOfertaLaboralXPostulante.ModifyElement(ofertaLaboralXPostulante);
