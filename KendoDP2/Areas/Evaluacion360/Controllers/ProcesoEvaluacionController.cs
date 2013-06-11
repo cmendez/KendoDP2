@@ -438,7 +438,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
             using (DP2Context context = new DP2Context()) {
                 Pregunta p = context.TablaPreguntas.FindByID(preguntaID);
-                p.Puntuacion = puntuacion;
+                p.Puntuacion = Convert.ToInt32(Decimal.Floor(puntuacion/100));
                 context.TablaPreguntas.ModifyElement(p);
                 return Json(new { success = true });
             }
