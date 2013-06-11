@@ -100,7 +100,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-
+                return null;
             }
         }
     }
