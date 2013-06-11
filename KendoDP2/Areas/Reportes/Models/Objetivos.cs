@@ -109,7 +109,7 @@ namespace KendoDP2.Areas.Reportes.Models
             }
 
             Objetivo ob = o;
-            while (ob.ObjetivoPadreID.GetValueOrDefault() > 0)
+            while (ob.ObjetivoPadreID!=null && ob.ObjetivoPadreID.GetValueOrDefault() > 0)
             {
                 ob = context.TablaObjetivos.FindByID(ob.ObjetivoPadreID.GetValueOrDefault());
             }
