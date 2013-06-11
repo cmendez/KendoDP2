@@ -176,9 +176,22 @@ namespace KendoDP2.Areas.Objetivos.Models
 
             //PeriodoID = o.PeriodoID;
 
-            LosProgresos = o.Avances.Select(a => a.enFormatoDTO()).ToList();
+            LosProgresos = o.Avances == null ? new List<AvanceObjetivoDTO>() : o.Avances.Select(a => a.enFormatoDTO()).ToList();
 
         }
         
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+            //LosProgresos = o.Avances == null ? new List<AvanceObjetivoDTO>() : o.Avances.Select(a => a.enFormatoDTO()).ToList();

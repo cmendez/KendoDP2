@@ -87,7 +87,9 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 List<ColaboradorDTO> elMismo = new List<ColaboradorDTO>();
                 elMismo.Add(colaborador.ToDTO());
                 ViewBag.elMismo = elMismo;
-                ViewBag.susSubordinados = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
+                //ViewBag.susSubordinados = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
+                //ViewBag.susSubordinados = consigueSubordinados(colaboradorID, context);
+                ViewBag.susSubordinados = consigueSubordinados(colaboradorID, context).Select(e => e.ToDTO()).ToList();
                 ViewBag.susPares = consigueSusPares(colaboradorID, context).Select(p => p.ToDTO()).ToList();
                 ViewBag.otros = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
 
@@ -253,18 +255,63 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
         private Colaborador consigueSuJefe(int idEvaluado, DP2Context context)
         {
-            Colaborador colaborador = context.TablaColaboradores.FindByID(22);
-            return colaborador;
+            return GestorServiciosPrivados.consigueElJefe(idEvaluado, context);
         }
 
         private List<Colaborador> consigueSusPares(int idEvaluado, DP2Context context)
         {
-            Colaborador colaborador = context.TablaColaboradores.FindByID(idEvaluado);
-            List<Colaborador> colaboradores = new List<Colaborador>();
-            colaboradores.Add(colaborador);
-            colaboradores.Add(colaborador);
-            colaboradores.Add(colaborador);
-            return colaboradores;
+
+            return GestorServiciosPrivados.consigueSusCompañerosPares(idEvaluado, context);
+        }
+
+        private List<Colaborador> consigueSubordinados(int deEsteJefe, DP2Context contexto)
+        {
+            return GestorServiciosPrivados.consigueSusSubordinados(deEsteJefe, contexto);
+
         }
     }
 }
+
+
+
+
+
+
+//private List<Colaborador> retornaSubordinados(int deEsteJefe)
+
+
+        //private Colaborador consigueSuJefe(int idEvaluado, DP2Context context)
+        //{
+        //    //Colaborador colaborador = context.TablaColaboradores.FindByID(22);
+        //    //return colaborador;
+        //    return GestorServiciosPrivados.consigueElJefe(idEvaluado, context);
+        //}
+
+
+
+
+        //private List<Colaborador> consigueSusPares(int idEvaluado, DP2Context context)
+        //{
+        //    Colaborador colaborador = context.TablaColaboradores.FindByID(idEvaluado);
+        //    List<Colaborador> colaboradores = new List<Colaborador>();
+        //    colaboradores.Add(colaborador);
+        //    colaboradores.Add(colaborador);
+        //    colaboradores.Add(colaborador);
+        //    return colaboradores;
+        //}
+
+
+
+
+
+        //private List<Colaborador> consigueSusPares(int idEvaluado, DP2Context context)
+        //{
+        //    //Colaborador colaborador = context.TablaColaboradores.FindByID(idEvaluado);
+        //    //List<Colaborador> colaboradores = new List<Colaborador>();
+        //    //colaboradores.Add(colaborador);
+        //    //colaboradores.Add(colaborador);
+        //    //colaboradores.Add(colaborador);
+        //    //return colaboradores;
+
+        //    return GestorServiciosPrivados.consigueSusCompañerosPares(idEvaluado, context);
+        //}
