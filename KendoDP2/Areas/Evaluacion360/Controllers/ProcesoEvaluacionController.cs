@@ -63,8 +63,16 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 //Obtener la persona loggeada y su puesto
                 int idUsuario = DP2MembershipProvider.GetPersonaID(this);
                 Colaborador c = context.TablaColaboradores.FindByID(idUsuario);
-                ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos.One( x => x.ColaboradorID == c.ID && !x.IsEliminado);
-                // no tiene puesto asociado, se muestran todos los procesos
+                ColaboradorXPuesto cxp;
+                try
+                {
+                   cxp = context.TablaColaboradoresXPuestos.Where(x => x.ColaboradorID == c.ID && !x.IsEliminado && (x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto)).OrderByDescending(a => a.PuestoID).First();
+                }
+                catch (Exception excep)
+                {  // no tiene puesto asociado, se muestran todos los procesos
+                    return Json(listaProcesos.ToDataSourceResult(request));
+                }
+                    // no tiene puesto asociado, se muestran todos los procesos
                 if (cxp == null) {
                     return Json(listaProcesos.ToDataSourceResult(request));
                 }
@@ -74,8 +82,10 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     Puesto puesto = context.TablaPuestos.FindByID(cxp.PuestoID);
                     // No es presidente, admin 
                     if (puesto != null && puesto.PuestoSuperiorID != null) {
-                        listaProcesos = context.TablaColaboradorXProcesoEvaluaciones.Where(e => context.TablaPuestos.FindByID(context.TablaColaboradores.FindByID(e.ColaboradorID).ToDTO().PuestoID).PuestoSuperiorID == puesto.ID && e.ProcesoEvaluacion.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(z=>z.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Iniciado)).ID).Select(x => x.ProcesoEvaluacion.ToDTO());
-                        return Json(listaProcesos.ToDataSourceResult(request));
+                        listaProcesos = context.TablaColaboradorXProcesoEvaluaciones.Where(e => context.TablaPuestos.FindByID(context.TablaColaboradores.FindByID(e.ColaboradorID).ToDTO().PuestoID).PuestoSuperiorID == puesto.ID
+                            && (context.TablaProcesoEvaluaciones.FindByID(e.ProcesoEvaluacionID)).EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(z => z.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Iniciado)).ID).Select(x => x.ProcesoEvaluacion.ToDTO());
+                        
+                        return Json(listaProcesos.ToDataSourceResult(request));                                                                                                                                                                                                                     
                     }
                 } 
                   
@@ -126,10 +136,17 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 //Obtener la persona loggeada y su puesto
                 int idUsuario = DP2MembershipProvider.GetPersonaID(this);
                 IEnumerable<ColaboradorXProcesoEvaluacion> listaEvaluados = context.TablaColaboradorXProcesoEvaluaciones.Where(x => x.ProcesoEvaluacionID == procesoID);
-                ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == idUsuario && !x.IsEliminado);
-                // No tiene puesto asociado, se muestran todos los evaluados
+                ColaboradorXPuesto cxp ;
+                try
+                {
+                    cxp = context.TablaColaboradoresXPuestos.Where(x => x.ColaboradorID == idUsuario && (x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto) && !x.IsEliminado).OrderByDescending(a => a.ColaboradorID).First(); ;
+                }
+                catch (Exception excep) {
+                    return Json(listaEvaluados.Select(x => x.ToDTO()).ToDataSourceResult(request));
+                }// No tiene puesto asociado, se muestran todos los evaluados
                 if (cxp == null) {
                     // nada
+                    return Json(listaEvaluados.Select(x => x.ToDTO()).ToDataSourceResult(request));
                 }
                 // Tiene asignado un puesto
                 else 
@@ -184,6 +201,15 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
+                ColaboradorXPuesto cxp = null;
+                try
+                {
+                    cxp = context.TablaColaboradoresXPuestos.Where(x => x.ColaboradorID == colaboradorID && (x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto) && !x.IsEliminado).OrderByDescending(a => a.ColaboradorID).First(); ;
+                }
+                catch (Exception e)
+                {
+                    return Json(new { success= false, noTienePuesto = true });
+                }
                 bool isNuevaReferenciaDirecta = AddColaboradorToProceso(colaboradorID, procesoID, context, true);
                 return Json(new {success = isNuevaReferenciaDirecta});
             }
@@ -303,10 +329,16 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     
                     foreach (ColaboradorXProcesoEvaluacion evaluado in listaEvaluados)
                     {
-                        ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos.One(x=> x.ColaboradorID==evaluado.ColaboradorID && !x.IsEliminado);
-                        Puesto puestoSuperior = context.TablaPuestos.FindByID(cxp.PuestoID).PuestoSuperior;
-                        ColaboradorXPuesto jefePuesto = context.TablaColaboradoresXPuestos.One(x => x.PuestoID == puestoSuperior.ID && !x.IsEliminado);
-                        listaJefes.Add(context.TablaColaboradores.One(x => x.ID == jefePuesto.ColaboradorID));
+                        try
+                        {
+                            ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos.Where(x => x.ColaboradorID == evaluado.ColaboradorID && !x.IsEliminado && (x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto)).OrderByDescending(a => a.ColaboradorID).First(); ;
+                            Puesto puestoSuperior = context.TablaPuestos.FindByID(cxp.PuestoID).PuestoSuperior;
+                            ColaboradorXPuesto jefePuesto = context.TablaColaboradoresXPuestos.Where(x => x.PuestoID == puestoSuperior.ID && !x.IsEliminado && (x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto)).OrderByDescending(a => a.ColaboradorID).First(); ;
+                            listaJefes.Add(context.TablaColaboradores.One(x => x.ID == jefePuesto.ColaboradorID));
+                        }
+                        catch (Exception excep) {
+                            continue;
+                        }
                     }
                     // Notificar jefes
                     using (CorreoController correoController = new CorreoController())
@@ -368,12 +400,18 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     Examen examen = context.TablaExamenes.One(x=> x.EvaluadorID == evaluador.ID);
                     // Solo considerar las evaluaciones que fueron terminadas
                     if (examen.EstadoExamenID == context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID) {
-                        
-                        PuestoXEvaluadores puestoXEvaluador = context.TablaPuestoXEvaluadores.One(x=>x.PuestoID==context.TablaColaboradoresXPuestos.One(y=>y.Colaborador.ID == evaluadorID).PuestoID );
-                        int pesoExamenXEvaluador = puestoXEvaluador.Peso;
+                        try
+                        {
+                            PuestoXEvaluadores puestoXEvaluador = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == context.TablaColaboradoresXPuestos.Where(y => y.Colaborador.ID == evaluadorID && (y.FechaSalidaPuesto == null || DateTime.Today <= y.FechaSalidaPuesto)).OrderByDescending(a => a.ColaboradorID).First().PuestoID);
+                            int pesoExamenXEvaluador = puestoXEvaluador.Peso;
 
-                        acumuladoPesos += pesoExamenXEvaluador;
-                        notaEvaluadoXProceso+= (pesoExamenXEvaluador * examen.NotaExamen);
+                            acumuladoPesos += pesoExamenXEvaluador;
+                            notaEvaluadoXProceso += (pesoExamenXEvaluador * examen.NotaExamen);
+                        }
+                        catch (Exception exce) {
+                            continue;
+                        }
+                     
                     }
                 }
                 ColaboradorXProcesoEvaluacion colaboradorEvaluadoXPorProceso = context.TablaColaboradorXProcesoEvaluaciones.One(x => x.ProcesoEvaluacionID ==proceso.ID && x.ColaboradorID == evaluadoID);
@@ -410,11 +448,12 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         private bool EsAdmin(int idUsuario, DP2Context context)
         {
             bool esAdmin = true;
-            
-            ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == idUsuario && !x.IsEliminado);
-            if (cxp != null)
+
+            IList<ColaboradorXPuesto> listaPuestosXColaborador = context.TablaColaboradoresXPuestos.Where(x => x.ColaboradorID == idUsuario && !x.IsEliminado && (x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto));
+            if (listaPuestosXColaborador != null && listaPuestosXColaborador.Count > 0)
             {
-                Puesto puesto = context.TablaPuestos.FindByID(cxp.PuestoID);
+                ColaboradorXPuesto cxpActual = listaPuestosXColaborador.OrderByDescending(a=>a.PuestoID).First();
+                Puesto puesto = context.TablaPuestos.FindByID(cxpActual.PuestoID);
                 // No es presidente, admin 
                 if (puesto != null && puesto.PuestoSuperiorID != null)
                 {
