@@ -18,9 +18,16 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             {
                 try
                 {
-                    ColaboradorDTO colaborador = context.TablaColaboradores.FindByID(Convert.ToInt32(id)).ToDTO();
-                    PuestoDTO puesto = colaborador.PuestoID == 0 ? new PuestoDTO() : context.TablaPuestos.FindByID(colaborador.PuestoID).ToDTO();
-                    AreaDTO area = colaborador.AreaID == 0 ? new AreaDTO() : context.TablaAreas.FindByID(colaborador.AreaID).ToDTO();
+                    Colaborador c = context.TablaColaboradores.FindByID(Convert.ToInt32(id));
+                    if (c == null) throw new Exception("No existe colaborador con ID = " + id);
+                    ColaboradorDTO colaborador = c.ToDTO();
+
+                    ColaboradorXPuesto actual = c.ColaboradoresPuesto.Single(x => !x.FechaSalidaPuesto.HasValue);
+                    if (actual == null) throw new Exception("El colaborador " + colaborador.NombreCompleto + " no tiene un puesto actual determinado");
+
+                    PuestoDTO puesto = actual.Puesto.ToDTO();
+                    AreaDTO area = actual.Puesto.Area.ToDTO();
+                    
                     return JsonSuccessGet(new
                     {
                         colaborador = colaborador,
