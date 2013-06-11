@@ -1,7 +1,7 @@
 ﻿@model KendoDP2.Areas.Evaluacion360.Models.ProcesoEvaluacion
 
 @{
-    ViewBag.Title = "Listar evaluados";
+    ViewBag.Title = "Mis pendientes";
     Layout = "~/Views/Shared/_Layout.cshtml";
     IList<KendoDP2.Areas.Organizacion.Models.ColaboradorDTO> colaboradores = ViewBag.colaboradores;
     IList<KendoDP2.Areas.Organizacion.Models.AreaDTO> areas = ViewBag.areas;
@@ -9,11 +9,11 @@
     SelectList lista = new SelectList(areas, "ID", "Nombre");
 }
 
-@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Listar evaluados", "Elija el colaborador a evaluar"));}
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Mis pendientes", ""));}
 
 <div class="portlet box green">
     <div class="portlet-title">
-        <div class="caption"><i class="icon-reorder"></i>Procesos de evaluación</div>
+        <div class="caption"><i class="icon-reorder"></i>Mis pendientes</div>
         <div class="tools">
             <a href="javascript:;" class="collapse"></a>
         </div>
@@ -30,6 +30,8 @@
                         columns.Bound(p => p.evaluado.NombreCompleto);
 
                         columns.Bound(p => p.procesoevaluacion.Nombre);
+                        
+                        
 
                        // columns.Bound(p => p.procesoevaluacion.Nombre);
                         
@@ -43,11 +45,17 @@
                         //columns.Bound(p => p.ID);
                         //columns.ForeignKey(p => p..EstadoColaboradorXProcesoEvaluacionID, new SelectList(estados, "ID", "Nombre"));
                         
+                        //evaluadorID ,  procesoID
                         
+                        //instanciaEvaluadores, int colaboradorEvaluadoID)
                         columns.Template(@<text></text>).Title("Rendir evaluacion").ClientTemplate(
-                        "<a class='k-button' href='" + Url.Action("Index", "Evaluacion") + "?instanciaEvaluadores=#=ID#&colaboradorEvaluadoIDP=#=ElEvaluado#'>Rendir evaluacion</a>");
+
+                        "<a class='k-button' href='" + Url.Action("Index", "Evaluacion") + "?instanciaEvaluadores=#=ID#&colaboradorEvaluadoID=#=ElEvaluado#'>Rendir evaluacion</a>");
+
                     
-                        
+                        //que la fecha actual es mayor a la fecha de finalizacion de proceso, el plazo expiro
+                        //inicar proceso, y cerra proceso
+                         
                         
                     }
                 )

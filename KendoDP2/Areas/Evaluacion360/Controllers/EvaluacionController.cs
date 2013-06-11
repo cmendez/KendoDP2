@@ -22,12 +22,18 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             
         }
 
-        public ActionResult Index(int instanciaEvaluadores, int colaboradorEvaluadoIDP)
+        public ActionResult Index(int instanciaEvaluadores, int colaboradorEvaluadoID)
         {
-            int colaboradorEvaluadoID =colaboradorEvaluadoIDP;
+            // Recibir esta variable como parámetro
+            int colaboradorEvaluadoIDP = colaboradorEvaluadoID;
             using (DP2Context context = new DP2Context())
             {
-                ColaboradorDTO evaluado = context.TablaColaboradores.One(c => c.ID == colaboradorEvaluadoID).ToDTO();
+                ColaboradorDTO evaluado = context.TablaColaboradores.One(c => c.ID == colaboradorEvaluadoIDP).ToDTO();
+           /*     CompetenciaXPuesto competenciaPuesto = context.TablaCompetenciaXPuesto.One(x => x.PuestoID == evaluado.PuestoID);
+                IList<Capacidad> capacidades = context.TablaCapacidades.Where(x => x.NivelCapacidadID==competenciaPuesto.NivelID && x.CompetenciaID == competenciaPuesto.CompetenciaID).ToList();
+                IList<CompetenciaXPuesto> competencias = context.TablaCompetenciaXPuesto.Where(x => x.PuestoID == evaluado.PuestoID);
+              */
+
                 ViewBag.evaluado = evaluado;
                 ViewBag.instanciaEvaluadores = instanciaEvaluadores;
                 return View();

@@ -198,6 +198,7 @@
     <Compile Include="Areas\Evaluacion360\Controllers\EvaluacionController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\EvaluadoresController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\GestorDatosDeColaboradoresController.cs" />
+    <Compile Include="Areas\Evaluacion360\Controllers\ListarProcesosXEvaluadoController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\ListarProcesosXEvaluadorController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\ProcesoEvaluacionController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\PuestosEvaluacionController.cs" />
@@ -1898,8 +1899,9 @@
     <Content Include="Areas\Evaluacion360\Views\Configuracion360\Index.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\ListarProcesosXEvaluador\Index.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\ListarProcesosXEvaluador\ListarEvaluados.cshtml" />
-    <Content Include="Areas\Evaluacion360\Views\ListarProcesosXEvaluador\resultados.cshtml" />
     <Content Include="Areas\Organizacion\Views\Organigrama\Index.cshtml" />
+    <Content Include="Areas\Evaluacion360\Views\ListarProcesosXEvaluado\Index.cshtml" />
+    <Content Include="Areas\Evaluacion360\Views\ListarProcesosXEvaluado\ListarResultados.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\Subordinados\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Shared\ViewContacto.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\SeleccionarFechaEvaluacionFase1.cshtml" />

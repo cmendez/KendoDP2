@@ -11,7 +11,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
 {
     public class WSColaboradorController : WSController
     {
-
+        // /WSColaborador/getColaborador
         public JsonResult getColaborador(string id)
         {
             using (DP2Context context = new DP2Context())
@@ -20,7 +20,9 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 {
                     Colaborador c = context.TablaColaboradores.FindByID(Convert.ToInt32(id));
                     if (c == null) throw new Exception("No existe colaborador con ID = " + id);
+                    if (c.ColaboradoresPuesto == null || c.ColaboradoresPuesto.Count == 0) throw new Exception("El colaborador " + c.ToDTO().NombreCompleto + " no tiene puestos asignados");
                     ColaboradorDTO colaborador = c.ToDTO();
+
 
                     ColaboradorXPuesto actual = c.ColaboradoresPuesto.Single(x => !x.FechaSalidaPuesto.HasValue);
                     if (actual == null) throw new Exception("El colaborador " + colaborador.NombreCompleto + " no tiene un puesto actual determinado");

@@ -123,7 +123,8 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                                     title = e.Nombre,
                                     start = e.Inicio.ToString("s"),
                                     end = e.Fin.ToString("s"),
-                                    allDay = false
+                                    allDay = false,
+                                    className = e.custom
                                 };
 
                 var rows = eventList.ToArray();
