@@ -12,9 +12,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 {
     public class WSPostulanteController : WSController
     {
-        //
-        // GET: /WSPostulante/getPostulante
-
+        // /WSPostulante/getPostulante
         public JsonResult getPostulante(string postulanteID = null)
         {
             using (DP2Context context = new DP2Context())
