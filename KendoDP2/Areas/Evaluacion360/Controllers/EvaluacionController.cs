@@ -46,7 +46,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             using (DP2Context context = new DP2Context()){
                 Examen examen = context.TablaExamenes.One(x => x.EvaluadorID == tablaEvaluadoresID);
                // Falta agregar el promedio final (incluye competencias)
-                IList<CompetenciaXExamen> competenciasEvaluadas = context.TablaCompentenciaXExamen.Where(x=>x.ExamenID == examen.ID);
+                IList<CompetenciaXExamen> competenciasEvaluadas = context.TablaCompetenciaXExamen.Where(x=>x.ExamenID == examen.ID);
                 int nota = 0;
                 foreach (CompetenciaXExamen c in competenciasEvaluadas) {
                     //
@@ -55,7 +55,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     c.Nota = notaCompetencia;
 
                     nota += notaCompetencia;
-                    context.TablaCompentenciaXExamen.ModifyElement(c);
+                    context.TablaCompetenciaXExamen.ModifyElement(c);
                 }
                 if (competenciasEvaluadas != null && competenciasEvaluadas.Count>0) {
                     nota = Convert.ToInt32(Decimal.Floor(nota/competenciasEvaluadas.Count));

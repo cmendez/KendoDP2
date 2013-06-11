@@ -249,6 +249,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             var context = new DP2Context();
             Colaborador colaboradorActual = context.TablaColaboradores.Where(a => a.Username.Equals(userName)).First();
             Puesto puesto = context.TablaColaboradoresXPuestos.Where(a=>a.ColaboradorID == colaboradorActual.ID)
+                .Where(x=>x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto)
                 .Select(a=>a.Puesto).First();
             var CompetenciasPonderadasColaboradorAux = ListaCompetenciasConPonderadoToDTO(puesto.CompetenciasXPuesto);
             //Filtrar las competencias que me interesan matchear
