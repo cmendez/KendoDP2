@@ -56,7 +56,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 List<ObjetivoRDTO> ListaObjetivos2 = new List<ObjetivoRDTO>();
                 List<ObjetivoDTO> ListaObjetivos3 = new List<ObjetivoDTO>();
 
-                //ListaObjetivos3 = context.TablaObjetivos.All().Select(o => o.ToDTO(context)).ToList();
+                ListaObjetivos3 = context.TablaObjetivos.All().Select(o => o.ToDTO(context)).ToList();
                 ListaObjetivos2 = context.TablaObjetivos.Where(o => o.TipoObjetivoBSCID == BSCId && o.BSC.PeriodoID == idperiodo && (o.ObjetivoPadreID == null || o.ObjetivoPadreID < 0)).Select(p => p.ToRDTO(context)).ToList();
                 
 
