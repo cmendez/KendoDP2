@@ -125,7 +125,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
 
                 foreach (ObjetivoConPadreDTO objhijo in ListaObjetivosHijos)
                 {
-                    ListaColaboradores.AddRange(context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == objhijo.puestoID).Select(p => p.ToDTO().Colaborador));
+                    ListaColaboradores.AddRange(context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == objhijo.puestoID && (cxp.FechaSalidaPuesto==null ||DateTime.Today<=cxp.FechaSalidaPuesto)).Select(p => p.ToDTO().Colaborador));
                 }
                 //List<ColaboradorXPuestoDTO> ListaColaboradoresXPuesto = context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == ListaObjetivosHijos[0].puestoID).Select(p => p.ToDTO()).ToList();
                 
@@ -140,6 +140,8 @@ namespace KendoDP2.Areas.Reportes.Controllers
                     ObjetivoConPadreDTO obj = ListaObjetivosHijos.Find(o => o.puestoID == c.PuestoID);
                     pxo.avance = obj.AvanceFinal;
                     pxo.idObjetivo = obj.ID;
+                    //pxo.objetivos = context.TablaObjetivos.Where(ob => ob.ID==ListaObjetivosHijos.Find(o => o.puestoID == c.PuestoID).ID).Select(objj=> objj.ToRDTO(context)).ToList();
+                    pxo.objetivos = context.TablaObjetivos.Where(ob => ob.ObjetivoPadre != null && ob.ObjetivoPadre.PuestoAsignadoID == c.PuestoID).Select(objj => objj.ToRDTO(context)).ToList();
                     PersonasXObjetivo.Add(pxo);
                 }
 
@@ -272,7 +274,15 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 return Json(ListaAvanceBSC, JsonRequestBehavior.AllowGet);
             }
         }
-
+        public ActionResult ObjetivosOffline(int idperiodo)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                List<ObjetivoRDTO> ObjetivosPeriodo = context.TablaObjetivos.Where(obj => obj.ToRDTO(context).idperiodo==idperiodo).Select(ob => ob.ToRDTO(context)).ToList();
+                return Json(ObjetivosPeriodo, JsonRequestBehavior.AllowGet);
+            }
+            
+        }
         public ActionResult PostulacionySeleccion(int idpuesto)
         {
             using (DP2Context context = new DP2Context())

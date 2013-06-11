@@ -9,14 +9,14 @@
 
 <div class="portlet box green">
     <div class="portlet-title">
-        <h4><i class="icon-reorder"></i>Competencias</h4>
+        <div class="caption"><i class="icon-reorder"></i>Competencias</div>
         <div class="tools">
 	        <a href="javascript:;" class="collapse"></a>
         </div>
 	</div>
     <div class="portlet-body">
         @(Html.Kendo().Grid<CompetenciaDTO>()
-            .Name("CompetenciasGrid")
+            .Name("EvaluadorSubordinadosDTO")
             .Columns(columns =>
                 {
                     columns.Bound(p => p.Nombre);

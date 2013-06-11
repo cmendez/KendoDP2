@@ -208,9 +208,12 @@
     <Compile Include="Areas\Evaluacion360\Models\AreaXProcesoEvaluacion.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Capacidad.cs" />
     <Compile Include="Areas\Evaluacion360\Models\ColaboradorXEvaluadores.cs" />
+    <Compile Include="Areas\Evaluacion360\Models\ColeccionDeExamenesDeLosSubordinados.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Competencia.cs" />
+    <Compile Include="Areas\Evaluacion360\Models\CompetenciaXExamen.cs" />
     <Compile Include="Areas\Evaluacion360\Models\DP2Context.cs" />
     <Compile Include="Areas\Evaluacion360\Models\EstadoProcesoEvaluacion.cs" />
+    <Compile Include="Areas\Evaluacion360\Models\LogicaSubordinadosEnEvaluacion.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Perfil.cs" />
     <Compile Include="Areas\Evaluacion360\Models\PerfilXCompetencia.cs" />
     <Compile Include="Areas\Evaluacion360\Models\CompetenciaXPuesto.cs" />
@@ -1879,7 +1882,6 @@
     <Content Include="Areas\Evaluacion360\Views\Evaluadores\SeleccionarEvaluadores.cshtml" />
     <Content Include="Areas\Eventos\Views\Web.config" />
     <Content Include="Areas\Evaluacion360\Views\Evaluacion\GuardarEvaluacion.cshtml" />
-    <Content Include="Areas\Evaluacion360\Views\Subordinados\Index.cshtml" />
     <Content Include="Areas\Seguridad\Views\Usuarios\Index.cshtml" />
     <Content Include="Areas\Seguridad\Views\Roles\UsuarioRoles.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesExternas\Index.cshtml" />
@@ -1898,10 +1900,15 @@
     <Content Include="Areas\Evaluacion360\Views\ListarProcesosXEvaluador\ListarEvaluados.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\ListarProcesosXEvaluador\resultados.cshtml" />
     <Content Include="Areas\Organizacion\Views\Organigrama\Index.cshtml" />
-    <Content Include="Areas\Evaluacion360\Views\Subordinados\TemporalDeCodigo.cshtml" />
+    <Content Include="Areas\Evaluacion360\Views\Subordinados\Index.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Shared\ViewContacto.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\Shared\SeleccionarFechaEvaluacionFase1.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\Shared\SeleccionarFechaEvaluacionFase2.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\Shared\SeleccionarFechaEvaluacionFase3.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\areas_icon.png" />
     <Content Include="Images\favicon.ico" />
+    <Content Include="Images\job-vacancy.jpg" />
     <Content Include="Images\snoopy-joecool-color.gif" />
     <Content Include="Images\unknown-person.jpg" />
     <Content Include="Scripts\jquery-1.8.2.js" />

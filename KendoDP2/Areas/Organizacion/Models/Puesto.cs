@@ -16,7 +16,7 @@ namespace KendoDP2.Areas.Organizacion.Models
     public class Puesto : DBObject
     {
 
-        //public virtual ICollection<ColaboradorXPuesto> ColaboradorPuestos { get; set; }
+        public virtual ICollection<ColaboradorXPuesto> ColaboradorPuestos { get; set; }
         public int AreaID { get; set; }
         public virtual Area Area { get; set; }
         public string Nombre { get; set; }
@@ -90,6 +90,11 @@ namespace KendoDP2.Areas.Organizacion.Models
         public PuestoTreeDTO ToTreeDTO()
         {
             return new PuestoTreeDTO(this);
+        }
+
+        public NodoOrganigramaDTO ToNodoOrganigramaDTO()
+        {
+            return new NodoOrganigramaDTO(this);
         }
 
         public List<Puesto> GetAreasHijas(DP2Context context)
@@ -182,4 +187,5 @@ namespace KendoDP2.Areas.Organizacion.Models
             hasChildren = p.Puestos.Any(i => !i.IsEliminado);
         }
     }
+
 }

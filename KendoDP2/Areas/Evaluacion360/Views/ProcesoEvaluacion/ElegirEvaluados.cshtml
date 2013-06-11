@@ -14,7 +14,7 @@
 
 <div class="portlet box green">
     <div class="portlet-title">
-        <h4><i class="icon-reorder"></i>Procesos de evaluación</h4>
+        <div class="caption"><i class="icon-reorder"></i>Procesos de evaluación</div>
         <div class="tools">
             <a href="javascript:;" class="collapse"></a>
         </div>
@@ -67,8 +67,9 @@
                         columns.ForeignKey((p => p.ColaboradorDTO.AreaID), lista);
                         //columns.Bound(p => p.ColaboradorDTO.Area);
                         columns.Bound(p => p.ColaboradorDTO.Puesto);
-                        columns.ForeignKey(p => p.EstadoColaboradorXProcesoEvaluacionID, new SelectList(estados, "ID", "Nombre"));      
-                        columns.Template(@<text></text>).Title("Evaluadores").ClientTemplate("<a class='k-button' href='" + Url.Action("SeleccionarEvaluadores", "Evaluadores") + "?procesoEvaluacionID="+procesoEvaluacionID+"&colaboradorID=#=ColaboradorDTO.ID#'>Elegir</a>");
+                        columns.ForeignKey(p => p.EstadoColaboradorXProcesoEvaluacionID, new SelectList(estados, "ID", "Nombre"));    
+                        if (!ViewBag.esAdmin)  
+                            columns.Template(@<text></text>).Title("Evaluadores").ClientTemplate("<a class='k-button' href='" + Url.Action("SeleccionarEvaluadores", "Evaluadores") + "?procesoEvaluacionID="+procesoEvaluacionID+"&colaboradorID=#=ColaboradorDTO.ID#'>Elegir</a>");
                         if (ViewBag.esAdmin) 
                             columns.Command(command =>
                             {

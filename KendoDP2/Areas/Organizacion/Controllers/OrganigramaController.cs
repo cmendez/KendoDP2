@@ -23,14 +23,14 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             return View();
         }
 
-        //public JsonResult GetNodosHijo(int? id)
-        //{
-        //    using (DP2Context context = new DP2Context())
-        //    {
-        //    //    var hijos = context.TablaColaboradores.Where(t => id.HasValue ? t.ColaboradoresPuesto.Last().Puesto.PuestoSuperiorID == id : t.ColaboradoresPuesto.Last().Puesto.PuestoSuperiorID == null).Select(t => t.ToNodoOrganigramaDTO(this)).OrderBy(t => t.Nombre);
-        //    //    return Json(hijos.ToList(), JsonRequestBehavior.AllowGet);
-        //    }
-        //}
+        public JsonResult GetNodosHijo(int? id)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                var hijos = context.TablaPuestos.Where(p => id.HasValue ? p.PuestoSuperiorID == id : p.PuestoSuperiorID == null).Select(p => p.ToNodoOrganigramaDTO()).OrderBy(t => t.Nombre);
+                return Json(hijos.ToList(), JsonRequestBehavior.AllowGet);
+            }
+        }
 
     }
 }

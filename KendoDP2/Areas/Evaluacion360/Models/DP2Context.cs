@@ -34,7 +34,9 @@ namespace KendoDP2.Models.Generic
         public DbSet<CompetenciaXPuesto> InternalCompetenciaXPuesto { get; set; }
         public DbSet<AreaXProcesoEvaluacion> InternalAreaXProcesoEvaluaciones { get; set; }
         public DbSet<ProcesoXEvaluado> InternalProcesoXEvaluado { get; set; }
+        public DbSet<CompetenciaXExamen> InternalCompetenciaXExamen { get; set; }
 
+        public DBGenericRequester<CompetenciaXExamen> TablaCompentenciaXExamen { get; set; }
         public DBGenericRequester<Competencia> TablaCompetencias { get; set; }
         public DBGenericRequester<Capacidad> TablaCapacidades { get; set; }
         public DBGenericRequester<NivelCapacidad> TablaNivelCapacidades { get; set; }
@@ -52,6 +54,7 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<ProcesoXEvaluado> TablaProcesoXEvaluado { get; set; }
         public DBGenericRequester<EstadoProcesoEvaluacion> TablaEstadoProcesoEvaluacion { get; set; }
         public DBGenericRequester<Pregunta> TablaPreguntas { get; set; }
+        public DBGenericRequester<CompetenciaXExamen> TablaCompetenciaXExamen { get; set; }
 
 
         private void RegistrarTablasEvaluacion360()
@@ -73,6 +76,7 @@ namespace KendoDP2.Models.Generic
             TablaProcesoXEvaluado = new DBGenericRequester<ProcesoXEvaluado>(this, InternalProcesoXEvaluado);
             TablaEstadoProcesoEvaluacion = new DBGenericRequester<EstadoProcesoEvaluacion>(this, InternalEstadoProcesoEvaluacion);
             TablaPreguntas = new DBGenericRequester<Pregunta>(this, InternalPreguntas);
+            TablaCompentenciaXExamen = new DBGenericRequester<CompetenciaXExamen>(this, InternalCompetenciaXExamen);
 		}
 
         // Area Evaluacion360
@@ -136,7 +140,7 @@ namespace KendoDP2.Models.Generic
                 // nivel 3
                 TablaCapacidades.AddElement(new Capacidad("Busca información especializada o de expertos para apoyar decisiones, influenciar o negociar. ", 3, 3, 30));
                 TablaCapacidades.AddElement(new Capacidad("Lleva a cabo acciones inusuales o  particulares especialmente pensadas para producir un impacto determinado.", 3, 3, 30));
-                TablaCapacidades.AddElement(new Capacidad("Piensa en el efecto que una acción o cualquier otro detalle producirá en la imagen que los demás tienen de él.", 1, 3, 40));
+                TablaCapacidades.AddElement(new Capacidad("Piensa en el efecto que una acción o cualquier otro detalle producirá en la imagen que los demás tienen de él.", 3, 3, 40));
             // COMPETENCIA 4
                 // nivel 1
                 TablaCapacidades.AddElement(new Capacidad("Busca tener un mayor entendimiento realizando preguntas que lo orienten (por ejemplo, busca a los directamente involucrados para conocer más a fondo la situación y el problema).", 1, 4, 30));
@@ -149,7 +153,7 @@ namespace KendoDP2.Models.Generic
                 // nivel 3
                 TablaCapacidades.AddElement(new Capacidad("Reúne información y la analiza. Es capaz de generar hipótesis, investigar y sacar conclusiones.", 3, 4, 30));
                 TablaCapacidades.AddElement(new Capacidad("Piensa de manera creativa para generar soluciones a problemas", 3, 4, 30));
-                TablaCapacidades.AddElement(new Capacidad("1. Presenta propuestas para la soluciòn de problemas sustentadas en análisis e investigación", 1, 4, 40));
+                TablaCapacidades.AddElement(new Capacidad("1. Presenta propuestas para la soluciòn de problemas sustentadas en análisis e investigación", 3, 4, 40));
             // COMPETENCIA 5
                 // nivel 1
                 TablaCapacidades.AddElement(new Capacidad("Participa activamente en la formación y consolidación del equipo, muestra un espíritu constructivo y actitud positiva. ", 1, 5, 30));
@@ -162,7 +166,7 @@ namespace KendoDP2.Models.Generic
                 // nivel 3
                 TablaCapacidades.AddElement(new Capacidad("1. Toma decisiones como miembro del equipo, considerando los factores del entorno    ", 3, 5, 30));
                 TablaCapacidades.AddElement(new Capacidad("Expresa sus propios puntos de vista, y escucha a los demás, está abierto a nuevas ideas. ", 3, 5, 30));
-                TablaCapacidades.AddElement(new Capacidad("Acompaña y respalda públicamente las decisiones y acciones del equipo", 1, 5, 40));
+                TablaCapacidades.AddElement(new Capacidad("Acompaña y respalda públicamente las decisiones y acciones del equipo", 3, 5, 40));
             // COMPETENCIA 6
                 // nivel 1
                 TablaCapacidades.AddElement(new Capacidad("Està en contacto con el cliente interno y externo y tiene alta disposiciòn a atender sus necesidades ", 1, 6, 30));
@@ -175,28 +179,28 @@ namespace KendoDP2.Models.Generic
                 // nivel 3
                 TablaCapacidades.AddElement(new Capacidad("1. Toma decisiones como miembro del equipo, considerando los factores del entorno.", 3, 6, 30));
                 TablaCapacidades.AddElement(new Capacidad("Expresa sus propios puntos de vista, y escucha a los demás, está abierto a nuevas ideas. ", 3, 6, 30));
-                TablaCapacidades.AddElement(new Capacidad("Acompaña y respalda públicamente las decisiones y acciones del equipo", 1, 6, 40));
+                TablaCapacidades.AddElement(new Capacidad("Acompaña y respalda públicamente las decisiones y acciones del equipo", 3, 6, 40));
 
                 //Capacidades (Mono):
-                TablaCapacidades.AddElement(new Capacidad("Razonamiento mátematico", 5, TablaCompetencias.Where(a => a.Nombre.Equals("Matemáticas")).First().ID, 30));
-                TablaCapacidades.AddElement(new Capacidad("Lógica matemática", 4, TablaCompetencias.Where(a => a.Nombre.Equals("Matemáticas")).First().ID, 30));
-                TablaCapacidades.AddElement(new Capacidad("Cálculo", 6, TablaCompetencias.Where(a => a.Nombre.Equals("Matemáticas")).First().ID, 40));
-                TablaCapacidades.AddElement(new Capacidad("Relaciones interpersonales", 3, TablaCompetencias.Where(a => a.Nombre.Equals("Comunicación linguística")).First().ID, 30));
-                TablaCapacidades.AddElement(new Capacidad("Comunicación de ideas", 4, TablaCompetencias.Where(a => a.Nombre.Equals("Comunicación linguística")).First().ID, 30));
-                TablaCapacidades.AddElement(new Capacidad("Claridez en el habla", 5, TablaCompetencias.Where(a => a.Nombre.Equals("Comunicación linguística")).First().ID, 40));
-                TablaCapacidades.AddElement(new Capacidad("Ofimática", 3, TablaCompetencias.Where(a => a.Nombre.Equals("Tratamiento de información digital")).First().ID, 30));
-                TablaCapacidades.AddElement(new Capacidad("Lógica digital", 7, TablaCompetencias.Where(a => a.Nombre.Equals("Tratamiento de información digital")).First().ID, 30));
-                TablaCapacidades.AddElement(new Capacidad("Manejo de archivos", 2, TablaCompetencias.Where(a => a.Nombre.Equals("Tratamiento de información digital")).First().ID, 40));
-                TablaCapacidades.AddElement(new Capacidad("Empatía", 5, TablaCompetencias.Where(a => a.Nombre.Equals("Sociabilidad y ciudadanía")).First().ID, 30));
-                TablaCapacidades.AddElement(new Capacidad("Compañerismo", 6, TablaCompetencias.Where(a => a.Nombre.Equals("Sociabilidad y ciudadanía")).First().ID, 30));
-                TablaCapacidades.AddElement(new Capacidad("Preocupación grupal", 8, TablaCompetencias.Where(a => a.Nombre.Equals("Aprendizaje")).First().ID, 40));
-                TablaCapacidades.AddElement(new Capacidad("Investigador", 4, TablaCompetencias.Where(a => a.Nombre.Equals("Aprendizaje")).First().ID, 30));
-                TablaCapacidades.AddElement(new Capacidad("Certero", 5, TablaCompetencias.Where(a => a.Nombre.Equals("Aprendizaje")).First().ID, 30));
-                TablaCapacidades.AddElement(new Capacidad("Trabajador ", 1, TablaCompetencias.Where(a => a.Nombre.Equals("Iniciativa personal")).First().ID, 30));
-                TablaCapacidades.AddElement(new Capacidad("Responsable", 1, TablaCompetencias.Where(a => a.Nombre.Equals("Iniciativa personal")).First().ID, 30));
-                TablaCapacidades.AddElement(new Capacidad("Manejo de presión", 3, TablaCompetencias.Where(a => a.Nombre.Equals("Iniciativa personal")).First().ID, 40));
-                TablaCapacidades.AddElement(new Capacidad("Manejo de grupos", 7, TablaCompetencias.Where(a => a.Nombre.Equals("Manejo de situaciones")).First().ID, 30));
-                TablaCapacidades.AddElement(new Capacidad("Responsabilidad", 5, TablaCompetencias.Where(a => a.Nombre.Equals("Manejo de situaciones")).First().ID, 30));
+                TablaCapacidades.AddElement(new Capacidad("Razonamiento mátematico", 5, TablaCompetencias.Where(a => a.Nombre.Equals("Matemáticas")).First().ID, 100));
+                TablaCapacidades.AddElement(new Capacidad("Lógica matemática", 4, TablaCompetencias.Where(a => a.Nombre.Equals("Matemáticas")).First().ID, 100));
+                TablaCapacidades.AddElement(new Capacidad("Cálculo", 6, TablaCompetencias.Where(a => a.Nombre.Equals("Matemáticas")).First().ID, 100));
+                TablaCapacidades.AddElement(new Capacidad("Relaciones interpersonales", 3, TablaCompetencias.Where(a => a.Nombre.Equals("Comunicación linguística")).First().ID, 100));
+                TablaCapacidades.AddElement(new Capacidad("Comunicación de ideas", 4, TablaCompetencias.Where(a => a.Nombre.Equals("Comunicación linguística")).First().ID, 100));
+                TablaCapacidades.AddElement(new Capacidad("Claridez en el habla", 5, TablaCompetencias.Where(a => a.Nombre.Equals("Comunicación linguística")).First().ID, 100));
+                TablaCapacidades.AddElement(new Capacidad("Ofimática", 3, TablaCompetencias.Where(a => a.Nombre.Equals("Tratamiento de información digital")).First().ID, 100));
+                TablaCapacidades.AddElement(new Capacidad("Lógica digital", 7, TablaCompetencias.Where(a => a.Nombre.Equals("Tratamiento de información digital")).First().ID, 100));
+                TablaCapacidades.AddElement(new Capacidad("Manejo de archivos", 2, TablaCompetencias.Where(a => a.Nombre.Equals("Tratamiento de información digital")).First().ID, 100));
+                TablaCapacidades.AddElement(new Capacidad("Empatía", 5, TablaCompetencias.Where(a => a.Nombre.Equals("Sociabilidad y ciudadanía")).First().ID, 100));
+                TablaCapacidades.AddElement(new Capacidad("Compañerismo", 6, TablaCompetencias.Where(a => a.Nombre.Equals("Sociabilidad y ciudadanía")).First().ID, 100));
+                TablaCapacidades.AddElement(new Capacidad("Preocupación grupal", 8, TablaCompetencias.Where(a => a.Nombre.Equals("Aprendizaje")).First().ID, 100));
+                TablaCapacidades.AddElement(new Capacidad("Investigador", 4, TablaCompetencias.Where(a => a.Nombre.Equals("Aprendizaje")).First().ID, 100));
+                TablaCapacidades.AddElement(new Capacidad("Certero", 5, TablaCompetencias.Where(a => a.Nombre.Equals("Aprendizaje")).First().ID, 100));
+                TablaCapacidades.AddElement(new Capacidad("Trabajador ", 1, TablaCompetencias.Where(a => a.Nombre.Equals("Iniciativa personal")).First().ID, 100));
+                TablaCapacidades.AddElement(new Capacidad("Responsable", 4, TablaCompetencias.Where(a => a.Nombre.Equals("Iniciativa personal")).First().ID, 100));
+                TablaCapacidades.AddElement(new Capacidad("Manejo de presión", 3, TablaCompetencias.Where(a => a.Nombre.Equals("Iniciativa personal")).First().ID, 100));
+                TablaCapacidades.AddElement(new Capacidad("Manejo de grupos", 7, TablaCompetencias.Where(a => a.Nombre.Equals("Manejo de situaciones")).First().ID, 100));
+                TablaCapacidades.AddElement(new Capacidad("Responsabilidad", 5, TablaCompetencias.Where(a => a.Nombre.Equals("Manejo de situaciones")).First().ID, 100));
         }
 
         private void SeedCompetenciasXPuesto()
@@ -283,6 +287,12 @@ namespace KendoDP2.Models.Generic
                 TablaPuestos.One(a => a.Nombre.Equals("Gerente de operaciones")).ID, 1, 10));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(TablaCompetencias.One(a => a.Nombre.Equals("Aprendizaje")).ID, 
                 TablaPuestos.One(a => a.Nombre.Equals("Gerente de operaciones")).ID, 1, 10));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(TablaCompetencias.One(a => a.Nombre.Equals("Tratamiento de información digital")).ID,
+                TablaPuestos.One(a => a.Nombre.Equals("Gerente de TI")).ID, 1, 10));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(TablaCompetencias.One(a => a.Nombre.Equals("Matemáticas")).ID,
+                TablaPuestos.One(a => a.Nombre.Equals("Gerente de TI")).ID, 1, 10));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(TablaCompetencias.One(a => a.Nombre.Equals("Iniciativa personal")).ID,
+                TablaPuestos.One(a => a.Nombre.Equals("Gerente de TI")).ID, 1, 10));
         }
 
         private void SeedPuestoXEvaluadores()
@@ -359,6 +369,7 @@ namespace KendoDP2.Models.Generic
         private void seedProcesosDeEvaluacion()
         {
             TablaProcesoEvaluaciones.AddElement(new ProcesoEvaluacion { AutorizadorID = 2, FechaCierre = new DateTime(2013, 12, 1), Nombre = "Proceso por defecto", EstadoProcesoEvaluacionID = TablaEstadoProcesoEvaluacion.One(e => e.Descripcion == ConstantsEstadoProcesoEvaluacion.Creado).ID });
+            TablaProcesoEvaluaciones.AddElement(new ProcesoEvaluacion { AutorizadorID = 2, FechaCierre = new DateTime(2013, 12, 1), Nombre = "Otro proceso", EstadoProcesoEvaluacionID = TablaEstadoProcesoEvaluacion.One(e => e.Descripcion == ConstantsEstadoProcesoEvaluacion.Creado).ID });
         }
 
         /*private void seedColaboradorXProcesoEvaluacion() 
