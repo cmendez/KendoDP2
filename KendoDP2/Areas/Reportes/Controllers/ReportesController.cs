@@ -58,11 +58,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
 
                 ListaObjetivos3 = context.TablaObjetivos.All().Select(o => o.ToDTO(context)).ToList();
                 ListaObjetivos2 = context.TablaObjetivos.Where(o => o.TipoObjetivoBSCID == BSCId && o.BSC.PeriodoID == idperiodo && (o.ObjetivoPadreID == null || o.ObjetivoPadreID < 0)).Select(p => p.ToRDTO(context)).ToList();
-                foreach (ObjetivoRDTO obj in ListaObjetivos2)
-                {
-                    obj.hijos = context.TablaObjetivos.Where(o => o.ObjetivoPadreID == obj.idObjetivo).ToList().Count;
-                    
-                }
+                
 
                 return Json(ListaObjetivos2, JsonRequestBehavior.AllowGet);
                 //return Json(ListaObjetivos, JsonRequestBehavior.AllowGet);
