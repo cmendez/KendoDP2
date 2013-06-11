@@ -81,7 +81,7 @@ namespace KendoDP2.Models.Generic
             elB.Objetivos = new List<Objetivo>
             {
                 new Objetivo { Nombre = "Involucrarme en las campañas de marketing de este periodo", Peso = 50, IsEliminado = false,
-                                Avances = new List<AvanceObjetivo> {
+                                LosProgresos = new List<AvanceObjetivo> {
                                     new AvanceObjetivo { Valor = 10, FechaCreacion = "10/10/2012", Creador = elB, FueRevisado = false, ValorDelJefe = 0 },
                                     new AvanceObjetivo { Valor = 20, FechaCreacion = "20/10/2012", Creador = elB, FueRevisado = false, ValorDelJefe = 0 },
                                     new AvanceObjetivo { Valor = 30, FechaCreacion = "30/10/2012", Creador = elB, FueRevisado = false, ValorDelJefe = 0 },
@@ -89,7 +89,7 @@ namespace KendoDP2.Models.Generic
                 
                 },
                 new Objetivo { Nombre = "Inscribirme en lecturas de gestión del personal", Peso = 50, IsEliminado = false, 
-                                Avances = new List<AvanceObjetivo> {
+                                LosProgresos = new List<AvanceObjetivo> {
                                     new AvanceObjetivo { Valor = 15, FechaCreacion = "15/10/2012", Creador = elB, FueRevisado = false, ValorDelJefe = 0 },
                                     new AvanceObjetivo { Valor = 25, FechaCreacion = "25/10/2012", Creador = elB, FueRevisado = false, ValorDelJefe = 0 },
                                     new AvanceObjetivo { Valor = 35, FechaCreacion = "35/10/2012", Creador = elB, FueRevisado = false, ValorDelJefe = 0 },
@@ -103,14 +103,14 @@ namespace KendoDP2.Models.Generic
             elEmpleadoC.Objetivos = new List<Objetivo>
             {
                 new Objetivo { Nombre = "Involucrarme en las campañas de marketing de este periodo", Peso = 50, IsEliminado = false,
-                                Avances = new List<AvanceObjetivo> {
+                                LosProgresos = new List<AvanceObjetivo> {
                                     new AvanceObjetivo { Valor = 15, FechaCreacion = "10/10/2012", Creador = elEmpleadoC, FueRevisado = false, ValorDelJefe = 0 },
                                     new AvanceObjetivo { Valor = 25, FechaCreacion = "20/10/2012", Creador = elEmpleadoC, FueRevisado = false, ValorDelJefe = 0 },
                                     new AvanceObjetivo { Valor = 100, FechaCreacion = "21/10/2012", Creador = elEmpleadoC, FueRevisado = false, ValorDelJefe = 0 },
                                 }
                 },
                 new Objetivo { Nombre = "Inscribirme en lecturas de gestión del personal", Peso = 50, IsEliminado = false,
-                                Avances = new List<AvanceObjetivo> {
+                                LosProgresos = new List<AvanceObjetivo> {
                                     new AvanceObjetivo { Valor = 05, FechaCreacion = "10/10/2012", Creador = elEmpleadoC, FueRevisado = true, ValorDelJefe = 04 },
                                     new AvanceObjetivo { Valor = 10, FechaCreacion = "20/10/2012", Creador = elEmpleadoC, FueRevisado = true, ValorDelJefe = 09 },
                                     new AvanceObjetivo { Valor = 20, FechaCreacion = "21/10/2012", Creador = elEmpleadoC, FueRevisado = true, ValorDelJefe = 19 },

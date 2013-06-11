@@ -40,7 +40,7 @@ namespace KendoDP2.Areas.Objetivos.Models
         [InverseProperty("Objetivos")]
         public virtual Colaborador Dueño { get; set; }
 
-        public virtual ICollection<AvanceObjetivo> Avances { get; set; }
+        public virtual ICollection<AvanceObjetivo> LosProgresos { get; set; }
 
         public Objetivo() {
             FechaCreacion = DateTime.Now;
@@ -184,7 +184,7 @@ namespace KendoDP2.Areas.Objetivos.Models
 
             //PeriodoID = o.PeriodoID;
 
-            Avances = o.Avances == null ? new List<AvanceObjetivoDTO>() : o.Avances.Select(a => a.enFormatoDTO()).ToList();
+            Avances = o.LosProgresos == null ? new List<AvanceObjetivoDTO>() : o.LosProgresos.Select(a => a.enFormatoDTO()).ToList();
 
             if (Avances.Count > 0)
                 this.ComentarioUltimoAvance = Avances.Last().Comentario;
