@@ -278,6 +278,7 @@ namespace KendoDP2.Models.Generic
 
         private void SeedColaboradorXPuesto()
         {
+            //!!!!!!!!!!!!!!!!! EN UNA FECHA DADA --->1 puesto solo lo tiene 1 colaborador, 1 colaborador solo tiene 1 puesto 
             TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 1, Puesto = TablaPuestos.One(p => p.ID == 1), ColaboradorID = 2, Colaborador = TablaColaboradores.One(i => i.ID == 2), Sueldo = 2300, FechaIngresoPuesto = new DateTime(2010, 1, 1), FechaSalidaPuesto = new DateTime(2010, 2, 1), Comentarios = "Hizo una gran labor", IsEliminado = false });
 
             TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 2, Puesto = TablaPuestos.One(p => p.ID == 2), ColaboradorID = 2, Colaborador = TablaColaboradores.One(i => i.ID == 2), Sueldo = 2300, FechaIngresoPuesto = new DateTime(2013, 6, 1), FechaSalidaPuesto = new DateTime(2013, 7, 20), Comentarios = "Hizo una gran labor", IsEliminado = false });
