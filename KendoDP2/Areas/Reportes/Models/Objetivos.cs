@@ -108,7 +108,8 @@ namespace KendoDP2.Areas.Reportes.Models
                 idpadre = -1;
             }
             BSCId = o.GetBSCIDRaiz(context);
-            if (o.BSC!= null)
+            
+            if (context.TablaBSC.Where(bsc => bsc.ID==BSCId).Count>0)
             {
                 idperiodo = o.BSCID.Value;
             }
