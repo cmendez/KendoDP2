@@ -101,6 +101,9 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 {
                     AvanceObjetivo a = new AvanceObjetivo { FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy"), Comentario = descripcion, ObjetivoID = idObjetivo, Valor = alcance };
                     context.TablaAvanceObjetivo.AddElement(a);
+                    Objetivo o = context.TablaObjetivos.FindByID(idObjetivo);
+                    o.AvanceFinal = a.Valor;
+                    context.TablaObjetivos.ModifyElement(o);
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception)

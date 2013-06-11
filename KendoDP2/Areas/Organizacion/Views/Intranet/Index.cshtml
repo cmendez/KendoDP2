@@ -620,8 +620,16 @@
             events: '@Url.Action("GetEventosPersonales", "Intranet", new {Area = "Organizacion"})?colaboradorID=@colaboradorLogueado'
  
         });
+        
+        function foo(){
+            $('#calendar3').each(function(){
+                if($(this).is(':visible')){
+                    $("#calendar3").fullCalendar('render');
+                }
+            });
+        } //foo()
+        window.setInterval(foo, 100);
+
     });
-
-
 
 </script>
