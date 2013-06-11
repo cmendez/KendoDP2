@@ -30,8 +30,8 @@ namespace KendoDP2.Areas.Organizacion.Models
             //  Información de los puestos inferiores:
                 this.HasChildren = puesto.Puestos.Any(p => !p.IsEliminado);
 
-            //  Si existe puesto...
-                if (puesto.ColaboradorPuestos.Where(c => c.FechaSalidaPuesto == null).Count() > 0)
+            //  Si existe colaborador...
+                if (puesto.ColaboradorPuestos.Any(c => c.FechaSalidaPuesto == null))
                 {
                     //  Información del colaborador:
                     Colaborador colaborador = puesto.ColaboradorPuestos.Last(c => c.FechaSalidaPuesto == null).Colaborador;
@@ -40,7 +40,7 @@ namespace KendoDP2.Areas.Organizacion.Models
                     this.Telefono = colaborador.Telefono != null? colaborador.Telefono : "";
                     this.ImagenURL = colaborador.ImagenColaboradorID > 0 ? "/Misc/GetImagen?archivoID=" + colaborador.ImagenColaboradorID : "../Images/unknown-person.jpg";
                 }
-            //  Si no existe el puesto...
+            //  Si no existe colaborador...
                 else
                 {
                     this.Nombre = "Vacante";
