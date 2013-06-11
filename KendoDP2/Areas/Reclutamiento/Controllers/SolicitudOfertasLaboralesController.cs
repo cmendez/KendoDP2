@@ -56,6 +56,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 oferta.EstadoSolicitudOfertaLaboralID = context.TablaEstadosSolicitudes.One(x => x.Descripcion.Equals("Pendiente")).ID;
                 oferta.FechaRequerimiento = ParseoFecha(oferta.FechaRequerimiento);
                 oferta.FechaFinRequerimiento = ParseoFecha(oferta.FechaFinRequerimiento);
+                oferta.NumeroVacantes = 1;
                 OfertaLaboral o = new OfertaLaboral(oferta);
                 
                 //agregafunciones segun el puesto de trabajo
