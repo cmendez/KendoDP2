@@ -102,8 +102,8 @@ namespace KendoDP2.Areas.Organizacion.Controllers
 
         public JsonResult GetEventosPersonales(int colaboradorID)
         {
-            ICollection<Evento> Eventos = null;
-            ICollection<Evento> EventosXColaborador = null;
+            List<Evento> Eventos = null;
+            List<Evento> EventosXColaborador = new List<Evento>();
             using (DP2Context context = new DP2Context())
             {
                 Eventos = context.TablaEvento.All().ToList();
