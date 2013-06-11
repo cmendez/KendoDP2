@@ -59,7 +59,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                       //  b.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(e=> e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Iniciado)).ID));
 
                     ProcesoEvaluacion procesoauxiliar= context.TablaProcesoEvaluaciones.One(b => b.ID == (listaProcesosEvaluador.ElementAt(i).ProcesoEnElQueParticipanID) &&
-                        b.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(e=> e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Iniciado)).ID);
+                        b.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(e=> e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso)).ID);
 
                     if (procesoauxiliar!=null) {
                         listaProceso.Add(procesoauxiliar);                    
@@ -75,10 +75,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 else
                 {
                     return Json(listaProceso.GroupBy(x => x.ID).Select(y => y.FirstOrDefault()).Select(x => x.ToDTO()).ToDataSourceResult(request));
-                }
-
-                
-
+                }                
             }
         }
 
