@@ -5,7 +5,6 @@
 @{
     ViewBag.Title = "Roles";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    List<MenuArea> MenuAreas = (List<MenuArea>)ViewBag.Areas;
 }
 
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Roles", "Administre los niveles de accesos a los roles"));}
@@ -18,104 +17,55 @@
         </div>
     </div>
     <div class="portlet-body">
-        <div class="row-fluid">
-            <div class="tabbable tabbable-custom tabs-left">
-                <ul class="nav nav-tabs">
-                    @for (int i = 0; i < MenuAreas.Count; i++)
-                    {
-                        <li class="@(i == 0 ? "active" : "")"><a href="#tab_@(MenuAreas[i].ID)" data-toggle="tab">@MenuAreas[i].Nombre</a></li>
-                    }
-                </ul>
-                <div class="tab-content">
-                    @foreach (MenuArea nivel in MenuAreas)
-                    {
-                        if (Session["CAMBIARROLESAUSUARIOS"] == null)
-                        {
-                            //muestro el campo iseliminado xq se refiere a la tabla roles
-                                <div class="tab-pane @(nivel.ID == 0 ? "active" : "")" id="tab_@(nivel.ID)">
-                                @(Html.Kendo().Grid<RolDTO>()
-                                        .Name("RolGrid_" + nivel.Nombre)
-                                        .Columns(columns =>
-                                        {
-                                            columns.Bound(p => p.Nombre);
-                                            columns.Bound(p => p.IsEliminado);
-                                        }
-                                        )
-                                        .ToolBar(toolbar =>
-                                        {
-                                            toolbar.Save();
-                                        })
-                                        .Editable(editable => editable.Mode(GridEditMode.InCell))
-                                        .Filterable()
-                                        .Pageable()
-                                        .Sortable()
-                                        .Scrollable()
-                                        .DataSource(dataSource => dataSource
-                                            .Ajax()
-                                            .Batch(true)
-                                            .ServerOperation(false)
-                                            .Events(events => events.Error("error_handler"))
-                                            .Model(model => model.Id(p => p.ID))
-                                            .Create(update => update.Action("Create", "Roles"))
-                                            .Read(read => read.Action("Read", "Roles", new { areaNombre = nivel.Nombre }))
-                                            .Update(update => update.Action("Update", "Roles"))
-                                            .Destroy(update => update.Action("Destroy", "Roles"))
-                                            ))
-                            </div>                        
-                        }
-                        else
-                        {
-                            //muestro el campo permitido xq se refiere a la tabla usuarios con sus roles
-                            <div class="tab-pane @(nivel.ID == 0 ? "active" : "")" id="tab_@(nivel.ID)">
-                                @(Html.Kendo().Grid<RolDTO>()
-                                        .Name("RolGrid_" + nivel.Nombre)
-                                        .Columns(columns =>
-                                            {
-                                                columns.Bound(p => p.Nombre);
-                                                columns.Bound(p => p.Permiso);
-                                            }
-                                        )
-                                        .ToolBar(toolbar =>
-                                        {
-                                            toolbar.Save();
-                                        })
-                                        .Editable(editable => editable.Mode(GridEditMode.InCell))
-                                        .Filterable()
-                                        .Pageable()
-                                        .Sortable()
-                                        .Scrollable()
-                                        .DataSource(dataSource => dataSource
-                                            .Ajax()
-                                            .Batch(true)
-                                            .ServerOperation(false)
-                                            .Events(events => events.Error("error_handler"))
-                                            .Model(model => model.Id(p => p.ID))
-                                            .Create(update => update.Action("Create", "Roles"))
-                                            .Read(read => read.Action("Read", "Roles", new { areaNombre = nivel.Nombre }))
-                                            .Update(update => update.Action("Update", "Roles"))
-                                            .Destroy(update => update.Action("Destroy", "Roles"))
-                                            ))
-                        </div>
-                        }
-                    }
-
-                    <script type="text/javascript">
-                        function error_handler(e) {
-                            if (e.errors) {
-                                var message = "Errors:\n";
-                                $.each(e.errors, function (key, value) {
-                                    if ('errors' in value) {
-                                        $.each(value.errors, function () {
-                                            message += this + "\n";
-                                        });
-                                    }
-                                });
-                                alert(message);
-                            }
-                        }
-                    </script>
-                </div>
-            </div>
-        </div>
+        @if (Session["CAMBIARROLESAUSUARIOS"] == null)
+            {
+        //muestro el campo iseliminado xq se refiere a la tabla roles
+                @(Html.Kendo().Grid<RolDTO>()
+                .Name("RolGrid")
+                .Columns(columns =>
+                {
+                    columns.Bound(p => p.Area);
+                    columns.Bound(p => p.Nombre);
+                    columns.Bound(p => p.IsEliminado);
+                    columns.Command(command => { command.Edit(); });
+                })
+                .Editable(editable => editable.Mode(GridEditMode.InLine))
+                .Pageable()
+                .Sortable()
+                .Scrollable()
+                .Filterable()  
+                .HtmlAttributes(new { style = "height:430px;" })
+                .DataSource(dataSource => dataSource
+                .Ajax()
+                    .PageSize(20)
+                    .Model(model => model.Id(p => p.ID))
+                    .Read(read => read.Action("Read", "Roles"))
+                    .Update(update => update.Action("Update", "Roles"))
+                    ))
+        }else
+        {
+            @(Html.Kendo().Grid<RolDTO>()
+                .Name("RolGrid")
+                .Columns(columns =>
+                {
+                    columns.Bound(p => p.Area);
+                    columns.Bound(p => p.Nombre);
+                    columns.Bound(p => p.Permiso);
+                    columns.Command(command => { command.Edit(); });
+                })
+                .Editable(editable => editable.Mode(GridEditMode.InLine))
+                .Pageable()
+                .Sortable()
+                .Scrollable()
+                .Filterable()  
+                .HtmlAttributes(new { style = "height:430px;" })
+                .DataSource(dataSource => dataSource
+                .Ajax()
+                    .PageSize(20)
+                    .Model(model => model.Id(p => p.ID))
+                    .Read(read => read.Action("Read", "Roles"))
+                    .Update(update => update.Action("Update", "Roles"))
+                    ))
+        }
     </div>
 </div>

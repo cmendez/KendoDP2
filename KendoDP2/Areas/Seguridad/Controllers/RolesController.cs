@@ -21,65 +21,36 @@ namespace KendoDP2.Areas.Seguridad.Controllers
 
         public ActionResult Index(int? ID)
         {
-            if (ID == null)
-            {
-                Session["CAMBIARROLESAUSUARIOS"] = ID;
-            }
-            else
-            {
-                Session["CAMBIARROLESAUSUARIOS"] = ID;
-            }
-                using (DP2Context context = new DP2Context())
-                {
-                    List<MenuArea> AreasMenu = new List<MenuArea>();
-                    int c = 0;
-                    foreach (var s in context.TablaRoles.All().Select(i => i.Area).Distinct().ToArray())
-                    {
-                        c++;
-                        AreasMenu.Add(new MenuArea(c, s));
-                    }
-                    ViewBag.Areas = AreasMenu;
-                    return View();
-                }
-            
-            
+            Session["CAMBIARROLESAUSUARIOS"] = ID;
+            return View();  
         }
 
+        
 
-        public ActionResult Read([DataSourceRequest] DataSourceRequest request, string areaNombre = "")
+        public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
-            if (Session["CAMBIARROLESAUSUARIOS"]==null)
+            if (Session["CAMBIARROLESAUSUARIOS"] == null)
             {
+                    // Roles en general
                 using (DP2Context context = new DP2Context())
                 {
-                    // Roles en general
-                    var x = Json(context.TablaRoles.Where(p => p.Area == areaNombre).Select(p => p.ToDTO()).Distinct().ToDataSourceResult(request));
-                    return x;
-                }    
+                    return Json(context.TablaRoles.All(true).Select(r => r.ToDTO()).ToDataSourceResult(request));
+                }
             }
             else
             {
                 using (DP2Context context = new DP2Context())
                 {
                     // Roles de un usuario
-                    Usuario usuario= context.TablaUsuarios.One(u => u.ID == (int)Session["CAMBIARROLESAUSUARIOS"]);
-                    var roles = usuario.Roles.Where(r => r.Area == areaNombre).Select(r=>r.ToDTO());
-
-                    var x = Json(roles.ToDataSourceResult(request));
-                    return x;
+                    Usuario usuario = context.TablaUsuarios.One(u => u.ID == (int)Session["CAMBIARROLESAUSUARIOS"], true);
+                    List<RolDTO> salida = new List<RolDTO>();
+                    foreach (Rol r in usuario.Roles)
+                    {
+                        RolDTO aux = new RolDTO(r);
+                        salida.Add(aux);
+                    }
+                    return Json(salida.ToDataSourceResult(request));
                 }
-            }
-            
-        }
-
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create([DataSourceRequest] DataSourceRequest request, RolDTO rol)
-        {
-            using (DP2Context context = new DP2Context())
-            {
-                Rol r = new Rol(rol.Nombre, rol.Area);
-                context.TablaRoles.AddElement(r);
-                return Json(new[] { r.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
         }
 
@@ -88,41 +59,32 @@ namespace KendoDP2.Areas.Seguridad.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                Rol c = context.TablaRoles.FindByID(rol.ID).LoadFromDTO(rol);
-                context.TablaRoles.ModifyElement(c);
-                return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
-            }
-        }
+                if (Session["CAMBIARROLESAUSUARIOS"]==null)
+                {
+                    Rol r = context.TablaRoles.One(o => o.ID == rol.ID,true);
+                    r.IsEliminado = rol.IsEliminado;
+                    context.TablaRoles.ModifyElement(r);
 
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Destroy([DataSourceRequest] DataSourceRequest request, RolDTO rol)
-        {
-            using (DP2Context context = new DP2Context())
-            {
-                context.TablaRoles.RemoveElementByID(rol.ID);
-                return Json(ModelState.ToDataSourceResult());
-            }
-        }
+                    foreach(Usuario u in context.TablaUsuarios.All(true))
+                    {
+                        //si elimino un rol entonces a todos mis colaboradores se le desactiva el rol
+                        if(rol.IsEliminado==true && u.Username != null)
+                        {
+                            u.Roles.Where(i => i.ID == rol.ID).FirstOrDefault().Permiso = false;
+                            context.TablaUsuarios.ModifyElement(u);
+                        }
 
-        DP2Context context = new DP2Context();
+                    }
+                    return View("Index");
+                    //return Json(context.TablaRoles.All(true).Select(er => er.ToDTO()).ToDataSourceResult(request));
 
-        public ActionResult Read_U([DataSourceRequest] DataSourceRequest request)
-        {
-            using (DP2Context context = new DP2Context())
-            {
-                var usuario = (Usuario)Session["Usuario_Roles"];
-                return Json(usuario.Roles, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Update_U([DataSourceRequest] DataSourceRequest request, RolDTO rol)
-        {
-            using (DP2Context context = new DP2Context())
-            {
-                Rol c = context.TablaRoles.FindByID(rol.ID).LoadFromDTO(rol);
-                context.TablaRoles.ModifyElement(c);
-                return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
+                }else{
+                    Usuario usuario = context.TablaUsuarios.One(u => u.ID == (int)Session["CAMBIARROLESAUSUARIOS"], true);
+                    usuario.Roles.Where(u => u.Nombre == rol.Nombre).FirstOrDefault().Permiso = rol.Permiso;
+                    context.TablaUsuarios.ModifyElement(usuario);
+                    return View("Index");
+                    //return Json(new[] { usuario.Roles }.ToDataSourceResult(request, ModelState));
+                }
             }
         }
     }
