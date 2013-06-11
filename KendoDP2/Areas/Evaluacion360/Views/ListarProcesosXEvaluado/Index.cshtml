@@ -3,7 +3,7 @@
 @using KendoDP2.Areas.Organizacion.Models
 
 @{
-    ViewBag.Title = "Mis pendientes";
+    ViewBag.Title = "Mis evaluaciones";
     Layout = "~/Views/Shared/_Layout.cshtml";  
     IList<ColaboradorDTO> colaboradores = ViewBag.colaboradores;
     IList<EstadoProcesoEvaluacionDTO> estados = ViewBag.estados;
@@ -12,7 +12,7 @@
     
 }
 
-@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Mis pendientes", "Pendientes por evaluar"));}
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Mis evaluaciones", ""));}
 
 <div class="portlet box green">
     <div class="portlet-title">
@@ -32,8 +32,8 @@
                     columns.ForeignKey(p => p.EstadoProcesoEvaluacionID, new SelectList(estados, "ID", "Descripcion")).Visible(true);
 
 
-                    columns.Template(@<text></text>).Title("Detalle").ClientTemplate(
-                        "<a class='k-button' href='" + Url.Action("ListarEvaluados", "ListarProcesosXEvaluador") + "?procesoEvaluacionID=#=ID#'>Detalle</a>");
+                    columns.Template(@<text></text>).Title("Detalle Evaluacion").ClientTemplate(
+                        "<a class='k-button' href='" + Url.Action("ListarResultados", "ListarProcesosXEvaluado") + "?procesoEvaluacionID=#=ID#'>Detalle</a>");
 
                 }
             )
@@ -47,7 +47,7 @@
                 .PageSize(20)
                 .ServerOperation(false)
                 .Model(model => { model.Id(p => p.ID); })
-                .Read(read => read.Action("Read", "ListarProcesosXEvaluador"))
+                .Read(read => read.Action("Read", "ListarProcesosXEvaluado"))
             )
         )
     </div>

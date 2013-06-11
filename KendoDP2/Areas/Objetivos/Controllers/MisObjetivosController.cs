@@ -73,14 +73,14 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 Objetivo o = context.TablaObjetivos.FindByID(objetivo.ID);
                 bool avanceRegistrdo = o.AvanceFinal != objetivo.AvanceFinal;
                 bool cambioDeNombreRegistrado = false;
-                if (o.Avances.Count > 0 && !objetivo.ComentarioUltimoAvance.Equals(o.Avances.Last().Comentario))
+                if (o.LosProgresos.Count > 0 && !objetivo.ComentarioUltimoAvance.Equals(o.LosProgresos.Last().Comentario))
                     cambioDeNombreRegistrado = true;
                 o.LoadFromDTO(objetivo, context);
                 context.TablaObjetivos.ModifyElement(o);
                 if (avanceRegistrdo) o.RegistrarAvance(context, o.AvanceFinal, objetivo.ComentarioUltimoAvance);
                 else if (cambioDeNombreRegistrado)
                 {
-                    AvanceObjetivo a = o.Avances.Last();
+                    AvanceObjetivo a = o.LosProgresos.Last();
                     a.Comentario = objetivo.ComentarioUltimoAvance;
                     context.TablaAvanceObjetivo.ModifyElement(a);
                 }
@@ -109,7 +109,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                var avances = context.TablaObjetivos.FindByID(objetivoID).Avances.Select(c => c.enFormatoDTO()).ToList();
+                var avances = context.TablaObjetivos.FindByID(objetivoID).LosProgresos.Select(c => c.enFormatoDTO()).ToList();
                 return PartialView(avances);
             }
         }

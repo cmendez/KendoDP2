@@ -71,15 +71,15 @@ namespace KendoDP2.Areas.Eventos.Controllers
                 c.CreadorID = creadorID;
                 c.Creador = context.TablaColaboradores.FindByID(creadorID);
                 //probando
-                if (evento.TipoEvento.Equals("Evento Empresa"))
+                if (evento.TipoEventoID == 1)
                 {
                     c.custom = "modo1";
                 }
-                if (evento.TipoEvento.Equals("Evento Fechas Especiales"))
+                if (evento.TipoEventoID == 3)
                 {
                     c.custom = "modo2";
                 }
-                if (evento.TipoEvento.Equals("Evento Personal"))
+                if (evento.TipoEventoID == 2)
                 {
                     c.custom = "modo3";
                 }
