@@ -1833,7 +1833,6 @@
     <Content Include="Areas\Objetivos\Views\Web.config" />
     <Content Include="Areas\Objetivos\Views\ObjetivosEmpresa\Index.cshtml" />
     <Content Include="Areas\Seguridad\Views\Web.config" />
-    <Content Include="Areas\Seguridad\Views\Roles\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Web.config" />
     <Content Include="Areas\Organizacion\Views\Colaboradores\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Shared\EditorTemplates\EditorColaborador.cshtml" />
@@ -1906,6 +1905,7 @@
     <Content Include="Areas\Reclutamiento\Views\Shared\SeleccionarFechaEvaluacionFase1.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\SeleccionarFechaEvaluacionFase2.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\SeleccionarFechaEvaluacionFase3.cshtml" />
+    <Content Include="Areas\Seguridad\Views\Roles\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Shared\EventosIntranet.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\areas_icon.png" />
