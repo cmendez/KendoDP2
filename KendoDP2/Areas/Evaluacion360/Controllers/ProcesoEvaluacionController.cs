@@ -63,7 +63,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 //Obtener la persona loggeada y su puesto
                 int idUsuario = DP2MembershipProvider.GetPersonaID(this);
                 Colaborador c = context.TablaColaboradores.FindByID(idUsuario);
-                ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos.One( x => x.ColaboradorID == c.ID && !x.IsEliminado);
+                ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == c.ID && !x.IsEliminado && (x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto));
                 // no tiene puesto asociado, se muestran todos los procesos
                 if (cxp == null) {
                     return Json(listaProcesos.ToDataSourceResult(request));
@@ -74,8 +74,10 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     Puesto puesto = context.TablaPuestos.FindByID(cxp.PuestoID);
                     // No es presidente, admin 
                     if (puesto != null && puesto.PuestoSuperiorID != null) {
-                        listaProcesos = context.TablaColaboradorXProcesoEvaluaciones.Where(e => context.TablaPuestos.FindByID(context.TablaColaboradores.FindByID(e.ColaboradorID).ToDTO().PuestoID).PuestoSuperiorID == puesto.ID && e.ProcesoEvaluacion.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(z=>z.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Iniciado)).ID).Select(x => x.ProcesoEvaluacion.ToDTO());
-                        return Json(listaProcesos.ToDataSourceResult(request));
+                        listaProcesos = context.TablaColaboradorXProcesoEvaluaciones.Where(e => context.TablaPuestos.FindByID(context.TablaColaboradores.FindByID(e.ColaboradorID).ToDTO().PuestoID).PuestoSuperiorID == puesto.ID
+                            && (context.TablaProcesoEvaluaciones.FindByID(e.ProcesoEvaluacionID)).EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(z => z.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Iniciado)).ID).Select(x => x.ProcesoEvaluacion.ToDTO());
+                        
+                        return Json(listaProcesos.ToDataSourceResult(request));                                                                                                                                                                                                                     
                     }
                 } 
                   
@@ -126,7 +128,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 //Obtener la persona loggeada y su puesto
                 int idUsuario = DP2MembershipProvider.GetPersonaID(this);
                 IEnumerable<ColaboradorXProcesoEvaluacion> listaEvaluados = context.TablaColaboradorXProcesoEvaluaciones.Where(x => x.ProcesoEvaluacionID == procesoID);
-                ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == idUsuario && !x.IsEliminado);
+                ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == idUsuario &&  (x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto) && !x.IsEliminado);
                 // No tiene puesto asociado, se muestran todos los evaluados
                 if (cxp == null) {
                     // nada
@@ -303,9 +305,9 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     
                     foreach (ColaboradorXProcesoEvaluacion evaluado in listaEvaluados)
                     {
-                        ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos.One(x=> x.ColaboradorID==evaluado.ColaboradorID && !x.IsEliminado);
+                        ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == evaluado.ColaboradorID && !x.IsEliminado && (x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto));
                         Puesto puestoSuperior = context.TablaPuestos.FindByID(cxp.PuestoID).PuestoSuperior;
-                        ColaboradorXPuesto jefePuesto = context.TablaColaboradoresXPuestos.One(x => x.PuestoID == puestoSuperior.ID && !x.IsEliminado);
+                        ColaboradorXPuesto jefePuesto = context.TablaColaboradoresXPuestos.One(x => x.PuestoID == puestoSuperior.ID && !x.IsEliminado && (x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto));
                         listaJefes.Add(context.TablaColaboradores.One(x => x.ID == jefePuesto.ColaboradorID));
                     }
                     // Notificar jefes
@@ -368,8 +370,8 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     Examen examen = context.TablaExamenes.One(x=> x.EvaluadorID == evaluador.ID);
                     // Solo considerar las evaluaciones que fueron terminadas
                     if (examen.EstadoExamenID == context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID) {
-                        
-                        PuestoXEvaluadores puestoXEvaluador = context.TablaPuestoXEvaluadores.One(x=>x.PuestoID==context.TablaColaboradoresXPuestos.One(y=>y.Colaborador.ID == evaluadorID).PuestoID );
+
+                        PuestoXEvaluadores puestoXEvaluador = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == context.TablaColaboradoresXPuestos.One(y => y.Colaborador.ID == evaluadorID && (y.FechaSalidaPuesto == null || DateTime.Today <= y.FechaSalidaPuesto)).PuestoID);
                         int pesoExamenXEvaluador = puestoXEvaluador.Peso;
 
                         acumuladoPesos += pesoExamenXEvaluador;
@@ -410,8 +412,8 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         private bool EsAdmin(int idUsuario, DP2Context context)
         {
             bool esAdmin = true;
-            
-            ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == idUsuario && !x.IsEliminado);
+
+            ColaboradorXPuesto cxp = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == idUsuario && !x.IsEliminado && (x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto));
             if (cxp != null)
             {
                 Puesto puesto = context.TablaPuestos.FindByID(cxp.PuestoID);

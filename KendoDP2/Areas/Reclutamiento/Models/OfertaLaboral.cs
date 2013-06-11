@@ -352,8 +352,6 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             var postulantes = context.TablaPostulante.All();
             var ofertasXPostulantes = context.TablaOfertaLaboralXPostulante.Where(a=>a.OfertaLaboralID == oferta.ID);
             PostulantesConCompetencias = ListaPostulantesConCompetenciaToDTO(CompetenciasPonderadasPuesto, ofertasXPostulantes);
-
-            
         }
 
         public static ICollection<CompetenciaConPonderadoDTO> ListaCompetenciasConPonderadoToDTO(ICollection<CompetenciaXPuesto> competencias)
