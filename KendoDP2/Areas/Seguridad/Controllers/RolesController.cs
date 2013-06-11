@@ -80,7 +80,29 @@ namespace KendoDP2.Areas.Seguridad.Controllers
 
                 }else{
                     Usuario usuario = context.TablaUsuarios.One(u => u.ID == (int)Session["CAMBIARROLESAUSUARIOS"], true);
-                    usuario.Roles.Where(u => u.Nombre == rol.Nombre).FirstOrDefault().Permiso = rol.Permiso;
+                    List<Rol> nuevo = new List<Rol>();
+                    foreach(Rol r in usuario.Roles)
+                    {
+                        Rol aux = new Rol();
+                        aux.ID = r.ID;
+                        aux.Nombre = r.Nombre;
+                        aux.IsEliminado = r.IsEliminado;
+                        aux.Area = r.Area;
+                        aux.Usuarios = new List<Usuario>();
+                            foreach(UsuarioDTO u in r.Usuarios.Select(EE=>EE.ToDTO()))
+                            {
+                                aux.Usuarios.Add(new Usuario(u));
+                            }
+                        if(r.Nombre==rol.Nombre)
+                        {
+                            aux.Permiso = rol.Permiso;
+                        }else
+                        {
+                            aux.Permiso = r.Permiso;
+                        }
+                        nuevo.Add(aux);
+                    }
+                    usuario.Roles = nuevo;
                     context.TablaUsuarios.ModifyElement(usuario);
                     return View("Index");
                     //return Json(new[] { usuario.Roles }.ToDataSourceResult(request, ModelState));
