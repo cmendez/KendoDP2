@@ -100,7 +100,8 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                return null;
+                var avances = context.TablaObjetivos.FindByID(objetivoID).Avances.Select(c => c.enFormatoDTO()).ToList();
+                return PartialView(avances);
             }
         }
     }
