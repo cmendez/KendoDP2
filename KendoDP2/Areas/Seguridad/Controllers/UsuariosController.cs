@@ -27,7 +27,16 @@ namespace KendoDP2.Areas.Seguridad.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                return Json(context.TablaUsuarios.All().Select(i=>i.ToDTO()).ToDataSourceResult(request));
+                List<UsuarioDTO> salida = new List<UsuarioDTO>();
+                foreach(Usuario dto in context.TablaUsuarios.All())
+                {
+                    if (dto.Username != "admin")
+                    {
+                        UsuarioDTO u = new UsuarioDTO(dto);
+                        salida.Add(u);
+                    }
+                }
+                return Json(salida.ToDataSourceResult(request));
             }
         }
 
