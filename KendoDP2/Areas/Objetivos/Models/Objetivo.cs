@@ -194,3 +194,16 @@ namespace KendoDP2.Areas.Objetivos.Models
         
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+            //LosProgresos = o.Avances == null ? new List<AvanceObjetivoDTO>() : o.Avances.Select(a => a.enFormatoDTO()).ToList();

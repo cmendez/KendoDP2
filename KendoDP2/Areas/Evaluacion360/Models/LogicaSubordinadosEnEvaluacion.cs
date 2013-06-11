@@ -24,7 +24,8 @@ namespace KendoDP2.Areas.Evaluacion360.Models
 
                 //List<Colaborador> losEmpleadosASuCargo = contexto.TablaColaboradores.Where(e => e.Jefe);
                 //List<Colaborador> losEmpleadosASuCargo = contexto.TablaColaboradores.Where(e => e.Jefe);
-                List<Colaborador> losEmpleadosASuCargo = GestorServiciosPrivados.consigueSusSubordinados(deLosSubordinadosDeEsteColaborador);
+                //List<Colaborador> losEmpleadosASuCargo = GestorServiciosPrivados.consigueSusSubordinados(deLosSubordinadosDeEsteColaborador);
+                List<Colaborador> losEmpleadosASuCargo = GestorServiciosPrivados.consigueSusSubordinados(deLosSubordinadosDeEsteColaborador, contexto);
 
 
                 //contexto.TablaEvaluadores.
