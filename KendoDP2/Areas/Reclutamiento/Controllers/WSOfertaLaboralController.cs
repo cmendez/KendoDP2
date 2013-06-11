@@ -93,21 +93,29 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         }
 
         // /WSOfertaLaboral/getCompetencias
-        public JsonResult getCompetencias(string idOfertaLaboral)
+        public JsonResult getCompetencias(string idOfertaLaboral = null)
         {
             using (DP2Context context = new DP2Context())
             {
                 try
                 {
-                    OfertaLaboral ol = context.TablaOfertaLaborales.FindByID(Convert.ToInt32(idOfertaLaboral));
-                    if (ol == null) throw new Exception("No existe la Oferta Laboral con ID = " + idOfertaLaboral);
-                    if(ol.PuestoID == 0 || ol.Puesto == null) throw new Exception("La Oferta Laboral no tiene asignado un puesto");
+                    if (idOfertaLaboral == null) // Envio TODAS las competencias
+                    {
+                        List<CompetenciaDTO> competencias = context.TablaCompetencias.All().Select(x => x.ToDTO()).ToList();
+                        return JsonSuccessGet(new { competencias = competencias });
+                    }
+                    else
+                    {
+                        OfertaLaboral ol = context.TablaOfertaLaborales.FindByID(Convert.ToInt32(idOfertaLaboral));
+                        if (ol == null) throw new Exception("No existe la Oferta Laboral con ID = " + idOfertaLaboral);
+                        if (ol.PuestoID == 0 || ol.Puesto == null) throw new Exception("La Oferta Laboral no tiene asignado un puesto");
 
-                    var competenciaAux = context.TablaCompetenciaXPuesto.Where(x => x.PuestoID == ol.PuestoID);
-                    if (competenciaAux.Count == 0) throw new Exception("No existen competencias asignadas al puesto : " + ol.Puesto.Nombre);
-                    
-                    List<CompetenciaDTO> competencias = competenciaAux.Select(x => x.Competencia).Select(x => x.ToDTO()).ToList();
-                    return JsonSuccessGet(new { competencias = competencias });
+                        var competenciaAux = context.TablaCompetenciaXPuesto.Where(x => x.PuestoID == ol.PuestoID);
+                        if (competenciaAux.Count == 0) throw new Exception("No existen competencias asignadas al puesto : " + ol.Puesto.Nombre);
+
+                        List<CompetenciaDTO> competencias = competenciaAux.Select(x => x.Competencia).Select(x => x.ToDTO()).ToList();
+                        return JsonSuccessGet(new { competencias = competencias });
+                    }
                 }
                 catch (Exception ex)
                 {
