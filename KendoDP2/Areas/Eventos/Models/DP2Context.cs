@@ -51,8 +51,9 @@ namespace KendoDP2.Models.Generic
         {
             List<Colaborador> lstC = TablaColaboradores.All();
 
-            foreach (var colaborador in lstC)
+            for(int i = 0; i < lstC.Count && i < 6; i++)
             {
+                var colaborador = lstC[i];
                 TablaEvento.AddElement(new Evento { Nombre = "Evento A", Inicio = DateTime.ParseExact("03/06/2013 07:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("03/06/2013 10:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, TipoEventoID = 1, CreadorID = colaborador.ID });
                 TablaEvento.AddElement(new Evento { Nombre = "Evento B", Inicio = DateTime.ParseExact("04/06/2013 07:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("04/06/2013 10:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, TipoEventoID = 2, CreadorID = colaborador.ID });
                 TablaEvento.AddElement(new Evento { Nombre = "Evento C", Inicio = DateTime.ParseExact("05/06/2013 07:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), Fin = DateTime.ParseExact("05/06/2013 10:00:00", "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture), EstadoID = 1, TipoEventoID = 3, CreadorID = colaborador.ID });

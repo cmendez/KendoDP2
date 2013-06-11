@@ -96,6 +96,10 @@ namespace KendoDP2.Areas.Eventos.Controllers
             {
                 Evento p = context.TablaEvento.FindByID(evento.ID).LoadFromDTO(evento);
                 context.TablaEvento.ModifyElement(p);
+                foreach (var modelValue in ModelState.Values)
+                {
+                    modelValue.Errors.Clear();
+                }
                 return Json(new[] { p.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
         }
