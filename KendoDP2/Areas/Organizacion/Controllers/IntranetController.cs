@@ -1,4 +1,5 @@
-﻿using KendoDP2.Areas.Organizacion.Models;
+﻿using KendoDP2.Areas.Eventos.Models;
+using KendoDP2.Areas.Organizacion.Models;
 using KendoDP2.Models.Generic;
 using KendoDP2.Models.Seguridad;
 using System;
@@ -30,9 +31,11 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 ViewBag.areas = context.TablaAreas.All().Select(c => c.ToDTO()).ToList();
                 ViewBag.puestos = context.TablaPuestos.All().Select(c => c.ToDTO()).ToList();
                 ViewBag.colaboradores = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
+                ViewBag.colaboradorLogueado = DP2MembershipProvider.GetPersonaID(this);
+                ViewBag.estadosEventos = context.TablaEstadoEvento.All().Select(c => c.ToDTO()).ToList();
                 return View();
             }
-            
+
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
@@ -92,8 +95,40 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 }
                 else
                 {
-                    return Json(new { mensaje = "La contrasenha antigua no coincide"});
+                    return Json(new { mensaje = "La contrasenha antigua no coincide" });
                 }
+            }
+        }
+
+        public JsonResult GetEventosPersonales(int colaboradorID)
+        {
+            ICollection<Evento> Eventos = null;
+            ICollection<Evento> EventosXColaborador = null;
+            using (DP2Context context = new DP2Context())
+            {
+                Eventos = context.TablaEvento.All().ToList();
+               foreach (Evento e in Eventos)
+                {
+                    Invitado invitado = e.Invitados.Where(p => p.ColaboradorID == colaboradorID).FirstOrDefault();
+                    if ((invitado != null) || (e.CreadorID == colaboradorID))
+                    {
+                        EventosXColaborador.Add(e);
+                    }
+                }
+
+               var eventList = from e in EventosXColaborador
+                                select new
+                                {
+                                    id = e.ID,
+                                    title = e.Nombre,
+                                    start = e.Inicio.ToString("s"),
+                                    end = e.Fin.ToString("s"),
+                                    allDay = false
+                                };
+
+                var rows = eventList.ToArray();
+                return Json(rows, JsonRequestBehavior.AllowGet);
+
             }
         }
     }
