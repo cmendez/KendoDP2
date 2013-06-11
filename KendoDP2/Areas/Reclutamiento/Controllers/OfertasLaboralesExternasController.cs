@@ -142,7 +142,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             }
         }
 
-        public ActionResult Contratar(int ofertaID, int postulanteXOfertaLaboralID)
+        public ActionResult Contratar([DataSourceRequest] DataSourceRequest request, int ofertaID, int postulanteXOfertaLaboralID)
         {
             using (DP2Context context = new DP2Context())
             {
@@ -181,18 +181,20 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 if (postulanteOferta.Postulante.CorreoElectronico != null)
                 {
                     controladorGeneral.SendEmail(postulanteOferta.Postulante.CorreoElectronico, "[" + org.RazonSocial + "] Aviso de Seleccion",
-                            RetornaMensajeContrato(postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto, postulanteOferta.OfertaLaboral.Area.Nombre, postulanteOferta.OfertaLaboral.Puesto.Nombre));
+                            RetornaMensajeContrato(postulanteOferta.Postulante.ToDTO().NombreCompleto, postulanteOferta.OfertaLaboral.Area.Nombre, postulanteOferta.OfertaLaboral.Puesto.Nombre));
 
                 }
                 else
                 {
                     ModelState.AddModelError("Alerta", "Se selecciona y cambia el puesto del postulante, pero no se envía la notificación. Revise los datos e intente comunicarse por otro medio");
-                    return Json(new[] { ModelState });
+                    //return Json(new[] { ModelState });
                     
                     //return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
                 }
 
-                return RedirectToAction("Index", "Colaboradores", new { Area = "Organizacion" });
+                //return RedirectToAction("Index", "Colaboradores", new { Area = "Organizacion" });
+                return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
+
             }
 
         }
