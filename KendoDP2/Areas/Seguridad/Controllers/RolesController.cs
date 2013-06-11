@@ -62,7 +62,10 @@ namespace KendoDP2.Areas.Seguridad.Controllers
                 using (DP2Context context = new DP2Context())
                 {
                     // Roles de un usuario
-                    var x = Json(context.TablaUsuarios.One(u => u.ID == (int)Session["CAMBIARROLESAUSUARIOS"]).Roles.Where(r => r.Area == areaNombre).Select(R => R.ToDTO()).ToDataSourceResult(request));
+                    Usuario usuario= context.TablaUsuarios.One(u => u.ID == (int)Session["CAMBIARROLESAUSUARIOS"]);
+                    var roles = usuario.Roles.Where(r => r.Area == areaNombre).Select(r=>r.ToDTO());
+
+                    var x = Json(roles.ToDataSourceResult(request));
                     return x;
                 }
             }
