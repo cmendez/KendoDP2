@@ -160,7 +160,7 @@ namespace KendoDP2.Areas.Objetivos.Models
         public string FechaCreacion { get; set; }
         public string FechaFinalizacion { get; set; }
 
-        public List<AvanceObjetivoDTO> Avances { get; set; }
+        public List<AvanceObjetivoDTO> LosProgesos { get; set; }
 
         public string ComentarioUltimoAvance { get; set; }
 
@@ -184,10 +184,10 @@ namespace KendoDP2.Areas.Objetivos.Models
 
             //PeriodoID = o.PeriodoID;
 
-            Avances = o.LosProgresos == null ? new List<AvanceObjetivoDTO>() : o.LosProgresos.Select(a => a.enFormatoDTO()).ToList();
+            LosProgesos = o.LosProgresos == null ? new List<AvanceObjetivoDTO>() : o.LosProgresos.Select(a => a.enFormatoDTO()).ToList();
 
-            if (Avances.Count > 0)
-                this.ComentarioUltimoAvance = Avances.Last().Comentario;
+            if (LosProgesos.Count > 0)
+                this.ComentarioUltimoAvance = LosProgesos.Last().Comentario;
             else
                 this.ComentarioUltimoAvance = "";
         }
