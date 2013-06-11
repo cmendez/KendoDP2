@@ -21,7 +21,7 @@ namespace KendoDP2
     {
         public static bool IsDebug = System.Configuration.ConfigurationManager.AppSettings["Environment"].ToString().Equals("Debug");
 
-        public static string ConnectionString = "Server=3b9e79ed-fe00-4091-bc45-a1da00866293.sqlserver.sequelizer.com;Database=db3b9e79edfe004091bc45a1da00866293;User ID=dzzgiyezstppppjj;Password=mM8a3qZodQzfkEJmDwd7EoPRDeUijtX8VF6TfCyYePmLFeTkjyfoGxZ67pDWDQdR;";
+        public static string ConnectionString = "Server=043dd4aa-fd40-4ccc-b957-a1da009c5e9c.sqlserver.sequelizer.com;Database=db043dd4aafd404cccb957a1da009c5e9c;User ID=zjppmevteiqtjiby;Password=78hLVyyuY6mrYoFqbAfDh78FMjND8wgpnjzLtHuF7qUE8F54WvS5oFZ88J8LS3uA;";
         
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
@@ -54,8 +54,8 @@ namespace KendoDP2
             if (IsDebug) {
                 Database.SetInitializer<DP2Context>(new DP2ContextInitializerDEBUG());
             } else {
-                Database.SetInitializer(new MigrateDatabaseToLatestVersion<DP2Context, Configuration>());
-                //Database.SetInitializer<DP2Context>(new DP2ContextInitializerRELEASE());
+                //Database.SetInitializer(new MigrateDatabaseToLatestVersion<DP2Context, Configuration>());
+                Database.SetInitializer<DP2Context>(new DP2ContextInitializerRELEASE());
             }
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
