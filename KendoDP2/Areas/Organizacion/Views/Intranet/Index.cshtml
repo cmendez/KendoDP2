@@ -9,16 +9,17 @@
     ColaboradorDTO colaboradorDTO = ViewBag.ColaboradorDTO;
     int index = 0;
     IList<ColaboradorDTO> colaboradores = ViewBag.colaboradores;
-    IList<CompetenciaDTO> competencias = ViewBag.competencias;
+    IList<AreaDTO> areas = ViewBag.areas;
+    IList<KendoDP2.Areas.Eventos.Models.EstadoEventoDTO> estadosEventos = ViewBag.estadosEventos;
+    IList<PuestoDTO> puestos = ViewBag.puestos;
+    SelectList lista = new SelectList(areas, "ID", "Nombre");
+    SelectList listaEstados = new SelectList(estadosEventos, "ID", "Descripcion");
+    SelectList listaPuestos = new SelectList(puestos, "ID", "Nombre");
+    int colaboradorLogueado = ViewBag.colaboradorLogueado;
+    
 
     
 }
-
-
-
-
-
-
 
 
 
@@ -293,17 +294,13 @@
                                         <div style="height: auto;" id="accordion3-3" class="accordion collapse in">
                                             <form action="#">
                                                 @Html.Partial("EditorColaboradorContrasenha", colaboradorDTO)
-<<<<<<< HEAD
 
-=======
->>>>>>> e938f506f1553ee5fe9b6bd068ad12a7b79c8b18
                                                 <div class="submit-btn">
                                                     <a href="#" class="btn green">Guardar</a>
                                                     <a href="#" class="btn">Cancelar</a>
                                                 </div>
                                             </form>
                                         </div>
-<<<<<<< HEAD
 
                                      </div>
                                 </div>
@@ -319,92 +316,8 @@
              
                 <!--end tab-pane-->
                 <div class="tab-pane" id="tab_1_4">
-                    <div class="row-fluid add-portfolio">
-                        <div class="pull-left">
-                            <span>8 Eventos para esta semana</span>
-                        </div>
-                        <div class="pull-left">
-                            <a href="#" class="btn icn-only green">Agregar un nuevo evento <i class="m-icon-swapright m-icon-white"></i></a>
-                        </div>
-                    </div>
-                    <!--end add-portfolio-->
-                    <div class="row-fluid portfolio-block">
-                        <div class="span5 portfolio-text">
-                            <div class="portfolio-text-info">
-                                <h4>Día de la Empresa</h4>
-                                <p>Celebración y almuerzo general.</p>
-                            </div>
-                        </div>
-                        <div class="span5" style="overflow: hidden;">
-                            <div class="portfolio-info">
-                                Fecha del evento
-                                    <span>21/05/2013</span>
-                            </div>
-                            <div class="portfolio-info">
-                                Hora
-                                    <span>13:30</span>
-                            </div>
-                            <div class="portfolio-info">
-                                Lugar
-                                    <span>El gran chifa</span>
-                            </div>
-                        </div>
-                        <div class="span2 portfolio-btn">
-                            <a href="#" class="btn bigicn-only"><span>Editar</span></a>
-                        </div>
-                    </div>
-                    <!--end row-fluid-->
-                    <div class="row-fluid portfolio-block">
-                        <div class="span5 portfolio-text">
-                            <div class="portfolio-text-info">
-                                <h4>Reunión de Directorio</h4>
-                                <p>Queremos dirigir mejor la empresa</p>
-                            </div>
-                        </div>
-                        <div class="span5">
-                            <div class="portfolio-info">
-                                Fecha del evento
-                                    <span>21/05/2013</span>
-                            </div>
-                            <div class="portfolio-info">
-                                Hora
-                                    <span>18:00</span>
-                            </div>
-                            <div class="portfolio-info">
-                                Lugar
-                                    <span>Sala de reuniones</span>
-                            </div>
-                        </div>
-                        <div class="span2 portfolio-btn">
-                            <a href="#" class="btn bigicn-only"><span>Editar</span></a>
-                        </div>
-                    </div>
-                    <!--end row-fluid-->
-                    <div class="row-fluid portfolio-block">
-                        <div class="span5 portfolio-text">
-                            <div class="portfolio-text-info">
-                                <h4>Reunión Recursos Humanos</h4>
-                                <p>Discutir sobre nuevo sistema</p>
-                            </div>
-                        </div>
-                        <div class="span5" style="overflow: hidden;">
-                            <div class="portfolio-info">
-                                Fecha
-                                  <span>24/05/2013</span>
-                            </div>
-                            <div class="portfolio-info">
-                                Hora
-                                    <span>18:00</span>
-                            </div>
-                            <div class="portfolio-info">
-                                Lugar
-                                    <span>Sala de reuniones de Recursos Humanos</span>
-                            </div>
-                        </div>
-                        <div class="span2 portfolio-btn">
-                            <a href="#" class="btn bigicn-only"><span>Editar</span></a>
-                        </div>
-                    </div>
+
+                    @Html.Partial("EventosIntranet")
                     <!--end row-fluid-->
                 </div>
                 <!--end tab-pane-->

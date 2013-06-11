@@ -18,9 +18,16 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             {
                 try
                 {
-                    ColaboradorDTO colaborador = context.TablaColaboradores.FindByID(Convert.ToInt32(id)).ToDTO();
-                    PuestoDTO puesto = colaborador.PuestoID == 0 ? new PuestoDTO() : context.TablaPuestos.FindByID(colaborador.PuestoID).ToDTO();
-                    AreaDTO area = colaborador.AreaID == 0 ? new AreaDTO() : context.TablaAreas.FindByID(colaborador.AreaID).ToDTO();
+                    Colaborador c = context.TablaColaboradores.FindByID(Convert.ToInt32(id));
+                    if (c == null) throw new Exception("No existe colaborador con ID = " + id);
+                    ColaboradorDTO colaborador = c.ToDTO();
+
+                    ColaboradorXPuesto actual = c.ColaboradoresPuesto.Single(x => !x.FechaSalidaPuesto.HasValue);
+                    if (actual == null) throw new Exception("El colaborador " + colaborador.NombreCompleto + " no tiene un puesto actual determinado");
+
+                    PuestoDTO puesto = actual.Puesto.ToDTO();
+                    AreaDTO area = actual.Puesto.Area.ToDTO();
+                    
                     return JsonSuccessGet(new
                     {
                         colaborador = colaborador,
@@ -89,20 +96,23 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             }
         }
 
+        // /WSColaborador/getEquipoTrabajo
         public JsonResult getEquipoTrabajo(string colaboradorID)
         {
             using (DP2Context context = new DP2Context())
             {
                 try
                 {
+                    Colaborador c = context.TablaColaboradores.FindByID(Convert.ToInt32(colaboradorID));
+                    if (c == null) throw new Exception("No existe colaborador cuyo ID = " + colaboradorID);
+
                     // Obtengo el ID de mi jefe
-                    int puestoSuperiorID = context.TablaColaboradoresXPuestos
-                        .One(x =>   x.ColaboradorID == Convert.ToInt32(colaboradorID) && 
-                                    !x.FechaSalidaPuesto.HasValue)
-                        .Puesto.PuestoSuperiorID.GetValueOrDefault();
-                    ColaboradorXPuesto cxpInicial = context.TablaColaboradoresXPuestos
-                        .One(x => x.PuestoID == puestoSuperiorID &&
-                                    !x.FechaSalidaPuesto.HasValue);
+                    var puestoActual = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == c.ID && !x.FechaSalidaPuesto.HasValue);
+                    if (puestoActual == null) throw new Exception("El colaborador " + c.ToDTO().NombreCompleto + " con ID = " + colaboradorID + " no tiene asignado puesto alguno por el momento");
+                    
+                    int puestoSuperiorID = puestoActual.Puesto.PuestoSuperiorID.GetValueOrDefault();
+                    var cxpInicial = context.TablaColaboradoresXPuestos.One(x => x.PuestoID == puestoSuperiorID && !x.FechaSalidaPuesto.HasValue);
+                    
                     Colaborador colaboradorNivel1;
                     List<Puesto> puestosNivel2;
                     List<ColaboradorDTO> colaboradoresNivel2 = new List<ColaboradorDTO>();
@@ -114,10 +124,9 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                     }
                     else //Hago Nivel 1 al colaboradorID
                     {
-                        colaboradorNivel1 = context.TablaColaboradores.FindByID(Convert.ToInt32(colaboradorID));
+                        colaboradorNivel1 = context.TablaColaboradores.FindByID(c.ID);
                         int puestoColaboradorID = context.TablaColaboradoresXPuestos
-                            .One(x => x.ColaboradorID == Convert.ToInt32(colaboradorID) &&
-                                        !x.FechaSalidaPuesto.HasValue)
+                            .One(x => x.ColaboradorID == c.ID && !x.FechaSalidaPuesto.HasValue)
                             .Puesto.ID;
                         puestosNivel2 = context.TablaPuestos.Where(x => x.PuestoSuperiorID == puestoColaboradorID);
                     }
