@@ -53,8 +53,10 @@
 	        <a href="javascript:;" class="collapse"></a>
         </div>
 	</div>
+   
      <div class="portlet-body">
-        <h5> Datos del evaluado: </h5>
+        <h5><strong> Datos del evaluado:</strong> </h5>
+        
         <div class="k-pager-wrap">
             <div class="row-fluid">
                 <div class="span3" id="divImagenColaborador" style="text-align: center;">
@@ -76,9 +78,22 @@
             <!--end row-fluid-->
         </div>
          <!--end k-pager-wrap-->
-
-         <h5> Contenido de evaluación: </h5> 
-
+          <div>
+             <br><h5><strong> Evaluación: </strong></h5> 
+          </div>
+         <div class="k-pager-wrap">
+           <h5> Escala de calificación: </h5>
+          <div>
+            <ul class="unstyled inline">
+                <li><i class="icon-star"></i>Malo</li>
+                <li><i class="icon-star"></i><i class="icon-star"></i>Regular</li>
+                <li><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i>Bueno</li>
+                <li><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i>Muy bueno</li>
+                <li><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i>Excelente</li>
+            </ul>
+        </div> <br>
+       </div>
+        
         @(Html.Kendo().ListView<Capacidad>()
             .Name("Evaluacion")
             .TagName("div")
@@ -91,11 +106,13 @@
             .Pageable()
             .Editable()
         )
+
         <div> <!-- k-button k-button-icontext k-add-button-->
             <a class="btn green" href="@Url.Action("GuardarEvaluacion", "Evaluacion", new { tablaEvaluadoresID= tablaEvaluadoresID})"><span class="icon-ok"></span>Terminar evaluación</a>
         </div>
-    </div>  
-   
+        
+    </div>
+     
 </div>
 
 <script type="text/javascript">

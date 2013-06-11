@@ -77,6 +77,8 @@ namespace KendoDP2.Areas.Reportes.Models
         public int idpadre { get; set; }
         public int idperiodo { get; set; }
         public int BSCId { get; set; }
+        public int ColaboradorID { get; set; }
+        public string ColaboradorNombre { get; set; }
 
         public ObjetivoRDTO(Objetivo o,DP2Context context)
         {
@@ -105,24 +107,43 @@ namespace KendoDP2.Areas.Reportes.Models
             {
                 idpadre = -1;
             }
-            BSCId = o.GetBSCIDRaiz(context);
-            if (o.BSC!= null)
+
+            Objetivo ob = o;
+            while (ob.ObjetivoPadreID.GetValueOrDefault() > 0)
             {
-                idperiodo = o.BSCID.Value;
+                ob = context.TablaObjetivos.FindByID(ob.ObjetivoPadreID.GetValueOrDefault());
             }
-            else
-            {
-                idperiodo = -1;
-            }
+            BSCId = ob.TipoObjetivoBSCID.Value;
+
+            idperiodo = o.GetBSCIDRaiz(context);
 
             if (o.PuestoAsignado != null)
             {
                 idPuesto = o.PuestoAsignado.ID;
+                ColaboradorDTO cdto=context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == idPuesto && (cxp.FechaSalidaPuesto == null || DateTime.Today <= cxp.FechaSalidaPuesto)).Select(c=>c.Colaborador.ToDTO()).ToList()[0];
+                ColaboradorID = cdto.ID;
+                ColaboradorNombre = cdto.NombreCompleto;
             }
             else
             {
-                idPuesto = -1;
+                if (o.ObjetivoPadre.PuestoAsignadoID != null)
+                {
+                    idPuesto = o.ObjetivoPadre.PuestoAsignado.ID;
+                    ColaboradorDTO cdto = context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == idPuesto && (cxp.FechaSalidaPuesto == null || DateTime.Today <= cxp.FechaSalidaPuesto)).Select(c => c.Colaborador.ToDTO()).ToList()[0];
+                    ColaboradorID = cdto.ID;
+                    ColaboradorNombre = cdto.NombreCompleto;
+                }
+                else
+                {
+                    idPuesto = o.ObjetivoPadre.ObjetivoPadre.PuestoAsignadoID.Value;
+                }
+                
             }
+            //if (o.Dueño != null)
+            //{
+            //    idPuesto=context.
+            //}
+
         }
 
         public ObjetivoRDTO()

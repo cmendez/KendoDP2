@@ -57,7 +57,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 List<ObjetivoDTO> ListaObjetivos3 = new List<ObjetivoDTO>();
 
                 ListaObjetivos3 = context.TablaObjetivos.All().Select(o => o.ToDTO(context)).ToList();
-                ListaObjetivos2 = context.TablaObjetivos.Where(o => o.TipoObjetivoBSCID == BSCId && o.BSCID == idperiodo && (o.ObjetivoPadreID == null || o.ObjetivoPadreID < 0)).Select(p => p.ToRDTO(context)).ToList();
+                ListaObjetivos2 = context.TablaObjetivos.Where(o => o.TipoObjetivoBSCID == BSCId && o.BSC.PeriodoID == idperiodo && (o.ObjetivoPadreID == null || o.ObjetivoPadreID < 0)).Select(p => p.ToRDTO(context)).ToList();
                 foreach (ObjetivoRDTO obj in ListaObjetivos2)
                 {
                     obj.hijos = context.TablaObjetivos.Where(o => o.ObjetivoPadreID == obj.idObjetivo).ToList().Count;
@@ -125,7 +125,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
 
                 foreach (ObjetivoConPadreDTO objhijo in ListaObjetivosHijos)
                 {
-                    ListaColaboradores.AddRange(context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == objhijo.puestoID).Select(p => p.ToDTO().Colaborador));
+                    ListaColaboradores.AddRange(context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == objhijo.puestoID && (cxp.FechaSalidaPuesto==null ||DateTime.Today<=cxp.FechaSalidaPuesto)).Select(p => p.ToDTO().Colaborador));
                 }
                 //List<ColaboradorXPuestoDTO> ListaColaboradoresXPuesto = context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == ListaObjetivosHijos[0].puestoID).Select(p => p.ToDTO()).ToList();
                 
@@ -274,7 +274,18 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 return Json(ListaAvanceBSC, JsonRequestBehavior.AllowGet);
             }
         }
-
+        public ActionResult ObjetivosOffline(int idperiodo)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                List<Objetivo> ObjetivosPeriodoaux = context.TablaObjetivos.Where(obj => obj.GetBSCIDRaiz(context) == idperiodo);
+                List<ObjetivoRDTO> ObjetivosPeriodo = ObjetivosPeriodoaux.Select(oxp => oxp.ToRDTO(context)).ToList();
+                //List<ObjetivoRDTO> ObjetivosPeriodo = context.TablaObjetivos.Where(obj => obj.ToRDTO(context).idperiodo==idperiodo).Select(ob => ob.ToRDTO(context)).ToList();
+                
+                return Json(ObjetivosPeriodo, JsonRequestBehavior.AllowGet);
+            }
+            
+        }
         public ActionResult PostulacionySeleccion(int idpuesto)
         {
             using (DP2Context context = new DP2Context())

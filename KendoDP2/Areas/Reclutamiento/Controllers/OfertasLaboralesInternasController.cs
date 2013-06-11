@@ -448,7 +448,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     else
                     {
                         ModelState.AddModelError("Alerta", "Se selecciona y cambia el puesto del postulante, pero no se envía la notificación. Revise los datos e intente comunicarse por otro medio");
-                        return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+                        return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
                     }
 
                     return RedirectToAction("Linea", "Historial", new { Area = "Organizacion", ID = DP2MembershipProvider.GetPersonaID(this) });
@@ -456,7 +456,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 else
                 {
                     ModelState.AddModelError("", "El postulante ya fue contratado o rechazado para esta oferta laboral.");
-                    return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+                    return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
                 }
                  
             }

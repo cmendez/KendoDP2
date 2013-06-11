@@ -1,165 +1,51 @@
-﻿@using KendoDP2.Areas.Evaluacion360.Models
+﻿@*@{
+    ViewBag.Title = "Index";
+}*@
+
+@using KendoDP2.Areas.Evaluacion360.Models
 
 @{
-    ViewBag.Title = "Index";
-    //ViewBag.Title = "Subordinados";
+    ViewBag.Title = "Evaluacion 360 y Subordinados";
     Layout = "~/Views/Shared/_Layout.cshtml";    
-    ICollection<ProcesoEvaluacionDTO> eventosDeEvaluacion = ViewBag.losProcesosDeEvaluacion;
-    ICollection<SupervisionASubordinadoDTO> colaboradoresDelNivelInferior = ViewBag.losSubordinados;
 }
 
-@*@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Mis subordinados", ""));}*@
-@*@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Evaluaciones 360 y mis subordinados", ""));}*@
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Evaluaciones 360 y Mis subordinados", ""));}
+
+@*<h2>Index</h2>*@
+
 
 <div class="portlet box green">
     <div class="portlet-title">
-        @*<div class="caption"><i class="icon-reorder"></i> Supervisión de objetivos</div>*@
-        @*<div class="caption"><i class="icon-reorder"></i> Estado de los exámenes</div>*@
-        <div class="caption"><i class="icon-reorder"></i> Seguimiento de exámenes</div>
+        <h4><i class="icon-reorder"></i> Seguimiento de exámenes</h4>
         <div class="tools">
             <a href="javascript:;" class="collapse"></a>
         </div>
     </div>
     <div class="portlet-body">
 
+        @*(Html.Kendo().Grid<CompetenciaDTO>()*@
+        @(Html.Kendo().Grid<EvaluadorSubordinadosDTO>()
+            .Name("SupervisionDeExamenes")
+            .Columns(columns =>
+                {
+                    columns.Bound(pxexe => pxexe.Proceso.Nombre).Title("Proceso");
+                    columns.Bound(pxexe => pxexe.Evaluado.Nombre).Title("Subordinado");
+                    columns.Bound(pxexe => pxexe.Evaluador.Nombre).Title("Evaluador");
+                    columns.Bound(pxexe => pxexe.FaseDeLaEvaluacion);
+                }
+            )
+            .Pageable(paper => paper.Refresh(true))
+            .Filterable()
+            .Sortable()
+            .Groupable()
+            .Scrollable(w => w.Height(330))
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .PageSize(20)
+                .Read(read => read.Action("EditingInline_Read", "Subordinados"))
+            )
+        )
 
-@*        <div class="container-fluid">
-          <div class="row-fluid">
-            <div class="span2">
-              <!--Sidebar content-->
-            </div>
-            <div class="span10">
-              <!--Body content-->
-            </div>
-          </div>
-        </div>*@
-
-
-        <div class="container-fluid">
-          <div class="row-fluid">
-            <div class="span6">
-                <!--Sidebar content-->
-                <div class="row-fluid">
-                    @*<div class="span2">
-                        Evento de evaluación:
-                    </div>*@
-
-                    <div class="span4">
-                        Evento de evaluación:
-                    </div>
-
-                    @*<div class="span5 text-right">
-                        @(Html.Kendo().ComboBox()
-                            .Name("elEventoSeleccionado")
-                            .HtmlAttributes(new { style = "width: 220px;" })
-                            .Filter("contains")
-                            .DataTextField("Nombre")
-                            .DataValueField("ID")
-                            .BindTo(eventosDeEvaluacion)
-                            .SelectedIndex(0)
-                            .Suggest(true)
-                        )
-                    </div>*@
-
-                    <div class="span8 text-right">
-                        @(Html.Kendo().ComboBox()
-                            .Name("elEventoSeleccionado")
-                            //.HtmlAttributes(new { style = "width: 220px;" })
-                            .HtmlAttributes(new { style = "width: 320px;" })
-                            .Filter("contains")
-                            .DataTextField("Nombre")
-                            .DataValueField("ID")
-                            .BindTo(eventosDeEvaluacion)
-                            .SelectedIndex(0)
-                            .Suggest(true)
-                        )
-                    </div>
-                </div>
-
-                <br />
-
-                <div class="row-fluid">
-                    @*<div class="span7">*@
-                    <div class="span12">
-                        @foreach (ProcesoEvaluacionDTO periodoApreciacion in eventosDeEvaluacion)
-                        {
-
-                            @(Html.Kendo().PanelBar()
-                                .Name("SupervisionEvaluaciones" + periodoApreciacion.ID)
-                                .ExpandAll(false)
-                                .Items(panelbar =>
-                                {
-                                    foreach (SupervisionASubordinadoDTO unEmpleado in colaboradoresDelNivelInferior)
-                                    {
-                                        panelbar.Add().Text(unEmpleado.PersonaNombre + " - " + unEmpleado.CargoNombre)
-                                        .Items(items =>
-                                        {
-
-                                            foreach (EvaluadorDTO colaborador in unEmpleado.Evaluadores)
-                                            {
-                                                items.Add().Text(colaborador.Nombre + ". Su evaluación está " + colaborador.LaEtapa).HtmlAttributes(new { style = "font-weight: bold" });
-                                            }
-                                        });
-                                    }
-
-                                })
-                            )
-                        }
-                    </div>
-                </div>
-                    <!--Sidebar content-->
-                </div>
-                <div class="span6">
-                    <!--Body content-->
-                    @*<div class="span5" style="border: solid; border-color: #35aa47">*@
-                    <div class="span12" style="border: solid; border-color: #35aa47; padding: 10px 50px 10px 10px">
-                    @*<div class="span12">*@
-                        
-                        <div class="span12">
-                            <strong>Datos del proceso de evaluación:</strong>
-                        </div>
-                        <div class="span12">
-    
-                            Identificador:
-                            @*<div class="span12">*@
-                            <div class="well well-small">
-                            ...1                            
-                            </div>
-                            @*<div class="well">
-                            ...1                            
-                            </div>*@
-                        </div>
-                        <div class="span12">
-
-                            Nombre:
-    
-                            <div class="well well-small">
-                            .Un proceso                          
-                            </div>
-                        </div>
-                        <div class="span12">
-
-                            Fecha de finalización:
-    
-                            <div class="well well-small">
-                            10/10/2014                         
-                            </div>
-                        </div>
-                        <div class="span12">
-
-                            Autorizado por:
-
-                            <div class="well well-small">
-                              El gerente general                        
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
     </div>
+
 </div>
