@@ -77,6 +77,8 @@ namespace KendoDP2.Areas.Reportes.Models
         public int idpadre { get; set; }
         public int idperiodo { get; set; }
         public int BSCId { get; set; }
+        public int ColaboradorID { get; set; }
+        public string ColaboradorNombre { get; set; }
 
         public ObjetivoRDTO(Objetivo o,DP2Context context)
         {
@@ -118,11 +120,15 @@ namespace KendoDP2.Areas.Reportes.Models
             if (o.PuestoAsignado != null)
             {
                 idPuesto = o.PuestoAsignado.ID;
+                ColaboradorDTO cdto=context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == idPuesto && (cxp.FechaSalidaPuesto == null || DateTime.Today <= cxp.FechaSalidaPuesto)).Select(c=>c.Colaborador.ToDTO()).ToList()[0];
+                ColaboradorID = cdto.ID;
+                ColaboradorNombre = cdto.NombreCompleto;
             }
             else
             {
                 idPuesto = -1;
             }
+
         }
 
         public ObjetivoRDTO()
