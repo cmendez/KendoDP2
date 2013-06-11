@@ -546,7 +546,7 @@
                 .Name("ContactosGrid")
                 .Columns(columns =>
                     {
-                        //columns.Bound(p => p.ContactoDTO.Nombre);
+                        columns.Bound(p => p.ContactoID);
                         //columns.Bound(p => p.ContactoDTO.ApellidoPaterno);
                         //columns.Bound(p => p.ContactoDTO.ApellidoMaterno);
                         columns.Bound(p => p.Relacion);
@@ -555,7 +555,7 @@
 
                         columns.Command(command =>
                         {
-                            command.Destroy().Text("Eliminar");
+                            command.Custom("Ver").Click("verContacto").SendDataKeys(true); command.Destroy().Text("Eliminar");
                         }).Width(200);
                     }
                 )
@@ -594,7 +594,14 @@
     </div>
     </div>
 </div>
-                
+@(Html.Kendo().Window().Name("Details")
+    .Title("Contacto")
+    .Visible(false)
+    .Modal(true)
+    .Draggable(true)
+    .Width(900)
+
+)
 <script type="text/javascript">
     function loadImage(img_name) {
         $("#" + img_name).attr("src", "/Organizacion/Colaboradores/ViewImageDeColaborador?colaboradorID=" + '@colaboradorDTO.ID');
@@ -636,12 +643,27 @@
         console.log("CambioEnFila");
     }
 
+
+    function verContacto(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        //ID = dataItem.ID;
+        var wnd = $("#Details").data("kendoWindow");
+        var contactoID = dataItem.ContactoID;
+        $("#Details").load("@Url.Action("GetViewContacto","Colaboradores", new{Area = "Organizacion"})", {contactoID :contactoID }, function () {
+            wnd.center().open();
+        });
+    }
+
+
     function comboColaboradoresSelection(e) {
         var comboColaboradores = $("#ComboColaboradores").data('kendoComboBox');
         if (comboColaboradores.selectedIndex == -1)
             return;
-        var colaboradorID = comboColaboradores.dataItem(comboColaboradores.selectedIndex).ID;
-        var colaboradorNombre = comboColaboradores.dataItem(comboColaboradores.selectedIndex).NombreCompleto;
+        var colaboradorID = @colaboradorDTO.ID;
+        var contactoID = comboColaboradores.dataItem(comboColaboradores.selectedIndex).ID;
+        //var contactoNombre = comboColaboradores.dataItem(comboColaboradores.selectedIndex).NombreCompleto;
         $.ajax({
             url: '@Url.Action("AddEvaluadosColaborador", "Colaboradores", new { Area = "Organizacion" })',
                     dataType: 'JSON',
@@ -652,7 +674,7 @@
                             $("#ContactosGrid").data('kendoGrid').dataSource.read();
                         }
                         else
-                            alert("El colaborador seleccionado ya se encuentra en la lista de evaluados");
+                            alert("El colaborador seleccionado ya se encuentra en la lista de contactos");
                     },
                     error: function () {
                         alert("Hubo un error en la operación");

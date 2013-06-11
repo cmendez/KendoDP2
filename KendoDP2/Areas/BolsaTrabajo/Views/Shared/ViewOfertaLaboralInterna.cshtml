@@ -15,6 +15,9 @@
     IEnumerable<CapacidadDTO> capacidades = ViewBag.capacidades;
     string funcionesJson = Json.Encode(funciones);
     string capacidadesJson = Json.Encode(capacidades);
+    //solucion momentanea
+    string fechaPostulacion = ViewBag.fechaPostulacion;
+    string estadoPostulante = ViewBag.estadoPostulante;
 }
 
 @using (Html.BeginForm())
@@ -23,6 +26,23 @@
     @Html.ValidationSummary(true)
     
     <div style="width: 900px;">
+        <div class="row-fluid">
+            <div class="span12">
+            <div class="alert alert-block alert-success fade in">
+                           <button type="button" class="close" data-dismiss="alert"></button>
+                           <h4 class="alert-heading">Mi estado en esta oferta laboral</h4>
+                           <p>
+                                Fecha de Postulación: @fechaPostulacion
+                           </p>
+                           <p>
+                                Estado: @estadoPostulante
+                           </p>
+                           
+            </div>
+            </div>
+
+        </div>
+        
         <div class="row-fluid">
             <!-- contenedor superior izquierdo: campos -->
             <div class="span6">
