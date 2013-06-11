@@ -134,7 +134,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 Dictionary<int, int> sumaPesos = new Dictionary<int,int>();
                 if (listaExamenes.Count >= 2)
                 {
-                    listaCompetenciaXExamenFinal = (context.TablaCompentenciaXExamen.Where(a => a.ExamenID == listaExamenes.ElementAt(0).ID));
+                    listaCompetenciaXExamenFinal = (context.TablaCompetenciaXExamen.Where(a => a.ExamenID == listaExamenes.ElementAt(0).ID));
                      var IDPuestoevaluador1 = context.TablaEvaluadores.One(x => x.ID == listaExamenes.ElementAt(0).ID).ElIDDelEvaluador;
                     
                      for (int k = 0; k < listaCompetenciaXExamenFinal.Count; k++)
@@ -162,7 +162,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     for (int i = 1; i < listaExamenes.Count; i++)
                     {
                         IList<CompetenciaXExamen> listaCompetenciaXExamenParcial = new List<CompetenciaXExamen>();
-                        listaCompetenciaXExamenParcial.AddRange(context.TablaCompentenciaXExamen.Where(a => a.ExamenID == listaExamenes.ElementAt(i).ID));
+                        listaCompetenciaXExamenParcial.AddRange(context.TablaCompetenciaXExamen.Where(a => a.ExamenID == listaExamenes.ElementAt(i).ID));
 
                         var IDPuestoevaluador = context.TablaEvaluadores.One(x => x.ID == listaExamenes.ElementAt(i).ID).ElIDDelEvaluador;
 
@@ -195,7 +195,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     foreach (Examen e in listaExamenes)
                     {
 
-                        listaCompetenciaXExamenFinal = context.TablaCompentenciaXExamen.Where(a => a.ExamenID == e.ID).ToList();
+                        listaCompetenciaXExamenFinal = context.TablaCompetenciaXExamen.Where(a => a.ExamenID == e.ID).ToList();
 
                         var IDPuestoevaluador2 = context.TablaEvaluadores.One(x => x.ID == listaExamenes.ElementAt(0).ID).ElIDDelEvaluador;
 
