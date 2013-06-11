@@ -92,7 +92,7 @@ namespace KendoDP2.Areas.Reportes.Models
                 numPersonas = 0;
                 foreach (ObjetivoDTO obj in col.Objetivos)
                 {
-                    if (obj.ObjetivoPadreID == o.ID) numPersonas += 1; 
+                    if (obj.ObjetivoPadreID!=null &&obj.ObjetivoPadreID == o.ID) numPersonas += 1; 
                 }
             }
             peso = o.Peso;
@@ -109,7 +109,7 @@ namespace KendoDP2.Areas.Reportes.Models
             }
 
             Objetivo ob = o;
-            while (ob.ObjetivoPadreID.GetValueOrDefault() > 0)
+            while (ob.ObjetivoPadreID!=null && ob.ObjetivoPadreID.GetValueOrDefault() > 0)
             {
                 ob = context.TablaObjetivos.FindByID(ob.ObjetivoPadreID.GetValueOrDefault());
             }
@@ -117,25 +117,51 @@ namespace KendoDP2.Areas.Reportes.Models
 
             idperiodo = o.GetBSCIDRaiz(context);
 
-            if (o.PuestoAsignado != null)
+            if (o.PuestoAsignadoID != null)
             {
-                idPuesto = o.PuestoAsignado.ID;
-                ColaboradorDTO cdto=context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == idPuesto && (cxp.FechaSalidaPuesto == null || DateTime.Today <= cxp.FechaSalidaPuesto)).Select(c=>c.Colaborador.ToDTO()).ToList()[0];
-                ColaboradorID = cdto.ID;
-                ColaboradorNombre = cdto.NombreCompleto;
-            }
-            else
-            {
-                if (o.ObjetivoPadre.PuestoAsignadoID != null)
+                idPuesto = o.PuestoAsignadoID.Value;
+                List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (cxp.FechaSalidaPuesto == null || DateTime.Today <= cxp.FechaSalidaPuesto));
+                if (cxpaux.Count > 0)
                 {
-                    idPuesto = o.ObjetivoPadre.PuestoAsignado.ID;
-                    ColaboradorDTO cdto = context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == idPuesto && (cxp.FechaSalidaPuesto == null || DateTime.Today <= cxp.FechaSalidaPuesto)).Select(c => c.Colaborador.ToDTO()).ToList()[0];
+
+                    List<Colaborador> cdtoaux = cxpaux.Select(p => p.Colaborador).ToList();
+
+                    ColaboradorDTO cdto = cdtoaux.Select(c => c.ToDTO()).ToList()[cdtoaux.Count - 1];
+
                     ColaboradorID = cdto.ID;
                     ColaboradorNombre = cdto.NombreCompleto;
                 }
+            }
+            else
+            {
+                if (o.ObjetivoPadre!=null && o.ObjetivoPadre.PuestoAsignadoID != null)
+                {
+                    idPuesto = o.ObjetivoPadre.PuestoAsignado.ID;
+                    List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (cxp.FechaSalidaPuesto == null || DateTime.Today <= cxp.FechaSalidaPuesto));
+                    if (cxpaux.Count > 0)
+                    {
+
+                        List<Colaborador> cdtoaux = cxpaux.Select(p => p.Colaborador).ToList();
+
+                        ColaboradorDTO cdto = cdtoaux.Select(c => c.ToDTO()).ToList()[cdtoaux.Count - 1];
+
+                        ColaboradorID = cdto.ID;
+                        ColaboradorNombre = cdto.NombreCompleto;
+                    }
+                }
                 else
                 {
-                    idPuesto = o.ObjetivoPadre.ObjetivoPadre.PuestoAsignadoID.Value;
+                    if (o.ObjetivoPadre==null)
+                    {
+                        idPuesto=1;
+                    }
+                    else
+                    {
+                        if (o.ObjetivoPadre.ObjetivoPadre != null)
+                        {
+                            idPuesto = o.ObjetivoPadre.ObjetivoPadre.PuestoAsignadoID.Value;
+                        }
+                    }
                 }
                 
             }

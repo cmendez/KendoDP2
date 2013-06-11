@@ -192,7 +192,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 int nivelID = c.NivelID;
                 //Guardar competencias por examen
                 CompetenciaXExamen cxe = new CompetenciaXExamen(c, examen);
-                context.TablaCompentenciaXExamen.AddElement(cxe);
+                context.TablaCompetenciaXExamen.AddElement(cxe);
                 
                 // Listar capacidades y guardarlas
                 listaCapacidades = context.TablaCapacidades.Where( x=> x.CompetenciaID == c.CompetenciaID && x.NivelCapacidadID == c.NivelID);

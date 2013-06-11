@@ -113,6 +113,12 @@ namespace KendoDP2.Areas.Objetivos.Models
             return new ObjetivoConPadreDTO(this, context);
         }
 
+
+        internal void RegistrarAvance(DP2Context context, int p)
+        {
+            AvanceObjetivo avance = new AvanceObjetivo { Objetivo = this, Valor = p, FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy") };
+            context.TablaAvanceObjetivo.AddElement(avance);
+        }
     }
 
     //public class ObjetivoRDTO

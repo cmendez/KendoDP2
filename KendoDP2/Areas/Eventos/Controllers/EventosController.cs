@@ -70,6 +70,19 @@ namespace KendoDP2.Areas.Eventos.Controllers
                 int creadorID = DP2MembershipProvider.GetPersonaID(this);
                 c.CreadorID = creadorID;
                 c.Creador = context.TablaColaboradores.FindByID(creadorID);
+                //probando
+                if (evento.TipoEvento.Equals("Evento Empresa"))
+                {
+                    c.custom = "modo1";
+                }
+                if (evento.TipoEvento.Equals("Evento Fechas Especiales"))
+                {
+                    c.custom = "modo2";
+                }
+                if (evento.TipoEvento.Equals("Evento Personal"))
+                {
+                    c.custom = "modo3";
+                }
                 context.TablaEvento.AddElement(c);
                 return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
 
@@ -299,7 +312,9 @@ namespace KendoDP2.Areas.Eventos.Controllers
                                     title = e.Nombre,
                                     start = e.Inicio.ToString("s"),
                                     end = e.Fin.ToString("s"),
-                                    allDay = false
+                                    allDay = false,
+                                    className = e.custom              
+                                
                                 };
 
                 var rows = eventList.ToArray();
