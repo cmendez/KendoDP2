@@ -114,9 +114,9 @@ namespace KendoDP2.Areas.Objetivos.Models
         }
 
 
-        internal void RegistrarAvance(DP2Context context, int p)
+        internal void RegistrarAvance(DP2Context context, int valor, string comentario)
         {
-            AvanceObjetivo avance = new AvanceObjetivo { Objetivo = this, Valor = p, FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy") };
+            AvanceObjetivo avance = new AvanceObjetivo { Objetivo = this, Valor = valor, FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy"), Comentario = comentario };
             context.TablaAvanceObjetivo.AddElement(avance);
         }
     }
@@ -160,11 +160,13 @@ namespace KendoDP2.Areas.Objetivos.Models
         public string FechaCreacion { get; set; }
         public string FechaFinalizacion { get; set; }
 
-        public List<AvanceObjetivoDTO> LosProgresos { get; set; }
-        
+        public List<AvanceObjetivoDTO> Avances { get; set; }
+
+        public string ComentarioUltimoAvance { get; set; }
+
         public ObjetivoDTO() { }
         
-
+        
 
         public ObjetivoDTO(Objetivo o, DP2Context context)
         {
@@ -182,8 +184,12 @@ namespace KendoDP2.Areas.Objetivos.Models
 
             //PeriodoID = o.PeriodoID;
 
-            LosProgresos = o.Avances == null ? new List<AvanceObjetivoDTO>() : o.Avances.Select(a => a.enFormatoDTO()).ToList();
+            Avances = o.Avances == null ? new List<AvanceObjetivoDTO>() : o.Avances.Select(a => a.enFormatoDTO()).ToList();
 
+            if (Avances.Count > 0)
+                this.ComentarioUltimoAvance = Avances.Last().Comentario;
+            else
+                this.ComentarioUltimoAvance = "";
         }
         
     }
