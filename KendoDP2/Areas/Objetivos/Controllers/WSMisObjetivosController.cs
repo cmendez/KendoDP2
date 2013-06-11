@@ -110,9 +110,29 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 {
                     return Json(new { success = false }, JsonRequestBehavior.AllowGet);
                 }
-
             }
+        }
 
+        public ActionResult ModificarAvance(int idObjetivo, int alcance, string descripcion)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                try
+                {
+                    Objetivo o = context.TablaObjetivos.FindByID(idObjetivo);
+                    AvanceObjetivo a = o.LosProgresos.Last();
+                    a.Valor = alcance;
+                    a.Comentario = descripcion;
+                    o.AvanceFinal = alcance;
+                    context.TablaObjetivos.ModifyElement(o);
+                    context.TablaAvanceObjetivo.ModifyElement(a);
+                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception)
+                {
+                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                }
+            }
         }
     }
 
