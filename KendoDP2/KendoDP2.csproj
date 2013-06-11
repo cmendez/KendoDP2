@@ -265,6 +265,7 @@
     <Compile Include="Areas\Organizacion\Models\PuestoXArea.cs" />
     <Compile Include="Areas\Organizacion\Models\EstadosPuesto.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\OfertasLaboralesExternasController.cs" />
+    <Compile Include="Areas\Reclutamiento\Controllers\WSPostulanteController.cs" />
     <Compile Include="Areas\Reclutamiento\Models\EstadoPostulantePorOferta.cs" />
     <Compile Include="Areas\Organizacion\OrganizacionAreaRegistration.cs" />
     <Compile Include="Areas\Organizacion\Controllers\ColaboradoresController.cs" />
@@ -1905,6 +1906,7 @@
     <Content Include="Areas\Reclutamiento\Views\Shared\SeleccionarFechaEvaluacionFase2.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\SeleccionarFechaEvaluacionFase3.cshtml" />
     <Content Include="Areas\Seguridad\Views\Roles\Index.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Shared\EventosIntranet.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\areas_icon.png" />
     <Content Include="Images\favicon.ico" />

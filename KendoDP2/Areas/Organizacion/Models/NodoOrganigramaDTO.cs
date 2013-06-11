@@ -31,10 +31,10 @@ namespace KendoDP2.Areas.Organizacion.Models
                 this.HasChildren = puesto.Puestos.Any(p => !p.IsEliminado);
 
             //  Si existe colaborador...
-                if (puesto.ColaboradorPuestos.Any(c => c.FechaSalidaPuesto == null))
+                if (puesto.ColaboradorPuestos.Any(c => c.FechaSalidaPuesto == null || c.FechaSalidaPuesto > DateTime.Now))
                 {
                     //  Información del colaborador:
-                    Colaborador colaborador = puesto.ColaboradorPuestos.Last(c => c.FechaSalidaPuesto == null).Colaborador;
+                    Colaborador colaborador = puesto.ColaboradorPuestos.OrderBy(c => c.FechaSalidaPuesto).Last(c => c.FechaSalidaPuesto == null || c.FechaSalidaPuesto > DateTime.Now).Colaborador;
                     this.Nombre = colaborador.ApellidoPaterno + " " + colaborador.ApellidoMaterno + ", " + colaborador.Nombres;
                     this.Correo = colaborador.CorreoElectronico != null? colaborador.CorreoElectronico : "";
                     this.Telefono = colaborador.Telefono != null? colaborador.Telefono : "";

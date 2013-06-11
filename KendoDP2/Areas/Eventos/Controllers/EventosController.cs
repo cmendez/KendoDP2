@@ -309,5 +309,20 @@ namespace KendoDP2.Areas.Eventos.Controllers
 
             
         }
+
+        public string RetornaMensajeInvitados(string nombre, string nombreEvento, string lugar, string fechaI, string fechaF, string creador)
+        {
+            string mensaje = "Estimado(a) " + nombre + ":\n\n" +
+                              "Queda usted invitado al siguiente evento:\n" +
+                              "Evento: " + nombreEvento + "\n" +
+                              "Lugar: " + lugar + "\n" +
+                              "Fecha Inicio: " + fechaI + "\n" +
+                              "Fecha Fin: " + fechaF + "\n\n" +
+                              "En caso surja algún inconveniente con la fecha y su disponibilidad, por favor comunicarse con el responsable del evento \n\n" +
+                              "Saludos Cordiales\n"+
+                              ""+ creador+"\n";
+  
+            return mensaje;
+        }
     }
 }
