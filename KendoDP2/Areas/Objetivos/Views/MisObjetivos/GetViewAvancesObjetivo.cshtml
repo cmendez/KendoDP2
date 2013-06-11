@@ -2,4 +2,72 @@
 
 @model IEnumerable<KendoDP2.Areas.Objetivos.Models.AvanceObjetivoDTO>
 
+<div id="example" class="k-content">
+            <div class="demo-section">
 
+                <table id="avances" class="metrotable">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Valor</th>
+                            <th>Comentario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="3"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+            <script id="template" type="text/x-kendo-template">
+                <tr>
+                    <td>#= FechaCreacion #</td>
+                    <td>#= Valor #</td>
+                    <td>#= Comentario #</td>
+                </tr>
+            </script>
+
+            <script>
+              //  $(document).ready(function() {
+                    // create a template using the above definition
+                    var template = kendo.template($("#template").html());
+
+                    var avances = @Html.Raw(Json.Encode(Model));
+
+                    var dataSource = new kendo.data.DataSource({
+                        data: avances,
+                        change: function() { // subscribe to the CHANGE event of the data source
+                            $("#avances tbody").html(kendo.render(template, this.view())); // populate the table
+                        }
+                    });
+
+                    // read data from the "movies" array
+                    dataSource.read();
+                //});
+            </script>
+            <style scoped>
+                .demo-section {
+                    width: 300px;	
+                }
+                
+                .metrotable {
+                	width: 100%;
+                	border-collapse: collapse;
+                }
+                
+                .metrotable > thead > tr > th 
+                {
+                	font-size: 1.3em;
+                	padding-top: 0;
+                	padding-bottom: 5px;
+                    padding-left: 5px;
+                }
+                .metrotable > tbody > tr > td {
+                    padding-left: 5px;
+                }
+
+            </style>
