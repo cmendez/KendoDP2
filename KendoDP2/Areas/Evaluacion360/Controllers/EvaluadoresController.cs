@@ -177,13 +177,12 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             Examen examen = new Examen();
             examen.EvaluadorID = evaluador.ID;
 
-            int idcolEvaluado = context.TablaEvaluadores.FindByID(examen.EvaluadorID).ElEvaluado;
             examen.EstadoExamenID = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Pendiente)).ID;
             context.TablaExamenes.AddElement(examen);
 
             //Obtener capacidades y guardarlas para cada pregunta
-            int colaboradorID = idcolEvaluado;// evaluador.ElEvaluado;
-            ColaboradorDTO evaluado = context.TablaColaboradores.FindByID(colaboradorID, false).ToDTO();
+            int idColaboradorEvaluado = evaluador.ElEvaluado;
+            ColaboradorDTO evaluado = context.TablaColaboradores.FindByID(idColaboradorEvaluado).ToDTO();
                
             // Obtener capacidades  
             IList<CompetenciaXPuesto> cxp = context.TablaCompetenciaXPuesto.Where(x=> x.PuestoID == evaluado.PuestoID);
