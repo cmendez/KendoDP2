@@ -226,8 +226,12 @@
                     cargaTilesColaboradores();
                     $("#ColaboradoresDeProcesoEvaluacionGrid").data('kendoGrid').dataSource.read();
                 }
-                else
+                else{
+                    if (data.noTienePuesto){
+                        alert("El colaborador seleccionado no tiene un puesto asociado.");
+                    } else 
                     alert("El colaborador seleccionado ya se encuentra en la lista de evaluados");
+                }
             },
             error: function(){        
                 alert("Hubo un error en la operación");
