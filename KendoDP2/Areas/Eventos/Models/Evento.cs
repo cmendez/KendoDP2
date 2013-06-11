@@ -32,6 +32,9 @@ namespace KendoDP2.Areas.Eventos.Models
         [InverseProperty("Evento")]
         public virtual ICollection<Invitado> Invitados { get; set; }
 
+        //
+        public string custom { get; set; }
+
         public Evento() { }
         public Evento(EventoDTO e)
         {

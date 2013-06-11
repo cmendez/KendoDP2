@@ -40,12 +40,22 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             using (DP2Context context = new DP2Context())
             {
                 List<ColaboradorXPuestoDTO> salida = new List<ColaboradorXPuestoDTO>();
-                List<ColaboradorXPuesto> colaboradores_X_Puesto = context.TablaColaboradoresXPuestos.All().OrderBy(x => x.ID).ToList();
+                List<ColaboradorXPuesto> colaboradores_X_Puesto = context.TablaColaboradoresXPuestos.Where(f=>f.FechaSalidaPuesto==null).OrderBy(x => x.ID).ToList();
                 foreach (ColaboradorXPuesto c in colaboradores_X_Puesto)
                 {
-                    ColaboradorXPuestoDTO aux = new ColaboradorXPuestoDTO(c);
-                    aux.FechaIngresoPuesto = new DateTime();
-                    aux.FechaSalidaPuesto = new DateTime();
+                    ColaboradorXPuestoDTO aux = new ColaboradorXPuestoDTO();
+                    aux.ID = c.ID;
+                    aux.Colaborador = new ColaboradorDTO();
+                    aux.Colaborador.ID = c.ColaboradorID;
+                    aux.Colaborador.Nombre = c.Colaborador.Nombres;
+                    aux.Colaborador.ApellidoPaterno = c.Colaborador.ApellidoPaterno;
+                    aux.Colaborador.ApellidoMaterno = c.Colaborador.ApellidoMaterno;
+                    aux.Colaborador.AreaID = c.Puesto.AreaID;
+                    aux.Puesto = new PuestoDTO();
+                    aux.Puesto.ID = c.PuestoID;
+                    aux.Puesto.AreaID = c.Puesto.AreaID;
+                    aux.FechaIngresoPuesto =new DateTime();
+                    aux.FechaSalidaPuesto = null;
                     aux.Sueldo = 0;
                     aux.Comentarios = "";
                     salida.Add(aux);
