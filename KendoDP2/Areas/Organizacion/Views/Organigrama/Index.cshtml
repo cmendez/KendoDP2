@@ -5,6 +5,7 @@
 @{
     ViewBag.Title = "Organigrama de la empresa";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int idFocus = ViewBag.idFocus;
 }
 
 <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/primitive/css/jquery-ui-1.10.3.custom.css")" />
@@ -13,7 +14,7 @@
 <link href="@Url.Content("~/Content/primitive/css/primitives.latest.css")" media="screen" rel="stylesheet" type="text/css" />
 
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Organigrama", "Navega en el organigrama de la empresa"));}
-
+@Html.Hidden("idFocus", idFocus)
 <div class="portlet box green">
     <div class="portlet-title">
         <div class="caption"><i class="icon-reorder"></i>Organigrama</div>
@@ -32,16 +33,16 @@
 </div>
 
 <script type='text/javascript'>
-
+    var options = new primitives.orgdiagram.Config();
     function armarArbol(raiz) {
-        var options = new primitives.orgdiagram.Config();
+        
 
         var item = agregarNodo(raiz);
 
         options.onItemRender = onTemplateRender;
         options.templates = [getContactTemplate()];
         options.rootItem = item;
-        options.cursorItem = item;
+        //options.cursorItem = focus;
         options.hasSelectorCheckbox = primitives.common.Enabled.False;
 
         $(document).ajaxStop(function () {
@@ -75,6 +76,12 @@
                 }
             });
         }
+
+        if (nodo.Id == $("#idFocus").val())
+        {
+            options.cursorItem = item;
+        }
+
         return item;
     }
 
