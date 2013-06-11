@@ -9,6 +9,7 @@ using Kendo.Mvc.Extensions;
 using KendoDP2.Areas.Evaluacion360.Models;
 using KendoDP2.Areas.Organizacion.Models;
 using KendoDP2.Models.Generic;
+using KendoDP2.Models.Seguridad;
 
 namespace KendoDP2.Areas.Evaluacion360.Controllers
 {
@@ -29,8 +30,10 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
             using (DP2Context contexto = new DP2Context())
             {
+                int elUsuarioQueInicioSesion = DP2MembershipProvider.GetPersonaID(this);
 
-                return Json(contexto.TablaEvaluadores.All().Select(examen => examen.enFormatoParaElClienteVistaSubordinados()).ToDataSourceResult(request));
+                List<int> susSubordinados = GestorServiciosPrivados.consigueSusSubordinados(elUsuarioQueInicioSesion, contexto).Select(e => e.ID).ToList();
+                return Json(contexto.TablaEvaluadores.Where(pxexe => susSubordinados.Contains(pxexe.ElEvaluado)).Select(examen => examen.enFormatoParaElClienteVistaSubordinados()).ToDataSourceResult(request));
 
             }
         }
@@ -44,6 +47,26 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
 
 
+
+        //public ActionResult EditingInline_Read([DataSourceRequest] DataSourceRequest request)
+        //{
+
+        //    using (DP2Context contexto = new DP2Context())
+        //    {
+
+        //        //int ColaboradorID = DP2MembershipProvider.GetPersonaID(this);
+        //        int elUsuarioQueInicioSesion = DP2MembershipProvider.GetPersonaID(this);
+
+
+
+        //        //List<Colaborador> susSubordinados = GestorServiciosPrivados.consigueSusSubordinados(elUsuarioQueInicioSesion, contexto);
+        //        List<int> susSubordinados = GestorServiciosPrivados.consigueSusSubordinados(elUsuarioQueInicioSesion, contexto).Select(e => e.ID).ToList();
+
+        //        //return Json(contexto.TablaEvaluadores.All().Select(examen => examen.enFormatoParaElClienteVistaSubordinados()).ToDataSourceResult(request));
+        //        return Json(contexto.TablaEvaluadores.Where(pxexe => susSubordinados.Contains(pxexe.ElEvaluado)).Select(examen => examen.enFormatoParaElClienteVistaSubordinados()).ToDataSourceResult(request));
+
+        //    }
+        //}
 
 
 
