@@ -19,7 +19,7 @@ namespace KendoDP2.Models.Seguridad
         public Rol(string nombre, string area)
         {
             Nombre = nombre;
-            Permiso = true; // esto debe cambiarse xq todos deben inicar con false(ningun acceso a nada)
+            Permiso = false; // esto debe cambiarse xq todos deben inicar con false(ningun acceso a nada)
             IsEliminado = false;
             Area = area;
             Usuarios = new List<Usuario>();
