@@ -34,12 +34,12 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     //Buscar OfertaLaboralXPostulante
                     OfertaLaboralXPostulante olxp = context.TablaOfertaLaboralXPostulante
                         .One(x => x.OfertaLaboralID == ol.ID && x.PostulanteID == p.ID);
-                    if (olxp == null) throw new Exception("El postulante " + p.ToDTO().NombreCompleto + " no ha postulado a la Oferta Laboral " + ol.Descripcion);
+                    if (olxp == null) throw new Exception("El postulante " + p.ToDTO().NombreCompleto + " no ha postulado a la Oferta Laboral : " + ol.Descripcion);
 
                     //Buscar FasePostulacionXOfertaLaboralXPostulante 
                     FasePostulacionXOfertaLaboralXPostulante fpxolxp = context.TablaFasePostulacionXOfertaLaboralXPostulante
                         .One(x => x.OfertaLaboralXPostulanteID == olxp.ID && x.FasePostulacionID == fp.ID);
-                    if (fpxolxp == null) throw new Exception("La Oferta Laboral " + ol.Descripcion + " no ha llegado a la Fase de Postulacion " + fp.Descripcion);
+                    if (fpxolxp == null) throw new Exception("La Oferta Laboral " + ol.Descripcion + " no ha llegado a la Fase de Postulacion : " + fp.Descripcion);
                     
                     //Crear y cargar EvaluacionXFaseXPostulacion 
                     EvaluacionXFaseXPostulacion e = new EvaluacionXFaseXPostulacion().LoadFromDTO(evaluacion);
