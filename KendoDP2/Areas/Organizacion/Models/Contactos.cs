@@ -78,9 +78,7 @@ namespace KendoDP2.Areas.Organizacion.Models
                 ColaboradorID = c.ColaboradorID;
                 ID = c.ID;
                 Relacion = c.Relacion;
-                Nombre = c.Colaborador.ApellidoPaterno + " " + c.Colaborador.ApellidoMaterno + ", " + c.Colaborador.Nombres;
-                //ColaboradorDTO = c.Colaborador.ToDTO();
-                //ContactoDTO = c.Contacto.ToDTO();
+                Nombre = c.Contacto.ApellidoPaterno + " " + c.Contacto.ApellidoMaterno + ", " + c.Contacto.Nombres;
                 try
                 {
                    
