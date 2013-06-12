@@ -82,8 +82,13 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     Puesto puesto = context.TablaPuestos.FindByID(cxp.PuestoID);
                     // No es presidente, admin 
                     if (puesto != null && puesto.PuestoSuperiorID != null) {
-                        listaProcesos = context.TablaColaboradorXProcesoEvaluaciones.Where(e => context.TablaPuestos.FindByID(context.TablaColaboradores.FindByID(e.ColaboradorID).ToDTO().PuestoID).PuestoSuperiorID == puesto.ID
-                            && (context.TablaProcesoEvaluaciones.FindByID(e.ProcesoEvaluacionID)).EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(z => z.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Iniciado)).ID).Select(x => x.ProcesoEvaluacion.ToDTO());
+                        listaProcesos = context.TablaColaboradorXProcesoEvaluaciones.Where(e => 
+                            context.TablaPuestos.FindByID(context.TablaColaboradores.FindByID(e.ColaboradorID)
+                            .ToDTO().PuestoID)
+                            .PuestoSuperiorID == puesto.ID
+                            && (context.TablaProcesoEvaluaciones.FindByID(e.ProcesoEvaluacionID))
+                            .EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(z => z.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Iniciado))
+                            .ID).Select(x => x.ProcesoEvaluacion.ToDTO());
                         
                         return Json(listaProcesos.ToDataSourceResult(request));                                                                                                                                                                                                                     
                     }
