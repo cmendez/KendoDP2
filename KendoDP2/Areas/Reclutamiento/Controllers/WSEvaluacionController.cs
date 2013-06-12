@@ -22,27 +22,38 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             {
                 try
                 {
+                    // **************************** VALIDACIONES ****************************
                     Postulante p = context.TablaPostulante.FindByID(Convert.ToInt32(idPostulante));
-                    if (p == null) throw new Exception("No existe el Postulante con ID = " + idPostulante);
+                    if (p == null) return JsonErrorPost("No existe el Postulante con ID = " + idPostulante);
 
                     OfertaLaboral ol = context.TablaOfertaLaborales.FindByID(Convert.ToInt32(idOfertaLaboral));
-                    if (ol == null) throw new Exception("No existe la Oferta Laboral con ID = " + idOfertaLaboral);
+                    if (ol == null) return JsonErrorPost("No existe la Oferta Laboral con ID = " + idOfertaLaboral);
 
                     FasePostulacion fp = context.TablaFasePostulacion.One(x => x.Descripcion.Equals(descripcionFase));
-                    if (fp == null) throw new Exception("No existe la Fase de Postulacion cuya descripcion sea = " + descripcionFase);
+                    if (fp == null) return JsonErrorPost("No existe la Fase de Postulacion cuya descripcion sea = " + descripcionFase);
 
                     //Buscar OfertaLaboralXPostulante
                     OfertaLaboralXPostulante olxp = context.TablaOfertaLaboralXPostulante
                         .One(x => x.OfertaLaboralID == ol.ID && x.PostulanteID == p.ID);
-                    if (olxp == null) throw new Exception("El postulante " + p.ToDTO().NombreCompleto + " no ha postulado a la Oferta Laboral : " + ol.Descripcion);
+                    if (olxp == null) return JsonErrorPost("El postulante " + p.ToDTO().NombreCompleto + " no ha postulado a la Oferta Laboral : " + ol.Descripcion);
 
                     //Buscar FasePostulacionXOfertaLaboralXPostulante 
                     FasePostulacionXOfertaLaboralXPostulante fpxolxp = context.TablaFasePostulacionXOfertaLaboralXPostulante
                         .One(x => x.OfertaLaboralXPostulanteID == olxp.ID && x.FasePostulacionID == fp.ID);
-                    if (fpxolxp == null) throw new Exception("La Oferta Laboral " + ol.Descripcion + " no ha llegado a la Fase de Postulacion : " + fp.Descripcion);
+                    if (fpxolxp == null) return JsonErrorPost("La Oferta Laboral " + ol.Descripcion + " no ha llegado a la Fase de Postulacion : " + fp.Descripcion);
+
+                    //Buscar EvaluacionXFaseXPostulacion
+                    EvaluacionXFaseXPostulacion e = context.TablaEvaluacionXFaseXPostulacion.One(x => x.FasePostulacionXOfertaLaboralXPostulanteID == fpxolxp.ID);
+                    if (e != null) return JsonErrorPost("La postulacion del postulante " + p.ToDTO().NombreCompleto + 
+                        " a la oferta laboral " + ol.Puesto.Nombre + " que " + ol.Descripcion + " que ha alcanzado la fase " + 
+                        descripcionFase + " ya tiene una evaluacion registrada");
+
+                    if (respuestas == null || respuestas.Count == 0) return JsonErrorPost("No se puede ingresar una evaluacion sin respuestas");
+                    // ******************************************************************
+
                     
                     //Crear y cargar EvaluacionXFaseXPostulacion 
-                    EvaluacionXFaseXPostulacion e = new EvaluacionXFaseXPostulacion().LoadFromDTO(evaluacion);
+                    e = new EvaluacionXFaseXPostulacion().LoadFromDTO(evaluacion);
                     
                     //Asignar la evaluacion a la FasePostulacionXOfertaLaboralXPostulante 
                     e.FasePostulacionXOfertaLaboralXPostulanteID = fpxolxp.ID;
