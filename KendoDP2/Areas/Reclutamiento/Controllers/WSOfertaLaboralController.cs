@@ -15,6 +15,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
     public class WSOfertaLaboralController : WSController
     {
         // /WSOfertaLaboral/getOfertaLaboral
+        // /WSOfertaLaboral/getOfertaLaboral?ofertaLaboralID=
         public JsonResult getOfertaLaboral(string ofertaLaboralID = null)
         {
             using (DP2Context context = new DP2Context())
@@ -35,6 +36,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             }
         }
 
+        // /WSOfertaLaboral/getOfertasLaborales?colaboradorID=&descripcionFase=
         public JsonResult getOfertasLaborales(string colaboradorID, string descripcionFase)
         {
             using (DP2Context context = new DP2Context())
@@ -73,6 +75,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             }
         }
 
+        // /WSOfertaLaboral/getFunciones?idOfertaLaboral=
         public JsonResult getFunciones(string idOfertaLaboral)
         {
             using (DP2Context context = new DP2Context())
@@ -93,6 +96,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         }
 
         // /WSOfertaLaboral/getCompetencias
+        // /WSOfertaLaboral/getCompetencias?idOfertaLaboral=
         public JsonResult getCompetencias(string idOfertaLaboral = null)
         {
             using (DP2Context context = new DP2Context())
@@ -125,6 +129,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 
         }
 
+        // /WSOfertaLaboral/getOfertasLaboralesXEstado?estadoOfertaLaboral=
         public JsonResult getOfertasLaboralesXEstado(string estadoOfertaLaboral)
         {
             using (DP2Context context = new DP2Context())
@@ -147,6 +152,8 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             }
         }
 
+        // /WSOfertaLaboral/setEstadoSolicitudOfertaLaboral?ofertaLaboralID=&nuevoEstado=
+        // /WSOfertaLaboral/setEstadoSolicitudOfertaLaboral?ofertaLaboralID=&nuevoEstado=&comentarios=
         public JsonResult setEstadoSolicitudOfertaLaboral(string ofertaLaboralID, string nuevoEstado, string comentarios = "")
         {
             using (DP2Context context = new DP2Context())
@@ -173,6 +180,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 
         }
 
+        // /WSOfertaLaboral/registrarPostulacion?colaboradorID=&ofertaLaboralID=
         public JsonResult registrarPostulacion(string colaboradorID, string ofertaLaboralID)
         {
             using (DP2Context context = new DP2Context())
@@ -215,6 +223,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 
         }
 
+        // /WSOfertaLaboral/getOfertasLaboralesColaborador?colaboradorID=&estadoOfertaLaboral=
         public JsonResult getOfertasLaboralesColaborador(string colaboradorID, string estadoOfertaLaboral)
         {
             using (DP2Context context = new DP2Context())

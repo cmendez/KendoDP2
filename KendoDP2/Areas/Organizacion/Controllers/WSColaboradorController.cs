@@ -11,7 +11,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
 {
     public class WSColaboradorController : WSController
     {
-        // /WSColaborador/getColaborador
+        // /WSColaborador/getColaborador?id=
         public JsonResult getColaborador(string id)
         {
             using (DP2Context context = new DP2Context())
@@ -44,6 +44,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             }
         }
 
+        // /WSColaborador/getContactos?id=
         public JsonResult getContactos(string id)
         {
             using (DP2Context context = new DP2Context())
@@ -78,6 +79,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
 
         }
 
+        // /WSColaborador/tieneJefe?colaboradorID=
         public JsonResult tieneJefe(string colaboradorID)
         {
             using (DP2Context context = new DP2Context())
@@ -172,6 +174,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
 
         }
 
+        // /WSColaborador/getEventos?colaboradorID=
         public JsonResult getEventos(string colaboradorID)
         {
             using (DP2Context context = new DP2Context())

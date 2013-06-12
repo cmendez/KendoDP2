@@ -14,6 +14,7 @@ namespace KendoDP2.Areas.Eventos.Controllers
     public class WSEventoController : WSController
     {
 
+        // /WSEvento/getEventos?colaboradorID=&fechaDesde=&fechaHasta=
         public JsonResult getEventos(string colaboradorID, string fechaDesde, string fechaHasta)
         {
             using (DP2Context context = new DP2Context())
