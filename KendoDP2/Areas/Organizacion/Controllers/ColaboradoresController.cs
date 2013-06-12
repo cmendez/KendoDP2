@@ -217,6 +217,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                         ColaboradorID = colaboradorID,
                         ContactoID = contactoID,
                         Relacion = "Equipo de Área",
+                        
                       
                     });
                 return esReferenciaDirecta;
