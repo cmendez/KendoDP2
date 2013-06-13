@@ -20,12 +20,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
-        class Respuesta
-        {
-            public int PreguntaID {get; set;}
-            public int Puntaje {get; set;}
-            public Respuesta(){}
-        }
+        
         public ActionResult ResponderPreguntas(List<Respuesta> respuestas)
         {
             using (DP2Context context = new DP2Context())
@@ -44,5 +39,11 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
         
+    }
+    public class Respuesta
+    {
+        public int PreguntaID { get; set; }
+        public int Puntaje { get; set; }
+        public Respuesta() { }
     }
 }

@@ -44,23 +44,23 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         {
             // Calcular nota de evaluacion
             using (DP2Context context = new DP2Context()){
-                //Evaluador evaluador = context.TablaEvaluadores.FindByID(tablaEvaluadoresID);
                 Examen examen = context.TablaExamenes.One(x => x.EvaluadorID == tablaEvaluadoresID);
-               // Falta agregar el promedio final (incluye competencias)
                 IList<CompetenciaXExamen> competenciasEvaluadas = context.TablaCompetenciaXExamen.Where(x=>x.ExamenID == examen.ID );
-                int nota = 0;
+                
+                int notaExamen = 0;
+                int acumuladoPesos = 0;
                 foreach (CompetenciaXExamen c in competenciasEvaluadas) {
-                    //
                     IList<Pregunta> preguntasXCompetencia = context.TablaPreguntas.Where(x => x.competenciaID==c.CompetenciaID && x.ExamenID == examen.ID);
-                    int notaCompetencia = preguntasXCompetencia.Sum(x => x.Puntuacion);//Convert.ToInt32(Decimal.Floor(preguntasXCompetencia.Sum(x => x.Puntuacion)/100));
-                    c.Nota = notaCompetencia;
+                    c.Nota = preguntasXCompetencia.Sum(x => x.Puntuacion);
 
-                    nota += notaCompetencia;
+                    notaExamen+= (c.Nota * c.Peso);
+                    acumuladoPesos+= c.Peso;
                     context.TablaCompetenciaXExamen.ModifyElement(c);
                 }
                 if (competenciasEvaluadas != null && competenciasEvaluadas.Count>0) {
-                    nota = Convert.ToInt32(Decimal.Floor(nota/competenciasEvaluadas.Count));
-                    examen.NotaExamen = nota;
+                    notaExamen = Convert.ToInt32(Decimal.Floor(notaExamen/ acumuladoPesos));
+                    examen.NotaExamen = notaExamen;
+
                     EstadoColaboradorXProcesoEvaluacion terminado = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado));
                     examen.EstadoExamenID = terminado.ID;
 
