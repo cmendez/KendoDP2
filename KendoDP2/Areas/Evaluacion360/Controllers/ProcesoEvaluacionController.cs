@@ -101,7 +101,10 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                             }
                                
                         }
-                        return Json(listaProcesos_.ToDataSourceResult(request));                                                                                                                                                                                        
+                        if (listaProcesos_.Count ==0 )
+                            return Json(listaProcesos_.ToDataSourceResult(request));                                                                                                                                                                                        
+                        else
+                        return Json(listaProcesos_.GroupBy(p => p.ID).Select(y => y.FirstOrDefault()).ToDataSourceResult(request));                                                                                                                                                                                        
                     }
                 } 
                   
@@ -401,37 +404,31 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
         public void CalcularYGuardarResultadosProceso(ProcesoEvaluacion proceso, DP2Context context) 
         {
-            IList<Evaluador> evaluados = context.TablaEvaluadores.Where(x => x.ProcesoEnElQueParticipanID == proceso.ID);
-            foreach (Evaluador e in evaluados) {
-                int evaluadoID = e.ElEvaluado;
-                int evaluadorID = e.ElIDDelEvaluador;
-                
-                // Obtener todas las instancias de tabla evaluador para calcula las notas de cada evaluacion
-                IList<Evaluador> evaluadores = context.TablaEvaluadores.Where(x=> x.ElIDDelEvaluador == evaluadorID && x.ElEvaluado == evaluadoID && x.ProcesoEnElQueParticipanID == proceso.ID);
+            IList<ColaboradorXProcesoEvaluacion> evaluados = context.TablaColaboradorXProcesoEvaluaciones.Where(x => x.ProcesoEvaluacionID == proceso.ID);
+            foreach (ColaboradorXProcesoEvaluacion e in evaluados) {
+                IList<Evaluador> evaluadores = context.TablaEvaluadores.Where(f=>f.ProcesoEnElQueParticipanID==e.ProcesoEvaluacionID && f.ElEvaluado == e.ColaboradorID);
                 int notaEvaluadoXProceso = 0;
                 int acumuladoPesos = 0;
                 foreach (Evaluador evaluador in evaluadores) {
-                    Examen examen = context.TablaExamenes.One(x=> x.EvaluadorID == evaluador.ID);
-                    // Solo considerar las evaluaciones que fueron terminadas
-                    if (examen.EstadoExamenID == context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID) {
-                        try
-                        {
-                            PuestoXEvaluadores puestoXEvaluador = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == context.TablaColaboradoresXPuestos.Where(y => y.Colaborador.ID == evaluadorID && (y.FechaSalidaPuesto == null || DateTime.Today <= y.FechaSalidaPuesto)).OrderByDescending(a => a.ColaboradorID).First().PuestoID);
-                            int pesoExamenXEvaluador = puestoXEvaluador.Peso;
-
-                            acumuladoPesos += pesoExamenXEvaluador;
-                            notaEvaluadoXProceso += (pesoExamenXEvaluador * examen.NotaExamen);
-                        }
-                        catch (Exception exce) {
-                            continue;
-                        }
-                     
-                    }
+                    Examen examen = context.TablaExamenes.One(x=>x.EvaluadorID==evaluador.ID && x.EstadoExamenID == context.TablaEstadoColaboradorXProcesoEvaluaciones.One(s=>s.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID);    
+                    //notaEvaluadoXProceso
+                    Puesto puestoEvaluador = context.TablaColaboradoresXPuestos.One(p=>p.ColaboradorID== evaluador.ElIDDelEvaluador && p.FechaSalidaPuesto == null || DateTime.Today <= p.FechaSalidaPuesto).Puesto;
+                    int pesoPuesto = context.TablaPuestoXEvaluadores.One(x=>x.PuestoID==puestoEvaluador.ID).Peso;
+                    acumuladoPesos += pesoPuesto;
+                    notaEvaluadoXProceso += (examen.NotaExamen * pesoPuesto);
                 }
-                ColaboradorXProcesoEvaluacion colaboradorEvaluadoXPorProceso = context.TablaColaboradorXProcesoEvaluaciones.One(x => x.ProcesoEvaluacionID ==proceso.ID && x.ColaboradorID == evaluadoID);
-                colaboradorEvaluadoXPorProceso.Puntuacion = notaEvaluadoXProceso/acumuladoPesos;  //dividir entre total de evaluadores?
-                context.TablaColaboradorXProcesoEvaluaciones.ModifyElement(colaboradorEvaluadoXPorProceso);
+                if (evaluadores.Count == 0) {
+                    e.Puntuacion = 0;
+                }
+                else {
+                    notaEvaluadoXProceso = Convert.ToInt32(Decimal.Floor(notaEvaluadoXProceso / acumuladoPesos));
+                    e.Puntuacion = notaEvaluadoXProceso;
+                }
+                EstadoColaboradorXProcesoEvaluacion terminado = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x=>x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado));
+                e.EstadoColaboradorXProcesoEvaluacionID = terminado.ID;
+                context.TablaColaboradorXProcesoEvaluaciones.ModifyElement(e);
             }
+            //EstadoProcesoEvaluacion procesoTerminado = context.TablaEstadoProcesoEvaluacion.One(e=>e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Terminado));
 
         }
         
