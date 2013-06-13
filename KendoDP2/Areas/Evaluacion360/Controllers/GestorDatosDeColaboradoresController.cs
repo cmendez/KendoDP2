@@ -106,7 +106,8 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     int identificadorEnFormatoNumerico = Convert.ToInt32(deEsteColaborador);
 
                     //List<Colaborador> colegas = GestorServiciosPrivados.consigueSusCompañerosPares(identificadorEnFormatoNumerico);
-                    List<Colaborador> colegas = GestorServiciosPrivados.consigueSusCompañerosPares(identificadorEnFormatoNumerico, contexto);
+                    //List<Colaborador> colegas = GestorServiciosPrivados.consigueSusCompañerosPares(identificadorEnFormatoNumerico, contexto);
+                    List<Colaborador> colegas = GestorServiciosPrivados.consigueSusSubordinados(identificadorEnFormatoNumerico, contexto);
 
                     //List<Colaborador> suJefeComoGrupoDeUno = new List<Colaborador> { losDatosDeSuJefe };
 
