@@ -408,6 +408,13 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             Colaborador jefe = GestorServiciosPrivados.consigueElJefe(evaluadoID, context);
             int peso = 0;
 
+            // Verificar si es el mismo
+            if (evaluadorID == evaluadoID)
+            {
+                PuestoXEvaluadores p = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == puestoEvaluadorID && x.ClaseEntorno == ConstantesClaseEntornoPuestoEvaluadores.El_mismo);
+                peso = p.Peso;
+                return peso;
+            }
             // Verificar si es subordinado
             var subordinado = subordinados.Where(x=>x.ID==evaluadorID);
             if (subordinado != null && subordinado.Count() > 0)
@@ -425,7 +432,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             // verificar si es un par
             var par = pares.Where(x => x.ID == evaluadorID);
             if (par != null && subordinado.Count() > 0) {
-                PuestoXEvaluadores p = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == puestoEvaluadorID && x.ClaseEntorno == ConstantesClaseEntornoPuestoEvaluadores.Subordinados);
+                PuestoXEvaluadores p = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == puestoEvaluadorID && x.ClaseEntorno == ConstantesClaseEntornoPuestoEvaluadores.Pares);
                 if (p.Cantidad > 0)
                 {
                     peso = p.Peso / p.Cantidad;
@@ -435,7 +442,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 return peso;   
             }
             if (jefe != null) {
-                PuestoXEvaluadores p = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == puestoEvaluadorID && x.ClaseEntorno == ConstantesClaseEntornoPuestoEvaluadores.Subordinados);
+                PuestoXEvaluadores p = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == puestoEvaluadorID && x.ClaseEntorno == ConstantesClaseEntornoPuestoEvaluadores.Jefe);
                 if (p.Cantidad > 0)
                 {
                     peso = p.Peso / p.Cantidad;
@@ -455,8 +462,9 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 int notaEvaluadoXProceso = 0;
                 int acumuladoPesos = 0;
                 foreach (Evaluador evaluador in evaluadores) {
-                    Examen examen = context.TablaExamenes.One(x=>x.EvaluadorID==evaluador.ID && x.EstadoExamenID == context.TablaEstadoColaboradorXProcesoEvaluaciones.One(s=>s.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID);    
-            
+                    Examen examen = context.TablaExamenes.One(x=>x.EvaluadorID==evaluador.ID && x.EstadoExamenID == context.TablaEstadoColaboradorXProcesoEvaluaciones.One(s=>s.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID);
+                    if (examen == null)
+                        continue;
                     Puesto puestoEvaluador = context.TablaColaboradoresXPuestos.One(p=>p.ColaboradorID== evaluador.ElIDDelEvaluador && p.FechaSalidaPuesto == null || DateTime.Today <= p.FechaSalidaPuesto).Puesto;
                     int pesoPuesto = GetPesoPorEvaluador(evaluador.ElEvaluado, evaluador.ElIDDelEvaluador, puestoEvaluador.ID, context);
 
