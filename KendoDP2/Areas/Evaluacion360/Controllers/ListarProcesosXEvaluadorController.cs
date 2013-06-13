@@ -95,22 +95,25 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
+        public List<Evaluador> _ReadEvaluados(int usuarioID, int procesoID, DP2Context context)
+        {
+            //return Json(context.TablaColaboradores.FindByID(ColaboradorID).OcurrenciasComoEvaluador.Where(x => x.Evaluado.ProcesoEvaluacionID == procesoID).ToList());
 
+            IList<Evaluador> listaEvaluaciones = new List<Evaluador>();
+
+            return (context.TablaEvaluadores.Where(y => y.ElIDDelEvaluador == usuarioID &&
+                                                                               y.ProcesoEnElQueParticipanID == procesoID)).ToList();
+            //IList<EvaluadorDTO> listaEvaluaciones2 = listaEvaluaciones.Select(x => x.ToDTO());
+
+            //Json(listaEvaluaciones.Select(x=>x.ToDTO()).ToDataSourceResult(request));
+
+        }
         public ActionResult ReadEvaluados([DataSourceRequest] DataSourceRequest request, int procesoID)
         {
             using (DP2Context context = new DP2Context())
             {
                 int ColaboradorID = DP2MembershipProvider.GetPersonaID(this);
-                //return Json(context.TablaColaboradores.FindByID(ColaboradorID).OcurrenciasComoEvaluador.Where(x => x.Evaluado.ProcesoEvaluacionID == procesoID).ToList());
-
-                IList<Evaluador> listaEvaluaciones = new List<Evaluador>();
-
-                listaEvaluaciones = (context.TablaEvaluadores.Where(y => y.ElIDDelEvaluador == ColaboradorID &&
-                                                                                   y.ProcesoEnElQueParticipanID == procesoID));
-                //IList<EvaluadorDTO> listaEvaluaciones2 = listaEvaluaciones.Select(x => x.ToDTO());
-
-                //Json(listaEvaluaciones.Select(x=>x.ToDTO()).ToDataSourceResult(request));
-
+                List<Evaluador> listaEvaluaciones = _ReadEvaluados(ColaboradorID, procesoID, context);
                 return Json(listaEvaluaciones.Select(x => x.ToDTOEvaluacion()).ToDataSourceResult(request));
 
             }

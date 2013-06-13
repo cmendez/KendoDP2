@@ -19,5 +19,20 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
+        /*
+         * Esto devuelve tambien el colaborador en cada proceso, ahi estan sus datos.
+         */
+        public ActionResult ReadEvaluados(int idUsuario)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                var controller = new ListarProcesosXEvaluadorController();
+                List<ProcesoEvaluacion> procesos = controller._Read(idUsuario, context);
+                List<Evaluador> evaluadores = new List<Evaluador>();
+                procesos.ForEach(x => evaluadores.AddRange(controller._ReadEvaluados(idUsuario, x.ID, context)));
+                return Json(evaluadores.Select(c => c.ToDTOEvaluacion()).ToList(), JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }

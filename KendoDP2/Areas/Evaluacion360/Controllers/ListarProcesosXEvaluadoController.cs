@@ -38,35 +38,40 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         }
 
 
+        internal List<ProcesoEvaluacion> _Read(int idUsuario, DP2Context context)
+        {
+            //var ret = context.TablaColaboradores.FindByID(ColaboradorID).ColaboradorXProcesoEvaluaciones.Select(x => x.ProcesoEvaluacion.ToDTO()).ToList();
+
+            // context.TablaColaboradores.FindByID(ColaboradorID).Evaluadores.where(x => x.ProcesoEvaluacionXColaborador.ProcesoEvaluacionID == procesoID).toList();
+            List<ProcesoEvaluacion> listaProceso = new List<ProcesoEvaluacion>();
+
+            IList<Evaluador> listaProcesosEvaluador = (context.TablaEvaluadores.Where(a => a.ElEvaluado == idUsuario));
+
+            for (int i = 0; i < listaProcesosEvaluador.Count; i++)
+            {
+
+                ProcesoEvaluacion procesoauxiliar = context.TablaProcesoEvaluaciones.One(b => b.ID == (listaProcesosEvaluador.ElementAt(i).ProcesoEnElQueParticipanID) &&
+                    b.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(e => e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Terminado)).ID);
+
+                if (procesoauxiliar != null)
+                {
+                    listaProceso.Add(procesoauxiliar);
+                }
+
+                //listaProceso.Add(context.TablaProcesoEvaluaciones.FindByID(listaProcesosEvaluador.ElementAt(i).ProcesoEnElQueParticipanID));
+
+            }
+            return listaProceso.GroupBy(x => x.ID).Select(y => y.FirstOrDefault()).ToList();
+        }
 
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
             using (DP2Context context = new DP2Context())
             {
                 int ColaboradorID = DP2MembershipProvider.GetPersonaID(this);
-                //var ret = context.TablaColaboradores.FindByID(ColaboradorID).ColaboradorXProcesoEvaluaciones.Select(x => x.ProcesoEvaluacion.ToDTO()).ToList();
+                List<ProcesoEvaluacion> procesos = _Read(ColaboradorID, context);
 
-                // context.TablaColaboradores.FindByID(ColaboradorID).Evaluadores.where(x => x.ProcesoEvaluacionXColaborador.ProcesoEvaluacionID == procesoID).toList();
-                List<ProcesoEvaluacion> listaProceso = new List<ProcesoEvaluacion>();
-
-                IList<Evaluador> listaProcesosEvaluador = (context.TablaEvaluadores.Where(a =>a.ElEvaluado == ColaboradorID));
-
-                for (int i = 0; i < listaProcesosEvaluador.Count; i++)
-                {
-
-                    ProcesoEvaluacion procesoauxiliar = context.TablaProcesoEvaluaciones.One(b => b.ID == (listaProcesosEvaluador.ElementAt(i).ProcesoEnElQueParticipanID) &&
-                        b.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(e => e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Terminado)).ID);
-
-                    if (procesoauxiliar != null)
-                    {
-                        listaProceso.Add(procesoauxiliar);
-                    }
-                                                                         
-                    //listaProceso.Add(context.TablaProcesoEvaluaciones.FindByID(listaProcesosEvaluador.ElementAt(i).ProcesoEnElQueParticipanID));
-
-                }
-
-                return Json(listaProceso.GroupBy(x => x.ID).Select(y => y.FirstOrDefault()).Select(x => x.ToDTO()).ToDataSourceResult(request));
+                return Json(procesos.Select(x => x.ToDTO()).ToDataSourceResult(request));
 
             }
         }
