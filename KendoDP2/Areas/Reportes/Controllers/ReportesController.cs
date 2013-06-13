@@ -56,11 +56,18 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 List<ObjetivoRDTO> ListaObjetivos2 = new List<ObjetivoRDTO>();
                 List<ObjetivoDTO> ListaObjetivos3 = new List<ObjetivoDTO>();
 
+                
                 ListaObjetivos3 = context.TablaObjetivos.All().Select(o => o.ToDTO(context)).ToList();
-                List<Objetivo> ListaObjetivos2aux = context.TablaObjetivos.Where(o => o.ToDTO(context).TipoObjetivoBSCID == BSCId && o.ToDTO(context).BSCID == idperiodo).ToList();
-                if (ListaObjetivos2aux.Count>0){
-                    ListaObjetivos2=ListaObjetivos2aux.Select(p => p.ToRDTO(context)).ToList();
+                foreach (ObjetivoDTO obj in ListaObjetivos3)
+                {
+                    if (obj.BSCID ==idperiodo && obj.TipoObjetivoBSCID==BSCId){
+                        ListaObjetivos2.AddRange(context.TablaObjetivos.Where(o => o.ID == obj.ID).Select(oo => oo.ToRDTO(context)));
+                    }
                 }
+                //List<Objetivo> ListaObjetivos2aux = context.TablaObjetivos.Where(o => o.ToDTO(context).TipoObjetivoBSCID == BSCId && o.ToDTO(context).BSCID == idperiodo).ToList();
+                //if (ListaObjetivos2aux.Count>0){
+                //    ListaObjetivos2=ListaObjetivos2aux.Select(p => p.ToRDTO(context)).ToList();
+                //}
 
                 return Json(ListaObjetivos2, JsonRequestBehavior.AllowGet);
                 //return Json(ListaObjetivos, JsonRequestBehavior.AllowGet);

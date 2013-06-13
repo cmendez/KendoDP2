@@ -43,6 +43,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             using (DP2Context context = new DP2Context())
             {
                 Objetivo o = new Objetivo(objetivo, context);
+                o.PuestoAsignadoID = 1;
                 context.TablaObjetivos.AddElement(o);
                 return Json(new[] { o.ToDTO(context) }.ToDataSourceResult(request, ModelState));
             }
