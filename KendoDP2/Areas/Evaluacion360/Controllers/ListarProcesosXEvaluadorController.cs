@@ -38,44 +38,45 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
+        internal List<ProcesoEvaluacion> _Read(int idUsuario, DP2Context context)
+        {
+            //var ret = context.TablaColaboradores.FindByID(ColaboradorID).ColaboradorXProcesoEvaluaciones.Select(x => x.ProcesoEvaluacion.ToDTO()).ToList();
 
+            // context.TablaColaboradores.FindByID(ColaboradorID).Evaluadores.where(x => x.ProcesoEvaluacionXColaborador.ProcesoEvaluacionID == procesoID).toList();
+            List<ProcesoEvaluacion> listaProceso = new List<ProcesoEvaluacion>();
+
+            IList<Evaluador> listaProcesosEvaluador = (context.TablaEvaluadores.Where(a => a.ElIDDelEvaluador == idUsuario));
+
+            for (int i = 0; i < listaProcesosEvaluador.Count; i++)
+            {
+                //listaProceso.Add(context.TablaProcesoEvaluaciones.FindByID(listaProcesosEvaluador.ElementAt(i).ProcesoEnElQueParticipanID));
+
+                //listaProceso.Add(context.TablaProcesoEvaluaciones.One(b => b.ID == (listaProcesosEvaluador.ElementAt(i).ProcesoEnElQueParticipanID) &&
+                //  b.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(e=> e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Iniciado)).ID));
+
+                ProcesoEvaluacion procesoauxiliar = context.TablaProcesoEvaluaciones.One(b => b.ID == (listaProcesosEvaluador.ElementAt(i).ProcesoEnElQueParticipanID) &&
+                    b.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(e => e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso)).ID);
+
+                if (procesoauxiliar != null)
+                {
+                    listaProceso.Add(procesoauxiliar);
+                }
+                //  b.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(e=> e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso)).ID));
+
+            }
+            if (listaProceso.Count == 0)
+                return listaProceso;
+            else
+                return listaProceso.GroupBy(x => x.ID).Select(y => y.FirstOrDefault()).ToList();
+        }
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
             using (DP2Context context = new DP2Context())
             {
                 int ColaboradorID = DP2MembershipProvider.GetPersonaID(this);
-                //var ret = context.TablaColaboradores.FindByID(ColaboradorID).ColaboradorXProcesoEvaluaciones.Select(x => x.ProcesoEvaluacion.ToDTO()).ToList();
+                List<ProcesoEvaluacion> listaProceso = _Read(ColaboradorID, context);
 
-                // context.TablaColaboradores.FindByID(ColaboradorID).Evaluadores.where(x => x.ProcesoEvaluacionXColaborador.ProcesoEvaluacionID == procesoID).toList();
-                List<ProcesoEvaluacion> listaProceso = new List<ProcesoEvaluacion>();
-
-                IList<Evaluador> listaProcesosEvaluador = (context.TablaEvaluadores.Where(a => a.ElIDDelEvaluador == ColaboradorID));
-
-                for (int i = 0; i < listaProcesosEvaluador.Count; i++)
-                {
-                    //listaProceso.Add(context.TablaProcesoEvaluaciones.FindByID(listaProcesosEvaluador.ElementAt(i).ProcesoEnElQueParticipanID));
-                    
-                    //listaProceso.Add(context.TablaProcesoEvaluaciones.One(b => b.ID == (listaProcesosEvaluador.ElementAt(i).ProcesoEnElQueParticipanID) &&
-                      //  b.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(e=> e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Iniciado)).ID));
-
-                    ProcesoEvaluacion procesoauxiliar= context.TablaProcesoEvaluaciones.One(b => b.ID == (listaProcesosEvaluador.ElementAt(i).ProcesoEnElQueParticipanID) &&
-                        b.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(e=> e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso)).ID);
-
-                    if (procesoauxiliar!=null) {
-                        listaProceso.Add(procesoauxiliar);                    
-                    }
-                    //  b.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(e=> e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso)).ID));
-
-                }
-
-                if (listaProceso.Count==0)
-                {
-                    return Json(listaProceso.Select(x => x.ToDTO()).ToDataSourceResult(request));
-                }
-                else
-                {
-                    return Json(listaProceso.GroupBy(x => x.ID).Select(y => y.FirstOrDefault()).Select(x => x.ToDTO()).ToDataSourceResult(request));
-                }                
+                return Json(listaProceso.Select(x => x.ToDTO()).ToDataSourceResult(request));
             }
         }
 
