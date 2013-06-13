@@ -9,7 +9,6 @@ using System.Web.Mvc;
 using KendoDP2.Areas.Evaluacion360.Models;
 using KendoDP2.Models.Seguridad;
 using KendoDP2.Areas.Organizacion.Models;
-
 namespace KendoDP2.Areas.Evaluacion360.Controllers
 {
     [Authorize()]
@@ -72,7 +71,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 {  // no tiene puesto asociado, se muestran todos los procesos
                     return Json(listaProcesos.ToDataSourceResult(request));
                 }
-                    // no tiene puesto asociado, se muestran todos los procesos
+                // no tiene puesto asociado, se muestran todos los procesos
                 if (cxp == null) {
                     return Json(listaProcesos.ToDataSourceResult(request));
                 }
@@ -82,15 +81,27 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     Puesto puesto = context.TablaPuestos.FindByID(cxp.PuestoID);
                     // No es presidente, admin 
                     if (puesto != null && puesto.PuestoSuperiorID != null) {
-                        var listaProcesos_ = context.TablaColaboradorXProcesoEvaluaciones.Where(e => 
-                            (context.TablaPuestos.FindByID(e.Colaborador.ToDTO().PuestoID) ?? new Puesto())
-                            .PuestoSuperiorID == puesto.ID
-                            && e.ProcesoEvaluacion
-                            .EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(z => z.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Iniciado))
-                            .ID);
-                        listaProcesos = listaProcesos_.Select(x => x.ProcesoEvaluacion.ToDTO());
-                        
-                        return Json(listaProcesos.ToDataSourceResult(request));                                                                                                                                                                                                                     
+                        IList<ProcesoEvaluacionDTO> listaProcesos_ = new List<ProcesoEvaluacionDTO>();
+                        listaProcesos = listaProcesos.Where(p=>p.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(e=>e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Iniciado)).ID);
+                        foreach (ProcesoEvaluacionDTO p in listaProcesos) {
+                            IList<ColaboradorXProcesoEvaluacion> listaEvaluados = context.TablaColaboradorXProcesoEvaluaciones.Where(x=>x.ProcesoEvaluacionID==p.ID);
+                            foreach (ColaboradorXProcesoEvaluacion colaborador in listaEvaluados) {
+                                try
+                                {
+                                    Colaborador jefe = consigueSuJefe(colaborador.ColaboradorID, context);
+                                    ColaboradorXPuesto jefePuesto = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == jefe.ID && (x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto));
+                                    if (jefePuesto.PuestoID == puesto.ID)
+                                    {
+                                        listaProcesos_.Add(p);
+                                    }
+                                }
+                                catch (Exception exc) {
+                                    continue;
+                                }
+                            }
+                               
+                        }
+                        return Json(listaProcesos_.ToDataSourceResult(request));                                                                                                                                                                                        
                     }
                 } 
                   
@@ -378,7 +389,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
               }
               
               // Procesar resultados parciales y modificar estados 
-             // CalcularYGuardarResultadosProceso(proceso, context);
+              CalcularYGuardarResultadosProceso(proceso, context);
 
               // Actualiza estado del proceso
               EstadoProcesoEvaluacion terminado = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Terminado));
@@ -397,8 +408,6 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 
                 // Obtener todas las instancias de tabla evaluador para calcula las notas de cada evaluacion
                 IList<Evaluador> evaluadores = context.TablaEvaluadores.Where(x=> x.ElIDDelEvaluador == evaluadorID && x.ElEvaluado == evaluadoID && x.ProcesoEnElQueParticipanID == proceso.ID);
-                //evaluados.Select(x => x.ElIDDelEvaluador == evaluadorID && x.ElEvaluado == evaluadoID);
-               
                 int notaEvaluadoXProceso = 0;
                 int acumuladoPesos = 0;
                 foreach (Evaluador evaluador in evaluadores) {
@@ -467,6 +476,9 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
             return esAdmin;
         }
-        
+        private Colaborador consigueSuJefe(int idEvaluado, DP2Context context)
+        {
+            return GestorServiciosPrivados.consigueElJefe(idEvaluado, context);
+        }
     }
 }
