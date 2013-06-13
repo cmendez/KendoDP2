@@ -20,6 +20,29 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
+        class Respuesta
+        {
+            public int PreguntaID {get; set;}
+            public int Puntaje {get; set;}
+            public Respuesta(){}
+        }
+        public ActionResult ResponderPreguntas(List<Respuesta> respuestas)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                try
+                {
+                    var contr = new ProcesoEvaluacionController();
+                    foreach (var resp in respuestas)
+                        contr._GuardarPuntuacionPregunta(resp.PreguntaID, resp.Puntaje, context);
+                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception)
+                {
+                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
         
     }
 }

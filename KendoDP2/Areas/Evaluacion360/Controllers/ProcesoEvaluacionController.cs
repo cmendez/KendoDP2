@@ -446,14 +446,20 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
+
+        public void _GuardarPuntuacionPregunta(int preguntaID, int puntuacion, DP2Context context)
+        {
+            Pregunta p = context.TablaPreguntas.FindByID(preguntaID);
+            p.Puntuacion = Convert.ToInt32(Decimal.Floor(puntuacion / 100));
+            context.TablaPreguntas.ModifyElement(p);
+        }
+
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult GuardarPuntuacionPregunta([DataSourceRequest] DataSourceRequest request, int preguntaID, int puntuacion)
         {
 
             using (DP2Context context = new DP2Context()) {
-                Pregunta p = context.TablaPreguntas.FindByID(preguntaID);
-                p.Puntuacion = Convert.ToInt32(Decimal.Floor(puntuacion/100));
-                context.TablaPreguntas.ModifyElement(p);
+                _GuardarPuntuacionPregunta(preguntaID, puntuacion, context);
                 return Json(new { success = true });
             }
      
