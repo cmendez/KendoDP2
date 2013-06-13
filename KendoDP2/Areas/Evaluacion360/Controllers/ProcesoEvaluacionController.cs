@@ -431,15 +431,18 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             //EstadoProcesoEvaluacion procesoTerminado = context.TablaEstadoProcesoEvaluacion.One(e=>e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Terminado));
 
         }
-        
+
+        public List<Pregunta> _Editing_ReadCapEvaluacion(int puestoID, int tablaEvaluadoresID, DP2Context context)
+        {
+            Examen examen = context.TablaExamenes.One(x => x.EvaluadorID == tablaEvaluadoresID);
+            return context.TablaPreguntas.Where(x => x.ExamenID == examen.ID).ToList();
+        }
+
         public ActionResult Editing_ReadCapEvaluacion([DataSourceRequest] DataSourceRequest request, int puestoID, int tablaEvaluadoresID)
         {
             using (DP2Context context = new DP2Context())
             {
-                Examen examen = context.TablaExamenes.One(x => x.EvaluadorID == tablaEvaluadoresID);
-                
-                //return Json(context.TablaCapacidades.Where(c => c.NivelCapacidadID == nivelID && c.CompetenciaID == competenciaID).OrderBy(y => y.CompetenciaID).Select(p => p.ToDTO()).ToDataSourceResult(request));
-                return Json(context.TablaPreguntas.Where(x => x.ExamenID == examen.ID).ToDataSourceResult(request));
+                return Json(_Editing_ReadCapEvaluacion(puestoID, tablaEvaluadoresID, context).ToDataSourceResult(request));
             }
         }
 
