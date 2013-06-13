@@ -13,6 +13,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         public int Nota { get; set; }
         public int ExamenID { get; set; }
         public int NivelID { get; set; }
+        public int Peso { get; set; }
         public String Descripcion { get; set; }
         
         public virtual ICollection<Pregunta> ListaPreguntas { get; set; }
@@ -26,6 +27,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
             ExamenID = examen.ID;
             NivelID = cxp.NivelID;
             Descripcion = cxp.Competencia.Nombre;
+            Peso = cxp.Peso;
         }
 
 
