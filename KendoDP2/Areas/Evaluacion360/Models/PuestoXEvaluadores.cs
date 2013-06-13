@@ -67,6 +67,16 @@ namespace KendoDP2.Areas.Evaluacion360.Models
             Cantidad = cantidad;
             Peso = peso;        
         }
-    
+    }
+
+    public class ConstantesClaseEntornoPuestoEvaluadores
+    {
+        public static string El_mismo = "El mismo";
+        public static string Jefe = "Jefe";
+        public static string Pares = "Pares";
+        public static string Terminado = "Terminado";
+        public static string Subordinados = "Subordinados";
+        public static string Clientes = "Clientes";
+        public static string Otros = "Otros";
     }
 }
