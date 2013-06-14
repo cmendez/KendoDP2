@@ -183,7 +183,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         // devuelve si se cambio a true ReferenciaDirecta
         private bool AddColaboradorToProceso(int colaboradorID, int procesoID, DP2Context context, bool esReferenciaDirecta)
         {
-            if(!context.TablaColaboradoresXPuestos.Any(x => x.ColaboradorID == colaboradorID && !x.IsEliminado && (x.FechaSalidaPuesto == null || x.FechaSalidaPuesto > DateTime.Today))
+            if(!context.TablaColaboradoresXPuestos.Any(x => x.ColaboradorID == colaboradorID && !x.IsEliminado && (x.FechaSalidaPuesto == null || x.FechaSalidaPuesto > DateTime.Today)))
                 return false;
             var cruce = context.TablaColaboradorXProcesoEvaluaciones.One(x => x.ColaboradorID == colaboradorID && x.ProcesoEvaluacionID == procesoID);
             EstadoColaboradorXProcesoEvaluacion pendiente = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Pendiente));
@@ -484,8 +484,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 e.EstadoColaboradorXProcesoEvaluacionID = terminado.ID;
                 context.TablaColaboradorXProcesoEvaluaciones.ModifyElement(e);
             }
-            //EstadoProcesoEvaluacion procesoTerminado = context.TablaEstadoProcesoEvaluacion.One(e=>e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Terminado));
-
+      
         }
 
         public List<Pregunta> _Editing_ReadCapEvaluacion(int puestoID, int tablaEvaluadoresID, DP2Context context)
