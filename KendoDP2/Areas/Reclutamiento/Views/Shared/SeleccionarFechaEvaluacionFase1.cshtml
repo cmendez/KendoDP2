@@ -16,6 +16,7 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     
+    if(!yaAprobado){
     <div style="width: 450px;">
         <div class="row-fluid">
 
@@ -41,6 +42,7 @@
         </div>
     </div>
     
+}
     
     if (!yaAprobado)
     {

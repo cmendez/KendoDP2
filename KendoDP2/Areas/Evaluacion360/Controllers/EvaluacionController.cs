@@ -22,12 +22,18 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             
         }
 
-        public ActionResult Index(int instanciaEvaluadores, int colaboradorEvaluadoIDP)
+        public ActionResult Index(int instanciaEvaluadores, int colaboradorEvaluadoID)
         {
-            int colaboradorEvaluadoID =colaboradorEvaluadoIDP;
+            // Recibir esta variable como parámetro
+            int colaboradorEvaluadoIDP = colaboradorEvaluadoID;
             using (DP2Context context = new DP2Context())
             {
-                ColaboradorDTO evaluado = context.TablaColaboradores.One(c => c.ID == colaboradorEvaluadoID).ToDTO();
+                ColaboradorDTO evaluado = context.TablaColaboradores.One(c => c.ID == colaboradorEvaluadoIDP).ToDTO();
+           /*     CompetenciaXPuesto competenciaPuesto = context.TablaCompetenciaXPuesto.One(x => x.PuestoID == evaluado.PuestoID);
+                IList<Capacidad> capacidades = context.TablaCapacidades.Where(x => x.NivelCapacidadID==competenciaPuesto.NivelID && x.CompetenciaID == competenciaPuesto.CompetenciaID).ToList();
+                IList<CompetenciaXPuesto> competencias = context.TablaCompetenciaXPuesto.Where(x => x.PuestoID == evaluado.PuestoID);
+              */
+
                 ViewBag.evaluado = evaluado;
                 ViewBag.instanciaEvaluadores = instanciaEvaluadores;
                 return View();
@@ -39,21 +45,22 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             // Calcular nota de evaluacion
             using (DP2Context context = new DP2Context()){
                 Examen examen = context.TablaExamenes.One(x => x.EvaluadorID == tablaEvaluadoresID);
-               // Falta agregar el promedio final (incluye competencias)
-                IList<CompetenciaXExamen> competenciasEvaluadas = context.TablaCompentenciaXExamen.Where(x=>x.ExamenID == examen.ID);
-                int nota = 0;
+                IList<CompetenciaXExamen> competenciasEvaluadas = context.TablaCompetenciaXExamen.Where(x=>x.ExamenID == examen.ID );
+                
+                int notaExamen = 0;
+                int acumuladoPesos = 0;
                 foreach (CompetenciaXExamen c in competenciasEvaluadas) {
-                    //
-                    IList<Pregunta> preguntasXCompetencia = context.TablaPreguntas.Where(x => x.competenciaID==c.CompetenciaID);
-                    int notaCompetencia = Convert.ToInt32(Decimal.Floor(preguntasXCompetencia.Sum(x => x.Puntuacion)/100));
-                    c.Nota = notaCompetencia;
+                    IList<Pregunta> preguntasXCompetencia = context.TablaPreguntas.Where(x => x.competenciaID==c.CompetenciaID && x.ExamenID == examen.ID);
+                    c.Nota = preguntasXCompetencia.Sum(x => x.Puntuacion);
 
-                    nota += notaCompetencia;
-                    context.TablaCompentenciaXExamen.ModifyElement(c);
+                    notaExamen+= (c.Nota * c.Peso);
+                    acumuladoPesos+= c.Peso;
+                    context.TablaCompetenciaXExamen.ModifyElement(c);
                 }
                 if (competenciasEvaluadas != null && competenciasEvaluadas.Count>0) {
-                    nota = Convert.ToInt32(Decimal.Floor(nota/competenciasEvaluadas.Count));
-                    examen.NotaExamen = nota;
+                    notaExamen = Convert.ToInt32(Decimal.Floor(notaExamen/ acumuladoPesos));
+                    examen.NotaExamen = notaExamen;
+
                     EstadoColaboradorXProcesoEvaluacion terminado = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado));
                     examen.EstadoExamenID = terminado.ID;
 

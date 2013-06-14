@@ -41,22 +41,26 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         public JsonResult consultarSusCompanerosPares(string deEsteColaborador)
         {
 
-            try
+            using (DP2Context contexto = new DP2Context())
             {
-                int identificadorEnFormatoNumerico = Convert.ToInt32(deEsteColaborador);
+                try
+                {
+                    int identificadorEnFormatoNumerico = Convert.ToInt32(deEsteColaborador);
 
-                List<Colaborador> losPares = GestorServiciosPrivados.consigueSusCompañerosPares(identificadorEnFormatoNumerico);
+                    //List<Colaborador> losPares = GestorServiciosPrivados.consigueSusCompañerosPares(identificadorEnFormatoNumerico);
+                    List<Colaborador> losPares = GestorServiciosPrivados.consigueSusCompañerosPares(identificadorEnFormatoNumerico, contexto);
 
-                List<ColaboradorDTO> enFormatoParaElCliente = losPares.Select(p => p.ToDTO()).ToList();
+                    List<ColaboradorDTO> enFormatoParaElCliente = losPares.Select(p => p.ToDTO()).ToList();
 
-                return JsonSuccessGet(new
-                    {
-                        losColaboradoresEnElMismoRango = enFormatoParaElCliente
-                    });
-            }
-            catch (Exception ocurrioUnProblema)
-            {
-                return JsonErrorGet("Error en la BD: " + ocurrioUnProblema.Message);
+                    return JsonSuccessGet(new
+                        {
+                            losColaboradoresEnElMismoRango = enFormatoParaElCliente
+                        });
+                }
+                catch (Exception ocurrioUnProblema)
+                {
+                    return JsonErrorGet("Error en la BD: " + ocurrioUnProblema.Message);
+                }
             }
         }
 
@@ -65,18 +69,25 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
             try
             {
-                int identificadorEnFormatoNumerico = Convert.ToInt32(deEsteColaborador);
 
-                Colaborador losDatosDeSuJefe = GestorServiciosPrivados.consigueElJefe(identificadorEnFormatoNumerico);
-
-                List<Colaborador> suJefeComoGrupoDeUno = new List<Colaborador>{ losDatosDeSuJefe };
-
-                List<ColaboradorDTO> enFormatoParaElCliente = suJefeComoGrupoDeUno.Select(p => p.ToDTO()).ToList();
-
-                return JsonSuccessGet(new
+                //using
+                //using (DP2Context context = new DP2Context())
+                using (DP2Context contexto = new DP2Context())
                 {
-                    suSuperior = enFormatoParaElCliente
-                });
+                    int identificadorEnFormatoNumerico = Convert.ToInt32(deEsteColaborador);
+
+                    //Colaborador losDatosDeSuJefe = GestorServiciosPrivados.consigueElJefe(identificadorEnFormatoNumerico);
+                    Colaborador losDatosDeSuJefe = GestorServiciosPrivados.consigueElJefe(identificadorEnFormatoNumerico, contexto);
+
+                    List<Colaborador> suJefeComoGrupoDeUno = new List<Colaborador> { losDatosDeSuJefe };
+
+                    List<ColaboradorDTO> enFormatoParaElCliente = suJefeComoGrupoDeUno.Select(p => p.ToDTO()).ToList();
+
+                    return JsonSuccessGet(new
+                    {
+                        suSuperior = enFormatoParaElCliente
+                    });
+                }
             }
             catch (Exception ocurrioUnProblema)
             {
@@ -87,24 +98,30 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         public JsonResult conocerEquipoDeTrabajo(string deEsteColaborador)
         {
 
-            try
+            using (DP2Context contexto = new DP2Context())
             {
-                int identificadorEnFormatoNumerico = Convert.ToInt32(deEsteColaborador);
 
-                List<Colaborador> colegas = GestorServiciosPrivados.consigueSusCompañerosPares(identificadorEnFormatoNumerico);
-
-                //List<Colaborador> suJefeComoGrupoDeUno = new List<Colaborador> { losDatosDeSuJefe };
-
-                List<ColaboradorDTO> enFormatoParaElCliente = colegas.Select(p => p.ToDTO()).ToList();
-
-                return JsonSuccessGet(new
+                try
                 {
-                    losEmpleadosQueLeReportan = enFormatoParaElCliente
-                });
-            }
-            catch (Exception ocurrioUnProblema)
-            {
-                return JsonErrorGet("Error en la BD: " + ocurrioUnProblema.Message);
+                    int identificadorEnFormatoNumerico = Convert.ToInt32(deEsteColaborador);
+
+                    //List<Colaborador> colegas = GestorServiciosPrivados.consigueSusCompañerosPares(identificadorEnFormatoNumerico);
+                    //List<Colaborador> colegas = GestorServiciosPrivados.consigueSusCompañerosPares(identificadorEnFormatoNumerico, contexto);
+                    List<Colaborador> colegas = GestorServiciosPrivados.consigueSusSubordinados(identificadorEnFormatoNumerico, contexto);
+
+                    //List<Colaborador> suJefeComoGrupoDeUno = new List<Colaborador> { losDatosDeSuJefe };
+
+                    List<ColaboradorDTO> enFormatoParaElCliente = colegas.Select(p => p.ToDTO()).ToList();
+
+                    return JsonSuccessGet(new
+                    {
+                        losEmpleadosQueLeReportan = enFormatoParaElCliente
+                    });
+                }
+                catch (Exception ocurrioUnProblema)
+                {
+                    return JsonErrorGet("Error en la BD: " + ocurrioUnProblema.Message);
+                }
             }
         }
 

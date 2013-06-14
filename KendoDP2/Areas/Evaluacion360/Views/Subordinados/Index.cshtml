@@ -24,15 +24,18 @@
     <div class="portlet-body">
 
         @*(Html.Kendo().Grid<CompetenciaDTO>()*@
-        @(Html.Kendo().Grid<EvaluadorSubordinadosDTO>()
+        @*(Html.Kendo().Grid<EvaluadorSubordinadosDTO>()*@
+        @(Html.Kendo().Grid<ProcesoXEvaluadoXEvaluadorDTO>()
             .Name("SupervisionDeExamenes")
             .Columns(columns =>
-                {
-                    columns.Bound(pxexe => pxexe.Proceso.Nombre).Title("Proceso");
-                    columns.Bound(pxexe => pxexe.Evaluado.Nombre).Title("Subordinado");
-                    columns.Bound(pxexe => pxexe.Evaluador.Nombre).Title("Evaluador");
-                    columns.Bound(pxexe => pxexe.FaseDeLaEvaluacion);
-                }
+            {
+                columns.Bound(pxexe => pxexe.Proceso.Nombre).Title("Proceso");
+                columns.Bound(pxexe => pxexe.Evaluado.Nombre).Title("Subordinado");
+                columns.Bound(pxexe => pxexe.Evaluador.Nombre).Title("Evaluador");
+                //columns.Bound(pxexe => pxexe.FaseDeLaEvaluacion);
+                columns.Bound(pxexe => pxexe.Estado);
+                columns.Bound(pxexe => pxexe.Nota);
+            }
             )
             .Pageable(paper => paper.Refresh(true))
             .Filterable()

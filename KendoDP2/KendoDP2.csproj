@@ -39,6 +39,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ConsolR.Core">
+      <HintPath>..\packages\ConsolR.0.1.0.0\lib\net40\ConsolR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="ConsolR.Hosting">
+      <HintPath>..\packages\ConsolR.0.1.0.0\lib\net40\ConsolR.Hosting.dll</HintPath>
+    </Reference>
     <Reference Include="Devtalk.EF.CodeFirst">
       <HintPath>..\packages\EFCodeFirst.CreateTablesOnly.1.0.2\lib\Devtalk.EF.CodeFirst.dll</HintPath>
     </Reference>
@@ -46,6 +52,33 @@
       <HintPath>..\lib\KENDOUIMVC\2013.1.319.340\Kendo.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Roslyn.Compilers">
+      <HintPath>..\packages\Roslyn.1.0.11014.5\lib\net40\Roslyn.Compilers.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Compilers.CSharp">
+      <HintPath>..\packages\Roslyn.1.0.11014.5\lib\net40\Roslyn.Compilers.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Compilers.VisualBasic">
+      <HintPath>..\packages\Roslyn.1.0.11014.5\lib\net40\Roslyn.Compilers.VisualBasic.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Services">
+      <HintPath>..\packages\Roslyn.1.0.11014.5\lib\net40\Roslyn.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Services.CSharp">
+      <HintPath>..\packages\Roslyn.1.0.11014.5\lib\net40\Roslyn.Services.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Services.VisualBasic">
+      <HintPath>..\packages\Roslyn.1.0.11014.5\lib\net40\Roslyn.Services.VisualBasic.dll</HintPath>
+    </Reference>
+    <Reference Include="SignalR">
+      <HintPath>..\packages\SignalR.Server.0.5.3\lib\net40\SignalR.dll</HintPath>
+    </Reference>
+    <Reference Include="SignalR.Hosting.AspNet">
+      <HintPath>..\packages\SignalR.Hosting.AspNet.0.5.3\lib\net45\SignalR.Hosting.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="SignalR.Hosting.Common">
+      <HintPath>..\packages\SignalR.Hosting.Common.0.5.3\lib\net40\SignalR.Hosting.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -198,12 +231,16 @@
     <Compile Include="Areas\Evaluacion360\Controllers\EvaluacionController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\EvaluadoresController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\GestorDatosDeColaboradoresController.cs" />
+    <Compile Include="Areas\Evaluacion360\Controllers\ListarProcesosXEvaluadoController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\ListarProcesosXEvaluadorController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\ProcesoEvaluacionController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\PuestosEvaluacionController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\RolEvaluadorController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\SubordinadosController.cs" />
     <Compile Include="Areas\Evaluacion360\Controllers\WSCompetenciasController.cs" />
+    <Compile Include="Areas\Evaluacion360\Controllers\WSEvaluacionController.cs" />
+    <Compile Include="Areas\Evaluacion360\Controllers\WSListarProcesosXEvaluadoController.cs" />
+    <Compile Include="Areas\Evaluacion360\Controllers\WSListarProcesosXEvaluadorController.cs" />
     <Compile Include="Areas\Evaluacion360\Evaluacion360AreaRegistration.cs" />
     <Compile Include="Areas\Evaluacion360\Models\AreaXProcesoEvaluacion.cs" />
     <Compile Include="Areas\Evaluacion360\Models\Capacidad.cs" />
@@ -265,6 +302,7 @@
     <Compile Include="Areas\Organizacion\Models\PuestoXArea.cs" />
     <Compile Include="Areas\Organizacion\Models\EstadosPuesto.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\OfertasLaboralesExternasController.cs" />
+    <Compile Include="Areas\Reclutamiento\Controllers\WSPostulanteController.cs" />
     <Compile Include="Areas\Reclutamiento\Models\EstadoPostulantePorOferta.cs" />
     <Compile Include="Areas\Organizacion\OrganizacionAreaRegistration.cs" />
     <Compile Include="Areas\Organizacion\Controllers\ColaboradoresController.cs" />
@@ -328,6 +366,34 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\consolr\css\consolr.css" />
+    <Content Include="Assets\consolr\css\vendor\bootstrap-2.0.2.css" />
+    <Content Include="Assets\consolr\css\vendor\codemirror-2.23.css" />
+    <Content Include="Assets\consolr\css\vendor\codemirror-neat-2.23.css" />
+    <Content Include="Assets\consolr\css\vendor\font-awesome.css" />
+    <Content Include="Assets\consolr\img\appharbor.png" />
+    <Content Include="Assets\consolr\img\appharbor_small.png" />
+    <Content Include="Assets\consolr\img\define.png" />
+    <Content Include="Assets\consolr\img\execute.png" />
+    <Content Include="Assets\consolr\img\glyphicons-halflings-white.png" />
+    <Content Include="Assets\consolr\img\glyphicons-halflings.png" />
+    <Content Include="Assets\consolr\img\observe.png" />
+    <Content Include="Assets\consolr\img\octocat.png" />
+    <Content Include="Assets\consolr\img\twitter.png" />
+    <Content Include="Assets\consolr\Index.html" />
+    <Content Include="Assets\consolr\js\consolr.js" />
+    <Content Include="Assets\consolr\js\consolr.validation.js" />
+    <Content Include="Assets\consolr\js\vendor\backbone-0.9.2.js" />
+    <Content Include="Assets\consolr\js\vendor\bootstrap-2.0.2.js" />
+    <Content Include="Assets\consolr\js\vendor\codemirror-2.23.js" />
+    <Content Include="Assets\consolr\js\vendor\codemirror-clike-2.23.js" />
+    <Content Include="Assets\consolr\js\vendor\jquery.signalR-0.5.0.js" />
+    <Content Include="Assets\consolr\js\vendor\jquery.validate-1.8.0.js" />
+    <Content Include="Assets\consolr\js\vendor\jquery.validate-hooks.js" />
+    <Content Include="Assets\consolr\js\vendor\jquery.validate.unobtrusive.js" />
+    <Content Include="Assets\consolr\js\vendor\json2.js" />
+    <Content Include="Assets\consolr\js\vendor\shortcut.js" />
+    <Content Include="Assets\consolr\js\vendor\underscore-1.3.1.js" />
     <Content Include="Content\assets\css\pages\email.css" />
     <Content Include="Content\assets\css\pages\error.css" />
     <Content Include="Content\assets\css\pages\inbox.css" />
@@ -1832,7 +1898,6 @@
     <Content Include="Areas\Objetivos\Views\Web.config" />
     <Content Include="Areas\Objetivos\Views\ObjetivosEmpresa\Index.cshtml" />
     <Content Include="Areas\Seguridad\Views\Web.config" />
-    <Content Include="Areas\Seguridad\Views\Roles\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Web.config" />
     <Content Include="Areas\Organizacion\Views\Colaboradores\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Shared\EditorTemplates\EditorColaborador.cshtml" />
@@ -1898,13 +1963,19 @@
     <Content Include="Areas\Evaluacion360\Views\Configuracion360\Index.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\ListarProcesosXEvaluador\Index.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\ListarProcesosXEvaluador\ListarEvaluados.cshtml" />
-    <Content Include="Areas\Evaluacion360\Views\ListarProcesosXEvaluador\resultados.cshtml" />
     <Content Include="Areas\Organizacion\Views\Organigrama\Index.cshtml" />
+    <Content Include="Areas\Evaluacion360\Views\ListarProcesosXEvaluado\Index.cshtml" />
+    <Content Include="Areas\Evaluacion360\Views\ListarProcesosXEvaluado\ListarResultados.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\Subordinados\Index.cshtml" />
     <Content Include="Areas\Organizacion\Views\Shared\ViewContacto.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\SeleccionarFechaEvaluacionFase1.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\SeleccionarFechaEvaluacionFase2.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\SeleccionarFechaEvaluacionFase3.cshtml" />
+    <Content Include="Areas\Seguridad\Views\Roles\Index.cshtml" />
+    <Content Include="Areas\Organizacion\Views\Shared\EventosIntranet.cshtml" />
+    <Content Include="Areas\Objetivos\Views\MisObjetivos\GetViewAvancesObjetivo.cshtml" />
+    <Content Include="eula.rtf" />
+    <Content Include="Areas\Evaluacion360\Views\ProcesoEvaluacion\IniciarEvaluacion.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\areas_icon.png" />
     <Content Include="Images\favicon.ico" />

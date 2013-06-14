@@ -5,7 +5,7 @@
 @using KendoDP2.Areas.Organizacion.Models
 
 @{
-    ViewBag.Title = "Mis Objetivos";
+    ViewBag.Title = "Mis objetivos";
     Layout = "~/Views/Shared/_Layout.cshtml";
     IList<ColaboradorDTO> colaboradores = ViewBag.colaboradores;
     int colaboradorID = ViewBag.colaboradorID;
@@ -18,7 +18,7 @@
     bool puedeEditar = ViewBag.puedeEditar;
 }
 
-@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Mis Objetivos", "Administre sus propios objetivos."));}
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Mis objetivos", "Administre sus propios objetivos."));}
 
 <div class="portlet box green">
     <div class="portlet-title">
@@ -83,9 +83,9 @@
                                            columns.Bound(p => p.Nombre).ClientFooterTemplate("<strong>Cantidad:</strong> #=count#");
                                            columns.Bound(p => p.Peso).ClientFooterTemplate("<strong>Suma:</strong> #=sum#");
                                            columns.Bound(p => p.AvanceFinal);
-                                           columns.Command(command => command.Custom("Ver Avances"));
+                                           columns.Bound(p => p.ComentarioUltimoAvance).Title("Comentario");
+                                           columns.Command(command => command.Custom("Ver Avances").Click("showAvances")) ;
                                            if (puedeEditar) {
-                                               columns.Command(command => { command.Custom("Registrar Avance");  });
                                                columns.Command(command => { command.Destroy().Text("Eliminar"); }).Width(200);
                                            }
                                        })
@@ -119,6 +119,14 @@
         </div>
     </div>
 </div>
+@(Html.Kendo().Window().Name("Details3")
+    .Title("Avances del objetivo")
+    .Visible(false)
+    .Modal(true)
+    .Draggable(true)
+    .Width(350)
+
+)
 
 <script type="text/javascript">
     var last_container = null;
@@ -160,4 +168,17 @@
             e.sender.read();
     }
     
+
+    function showAvances(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        ID = dataItem.ID;
+        var wnd = $("#Details3").data("kendoWindow");
+        $("#Details3").load("@Url.Action("GetViewAvancesObjetivo","MisObjetivos", new{Area = "Objetivos"})", 
+            {objetivoID : ID }, 
+            function () {
+                wnd.center().open();
+            });
+    }
 </script>

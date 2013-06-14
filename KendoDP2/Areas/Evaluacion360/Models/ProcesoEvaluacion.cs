@@ -59,6 +59,8 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         [DisplayName("Estado")]
         [ScaffoldColumn(false)]
         public int EstadoProcesoEvaluacionID { get; set; }
+        [ScaffoldColumn(false)]
+        public string EstadoNombre { get; set; }
 
         [DisplayName("Fecha de cierre a evaluadores")]
         [Required]
@@ -80,7 +82,9 @@ namespace KendoDP2.Areas.Evaluacion360.Models
             Nombre = p.Nombre;
             FechaCierre = p.FechaCierre.GetValueOrDefault().ToShortDateString();
             AutorizadorID = p.AutorizadorID;
-            EstadoProcesoEvaluacionID = p.EstadoProcesoEvaluacionID; 
+            EstadoProcesoEvaluacionID = p.EstadoProcesoEvaluacionID;
+            if (p.EstadoProcesoEvaluacion != null)
+                EstadoNombre = p.EstadoProcesoEvaluacion.Descripcion;
         }
     }
 

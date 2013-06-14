@@ -45,7 +45,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         }
 
 
-        new public ContactosDTO ToDTO()
+        public ContactosDTO ToDTO()
         {
             return new ContactosDTO(this);
         }
@@ -68,7 +68,8 @@ namespace KendoDP2.Areas.Organizacion.Models
             
             public ColaboradorDTO ColaboradorDTO { get; set; }
             public ColaboradorDTO ContactoDTO { get; set; }
-          
+            public string Nombre { get; set; }
+
             public ContactosDTO() { }
 
             public ContactosDTO(Contactos c)
@@ -77,8 +78,7 @@ namespace KendoDP2.Areas.Organizacion.Models
                 ColaboradorID = c.ColaboradorID;
                 ID = c.ID;
                 Relacion = c.Relacion;
-                //ColaboradorDTO = c.Colaborador.ToDTO();
-                //ContactoDTO = c.Contacto.ToDTO();
+                Nombre = c.Contacto.ApellidoPaterno + " " + c.Contacto.ApellidoMaterno + ", " + c.Contacto.Nombres;
                 try
                 {
                    

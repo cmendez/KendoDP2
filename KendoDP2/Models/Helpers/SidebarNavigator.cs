@@ -29,16 +29,18 @@ namespace KendoDP2.Models.Helpers
 				//new SidebarSuboption("Evaluaciones", "Registrar Evaluaciones", "Index", "icon-check"),
                 new SidebarSuboption("Procesos de evaluación", "ProcesoEvaluacion", "Index", "icon-road"),
                 new SidebarSuboption("Evaluación de puestos de trabajo", "PuestosEvaluacion", "Index", "icon-ok-sign"),
+                new SidebarSuboption("Mis evaluaciones", "ListarProcesosXEvaluado", "Index", "icon-ok-sign"),
             	new SidebarSuboption("Mis pendientes", "ListarProcesosXEvaluador", "Index", "icon-ok-sign"),
             	new SidebarSuboption("Mis subordinados", "Subordinados", "Index", "icon-group"),
+
             })));				
             
 
             // Objetivos
             Opciones.Add(new SidebarOption("Objetivos", "Objetivos", "icon-bookmark", new List<SidebarSuboption>(new SidebarSuboption[]{
                new SidebarSuboption("Objetivos de la empresa", "Objetivosempresa", "Index", "icon-ok"),
-               new SidebarSuboption("Monitoreo en mi Equipo de trabajo", "Acordion", "Index", "icon-ok"),
-               new SidebarSuboption("Mis Objetivos", "Misobjetivos", "Index", "icon-ok"),
+               new SidebarSuboption("Monitoreo en mi equipo de trabajo", "Acordion", "Index", "icon-ok"),
+               new SidebarSuboption("Mis objetivos", "Misobjetivos", "Index", "icon-ok"),
                new SidebarSuboption("Objetivos de subordinados", "Objetivossubordinados", "Index", "icon-ok")
             })));
 

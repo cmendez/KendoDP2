@@ -26,7 +26,6 @@ namespace KendoDP2.Areas.Organizacion.Models
         public string FechaSalidaEmpresa { get; set; }
 
         public virtual ICollection<Objetivo> Objetivos { get; set; }
-
         
         public virtual ICollection<ColaboradorXPuesto> ColaboradoresPuesto { get; set; }
 
@@ -44,8 +43,6 @@ namespace KendoDP2.Areas.Organizacion.Models
         public virtual ICollection<Contactos> EsContactoDe { get; set; }
         [InverseProperty("Colaborador")]
         public virtual ICollection<Contactos> Contactos { get; set; }
-
-        public virtual ICollection<Colaborador> ListaContactos { get; set; }
 
         public string ResumenEjecutivo { get; set; }
 

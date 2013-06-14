@@ -174,9 +174,8 @@ namespace KendoDP2.Models.Generic
             TablaColaboradores.AddElement(new Colaborador { Nombres = "colaborador modulo tres l", ApellidoPaterno = "Perez", ApellidoMaterno = "Fernández", Username = "Objetivosl", Password = "Objetivosl", TipoDocumentoID = idDNI, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = gradoacademico, Roles = TablaRoles.All() });
             TablaColaboradores.AddElement(new Colaborador { Nombres = "colaborador modulo tres m", ApellidoPaterno = "Perez", ApellidoMaterno = "Fernández", Username = "Objetivosm", Password = "Objetivosm", TipoDocumentoID = idDNI, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = gradoacademico, Roles = TablaRoles.All() });
             TablaColaboradores.AddElement(new Colaborador { Nombres = "colaborador modulo tres n", ApellidoPaterno = "Perez", ApellidoMaterno = "Fernández", Username = "Objetivosn", Password = "Objetivosn", TipoDocumentoID = idDNI, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = gradoacademico, Roles = TablaRoles.All() });
-
-
-
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "colaborador p", ApellidoPaterno = "Perez", ApellidoMaterno = "Fernández", Username = "Objetivosp", Password = "Objetivosp", TipoDocumentoID = idDNI, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = gradoacademico, Roles = TablaRoles.All() });
+            TablaColaboradores.AddElement(new Colaborador { Nombres = "colaborador q", ApellidoPaterno = "Perez", ApellidoMaterno = "Fernández", Username = "Objetivosq", Password = "Objetivosq", TipoDocumentoID = idDNI, PaisID = 1, EstadosColaboradorID = 1, GradoAcademico = gradoacademico, Roles = TablaRoles.All() });
 
         }
 
@@ -266,6 +265,9 @@ namespace KendoDP2.Models.Generic
             TablaPuestos.AddElement(new Puesto { Nombre = "Jefe de operaciones area 2", Descripcion = "Por ahí 20", AreaID = TablaAreas.One(a => a.Nombre.Equals("Operaciones")).ID, PuestoSuperiorID = 6 });
             TablaPuestos.AddElement(new Puesto { Nombre = "Jefe de responsabilidad area 1", Descripcion = "Por ahí 21", AreaID = TablaAreas.One(a => a.Nombre.Equals("Responsabilidad social")).ID, PuestoSuperiorID = 7 });
             TablaPuestos.AddElement(new Puesto { Nombre = "Jefe de responsabilidad area 2", Descripcion = "Por ahí 22", AreaID = TablaAreas.One(a => a.Nombre.Equals("Responsabilidad social")).ID, PuestoSuperiorID = 7 });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Practicante Analista", Descripcion = "Por ahí 21", AreaID = TablaAreas.One(a => a.Nombre.Equals("Responsabilidad social")).ID, PuestoSuperiorID = 18 });
+            TablaPuestos.AddElement(new Puesto { Nombre = "Practicante Desarrollador", Descripcion = "Por ahí 22", AreaID = TablaAreas.One(a => a.Nombre.Equals("Responsabilidad social")).ID, PuestoSuperiorID = 18 });
+        
         }
 
 
@@ -278,14 +280,18 @@ namespace KendoDP2.Models.Generic
 
         private void SeedColaboradorXPuesto()
         {
+            //!!!!!!!!!!!!!!!!! EN UNA FECHA DADA --->1 puesto solo lo tiene 1 colaborador, 1 colaborador solo tiene 1 puesto 
             TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 1, Puesto = TablaPuestos.One(p => p.ID == 1), ColaboradorID = 2, Colaborador = TablaColaboradores.One(i => i.ID == 2), Sueldo = 2300, FechaIngresoPuesto = new DateTime(2010, 1, 1), FechaSalidaPuesto = new DateTime(2010, 2, 1), Comentarios = "Hizo una gran labor", IsEliminado = false });
+
+            TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 2, Puesto = TablaPuestos.One(p => p.ID == 2), ColaboradorID = 2, Colaborador = TablaColaboradores.One(i => i.ID == 2), Sueldo = 2300, FechaIngresoPuesto = new DateTime(2013, 6, 1), FechaSalidaPuesto = null, Comentarios = "Hizo una gran labor", IsEliminado = false });
+
             //TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 2, Puesto = TablaPuestos.One(p => p.ID == 2), ColaboradorID = 10, Colaborador = TablaColaboradores.One(i => i.ID == 10), Sueldo = 2000, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = DateTime.MaxValue, Comentarios = "Ninguno", IsEliminado = false });
             TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 5, Puesto=TablaPuestos.One(p=>p.ID==5), ColaboradorID = 22, Colaborador = TablaColaboradores.One(i => i.ID == 23), Sueldo = 2000, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = DateTime.MaxValue, Comentarios = "Ninguno", IsEliminado = false });
-            
-            TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 3, ColaboradorID = 4, Sueldo = 2500, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Continua haciendo una gran labor", IsEliminado = false });
-            TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 4, ColaboradorID = 5, Sueldo = 2500, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Continua haciendo una gran labor", IsEliminado = false });
+
+            TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 3, ColaboradorID = 4, Sueldo = 2500, FechaIngresoPuesto = new DateTime(2010, 1, 1), FechaSalidaPuesto = new DateTime(2010, 9, 9), Comentarios = "Continua haciendo una gran labor", IsEliminado = false });
+            TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 4, ColaboradorID = 5, Sueldo = 2500, FechaIngresoPuesto = new DateTime(2010, 1, 1), FechaSalidaPuesto = new DateTime(2010, 9, 9), Comentarios = "Continua haciendo una gran labor", IsEliminado = false });
             //TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 5, ColaboradorID = 23, Sueldo = 2000, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Ninguno", IsEliminado = false });
-            TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 6, ColaboradorID = 6, Sueldo = 2500, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Continua haciendo una gran labor", IsEliminado = false });
+            TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 6, ColaboradorID = 6, Sueldo = 2500, FechaIngresoPuesto = new DateTime(2010, 1, 1), FechaSalidaPuesto = new DateTime(2010, 9, 9), Comentarios = "Continua haciendo una gran labor", IsEliminado = false });
             TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 7, ColaboradorID = 7, Sueldo = 2500, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Continua haciendo una gran labor", IsEliminado = false });
             //TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 8, ColaboradorID = 8, Sueldo = 2500, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Continua haciendo una gran labor", IsEliminado = false });
             /*TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 9, ColaboradorID = 9, Sueldo = 2500, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Continua haciendo una gran labor", IsEliminado = false });
@@ -333,10 +339,19 @@ namespace KendoDP2.Models.Generic
             //TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 1, ColaboradorID = 20, Sueldo = 2500, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Continua haciendo una gran labor", IsEliminado = false });
 
             //Mono:
+
+            //TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Gerente de operaciones")).ID, ColaboradorID = TablaColaboradores.One(a => a.Username.Equals("cperez")).ID, Sueldo = 6000, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Ninguno", IsEliminado = false });
+            //TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Gerente de ventas")).ID, ColaboradorID = TablaColaboradores.One(a => a.Username.Equals("amontoya")).ID, Sueldo = 6000, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Ninguno", IsEliminado = false });
+            //TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Gerente de ventas")).ID, ColaboradorID = TablaColaboradores.One(a => a.Username.Equals("jcahuin")).ID, Sueldo = 6000, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Ninguno", IsEliminado = false });
+            //TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID, ColaboradorID = TablaColaboradores.One(a => a.Username.Equals("hespinoza")).ID, Sueldo = 6000, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Ninguno", IsEliminado = false });
+
+            //Mono:
             TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Gerente de operaciones")).ID, ColaboradorID = TablaColaboradores.One(a => a.Username.Equals("cperez")).ID, Sueldo = 6000, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Ninguno", IsEliminado = false });
             TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Gerente de ventas")).ID, ColaboradorID = TablaColaboradores.One(a => a.Username.Equals("amontoya")).ID, Sueldo = 6000, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Ninguno", IsEliminado = false });
             TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Gerente de TI")).ID, ColaboradorID = TablaColaboradores.One(a => a.Username.Equals("jcahuin")).ID, Sueldo = 6000, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Ninguno", IsEliminado = false });
             TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID, ColaboradorID = TablaColaboradores.One(a => a.Username.Equals("hespinoza")).ID, Sueldo = 6000, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Ninguno", IsEliminado = false });
+            TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Practicante Analista")).ID, ColaboradorID = TablaColaboradores.One(a => a.Username.Equals("Objetivosp")).ID, Sueldo = 6000, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Ninguno", IsEliminado = false });
+            TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Practicante Desarrollador")).ID, ColaboradorID = TablaColaboradores.One(a => a.Username.Equals("Objetivosq")).ID, Sueldo = 6000, FechaIngresoPuesto = new DateTime(2011, 1, 1), FechaSalidaPuesto = null, Comentarios = "Ninguno", IsEliminado = false });
         }
 
 

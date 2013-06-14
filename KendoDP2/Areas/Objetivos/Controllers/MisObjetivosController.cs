@@ -60,6 +60,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 Objetivo o = new Objetivo(objetivo, context);
                 o.Dueño = context.TablaColaboradores.FindByID(elUsuarioQueInicioSesion);
                 context.TablaObjetivos.AddElement(o);
+                if (o.AvanceFinal != 0) o.RegistrarAvance(context, o.AvanceFinal, objetivo.ComentarioUltimoAvance);
                 return Json(new[] { o.ToDTO(context) }.ToDataSourceResult(request, ModelState));
             }
         }
@@ -69,8 +70,20 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                Objetivo o = context.TablaObjetivos.FindByID(objetivo.ID).LoadFromDTO(objetivo, context);
+                Objetivo o = context.TablaObjetivos.FindByID(objetivo.ID);
+                bool avanceRegistrdo = o.AvanceFinal != objetivo.AvanceFinal;
+                bool cambioDeNombreRegistrado = false;
+                if (o.LosProgresos.Count > 0 && !objetivo.ComentarioUltimoAvance.Equals(o.LosProgresos.Last().Comentario))
+                    cambioDeNombreRegistrado = true;
+                o.LoadFromDTO(objetivo, context);
                 context.TablaObjetivos.ModifyElement(o);
+                if (avanceRegistrdo) o.RegistrarAvance(context, o.AvanceFinal, objetivo.ComentarioUltimoAvance);
+                else if (cambioDeNombreRegistrado)
+                {
+                    AvanceObjetivo a = o.LosProgresos.Last();
+                    a.Comentario = objetivo.ComentarioUltimoAvance;
+                    context.TablaAvanceObjetivo.ModifyElement(a);
+                }
                 return Json(new[] { o.ToDTO(context) }.ToDataSourceResult(request, ModelState));
             }
         }
@@ -92,5 +105,13 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             }
         }
 
+        public ActionResult GetViewAvancesObjetivo(int objetivoID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                var avances = context.TablaObjetivos.FindByID(objetivoID).LosProgresos.Select(c => c.enFormatoDTO()).ToList();
+                return PartialView(avances);
+            }
+        }
     }
 }
