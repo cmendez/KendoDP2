@@ -112,8 +112,8 @@
 						<i class="icon-angle-down"></i>
 						</a>
 						<ul class="dropdown-menu">
-							<li><a href="#"><i class="icon-user"></i> Mi perfil</a></li>
-							<li><a href="#"><i class="icon-calendar"></i> Mi calendario</a></li>
+							<li><a href="@(KendoDP2.MvcApplication.IsDebug?"http://localhost:2642/Organizacion/Intranet":"http://dp2kendo.apphb.com/Organizacion/Intranet")"><i class="icon-user"></i> Mi perfil</a></li>
+							<li><a href="@(KendoDP2.MvcApplication.IsDebug?"http://localhost:2642/Eventos/Eventos/VistaEventos?Length=7":"http://dp2kendo.apphb.com/Eventos/Eventos/VistaEventos?Length=7")"><i class="icon-calendar"></i> Mi calendario</a></li>
 							<li><a href="#"><i class="icon-envelope"></i> Mis mensajes</a></li>
 							<li><a href="#"><i class="icon-tasks"></i> Mis tareas</a></li>
 							<li class="divider"></li>
