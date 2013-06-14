@@ -156,8 +156,8 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                        else{                       
                          foreach (Colaborador e in listaSubordinados)
                          {
-                             if (e.ID == IDevaluador1) { bandera = true;  claseentorno = "Subordinados"; };
-                             break;
+                             if (e.ID == IDevaluador1) { bandera = true; claseentorno = "Subordinados"; break; };
+                             
                          }
                          if (!bandera)
                          {
@@ -261,8 +261,8 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                             {
                                 foreach (Colaborador f in listaSubordinados)
                                 {
-                                    if (f.ID == IDevaluador2) { bandera = true; claseentorno = "Subordinados"; };
-                                    break;
+                                    if (f.ID == IDevaluador2) { bandera = true; claseentorno = "Subordinados"; break; };
+                                    
                                 }
                                 if (!bandera)
                                 {
