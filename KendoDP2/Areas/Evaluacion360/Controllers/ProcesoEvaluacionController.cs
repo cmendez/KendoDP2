@@ -377,9 +377,31 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         }
 
 
-     
+        public ActionResult IniciarEvaluacion(int procesoEvaluacionID) 
+        { 
+            using (DP2Context context = new DP2Context()){
+                ProcesoEvaluacion proceso = context.TablaProcesoEvaluaciones.FindByID(procesoEvaluacionID);
+                ViewBag.terminado = false;
+                ViewBag.proceso = proceso;
+                 // Validar que el proceso no esté en EN PROCESO ya
+                /*if (proceso.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso)).ID)
+                {
+                  ViewBag.terminado = true;
+                  return View();
+                }*/
+
+                // Eliminar los evaluados sque no hayan sido configurados con sus evaluadores
+                // TODO:
+                // Actualiza estado del proceso a EN PROCESO
+                EstadoProcesoEvaluacion en_proceso = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso));
+                proceso.EstadoProcesoEvaluacion = en_proceso;
+                context.TablaProcesoEvaluaciones.ModifyElement(proceso);
+                return View();
+            }
+        }
+        
         public ActionResult CerrarProcesoEvaluacion(int procesoEvaluacionID)
-      {
+        {
           using (DP2Context context = new DP2Context())
           {
               ProcesoEvaluacion proceso = context.TablaProcesoEvaluaciones.FindByID(procesoEvaluacionID);

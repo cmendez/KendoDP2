@@ -1975,6 +1975,7 @@
     <Content Include="Areas\Organizacion\Views\Shared\EventosIntranet.cshtml" />
     <Content Include="Areas\Objetivos\Views\MisObjetivos\GetViewAvancesObjetivo.cshtml" />
     <Content Include="eula.rtf" />
+    <Content Include="Areas\Evaluacion360\Views\ProcesoEvaluacion\IniciarEvaluacion.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\areas_icon.png" />
     <Content Include="Images\favicon.ico" />

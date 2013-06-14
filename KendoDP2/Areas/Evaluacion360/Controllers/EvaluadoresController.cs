@@ -107,17 +107,12 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             {
                 System.Collections.Specialized.NameObjectCollectionBase.KeysCollection llaves = form.Keys;
                 int controles = form.Keys.Count;
-                //string nombreControl = "ComboPares12";
-                //Regex patron = new Regex(@"Combo(<claseEntorno>)");
-                //Match coincidencias = patron.Match(nombreControl);
-                //string claseEntorno = coincidencias.Groups["claseEntorno"].Value;
-
+       
                 ProcesoXEvaluado evaluadores = new ProcesoXEvaluado();
                 ProcesoEvaluacion proceso = context.TablaProcesoEvaluaciones.FindByID(idDelProceso);
 
                 evaluadores.procesoID = idDelProceso;
                 evaluadores.evaluadoID = evaluadoId;
-                //evaluadores.evaluadores = new List<Colaborador>();
                 evaluadores.evaluadores = new List<Evaluador>();
 
                 CorreoController correoController = new CorreoController();
@@ -129,14 +124,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     string nro = palabras[1];
 
                     int evaluadorId = Int32.Parse(form[nombreControl].CompareTo("") == 0 ? "2" : form[nombreControl]);
-
-                    //evaluadores.evaluadores.Add(new Colaborador { ID = evaluadorId });
-                    //evaluadores.evaluadores.Add(context.TablaColaboradores.FindByID(evaluadorId));
-
-                    //evaluadores.evaluadores.Add(context.TablaColaboradores.FindByID(evaluadorId));
-
                     Colaborador elParticipante = context.TablaColaboradores.FindByID(evaluadorId);
-                    //Evaluador comoEvaluador = Evaluador.enrolarlo(elParticipante, idDelProceso);
                     Evaluador comoEvaluador = new Evaluador(evaluadoId, elParticipante, idDelProceso);
 
                     //Enviar email: katy agregó esto
@@ -152,26 +140,32 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     CrearEvaluaciones(comoEvaluador, context);
                 }
 
-                //string nombreControl = "Pares_12_Combo";
-                //string[] palabras = nombreControl.Split('_');
-                //string claseEntorno = palabras[0];
-                //string nro = palabras[1];
-                //string nombreDeUnPar = form["ComboPares0_input"];
-
                 context.TablaProcesoXEvaluado.AddElement(evaluadores);
                 ProcesoXEvaluado enBaseDeDatos = context.TablaProcesoXEvaluado.FindByID(evaluadores.ID);
                 context.Entry(enBaseDeDatos).Collection(u => u.evaluadores).Load();
                 //ColaboradorXEvaluadores enBaseDeDatos = new DP2Context().InternalColaboradorXProcesoEvaluaciones.Include().TablaColaboradorXEvaluadores.FindByID(evaluadores.ID);
 
                 //Actualizar proceso 
-                EstadoProcesoEvaluacion enProceso = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso));
-                proceso.EstadoProcesoEvaluacion = enProceso;
-                context.TablaProcesoEvaluaciones.ModifyElement(proceso);
-
+                bool seleccionEvaluadoresTerminada = SeleccionEvaluadoresCompleta(idDelProceso, context);
+                if (seleccionEvaluadoresTerminada)
+                {
+                    EstadoProcesoEvaluacion enProceso = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso));
+                    proceso.EstadoProcesoEvaluacion = enProceso;
+                    context.TablaProcesoEvaluaciones.ModifyElement(proceso);
+                }
                 ViewBag.Area = "";
                 return View();
 
             }
+        }
+
+        public bool SeleccionEvaluadoresCompleta(int procesoID, DP2Context context) {
+            bool actualizarProceso = false;
+            int totalEvaluados = context.TablaColaboradorXProcesoEvaluaciones.Where(x=>x.ProcesoEvaluacionID == procesoID).Count();
+            int totalEvaluadosConfigurados = context.TablaEvaluadores.Where(x=>x.ProcesoEnElQueParticipanID==procesoID).GroupBy(y=>y.ElEvaluado).Count();
+            if (totalEvaluados>0 && totalEvaluadosConfigurados >0  && totalEvaluados == totalEvaluadosConfigurados)
+                actualizarProceso = true;
+            return actualizarProceso;
         }
 
         public void CrearEvaluaciones(Evaluador evaluador, DP2Context context)
