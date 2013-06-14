@@ -484,8 +484,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 e.EstadoColaboradorXProcesoEvaluacionID = terminado.ID;
                 context.TablaColaboradorXProcesoEvaluaciones.ModifyElement(e);
             }
-            //EstadoProcesoEvaluacion procesoTerminado = context.TablaEstadoProcesoEvaluacion.One(e=>e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Terminado));
-
+      
         }
 
         public List<Pregunta> _Editing_ReadCapEvaluacion(int puestoID, int tablaEvaluadoresID, DP2Context context)
