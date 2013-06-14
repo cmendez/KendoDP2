@@ -5,7 +5,7 @@
 @using KendoDP2.Areas.Organizacion.Models
 
 @{
-    ViewBag.Title = "Mis Objetivos";
+    ViewBag.Title = "Mis objetivos";
     Layout = "~/Views/Shared/_Layout.cshtml";
     IList<ColaboradorDTO> colaboradores = ViewBag.colaboradores;
     int colaboradorID = ViewBag.colaboradorID;
@@ -18,7 +18,7 @@
     bool puedeEditar = ViewBag.puedeEditar;
 }
 
-@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Mis Objetivos", "Administre sus propios objetivos."));}
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Mis objetivos", "Administre sus propios objetivos."));}
 
 <div class="portlet box green">
     <div class="portlet-title">

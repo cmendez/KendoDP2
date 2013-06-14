@@ -44,8 +44,15 @@
                         }).Width(200);
                     }
                 }
-            ) 
-            .ToolBar(toolbar => toolbar.Create().Text("Registrar"))
+            )
+            .ToolBar(toolbar =>
+                {
+                    if (ViewBag.esAdmin)
+                    {
+                        toolbar.Create().Text("Registrar");
+                    }
+                }
+            )
             .Editable(editable => editable
                 .Mode(GridEditMode.PopUp)
                 .DisplayDeleteConfirmation("¿Está seguro que desea eliminar este registro?")
