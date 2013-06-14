@@ -26,9 +26,10 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             String from = "pruebas.rhpp@gmail.com";
 
             mail.From = new MailAddress(from);
-            mail.Subject = "[RH++] Proceso Evaluación:" + proceso.Nombre.ToUpper() + " - Elegir evaluadores "; 
+            mail.Subject = "[RH++] Proceso Evaluación:" + proceso.Nombre.ToUpper() + " - Elegir evaluadores ";
+            String link = KendoDP2.MvcApplication.IsDebug ? "http://localhost:2642/Evaluacion360/ProcesoEvaluacion" : "http://dp2kendo.apphb.com/Evaluacion360/ProcesoEvaluacion";
             String messageText = ", el sistema RH++ le indica que el proceso de evaluación '" +  proceso.Nombre.ToUpper() +"' en el cual miembros de su equipo son partícipes ya inició y " +
-                                 "se requiere la elección de evaluadores. <br> Para seleccionar la lista d evaluadores acceder a <a href='http://localhost:2642/Evaluacion360/ProcesoEvaluacion'> aqui.</a><br>" + 
+                                 "se requiere la elección de evaluadores. <br> Para seleccionar la lista d evaluadores acceder a <a href='"+link+"'> aqui.</a><br>" + 
                                  "Sírvase no responder este correo.";
 
             foreach (Colaborador c in listaJefes)
@@ -83,8 +84,9 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             mail.To.Add(to);
 
             mail.Subject = "[RH++] Su evaluación ya inició";
+            String link = KendoDP2.MvcApplication.IsDebug ? "http://localhost:2642/Evaluacion360/ProcesoEvaluacion" : "http://dp2kendo.apphb.com/Evaluacion360/ProcesoEvaluacion";
             mail.Body = "El sistema RH++ le indica que el proceso de evaluación en el cual usted es partícipe ya inicio. <br/>" +
-                " Puede rendir la evaluación haciendo click en el siguiente enlace: " +"<a href='http://dp2kendo.apphb.com/'>aquí</a>" + ".<br/>" +
+                " Puede rendir la evaluación haciendo click en el siguiente enlace: " +"<a href='"+link+"'>aquí</a>" + ".<br/>" +
                 "Proceso: Evaluación trimestral Enero-Marzo 2013 - Fecha de inicio: 01/01/2013 - Fecha de fin: 01/04/2013" +
                 "Sírvase no responder este correo.";
 
@@ -96,8 +98,9 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         public String getMensajeParaEvaluador(String nombreCompleto)
         {
             String mensaje = "";
+            String link = KendoDP2.MvcApplication.IsDebug ? "http://localhost:2642/Evaluacion360/ProcesoEvaluacion" : "http://dp2kendo.apphb.com/";
             mensaje += nombreCompleto + ", el sistema RH++ le indica que el proceso de evaluación en el cual usted es partícipe ya inicio. <br/>" +
-                " Puede rendir la evaluación haciendo click en el siguiente enlace: " + "http://dp2kendo.apphb.com/" + ".<br/>" +
+                " Puede rendir la evaluación haciendo click en el siguiente enlace: <a href='" +link + "'> aquí.</a><br/>" +
                 "Proceso: Evaluación trimestral Enero-Marzo 2013 - Fecha de inicio: 01/01/2013 - Fecha de fin: 01/04/2013" +
                 "Sírvase no responder este correo.";
             return mensaje;

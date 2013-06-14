@@ -81,8 +81,9 @@
                     {
                         if (ViewBag.esAdmin)
                         {
-                            toolbar.Custom().Text("Iniciar proceso").Action("IniciarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" });
-                            toolbar.Custom().Text("Cerrar Proceso").Action("CerrarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" });
+                            toolbar.Custom().Text("Iniciar proceso").Action("IniciarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" }); // cambia estado a "INICIADO"
+                            toolbar.Custom().Text("Iniciar evaluación").Action("IniciarEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" });// cambia estado a "EN PROCESO"
+                            toolbar.Custom().Text("Cerrar Proceso").Action("CerrarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" });// cambia estado a "TERMINADO"
                         }//toolbar.Template(@<text><a class='k-button'  id='btnIniciar' href='javascript:IniciarProcesoEvaluacionJS()'>Iniciar Proceso Evaluación </a><a class='k-button' id='btnCerrar' href='javascript:CerrarProcesoEvaluacionJS()'>Cerrar Proceso Evaluación </a></text>);
                     }
                         )

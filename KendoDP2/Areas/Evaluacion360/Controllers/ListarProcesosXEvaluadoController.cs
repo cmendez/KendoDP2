@@ -135,32 +135,58 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 }
 
                 IList<CompetenciaXExamen> listaCompetenciaXExamenFinal = new List<CompetenciaXExamen>();
-                //IList<CompetenciaXExamen> listaCompetenciaXExamenFinal = new List<CompetenciaXExamen>();                                
+                //IList<CompetenciaXExamen> listaCompetenciaXExamenFinal = new List<CompetenciaXExamen>();
+
+                Colaborador jefe = GestorServiciosPrivados.consigueElJefe(ColaboradorID, context);
+                IList<Colaborador> listaCompañerosPares = GestorServiciosPrivados.consigueSusCompañerosPares(ColaboradorID, context);
+                IList<Colaborador> listaSubordinados = GestorServiciosPrivados.consigueSusSubordinados(ColaboradorID, context);                                
+               
                 Dictionary<int, int> sumaPesos = new Dictionary<int,int>();
+                Boolean bandera = false;
                 if (listaExamenes.Count >= 2)
                 {
                     listaCompetenciaXExamenFinal = (context.TablaCompetenciaXExamen.Where(a => a.ExamenID == listaExamenes.ElementAt(0).ID));
-                     var IDPuestoevaluador1 = context.TablaEvaluadores.One(x => x.ID == listaExamenes.ElementAt(0).ID).ElIDDelEvaluador;
-                    
+                    var IDevaluador1 = context.TablaEvaluadores.One(x => x.ID == listaExamenes.ElementAt(0).ID).ElIDDelEvaluador;
+
+                     String claseentorno= "";                     
+                     if (jefe.ID == IDevaluador1) { claseentorno="Jefe";}
+                     else
+                     {
+                       if (IDevaluador1 == ColaboradorID) { claseentorno = "El mismo"; }
+                       else{                       
+                         foreach (Colaborador e in listaSubordinados)
+                         {
+                             if (e.ID == IDevaluador1) { bandera = true; claseentorno = "Subordinados"; break; };
+                             
+                         }
+                         if (!bandera)
+                         {
+                             foreach (Colaborador e in listaCompañerosPares)
+                             {
+                                 if (e.ID == IDevaluador1) { claseentorno = "Pares"; };
+                             }
+                         }
+                       }
+                     }
+
+                     int idPuesto = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == IDevaluador1).PuestoID;
+
+                     
+                     int cantidad = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == idPuesto && x.ClaseEntorno.Equals(claseentorno)).Cantidad;
+
                      for (int k = 0; k < listaCompetenciaXExamenFinal.Count; k++)
                      {
                          var IDCompetencia = listaCompetenciaXExamenFinal.ElementAt(k).CompetenciaID;
-                         //var peso = context.TablaCompetenciaXPuesto.One(x => x.PuestoID == IDPuestoevaluador1 && x.CompetenciaID == IDCompetencia).Peso;
-                         CompetenciaXPuesto auxcompetenciaxpeso = context.TablaCompetenciaXPuesto.One(x => x.PuestoID == IDPuestoevaluador1 && x.CompetenciaID == IDCompetencia);
-                         int peso;
-                         if (auxcompetenciaxpeso != null)
-                         {
-                             peso = auxcompetenciaxpeso.Peso;
-                         }
-                         else
-                         {
-                             peso = 1;
-                         }
+                         var pesoCompetencia = listaCompetenciaXExamenFinal.ElementAt(k).Peso;
 
+                         var pesoPuesto = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == idPuesto && x.ClaseEntorno.Equals(claseentorno)).Peso;
 
-                         if (!sumaPesos.ContainsKey(IDCompetencia)) sumaPesos.Add(IDCompetencia, peso);
-                         else sumaPesos[IDCompetencia] = sumaPesos[IDCompetencia] + peso;
-                         listaCompetenciaXExamenFinal.ElementAt(k).Nota = listaCompetenciaXExamenFinal.ElementAt(k).Nota * peso;
+                         if (cantidad > 1) { pesoPuesto = pesoPuesto / cantidad; }
+
+                         if (!sumaPesos.ContainsKey(IDCompetencia)) sumaPesos.Add(IDCompetencia, pesoCompetencia * pesoPuesto);
+                         else sumaPesos[IDCompetencia] = sumaPesos[IDCompetencia] + (pesoCompetencia * pesoPuesto);
+                         listaCompetenciaXExamenFinal.ElementAt(k).Nota = listaCompetenciaXExamenFinal.ElementAt(k).Nota * pesoPuesto * pesoCompetencia;
+                             
                      }
 
 
@@ -169,26 +195,46 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                         IList<CompetenciaXExamen> listaCompetenciaXExamenParcial = new List<CompetenciaXExamen>();
                         listaCompetenciaXExamenParcial.AddRange(context.TablaCompetenciaXExamen.Where(a => a.ExamenID == listaExamenes.ElementAt(i).ID));
 
-                        var IDPuestoevaluador = context.TablaEvaluadores.One(x => x.ID == listaExamenes.ElementAt(i).ID).ElIDDelEvaluador;
+                        var IDevaluador = context.TablaEvaluadores.One(x => x.ID == listaExamenes.ElementAt(i).ID).ElIDDelEvaluador;
+                        bandera = false;
+                        claseentorno = "";
+                        if (jefe.ID == IDevaluador) { claseentorno = "Jefe"; }
+                        else
+                        {
+                            if (IDevaluador == ColaboradorID) { claseentorno = "El mismo"; }
+                            else
+                            {
+                                foreach (Colaborador e in listaSubordinados)
+                                {
+                                    if (e.ID == IDevaluador) { bandera = true; claseentorno = "Subordinados"; break; };                                    
+                                }
+                                if (!bandera)
+                                {
+                                    foreach (Colaborador e in listaCompañerosPares)
+                                    {
+                                        if (e.ID == IDevaluador) { claseentorno = "Pares"; };
+                                    }
+                                }
+                            }
+                        }
+
+                        idPuesto = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == IDevaluador).PuestoID;
+
+                        
+                        cantidad = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == idPuesto && x.ClaseEntorno.Equals(claseentorno)).Cantidad;
 
                         for (int j = 0; j < listaCompetenciaXExamenParcial.Count; j++)
                         {
-                            var IDCompetencia = listaCompetenciaXExamenFinal.ElementAt(j).CompetenciaID;                            
-                            //var peso = context.TablaCompetenciaXPuesto.One(x => x.PuestoID == IDPuestoevaluador && x.CompetenciaID == IDCompetencia).Peso;
-                            CompetenciaXPuesto auxcompetenciaxpeso = context.TablaCompetenciaXPuesto.One(x => x.PuestoID == IDPuestoevaluador && x.CompetenciaID == IDCompetencia);
-                            int peso;
-                            if (auxcompetenciaxpeso != null)
-                            {
-                                peso = auxcompetenciaxpeso.Peso;
-                            }
-                            else
-                            {
-                                peso = 1;
-                            }
+                            var IDCompetencia = listaCompetenciaXExamenFinal.ElementAt(j).CompetenciaID;
+                            var pesoCompetencia = listaCompetenciaXExamenFinal.ElementAt(j).Peso;
 
-                            if (!sumaPesos.ContainsKey(IDCompetencia)) sumaPesos.Add(IDCompetencia, peso);
-                            else sumaPesos[IDCompetencia] = sumaPesos[IDCompetencia] + peso;
-                            listaCompetenciaXExamenFinal.ElementAt(j).Nota = listaCompetenciaXExamenFinal.ElementAt(j).Nota + listaCompetenciaXExamenParcial.ElementAt(j).Nota * peso;                                                       
+                            int pesoPuesto = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == idPuesto && x.ClaseEntorno.Equals(claseentorno)).Peso;
+
+                            if (cantidad > 1) { pesoPuesto = pesoPuesto / cantidad; }
+
+                            if (!sumaPesos.ContainsKey(IDCompetencia)) sumaPesos.Add(IDCompetencia, pesoPuesto * pesoCompetencia);
+                            else sumaPesos[IDCompetencia] = sumaPesos[IDCompetencia] + (pesoPuesto * pesoCompetencia);
+                            listaCompetenciaXExamenFinal.ElementAt(j).Nota = listaCompetenciaXExamenFinal.ElementAt(j).Nota + listaCompetenciaXExamenParcial.ElementAt(j).Nota * pesoPuesto * pesoCompetencia ;                                                       
                         }
 
                     }
@@ -202,23 +248,47 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
                         listaCompetenciaXExamenFinal = context.TablaCompetenciaXExamen.Where(a => a.ExamenID == e.ID).ToList();
 
-                        var IDPuestoevaluador2 = context.TablaEvaluadores.One(x => x.ID == listaExamenes.ElementAt(0).ID).ElIDDelEvaluador;
+                        var IDevaluador2 = context.TablaEvaluadores.One(x => x.ID == listaExamenes.ElementAt(0).ID).ElIDDelEvaluador;
 
+                        String claseentorno = "";  
+                        bandera = false;
+                        claseentorno = "";
+                        if (jefe.ID == IDevaluador2) { claseentorno = "Jefe"; }
+                        else
+                        {
+                            if (IDevaluador2 == ColaboradorID) { claseentorno = "El mismo"; }
+                            else
+                            {
+                                foreach (Colaborador f in listaSubordinados)
+                                {
+                                    if (f.ID == IDevaluador2) { bandera = true; claseentorno = "Subordinados"; break; };
+                                    
+                                }
+                                if (!bandera)
+                                {
+                                    foreach (Colaborador f in listaCompañerosPares)
+                                    {
+                                        if (f.ID == IDevaluador2) { claseentorno = "Pares"; };
+                                    }
+                                }
+                            }
+                        }
+
+                        int idPuesto2 = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == IDevaluador2).PuestoID;
+
+                        
+                        int cantidad = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == idPuesto2 && x.ClaseEntorno.Equals(claseentorno)).Cantidad;
                         for (int k = 0; k < listaCompetenciaXExamenFinal.Count; k++)
                         {
                             var IDCompetencia = listaCompetenciaXExamenFinal.ElementAt(k).CompetenciaID;
-                            CompetenciaXPuesto auxcompetenciaxpeso = context.TablaCompetenciaXPuesto.One(x => x.PuestoID == IDPuestoevaluador2 && x.CompetenciaID == IDCompetencia);
-                            int peso ;
-                            if (auxcompetenciaxpeso != null)
-                            {
-                                peso = auxcompetenciaxpeso.Peso;                                
-                            }
-                            else {
-                                peso = 1;
-                            }
-                            if (!sumaPesos.ContainsKey(IDCompetencia)) sumaPesos.Add(IDCompetencia, peso);
-                            else sumaPesos[IDCompetencia] = sumaPesos[IDCompetencia] + peso;
-                            listaCompetenciaXExamenFinal.ElementAt(k).Nota = listaCompetenciaXExamenFinal.ElementAt(k).Nota * peso;
+                            var pesoCompetencia = listaCompetenciaXExamenFinal.ElementAt(k).Peso;
+
+                            int pesoPuesto = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == idPuesto2 && x.ClaseEntorno.Equals(claseentorno)).Peso;
+                            if (cantidad > 1) { pesoPuesto = pesoPuesto / cantidad; }
+
+                            if (!sumaPesos.ContainsKey(IDCompetencia)) sumaPesos.Add(IDCompetencia, pesoPuesto * pesoCompetencia);
+                            else sumaPesos[IDCompetencia] = sumaPesos[IDCompetencia] + (pesoPuesto * pesoCompetencia);
+                            listaCompetenciaXExamenFinal.ElementAt(k).Nota = listaCompetenciaXExamenFinal.ElementAt(k).Nota * pesoPuesto * pesoCompetencia;
                         }
 
                     }
