@@ -1,0 +1,49 @@
+﻿@using KendoDP2.Areas.Evaluacion360.Models
+@model KendoDP2.Areas.Evaluacion360.Models.ColaboradorXProcesoEvaluacionDTO
+@{
+    ViewBag.Title = "VerExamenesSubordinado";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IList<EstadoColaboradorXProcesoEvaluacionDTO> estados = ViewBag.estados;
+}
+
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Mis colaboradores", "Revise las notas de sus colaboradores"));}
+
+<div class="portlet box green">
+    <div class="portlet-title">
+        <div class="caption"><i class="icon-reorder"></i>Resultados de @Model.ColaboradorDTO.NombreCompleto </div>
+        <div class="tools">
+            <a href="javascript:;" class="collapse"></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="row-fluid">
+            <div>
+                @(Html.Kendo().Grid<KendoDP2.Areas.Evaluacion360.Models.ProcesoXEvaluadoXEvaluadorDTO>()
+                .Name("ColaboradoresDeProcesoEvaluacionGrid")
+                .Columns(columns =>
+                    {
+                        columns.Bound(pxexe => pxexe.Evaluador.NombreCompleto).Title("Evaluador");
+                        columns.Bound(pxexe => pxexe.Evaluador.Puesto);
+                        columns.Bound(pxexe => pxexe.Nota).Title("Puntuación");
+                        columns.Bound(pxexe => pxexe.Proceso.Nombre).Title("Proceso") ;
+                  
+                    }
+                )
+                .Pageable(paper => paper.Refresh(true))
+                .Filterable()
+                .Sortable()
+                .Scrollable(w => w.Height(330))
+                .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .PageSize(20)
+                    .Model(model => { model.Id(p => p.ID); })
+                    .Read(read => read.Action("Read_ExamenesSubordinados", "Subordinados", new { procesoID = Model.ProcesoID, evaluadoID = Model.ColaboradorID }))
+                    //.Destroy(update => update.Action("DestroyEvaluados", "Subordinados"))
+                    //.Events(e => e.RequestEnd("requestEnd"))
+                )
+                )
+            </div>
+        </div>
+    </div>
+</div>
+

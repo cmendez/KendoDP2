@@ -112,6 +112,8 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         public ColaboradorDTO Evaluador { get; set; }
         public ColaboradorDTO Evaluado { get; set; }
         public ProcesoEvaluacionDTO Proceso { get; set; }
+        public int ProcesoID { get; set; }
+        public int ID { get; set; }
         public string Estado { get; set; }
 
         public int Nota { get; set; }
@@ -127,11 +129,12 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         {
             using (DP2Context laBD = new DP2Context())
             {
+                ID = procesoXEvaluadoXEvaluador.ID;
                 Evaluador = laBD.TablaColaboradores.FindByID(procesoXEvaluadoXEvaluador.ElIDDelEvaluador).ToDTO();
                 Evaluado = laBD.TablaColaboradores.FindByID(procesoXEvaluadoXEvaluador.ElEvaluado).ToDTO();
                 Proceso = laBD.TablaProcesoEvaluaciones.FindByID(procesoXEvaluadoXEvaluador.ProcesoEnElQueParticipanID).ToDTO();
                 Estado = procesoXEvaluadoXEvaluador.FaseDeLaEvaluacion;
-
+                ProcesoID = Proceso.ID;
                 //Nota = laBD.TablaExamenes.Where(p => p.EvaluadorID == procesoXEvaluadoXEvaluador.ID)
                 //Examen laPrueba = laBD.TablaExamenes.Where(p => p.EvaluadorID == procesoXEvaluadoXEvaluador.ID)
                 Examen laPrueba = laBD.TablaExamenes.One(p => p.EvaluadorID == procesoXEvaluadoXEvaluador.ID);
@@ -174,7 +177,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         {
             // =evaluador
             evaluado = (new DP2Context()).TablaColaboradores.FindByID(evaluador.ElEvaluado).ToDTO();
-            estadoevaluacion = (new DP2Context()).TablaEstadoProcesoEvaluacion.FindByID(evaluador.ProcesoEnElQueParticipanID).ToDTO();
+            //estadoevaluacion = (new DP2Context()).TablaEstadoProcesoEvaluacion.FindByID(evaluador.ProcesoEnElQueParticipanID).ToDTO();
             ID = evaluador.ID;
             ElIDDelEvaluador = evaluador.ElIDDelEvaluador;
             ElEvaluado = evaluador.ElEvaluado;
