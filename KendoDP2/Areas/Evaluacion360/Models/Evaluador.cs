@@ -177,7 +177,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         {
             // =evaluador
             evaluado = (new DP2Context()).TablaColaboradores.FindByID(evaluador.ElEvaluado).ToDTO();
-            estadoevaluacion = (new DP2Context()).TablaEstadoProcesoEvaluacion.FindByID(evaluador.ProcesoEnElQueParticipanID).ToDTO();
+            //estadoevaluacion = (new DP2Context()).TablaEstadoProcesoEvaluacion.FindByID(evaluador.ProcesoEnElQueParticipanID).ToDTO();
             ID = evaluador.ID;
             ElIDDelEvaluador = evaluador.ElIDDelEvaluador;
             ElEvaluado = evaluador.ElEvaluado;
