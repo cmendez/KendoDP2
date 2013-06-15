@@ -146,13 +146,16 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 //ColaboradorXEvaluadores enBaseDeDatos = new DP2Context().InternalColaboradorXProcesoEvaluaciones.Include().TablaColaboradorXEvaluadores.FindByID(evaluadores.ID);
 
                 //Actualizar proceso 
-                bool seleccionEvaluadoresTerminada = SeleccionEvaluadoresCompleta(idDelProceso, context);
+                EstadoProcesoEvaluacion enProceso = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso));
+                proceso.EstadoProcesoEvaluacion = enProceso;
+                context.TablaProcesoEvaluaciones.ModifyElement(proceso);
+                /*bool seleccionEvaluadoresTerminada = SeleccionEvaluadoresCompleta(idDelProceso, context);
                 if (seleccionEvaluadoresTerminada)
                 {
                     EstadoProcesoEvaluacion enProceso = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso));
                     proceso.EstadoProcesoEvaluacion = enProceso;
                     context.TablaProcesoEvaluaciones.ModifyElement(proceso);
-                }
+                }*/
                 ViewBag.Area = "";
                 return View();
 

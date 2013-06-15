@@ -17,12 +17,44 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
     {
         //
         // GET: /Evaluacion360/Subordinados/
+        public SubordinadosController()
+            : base() 
+        {
+            ViewBag.Area = "Evaluacion360";
+        }
 
         public ActionResult Index()
         {
 
-            ViewBag.Area = "";
-            return View();
+            using (DP2Context context = new DP2Context())
+            {
+                ViewBag.colaboradores = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
+                ViewBag.areas = context.TablaAreas.All().Select(c => c.ToDTO()).ToList();
+                ViewBag.estados = context.TablaEstadoProcesoEvaluacion.All().Select(e => e.ToDTO()).ToList();
+                // Identificar si el usuario loggeado tiene permisos para modificar procesos
+                //ViewBag.esAdmin = EsAdmin(DP2MembershipProvider.GetPersonaID(this), context);
+
+                return View();
+            }
+        }
+
+        public ActionResult Read_ExamenesSubordinados([DataSourceRequest] DataSourceRequest request, int procesoID, int evaluadoID) {
+            using (DP2Context context = new DP2Context()) {
+                return Json(context.TablaEvaluadores.Where(x=>x.ElEvaluado== evaluadoID && x.ProcesoEnElQueParticipanID==procesoID).Select(p=>p.enFormatoParaElClienteVistaSubordinados()).ToDataSourceResult(request));
+            }
+        }
+
+        public ActionResult Read_SubordinadosEvaluados([DataSourceRequest] DataSourceRequest request, int procesoID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                int usuarioLoggeadoID = DP2MembershipProvider.GetPersonaID(this);
+
+                List<int> susSubordinados = GestorServiciosPrivados.consigueSusSubordinados(usuarioLoggeadoID, context).Select(e => e.ID).ToList();
+                //List<ProcesoXEvaluadoXEvaluadorDTO> evaluacionesSubordinados = context.TablaEvaluadores.Where(ev => susSubordinados.Contains(ev.ElEvaluado) && ev.ProcesoEnElQueParticipanID == procesoID).Select(e => e.enFormatoParaElClienteVistaSubordinados()).ToList();
+                List<ColaboradorXProcesoEvaluacionDTO> subordinadosEvaluados = context.TablaColaboradorXProcesoEvaluaciones.Where(e => susSubordinados.Contains(e.ColaboradorID) && e.ProcesoEvaluacionID==procesoID).Select(p=>p.ToDTO()).ToList();
+                return Json(subordinadosEvaluados.ToDataSourceResult(request));
+            }
         }
 
         public ActionResult EditingInline_Read([DataSourceRequest] DataSourceRequest request)
@@ -31,16 +63,82 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             using (DP2Context contexto = new DP2Context())
             {
                 int elUsuarioQueInicioSesion = DP2MembershipProvider.GetPersonaID(this);
+                using (DP2Context context = new DP2Context())
+                {
+                    IEnumerable<ProcesoEvaluacionDTO> listaProcesos= new List<ProcesoEvaluacionDTO>();
+                    //Obtener la persona loggeada y su puesto
+                    int idUsuario = DP2MembershipProvider.GetPersonaID(this);
+                    Colaborador c = context.TablaColaboradores.FindByID(idUsuario);
+                    ColaboradorXPuesto cxp;
+                    try
+                    {
+                        cxp = context.TablaColaboradoresXPuestos.Where(x => x.ColaboradorID == c.ID && !x.IsEliminado && (x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto)).OrderByDescending(a => a.PuestoID).First();
+                    }
+                    catch (Exception excep)
+                    {  // no tiene puesto asociado, se muestran todos los procesos
+                        return Json(listaProcesos.ToDataSourceResult(request));
+                    }
+                    // no tiene puesto asociado, se muestran todos los procesos
+                    if (cxp == null)
+                    {
+                        return Json(listaProcesos.ToDataSourceResult(request));
+                    }
+                    // tiene asignado un puesto
+                    else
+                    {
+                        Puesto puesto = context.TablaPuestos.FindByID(cxp.PuestoID);
+                        // No es presidente, admin 
+                        if (puesto != null && puesto.PuestoSuperiorID != null)
+                        {
+                            listaProcesos = context.TablaProcesoEvaluaciones.All().Select(p => p.ToDTO());
 
-                List<int> susSubordinados = GestorServiciosPrivados.consigueSusSubordinados(elUsuarioQueInicioSesion, contexto).Select(e => e.ID).ToList();
-                return Json(contexto.TablaEvaluadores.Where(pxexe => susSubordinados.Contains(pxexe.ElEvaluado)).Select(examen => examen.enFormatoParaElClienteVistaSubordinados()).ToDataSourceResult(request));
+                            IList<ProcesoEvaluacionDTO> listaProcesos_ = Read_(listaProcesos, puesto, elUsuarioQueInicioSesion, context);
+                            return Json(listaProcesos_.ToDataSourceResult(request));
+                        }
+                    }
+
+                    return Json(listaProcesos.ToDataSourceResult(request));
+                }
+                //List<int> susSubordinados = GestorServiciosPrivados.consigueSusSubordinados(elUsuarioQueInicioSesion, contexto).Select(e => e.ID).ToList();
+                //return Json(contexto.TablaEvaluadores.Where(pxexe => susSubordinados.Contains(pxexe.ElEvaluado)).Select(examen => examen.enFormatoParaElClienteVistaSubordinados()).ToDataSourceResult(request));
 
             }
         }
 
-    }
+        public IList<ProcesoEvaluacionDTO> Read_(IEnumerable<ProcesoEvaluacionDTO> listaProcesos, Puesto puesto, int elUsuarioQueInicioSesion, DP2Context context) {
+            IList<ProcesoEvaluacionDTO> listaProcesos_ = new List<ProcesoEvaluacionDTO>();
+            List<int> susSubordinados = GestorServiciosPrivados.consigueSusSubordinados(elUsuarioQueInicioSesion, context).Select(e => e.ID).ToList();
+            List<int> evaluacionesSubordinados = context.TablaEvaluadores.Where(pxexe => susSubordinados.Contains(pxexe.ElEvaluado)).Select(e=>e.ProcesoEnElQueParticipanID).ToList();
+            return context.TablaProcesoEvaluaciones.Where(p => evaluacionesSubordinados.Contains(p.ID)).Select(x=>x.ToDTO()).ToList();
+        }
 
-}
+        public ActionResult VerNotasSubordinados(int procesoEvaluacionID)
+        {
+            int usuarioLoggeadoID = DP2MembershipProvider.GetPersonaID(this);
+           
+            using (DP2Context context = new DP2Context())
+            {
+                ViewBag.estados = context.TablaEstadoColaboradorXProcesoEvaluaciones.All().Select(e => e.ToDTO()).ToList();
+                ProcesoEvaluacion proceso = context.TablaProcesoEvaluaciones.FindByID(procesoEvaluacionID);
+                return View(proceso);
+
+            }
+        }
+
+        public ActionResult VerExamenesSubordinado(int ProcesoID, int EvaluadoID) { 
+            using(DP2Context context = new DP2Context()){
+                ViewBag.estados = context.TablaEstadoColaboradorXProcesoEvaluaciones.All().Select(e => e.ToDTO()).ToList();
+                ColaboradorXProcesoEvaluacionDTO  cxp= context.TablaColaboradorXProcesoEvaluaciones.One(x=>x.ProcesoEvaluacionID==ProcesoID && x.ColaboradorID== EvaluadoID).ToDTO();
+                return View(cxp);
+            }
+        }
+
+        private Colaborador consigueSuJefe(int idEvaluado, DP2Context context)
+        {
+            return GestorServiciosPrivados.consigueElJefe(idEvaluado, context);
+        }
+      }     
+ }
 
 
 

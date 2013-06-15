@@ -33,17 +33,22 @@ namespace KendoDP2.Areas.Evaluacion360.Models
     public class ColaboradorXProcesoEvaluacionDTO
     {
         public ColaboradorDTO ColaboradorDTO { get; set; }
+        public int ColaboradorID {get; set;}
         [DisplayName("Estado")]
         public int EstadoColaboradorXProcesoEvaluacionID { get; set; }
         public int ID { get; set; }
         public ProcesoEvaluacion ProcesoEvaluacion { get; set; }
-
+        public int ProcesoID { get; set; }
+        public int? Nota { get; set; }
 
         public ColaboradorXProcesoEvaluacionDTO(ColaboradorXProcesoEvaluacion x)
         {
             ColaboradorDTO = x.Colaborador.ToDTO();
+            ColaboradorID = x.ColaboradorID;
             ID = x.ID;
             EstadoColaboradorXProcesoEvaluacionID = x.EstadoColaboradorXProcesoEvaluacionID;
+            Nota = x.Puntuacion;
+            ProcesoID = x.ProcesoEvaluacionID;
         }
 
         public ColaboradorXProcesoEvaluacionDTO() { }
