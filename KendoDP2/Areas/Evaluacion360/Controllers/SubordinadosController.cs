@@ -90,9 +90,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                         // No es presidente, admin 
                         if (puesto != null && puesto.PuestoSuperiorID != null)
                         {
-                            listaProcesos = context.TablaProcesoEvaluaciones.All().Select(p => p.ToDTO());
-
-                            IList<ProcesoEvaluacionDTO> listaProcesos_ = Read_(listaProcesos, puesto, elUsuarioQueInicioSesion, context);
+                            IList<ProcesoEvaluacionDTO> listaProcesos_ = Read_(puesto, elUsuarioQueInicioSesion, context);
                             return Json(listaProcesos_.ToDataSourceResult(request));
                         }
                     }
@@ -105,7 +103,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
-        public IList<ProcesoEvaluacionDTO> Read_(IEnumerable<ProcesoEvaluacionDTO> listaProcesos, Puesto puesto, int elUsuarioQueInicioSesion, DP2Context context) {
+        public IList<ProcesoEvaluacionDTO> Read_(Puesto puesto, int elUsuarioQueInicioSesion, DP2Context context) {
             IList<ProcesoEvaluacionDTO> listaProcesos_ = new List<ProcesoEvaluacionDTO>();
             List<int> susSubordinados = GestorServiciosPrivados.consigueSusSubordinados(elUsuarioQueInicioSesion, context).Select(e => e.ID).ToList();
             List<int> evaluacionesSubordinados = context.TablaEvaluadores.Where(pxexe => susSubordinados.Contains(pxexe.ElEvaluado)).Select(e=>e.ProcesoEnElQueParticipanID).ToList();
@@ -139,12 +137,6 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         }
       }     
  }
-
-
-
-
-
-
 
         //public ActionResult EditingInline_Read([DataSourceRequest] DataSourceRequest request)
         //{

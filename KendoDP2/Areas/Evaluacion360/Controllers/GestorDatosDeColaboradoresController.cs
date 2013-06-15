@@ -153,14 +153,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
-        //public JsonResult consultarDatos(string asociadosA, string esteEmpleado)
-        //public JsonResult consultarResultadosEvaluaciones(int colaboradorID)
-        //{
-
-        //    return null;
-
-
-        //}
+        
 
     }
 }
