@@ -205,9 +205,9 @@ namespace KendoDP2.Models.Generic
         private void SeedCompetenciasXPuesto()
         {
             //(int competenciaId, int puestoId, int nivelId, peso)
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,1,3, 30));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(2, 1, 3, 30));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(3, 1, 3, 40));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,1,3, 20));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(2, 1, 3, 10));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(3, 1, 3, 20));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(4, 2, 3,30));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5, 2, 3, 30));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(6, 2, 3, 40));
