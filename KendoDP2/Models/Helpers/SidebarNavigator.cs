@@ -31,7 +31,7 @@ namespace KendoDP2.Models.Helpers
                 new SidebarSuboption("Evaluación de puestos de trabajo", "PuestosEvaluacion", "Index", "icon-ok-sign"),
                 new SidebarSuboption("Mis evaluaciones", "ListarProcesosXEvaluado", "Index", "icon-ok-sign"),
             	new SidebarSuboption("Mis pendientes", "ListarProcesosXEvaluador", "Index", "icon-ok-sign"),
-            	new SidebarSuboption("Mis subordinados", "Subordinados", "Index", "icon-group"),
+            	new SidebarSuboption("Mis colaboradores", "Subordinados", "Index", "icon-group"),
 
             })));				
             
