@@ -57,7 +57,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                IEnumerable<ProcesoEvaluacionDTO> listaProcesos = context.TablaProcesoEvaluaciones.All().Select(p => p.ToDTO()); 
+                IEnumerable<ProcesoEvaluacionDTO> listaProcesos = context.TablaProcesoEvaluaciones.All().OrderByDescending(p => p.ID).Select(p => p.ToDTO()); 
                 
                 //Obtener la persona loggeada y su puesto
                 int idUsuario = DP2MembershipProvider.GetPersonaID(this);
@@ -94,8 +94,8 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         {
             IList<ProcesoEvaluacionDTO> listaProcesos_ = new List<ProcesoEvaluacionDTO>();
             List<int> susSubordinados = GestorServiciosPrivados.consigueSusSubordinados(elUsuarioQueInicioSesion, context).Select(e => e.ID).ToList();
-            List<int> evaluacionesSubordinados = context.TablaEvaluadores.Where(pxexe => susSubordinados.Contains(pxexe.ElEvaluado)).Select(e => e.ProcesoEnElQueParticipanID).ToList();
-            return context.TablaProcesoEvaluaciones.Where(p => evaluacionesSubordinados.Contains(p.ID)).Select(x => x.ToDTO()).ToList();
+            List<int> evaluacionesSubordinados = context.TablaColaboradorXProcesoEvaluaciones.Where(pxexe => susSubordinados.Contains(pxexe.ColaboradorID)).Select(e => e.ProcesoEvaluacionID).ToList();
+            return context.TablaProcesoEvaluaciones.Where(p => evaluacionesSubordinados.Contains(p.ID)).OrderByDescending(p=>p.ID).Select(x => x.ToDTO()).ToList();
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
