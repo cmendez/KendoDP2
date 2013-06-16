@@ -29,17 +29,13 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             using (DP2Context context = new DP2Context())
             {
                 ColaboradorDTO evaluado = context.TablaColaboradores.One(c => c.ID == colaboradorEvaluadoIDP).ToDTO();
-           /*     CompetenciaXPuesto competenciaPuesto = context.TablaCompetenciaXPuesto.One(x => x.PuestoID == evaluado.PuestoID);
-                IList<Capacidad> capacidades = context.TablaCapacidades.Where(x => x.NivelCapacidadID==competenciaPuesto.NivelID && x.CompetenciaID == competenciaPuesto.CompetenciaID).ToList();
-                IList<CompetenciaXPuesto> competencias = context.TablaCompetenciaXPuesto.Where(x => x.PuestoID == evaluado.PuestoID);
-              */
-
                 ViewBag.evaluado = evaluado;
                 ViewBag.instanciaEvaluadores = instanciaEvaluadores;
                 return View();
             }
         }
 
+        [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult GuardarEvaluacion(int tablaEvaluadoresID)
         {
             // Calcular nota de evaluacion
@@ -67,7 +63,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     context.TablaExamenes.ModifyElement(examen);
                 }
                 
-                return View();
+                return Json(new { success = true });//View();
             }
             
         }

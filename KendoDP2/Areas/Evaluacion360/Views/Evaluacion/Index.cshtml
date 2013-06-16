@@ -7,132 +7,166 @@
     ColaboradorDTO evaluado = ViewBag.evaluado;
     int tablaEvaluadoresID = ViewBag.instanciaEvaluadores;
     String today = DateTime.Now.ToString("yyyy-MM-dd");
+    ViewBag.rendirEvaluacion = false;//Joao, BORRA ESTA LINEA EN CUANTO TENGAS EL BOOLEANO CONFIGURADO EN EL CONTROLADOR;
 }
 
-@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Evaluación", "Rinda sus evaluaciones asignadas."));}
 
-<script type="text/x-kendo-tmpl" id="template">
-    <table class="table table-hover table-striped table-bordered" >
-        <tbody>
-            <tr>
-                <td>
-                    <div class="responsive">
-                        <dl>
-                            <dt>Capacidad: </dt> <dd>#:TextoPregunta#</dd>        
-                        </dl>
-                    </div>
-                </td>
-                <td style="width: 200px">
-                    <div class="span3 responsive" id="estadoCalificacion__#:ID#" style="display:none; padding-top: 20px;">
-                        <ul class="unstyled inline">
-                            <li><a class = "btn red icn-only mini" onClick="MostrarRating(#:ID#)"><i class="icon-pencil icon-white"></i></a></li>
-                        </ul>
-                     </div>
-                    <div class="row-fluid"   id="rating__#:ID#" style="padding-top: 20px;">
-                        <span class="rating">
-                            <span class="star" id="strella1__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 100, #:Peso#, rating__#:ID#)"></span>
-                            <span class="star" id="strella2__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 80, #:Peso#, rating__#:ID#)"></span>
-                            <span class="star" id="strella3__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 60, #:Peso#, rating__#:ID#)"></span>
-                            <span class="star" id="strella4__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 40, #:Peso#, rating__#:ID#)"></span>
-                            <span class="star" id="strella5__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 20, #:Peso#, rating__#:ID#)"></span>
-                        </span>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-     </table>
-</script>
-<style>
- .selectedS {
+    @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Evaluación", "Rinda sus evaluaciones asignadas."));}
+
+    <script type="text/x-kendo-tmpl" id="template">
+        <table class="table table-hover table-striped table-bordered" >
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="responsive">
+                            <dl>
+                                <dt>Capacidad: </dt> <dd>#:TextoPregunta#</dd>        
+                            </dl>
+                        </div>
+                        <div style="display:block;">
+                             <input type ="text"  class="MyRequired" value="#:Peso#" name="peso" id="peso_#:ID#" style="display:none;"/>
+                        </div>
+                    </td>
+                    <td style="width: 200px">
+                        <div class="span3 responsive" id="estadoCalificacion__#:ID#" style="display:none; padding-top: 20px;">
+                            <ul class="unstyled inline">
+                                <li><a class = "btn red icn-only mini" onClick="MostrarRating(#:ID#)"><i class="icon-pencil icon-white"></i></a></li>
+                            </ul>
+                         </div>
+                        <div class="row-fluid"   id="rating__#:ID#" style="padding-top: 20px;">
+                            <span class="rating">
+                                <span class="star" id="strella1__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 5, #:Peso#, rating__#:ID#)"></span>
+                                <span class="star" id="strella2__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 4, #:Peso#, rating__#:ID#)"></span>
+                                <span class="star" id="strella3__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 3, #:Peso#, rating__#:ID#)"></span>
+                                <span class="star" id="strella4__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 2, #:Peso#, rating__#:ID#)"></span>
+                                <span class="star" id="strella5__#:ID#" onClick="GuardarPuntuacionPorPregunta(#:ID#, 1, #:Peso#, rating__#:ID#)"></span>
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+         </table>
+    </script>
   
-  color: red;
-}
-</style>
-<div class="portlet box green">
-     <div class="portlet-title">
-        <div class="caption"><i class="icon-reorder"></i>Procesos de evaluación</div>
-        <div class="tools">
-	        <a href="javascript:;" class="collapse"></a>
-        </div>
-	</div>
-   
-     <div class="portlet-body">
-        <h5><strong> Datos del evaluado:</strong> </h5>
-        
-        <div class="k-pager-wrap">
-            <div class="row-fluid">
-                <div class="span3" id="divImagenColaborador" style="text-align: center;">
-                    <img id="imagenColaborador" src="http://localhost:2642/Organizacion/Colaboradores/ViewImageDeColaborador?colaboradorID=@evaluado.ID"  width="150" height="80">
-                </div>
-                <div class="span3 profile-info">
-                    <h3>@evaluado.NombreCompleto</h3>
-                    
-                    <span><strong>Área: </strong> <em>@evaluado.Area</em><br>
-                    <strong>Puesto: </strong> <em>@evaluado.Puesto</em></span>
-                    <ul class="unstyled inline">
-                        <li><i class="icon-calendar"></i><strong> Desde: </strong>@(evaluado.FechaIngreso != null?evaluado.FechaIngreso: "-- " ) </li>
-                        <!--<li><i class="icon-calendar"></i><strong> Hasta: </strong>@today </li>-->
-                    </ul>
-                </div>
-                <!--end span8--> 
-              
+@if (ViewBag.rendirEvaluacion)
+{
+    <div id="divResult" style="display:none;"><h2>Su evaluación para <em>"@evaluado.NombreCompleto" </em> ha sido guardada con éxito</h2></div>
+    <div id="divExamen" style="display:block;" class="portlet box green">
+         <div class="portlet-title">
+            <div class="caption"><i class="icon-reorder"></i>Procesos de evaluación</div>
+            <div class="tools">
+	            <a href="javascript:;" class="collapse"></a>
             </div>
-            <!--end row-fluid-->
-        </div>
-         <!--end k-pager-wrap-->
-          <div>
-             <br><h5><strong> Evaluación: </strong></h5> 
-          </div>
-         <div class="k-pager-wrap">
-           <h5> Escala de calificación: </h5>
-          <div>
-            <ul class="unstyled inline">
-                <li><i class="icon-star"></i>Malo</li>
-                <li><i class="icon-star"></i><i class="icon-star"></i>Regular</li>
-                <li><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i>Bueno</li>
-                <li><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i>Muy bueno</li>
-                <li><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i>Excelente</li>
-            </ul>
-        </div> <br>
-       </div>
+	    </div>
+   
+         <div class="portlet-body">
+            <h5><strong> Datos del evaluado:</strong> </h5>
         
-        @(Html.Kendo().ListView<Capacidad>()
-            .Name("Evaluacion")
-            .TagName("div")
-            .ClientTemplateId("template")
-            .DataSource(dataSource => dataSource
-                .Model(model => { model.Id(p => p.ID); }) @*model => model.Id("ID"))*@
-                .PageSize(6)
-                .Read(read => read.Action("Editing_ReadCapEvaluacion", "ProcesoEvaluacion" ,  new { puestoID= evaluado.PuestoID, tablaEvaluadoresID = tablaEvaluadoresID }))
+            <div class="k-pager-wrap">
+                <div class="row-fluid">
+                    <div class="span3" id="divImagenColaborador" style="text-align: center;">
+                        <img id="imagenColaborador" src="http://localhost:2642/Organizacion/Colaboradores/ViewImageDeColaborador?colaboradorID=@evaluado.ID"  width="150" height="80">
+                    </div>
+                    <div class="span3 profile-info">
+                        <h3>@evaluado.NombreCompleto</h3>
+                    
+                        <span><strong>Área: </strong> <em>@evaluado.Area</em><br>
+                        <strong>Puesto: </strong> <em>@evaluado.Puesto</em></span>
+                        <ul class="unstyled inline">
+                            <li><i class="icon-calendar"></i><strong> Desde: </strong>@(evaluado.FechaIngreso != null?evaluado.FechaIngreso: "-- " ) </li>
+                            <!--<li><i class="icon-calendar"></i><strong> Hasta: </strong>@today </li>-->
+                        </ul>
+                    </div>
+                    <!--end span8--> 
+              
+                </div>
+                <!--end row-fluid-->
+            </div>
+             <!--end k-pager-wrap-->
+              <div>
+                 <br><h5><strong> Evaluación: </strong></h5> 
+              </div>
+             <div class="k-pager-wrap">
+               <h5> Escala de calificación: </h5>
+              <div>
+                <ul class="unstyled inline">
+                    <li><i class="icon-star"></i>Malo</li>
+                    <li><i class="icon-star"></i><i class="icon-star"></i>Regular</li>
+                    <li><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i>Bueno</li>
+                    <li><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i>Muy bueno</li>
+                    <li><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i>Excelente</li>
+                </ul>
+            </div> <br>
+           </div>
+        
+            @(Html.Kendo().ListView<Capacidad>()
+                .Name("EvaluacionDIV")
+                .TagName("div")
+                .ClientTemplateId("template")
+                .DataSource(dataSource => dataSource
+                    .Model(model => { model.Id(p => p.ID); }) @*model => model.Id("ID"))*@
+                    .PageSize(6)
+                    .Read(read => read.Action("Editing_ReadCapEvaluacion", "ProcesoEvaluacion" ,  new { puestoID= evaluado.PuestoID, tablaEvaluadoresID = tablaEvaluadoresID }))
+                )
+                .Pageable()
+                .Editable()
             )
-            .Pageable()
-            .Editable()
-        )
 
-        <div> <!-- k-button k-button-icontext k-add-button-->
-            <a class="btn green" href="@Url.Action("GuardarEvaluacion", "Evaluacion", new { tablaEvaluadoresID= tablaEvaluadoresID})"><span class="icon-ok"></span>Terminar evaluación</a>
-        </div>
+            <div> <!-- k-button k-button-icontext k-add-button-->
+                <!--         var newDiv = '<a href="javascript:removeArea(' + areaID + ');" class="label external-event">' + areaNombre + '<i class="icon-remove"></i></a>'; -->
+                <a class="btn green" href="javascript:TerminarEvaluacion(@tablaEvaluadoresID);"><span class="icon-ok"></span>Terminar evaluación</a>
+
+                <!--<a class="btn green" href="@*Url.Action("GuardarEvaluacion", "Evaluacion", new { tablaEvaluadoresID= tablaEvaluadoresID})*@"><span class="icon-ok"></span>Terminar evaluación</a>-->
+            </div>
         
-    </div>
+        </div>
      
-</div>
+    </div>
+} else {
+    <h2>Esta evaluación ya fue terminada.</h2>
+}
 
 <script type="text/javascript">
+    function TerminarEvaluacion(tablaEvaluadoresIDParam) {
+        if ($(".MyRequired").length > 0) {
+            alert("Debe responder a todas las preguntas.");
+        } else {
+            $.ajax({
+                url: '@Url.Action("GuardarEvaluacion", "Evaluacion", new { Area = "Evaluacion360"})',
+                dataType: 'JSON',
+                type: 'POST',
+                data: { tablaEvaluadoresID: tablaEvaluadoresIDParam},
+                success: function (response) {
+                    if (response.success) {
+                       $("#divResult").css("display","block");
+                       $("#divExamen").css("display","none");
+                       //$("#EvaluacionDIV").css("display:none;");
+                        
+                    }
+                  }
+              });
+        }
+    }
+
     function MostrarRating(id) {
         $("#rating__"+id).css("display", "block");
         $("#estadoCalificacion__"+id).css("display", "none");
     }
 
-    function GuardarPuntuacionPorPregunta(preguntaIDParam, puntuacion, peso, idElem) {
-        var puntuacionParam = puntuacion*peso;
+    function GuardarPuntuacionPorPregunta(preguntaIDParam, numEstrellas, peso, idElem) {
+        //var puntuacionParam = puntuacion*peso;
         $.ajax({
            url: '@Url.Action("GuardarPuntuacionPregunta", "ProcesoEvaluacion", new { Area = "Evaluacion360"})',
             dataType: 'JSON',
             type: 'POST',
-            data: { preguntaID : preguntaIDParam, puntuacion : puntuacionParam },
-            success: function(response) {
-                $("#rating__" + preguntaIDParam).css("display", "none");
-                $("#estadoCalificacion__" + preguntaIDParam).css("display", "block");
+            data: { preguntaID: preguntaIDParam, numEstrellas: numEstrellas },
+            success: function (response) {
+                if (response.success) {
+                    $("#rating__" + preguntaIDParam).css("display", "none");
+                    $("#estadoCalificacion__" + preguntaIDParam).css("display", "block");
+                    $("#peso_" + preguntaIDParam).val(response.nota);
+                    $("#peso_" + preguntaIDParam).removeClass("MyRequired");
+                } 
             }
         });
     }
