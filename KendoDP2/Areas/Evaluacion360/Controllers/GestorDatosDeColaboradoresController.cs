@@ -153,7 +153,58 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
+        public JsonResult consultarEvaluacionesDelEquipoDeTrabajo(int deEsteJefe)
+        {
+
+            int llaveDelJefe = deEsteJefe;
+
+            using (DP2Context contexto = new DP2Context())
+            {
+                List<Colaborador> subordinados = GestorServiciosPrivados.consigueSusSubordinados(llaveDelJefe, contexto);
+                List<int> llavesSubordinados = subordinados.Select(e => e.ID).ToList();
+
+                List<Evaluador> procesoXEvaluadorXEvaluado = contexto.TablaEvaluadores.Where(pxexe => llavesSubordinados.Contains(pxexe.ElEvaluado)).ToList();
+                List<ProcesoXEvaluadoXEvaluadorDTO> evaluadosEnFormatoMoviles = procesoXEvaluadorXEvaluado.Select(e => e.enFormatoParaElClienteVistaSubordinados()).ToList();
+
+                return JsonSuccessGet(new { evaluacionesEnMisSubordinados = evaluadosEnFormatoMoviles });
+            }
+
+
+        }
+
         
 
     }
 }
+
+
+
+
+
+
+
+        ////public JsonResult sinNombre(int unEntero)
+        //public JsonResult consultarEvaluacionesDelEquipoDeTrabajo(int deEsteJefe)
+        //{
+
+        //    int llaveDelJefe = deEsteJefe;
+
+        //    using (DP2Context contexto = new DP2Context())
+        //    {
+        //        List<Colaborador> subordinados = GestorServiciosPrivados.consigueSusSubordinados(llaveDelJefe, contexto);
+        //        //subordinados.Select(e => e.ID).ToList();
+        //        List<int> llavesSubordinados = subordinados.Select(e => e.ID).ToList();
+
+        //        List<Evaluador> procesoXEvaluadorXEvaluado = contexto.TablaEvaluadores.Where(pxexe => llavesSubordinados.Contains(pxexe.ElEvaluado)).ToList();
+        //        //List<EvaluadorDTO> evaluadosEnFormatoMoviles  
+        //        //List<EvaluadorDTO> evaluadosEnFormatoMoviles = procesoXEvaluadorXEvaluado.Select(e => e.enFormatoParaElClienteVistaSubordinados()).ToList();
+        //        List<ProcesoXEvaluadoXEvaluadorDTO> evaluadosEnFormatoMoviles = procesoXEvaluadorXEvaluado.Select(e => e.enFormatoParaElClienteVistaSubordinados()).ToList();
+
+        //        return JsonSuccessGet(new { evaluacionesEnMisSubordinados = evaluadosEnFormatoMoviles });
+        //        //List<EvaluadorDTO> evaluadosEnFormatoCliente 
+        //        //List<Evaluador> ProcesoXEvaluadorXEvaluado = contexto.TablaEvaluadores.Where(pxexe => subordinados.)
+        //        //List<Evaluador> ProcesoXEvaluadorXEvaluado = contexto.TablaEvaluadores.Where
+        //    }
+
+
+        //}
