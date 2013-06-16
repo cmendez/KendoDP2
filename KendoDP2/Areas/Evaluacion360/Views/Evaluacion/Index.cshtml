@@ -21,6 +21,9 @@
                             <dt>Capacidad: </dt> <dd>#:TextoPregunta#</dd>        
                         </dl>
                     </div>
+                    <div style="display:block;">
+                         <input type ="text"  class="MyRequired" value="#:Peso#" name="peso" id="peso_#:ID#" style="display:none;"/>
+                    </div>
                 </td>
                 <td style="width: 200px">
                     <div class="span3 responsive" id="estadoCalificacion__#:ID#" style="display:none; padding-top: 20px;">
@@ -48,7 +51,8 @@
   color: red;
 }
 </style>
-<div class="portlet box green">
+<div id="divResult" style="display:none;"><h2>Su evaluación para <em>"@evaluado.NombreCompleto" </em> ha sido guardada con éxito</h2></div>
+<div id="divExamen" style="display:block;" class="portlet box green">
      <div class="portlet-title">
         <div class="caption"><i class="icon-reorder"></i>Procesos de evaluación</div>
         <div class="tools">
@@ -97,7 +101,7 @@
        </div>
         
         @(Html.Kendo().ListView<Capacidad>()
-            .Name("Evaluacion")
+            .Name("EvaluacionDIV")
             .TagName("div")
             .ClientTemplateId("template")
             .DataSource(dataSource => dataSource
@@ -110,7 +114,10 @@
         )
 
         <div> <!-- k-button k-button-icontext k-add-button-->
-            <a class="btn green" href="@Url.Action("GuardarEvaluacion", "Evaluacion", new { tablaEvaluadoresID= tablaEvaluadoresID})"><span class="icon-ok"></span>Terminar evaluación</a>
+            <!--         var newDiv = '<a href="javascript:removeArea(' + areaID + ');" class="label external-event">' + areaNombre + '<i class="icon-remove"></i></a>'; -->
+            <a class="btn green" href="javascript:TerminarEvaluacion(@tablaEvaluadoresID);"><span class="icon-ok"></span>Terminar evaluación</a>
+
+            <!--<a class="btn green" href="@*Url.Action("GuardarEvaluacion", "Evaluacion", new { tablaEvaluadoresID= tablaEvaluadoresID})*@"><span class="icon-ok"></span>Terminar evaluación</a>-->
         </div>
         
     </div>
@@ -118,6 +125,27 @@
 </div>
 
 <script type="text/javascript">
+    function TerminarEvaluacion(tablaEvaluadoresIDParam) {
+        if ($(".MyRequired").length > 0) {
+            alert("Debe responder a todas las preguntas.");
+        } else {
+            $.ajax({
+                url: '@Url.Action("GuardarEvaluacion", "Evaluacion", new { Area = "Evaluacion360"})',
+                dataType: 'JSON',
+                type: 'POST',
+                data: { tablaEvaluadoresID: tablaEvaluadoresIDParam},
+                success: function (response) {
+                    if (response.success) {
+                       $("#divResult").css("display","block");
+                       $("#divExamen").css("display","none");
+                       //$("#EvaluacionDIV").css("display:none;");
+                        
+                    }
+                  }
+              });
+        }
+    }
+
     function MostrarRating(id) {
         $("#rating__"+id).css("display", "block");
         $("#estadoCalificacion__"+id).css("display", "none");
@@ -130,9 +158,13 @@
             dataType: 'JSON',
             type: 'POST',
             data: { preguntaID : preguntaIDParam, puntuacion : puntuacionParam },
-            success: function(response) {
-                $("#rating__" + preguntaIDParam).css("display", "none");
-                $("#estadoCalificacion__" + preguntaIDParam).css("display", "block");
+            success: function (response) {
+                if (response.success) {
+                    $("#rating__" + preguntaIDParam).css("display", "none");
+                    $("#estadoCalificacion__" + preguntaIDParam).css("display", "block");
+                    $("#peso_" + preguntaIDParam).val(response.nota);
+                    $("#peso_" + preguntaIDParam).removeClass("MyRequired");
+                } 
             }
         });
     }

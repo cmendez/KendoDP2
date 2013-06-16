@@ -460,11 +460,12 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         }
 
 
-        public void _GuardarPuntuacionPregunta(int preguntaID, int puntuacion, DP2Context context)
+        public int _GuardarPuntuacionPregunta(int preguntaID, int puntuacion, DP2Context context)
         {
             Pregunta p = context.TablaPreguntas.FindByID(preguntaID);
             p.Puntuacion = Convert.ToInt32(Decimal.Floor(puntuacion / 100));
             context.TablaPreguntas.ModifyElement(p);
+            return p.Puntuacion;
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
@@ -472,8 +473,8 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         {
 
             using (DP2Context context = new DP2Context()) {
-                _GuardarPuntuacionPregunta(preguntaID, puntuacion, context);
-                return Json(new { success = true });
+                int res = _GuardarPuntuacionPregunta(preguntaID, puntuacion, context);
+                return Json(new { success = true  , nota = res});
             }
      
         }

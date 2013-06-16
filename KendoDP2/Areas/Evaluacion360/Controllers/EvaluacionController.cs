@@ -40,6 +40,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
+        [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult GuardarEvaluacion(int tablaEvaluadoresID)
         {
             // Calcular nota de evaluacion
@@ -67,7 +68,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     context.TablaExamenes.ModifyElement(examen);
                 }
                 
-                return View();
+                return Json(new { success = true });//View();
             }
             
         }
