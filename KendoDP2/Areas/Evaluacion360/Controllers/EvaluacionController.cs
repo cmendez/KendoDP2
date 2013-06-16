@@ -31,6 +31,25 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 ColaboradorDTO evaluado = context.TablaColaboradores.One(c => c.ID == colaboradorEvaluadoIDP).ToDTO();
                 ViewBag.evaluado = evaluado;
                 ViewBag.instanciaEvaluadores = instanciaEvaluadores;
+                
+                //ViewBag.rendirEvaluacion=false;
+
+                Boolean auxiliar = false;
+
+                //int estado = context.TablaExamenes.One(x => x.EvaluadorID.Equals(ConstantsEstadoProcesoEvaluacion.Terminado)).EstadoExamenID;
+
+                Examen examen = context.TablaExamenes.One(x => x.EvaluadorID == instanciaEvaluadores);
+
+                if (examen.EstadoExamenID == context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID)
+                {
+                    auxiliar = false;
+                }
+                else
+                {
+                    auxiliar = true;
+                }
+                ViewBag.rendirEvaluacion = auxiliar;
+
                 return View();
             }
         }
