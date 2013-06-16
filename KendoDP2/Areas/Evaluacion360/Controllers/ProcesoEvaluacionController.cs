@@ -459,24 +459,49 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
+        public int GetPuntos(int numEstrella)
+        {
+            int puntuacion = 0;
+            switch (numEstrella) { 
+                case 1:
+                    puntuacion = 0;
+                    break;
+                case 2:
+                    puntuacion = 25;
+                    break;
+                case 3:
+                    puntuacion = 50;
+                    break;
+                case 4:
+                    puntuacion = 75;
+                    break;
+                case 5:
+                    puntuacion = 100;
+                    break;
+            }
+            return puntuacion;
+        }
 
-        public int _GuardarPuntuacionPregunta(int preguntaID, int puntuacion, DP2Context context)
+        public int _GuardarPuntuacionPregunta(int preguntaID, int numEstrella, DP2Context context)
         {
             Pregunta p = context.TablaPreguntas.FindByID(preguntaID);
+            int puntuacion = GetPuntos(numEstrella)*p.Peso;
             p.Puntuacion = Convert.ToInt32(Decimal.Floor(puntuacion / 100));
             context.TablaPreguntas.ModifyElement(p);
             return p.Puntuacion;
         }
 
+       
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult GuardarPuntuacionPregunta([DataSourceRequest] DataSourceRequest request, int preguntaID, int puntuacion)
+        public ActionResult GuardarPuntuacionPregunta([DataSourceRequest] DataSourceRequest request, int preguntaID, int numEstrellas)
         {
 
-            using (DP2Context context = new DP2Context()) {
-                int res = _GuardarPuntuacionPregunta(preguntaID, puntuacion, context);
-                return Json(new { success = true  , nota = res});
+            using (DP2Context context = new DP2Context())
+            {
+                int res = _GuardarPuntuacionPregunta(preguntaID, numEstrellas, context);
+                return Json(new { success = true, nota = res });
             }
-     
+
         }
 
         private bool EsAdmin(int idUsuario, DP2Context context)
