@@ -238,18 +238,19 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 try
                 {
                     EstadosSolicitudOfertaLaboral esol = context.TablaEstadosSolicitudes.One(x => x.Descripcion.Equals(estadoOfertaLaboral));
-                    if (esol == null) throw new Exception("No existe el estado " + estadoOfertaLaboral + " para una Solicitud de Oferta Laboral");
+                    if (esol == null) return JsonErrorGet("No existe el estado " + estadoOfertaLaboral + " para una Solicitud de Oferta Laboral");
 
                     Colaborador c = context.TablaColaboradores.FindByID(Convert.ToInt32(colaboradorID));
-                    if (c == null) throw new Exception("No existe el Colaborador con ID = " + colaboradorID);
+                    if (c == null) return JsonErrorGet("No existe el Colaborador con ID = " + colaboradorID);
 
                     Postulante p = context.TablaPostulante.One(x => x.ColaboradorID == c.ID);
-                    if (p == null) throw new Exception("El colaborador " + c.ToDTO().NombreCompleto + " no existe como postulante");
-                    if (p.OfertasPostuladas == null || p.OfertasPostuladas.Count == 0) throw new Exception("El colaborador " + c.ToDTO().NombreCompleto + " no ha postulado a nada");
+                    //if (p == null) throw new Exception("El colaborador " + c.ToDTO().NombreCompleto + " no existe como postulante");
+                    if (p == null) p = new Postulante { ID = 0 };
+                    //if (p.OfertasPostuladas == null || p.OfertasPostuladas.Count == 0) throw new Exception("El colaborador " + c.ToDTO().NombreCompleto + " no ha postulado a nada");
 
                     //ColaboradorXPuesto actual = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == c.ID && !x.FechaSalidaPuesto.HasValue);
                     ColaboradorXPuesto actual = c.ColaboradoresPuesto.Single(x => !x.FechaSalidaPuesto.HasValue);
-                    if (actual == null) throw new Exception("El colaborador " + c.ToDTO().NombreCompleto + " no tiene un puesto actual determinado");
+                    if (actual == null) return JsonErrorGet("El colaborador " + c.ToDTO().NombreCompleto + " no tiene un puesto actual determinado");
 
                     int areaID = actual.Puesto.AreaID;
                     //List<OfertaLaboral> lstOL = context.TablaOfertaLaborales.All();
@@ -258,8 +259,8 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                             x.EstadoSolicitudOfertaLaboralID == esol.ID && //Que coincida con el estado de la oferta laboral que deseo
                             !x.Postulantes.Select(y => y.PostulanteID).ToList().Contains(p.ID) //No sea una oferta ya postulada
                     );
-                    if (lstOL == null || lstOL.Count == 0) 
-                        throw new Exception("No se encontraron ofertas laborales que cumplan los requisitos (Misma area que el postulante/Coincida con el estado/No hayan sido ya postuladas)");
+                    if (lstOL == null || lstOL.Count == 0)
+                        return JsonErrorGet("No se encontraron ofertas laborales que cumplan los requisitos (Misma area que el postulante/Coincida con el estado/No hayan sido ya postuladas)");
 
                     List<OfertaLaboralDTO> lstOLDTO = lstOL.Select(x => x.ToDTO()).ToList();
                     return JsonSuccessGet(new { ofertasLaborales = lstOLDTO });

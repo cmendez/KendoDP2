@@ -127,6 +127,9 @@ namespace KendoDP2.Areas.Eventos.Models
         [MaxLength(100)]
         public string LugarEvento { get; set; }
 
+        public string Area { get; set; }
+        public string Puesto { get; set; }
+        
         public List<ColaboradorDTO> Invitados { get; set; }
 
         public EventoDTO() { }
@@ -143,6 +146,14 @@ namespace KendoDP2.Areas.Eventos.Models
             CreadorID = e.CreadorID;
             Creador = e.Creador != null ? e.Creador.ToDTO().NombreCompleto : String.Empty;
             LugarEvento = e.LugarEvento;
+
+            if (e.CreadorID != null)
+            {
+                var aux = e.Creador.ColaboradoresPuesto.Single(x => !x.FechaSalidaPuesto.HasValue).Puesto;
+                Puesto = aux.Nombre;
+                Area = aux.Area.Nombre;
+            }
+
             if (e.Invitados != null && e.Invitados.Count > 0)
             {
                 Invitados = new List<ColaboradorDTO>();
