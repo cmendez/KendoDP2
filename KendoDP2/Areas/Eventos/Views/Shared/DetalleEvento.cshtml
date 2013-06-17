@@ -1,0 +1,31 @@
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Configuracion.Models
+@using KendoDP2.Areas.Organizacion.Models
+@using KendoDP2.Areas.Eventos.Models
+
+@model KendoDP2.Areas.Eventos.Models.EventoDTO
+@{
+    
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    
+            <!-- contenedor superior izquierdo: campos -->
+                           @Html.LabelFor(model => model.Nombre)
+                            @Html.TextBoxFor(model => model.Nombre, new {@readonly = "readonly" })
+            
+                @Html.LabelFor(model => model.LugarEvento)
+            @Html.TextBoxFor(model => model.LugarEvento, new {@readonly = "readonly" })
+            @Html.LabelFor(model => model.Inicio)
+                            @Html.TextBoxFor(model => model.Inicio, new {@readonly = "readonly" })
+                      @Html.LabelFor(model => model.Fin)
+                @Html.TextBoxFor(model => model.Fin, new {@readonly = "readonly" })
+            @Html.LabelFor(model => model.TipoEventoID)
+                @Html.TextBoxFor(model => model.TipoEvento, new {@readonly = "readonly" })
+            
+}        
+
