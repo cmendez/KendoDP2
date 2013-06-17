@@ -395,11 +395,11 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
               ViewBag.proceso = proceso;
 
               // Validar que el proceso no esté cerrado ya
-              if (proceso.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Terminado)).ID)
-              {
-                  ViewBag.terminado = true;
-                  return View();
-              }
+              //if (proceso.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Terminado)).ID)
+              //{
+              //    ViewBag.terminado = true;
+              //    return View();
+              //}
               
               // Procesar resultados parciales y modificar estados 
               CalcularYGuardarResultadosProceso(proceso, context);
