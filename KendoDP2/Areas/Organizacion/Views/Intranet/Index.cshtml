@@ -618,7 +618,10 @@
                 right: 'prev,next,today,month,agendaWeek,agendaDay'
             },
             editable: true,
-            events: '@Url.Action("GetEventosPersonales", "Intranet", new {Area = "Organizacion"})?colaboradorID=@colaboradorLogueado'
+            events: '@Url.Action("GetEventosPersonales", "Intranet", new {Area = "Organizacion"})?colaboradorID=@colaboradorLogueado',
+            eventClick: function (event) {
+                console.log(event);
+            },
  
         });
         

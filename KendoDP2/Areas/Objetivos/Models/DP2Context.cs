@@ -76,7 +76,8 @@ namespace KendoDP2.Models.Generic
         private void SeedObjetivosPersonales()
         {
 
-            Colaborador elB = TablaColaboradores.One(e => e.Nombres.Equals("colaborador modulo tres b"));
+            //Colaborador elB = TablaColaboradores.One(e => e.Nombres.Equals("colaborador modulo tres b"));
+            Colaborador elB = TablaColaboradores.FindByID(2);
 
             elB.Objetivos = new List<Objetivo>
             {
@@ -98,7 +99,8 @@ namespace KendoDP2.Models.Generic
 
             };
 
-            Colaborador elEmpleadoC = TablaColaboradores.One(e => e.Nombres.Equals("colaborador modulo tres c"));
+            //Colaborador elEmpleadoC = TablaColaboradores.One(e => e.Nombres.Equals("colaborador modulo tres c"));
+            Colaborador elEmpleadoC = TablaColaboradores.FindByID(3);
 
             elEmpleadoC.Objetivos = new List<Objetivo>
             {
@@ -120,7 +122,8 @@ namespace KendoDP2.Models.Generic
 
             };
 
-            Colaborador elColaboradorD = TablaColaboradores.One(e => e.Nombres.Equals("colaborador modulo tres d"));
+            //Colaborador elColaboradorD = TablaColaboradores.One(e => e.Nombres.Equals("colaborador modulo tres d"));
+            Colaborador elColaboradorD = TablaColaboradores.FindByID(4);
             ////Estos presentan un avance del
             //Estos objetivos están sin iniciar
             elColaboradorD.Objetivos = new List<Objetivo>

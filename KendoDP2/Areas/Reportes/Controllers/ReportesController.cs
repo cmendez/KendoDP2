@@ -146,7 +146,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
                     pxo.avance = obj.AvanceFinal;
                     pxo.idObjetivo = obj.ID;
                     //pxo.objetivos = context.TablaObjetivos.Where(ob => ob.ID==ListaObjetivosHijos.Find(o => o.puestoID == c.PuestoID).ID).Select(objj=> objj.ToRDTO(context)).ToList();
-                    pxo.objetivos = context.TablaObjetivos.Where(ob => ob.ObjetivoPadre != null && ob.ObjetivoPadre.PuestoAsignadoID == c.PuestoID).Select(objj => objj.ToRDTO(context)).ToList();
+                    pxo.objetivos = context.TablaObjetivos.Where(ob => ob.ObjetivoPadreID != 0 && context.TablaObjetivos.FindByID(ob.ObjetivoPadreID).PuestoAsignadoID == c.PuestoID).Select(objj => objj.ToRDTO(context)).ToList();
                     PersonasXObjetivo.Add(pxo);
                 }
 
@@ -291,23 +291,45 @@ namespace KendoDP2.Areas.Reportes.Controllers
             }
             
         }
+
+        //public ActionResult PostulacionySeleccion(int idpuesto)
+        //{
+        //    using (DP2Context context = new DP2Context())
+        //    {
+        //        return Json(context.TablaOfertaLaboralXPostulante.All()., JsonRequestBehavior.AllowGet);
+        //    }
+        //}
         public ActionResult PostulacionySeleccion(int idpuesto)
         {
             using (DP2Context context = new DP2Context())
             {
-                //List<OfertaLaboralDTO> ListaOfertas = context.TablaOfertaLaborales.Where(p => p.PuestoID==idpuesto).Select(p => p.Postulantes).ToList();
+                List<OfertaLaboralDTO> ListaOfertas = context.TablaOfertaLaborales.Where(p => p.PuestoID==idpuesto).Select(of=>of.ToDTO()).ToList();
+                List<OfertaLaboralXPostulanteDTO> ListaOfertasXPostulante=new List<OfertaLaboralXPostulanteDTO>();
+                foreach (OfertaLaboralDTO of in ListaOfertas)
+                {
+                    ListaOfertasXPostulante.AddRange(context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboralID==of.ID).Select(oxp=>oxp.ToDTO()).ToList());
+                }
+                List<PostulanteDTO> ListaPostulantes = new List<PostulanteDTO>();
+                foreach (OfertaLaboralXPostulanteDTO of in ListaOfertasXPostulante)
+                {
+                    ListaPostulantes.AddRange(context.TablaPostulante.Where(c => c.ID == of.PostulanteID).Select(oxp => oxp.ToDTO()).ToList());
+                }
+
                 //List<OfertaLaboralXPostulante> ListaOfertas = context.TablaOfertaLaborales.Where(p => p.PuestoID==idpuesto).Select(p => p.Postulantes);
-                List<PostulanteDTO> ListaPostulantes =context.TablaOfertaLaboralXPostulante.Where(p => p.OfertaLaboral.PuestoID==idpuesto).Select(p=>p.Postulante.ToDTO()).ToList();
+               // List<PostulanteDTO> ListaPostulantes =context.TablaOfertaLaboralXPostulante.Where(p => p.OfertaLaboral.PuestoID==idpuesto).Select(p=>p.Postulante.ToDTO()).ToList();
+                
+                
                 List<ROfertasLaborales> ListaROfertas = new  List<ROfertasLaborales>() ;
                 
                 foreach (PostulanteDTO pos in ListaPostulantes)
                 {
-                    ROfertasLaborales prov = ListaROfertas.Find(p => p.nombreProveniencia == pos.CentroEstudios);
+                    ROfertasLaborales prov = ListaROfertas.Find(p => p.nombreProveniencia == pos.CentroEstudios && pos.GradoAcademico == p.gradoAcademico);
 
                     if (prov == null)
                     {
                         prov = new ROfertasLaborales();
                         prov.nombreProveniencia = pos.CentroEstudios;
+                        prov.gradoAcademico = pos.GradoAcademico;
                         prov.cantPostulantes = 1;
                         prov.cantElegidos = 0;
                         ListaROfertas.Add(prov);
@@ -321,7 +343,111 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 return Json(ListaROfertas, JsonRequestBehavior.AllowGet);
             }
         }
-        
+
+        public ActionResult HistoricoObjetivosOffline() 
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                List<HistoricoBSC> ObjetivosHistoricosXPersona = new List<HistoricoBSC>();
+                List<ColaboradorDTO> Colaboradores = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
+                foreach (ColaboradorDTO col in Colaboradores)
+                {
+                    //List<ObjetivoRDTO> ObjetivosColaborador = context.TablaObjetivos.Where(ob => ob.Dueño.ID == col.ID ).Select(p => p.ToRDTO(context)).ToList();
+                    List<ObjetivoRDTO> ObjetivosColaborador=new List<ObjetivoRDTO>();
+
+                    
+                    int puestoID = context.TablaColaboradores.FindByID(col.ID).ToDTO().PuestoID;
+                    if (puestoID > 0)
+                    {
+                        Puesto puesto = context.TablaPuestos.FindByID(puestoID);
+                        ObjetivosColaborador = puesto.Objetivos.Select(c => c.ToRDTO(context)).ToList();
+                    }
+                    List<ObjetivoRDTO> ObjetivosColaborador2= new List<ObjetivoRDTO>();
+                    foreach (ObjetivoRDTO objpadre in ObjetivosColaborador)
+                    {
+                        ObjetivosColaborador2.AddRange(context.TablaObjetivos.Where(oo=>oo.ObjetivoPadreID==objpadre.idObjetivo).Select(ooo => ooo.ToRDTO(context)));
+                    }
+                    //List<ObjetivoRDTO> ObjetivosColaborador2 = ObjetivosColaborador.Where( o1=> o1.esPropioColaborador(o1.idpadre,context)).ToList();
+                    ObjetivosColaborador =ObjetivosColaborador2;
+
+                    foreach (ObjetivoRDTO o in ObjetivosColaborador)
+                    {
+                        HistoricoBSC PeriodoPersona = ObjetivosHistoricosXPersona.Find(oh => oh.idperiodo == o.idperiodo && o.ColaboradorNombre==oh.nombreColaborador);
+                        if (PeriodoPersona != null)
+                        {
+                            PeriodoPersona.objetivos.Add(o);
+                        }
+                        else
+                        {
+                            HistoricoBSC NuevoPeriodoPersona = new HistoricoBSC();
+                            NuevoPeriodoPersona.idperiodo = o.idperiodo;
+                            NuevoPeriodoPersona.nombreColaborador = col.NombreCompleto;
+                            NuevoPeriodoPersona.objetivos = new List<ObjetivoRDTO>();
+                            NuevoPeriodoPersona.objetivos.Add(o);
+                            ObjetivosHistoricosXPersona.Add(NuevoPeriodoPersona);
+                        }
+                    }
+                }
+
+                return Json(ObjetivosHistoricosXPersona, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult Colaboradores()
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                List<ColaboradorDTO> Colaboradores = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
+
+                return Json(Colaboradores, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult HistoricoObjetivos(int idColaborador)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                List<HistoricoBSC> ObjetivosHistoricosXPersona = new List<HistoricoBSC>();
+
+                ColaboradorDTO Colaborador = context.TablaColaboradores.FindByID(idColaborador).ToDTO();
+                List<ObjetivoRDTO> ObjetivosColaborador = new List<ObjetivoRDTO>();
+
+                int puestoID = context.TablaColaboradores.FindByID(Colaborador.ID).ToDTO().PuestoID;
+                if (puestoID > 0)
+                {
+                    Puesto puesto = context.TablaPuestos.FindByID(puestoID);
+                    ObjetivosColaborador = puesto.Objetivos.Select(c => c.ToRDTO(context)).ToList();
+                }
+
+                List<ObjetivoRDTO> ObjetivosColaborador2= new List<ObjetivoRDTO>();
+                foreach (ObjetivoRDTO objpadre in ObjetivosColaborador)
+                {
+                    ObjetivosColaborador2.AddRange(context.TablaObjetivos.Where(oo=>oo.ObjetivoPadreID==objpadre.idObjetivo).Select(ooo => ooo.ToRDTO(context)));
+                }
+                //List<ObjetivoRDTO> ObjetivosColaborador2 = ObjetivosColaborador.Where( o1=> o1.esPropioColaborador(o1.idpadre,context)).ToList();
+                ObjetivosColaborador =ObjetivosColaborador2;
+
+                foreach (ObjetivoRDTO o in ObjetivosColaborador)
+                {
+                    HistoricoBSC PeriodoPersona = ObjetivosHistoricosXPersona.Find(oh => oh.idperiodo == o.idperiodo && o.ColaboradorNombre==oh.nombreColaborador);
+                    if (PeriodoPersona != null)
+                    {
+                        PeriodoPersona.objetivos.Add(o);
+                    }
+                    else
+                    {
+                        HistoricoBSC NuevoPeriodoPersona = new HistoricoBSC();
+                        NuevoPeriodoPersona.idperiodo = o.idperiodo;
+                        NuevoPeriodoPersona.nombreColaborador = Colaborador.NombreCompleto;
+                        NuevoPeriodoPersona.objetivos = new List<ObjetivoRDTO>();
+                        NuevoPeriodoPersona.objetivos.Add(o);
+                        ObjetivosHistoricosXPersona.Add(NuevoPeriodoPersona);
+                    }
+                }
+                return Json(ObjetivosHistoricosXPersona, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         //public ActionResult SeleccionXUniversidades(int idPuesto, string fecha)
         //{
 
