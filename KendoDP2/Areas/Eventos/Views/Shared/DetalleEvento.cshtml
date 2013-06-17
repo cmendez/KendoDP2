@@ -5,7 +5,8 @@
 
 @model KendoDP2.Areas.Eventos.Models.EventoDTO
 @{
-    
+    IEnumerable<ColaboradorDTO> invitados = ViewBag.invitados;
+    string invitadosJson = Json.Encode(invitados);
 }
 
 @using (Html.BeginForm())
@@ -26,6 +27,30 @@
                 @Html.TextBoxFor(model => model.Fin, new {@readonly = "readonly" })
             @Html.LabelFor(model => model.TipoEventoID)
                 @Html.TextBoxFor(model => model.TipoEvento, new {@readonly = "readonly" })
+
+            @Html.Label("Lista de Invitados:", new { style = "font-weight: bold;" })
+                <div class="twit-reader">
+                    <div id="list-view"></div>
+                </div>
+    
+    
+    <script type="text/x-kendo-tmpl" id="template">
+    <div class="twit">
+        <p>#:NombreCompleto#</p>
+    </div>
+    </script>
+    
+    <script>
+      
+        var invitados = '@Html.Raw(invitadosJson)';
+        $("#list-view").kendoListView({
+            dataSource: jQuery.parseJSON(invitados),
+            template: kendo.template($("#template").html())
+        });
+
+           
+
+    </script>
             
 }        
 

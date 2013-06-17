@@ -72,8 +72,8 @@ namespace KendoDP2.Models.Generic
         {
             TablaOfertaLaborales.AddElement(new OfertaLaboral
             {
-                PuestoID = 1,
-                AreaID = TablaAreas.One(a => a.Nombre.Equals("Directorio")).ID,
+                PuestoID = 20,
+                AreaID = TablaPuestos.One(a => a.ID == 20).AreaID,
                 ResponsableID = TablaColaboradores.One(a => a.ApellidoPaterno.Equals("Solorzano")).ID,
                 EstadoSolicitudOfertaLaboralID = TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID,
                 FechaPublicacion = DateTime.Now.AddDays(-10).ToString("dd/MM/yyyy"),
@@ -88,8 +88,8 @@ namespace KendoDP2.Models.Generic
 
             TablaOfertaLaborales.AddElement(new OfertaLaboral
             {
-                PuestoID = TablaPuestos.One(a => a.Nombre.Equals("Gerente general")).ID,
-                AreaID = TablaAreas.One(a => a.Nombre.Equals("Gerencia general")).ID,
+                PuestoID = 21,
+                AreaID = TablaPuestos.One(a => a.ID == 21).AreaID,
                 ResponsableID = TablaColaboradores.One(a => a.ApellidoPaterno.Equals("Solorzano")).ID,
                 EstadoSolicitudOfertaLaboralID = 1,
                 FechaPublicacion = DateTime.Now.AddDays(-10).ToString("dd/MM/yyyy"),
@@ -137,7 +137,7 @@ namespace KendoDP2.Models.Generic
             TablaOfertaLaborales.AddElement(new OfertaLaboral
             {
                 PuestoID = 6,
-                AreaID = TablaPuestos.One(a => a.ID == 1).AreaID,
+                AreaID = TablaPuestos.One(a => a.ID == 6).AreaID,
                 ResponsableID = TablaColaboradores.One(a => a.Username.Equals("cperez")).ID,
                 EstadoSolicitudOfertaLaboralID = TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID,
                 FechaPublicacion = DateTime.Now.AddDays(-10).ToString("dd/MM/yyyy"),
