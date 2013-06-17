@@ -255,7 +255,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     int areaID = actual.Puesto.AreaID;
                     //List<OfertaLaboral> lstOL = context.TablaOfertaLaborales.All();
                     List<OfertaLaboral> lstOL = context.TablaOfertaLaborales.Where(
-                            x => // x.AreaID == areaID && //De la misma area que el postulante (colaborador) //SI QUIERES FILTRAR POR AREA, ACTIVAS AQUI NO MAS
+                            x =>  x.AreaID == areaID && //De la misma area que el postulante (colaborador) //SI QUIERES FILTRAR POR AREA, ACTIVAS AQUI NO MAS
                             x.EstadoSolicitudOfertaLaboralID == esol.ID && //Que coincida con el estado de la oferta laboral que deseo
                             !x.Postulantes.Select(y => y.PostulanteID).ToList().Contains(p.ID) //No sea una oferta ya postulada
                     );

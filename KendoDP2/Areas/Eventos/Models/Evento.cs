@@ -147,7 +147,7 @@ namespace KendoDP2.Areas.Eventos.Models
             Creador = e.Creador != null ? e.Creador.ToDTO().NombreCompleto : String.Empty;
             LugarEvento = e.LugarEvento;
 
-            if (e.CreadorID != null)
+            if (e.Creador != null)
             {
                 var aux = e.Creador.ColaboradoresPuesto.Single(x => !x.FechaSalidaPuesto.HasValue).Puesto;
                 Puesto = aux.Nombre;

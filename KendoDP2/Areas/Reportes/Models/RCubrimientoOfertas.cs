@@ -15,6 +15,7 @@ namespace KendoDP2.Areas.Reportes.Models
     public class ROfertasLaborales
     {
         public string nombreProveniencia;
+        public string gradoAcademico;
         public int cantPostulantes;
         public int cantElegidos;
     }

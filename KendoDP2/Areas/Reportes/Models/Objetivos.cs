@@ -180,6 +180,12 @@ namespace KendoDP2.Areas.Reportes.Models
             numPersonas = 10;
             avance = 50;
         }
+        public bool esPropioColaborador(int idpadre, DP2Context context){
+            if (idpadre == -1) return true;
+            ObjetivoDTO padre=context.TablaObjetivos.FindByID(idpadre).ToDTO(context);
+            ObjetivoRDTO abuelo= context.TablaObjetivos.FindByID(padre.ObjetivoPadreID).ToRDTO(context);
+            return abuelo.esIntermedio;
+        }
     }
 
     public class PersonaXObjetivoDTO
@@ -189,6 +195,15 @@ namespace KendoDP2.Areas.Reportes.Models
         public string nombreColaborador { get; set; }
 
         public int idObjetivo { get; set; }
+
+        public List<ObjetivoRDTO> objetivos { get; set; }
+    }
+
+    public class HistoricoBSC
+    {
+        public int idperiodo { get; set; }
+
+        public string nombreColaborador { get; set; }
 
         public List<ObjetivoRDTO> objetivos { get; set; }
     }
