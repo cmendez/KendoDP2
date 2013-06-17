@@ -152,7 +152,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
 
             // verificar si es un par
             var par = pares.Where(x => x.ID == evaluadorID);
-            if (par != null && subordinado.Count() > 0)
+            if (par != null && pares.Count() > 0)
             {
                 PuestoXEvaluadores p = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == puestoEvaluadorID && x.ClaseEntorno == ConstantesClaseEntornoPuestoEvaluadores.Pares);
                 if (p.Cantidad > 0)
