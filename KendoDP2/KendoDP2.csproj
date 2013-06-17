@@ -336,9 +336,11 @@
     <Compile Include="Areas\Reclutamiento\Models\Respuesta.cs" />
     <Compile Include="Areas\Reclutamiento\Models\SolicitudPromocion.cs" />
     <Compile Include="Areas\Reclutamiento\ReclutamientoAreaRegistration.cs" />
+    <Compile Include="Areas\Reportes\Controllers\Reporte360Controller.cs" />
     <Compile Include="Areas\Reportes\Controllers\ReportesController.cs" />
     <Compile Include="Areas\Reportes\Models\Objetivos.cs" />
     <Compile Include="Areas\Reportes\Models\RCubrimientoOfertas.cs" />
+    <Compile Include="Areas\Reportes\Models\Reporte360Model.cs" />
     <Compile Include="Areas\Reportes\ReportesAreaRegistration.cs" />
     <Compile Include="Areas\Seguridad\Controllers\RolesController.cs" />
     <Compile Include="Areas\Seguridad\Controllers\UsuariosController.cs" />

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Web;
+using KendoDP2.Areas.Reportes.Models;
 
 namespace KendoDP2.Areas.Evaluacion360.Models
 {
@@ -27,6 +28,11 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         public ColaboradorXProcesoEvaluacionDTO ToDTO()
         {
             return new ColaboradorXProcesoEvaluacionDTO(this);
+        }
+
+        public ProcesoReportadoDTO toProcesoReportadoDTO()
+        {
+            return new ProcesoReportadoDTO(this);
         }
     }
 
