@@ -28,6 +28,7 @@ namespace KendoDP2.Models.Generic
         public DbSet<EvaluacionXFaseXPostulacion> InternalEvaluacionXFaseXPostulacion { get; set; }
         public DbSet<Respuesta> InternalRespuesta { get; set; }
         public DbSet<EstadoPostulantePorOferta> InternalEstadoPostulantePorOferta { get; set; }
+        public DbSet<SolicitudPromocion> InternalSolicitudPromociones { get; set; }
 
         public DBGenericRequester<OfertaLaboral> TablaOfertaLaborales { get; set; }
         public DBGenericRequester<EstadosSolicitudOfertaLaboral> TablaEstadosSolicitudes { get; set; }
@@ -39,6 +40,7 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<EvaluacionXFaseXPostulacion> TablaEvaluacionXFaseXPostulacion { get; set; }
         public DBGenericRequester<Respuesta> TablaRespuesta { get; set; }
         public DBGenericRequester<EstadoPostulantePorOferta> TablaEstadoPostulanteXOferta { get; set; }
+        public DBGenericRequester<SolicitudPromocion> TablaSolicitudPromociones { get; set; }
 
         private void RegistrarTablasReclutamiento()
         {
@@ -52,6 +54,8 @@ namespace KendoDP2.Models.Generic
             TablaEvaluacionXFaseXPostulacion = new DBGenericRequester<EvaluacionXFaseXPostulacion>(this, InternalEvaluacionXFaseXPostulacion);
             TablaRespuesta = new DBGenericRequester<Respuesta>(this, InternalRespuesta);
             TablaEstadoPostulanteXOferta = new DBGenericRequester<EstadoPostulantePorOferta>(this, InternalEstadoPostulantePorOferta);
+            TablaSolicitudPromociones = new DBGenericRequester<SolicitudPromocion>(this, InternalSolicitudPromociones);
+
         }
 
         private void SeedModosSolicitudes()
