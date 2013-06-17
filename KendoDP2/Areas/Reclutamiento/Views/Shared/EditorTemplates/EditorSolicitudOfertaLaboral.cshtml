@@ -175,9 +175,28 @@
                    if (puestos.length > 0)
                        select.find('option:first').attr("selected", "selected");
                });
+
+        $.getJSON("@Url.Action("_GetColaboradores", "SolicitudOfertasLaborales", new {Area = "Reclutamiento"})",
+              { areaID: areaID },
+              function (colaboradores) {
+                  var select = $("#ResponsableID");
+                  select.find('option').remove().end();
+                  select.append($('<option/>', {
+                      value: 0,
+                      text: ""
+                  }));
+                  $.each(colaboradores, function (index, itemData) {
+                      select.append($('<option/>', {
+                          value: itemData.ID,
+                          text: itemData.NombreCompleto
+                      }));
+                  });
+                  if (colaboradores.length > 0)
+                      select.find('option:first').attr("selected", "selected");
+              });
     });
 
-    
+   
 
 
 </script>

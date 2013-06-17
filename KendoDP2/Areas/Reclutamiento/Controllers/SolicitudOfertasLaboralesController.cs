@@ -178,8 +178,23 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
            return (!(oferta.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Pendiente")));
        }
 
+
+       public JsonResult _GetColaboradores(int areaID)
+       {
+           using (DP2Context context = new DP2Context())
+           {
+               List<ColaboradorDTO> p = new List<ColaboradorDTO>();
+               try
+               {
+                   p = context.TablaColaboradores.All().Select(m => m.ToDTO()).Where(n => n.AreaID == areaID).ToList();
+               }
+               catch (Exception) { }
+               return Json(p, JsonRequestBehavior.AllowGet);
+           }
+       }
+    
     }
 
-
+     
 
 }
