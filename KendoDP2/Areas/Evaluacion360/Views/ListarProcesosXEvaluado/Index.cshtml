@@ -30,7 +30,7 @@
                     columns.Bound(p => p.FechaCierre);
                     columns.ForeignKey((p => p.AutorizadorID), lista);
                     columns.ForeignKey(p => p.EstadoProcesoEvaluacionID, new SelectList(estados, "ID", "Descripcion")).Visible(true);
-                    columns.Bound(p => p.Puntuacion);                    
+                    columns.Bound(p => p.Puntuacion).Visible(true);                    
 
                     columns.Template(@<text></text>).Title("Detalle Evaluacion").ClientTemplate(
                         "<a class='k-button' href='" + Url.Action("ListarResultados", "ListarProcesosXEvaluado") + "?procesoEvaluacionID=#=ID#'>Detalle</a>");
