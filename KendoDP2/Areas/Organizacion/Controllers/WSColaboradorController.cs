@@ -58,7 +58,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                     if (contactos.Count == 0) return JsonSuccessGet(new { contactos = new List<ContactosDTO>() });
                     
                     var contactosDTO = contactos.Select(c => c.ToDTO()).ToList();
-                    return JsonSuccessGet(new { contactos = contactos });
+                    return JsonSuccessGet(new { contactos = contactosDTO });
                 }
                 catch (Exception ex)
                 {

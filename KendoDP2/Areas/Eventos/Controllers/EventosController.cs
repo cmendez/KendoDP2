@@ -327,6 +327,17 @@ namespace KendoDP2.Areas.Eventos.Controllers
             
         }
 
+        public ActionResult ShowDetalleEvento(int eventoID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                EventoDTO eventoDTO = context.TablaEvento.FindByID(eventoID).ToDTO();
+                ViewBag.invitados = eventoDTO.Invitados.ToList();
+
+                return PartialView("DetalleEvento", eventoDTO);
+            }
+        }
+
         public string RetornaMensajeInvitados(string nombre, string nombreEvento, string lugar, string fechaI, string fechaF, string creador)
         {
             string mensaje = "Estimado(a) " + nombre + ":\n\n" +

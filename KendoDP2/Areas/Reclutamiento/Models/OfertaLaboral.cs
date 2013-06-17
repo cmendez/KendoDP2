@@ -134,6 +134,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public int EstadoSolicitudOfertaLaboralID { get; set; }
 
         [DisplayName("Numero de Vacantes")]
+        [Range(1,5)]
         public int NumeroVacantes { get; set; }
 
         [DisplayName("Comentarios")]
