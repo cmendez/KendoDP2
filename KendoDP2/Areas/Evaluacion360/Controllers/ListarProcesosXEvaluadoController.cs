@@ -71,8 +71,28 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 int ColaboradorID = DP2MembershipProvider.GetPersonaID(this);
                 List<ProcesoEvaluacion> procesos = _Read(ColaboradorID, context);
 
-                return Json(procesos.Select(x => x.ToDTO()).ToDataSourceResult(request));
+                List<ProcesoEvaluacionDTO> auxlistaprocesosdto = new List<ProcesoEvaluacionDTO>();
 
+                foreach (ProcesoEvaluacion e in procesos)
+                {
+
+                    ColaboradorXProcesoEvaluacion auxcolproceso = context.TablaColaboradorXProcesoEvaluaciones.One(x => x.ProcesoEvaluacionID == e.ID && x.ColaboradorID == ColaboradorID);
+
+                    if (auxcolproceso != null) { 
+                    ColaboradorXProcesoEvaluacionDTO auxcolprocesodto=auxcolproceso.ToDTO();
+
+                    int puntuacion = (int)(auxcolprocesodto.Nota);
+
+                    ProcesoEvaluacionDTO auxiliar = e.ToDTO();
+                    auxiliar.Puntuacion = puntuacion;
+                    auxlistaprocesosdto.Add(auxiliar);
+                    }                                                           
+
+                }                
+
+
+                //return Json(procesos.Select(x => x.ToDTO()).ToDataSourceResult(request));
+                return Json(auxlistaprocesosdto.ToDataSourceResult(request));
             }
         }
 

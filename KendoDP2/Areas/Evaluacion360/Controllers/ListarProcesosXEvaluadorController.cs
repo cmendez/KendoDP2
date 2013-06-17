@@ -40,35 +40,30 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
         internal List<ProcesoEvaluacion> _Read(int idUsuario, DP2Context context)
         {
-            //var ret = context.TablaColaboradores.FindByID(ColaboradorID).ColaboradorXProcesoEvaluaciones.Select(x => x.ProcesoEvaluacion.ToDTO()).ToList();
+            IList<ProcesoEvaluacionDTO> listaProcesos_ = new List<ProcesoEvaluacionDTO>();
+            List<int> listaExamenes = context.TablaEvaluadores.Where(x=>x.ElIDDelEvaluador==idUsuario).Select(a=>a.ProcesoEnElQueParticipanID).ToList();
+           // List<int> evaluacionesPendientes = context.TablaColaboradorXProcesoEvaluaciones.Where(pxexe => listaExamenes.Contains(pxexe.ColaboradorID)).Select(e => e.ProcesoEvaluacionID).ToList();
+            return context.TablaProcesoEvaluaciones.Where(p => listaExamenes.Contains(p.ID) && p.EstadoProcesoEvaluacionID==context.TablaEstadoProcesoEvaluacion.One(e=>e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso)).ID).OrderByDescending(p => p.ID).ToList();
+         /* List<ProcesoEvaluacion> listaProceso = new List<ProcesoEvaluacion>();
+          IList<Evaluador> listaProcesosEvaluador = (context.TablaEvaluadores.Where(a => a.ElIDDelEvaluador == idUsuario));
 
-            // context.TablaColaboradores.FindByID(ColaboradorID).Evaluadores.where(x => x.ProcesoEvaluacionXColaborador.ProcesoEvaluacionID == procesoID).toList();
-            List<ProcesoEvaluacion> listaProceso = new List<ProcesoEvaluacion>();
+          for (int i = 0; i < listaProcesosEvaluador.Count; i++)
+          {
+              ProcesoEvaluacion procesoauxiliar = context.TablaProcesoEvaluaciones.One(b => b.ID == (listaProcesosEvaluador.ElementAt(i).ProcesoEnElQueParticipanID) &&
+                  b.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(e => e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso)).ID);
 
-            IList<Evaluador> listaProcesosEvaluador = (context.TablaEvaluadores.Where(a => a.ElIDDelEvaluador == idUsuario));
-
-            for (int i = 0; i < listaProcesosEvaluador.Count; i++)
-            {
-                //listaProceso.Add(context.TablaProcesoEvaluaciones.FindByID(listaProcesosEvaluador.ElementAt(i).ProcesoEnElQueParticipanID));
-
-                //listaProceso.Add(context.TablaProcesoEvaluaciones.One(b => b.ID == (listaProcesosEvaluador.ElementAt(i).ProcesoEnElQueParticipanID) &&
-                //  b.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(e=> e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Iniciado)).ID));
-
-                ProcesoEvaluacion procesoauxiliar = context.TablaProcesoEvaluaciones.One(b => b.ID == (listaProcesosEvaluador.ElementAt(i).ProcesoEnElQueParticipanID) &&
-                    b.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(e => e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso)).ID);
-
-                if (procesoauxiliar != null)
-                {
-                    listaProceso.Add(procesoauxiliar);
-                }
-                //  b.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(e=> e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso)).ID));
-
-            }
-            if (listaProceso.Count == 0)
-                return listaProceso;
-            else
-                return listaProceso.GroupBy(x => x.ID).Select(y => y.FirstOrDefault()).ToList();
+              if (procesoauxiliar != null)
+              {
+                  listaProceso.Add(procesoauxiliar);
+              }
+            
+          }
+          if (listaProceso.Count == 0)
+              return listaProceso;
+          else
+              return listaProceso.GroupBy(x => x.ID).Select(y => y.FirstOrDefault()).ToList();*/
         }
+
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
             using (DP2Context context = new DP2Context())
