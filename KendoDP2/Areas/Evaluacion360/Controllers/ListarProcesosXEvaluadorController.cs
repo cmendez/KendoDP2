@@ -40,10 +40,11 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
         internal List<ProcesoEvaluacion> _Read(int idUsuario, DP2Context context)
         {
-            IList<ProcesoEvaluacionDTO> listaProcesos_ = new List<ProcesoEvaluacionDTO>();
+            List<ProcesoEvaluacion> listaProcesos_ = new List<ProcesoEvaluacion>();
             List<int> listaExamenes = context.TablaEvaluadores.Where(x=>x.ElIDDelEvaluador==idUsuario).Select(a=>a.ProcesoEnElQueParticipanID).ToList();
            // List<int> evaluacionesPendientes = context.TablaColaboradorXProcesoEvaluaciones.Where(pxexe => listaExamenes.Contains(pxexe.ColaboradorID)).Select(e => e.ProcesoEvaluacionID).ToList();
-            return context.TablaProcesoEvaluaciones.Where(p => listaExamenes.Contains(p.ID) && p.EstadoProcesoEvaluacionID==context.TablaEstadoProcesoEvaluacion.One(e=>e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso)).ID).OrderByDescending(p => p.ID).ToList();
+            listaProcesos_ = context.TablaProcesoEvaluaciones.Where(p => listaExamenes.Contains(p.ID) && p.EstadoProcesoEvaluacionID==context.TablaEstadoProcesoEvaluacion.One(e=>e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso)).ID).OrderByDescending(p => p.ID).ToList();
+            return listaProcesos_;
          /* List<ProcesoEvaluacion> listaProceso = new List<ProcesoEvaluacion>();
           IList<Evaluador> listaProcesosEvaluador = (context.TablaEvaluadores.Where(a => a.ElIDDelEvaluador == idUsuario));
 
