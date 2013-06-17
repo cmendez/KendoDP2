@@ -146,7 +146,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
                     pxo.avance = obj.AvanceFinal;
                     pxo.idObjetivo = obj.ID;
                     //pxo.objetivos = context.TablaObjetivos.Where(ob => ob.ID==ListaObjetivosHijos.Find(o => o.puestoID == c.PuestoID).ID).Select(objj=> objj.ToRDTO(context)).ToList();
-                    pxo.objetivos = context.TablaObjetivos.Where(ob => ob.ObjetivoPadre != null && ob.ObjetivoPadre.PuestoAsignadoID == c.PuestoID).Select(objj => objj.ToRDTO(context)).ToList();
+                    pxo.objetivos = context.TablaObjetivos.Where(ob => ob.ObjetivoPadreID != 0 && context.TablaObjetivos.FindByID(ob.ObjetivoPadreID).PuestoAsignadoID == c.PuestoID).Select(objj => objj.ToRDTO(context)).ToList();
                     PersonasXObjetivo.Add(pxo);
                 }
 
