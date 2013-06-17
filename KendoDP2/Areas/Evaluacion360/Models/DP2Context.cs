@@ -206,19 +206,23 @@ namespace KendoDP2.Models.Generic
         {
             //(int competenciaId, int puestoId, int nivelId, peso)
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,1,3, 20));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(2, 1, 3, 10));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(2, 1, 3, 40));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(3, 1, 3, 20));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5, 1, 3, 20));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(4, 2, 3,30));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5, 2, 3, 30));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(6, 2, 3, 40));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,3,1, 30));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(2,3,2, 70));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,3,1, 20));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(2,3,2, 60));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(6,3,2, 20));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(3,4,3, 50));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(4,4,1,50));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5,5,2, 50));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(6,5,3, 50));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,6,1,60));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(2,6,2, 40));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,6,1,30));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(2,6,2, 20));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(4, 6, 1, 30));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5, 6, 1, 20));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(3,7,3, 80));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(4,7,1, 20));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5,8,2, 75));
@@ -232,7 +236,8 @@ namespace KendoDP2.Models.Generic
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,11,1, 30));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(2,11,2, 30));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(3,11,3, 40));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(4,12,1, 100));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(4,12,1, 50));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5, 12, 1, 50));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5,13,2, 80));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(6,13,3, 20));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,14,1, 100));
@@ -260,38 +265,6 @@ namespace KendoDP2.Models.Generic
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(4,24,1, 30));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5,24,2, 30));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(6,24,3, 40));
-
-            /*CompetenciaXPuesto (Mono):
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(TablaCompetencias.One(a => a.Nombre.Equals("Matemáticas")).ID,
-                TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID, 1, 10));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(TablaCompetencias.One(a => a.Nombre.Equals("Comunicación linguística")).ID, 
-                TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID, 1, 10));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(TablaCompetencias.One(a => a.Nombre.Equals("Tratamiento de información digital")).ID,
-                TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID, 1, 10));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(TablaCompetencias.One(a => a.Nombre.Equals("Manejo de situaciones")).ID, 
-                TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID, 1, 10));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(TablaCompetencias.One(a => a.Nombre.Equals("Sociabilidad y ciudadanía")).ID,
-                TablaPuestos.One(a => a.Nombre.Equals("Presidente")).ID, 1, 10));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(TablaCompetencias.One(a => a.Nombre.Equals("Matemáticas")).ID,
-                TablaPuestos.One(a => a.Nombre.Equals("Gerente de ventas")).ID, 1, 10));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(TablaCompetencias.One(a => a.Nombre.Equals("Comunicación linguística")).ID, 
-                TablaPuestos.One(a => a.Nombre.Equals("Gerente de ventas")).ID, 1, 10));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(TablaCompetencias.One(a => a.Nombre.Equals("Iniciativa personal")).ID, 
-                TablaPuestos.One(a => a.Nombre.Equals("Gerente de ventas")).ID, 1, 10));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(TablaCompetencias.One(a => a.Nombre.Equals("Manejo de situaciones")).ID, 
-                TablaPuestos.One(a => a.Nombre.Equals("Gerente de ventas")).ID, 1, 10));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(TablaCompetencias.One(a => a.Nombre.Equals("Comunicación linguística")).ID,
-                TablaPuestos.One(a => a.Nombre.Equals("Gerente de operaciones")).ID, 1, 10));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(TablaCompetencias.One(a => a.Nombre.Equals("Iniciativa personal")).ID, 
-                TablaPuestos.One(a => a.Nombre.Equals("Gerente de operaciones")).ID, 1, 10));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(TablaCompetencias.One(a => a.Nombre.Equals("Aprendizaje")).ID, 
-                TablaPuestos.One(a => a.Nombre.Equals("Gerente de operaciones")).ID, 1, 10));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(TablaCompetencias.One(a => a.Nombre.Equals("Tratamiento de información digital")).ID,
-                TablaPuestos.One(a => a.Nombre.Equals("Gerente de TI")).ID, 1, 10));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(TablaCompetencias.One(a => a.Nombre.Equals("Matemáticas")).ID,
-                TablaPuestos.One(a => a.Nombre.Equals("Gerente de TI")).ID, 1, 10));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(TablaCompetencias.One(a => a.Nombre.Equals("Iniciativa personal")).ID,
-                TablaPuestos.One(a => a.Nombre.Equals("Gerente de TI")).ID, 1, 10));*/
         }
 
         private void SeedPuestoXEvaluadores()

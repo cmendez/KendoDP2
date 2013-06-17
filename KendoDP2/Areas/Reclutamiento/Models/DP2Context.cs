@@ -118,7 +118,7 @@ namespace KendoDP2.Models.Generic
                 Descripcion = "Trabajo en ventas",
                 ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
                 SueldoTentativo = 15000,
-                Comentarios = "",
+                Comentarios = "Todo bien.",
                 NumeroVacantes = 3,
             });
 
@@ -134,7 +134,7 @@ namespace KendoDP2.Models.Generic
                 Descripcion = "Trabajo importante en el directorio",
                 ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
                 SueldoTentativo = 15000,
-                Comentarios = "",
+                Comentarios = "Todo bien.",
                 NumeroVacantes = 3
             });
 
@@ -150,7 +150,7 @@ namespace KendoDP2.Models.Generic
                 Descripcion = "Trabajo en operaciones",
                 ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
                 SueldoTentativo = 15000,
-                Comentarios = "",
+                Comentarios = "Todo bien.",
                 NumeroVacantes = 3
             });
         }
