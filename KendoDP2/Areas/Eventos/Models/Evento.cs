@@ -104,7 +104,7 @@ namespace KendoDP2.Areas.Eventos.Models
         [DataType(DataType.DateTime), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm tt}", ApplyFormatInEditMode = true)]
         public string Inicio { get; set; }
 
-        [DisplayName("Fin Fin Evento")]
+        [DisplayName("Fecha Fin Evento")]
         [Required]
         [DataType(DataType.DateTime), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}", ApplyFormatInEditMode = true)]
         public string Fin { get; set; }

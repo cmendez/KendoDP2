@@ -28,15 +28,8 @@
                         <div class="span3 responsive span8" data-tablet="span12 fix-margin" data-desktop="span8">
                            <!-- BEGIN DRAGGABLE EVENTS PORTLET-->    
                            <h3 class="event-form-title">Eventos</h3>
-                           <div id="external-events">
-                              <form class="inline-form">
-                                 <input type="text" value="" class="m-wrap span12" placeholder="Nombre de Evento..." id="event_title" /><br />
-                                 <a href="javascript:;" id="event_add" class="btn green">Administrar Evento</a>
-                              </form>
-                              <hr />
-                              <div id="event_box">
-                              </div>
-                           <hr class="visible-phone" />
+                           <div id="detalleEvento">
+                              
                            </div>
                            <!-- END DRAGGABLE EVENTS PORTLET-->            
                         </div>
@@ -66,6 +59,9 @@ $(document).ready(function() {
 		    },
 			editable: true,
 			events: '@Url.Action("GetEventos", "Eventos", new {Area = "Eventos"})',
+		    eventClick: function (event) {
+		        $('#detalleEvento').load('@Url.Action("ShowDetalleEvento","Eventos")?eventoID=' + event.id);
+		    },
  
 		});
 });
