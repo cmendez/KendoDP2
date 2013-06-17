@@ -51,9 +51,9 @@ namespace KendoDP2.Models.Helpers
 
             // Segiuridad
             Opciones.Add(new SidebarOption("Seguridad", "Seguridad", "icon-lock", new List<SidebarSuboption>(new SidebarSuboption[]{
-                new SidebarSuboption("Roles", "Roles", "Index", "icon-user-md"),
-                new SidebarSuboption("Usuarios", "Usuarios", "Index", "icon-user"),
-
+                new SidebarSuboption("Permisos a Roles", "Roles", "Index", "icon-user-md"),
+                new SidebarSuboption("Permisos a Usuarios", "Usuarios", "Index", "icon-user"),
+                new SidebarSuboption("Crear Usuario", "AsignacionUsuario", "Index", "icon-user")
             })));
 
             // Organizacion
