@@ -291,13 +291,34 @@ namespace KendoDP2.Areas.Reportes.Controllers
             }
             
         }
+
+        //public ActionResult PostulacionySeleccion(int idpuesto)
+        //{
+        //    using (DP2Context context = new DP2Context())
+        //    {
+        //        return Json(context.TablaOfertaLaboralXPostulante.All()., JsonRequestBehavior.AllowGet);
+        //    }
+        //}
         public ActionResult PostulacionySeleccion(int idpuesto)
         {
             using (DP2Context context = new DP2Context())
             {
-                //List<OfertaLaboralDTO> ListaOfertas = context.TablaOfertaLaborales.Where(p => p.PuestoID==idpuesto).Select(p => p.Postulantes).ToList();
+                List<OfertaLaboralDTO> ListaOfertas = context.TablaOfertaLaborales.Where(p => p.PuestoID==idpuesto).Select(of=>of.ToDTO()).ToList();
+                List<OfertaLaboralXPostulanteDTO> ListaOfertasXPostulante=new List<OfertaLaboralXPostulanteDTO>();
+                foreach (OfertaLaboralDTO of in ListaOfertas)
+                {
+                    ListaOfertasXPostulante.AddRange(context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboralID==of.ID).Select(oxp=>oxp.ToDTO()).ToList());
+                }
+                List<PostulanteDTO> ListaPostulantes = new List<PostulanteDTO>();
+                foreach (OfertaLaboralXPostulanteDTO of in ListaOfertasXPostulante)
+                {
+                    ListaPostulantes.AddRange(context.TablaPostulante.Where(c => c.ID == of.PostulanteID).Select(oxp => oxp.ToDTO()).ToList());
+                }
+
                 //List<OfertaLaboralXPostulante> ListaOfertas = context.TablaOfertaLaborales.Where(p => p.PuestoID==idpuesto).Select(p => p.Postulantes);
-                List<PostulanteDTO> ListaPostulantes =context.TablaOfertaLaboralXPostulante.Where(p => p.OfertaLaboral.PuestoID==idpuesto).Select(p=>p.Postulante.ToDTO()).ToList();
+               // List<PostulanteDTO> ListaPostulantes =context.TablaOfertaLaboralXPostulante.Where(p => p.OfertaLaboral.PuestoID==idpuesto).Select(p=>p.Postulante.ToDTO()).ToList();
+                
+                
                 List<ROfertasLaborales> ListaROfertas = new  List<ROfertasLaborales>() ;
                 
                 foreach (PostulanteDTO pos in ListaPostulantes)
