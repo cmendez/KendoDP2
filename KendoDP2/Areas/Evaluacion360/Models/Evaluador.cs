@@ -167,6 +167,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
 
         public int ProcesoEnElQueParticipanID { get; set; }
         public ColaboradorDTO colaborador { get; set; }
+        public string Estado { get; set; }
 
         public Evaluador2DTO()
         {
@@ -182,7 +183,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
             ElIDDelEvaluador = evaluador.ElIDDelEvaluador;
             ElEvaluado = evaluador.ElEvaluado;
             ProcesoEnElQueParticipanID = evaluador.ProcesoEnElQueParticipanID;
-
+            Estado = evaluador.FaseDeLaEvaluacion;
             procesoevaluacion = (new DP2Context()).TablaProcesoEvaluaciones.FindByID(evaluador.ProcesoEnElQueParticipanID).ToDTO();
         }
     }
