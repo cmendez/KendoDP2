@@ -180,6 +180,8 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 
                     ol.EstadoSolicitudOfertaLaboralID = esol.ID;
                     if (comentarios != "") ol.Comentarios = comentarios;
+                    ol.FechaPublicacion = DateTime.Now.ToString("dd/MM/yyyy");
+
                     context.TablaOfertaLaborales.ModifyElement(ol);
 
                     return JsonSuccessGet(new { ofertalaboral = ol.ToDTO()});
@@ -214,6 +216,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     ofxp.OfertaLaboralID = ol.ID;
                     ofxp.PostulanteID = p.ID;
                     ofxp.EstadoPostulantePorOfertaID = context.TablaEstadoPostulanteXOferta.One(x => x.Descripcion.Equals("Inscrito")).ID;
+                    ofxp.FechaPostulacion = DateTime.Now.ToString("dd/MM/yyyy");
                     context.TablaOfertaLaboralXPostulante.AddElement(ofxp);
 
                     FasePostulacionXOfertaLaboralXPostulante fpxolxp = new FasePostulacionXOfertaLaboralXPostulante();
