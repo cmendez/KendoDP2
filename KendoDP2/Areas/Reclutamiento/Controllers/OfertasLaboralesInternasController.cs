@@ -484,8 +484,17 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Contratado"));
                     context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
 
+                    // asigno fecha fin al puesto
+                    var ultimoCruce = context.TablaColaboradoresXPuestos.One(x => x.FechaSalidaPuesto == null);
+                    if (ultimoCruce != null)
+                    {
+                        ultimoCruce.FechaSalidaPuesto = DateTime.Now.AddDays(-1);
+                        context.TablaColaboradoresXPuestos.ModifyElement(ultimoCruce);
+                    }
+
+
                     // se crea el nuevo puesto
-                    ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = postulanteOferta.Postulante.Colaborador.ID, PuestoID = oferta.PuestoID, Sueldo = oferta.SueldoTentativo };
+                    ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = postulanteOferta.Postulante.Colaborador.ID, PuestoID = oferta.PuestoID, Sueldo = oferta.SueldoTentativo, FechaIngresoPuesto = DateTime.Now};
 
                     context.TablaColaboradoresXPuestos.AddElement(cruce);
 
