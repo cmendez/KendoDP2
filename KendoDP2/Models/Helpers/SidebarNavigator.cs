@@ -70,7 +70,7 @@ namespace KendoDP2.Models.Helpers
 
             Opciones.Add(new SidebarOption("Reclutamiento", "Reclutamiento", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption("Ofertas Laborales","SolicitudOfertasLaborales","Index","icon-tag"),
-                new SidebarSuboption("Solicitud de Promoción", "SolicitudPromociones","Index","icon-level-up"),
+                new SidebarSuboption("Solicitud de Promoción", "SolicitudPromociones","Index","icon-meh"),
                 new SidebarSuboption("Administrar Ofertas Laborales Internas", "OfertasLaboralesInternas","Index","icon-book"),
                 new SidebarSuboption("Administrar Ofertas Laborales Externas", "OfertasLaboralesExternas","Index","icon-book")
             })));

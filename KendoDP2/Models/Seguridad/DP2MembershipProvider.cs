@@ -177,5 +177,15 @@ namespace KendoDP2.Models.Seguridad
             return GetPersonaFromUsername(controller.User.Identity.Name).ID;
         }
 
+        public static int GetImagenID(string username)
+        {
+            int idPersona = GetPersonaFromUsername(username).ID;
+            using (DP2Context db = new DP2Context())
+            {
+                Colaborador colaborador = db.TablaColaboradores.FindByID(idPersona);
+                return colaborador != null ? colaborador.ImagenColaboradorID : 0;
+            } 
+        }
+
     }
 }

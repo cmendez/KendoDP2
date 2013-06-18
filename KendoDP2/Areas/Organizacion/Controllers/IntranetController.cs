@@ -132,5 +132,16 @@ namespace KendoDP2.Areas.Organizacion.Controllers
 
             }
         }
+
+        public ActionResult ShowDetalleEvento(int eventoID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                EventoDTO eventoDTO = context.TablaEvento.FindByID(eventoID).ToDTO();
+                ViewBag.invitados = eventoDTO.Invitados.ToList();
+
+                return PartialView("DetalleEvento", eventoDTO);
+            }
+        }
     }
 }
