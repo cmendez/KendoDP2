@@ -195,22 +195,18 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 try
                 {
                     Colaborador c = context.TablaColaboradores.FindByID(Convert.ToInt32(colaboradorID));
-                    if (c == null) throw new Exception("No existe Colaborador con ID = " + colaboradorID);
+                    if (c == null) return JsonErrorGet("No existe Colaborador con ID = " + colaboradorID);
 
                     OfertaLaboral ol = context.TablaOfertaLaborales.FindByID(Convert.ToInt32(ofertaLaboralID));
-                    if (ol == null) throw new Exception("No existe Oferta Laboral con ID = " + ofertaLaboralID);
-
-
-                    OfertaLaboralXPostulante ofxp = new OfertaLaboralXPostulante();
-                    ofxp.OfertaLaboralID = ol.ID;
+                    if (ol == null) return JsonErrorGet("No existe Oferta Laboral con ID = " + ofertaLaboralID);
                     
                     //Crear el postulante a partir de ese colaborador
                     Postulante p = context.TablaPostulante.One(x => x.ColaboradorID == Convert.ToInt32(colaboradorID));
-                    if (p == null) // Si no encuentro al colaborador como postulante, creo el postulante
-                    {
-                        context.TablaPostulante.AddElement(p = new Postulante(c));
-                    }
+                    // Si no encuentro al colaborador como postulante, creo el postulante
+                    if (p == null) context.TablaPostulante.AddElement(p = new Postulante(c));
 
+                    OfertaLaboralXPostulante ofxp = new OfertaLaboralXPostulante();
+                    ofxp.OfertaLaboralID = ol.ID;
                     ofxp.PostulanteID = p.ID;
                     ofxp.EstadoPostulantePorOfertaID = context.TablaEstadoPostulanteXOferta.One(x => x.Descripcion.Equals("Inscrito")).ID;
                     context.TablaOfertaLaboralXPostulante.AddElement(ofxp);
@@ -224,7 +220,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return JsonErrorGet("Error en la BD: " + ex.Message + ex.InnerException);
+                    return JsonErrorGet("Error en la BD: " + ex.Message + ex.InnerException+ ex.StackTrace);
                 }
             }
 
