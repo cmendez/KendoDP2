@@ -60,6 +60,7 @@ $(document).ready(function() {
 			editable: true,
 			events: '@Url.Action("GetEventos", "Eventos", new {Area = "Eventos"})',
 		    eventClick: function (event) {
+		        $('#detalleEvento').html('Cargando...');
 		        $('#detalleEvento').load('@Url.Action("ShowDetalleEvento","Eventos")?eventoID=' + event.id);
 		    },
  

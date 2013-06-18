@@ -6,6 +6,7 @@ using KendoDP2.Models.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using KendoDP2.Areas.Reportes.Models;
 
 namespace KendoDP2.Areas.Organizacion.Models
 {
@@ -13,6 +14,12 @@ namespace KendoDP2.Areas.Organizacion.Models
     {
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
+        public bool IsAudit { get; set; }
+
+        public int ColorID { get; set; }
+
+        [ForeignKey("ColorID")]
+        public virtual AColor AColor { get; set; }
         
         public int? AreaSuperiorID { get; set; }
         [ForeignKey("AreaSuperiorID")]
@@ -36,6 +43,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             Nombre = a.Nombre;
             Descripcion = a.Descripcion;
             if(a.AreaSuperiorID > 0) AreaSuperiorID = a.AreaSuperiorID;
+            ColorID = a.ColorID;
 
             return this;
         }
@@ -48,6 +56,11 @@ namespace KendoDP2.Areas.Organizacion.Models
         public AreaTreeDTO ToTreeDTO()
         {
             return new AreaTreeDTO(this);
+        }
+
+        public AreaRDTO ToRDTO(DP2Context context)
+        {
+            return new AreaRDTO(this,context);
         }
 
         public List<Area> GetAreasHijas(DP2Context context)
@@ -71,6 +84,14 @@ namespace KendoDP2.Areas.Organizacion.Models
         [MaxLength(50)]
         public string Nombre { get; set; }
 
+        [Required]
+        [UIHint("GridForeignKey")]
+        [DisplayName("Color")]
+        public int ColorID { get; set; }
+
+        [DisplayName("Es auditoría")]
+        public bool IsAudit { get; set; }
+
         [DisplayName("Descripción")]
         [MaxLength(200)]
         public string Descripcion { get; set; }
@@ -87,6 +108,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             Nombre = a.Nombre;
             Descripcion = a.Descripcion;
             AreaSuperiorID = a.AreaSuperiorID.GetValueOrDefault();
+            ColorID = a.ColorID;
             
         }
     }
@@ -108,4 +130,6 @@ namespace KendoDP2.Areas.Organizacion.Models
             hasChildren = a.Areas.Any(i => !i.IsEliminado);
         }
     }
+
+    
 }
