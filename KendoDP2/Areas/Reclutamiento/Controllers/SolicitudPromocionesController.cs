@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
+using KendoDP2.Areas.Organizacion.Models;
 
 
 namespace KendoDP2.Areas.Reclutamiento.Controllers
@@ -120,6 +121,9 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 {
                     o.EstadoSolicitudOfertaLaboral = context.TablaEstadosSolicitudes.One(p=> p.Descripcion.Equals("Aprobado"));
                     o.FechaAprobacion = DateTime.Now.ToShortDateString();
+                    ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = o.AscendidoID, PuestoID = o.PuestoID, Sueldo = o.SueldoTentativo };
+
+                    context.TablaColaboradoresXPuestos.AddElement(cruce);
                 }
                 context.TablaSolicitudPromociones.ModifyElement(o);
 

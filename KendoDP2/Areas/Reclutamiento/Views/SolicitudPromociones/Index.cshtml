@@ -87,7 +87,7 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         ID = dataItem.ID;
         var wnd = $("#Details").data("kendoWindow");
-        $("#Details").load("@Url.Action("GetViewSolicitud","SolicitudPromociones", new{Area = "Reclutamiento"})?solicidutID=" + ID, function () {
+        $("#Details").load("@Url.Action("GetViewSolicitud","SolicitudPromociones", new{Area = "Reclutamiento"})?solicitudID=" + ID, function () {
             wnd.center().open();
         });
     }
