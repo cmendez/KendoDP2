@@ -121,7 +121,7 @@ namespace KendoDP2.Areas.Reportes.Models
             if (o.PuestoAsignadoID != null)
             {
                 idPuesto = o.PuestoAsignadoID.Value;
-                List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (cxp.FechaSalidaPuesto == null || DateTime.Today <= cxp.FechaSalidaPuesto));
+                List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (cxp.FechaSalidaPuesto == null ));
                 if (cxpaux.Count > 0)
                 {
 
@@ -203,6 +203,8 @@ namespace KendoDP2.Areas.Reportes.Models
     {
         public int idperiodo { get; set; }
 
+        public string nombrePeriodo { get; set; }
+
         public string nombreColaborador { get; set; }
 
         public List<ObjetivoRDTO> objetivos { get; set; }
@@ -227,8 +229,50 @@ namespace KendoDP2.Areas.Reportes.Models
 
     }
 
-    public class SeleccionXUniversidadRDTO
-    {
 
+
+    public class ColaboradorRDTO
+    {
+        public int idColaborador { get; set; }
+        public string nombreColaborador { get; set; }
+        public string puesto { get; set; }
+        //public  List<ColaboradorRDTO> Subordinados;
+        
+        public ColaboradorRDTO(Colaborador c,DP2Context context)
+        {
+            idColaborador = c.ID;
+            nombreColaborador = c.Nombres + " "+c.ApellidoPaterno+" "+c.ApellidoMaterno;
+            puesto = context.TablaColaboradoresXPuestos.One(cxp => cxp.ColaboradorID == c.ID && cxp.FechaSalidaPuesto == null).Puesto.Nombre;
+            //PuestosHijos = context.TablaPuestos.Where(p=> p.PuestoSuperiorID==a.ID).Select(p=>p.ToRDTO(context)).ToList();
+        }
+    }
+
+    public class PuestoRDTO
+    {
+        public int idPuesto { get; set; }
+        public string nombrePuesto { get; set; }
+        //public List<PuestoRDTO> PuestosHijos { get; set; }
+
+        public PuestoRDTO(Puesto a,DP2Context context)
+        {
+            idPuesto = a.ID;
+            nombrePuesto = a.Nombre;
+           //  PuestosHijos = context.TablaPuestos.Where(p=> p.PuestoSuperiorID==a.ID).Select(p=>p.ToRDTO(context)).ToList();
+        }
+
+    }
+
+    public class AreaRDTO
+    {
+        public int idArea { get; set; }
+        public string nombreArea { get; set; }
+        public List<PuestoRDTO> Puestos { get; set; }
+
+        public AreaRDTO(Area a,DP2Context context)
+        {
+            idArea = a.ID;
+            nombreArea = a.Nombre;
+            Puestos = context.TablaPuestos.Where(p => p.AreaID == a.ID).Select(p=> p.ToRDTO(context)).ToList();
+        }
     }
 }

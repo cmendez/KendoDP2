@@ -151,4 +151,14 @@ namespace KendoDP2.Areas.Evaluacion360.Models
 
     }
 
+    public class ProcesoXCompetenciasDTO
+    {
+        //public ProcesoEvaluacionDTO proceso;
+        //public ICollection<CompetenciaXExamenDTO> resultadosCompetencias;
+
+        public ProcesoEvaluacionDTO Proceso { get; set; }
+        public ICollection<CompetenciaXExamenDTO> ResultadosCompetencias { get; set; }
+
+    }
+
 }

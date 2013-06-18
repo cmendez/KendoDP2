@@ -65,11 +65,6 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     foreach (OfertaLaboral oflab in lstOfertasLaboralesResponsable)
                     {
                         var lstPostulante = oflab.Postulantes.Select(x => x.Postulante).ToList();
-                        //var lstPostulante = lstPostulacionesDeLaFase
-                        //                    .Where(x => x.OfertaLaboral.Equals(oflab))
-                        //                    .Select(x => x.Postulante).Distinct()
-                        //                    .ToList();
-
                         listaOfertasLaboralesYPostulantes.Add(new OfertaLaboralXPostulanteWSDTO(oflab, lstPostulante));
                     }
                     
@@ -161,20 +156,32 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 
         // /WSOfertaLaboral/setEstadoSolicitudOfertaLaboral?ofertaLaboralID=&nuevoEstado=
         // /WSOfertaLaboral/setEstadoSolicitudOfertaLaboral?ofertaLaboralID=&nuevoEstado=&comentarios=
-        public JsonResult setEstadoSolicitudOfertaLaboral(string ofertaLaboralID, string nuevoEstado, string comentarios = "")
+        // /WSOfertaLaboral/setEstadoSolicitudOfertaLaboral?ofertaLaboralID=&nuevoEstado=&comentarios=&colaboradorID=
+        public JsonResult setEstadoSolicitudOfertaLaboral(string ofertaLaboralID, string nuevoEstado, string comentarios = "", string colaboradorID = "")
         {
             using (DP2Context context = new DP2Context())
             {
                 try
                 {
+                    //Colaborador c;
+                    //if (colaboradorID != "")
+                    //{
+                    //    c = context.TablaColaboradores.FindByID(Convert.ToInt32(colaboradorID));
+                    //    if (c == null) return JsonErrorGet("No Existe el Colaborador con ID = " + colaboradorID);
+                    //}
+
                     OfertaLaboral ol = context.TablaOfertaLaborales.FindByID(Convert.ToInt32(ofertaLaboralID));
                     if (ol == null) return JsonErrorGet("No existe la Oferta Laboral con ID = " + ofertaLaboralID);
 
                     EstadosSolicitudOfertaLaboral esol = context.TablaEstadosSolicitudes.One(x => x.Descripcion.Equals(nuevoEstado));
                     if (esol == null) return JsonErrorGet("No existe el estado " + nuevoEstado + " para una Solicitud de Oferta Laboral");
 
+                    //if (ol.ResponsableID == Convert.ToInt32(colaboradorID)) ;
+
                     ol.EstadoSolicitudOfertaLaboralID = esol.ID;
                     if (comentarios != "") ol.Comentarios = comentarios;
+                    ol.FechaPublicacion = DateTime.Now.ToString("dd/MM/yyyy");
+
                     context.TablaOfertaLaborales.ModifyElement(ol);
 
                     return JsonSuccessGet(new { ofertalaboral = ol.ToDTO()});
@@ -195,24 +202,21 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 try
                 {
                     Colaborador c = context.TablaColaboradores.FindByID(Convert.ToInt32(colaboradorID));
-                    if (c == null) throw new Exception("No existe Colaborador con ID = " + colaboradorID);
+                    if (c == null) return JsonErrorGet("No existe Colaborador con ID = " + colaboradorID);
 
                     OfertaLaboral ol = context.TablaOfertaLaborales.FindByID(Convert.ToInt32(ofertaLaboralID));
-                    if (ol == null) throw new Exception("No existe Oferta Laboral con ID = " + ofertaLaboralID);
-
-
-                    OfertaLaboralXPostulante ofxp = new OfertaLaboralXPostulante();
-                    ofxp.OfertaLaboralID = ol.ID;
+                    if (ol == null) return JsonErrorGet("No existe Oferta Laboral con ID = " + ofertaLaboralID);
                     
                     //Crear el postulante a partir de ese colaborador
                     Postulante p = context.TablaPostulante.One(x => x.ColaboradorID == Convert.ToInt32(colaboradorID));
-                    if (p == null) // Si no encuentro al colaborador como postulante, creo el postulante
-                    {
-                        context.TablaPostulante.AddElement(p = new Postulante(c));
-                    }
+                    // Si no encuentro al colaborador como postulante, creo el postulante
+                    if (p == null) context.TablaPostulante.AddElement(p = new Postulante(c));
 
+                    OfertaLaboralXPostulante ofxp = new OfertaLaboralXPostulante();
+                    ofxp.OfertaLaboralID = ol.ID;
                     ofxp.PostulanteID = p.ID;
                     ofxp.EstadoPostulantePorOfertaID = context.TablaEstadoPostulanteXOferta.One(x => x.Descripcion.Equals("Inscrito")).ID;
+                    ofxp.FechaPostulacion = DateTime.Now.ToString("dd/MM/yyyy");
                     context.TablaOfertaLaboralXPostulante.AddElement(ofxp);
 
                     FasePostulacionXOfertaLaboralXPostulante fpxolxp = new FasePostulacionXOfertaLaboralXPostulante();
@@ -224,7 +228,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return JsonErrorGet("Error en la BD: " + ex.Message + ex.InnerException);
+                    return JsonErrorGet("Error en la BD: " + ex.Message + ex.InnerException+ ex.StackTrace);
                 }
             }
 

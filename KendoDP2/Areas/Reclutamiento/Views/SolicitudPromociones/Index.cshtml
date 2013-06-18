@@ -1,0 +1,102 @@
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Organizacion.Models
+@using KendoDP2.Areas.Reclutamiento.Models
+
+@{
+    ViewBag.Title = "SolicitudPromociones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IList<AreaDTO> areas = ViewBag.areas;
+    IList<EstadosSolicitudOfertaLaboralDTO> estadosSolicitudOferta = ViewBag.estadosSolicitudOferta;
+    IList<PuestoDTO> puestos = ViewBag.puestos;
+    SelectList lista = new SelectList(areas, "ID", "Nombre");
+    SelectList listaEstados = new SelectList(estadosSolicitudOferta, "ID", "Descripcion");
+    SelectList listaPuestos = new SelectList(puestos, "ID", "Nombre");
+
+}
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Solicitud de Promociones", "Registre nuevas solicitudes para promover colaboradores a un nuevo puesto"));}
+
+<div class="portlet box green">
+    <div class="portlet-title">
+        <div class="caption"><i class="icon-reorder"></i>Solicitud de Promociones de Puesto</div>
+        <div class="tools">
+	        <a href="javascript:;" class="collapse"></a>
+        </div>
+	</div>
+    
+    <div class="portlet-body">
+
+           <div class="row-fluid">
+            @(Html.Kendo().Grid<SolicitudPromocionDTO>()
+                .Name("SolicitudPromocionGrid")
+                .Columns(columns =>
+                    {
+                        columns.Bound(p => p.ID);
+                        columns.Bound(p => p.FechaRequerimiento);
+                        columns.ForeignKey(p => p.EstadoSolicitudOfertaLaboralID, listaEstados);
+                        columns.ForeignKey(p => p.AreaID, lista);
+                        columns.ForeignKey(p => p.PuestoID, listaPuestos);
+                        columns.Command(command => {
+                                                     
+                                                     command.Destroy().Text("Eliminar");
+                                                     command.Custom("Ver y Aprobar").Click("aceptarSolicitud");
+                                                     command.Edit().CancelText("Cancelar").UpdateText("Guardar");
+                                                   }).Width(300);                        
+                    }
+                )
+                .ToolBar(toolbar =>
+                {
+                    toolbar.Create().Text("Registrar");
+                })
+                .Editable(editable => editable
+                    .Mode(GridEditMode.PopUp)
+                    .TemplateName("EditorSolicitudPromocion")
+                    .DisplayDeleteConfirmation("¿Está seguro que desea eliminar este registro?")
+                    .Window(w => { w.Title("Ingrese los datos"); w.Width(900); })
+
+                )
+                .Groupable()
+                .Pageable(paper => paper.Refresh(true))
+                .Filterable()
+                .Sortable()
+                .Scrollable(p => p.Height(330))
+                .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .PageSize(20)
+                    .Model(model => model.Id(p => p.ID))
+                    .Create(update => update.Action("Create", "SolicitudPromociones"))
+                    .Read(read => read.Action("Read", "SolicitudPromociones"))
+                    .Destroy(update => update.Action("Destroy", "SolicitudPromociones"))
+                    .Update(update => update.Action("Update", "SolicitudPromociones"))
+                )
+               )
+        </div>
+    </div>
+</div>
+@(Html.Kendo().Window().Name("Details")
+    .Title("Aceptar Solicitud de Promoción de Puesto")
+    .Visible(false)
+    .Modal(true)
+    .Draggable(true)
+    .Width(900)   
+        
+)
+<script>
+    function aceptarSolicitud(e) {
+        console.log(e);
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        ID = dataItem.ID;
+        var wnd = $("#Details").data("kendoWindow");
+        $("#Details").load("@Url.Action("GetViewSolicitud","SolicitudPromociones", new{Area = "Reclutamiento"})?solicitudID=" + ID, function () {
+            wnd.center().open();
+        });
+    }
+</script>
+
+
+<style>
+    .k-grid-edit {
+        display: none;
+    }
+</style>

@@ -107,7 +107,7 @@
 					<!-- BEGIN USER LOGIN DROPDOWN -->
 					<li class="dropdown user">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<img alt="" src="@Url.Content("~/Content/assets/img/avatar1_small.jpg")" />
+						<img alt="" src="/Misc/GetImagen?archivoID=@KendoDP2.Models.Seguridad.DP2MembershipProvider.GetImagenID(User.Identity.Name)" style ="height: 30px; width: 30px" />
                         <span class="username">@KendoDP2.Models.Seguridad.DP2MembershipProvider.GetPersonaFromUsername(User.Identity.Name).NombreCompleto</span>
 						<i class="icon-angle-down"></i>
 						</a>

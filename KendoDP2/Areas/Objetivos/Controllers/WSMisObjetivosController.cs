@@ -56,7 +56,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             {
                 Objetivo o = new Objetivo(objetivo, context);
                 context.TablaObjetivos.AddElement(o);
-                return Json(new { idObjetivo = o.ID } , JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, ID = o.ID } , JsonRequestBehavior.AllowGet);
             }
         }
 

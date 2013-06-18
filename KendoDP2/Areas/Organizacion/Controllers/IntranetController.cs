@@ -110,7 +110,8 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                foreach (Evento e in Eventos)
                 {
                     Invitado invitado = e.Invitados.Where(p => p.ColaboradorID == colaboradorID).FirstOrDefault();
-                    if ((invitado != null) || (e.CreadorID == colaboradorID))
+                   //|| e.creadorID = colaboradorID 
+                   if (invitado != null)
                     {
                         EventosXColaborador.Add(e);
                     }
@@ -130,6 +131,17 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 var rows = eventList.ToArray();
                 return Json(rows, JsonRequestBehavior.AllowGet);
 
+            }
+        }
+
+        public ActionResult ShowDetalleEvento(int eventoID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                EventoDTO eventoDTO = context.TablaEvento.FindByID(eventoID).ToDTO();
+                ViewBag.invitados = eventoDTO.Invitados.ToList();
+
+                return PartialView("DetalleEvento", eventoDTO);
             }
         }
     }

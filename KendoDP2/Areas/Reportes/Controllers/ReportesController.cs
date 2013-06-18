@@ -9,6 +9,8 @@ using KendoDP2.Areas.Reportes.Models;
 using KendoDP2.Areas.Objetivos.Models;
 using KendoDP2.Areas.Reclutamiento.Models;
 using ExtensionMethods;
+using System;
+using System.Globalization;
 
 namespace KendoDP2.Areas.Reportes.Controllers
 {
@@ -299,11 +301,31 @@ namespace KendoDP2.Areas.Reportes.Controllers
         //        return Json(context.TablaOfertaLaboralXPostulante.All()., JsonRequestBehavior.AllowGet);
         //    }
         //}
-        public ActionResult PostulacionySeleccion(int idpuesto)
+        public ActionResult PostulacionySeleccion(int idpuesto,string finicio,string ffin)
         {
             using (DP2Context context = new DP2Context())
             {
-                List<OfertaLaboralDTO> ListaOfertas = context.TablaOfertaLaborales.Where(p => p.PuestoID==idpuesto).Select(of=>of.ToDTO()).ToList();
+
+                List<OfertaLaboral> ListaOfertasaux = context.TablaOfertaLaborales.All();
+                DateTime parser=new System.DateTime();
+                //DateTime dateinicio = System.DateTime.ParseExact(finicio, "dd/MM/yyyy", CultureInfo.CurrentCulture) ;
+                DateTime dateinicio = System.DateTime.ParseExact(ListaOfertasaux[0].FechaPublicacion, "dd/MM/yyyy", CultureInfo.CurrentCulture);
+                int leng= finicio.Length;
+                DateTime dateinicio2 = System.DateTime.ParseExact(finicio, "dd/MM/yyyy", CultureInfo.CurrentCulture); 
+                //List<OfertaLaboralDTO> ListaOfertas = context.TablaOfertaLaborales.Where(p => p.PuestoID==idpuesto && Convert.ToDateTime(p.FechaFinVigenciaSolicitud)<=Convert.ToDateTime(ffin) && Convert.ToDateTime(p.FechaPublicacion)>Convert.ToDateTime(finicio)).Select(of=>of.ToDTO()).ToList();
+                List<OfertaLaboral> ListaOfertasaux2 = ListaOfertasaux.Where(p => p.PuestoID == idpuesto && p.EstadoSolicitudOfertaLaboral.Descripcion == "Aprobado" &&
+                    DateTime.ParseExact(p.FechaPublicacion, "dd/MM/yyyy", CultureInfo.CurrentCulture).CompareTo(dateinicio2)>=0
+                    && DateTime.ParseExact(p.FechaPublicacion, "dd/MM/yyyy", CultureInfo.CurrentCulture).CompareTo(DateTime.ParseExact(ffin, "dd/MM/yyyy", CultureInfo.CurrentCulture))<=0).ToList();
+                    
+                    ;
+                
+                List<OfertaLaboralDTO> ListaOfertas = new List<OfertaLaboralDTO>();
+                if (ListaOfertasaux2!=null){
+                    ListaOfertas=ListaOfertasaux2.Select(of=>of.ToDTO()).ToList();
+                }
+                    
+
+
                 List<OfertaLaboralXPostulanteDTO> ListaOfertasXPostulante=new List<OfertaLaboralXPostulanteDTO>();
                 foreach (OfertaLaboralDTO of in ListaOfertas)
                 {
@@ -316,7 +338,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 }
 
                 //List<OfertaLaboralXPostulante> ListaOfertas = context.TablaOfertaLaborales.Where(p => p.PuestoID==idpuesto).Select(p => p.Postulantes);
-               // List<PostulanteDTO> ListaPostulantes =context.TablaOfertaLaboralXPostulante.Where(p => p.OfertaLaboral.PuestoID==idpuesto).Select(p=>p.Postulante.ToDTO()).ToList();
+               //// List<PostulanteDTO> ListaPostulantes =context.TablaOfertaLaboralXPostulante.Where(p => p.OfertaLaboral.PuestoID==idpuesto).Select(p=>p.Postulante.ToDTO()).ToList();
                 
                 
                 List<ROfertasLaborales> ListaROfertas = new  List<ROfertasLaborales>() ;
@@ -381,6 +403,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
                         {
                             HistoricoBSC NuevoPeriodoPersona = new HistoricoBSC();
                             NuevoPeriodoPersona.idperiodo = o.idperiodo;
+                            NuevoPeriodoPersona.nombrePeriodo = context.TablaPeriodos.One(per => per.ID == o.idperiodo).ToDTO().Nombre;
                             NuevoPeriodoPersona.nombreColaborador = col.NombreCompleto;
                             NuevoPeriodoPersona.objetivos = new List<ObjetivoRDTO>();
                             NuevoPeriodoPersona.objetivos.Add(o);
@@ -397,7 +420,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                List<ColaboradorDTO> Colaboradores = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
+                List<ColaboradorRDTO> Colaboradores = context.TablaColaboradores.All().Select(c => c.ToRDTO(context)).ToList();
 
                 return Json(Colaboradores, JsonRequestBehavior.AllowGet);
             }
@@ -438,6 +461,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
                     {
                         HistoricoBSC NuevoPeriodoPersona = new HistoricoBSC();
                         NuevoPeriodoPersona.idperiodo = o.idperiodo;
+                        NuevoPeriodoPersona.nombrePeriodo = context.TablaPeriodos.One(per => per.ID == o.idperiodo).ToDTO().Nombre;
                         NuevoPeriodoPersona.nombreColaborador = Colaborador.NombreCompleto;
                         NuevoPeriodoPersona.objetivos = new List<ObjetivoRDTO>();
                         NuevoPeriodoPersona.objetivos.Add(o);
@@ -445,6 +469,29 @@ namespace KendoDP2.Areas.Reportes.Controllers
                     }
                 }
                 return Json(ObjetivosHistoricosXPersona, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult ListarAreas()
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                List<AreaRDTO> ListaAreas = new List<AreaRDTO>();
+                ListaAreas = context.TablaAreas.All().Select(a => a.ToRDTO(context)).ToList();
+
+                return Json(ListaAreas, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult ListarEquipo(int idJefe)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                int PuestoID = context.TablaColaboradoresXPuestos.One(cxp => cxp.Colaborador.ID == idJefe && cxp.FechaSalidaPuesto == null).ToDTO().PuestoID;
+                List<ColaboradorRDTO> ListaEquipo = new List<ColaboradorRDTO>();
+                ListaEquipo = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.PuestoSuperiorID== PuestoID && cxp.FechaSalidaPuesto == null).Select(a => a.Colaborador.ToRDTO(context)).ToList();
+
+                return Json(ListaEquipo, JsonRequestBehavior.AllowGet);
             }
         }
 

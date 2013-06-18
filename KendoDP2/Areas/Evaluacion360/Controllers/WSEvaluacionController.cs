@@ -1,5 +1,6 @@
 ﻿using KendoDP2.Areas.Evaluacion360.Models;
 using KendoDP2.Models.Generic;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,21 +15,23 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                int tablaEvaluadoresID = context.TablaEvaluadores.One(x => x.ElProceso.ID == idProcesoEvaluacion && x.ElEvaluado == idEvaluado).ID;
+                Evaluador e =  context.TablaEvaluadores.One(x => x.ProcesoEnElQueParticipanID== idProcesoEvaluacion && x.ElEvaluado == idEvaluado);
+                int tablaEvaluadoresID = e.ID;
                 int puestoID = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == idEvaluado && !x.IsEliminado && (x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto)).PuestoID;
                 return Json(new ProcesoEvaluacionController()._Editing_ReadCapEvaluacion(puestoID, tablaEvaluadoresID, context), JsonRequestBehavior.AllowGet);
             }
         }
 
         
-        public ActionResult ResponderPreguntas(List<Respuesta> respuestas)
+        public ActionResult ResponderPreguntas(string respuestas)
         {
             using (DP2Context context = new DP2Context())
             {
                 try
                 {
+                    List<Respuesta> resps = JsonConvert.DeserializeObject<List<Respuesta>>(respuestas);
                     var contr = new ProcesoEvaluacionController();
-                    foreach (var resp in respuestas)
+                    foreach (var resp in resps)
                         contr._GuardarPuntuacionPregunta(resp.PreguntaID, resp.Puntaje, context);
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                 }
