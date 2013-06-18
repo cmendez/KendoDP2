@@ -48,6 +48,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create([DataSourceRequest] DataSourceRequest request, SolicitudPromocionDTO solicitud)
         {
+            int id;
             using (DP2Context context = new DP2Context())
             {
                 solicitud.EstadoSolicitudOfertaLaboralID = context.TablaEstadosSolicitudes.One(x => x.Descripcion.Equals("Pendiente")).ID;
@@ -56,11 +57,13 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 SolicitudPromocion o = new SolicitudPromocion(solicitud);
                 
         
-                context.TablaSolicitudPromociones.AddElement(o);
-                return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
-
+                id = context.TablaSolicitudPromociones.AddElement(o);
             }
-            
+            using (DP2Context context = new DP2Context())
+            {
+                var o = context.TablaSolicitudPromociones.FindByID(id);
+                return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
+            }
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
@@ -93,16 +96,17 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             
             using (DP2Context context = new DP2Context())
             {
-                SolicitudPromocion oferta = context.TablaSolicitudPromociones.FindByID(solicitudID);
-                ViewBag.yaValido = YaValido(oferta);
-                ViewBag.responsable = oferta.Responsable.ToDTO();
-                ViewBag.estadoSolicitudOferta = oferta.EstadoSolicitudOfertaLaboral.ToDTO();
-                ViewBag.area = oferta.Area.ToDTO();
-                ViewBag.puesto = oferta.Puesto.ToDTO();
-                ViewBag.funciones = oferta.Puesto.Funciones.Select(c => c.ToDTO()).ToList();
-                ViewBag.capacidades = oferta.Puesto.GetCapacidadesAsociadas(context).Select(c => c.ToDTO()).ToList();
-                //ViewBag.funciones = oferta.Puesto. 
-               return PartialView("ViewSolicitudOfertaLaboral", oferta.ToDTO());
+                SolicitudPromocion solicitud = context.TablaSolicitudPromociones.FindByID(solicitudID);
+                ViewBag.yaValido = YaValido(solicitud);
+                ViewBag.responsable = solicitud.Responsable.ToDTO();
+                ViewBag.estadoSolicitudOferta = solicitud.EstadoSolicitudOfertaLaboral.ToDTO();
+                ViewBag.area = solicitud.Area.ToDTO();
+                ViewBag.puesto = solicitud.Puesto.ToDTO();
+                ViewBag.promovido = solicitud.Ascendido.ToDTO();
+                ViewBag.funciones = solicitud.Puesto.Funciones.Select(c => c.ToDTO()).ToList();
+                ViewBag.capacidades = solicitud.Puesto.GetCapacidadesAsociadas(context).Select(c => c.ToDTO()).ToList();
+
+                return PartialView("ViewSolicitudPromocion", solicitud.ToDTO());
             }
         }
 
