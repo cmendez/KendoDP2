@@ -421,8 +421,9 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 IList<Evaluador> evaluadores = context.TablaEvaluadores.Where(f=>f.ProcesoEnElQueParticipanID==e.ProcesoEvaluacionID && f.ElEvaluado == e.ColaboradorID);
                 int notaEvaluadoXProceso = 0;
                 int acumuladoPesos = 0;
+                var estadofinalizado =  context.TablaEstadoColaboradorXProcesoEvaluaciones.One(s=>s.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID;
                 foreach (Evaluador evaluador in evaluadores) {
-                    Examen examen = context.TablaExamenes.One(x=>x.EvaluadorID==evaluador.ID && x.EstadoExamenID == context.TablaEstadoColaboradorXProcesoEvaluaciones.One(s=>s.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID);
+                    Examen examen = context.TablaExamenes.One(x=>x.EvaluadorID==evaluador.ID && x.EstadoExamenID == estadofinalizado);
                     if (examen == null)
                         continue;
                     Puesto puestoEvaluador = context.TablaColaboradoresXPuestos.One(p=>p.ColaboradorID== evaluador.ElIDDelEvaluador && p.FechaSalidaPuesto == null || DateTime.Today <= p.FechaSalidaPuesto).Puesto;
