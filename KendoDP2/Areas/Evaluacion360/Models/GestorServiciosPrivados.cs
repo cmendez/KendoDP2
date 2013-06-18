@@ -122,60 +122,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
             return new DP2Context().TablaPuestos.One(p => p.ID == 2);
         }
 
-        public static int GetPesoPorEvaluador(int evaluadoID, int evaluadorID, int puestoEvaluadorID, DP2Context context)
-        {
-            List<Colaborador> subordinados = GestorServiciosPrivados.consigueSusSubordinados(evaluadoID, context);
-            List<Colaborador> pares = GestorServiciosPrivados.consigueSusCompañerosPares(evaluadoID, context);
-            Colaborador jefe = GestorServiciosPrivados.consigueElJefe(evaluadoID, context);
-            int peso = 0;
-
-            // Verificar si es el mismo
-            if (evaluadorID == evaluadoID)
-            {
-                PuestoXEvaluadores p = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == puestoEvaluadorID && x.ClaseEntorno == ConstantesClaseEntornoPuestoEvaluadores.El_mismo);
-                peso = p.Peso;
-                return peso;
-            }
-            // Verificar si es subordinado
-            var subordinado = subordinados.Where(x => x.ID == evaluadorID);
-            if (subordinado != null && subordinado.Count() > 0)
-            {
-                PuestoXEvaluadores p = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == puestoEvaluadorID && x.ClaseEntorno == ConstantesClaseEntornoPuestoEvaluadores.Subordinados);
-                if (p.Cantidad > 0)
-                {
-                    peso = p.Peso / p.Cantidad;
-                }
-                else
-                    peso = p.Peso;
-                return peso;
-            }
-
-            // verificar si es un par
-            var par = pares.Where(x => x.ID == evaluadorID);
-            if (par != null && subordinado.Count() > 0)
-            {
-                PuestoXEvaluadores p = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == puestoEvaluadorID && x.ClaseEntorno == ConstantesClaseEntornoPuestoEvaluadores.Pares);
-                if (p.Cantidad > 0)
-                {
-                    peso = p.Peso / p.Cantidad;
-                }
-                else
-                    peso = p.Peso;
-                return peso;
-            }
-            if (jefe != null)
-            {
-                PuestoXEvaluadores p = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == puestoEvaluadorID && x.ClaseEntorno == ConstantesClaseEntornoPuestoEvaluadores.Jefe);
-                if (p.Cantidad > 0)
-                {
-                    peso = p.Peso / p.Cantidad;
-                }
-                else
-                    peso = p.Peso;
-                return peso;
-            }
-            return peso;
-        }
+        
     }
 }
 

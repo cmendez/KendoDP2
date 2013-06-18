@@ -302,6 +302,7 @@
     <Compile Include="Areas\Organizacion\Models\PuestoXArea.cs" />
     <Compile Include="Areas\Organizacion\Models\EstadosPuesto.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\OfertasLaboralesExternasController.cs" />
+    <Compile Include="Areas\Reclutamiento\Controllers\SolicitudPromocionesController.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\WSPostulanteController.cs" />
     <Compile Include="Areas\Reclutamiento\Models\EstadoPostulantePorOferta.cs" />
     <Compile Include="Areas\Organizacion\OrganizacionAreaRegistration.cs" />
@@ -333,11 +334,15 @@
     <Compile Include="Areas\Reclutamiento\Models\Postulante.cs" />
     <Compile Include="Areas\Reclutamiento\Models\ReclutamientoMobileModel.cs" />
     <Compile Include="Areas\Reclutamiento\Models\Respuesta.cs" />
+    <Compile Include="Areas\Reclutamiento\Models\SolicitudPromocion.cs" />
     <Compile Include="Areas\Reclutamiento\ReclutamientoAreaRegistration.cs" />
+    <Compile Include="Areas\Reportes\Controllers\Reporte360Controller.cs" />
     <Compile Include="Areas\Reportes\Controllers\ReportesController.cs" />
     <Compile Include="Areas\Reportes\Models\Objetivos.cs" />
     <Compile Include="Areas\Reportes\Models\RCubrimientoOfertas.cs" />
+    <Compile Include="Areas\Reportes\Models\Reporte360Model.cs" />
     <Compile Include="Areas\Reportes\ReportesAreaRegistration.cs" />
+    <Compile Include="Areas\Seguridad\Controllers\AsignacionUsuarioController.cs" />
     <Compile Include="Areas\Seguridad\Controllers\RolesController.cs" />
     <Compile Include="Areas\Seguridad\Controllers\UsuariosController.cs" />
     <Compile Include="Areas\Seguridad\Controllers\WSUsuariosController.cs" />
@@ -1979,6 +1984,10 @@
     <Content Include="Areas\Evaluacion360\Views\Subordinados\VerNotasSubordinados.cshtml" />
     <Content Include="Areas\Evaluacion360\Views\Subordinados\VerExamenesSubordinado.cshtml" />
     <Content Include="Areas\Eventos\Views\Shared\DetalleEvento.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\SolicitudPromociones\Index.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\Shared\EditorTemplates\EditorSolicitudPromocion.cshtml" />
+    <Content Include="Areas\Reclutamiento\Views\Shared\ViewSolicitudPromocion.cshtml" />
+    <Content Include="Areas\Seguridad\Views\AsignacionUsuario\Index.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\areas_icon.png" />
     <Content Include="Images\favicon.ico" />
