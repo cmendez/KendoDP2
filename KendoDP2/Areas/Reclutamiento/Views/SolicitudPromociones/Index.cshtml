@@ -39,6 +39,7 @@
                                                      
                                                      command.Destroy().Text("Eliminar");
                                                      command.Custom("Ver y Aprobar").Click("aceptarSolicitud");
+                                                     command.Edit().CancelText("Cancelar").UpdateText("Guardar");
                                                    }).Width(300);                        
                     }
                 )
@@ -87,8 +88,15 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         ID = dataItem.ID;
         var wnd = $("#Details").data("kendoWindow");
-        $("#Details").load("@Url.Action("GetViewSolicitud","SolicitudPromociones", new{Area = "Reclutamiento"})?solicidutID=" + ID, function () {
+        $("#Details").load("@Url.Action("GetViewSolicitud","SolicitudPromociones", new{Area = "Reclutamiento"})?solicitudID=" + ID, function () {
             wnd.center().open();
         });
     }
 </script>
+
+
+<style>
+    .k-grid-edit {
+        display: none;
+    }
+</style>

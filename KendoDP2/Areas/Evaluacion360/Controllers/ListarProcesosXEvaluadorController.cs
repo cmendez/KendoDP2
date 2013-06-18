@@ -111,7 +111,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             {
                 int ColaboradorID = DP2MembershipProvider.GetPersonaID(this);
                 List<Evaluador> listaEvaluaciones = _ReadEvaluados(ColaboradorID, procesoID, context);
-                return Json(listaEvaluaciones.Select(x => x.ToDTOEvaluacion()).ToDataSourceResult(request));
+                return Json(listaEvaluaciones.Select(x => x.ToDTOEvaluacion(context)).ToDataSourceResult(request));
 
             }
         }
