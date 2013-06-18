@@ -250,13 +250,13 @@ namespace KendoDP2.Areas.Reportes.Models
     public class PuestoRDTO
     {
         public int idPuesto { get; set; }
-        public string nombreArea { get; set; }
+        public string nombrePuesto { get; set; }
         //public List<PuestoRDTO> PuestosHijos { get; set; }
 
         public PuestoRDTO(Puesto a,DP2Context context)
         {
             idPuesto = a.ID;
-            nombreArea = a.Nombre;
+            nombrePuesto = a.Nombre;
            //  PuestosHijos = context.TablaPuestos.Where(p=> p.PuestoSuperiorID==a.ID).Select(p=>p.ToRDTO(context)).ToList();
         }
 
