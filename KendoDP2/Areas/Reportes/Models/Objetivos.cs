@@ -121,7 +121,7 @@ namespace KendoDP2.Areas.Reportes.Models
             if (o.PuestoAsignadoID != null)
             {
                 idPuesto = o.PuestoAsignadoID.Value;
-                List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (cxp.FechaSalidaPuesto == null || DateTime.Today <= cxp.FechaSalidaPuesto));
+                List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (cxp.FechaSalidaPuesto == null ));
                 if (cxpaux.Count > 0)
                 {
 
