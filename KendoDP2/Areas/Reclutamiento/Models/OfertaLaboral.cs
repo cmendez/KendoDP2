@@ -157,14 +157,14 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         {
             ID = o.ID;
             PuestoID = o.PuestoID;
-            Puesto = o.Puesto.Nombre;
+            Puesto = o.Puesto != null ? o.Puesto.Nombre : String.Empty;
             AreaID = o.AreaID;
-            Area = o.Area.Nombre;
+            Area = o.Area != null ? o.Area.Nombre : String.Empty;
             ResponsableID = o.ResponsableID;
-            Responsable = o.Responsable.ToDTO().NombreCompleto;
+            Responsable = o.Responsable != null ? o.Responsable.ToDTO().NombreCompleto : String.Empty;
             EstadoSolicitudOfertaLaboralID = o.EstadoSolicitudOfertaLaboralID;
             ModoSolicitudID = o.ModoSolicitudOfertaLaboralID;
-            ModoSolicitud = o.ModoSolicitudOfertaLaboral.Descripcion;
+            ModoSolicitud = o.ModoSolicitudOfertaLaboral != null ? o.ModoSolicitudOfertaLaboral.Descripcion : String.Empty;
             FechaRequerimiento = o.FechaRequerimiento;
             FechaFinRequerimiento = o.FechaFinVigenciaSolicitud;
             Descripcion = o.Descripcion;
