@@ -405,7 +405,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                List<ColaboradorDTO> Colaboradores = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
+                List<ColaboradorRDTO> Colaboradores = context.TablaColaboradores.All().Select(c => c.ToRDTO(context)).ToList();
 
                 return Json(Colaboradores, JsonRequestBehavior.AllowGet);
             }
