@@ -43,7 +43,8 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             List<ProcesoEvaluacion> listaProcesos_ = new List<ProcesoEvaluacion>();
             List<int> listaExamenes = context.TablaEvaluadores.Where(x=>x.ElIDDelEvaluador==idUsuario).Select(a=>a.ProcesoEnElQueParticipanID).ToList();
            // List<int> evaluacionesPendientes = context.TablaColaboradorXProcesoEvaluaciones.Where(pxexe => listaExamenes.Contains(pxexe.ColaboradorID)).Select(e => e.ProcesoEvaluacionID).ToList();
-            listaProcesos_ = context.TablaProcesoEvaluaciones.Where(p => listaExamenes.Contains(p.ID) && p.EstadoProcesoEvaluacionID==context.TablaEstadoProcesoEvaluacion.One(e=>e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso)).ID).ToList();
+            int estadoID = context.TablaEstadoProcesoEvaluacion.One(e=>e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso)).ID;
+            listaProcesos_ = context.TablaProcesoEvaluaciones.Where(p => listaExamenes.Contains(p.ID) && p.EstadoProcesoEvaluacionID== estadoID).ToList();
             return listaProcesos_;
          /* List<ProcesoEvaluacion> listaProceso = new List<ProcesoEvaluacion>();
           IList<Evaluador> listaProcesosEvaluador = (context.TablaEvaluadores.Where(a => a.ElIDDelEvaluador == idUsuario));
@@ -72,7 +73,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 int ColaboradorID = DP2MembershipProvider.GetPersonaID(this);
                 List<ProcesoEvaluacion> listaProceso = _Read(ColaboradorID, context);
 
-                return Json(listaProceso.Select(x => x.ToDTO()).ToDataSourceResult(request));
+                return Json(listaProceso.Select(x => x.ToDTO()).ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
             }
         }
 

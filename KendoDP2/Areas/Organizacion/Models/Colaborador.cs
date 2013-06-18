@@ -30,7 +30,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         public virtual ICollection<ColaboradorXPuesto> ColaboradoresPuesto { get; set; }
 
         public virtual ICollection<ColaboradorXProcesoEvaluacion> ColaboradorXProcesoEvaluaciones { get; set; }
-
+        
         public int EstadosColaboradorID { get; set; }
         public virtual EstadosColaborador EstadoColaborador { get; set; }
 
@@ -89,6 +89,8 @@ namespace KendoDP2.Areas.Organizacion.Models
             ResumenEjecutivo = c.ResumenEjecutivo;
             ImagenColaboradorID = c.ImagenColaboradorID;
             CurriculumVitaeID = c.CurriculumVitaeID;
+            Username = c.Usuario;
+            Password = c.Password;
             
             return this;
         }
@@ -107,7 +109,6 @@ namespace KendoDP2.Areas.Organizacion.Models
 
     public class ColaboradorDTO
     {
-       
         public string NombreCompleto { get; set; }
         [DisplayName("Código")]
         public int ID { get; set; }
@@ -151,6 +152,10 @@ namespace KendoDP2.Areas.Organizacion.Models
 
         [DisplayName("Usuario")]
         public string Usuario { get; set; }
+
+        [DisplayName("Contraseña")]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
 
         [DisplayName("Estado")]
         public int EstadoColaboradorID { get; set; }
@@ -235,7 +240,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             ResumenEjecutivo = c.ResumenEjecutivo;
 
             Usuario = c.Username;
-
+            Password = c.Password;
             Subordinados = listac;
 
             try {
