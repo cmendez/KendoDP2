@@ -93,9 +93,10 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         public IList<ProcesoEvaluacionDTO> Read_(Puesto puesto, int elUsuarioQueInicioSesion, DP2Context context)
         {
             IList<ProcesoEvaluacionDTO> listaProcesos_ = new List<ProcesoEvaluacionDTO>();
+            EstadoProcesoEvaluacion creado = context.TablaEstadoProcesoEvaluacion.One(e=>e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Creado));
             List<int> susSubordinados = GestorServiciosPrivados.consigueSusSubordinados(elUsuarioQueInicioSesion, context).Select(e => e.ID).ToList();
             List<int> evaluacionesSubordinados = context.TablaColaboradorXProcesoEvaluaciones.Where(pxexe => susSubordinados.Contains(pxexe.ColaboradorID)).Select(e => e.ProcesoEvaluacionID).ToList();
-            return context.TablaProcesoEvaluaciones.Where(p => evaluacionesSubordinados.Contains(p.ID)).OrderByDescending(p=>p.ID).Select(x => x.ToDTO()).ToList();
+            return context.TablaProcesoEvaluaciones.Where(p => evaluacionesSubordinados.Contains(p.ID) && p.EstadoProcesoEvaluacionID != creado.ID).OrderByDescending(p=>p.ID).Select(x => x.ToDTO()).ToList();
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
