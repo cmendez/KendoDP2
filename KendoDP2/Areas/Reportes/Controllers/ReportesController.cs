@@ -307,12 +307,25 @@ namespace KendoDP2.Areas.Reportes.Controllers
             {
 
                 List<OfertaLaboral> ListaOfertasaux = context.TablaOfertaLaborales.All();
-                
+                DateTime parser=new System.DateTime();
+                //DateTime dateinicio = System.DateTime.ParseExact(finicio, "dd/MM/yyyy", CultureInfo.CurrentCulture) ;
+                DateTime dateinicio = System.DateTime.ParseExact(ListaOfertasaux[0].FechaPublicacion, "dd/MM/yyyy", CultureInfo.CurrentCulture);
+                int leng= finicio.Length;
+                DateTime dateinicio2 = System.DateTime.ParseExact(finicio, "dd/MM/yyyy", CultureInfo.CurrentCulture); 
                 //List<OfertaLaboralDTO> ListaOfertas = context.TablaOfertaLaborales.Where(p => p.PuestoID==idpuesto && Convert.ToDateTime(p.FechaFinVigenciaSolicitud)<=Convert.ToDateTime(ffin) && Convert.ToDateTime(p.FechaPublicacion)>Convert.ToDateTime(finicio)).Select(of=>of.ToDTO()).ToList();
-                List<OfertaLaboralDTO> ListaOfertas = context.TablaOfertaLaborales.Where(p => p.PuestoID == idpuesto && p.EstadoSolicitudOfertaLaboral.Descripcion=="Aprobado" && 
-                    DateTime.ParseExact(p.FechaPublicacion, "dd/MM/yyyy", CultureInfo.CurrentCulture)>DateTime.ParseExact(finicio, "dd/MM/yyyy", CultureInfo.CurrentCulture) 
-                    && DateTime.ParseExact(p.FechaFinVigenciaSolicitud, "dd/MM/yyyy", CultureInfo.CurrentCulture) <= DateTime.ParseExact(ffin, "dd/MM/yyyy", CultureInfo.CurrentCulture) ).Select(of => of.ToDTO()).ToList();
+                List<OfertaLaboral> ListaOfertasaux2 = ListaOfertasaux.Where(p => p.PuestoID == idpuesto && p.EstadoSolicitudOfertaLaboral.Descripcion == "Aprobado" &&
+                    DateTime.ParseExact(p.FechaPublicacion, "dd/MM/yyyy", CultureInfo.CurrentCulture).CompareTo(dateinicio2)>=0
+                    && DateTime.ParseExact(p.FechaPublicacion, "dd/MM/yyyy", CultureInfo.CurrentCulture).CompareTo(DateTime.ParseExact(ffin, "dd/MM/yyyy", CultureInfo.CurrentCulture))<=0).ToList();
+                    
+                    ;
                 
+                List<OfertaLaboralDTO> ListaOfertas = new List<OfertaLaboralDTO>();
+                if (ListaOfertasaux2!=null){
+                    ListaOfertas=ListaOfertasaux2.Select(of=>of.ToDTO()).ToList();
+                }
+                    
+
+
                 List<OfertaLaboralXPostulanteDTO> ListaOfertasXPostulante=new List<OfertaLaboralXPostulanteDTO>();
                 foreach (OfertaLaboralDTO of in ListaOfertas)
                 {
