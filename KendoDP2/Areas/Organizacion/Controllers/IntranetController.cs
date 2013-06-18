@@ -110,7 +110,8 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                foreach (Evento e in Eventos)
                 {
                     Invitado invitado = e.Invitados.Where(p => p.ColaboradorID == colaboradorID).FirstOrDefault();
-                    if ((invitado != null) || (e.CreadorID == colaboradorID))
+                   //|| e.creadorID = colaboradorID 
+                   if (invitado != null)
                     {
                         EventosXColaborador.Add(e);
                     }
