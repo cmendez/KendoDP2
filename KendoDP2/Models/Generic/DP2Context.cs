@@ -85,6 +85,7 @@ namespace KendoDP2.Models.Generic
             SeedTiposEventos();
             SeedEvento();
             SeedInvitado();
+            SeedImagenes();
         }
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
