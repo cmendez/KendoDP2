@@ -40,7 +40,27 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     //Buscar FasePostulacionXOfertaLaboralXPostulante 
                     FasePostulacionXOfertaLaboralXPostulante fpxolxp = context.TablaFasePostulacionXOfertaLaboralXPostulante
                         .One(x => x.OfertaLaboralXPostulanteID == olxp.ID && x.FasePostulacionID == fp.ID);
-                    if (fpxolxp == null) return JsonErrorPost("La Oferta Laboral " + ol.Descripcion + " no ha llegado a la Fase de Postulacion : " + fp.Descripcion);
+                    if (fpxolxp == null)
+                    {
+                        if (olxp.EstadoPostulantePorOferta != null)
+                        {
+                            if (olxp.EstadoPostulantePorOferta.Descripcion == "Aprobado Fase 1" ||
+                                olxp.EstadoPostulantePorOferta.Descripcion == "Aprobado Fase 3")
+                            {
+                                context.TablaFasePostulacionXOfertaLaboralXPostulante
+                                .AddElement(
+                                fpxolxp = new FasePostulacionXOfertaLaboralXPostulante
+                                {
+                                    FasePostulacionID = fp.ID,
+                                    OfertaLaboralXPostulanteID = olxp.ID
+                                });
+                            }
+                        }
+                        else
+                        {
+                            return JsonErrorPost("La Oferta Laboral " + ol.Descripcion + " no ha llegado a la Fase de Postulacion : " + fp.Descripcion);
+                        }
+                    }
 
                     //Buscar EvaluacionXFaseXPostulacion
                     EvaluacionXFaseXPostulacion e = context.TablaEvaluacionXFaseXPostulacion.One(x => x.FasePostulacionXOfertaLaboralXPostulanteID == fpxolxp.ID);
@@ -77,6 +97,10 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     var ofertaLaboralXPostulante = e.FasePostulacionXOfertaLaboralXPostulante.OfertaLaboralXPostulante;
                     ofertaLaboralXPostulante.PuntajeTotal += (int)e.Puntaje;
                     context.TablaOfertaLaboralXPostulante.ModifyElement(ofertaLaboralXPostulante);
+
+                    // *************** UPDATE FasePostulacionXOfertaLaboralXPostulante con la EvaluacionXFaseXPostulacion ***************
+                    fpxolxp.EvaluacionXFaseXPostulacionID = e.ID;
+                    context.TablaFasePostulacionXOfertaLaboralXPostulante.ModifyElement(fpxolxp);
 
                     //Guardar las respuesta, indicando la evaluacion a la que pertenecen
                     List<Respuesta> lstRespuesta = new List<Respuesta>();
