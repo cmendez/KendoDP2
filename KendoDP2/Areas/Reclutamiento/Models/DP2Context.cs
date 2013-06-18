@@ -215,11 +215,10 @@ namespace KendoDP2.Models.Generic
         
         private void SeedFasePostulacion()
         {
-            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Registrado" });
-            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado Externo" });
-            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado RRHH" });
+            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Registrado" }); // Fase 1
+            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado Externo" }); // Fase 2
+            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado RRHH" }); // Fase 3
             TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado Jefe" });
-            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Cerrado" });
         }
 
         private void SeedOfertaLaboralXPostulante()

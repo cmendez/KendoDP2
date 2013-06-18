@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Web;
 using KendoDP2.Areas.Evaluacion360.Models;
 using KendoDP2.Areas.Objetivos.Models;
+using KendoDP2.Areas.Reportes.Models;
 
 namespace KendoDP2.Areas.Organizacion.Models
 {
@@ -93,6 +94,11 @@ namespace KendoDP2.Areas.Organizacion.Models
             return new PuestoTreeDTO(this);
         }
 
+        public PuestoRDTO ToRDTO(DP2Context context)
+        {
+            return new PuestoRDTO(this,context);
+        }
+
         public NodoOrganigramaDTO ToNodoOrganigramaDTO()
         {
             return new NodoOrganigramaDTO(this);
@@ -171,6 +177,8 @@ namespace KendoDP2.Areas.Organizacion.Models
          }
 
     }
+
+
     public class PuestoTreeDTO
     {
         public int id { get; set; }

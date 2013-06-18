@@ -27,7 +27,7 @@
             <div style="text-align: center; vertical-align: middle">
                 <img id="loadingImage" src="http://grifocalpointblog.org/wp-content/themes/blogga/images/ajax-loader.gif" />
             </div>
-            <div class="basicdiagram" style="width: auto; height: 480px;" />
+            <div class="basicdiagram" style="width: auto; height: 550px;" />
         </div>
     </div>
 </div>
@@ -42,6 +42,8 @@
         options.onItemRender = onTemplateRender;
         options.templates = [getContactTemplate()];
         options.rootItem = item;
+        options.itemTitleFirstFontColor = "white"
+        options.itemTitleSecondFontColor = "white"
         //options.cursorItem = focus;
         options.hasSelectorCheckbox = primitives.common.Enabled.False;
 
@@ -59,7 +61,19 @@
         item.email = nodo.Correo;
         item.phone = nodo.Telefono
         item.image = nodo.ImagenURL;
+        item.itemTitleColor = nodo.Color;
+        item.groupTitleColor = nodo.Color;
         item.templateName = "contactTemplate";
+
+        if (nodo.IsAudit) {
+            if (nodo.IsAuditKid) {
+                item.itemType = primitives.orgdiagram.ItemType.Adviser;
+            } else {
+                item.itemType = primitives.orgdiagram.ItemType.Assistant;
+            }
+            
+            item.adviserPlacementType = primitives.orgdiagram.AdviserPlacementType.Right;
+        }
 
         if (nodo.HasChildren) {
             $.ajax({
