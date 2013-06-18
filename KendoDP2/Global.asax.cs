@@ -57,7 +57,7 @@ namespace KendoDP2
                 Database.SetInitializer<DP2Context>(new DP2ContextInitializerDEBUG());
             } else {
                Database.SetInitializer(new MigrateDatabaseToLatestVersion<DP2Context, Configuration>());
-               //Database.SetInitializer<DP2Context>(new DP2ContextInitializerRELEASE());
+               Database.SetInitializer<DP2Context>(new DP2ContextInitializerRELEASE());
             }
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
