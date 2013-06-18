@@ -6,6 +6,7 @@ using KendoDP2.Models.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using KendoDP2.Areas.Reportes.Models;
 
 namespace KendoDP2.Areas.Organizacion.Models
 {
@@ -55,6 +56,11 @@ namespace KendoDP2.Areas.Organizacion.Models
         public AreaTreeDTO ToTreeDTO()
         {
             return new AreaTreeDTO(this);
+        }
+
+        public AreaRDTO ToRDTO(DP2Context context)
+        {
+            return new AreaRDTO(this,context);
         }
 
         public List<Area> GetAreasHijas(DP2Context context)
@@ -124,4 +130,6 @@ namespace KendoDP2.Areas.Organizacion.Models
             hasChildren = a.Areas.Any(i => !i.IsEliminado);
         }
     }
+
+    
 }
