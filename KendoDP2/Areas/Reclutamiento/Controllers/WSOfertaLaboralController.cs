@@ -65,11 +65,6 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     foreach (OfertaLaboral oflab in lstOfertasLaboralesResponsable)
                     {
                         var lstPostulante = oflab.Postulantes.Select(x => x.Postulante).ToList();
-                        //var lstPostulante = lstPostulacionesDeLaFase
-                        //                    .Where(x => x.OfertaLaboral.Equals(oflab))
-                        //                    .Select(x => x.Postulante).Distinct()
-                        //                    .ToList();
-
                         listaOfertasLaboralesYPostulantes.Add(new OfertaLaboralXPostulanteWSDTO(oflab, lstPostulante));
                     }
                     
@@ -161,17 +156,27 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 
         // /WSOfertaLaboral/setEstadoSolicitudOfertaLaboral?ofertaLaboralID=&nuevoEstado=
         // /WSOfertaLaboral/setEstadoSolicitudOfertaLaboral?ofertaLaboralID=&nuevoEstado=&comentarios=
-        public JsonResult setEstadoSolicitudOfertaLaboral(string ofertaLaboralID, string nuevoEstado, string comentarios = "")
+        // /WSOfertaLaboral/setEstadoSolicitudOfertaLaboral?ofertaLaboralID=&nuevoEstado=&comentarios=&colaboradorID=
+        public JsonResult setEstadoSolicitudOfertaLaboral(string ofertaLaboralID, string nuevoEstado, string comentarios = "", string colaboradorID = "")
         {
             using (DP2Context context = new DP2Context())
             {
                 try
                 {
+                    //Colaborador c;
+                    //if (colaboradorID != "")
+                    //{
+                    //    c = context.TablaColaboradores.FindByID(Convert.ToInt32(colaboradorID));
+                    //    if (c == null) return JsonErrorGet("No Existe el Colaborador con ID = " + colaboradorID);
+                    //}
+
                     OfertaLaboral ol = context.TablaOfertaLaborales.FindByID(Convert.ToInt32(ofertaLaboralID));
                     if (ol == null) return JsonErrorGet("No existe la Oferta Laboral con ID = " + ofertaLaboralID);
 
                     EstadosSolicitudOfertaLaboral esol = context.TablaEstadosSolicitudes.One(x => x.Descripcion.Equals(nuevoEstado));
                     if (esol == null) return JsonErrorGet("No existe el estado " + nuevoEstado + " para una Solicitud de Oferta Laboral");
+
+                    //if (ol.ResponsableID == Convert.ToInt32(colaboradorID)) ;
 
                     ol.EstadoSolicitudOfertaLaboralID = esol.ID;
                     if (comentarios != "") ol.Comentarios = comentarios;
