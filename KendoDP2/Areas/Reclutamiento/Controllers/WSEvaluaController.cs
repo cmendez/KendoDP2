@@ -12,7 +12,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 {
     public class WSEvaluaController : WSController
     {
-        // /WSEvaluacion/setRespuestasXEvaluacion
+        // /WSEvalua/setRespuestasXEvaluacion
         [HttpPost]
         public JsonResult setRespuestasXEvaluacion(string idOfertaLaboral, string idPostulante,
                                                     string descripcionFase, List<RespuestaDTO> respuestas,
@@ -99,6 +99,8 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     //El puntaje obtenido lo debo acumular el puntaje Total de la OfertaXPostulante
                     var ofertaLaboralXPostulante = e.FasePostulacionXOfertaLaboralXPostulante.OfertaLaboralXPostulante;
                     ofertaLaboralXPostulante.PuntajeTotal += (int)e.Puntaje;
+                    ofertaLaboralXPostulante.Comentarios = e.Comentarios; // Para que Diana no moleste XD!
+                    ofertaLaboralXPostulante.Observaciones = e.Observaciones; // Para que Diana no moleste XD!
                     context.TablaOfertaLaboralXPostulante.ModifyElement(ofertaLaboralXPostulante);
 
                     // *************** UPDATE FasePostulacionXOfertaLaboralXPostulante con la EvaluacionXFaseXPostulacion ***************
@@ -109,8 +111,15 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     List<Respuesta> lstRespuesta = new List<Respuesta>();
                     foreach (var obj in respuestas)
                     {
-                        Respuesta rAux = new Respuesta().LoadFromDTO(obj);
+                        Respuesta rAux = new Respuesta();
+
+                        rAux.Comentario = obj.Comentario;
+                        rAux.Puntaje = obj.Puntaje;
                         rAux.EvaluacionXFaseXPostulacionID = e.ID;
+
+                        if (descripcionFase == "Registrado") rAux.CompetenciaID = obj.CompetenciaID;
+                        if (descripcionFase == "Aprobado RRHH") rAux.FuncionID = obj.FuncionID;
+
                         context.TablaRespuesta.AddElement(rAux);
                         lstRespuesta.Add(rAux);
                     }
