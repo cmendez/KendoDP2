@@ -15,7 +15,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         public int CapacidadID { get; set; }
         //public virtual Capacidad capacidad;
      
-        public int Puntuacion { get; set; }
+        public double Puntuacion { get; set; }
         public int Peso { get; set; }
 
         public int competenciaID { get; set; }
