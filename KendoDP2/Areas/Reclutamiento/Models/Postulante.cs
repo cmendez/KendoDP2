@@ -142,7 +142,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             GradoAcademicoID = p.GradoAcademicoID.GetValueOrDefault();
             GradoAcademico = p.GradoAcademico != null ? p.GradoAcademico.Descripcion : String.Empty;
             TipoDocumentoID = p.TipoDocumentoID;
-            TipoDocumento = p.TipoDocumento.Descripcion;
+            TipoDocumento = p.TipoDocumento != null ? p.TipoDocumento.Descripcion : String.Empty;
             NumeroDocumento = p.NumeroDocumento;
             Colaborador = p.Colaborador == null ? new ColaboradorDTO() : p.Colaborador.ToDTO();
             CurriculumVitaeID = p.CurriculumVitaeID;

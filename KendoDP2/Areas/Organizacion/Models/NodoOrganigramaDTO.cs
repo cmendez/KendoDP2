@@ -16,6 +16,9 @@ namespace KendoDP2.Areas.Organizacion.Models
         public int PuestoId { get; set; }
         public string Puesto { get; set; }
         public string Area { get; set; }
+        public string Color { get; set; }
+        public bool IsAudit { get; set; }
+        public bool IsAuditKid { get; set; }
         public bool HasChildren { get; set; }
 
     //  OJO : ¡¡¡¡¡ USAR SOLO DENTRO DE UN DP2Context !!!!!
@@ -28,6 +31,10 @@ namespace KendoDP2.Areas.Organizacion.Models
             //  Información del área
                 this.Area = puesto.Area.Nombre;
 
+                this.IsAudit = puesto.Area.IsAudit;
+                this.IsAuditKid = IsAudit && puesto.PuestoSuperior.Area.IsAudit;
+                this.Color = puesto.Area.AColor.Text;
+                
             //  Información de los puestos inferiores:
                 this.HasChildren = puesto.Puestos.Any(p => !p.IsEliminado);
 
