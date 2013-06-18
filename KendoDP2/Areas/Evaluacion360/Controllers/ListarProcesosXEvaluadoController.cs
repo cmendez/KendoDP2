@@ -142,11 +142,12 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
                 IList<Evaluador> listaEvaluadores = (context.TablaEvaluadores.Where(a => a.ElEvaluado == ColaboradorID));
                 IList<Examen> listaExamenes = new List<Examen>();
+                var estadoId = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x=>x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID;
                 for (int i = 0; i < listaEvaluadores.Count; i++)
                 {
                     Examen auxexamen = context.TablaExamenes.One(
                         a => a.EvaluadorID == listaEvaluadores.ElementAt(i).ID && 
-                            a.EstadoExamenID == context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x=>x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID);
+                            a.EstadoExamenID == estadoId);
                     
                     if (auxexamen != null) {
                         listaExamenes.Add(auxexamen);
