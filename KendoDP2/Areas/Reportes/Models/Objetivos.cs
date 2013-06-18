@@ -271,7 +271,7 @@ namespace KendoDP2.Areas.Reportes.Models
         public AreaRDTO(Area a,DP2Context context)
         {
             idArea = a.ID;
-            nombreArea = a.Descripcion;
+            nombreArea = a.Nombre;
             Puestos = context.TablaPuestos.Where(p => p.AreaID == a.ID).Select(p=> p.ToRDTO(context)).ToList();
         }
     }
