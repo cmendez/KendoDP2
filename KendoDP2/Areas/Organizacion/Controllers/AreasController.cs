@@ -23,6 +23,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             {
                 ViewBag.PageSize = 8;
                 ViewBag.Areas = context.TablaAreas.All().Select(a => a.ToDTO()).ToList();
+                ViewBag.Colores = context.TablaColores.All().ToList();
                 return View();
             }
         }
