@@ -53,7 +53,10 @@ namespace KendoDP2.Areas.Evaluacion360.Models
             ColaboradorID = x.ColaboradorID;
             ID = x.ID;
             EstadoColaboradorXProcesoEvaluacionID = x.EstadoColaboradorXProcesoEvaluacionID;
-            Nota = x.Puntuacion;
+            if (x.Puntuacion == null)
+                Nota = 0;
+            else
+                Nota = x.Puntuacion;
             ProcesoID = x.ProcesoEvaluacionID;
         }
 
