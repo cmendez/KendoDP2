@@ -93,9 +93,10 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         public IList<ProcesoEvaluacionDTO> Read_(Puesto puesto, int elUsuarioQueInicioSesion, DP2Context context)
         {
             IList<ProcesoEvaluacionDTO> listaProcesos_ = new List<ProcesoEvaluacionDTO>();
+            EstadoProcesoEvaluacion creado = context.TablaEstadoProcesoEvaluacion.One(e=>e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Creado));
             List<int> susSubordinados = GestorServiciosPrivados.consigueSusSubordinados(elUsuarioQueInicioSesion, context).Select(e => e.ID).ToList();
             List<int> evaluacionesSubordinados = context.TablaColaboradorXProcesoEvaluaciones.Where(pxexe => susSubordinados.Contains(pxexe.ColaboradorID)).Select(e => e.ProcesoEvaluacionID).ToList();
-            return context.TablaProcesoEvaluaciones.Where(p => evaluacionesSubordinados.Contains(p.ID)).OrderByDescending(p=>p.ID).Select(x => x.ToDTO()).ToList();
+            return context.TablaProcesoEvaluaciones.Where(p => evaluacionesSubordinados.Contains(p.ID) && p.EstadoProcesoEvaluacionID != creado.ID).OrderByDescending(p=>p.ID).Select(x => x.ToDTO()).ToList();
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
@@ -395,11 +396,11 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
               ViewBag.proceso = proceso;
 
               // Validar que el proceso no esté cerrado ya
-              //if (proceso.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Terminado)).ID)
-              //{
-              //    ViewBag.terminado = true;
-              //    return View();
-              //}
+              if (proceso.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Terminado)).ID)
+              {
+                  ViewBag.terminado = true;
+                  return View();
+              }
               
               // Procesar resultados parciales y modificar estados 
               CalcularYGuardarResultadosProceso(proceso, context);
@@ -421,8 +422,9 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 IList<Evaluador> evaluadores = context.TablaEvaluadores.Where(f=>f.ProcesoEnElQueParticipanID==e.ProcesoEvaluacionID && f.ElEvaluado == e.ColaboradorID);
                 int notaEvaluadoXProceso = 0;
                 int acumuladoPesos = 0;
+                var estadofinalizado =  context.TablaEstadoColaboradorXProcesoEvaluaciones.One(s=>s.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID;
                 foreach (Evaluador evaluador in evaluadores) {
-                    Examen examen = context.TablaExamenes.One(x=>x.EvaluadorID==evaluador.ID && x.EstadoExamenID == context.TablaEstadoColaboradorXProcesoEvaluaciones.One(s=>s.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID);
+                    Examen examen = context.TablaExamenes.One(x=>x.EvaluadorID==evaluador.ID && x.EstadoExamenID == estadofinalizado);
                     if (examen == null)
                         continue;
                     Puesto puestoEvaluador = context.TablaColaboradoresXPuestos.One(p=>p.ColaboradorID== evaluador.ElIDDelEvaluador && p.FechaSalidaPuesto == null || DateTime.Today <= p.FechaSalidaPuesto).Puesto;
@@ -525,9 +527,9 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             return esAdmin;
         }
 
-        public static int GetPesoPorEvaluador(int evaluadoID, int evaluadorID, int puestoEvaluadorID, List<Colaborador> subordinados,  List<Colaborador> pares ,Colaborador jefe, DP2Context context)
+        public int GetPesoPorEvaluador(int evaluadoID, int evaluadorID, int puestoEvaluadorID, List<Colaborador> subordinados,  List<Colaborador> pares ,Colaborador jefe, DP2Context context)
         {
-            int peso = 0;
+            int peso = 100;
 
             // Verificar si es el mismo
             if (evaluadorID == evaluadoID)
