@@ -140,7 +140,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 EventoDTO eventoDTO = context.TablaEvento.FindByID(eventoID).ToDTO();
                 ViewBag.invitados = eventoDTO.Invitados.ToList();
 
-                return View("DetalleEvento", eventoDTO);
+                return PartialView("DetalleEvento", eventoDTO);
             }
         }
     }
