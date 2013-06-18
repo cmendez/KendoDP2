@@ -117,8 +117,8 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                         rAux.Puntaje = obj.Puntaje;
                         rAux.EvaluacionXFaseXPostulacionID = e.ID;
 
-                        if (descripcionFase == "Registrado") rAux.CompetenciaID = obj.CompetenciaID;
-                        if (descripcionFase == "Aprobado RRHH") rAux.FuncionID = obj.FuncionID;
+                        if (descripcionFase.Equals("Registrado"))       rAux.CompetenciaID = obj.CompetenciaID;
+                        if (descripcionFase.Equals("Aprobado RRHH"))    rAux.FuncionID = obj.FuncionID;
 
                         context.TablaRespuesta.AddElement(rAux);
                         lstRespuesta.Add(rAux);
