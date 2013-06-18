@@ -5,7 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     int pageSize = ViewBag.PageSize;
     IList<AreaDTO> areas = ViewBag.Areas;
+    IList<AColor> colores = ViewBag.Colores;
     SelectList comboAreas = new SelectList(areas, "ID", "Nombre");
+    SelectList comboColores = new SelectList(colores, "ID", "Color");
 }
 
 
@@ -41,6 +43,8 @@
                         c.Bound(a => a.ID);
                         c.Bound(a => a.Nombre);
                         c.ForeignKey((a => a.AreaSuperiorID), comboAreas);
+                        c.ForeignKey((a => a.ColorID), comboColores);
+                        c.Bound(a => a.IsAudit);
                         c.Command(cmd =>
                             
                         {
