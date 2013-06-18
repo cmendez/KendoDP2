@@ -40,9 +40,13 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
         internal List<ProcesoEvaluacion> _Read(int idUsuario, DP2Context context)
         {
-            //var ret = context.TablaColaboradores.FindByID(ColaboradorID).ColaboradorXProcesoEvaluaciones.Select(x => x.ProcesoEvaluacion.ToDTO()).ToList();
+            List<ProcesoEvaluacion> listaProcesos_ = new List<ProcesoEvaluacion>();
+            List<int> listaExamenes = context.TablaEvaluadores.Where(x => x.ElIDDelEvaluador == idUsuario).Select(a => a.ProcesoEnElQueParticipanID).ToList();
+            int estadoID = context.TablaEstadoProcesoEvaluacion.One(e => e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Terminado)).ID;
+            listaProcesos_ = context.TablaProcesoEvaluaciones.Where(p => listaExamenes.Contains(p.ID) && p.EstadoProcesoEvaluacionID == estadoID).ToList();
+            return listaProcesos_;
 
-            // context.TablaColaboradores.FindByID(ColaboradorID).Evaluadores.where(x => x.ProcesoEvaluacionXColaborador.ProcesoEvaluacionID == procesoID).toList();
+            /*
             List<ProcesoEvaluacion> listaProceso = new List<ProcesoEvaluacion>();
 
             IList<Evaluador> listaProcesosEvaluador = (context.TablaEvaluadores.Where(a => a.ElEvaluado == idUsuario));
@@ -58,10 +62,8 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     listaProceso.Add(procesoauxiliar);
                 }
 
-                //listaProceso.Add(context.TablaProcesoEvaluaciones.FindByID(listaProcesosEvaluador.ElementAt(i).ProcesoEnElQueParticipanID));
-
             }
-            return listaProceso.GroupBy(x => x.ID).Select(y => y.FirstOrDefault()).ToList();
+            return listaProceso.GroupBy(x => x.ID).Select(y => y.FirstOrDefault()).ToList();*/
         }
 
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
@@ -90,9 +92,8 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
                 }                
 
-
                 //return Json(procesos.Select(x => x.ToDTO()).ToDataSourceResult(request));
-                return Json(auxlistaprocesosdto.ToDataSourceResult(request));
+                return Json(auxlistaprocesosdto.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
             }
         }
 
