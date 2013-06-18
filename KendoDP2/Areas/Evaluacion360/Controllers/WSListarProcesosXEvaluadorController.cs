@@ -30,7 +30,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 List<ProcesoEvaluacion> procesos = controller._Read(idUsuario, context);
                 List<Evaluador> evaluadores = new List<Evaluador>();
                 procesos.ForEach(x => evaluadores.AddRange(controller._ReadEvaluados(idUsuario, x.ID, context)));
-                return Json(evaluadores.Select(c => c.ToDTOEvaluacion()).ToList(), JsonRequestBehavior.AllowGet);
+                return Json(evaluadores.Select(c => c.ToDTOEvaluacion(context)).ToList(), JsonRequestBehavior.AllowGet);
             }
         }
 
