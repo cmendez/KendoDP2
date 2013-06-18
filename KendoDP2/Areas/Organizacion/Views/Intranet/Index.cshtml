@@ -629,19 +629,37 @@
             editable: true,
             events: '@Url.Action("GetEventosPersonales", "Intranet", new {Area = "Organizacion"})?colaboradorID=@colaboradorLogueado',
             eventClick: function (event) {
+                console.log(event);
                 $('#detalleEvento').load('@Url.Action("ShowDetalleEvento", "Intranet", new {Area= "Organizacion" })?eventoID=' + event.id);
             },
  
         });
         
+        var listo = false;
         function foo(){
             $('#calendar3').each(function(){
-                if($(this).is(':visible')){
-                    $("#calendar3").fullCalendar('render');
+                if($(this).is(':visible') && !listo){
+                    listo = true;
+                    $('#calendar3').fullCalendar({
+                        header: {
+                            left: 'title',
+                            center: '',
+                            right: 'prev,next,today,month,agendaWeek,agendaDay'
+                        },
+                        editable: true,
+                        events: '@Url.Action("GetEventosPersonales", "Intranet", new {Area = "Organizacion"})?colaboradorID=@colaboradorLogueado',
+            eventClick: function (event) {
+                console.log(event);
+                //$("#detalleEvento").show();
+                $('#detalleEvento2').load('@Url.Action("ShowDetalleEvento", "Eventos", new {Area= "Eventos" })?eventoID=' + event.id);
+            },
+ 
+                    });
                 }
             });
-        } //foo()
-        window.setInterval(foo, 100);
+            
+        } 
+        window.setInterval(foo, 2000);
 
     });
 
