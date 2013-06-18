@@ -18,9 +18,9 @@ namespace KendoDP2.Areas.Reportes.Models
 
     public class ProcesoReportadoDTO
     {
-        string procesoNombre;
-        List<NotaXTipoEvaluadorDTO> notasParciales;
-        int? notaFinal;
+        public string procesoNombre { get; set; }
+        public ICollection<NotaXTipoEvaluadorDTO> notasParciales { get; set; }
+        public int notaFinal { get; set; }
 
         public ProcesoReportadoDTO(ColaboradorXProcesoEvaluacion proceso)
         {
@@ -30,7 +30,7 @@ namespace KendoDP2.Areas.Reportes.Models
             var evaluadores = context.TablaEvaluadores.Where(a=>a.ElEvaluado == proceso.ColaboradorID
                 && a.ProcesoEnElQueParticipanID == proceso.ProcesoEvaluacionID);
             notasParciales = ListaNotasParcialesToDTO(evaluadores).ToList();
-            notaFinal = proceso.Puntuacion;
+            notaFinal = (int)proceso.Puntuacion;
         }
 
         public static ICollection<NotaXTipoEvaluadorDTO> ListaNotasParcialesToDTO(ICollection<Evaluador> evaluadores)

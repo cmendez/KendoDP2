@@ -121,7 +121,7 @@ namespace KendoDP2.Areas.Reportes.Models
             if (o.PuestoAsignadoID != null)
             {
                 idPuesto = o.PuestoAsignadoID.Value;
-                List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (cxp.FechaSalidaPuesto == null || DateTime.Today <= cxp.FechaSalidaPuesto));
+                List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (cxp.FechaSalidaPuesto == null ));
                 if (cxpaux.Count > 0)
                 {
 
@@ -271,7 +271,7 @@ namespace KendoDP2.Areas.Reportes.Models
         public AreaRDTO(Area a,DP2Context context)
         {
             idArea = a.ID;
-            nombreArea = a.Descripcion;
+            nombreArea = a.Nombre;
             Puestos = context.TablaPuestos.Where(p => p.AreaID == a.ID).Select(p=> p.ToRDTO(context)).ToList();
         }
     }
