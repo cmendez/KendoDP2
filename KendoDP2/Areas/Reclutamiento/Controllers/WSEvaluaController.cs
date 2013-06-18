@@ -71,10 +71,12 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     if (respuestas == null || respuestas.Count == 0) return JsonErrorPost("No se puede ingresar una evaluacion sin respuestas");
                     // ******************************************************************
 
-
                     //Crear y cargar EvaluacionXFaseXPostulacion 
-                    e = new EvaluacionXFaseXPostulacion().LoadFromDTO(evaluacion);
-                    e.ID = 0;
+                    e = new EvaluacionXFaseXPostulacion();
+                    e.FechaInicio = DateTime.ParseExact(evaluacion.FechaInicio, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture);
+                    e.FechaFin = DateTime.ParseExact(evaluacion.FechaFin, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture);
+                    e.Comentarios = evaluacion.Comentarios;
+                    e.Observaciones = evaluacion.Observaciones;
 
                     //Asignar la evaluacion a la FasePostulacionXOfertaLaboralXPostulante 
                     e.FasePostulacionXOfertaLaboralXPostulanteID = fpxolxp.ID;
