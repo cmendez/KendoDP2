@@ -525,7 +525,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             return esAdmin;
         }
 
-        public static int GetPesoPorEvaluador(int evaluadoID, int evaluadorID, int puestoEvaluadorID, List<Colaborador> subordinados,  List<Colaborador> pares ,Colaborador jefe, DP2Context context)
+        public int GetPesoPorEvaluador(int evaluadoID, int evaluadorID, int puestoEvaluadorID, List<Colaborador> subordinados,  List<Colaborador> pares ,Colaborador jefe, DP2Context context)
         {
             int peso = 0;
 
