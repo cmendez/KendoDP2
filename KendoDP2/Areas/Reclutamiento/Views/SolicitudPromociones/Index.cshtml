@@ -39,6 +39,7 @@
                                                      
                                                      command.Destroy().Text("Eliminar");
                                                      command.Custom("Ver y Aprobar").Click("aceptarSolicitud");
+                                                     command.Edit().CancelText("Cancelar").UpdateText("Guardar");
                                                    }).Width(300);                        
                     }
                 )
@@ -92,3 +93,10 @@
         });
     }
 </script>
+
+
+<style>
+    .k-grid-edit {
+        display: none;
+    }
+</style>
