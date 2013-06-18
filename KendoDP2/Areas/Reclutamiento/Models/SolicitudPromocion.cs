@@ -66,6 +66,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             Comentarios = o.Comentarios;
             FechaAprobacion = o.FechaAprobacion;
             FechaInicioNuevoPuesto = o.FechaInicioNuevoPuesto;
+            AscendidoID = o.AscendidoID;
             return this;
         }
 
@@ -141,7 +142,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public string FechaAprobacion { get; set; }
 
-        [DisplayName("Fecha Publicación")]
+        [DisplayName("Fecha Inicio en Nuevo Puesto")]
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public string FechaInicioNuevoPuesto { get; set; }
 
