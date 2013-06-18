@@ -370,15 +370,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 ProcesoEvaluacion proceso = context.TablaProcesoEvaluaciones.FindByID(procesoEvaluacionID);
                 ViewBag.terminado = false;
                 ViewBag.proceso = proceso;
-                 // Validar que el proceso no esté en EN PROCESO ya
-                /*if (proceso.EstadoProcesoEvaluacionID == context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso)).ID)
-                {
-                  ViewBag.terminado = true;
-                  return View();
-                }*/
-
-                // Eliminar los evaluados sque no hayan sido configurados con sus evaluadores
-                // TODO:
+              
                 // Actualiza estado del proceso a EN PROCESO
                 EstadoProcesoEvaluacion en_proceso = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso));
                 proceso.EstadoProcesoEvaluacion = en_proceso;
@@ -420,8 +412,8 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             IList<ColaboradorXProcesoEvaluacion> evaluados = context.TablaColaboradorXProcesoEvaluaciones.Where(x => x.ProcesoEvaluacionID == proceso.ID);
             foreach (ColaboradorXProcesoEvaluacion e in evaluados) {
                 IList<Evaluador> evaluadores = context.TablaEvaluadores.Where(f=>f.ProcesoEnElQueParticipanID==e.ProcesoEvaluacionID && f.ElEvaluado == e.ColaboradorID);
-                int notaEvaluadoXProceso = 0;
-                int acumuladoPesos = 0;
+                double notaEvaluadoXProceso = 0;
+                double acumuladoPesos = 0;
                 var estadofinalizado =  context.TablaEstadoColaboradorXProcesoEvaluaciones.One(s=>s.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID;
                 foreach (Evaluador evaluador in evaluadores) {
                     Examen examen = context.TablaExamenes.One(x=>x.EvaluadorID==evaluador.ID && x.EstadoExamenID == estadofinalizado);
@@ -431,7 +423,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     List<Colaborador> subordinados = GestorServiciosPrivados.consigueSusSubordinados(evaluador.ElEvaluado, context);
                     List<Colaborador> pares = GestorServiciosPrivados.consigueSusCompañerosPares(evaluador.ElEvaluado, context);
                     Colaborador jefe = GestorServiciosPrivados.consigueElJefe(evaluador.ElEvaluado, context);
-                    int pesoPuesto = GetPesoPorEvaluador(evaluador.ElEvaluado, evaluador.ElIDDelEvaluador, puestoEvaluador.ID, subordinados, pares, jefe, context);
+                    double pesoPuesto = GetPesoPorEvaluador(evaluador.ElEvaluado, evaluador.ElIDDelEvaluador, puestoEvaluador.ID, subordinados, pares, jefe, context);
 
                     acumuladoPesos += pesoPuesto;
                     notaEvaluadoXProceso += (examen.NotaExamen * pesoPuesto);
@@ -440,8 +432,8 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     e.Puntuacion = 0;
                 }
                 else {
-                    notaEvaluadoXProceso = Convert.ToInt32(Decimal.Floor(notaEvaluadoXProceso / acumuladoPesos));
-                    e.Puntuacion = notaEvaluadoXProceso;
+                    notaEvaluadoXProceso = Math.Round((notaEvaluadoXProceso / acumuladoPesos),1);
+                    e.Puntuacion = Convert.ToInt32(notaEvaluadoXProceso);
                 }
                 EstadoColaboradorXProcesoEvaluacion terminado = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x=>x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado));
                 e.EstadoColaboradorXProcesoEvaluacionID = terminado.ID;
@@ -527,9 +519,9 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             return esAdmin;
         }
 
-        public int GetPesoPorEvaluador(int evaluadoID, int evaluadorID, int puestoEvaluadorID, List<Colaborador> subordinados,  List<Colaborador> pares ,Colaborador jefe, DP2Context context)
+        public double GetPesoPorEvaluador(int evaluadoID, int evaluadorID, int puestoEvaluadorID, List<Colaborador> subordinados,  List<Colaborador> pares ,Colaborador jefe, DP2Context context)
         {
-            int peso = 100;
+            double peso = 100;
 
             // Verificar si es el mismo
             if (evaluadorID == evaluadoID)
