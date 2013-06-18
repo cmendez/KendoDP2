@@ -12,7 +12,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using KendoDP2.Models.Generic;
 using KendoDP2.Areas.Eventos.Models;
 using System.Reflection;
-
+using KendoDP2.Areas.Reportes.Models;
 
 namespace KendoDP2.Areas.Organizacion.Models
 {
@@ -104,6 +104,11 @@ namespace KendoDP2.Areas.Organizacion.Models
         public ColaboradorDTO paraObservacion360()
         {
             return new ColaboradorEvaluadorDTO(this);
+        }
+
+        public ColaboradorRDTO ToRDTO(DP2Context context)
+        {
+            return new ColaboradorRDTO(this,context);
         }
     }
 
