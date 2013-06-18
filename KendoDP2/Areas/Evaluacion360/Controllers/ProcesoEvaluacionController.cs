@@ -483,9 +483,10 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         {
             Pregunta p = context.TablaPreguntas.FindByID(preguntaID);
             int puntuacion = GetPuntos(numEstrella)*p.Peso;
-            p.Puntuacion = Convert.ToInt32(Decimal.Floor(puntuacion / 100));
+            p.Puntuacion = (double)puntuacion /(double) 100;//Convert.ToInt32(Decimal.Floor(puntuacion / 100));
             context.TablaPreguntas.ModifyElement(p);
-            return p.Puntuacion;
+            double x = p.Puntuacion;
+            return Convert.ToInt32(Math.Round(x,0));
         }
 
        

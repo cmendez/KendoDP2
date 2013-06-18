@@ -325,9 +325,11 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 for (int j = 0; j < listaCompetenciaXExamenFinal.Count; j++)
                 {
                     
-                    listaCompetenciaXExamenFinal.ElementAt(j).Nota = listaCompetenciaXExamenFinal.ElementAt(j).Nota / Math.Max(1, sumaPesos[listaCompetenciaXExamenFinal[j].CompetenciaID]);
-                }
-                 
+                    double auxnotaexam=(double)listaCompetenciaXExamenFinal.ElementAt(j).Nota;
+                    double auxpesos=(double)Math.Max(1, sumaPesos[listaCompetenciaXExamenFinal[j].CompetenciaID]);
+                    double auxnota=Math.Round(auxnotaexam/auxpesos,1);
+                    listaCompetenciaXExamenFinal.ElementAt(j).Nota = Convert.ToInt32(auxnota);                
+                }                 
                  return Json(listaCompetenciaXExamenFinal.Select(x => x.ToDTO()).ToDataSourceResult(request));
             }
         }
