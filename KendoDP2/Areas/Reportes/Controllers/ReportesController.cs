@@ -309,7 +309,9 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 List<OfertaLaboral> ListaOfertasaux = context.TablaOfertaLaborales.All();
                 
                 //List<OfertaLaboralDTO> ListaOfertas = context.TablaOfertaLaborales.Where(p => p.PuestoID==idpuesto && Convert.ToDateTime(p.FechaFinVigenciaSolicitud)<=Convert.ToDateTime(ffin) && Convert.ToDateTime(p.FechaPublicacion)>Convert.ToDateTime(finicio)).Select(of=>of.ToDTO()).ToList();
-                List<OfertaLaboralDTO> ListaOfertas = context.TablaOfertaLaborales.Where(p => p.PuestoID == idpuesto && p.EstadoSolicitudOfertaLaboral.Descripcion.CompareTo("Aprobado")==1 && DateTime.ParseExact(p.FechaPublicacion, "dd/MM/yyyy", CultureInfo.CurrentCulture).CompareTo(finicio) >= 1 && DateTime.ParseExact(p.FechaFinVigenciaSolicitud, "dd/MM/yyyy", CultureInfo.CurrentCulture).CompareTo(ffin) <= 1).Select(of => of.ToDTO()).ToList();
+                List<OfertaLaboralDTO> ListaOfertas = context.TablaOfertaLaborales.Where(p => p.PuestoID == idpuesto && p.EstadoSolicitudOfertaLaboral.Descripcion=="Aprobado" && 
+                    DateTime.ParseExact(p.FechaPublicacion, "dd/MM/yyyy", CultureInfo.CurrentCulture)>DateTime.ParseExact(finicio, "dd/MM/yyyy", CultureInfo.CurrentCulture) 
+                    && DateTime.ParseExact(p.FechaFinVigenciaSolicitud, "dd/MM/yyyy", CultureInfo.CurrentCulture) <= DateTime.ParseExact(ffin, "dd/MM/yyyy", CultureInfo.CurrentCulture) ).Select(of => of.ToDTO()).ToList();
                 
                 List<OfertaLaboralXPostulanteDTO> ListaOfertasXPostulante=new List<OfertaLaboralXPostulanteDTO>();
                 foreach (OfertaLaboralDTO of in ListaOfertas)
