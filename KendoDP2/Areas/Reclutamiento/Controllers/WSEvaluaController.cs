@@ -6,15 +6,15 @@ using System.Web.Mvc;
 
 using ExtensionMethods;
 using KendoDP2.Models.Generic;
-
 using KendoDP2.Areas.Reclutamiento.Models;
 
 namespace KendoDP2.Areas.Reclutamiento.Controllers
 {
-    public class WSEvaluacionController : WSController
+    public class WSEvaluaController : WSController
     {
+        // /WSEvaluacion/setRespuestasXEvaluacion
         [HttpPost]
-        public JsonResult setRespuestasXEvaluacion(string idOfertaLaboral, string idPostulante, 
+        public JsonResult setRespuestasXEvaluacion(string idOfertaLaboral, string idPostulante,
                                                     string descripcionFase, List<RespuestaDTO> respuestas,
                                                     EvaluacionXFaseXPostulacionDTO evaluacion)
         {
@@ -44,21 +44,21 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 
                     //Buscar EvaluacionXFaseXPostulacion
                     EvaluacionXFaseXPostulacion e = context.TablaEvaluacionXFaseXPostulacion.One(x => x.FasePostulacionXOfertaLaboralXPostulanteID == fpxolxp.ID);
-                    if (e != null) return JsonErrorPost("La postulacion del postulante " + p.ToDTO().NombreCompleto + 
-                        " a la oferta laboral " + ol.Puesto.Nombre + " que " + ol.Descripcion + " que ha alcanzado la fase " + 
+                    if (e != null) return JsonErrorPost("La postulacion del postulante " + p.ToDTO().NombreCompleto +
+                        " a la oferta laboral " + ol.Puesto.Nombre + " que " + ol.Descripcion + " que ha alcanzado la fase " +
                         descripcionFase + " ya tiene una evaluacion registrada");
 
                     if (respuestas == null || respuestas.Count == 0) return JsonErrorPost("No se puede ingresar una evaluacion sin respuestas");
                     // ******************************************************************
 
-                    
+
                     //Crear y cargar EvaluacionXFaseXPostulacion 
                     e = new EvaluacionXFaseXPostulacion().LoadFromDTO(evaluacion);
-                    
+
                     //Asignar la evaluacion a la FasePostulacionXOfertaLaboralXPostulante 
                     e.FasePostulacionXOfertaLaboralXPostulanteID = fpxolxp.ID;
                     e.FasePostulacionXOfertaLaboralXPostulante = fpxolxp;
-                    
+
                     //Calcular el puntaje y asignarlo
                     double puntajeTotal = 0;
                     foreach (var obj in respuestas)
@@ -69,7 +69,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 
                     // ********************************** COMO SE QUE APROBO, NO SE COMO ASIGNARLO AQUI Y NO SE SI ES EL MOMENTO ADECUADO **********************************
                     e.FlagAprobado = true; // ESTO DEBE CALCULARSE
-                    
+
                     //Guardar la evaluacion por fase por postulacion, es necesario reasignar el ID o ya se guarda
                     context.TablaEvaluacionXFaseXPostulacion.AddElement(e);
 
@@ -77,7 +77,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     var ofertaLaboralXPostulante = e.FasePostulacionXOfertaLaboralXPostulante.OfertaLaboralXPostulante;
                     ofertaLaboralXPostulante.PuntajeTotal += (int)e.Puntaje;
                     context.TablaOfertaLaboralXPostulante.ModifyElement(ofertaLaboralXPostulante);
-                    
+
                     //Guardar las respuesta, indicando la evaluacion a la que pertenecen
                     List<Respuesta> lstRespuesta = new List<Respuesta>();
                     foreach (var obj in respuestas)
@@ -96,6 +96,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 }
             }
         }
+
 
     }
 }

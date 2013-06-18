@@ -303,6 +303,7 @@
     <Compile Include="Areas\Organizacion\Models\EstadosPuesto.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\OfertasLaboralesExternasController.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\SolicitudPromocionesController.cs" />
+    <Compile Include="Areas\Reclutamiento\Controllers\WSEvaluaController.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\WSPostulanteController.cs" />
     <Compile Include="Areas\Reclutamiento\Models\EstadoPostulantePorOferta.cs" />
     <Compile Include="Areas\Organizacion\OrganizacionAreaRegistration.cs" />
@@ -321,7 +322,6 @@
     <Compile Include="Areas\Reclutamiento\Controllers\ReclutamientoController.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\ReclutamientoMobileController.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\SolicitudOfertasLaboralesController.cs" />
-    <Compile Include="Areas\Reclutamiento\Controllers\WSEvaluacionController.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\WSOfertaLaboralController.cs" />
     <Compile Include="Areas\Reclutamiento\Models\DP2Context.cs" />
     <Compile Include="Areas\Reclutamiento\Models\EstadosSolicitudOfertaLaboral.cs" />
