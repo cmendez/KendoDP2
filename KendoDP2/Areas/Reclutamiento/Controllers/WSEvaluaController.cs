@@ -74,6 +74,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 
                     //Crear y cargar EvaluacionXFaseXPostulacion 
                     e = new EvaluacionXFaseXPostulacion().LoadFromDTO(evaluacion);
+                    e.ID = 0;
 
                     //Asignar la evaluacion a la FasePostulacionXOfertaLaboralXPostulante 
                     e.FasePostulacionXOfertaLaboralXPostulanteID = fpxolxp.ID;
