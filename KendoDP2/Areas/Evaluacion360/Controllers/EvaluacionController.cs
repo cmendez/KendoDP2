@@ -66,7 +66,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 int acumuladoPesos = 0;
                 foreach (CompetenciaXExamen c in competenciasEvaluadas) {
                     IList<Pregunta> preguntasXCompetencia = context.TablaPreguntas.Where(x => x.competenciaID==c.CompetenciaID && x.ExamenID == examen.ID);
-                    c.Nota = preguntasXCompetencia.Sum(x => x.Puntuacion);
+                    c.Nota = Convert.ToInt32(preguntasXCompetencia.Sum(x => x.Puntuacion));
 
                     notaExamen+= (c.Nota * c.Peso);
                     acumuladoPesos+= c.Peso;
