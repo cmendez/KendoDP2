@@ -38,18 +38,17 @@ namespace KendoDP2.Areas.Reportes.Models
             Peso = o.Peso;
             AvanceFinal = o.AvanceFinal;
             TipoObjetivoBSCID = o.TipoObjetivoBSCID.GetValueOrDefault();
-            if (o.ObjetivoPadreID != 0)
+            if (o.ObjetivoPadre != null)
             {
-                Objetivo padre = context.TablaObjetivos.FindByID(o.ObjetivoPadreID);
-                padreEsIntermedio = padre.IsObjetivoIntermedio;
-                ObjetivoPadreDTO = padre.ToDTO(context);
+                padreEsIntermedio = o.ObjetivoPadre.IsObjetivoIntermedio;
+                ObjetivoPadreDTO = o.ObjetivoPadre.ToDTO(context);
             }
             else
             {
                 padreEsIntermedio = false;
                 ObjetivoPadreDTO = null;
             }
-            ObjetivoPadreID = o.ObjetivoPadreID;
+            ObjetivoPadreID = o.ObjetivoPadreID.GetValueOrDefault();
 
             puestoID = o.PuestoAsignadoID.GetValueOrDefault();
 
@@ -93,16 +92,16 @@ namespace KendoDP2.Areas.Reportes.Models
                 numPersonas = 0;
                 foreach (ObjetivoDTO obj in col.Objetivos)
                 {
-                    if (obj.ObjetivoPadreID!=0 &&obj.ObjetivoPadreID == o.ID) numPersonas += 1; 
+                    if (obj.ObjetivoPadreID!=null &&obj.ObjetivoPadreID == o.ID) numPersonas += 1; 
                 }
             }
             peso = o.Peso;
-            hijos = o.ObjetivosHijos(context).Count;            
+            hijos = o.ObjetivosHijos.Count;            
             avance = o.AvanceFinal;
             esIntermedio = o.IsObjetivoIntermedio;
-            if (o.ObjetivoPadreID != 0)
+            if (o.ObjetivoPadreID != null)
             {
-                idpadre = o.ObjetivoPadreID;
+                idpadre = o.ObjetivoPadreID.Value;
             }
             else
             {
@@ -110,9 +109,9 @@ namespace KendoDP2.Areas.Reportes.Models
             }
 
             Objetivo ob = o;
-            while (ob.ObjetivoPadreID!=0 && ob.ObjetivoPadreID > 0)
+            while (ob.ObjetivoPadreID!=null && ob.ObjetivoPadreID.GetValueOrDefault() > 0)
             {
-                ob = context.TablaObjetivos.FindByID(ob.ObjetivoPadreID);
+                ob = context.TablaObjetivos.FindByID(ob.ObjetivoPadreID.GetValueOrDefault());
             }
             BSCId = ob.TipoObjetivoBSCID.Value;
 
@@ -135,9 +134,9 @@ namespace KendoDP2.Areas.Reportes.Models
             }
             else
             {
-                if (o.ObjetivoPadreID !=0 && context.TablaObjetivos.FindByID(o.ObjetivoPadreID).PuestoAsignadoID != null)
+                if (o.ObjetivoPadre!=null && o.ObjetivoPadre.PuestoAsignadoID != null)
                 {
-                    idPuesto = context.TablaObjetivos.FindByID(o.ObjetivoPadreID).PuestoAsignado.ID;
+                    idPuesto = o.ObjetivoPadre.PuestoAsignado.ID;
                     List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (cxp.FechaSalidaPuesto == null || DateTime.Today <= cxp.FechaSalidaPuesto));
                     if (cxpaux.Count > 0)
                     {
@@ -152,17 +151,15 @@ namespace KendoDP2.Areas.Reportes.Models
                 }
                 else
                 {
-                    if (o.ObjetivoPadreID==0)
+                    if (o.ObjetivoPadre==null)
                     {
                         idPuesto=1;
                     }
                     else
                     {
-                        var padre = context.TablaObjetivos.FindByID(o.ObjetivoPadreID);
-                        if (padre.ObjetivoPadreID != 0)
+                        if (o.ObjetivoPadre.ObjetivoPadre != null)
                         {
-                            var abuelo = context.TablaObjetivos.FindByID(padre.ObjetivoPadreID);
-                            idPuesto = abuelo.PuestoAsignadoID.Value;
+                            idPuesto = o.ObjetivoPadre.ObjetivoPadre.PuestoAsignadoID.Value;
                         }
                     }
                 }

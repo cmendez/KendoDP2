@@ -9,6 +9,8 @@ using KendoDP2.Areas.Configuracion.Models;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using KendoDP2.Areas.Evaluacion360.Models;
+using System.ComponentModel.DataAnnotations.Schema;
+using KendoDP2.Models.Generic;
 using KendoDP2.Areas.Eventos.Models;
 using System.Reflection;
 namespace KendoDP2.Areas.Organizacion.Models

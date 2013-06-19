@@ -74,7 +74,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     {
                         cxp = context.TablaColaboradoresXPuestos.Where(x => x.ColaboradorID == c.ID && !x.IsEliminado && (x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto)).OrderByDescending(a => a.PuestoID).First();
                     }
-                    catch (Exception )
+                    catch (Exception excep)
                     {  // no tiene puesto asociado, se muestran todos los procesos
                         return Json(listaProcesos.ToDataSourceResult(request));
                     }

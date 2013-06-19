@@ -28,11 +28,9 @@ namespace KendoDP2.Areas.Objetivos.Models
         public int? TipoObjetivoBSCID { get; set; }
         public virtual TipoObjetivoBSC TipoObjetivoBSC { get; set; }
 
-        public int ObjetivoPadreID { get; set; }
-        public List<Objetivo> ObjetivosHijos(DP2Context context)
-        {
-            return context.TablaObjetivos.Where(x => x.ObjetivoPadreID == this.ID).ToList();
-        }
+        public int? ObjetivoPadreID { get; set; }
+        public Objetivo ObjetivoPadre { get; set; }
+        public virtual ICollection<Objetivo> ObjetivosHijos { get; set; }
         
         public int? BSCID { get; set; }
         public virtual BSC BSC { get; set; }
@@ -52,9 +50,9 @@ namespace KendoDP2.Areas.Objetivos.Models
         public int GetBSCIDRaiz(DP2Context context)
         {
             Objetivo o = this;
-            while (o.ObjetivoPadreID > 0)
+            while (o.ObjetivoPadreID.GetValueOrDefault() > 0)
             {
-                o = context.TablaObjetivos.FindByID(o.ObjetivoPadreID);
+                o = context.TablaObjetivos.FindByID(o.ObjetivoPadreID.GetValueOrDefault());
             }
             return o.BSCID.GetValueOrDefault();
         }
@@ -74,7 +72,7 @@ namespace KendoDP2.Areas.Objetivos.Models
         {
             Nombre = nombre;
             Peso = peso;
-            ObjetivoPadreID = objetivoPadreID;
+            ObjetivoPadre = context.TablaObjetivos.FindByID(objetivoPadreID);
             FechaCreacion = DateTime.Now;
 
         }
@@ -93,7 +91,8 @@ namespace KendoDP2.Areas.Objetivos.Models
             AvanceFinal = o.AvanceFinal;
             if (o.TipoObjetivoBSCID > 0)
                 TipoObjetivoBSC = context.TablaTipoObjetivoBSC.FindByID(o.TipoObjetivoBSCID);
-            ObjetivoPadreID = o.ObjetivoPadreID;
+            if (o.ObjetivoPadreID > 0)
+                ObjetivoPadre = context.TablaObjetivos.FindByID(o.ObjetivoPadreID);
             if (o.BSCID > 0)
                 BSC = context.TablaBSC.FindByID(o.BSCID);
 
@@ -177,7 +176,7 @@ namespace KendoDP2.Areas.Objetivos.Models
             AvanceFinal = o.AvanceFinal;
             TipoObjetivoBSCID = o.TipoObjetivoBSCID.GetValueOrDefault();
 
-            ObjetivoPadreID = o.ObjetivoPadreID;
+            ObjetivoPadreID = o.ObjetivoPadreID.GetValueOrDefault();
             BSCID = o.GetBSCIDRaiz(context);
 
             FechaCreacion = o.FechaCreacion.HasValue ? o.FechaCreacion.GetValueOrDefault().ToString("D", new CultureInfo("es-ES")) : String.Empty;

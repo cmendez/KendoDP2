@@ -212,7 +212,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     return true;
                 }
             }
-            catch (NullReferenceException )
+            catch (NullReferenceException aunSinEvaluadores)
             {
                 return false;
             }

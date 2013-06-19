@@ -83,7 +83,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             {
                 try
                 {
-                    context.TablaObjetivos.RemoveElementByID(objetivoID, true);
+                    context.TablaObjetivos.RemoveElementByID(objetivoID);
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception)

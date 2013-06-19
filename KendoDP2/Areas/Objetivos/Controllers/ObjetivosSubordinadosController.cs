@@ -29,7 +29,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 ViewBag.periodos = context.TablaPeriodos.All().Select(c => c.ToDTO()).ToList();
                 List<Objetivo> objetivosPuesto = puesto.Objetivos.ToList();
                 List<Objetivo> objetivos = new List<Objetivo>();
-                objetivosPuesto.ForEach(x => objetivos.AddRange(x.ObjetivosHijos(context)));
+                objetivosPuesto.ForEach(x => objetivos.AddRange(x.ObjetivosHijos.ToList()));
                 ViewBag.objetivos = objetivos.Select(c => c.ToDTO(context)).ToList();
                 return View();
             }
@@ -51,8 +51,8 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 Objetivo o = new Objetivo(objetivo, context);
                 o.IsObjetivoIntermedio = true;
                 context.TablaObjetivos.AddElement(o);
-                Objetivo padre1 = context.TablaObjetivos.FindByID(o.ObjetivoPadreID);
-                Objetivo padre2 = context.TablaObjetivos.FindByID(padre1.ObjetivoPadreID);
+                Objetivo padre1 = context.TablaObjetivos.FindByID(o.ObjetivoPadreID.GetValueOrDefault());
+                Objetivo padre2 = context.TablaObjetivos.FindByID(padre1.ObjetivoPadreID.GetValueOrDefault());
                 Puesto puesto = context.TablaPuestos.FindByID(padre2.PuestoAsignadoID.GetValueOrDefault());
                 puesto.ReparteObjetivosASubordinados(context);
                 return Json(new[] { o.ToDTO(context) }.ToDataSourceResult(request, ModelState));
@@ -66,7 +66,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             {
                 Objetivo o = context.TablaObjetivos.FindByID(objetivo.ID).LoadFromDTO(objetivo, context);
                 context.TablaObjetivos.ModifyElement(o);
-                foreach (var o2 in o.ObjetivosHijos(context))
+                foreach (var o2 in o.ObjetivosHijos)
                 {
                     o2.Nombre = o.Nombre;
                     context.TablaObjetivos.ModifyElement(o2);
@@ -80,7 +80,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                context.TablaObjetivos.RemoveElementByID(objetivo.ID, true);
+                context.TablaObjetivos.RemoveElementByID(objetivo.ID);
                 return Json(ModelState.ToDataSourceResult());
             }
         }

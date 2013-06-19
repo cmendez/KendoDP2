@@ -52,12 +52,12 @@ namespace KendoDP2.Areas.Organizacion.Models
 
         public void ReparteObjetivosASubordinados(DP2Context context)
         {
-            foreach (var objetivoAbuelo in this.Objetivos) foreach (var objetivoPadre in objetivoAbuelo.ObjetivosHijos(context)) 
-                foreach (var objetivoIntermedio in objetivoPadre.ObjetivosHijos(context).Where(c => c.IsObjetivoIntermedio))
+            foreach (var objetivoAbuelo in this.Objetivos) foreach (var objetivoPadre in objetivoAbuelo.ObjetivosHijos) 
+                foreach (var objetivoIntermedio in objetivoPadre.ObjetivosHijos.Where(c => c.IsObjetivoIntermedio))
                     foreach (var puestoHijo in this.Puestos)
                         if (!puestoHijo.Objetivos.Any(x => x.ObjetivoPadreID == objetivoIntermedio.ID))
                         {
-                            Objetivo nuevo = new Objetivo { Nombre = objetivoIntermedio.Nombre, ObjetivoPadreID = objetivoIntermedio.ID, PuestoAsignado = puestoHijo };
+                            Objetivo nuevo = new Objetivo { Nombre = objetivoIntermedio.Nombre, ObjetivoPadre = objetivoIntermedio, PuestoAsignado = puestoHijo };
                             context.TablaObjetivos.AddElement(nuevo);
                         }
         }

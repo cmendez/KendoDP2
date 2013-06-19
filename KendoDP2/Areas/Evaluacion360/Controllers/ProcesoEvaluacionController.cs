@@ -67,7 +67,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 {
                    cxp = context.TablaColaboradoresXPuestos.Where(x => x.ColaboradorID == c.ID && !x.IsEliminado && (x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto)).OrderByDescending(a => a.PuestoID).First();
                 }
-                catch (Exception )
+                catch (Exception excep)
                 {  // no tiene puesto asociado, se muestran todos los procesos
                     return Json(listaProcesos.ToDataSourceResult(request));
                 }
@@ -147,7 +147,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 {
                     cxp = context.TablaColaboradoresXPuestos.Where(x => x.ColaboradorID == idUsuario && (x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto) && !x.IsEliminado).OrderByDescending(a => a.ColaboradorID).First(); ;
                 }
-                catch (Exception ) {
+                catch (Exception excep) {
                     return Json(listaEvaluados.Select(x => x.ToDTO()).ToDataSourceResult(request));
                 }// No tiene puesto asociado, se muestran todos los evaluados
                 if (cxp == null) {
@@ -214,7 +214,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 {
                     cxp = context.TablaColaboradoresXPuestos.Where(x => x.ColaboradorID == colaboradorID && (x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto) && !x.IsEliminado).OrderByDescending(a => a.ColaboradorID).First(); ;
                 }
-                catch (Exception )
+                catch (Exception e)
                 {
                     return Json(new { success= false, noTienePuesto = true });
                 }
@@ -344,7 +344,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                             ColaboradorXPuesto jefePuesto = context.TablaColaboradoresXPuestos.Where(x => x.PuestoID == puestoSuperior.ID && !x.IsEliminado && (x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto)).OrderByDescending(a => a.ColaboradorID).First(); ;
                             listaJefes.Add(context.TablaColaboradores.One(x => x.ID == jefePuesto.ColaboradorID));
                         }
-                        catch (Exception ) {
+                        catch (Exception excep) {
                             continue;
                         }
                     }

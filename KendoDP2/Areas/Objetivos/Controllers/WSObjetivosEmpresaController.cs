@@ -65,7 +65,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                context.TablaObjetivos.RemoveElementByID(objetivoID, true);
+                context.TablaObjetivos.RemoveElementByID(objetivoID);
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
         }
