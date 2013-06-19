@@ -86,12 +86,12 @@
                                            columns.Bound(p => p.ComentarioUltimoAvance).Title("Comentario");
                                            columns.Command(command => command.Custom("Ver Avances").Click("showAvances")) ;
                                            if (puedeEditar) {
-                                               columns.Command(command => { command.Destroy().Text("Eliminar"); command.Edit().UpdateText("Guardar").CancelText("Cancelar").Text("Editar"); }).Width(200);
+                                               columns.Command(command => { command.Destroy().Text("Eliminar"); }).Width(200);
                                            }
                                        })
-                                   .ToolBar(toolbar => { if (puedeEditar) { toolbar.Create().Text("Registrar"); } })
+                                   .ToolBar(toolbar => { if (puedeEditar) { toolbar.Create().Text("Registrar"); toolbar.Save().SaveText("Guardar cambios").CancelText("Cancelar cambios"); } })
                                    .Editable(editable => editable
-                                       .Mode(GridEditMode.InLine)
+                                       .Mode(GridEditMode.InCell)
                                        .DisplayDeleteConfirmation("Recuerde que debe guardar los cambios para hacer efectiva la eliminación.")
                                        .Window(w => w.Title("Ingrese los datos"))
                                    ).Pageable(e => e.Refresh(true)).Filterable().Sortable().Scrollable(w => w.Height(330))
