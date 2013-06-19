@@ -53,11 +53,12 @@
                                        {
                                            columns.Bound(p => p.Nombre).ClientFooterTemplate("<strong>Cantidad:</strong> #=count#");
                                            columns.Bound(p => p.Peso).ClientFooterTemplate("<strong>Suma:</strong> #=sum#");
-                                           columns.Command(command => { command.Destroy().Text("Eliminar"); }).Width(200);
+                                           columns.Command(command => { command.Destroy().Text("Eliminar"); command.Edit().UpdateText("Guardar").CancelText("Cancelar").Text("Editar"); }).Width(200);
+
                                        })
-                                   .ToolBar(toolbar => { toolbar.Create().Text("Registrar"); toolbar.Save().SaveText("Guardar cambios").CancelText("Cancelar cambios"); })
+                                   .ToolBar(toolbar => { toolbar.Create().Text("Registrar"); })
                                    .Editable(editable => editable
-                                       .Mode(GridEditMode.InCell)
+                                       .Mode(GridEditMode.InLine)
                                        .DisplayDeleteConfirmation("Recuerde que debe guardar los cambios para hacer efectiva la eliminación.")
                                        .Window(w => w.Title("Ingrese los datos"))
                                    )
