@@ -19,24 +19,188 @@ namespace KendoDP2.Areas.Reportes.Models
         public const string MISMO = "Él mismo";
     }
 
+    public class ListaAux
+    {
+        public int competenciaId { get; set; }
+        public string tipoEvaluador { get; set; }
+        public int sumaNota { get; set; }
+        public int count { get; set; }
+
+        public ListaAux(int competenciaId, string tipoEvaluador, int sumaNota, int count)
+        {
+            this.competenciaId = competenciaId;
+            this.tipoEvaluador = tipoEvaluador;
+            this.sumaNota = sumaNota;
+            this.count = count;
+        }
+
+        public ListaAux()
+        {
+        }
+    }
+
     public class ProcesoReportadoDTO
     {
+        public int idProceso { get; set; }
         public string procesoNombre { get; set; }
         public ICollection<NotaXTipoEvaluadorDTO> notasParciales { get; set; }
         public int notaFinal { get; set; }
+        public ICollection<CompetenciasEvualuadasDTO> competenciasEvaluadas { get; set; }
 
         public ProcesoReportadoDTO(ColaboradorXProcesoEvaluacion proceso)
         {
             var context = new DP2Context();
+            idProceso = context.TablaProcesoEvaluaciones.One(a => a.ID == proceso.ProcesoEvaluacionID).ID;
             procesoNombre = context.TablaProcesoEvaluaciones.One(a=>a.ID == proceso.ProcesoEvaluacionID).Nombre;
             //Lista de notas parciales
             var evaluadores = context.TablaEvaluadores.Where(a=>a.ElEvaluado == proceso.ColaboradorID
                 && a.ProcesoEnElQueParticipanID == proceso.ProcesoEvaluacionID);
-            notasParciales = ListaNotasParcialesToDTO(evaluadores).ToList();
+            notasParciales = ListaNotasParcialesProcesoToDTO(evaluadores).ToList();
             notaFinal = (int)proceso.Puntuacion;
+            competenciasEvaluadas = ListaNotasParcialesCompetenciasToDTO(evaluadores).ToList();
         }
 
-        public static ICollection<NotaXTipoEvaluadorDTO> ListaNotasParcialesToDTO(ICollection<Evaluador> evaluadores)
+        public static List<CompetenciaXExamen> obtenerCompetenciasXExamen(int evaluacionId)
+        {
+            DP2Context context = new DP2Context();
+
+            var examen = context.TablaExamenes.One(a=>a.EvaluadorID == evaluacionId);
+
+            var competencias = context.TablaCompetenciaXExamen.Where(a=>a.ExamenID == examen.ID).ToList();
+
+            return competencias;
+        }
+
+        public static string obtenerTipoEvaluador(Evaluador evaluacion)
+        {
+            //Jefe:
+            DP2Context context = new DP2Context();
+            var jefe = GestorServiciosPrivados.consigueElJefe(evaluacion.ElEvaluado,context);
+            if (jefe != null)
+            {
+                if (jefe.ID == evaluacion.ElIDDelEvaluador)
+                    return Reporte360Model.JEFE;
+            }
+
+            //Compañeros pares:
+            var companheros = GestorServiciosPrivados.consigueSusCompañerosPares(evaluacion.ElEvaluado,context);
+            foreach (Colaborador companhero in companheros)
+            {
+                if (companhero.ID == evaluacion.ElIDDelEvaluador && companhero.ID != evaluacion.ElEvaluado)
+                {
+                    return Reporte360Model.COMPANHERO;
+                }
+            }
+
+            //Subordinados:
+            var subordinados = GestorServiciosPrivados.consigueSusSubordinados(evaluacion.ElEvaluado,context);
+            foreach (Colaborador subordinado in subordinados)
+            {
+                if (subordinado.ID == evaluacion.ElIDDelEvaluador)
+                {
+                    return Reporte360Model.SUBORDINADO;
+                }
+            }
+
+            //El mismo
+            if(evaluacion.ElEvaluado == evaluacion.ElIDDelEvaluador)
+            {
+                return Reporte360Model.MISMO;
+            }
+
+            return null;
+        }
+
+        public static ICollection<CompetenciasEvualuadasDTO> ListaNotasParcialesCompetenciasToDTO(ICollection<Evaluador> evaluaciones)
+        {
+            List<ListaAux> listaAuxiliar = new List<ListaAux>();
+            List<CompetenciaXExamen> competencias;
+            string tipoEvaluador;
+
+            //Aquí se armará la estructura con la información de cada competencia por tipo de evaluador
+            foreach (Evaluador evaluacion in evaluaciones)
+            {
+                //Obtener las competencias por examen
+                competencias = obtenerCompetenciasXExamen(evaluacion.ID);
+                //Obtener tipo de evaluador
+                tipoEvaluador = obtenerTipoEvaluador(evaluacion);
+                foreach (CompetenciaXExamen competencia in competencias)
+                {
+                    //En caso sea una nueva competencias
+                    bool existeCompetencia = listaAuxiliar.Any(a=>a.competenciaId == competencia.CompetenciaID);
+                    if (!existeCompetencia)
+                    {
+                        bool existeTipoEvaluador = listaAuxiliar.Any(a => a.competenciaId == competencia.CompetenciaID
+                             && a.tipoEvaluador.Equals(tipoEvaluador));
+                        if (!existeTipoEvaluador)
+                        {
+                            ListaAux listaElemento = new ListaAux(competencia.CompetenciaID, tipoEvaluador, competencia.Nota, 1);
+                            listaAuxiliar.Add(listaElemento);
+                        }
+                    }
+                    //En caso la competencia ya exista
+                    else
+                    {
+                        bool existeTipoEvaluador = listaAuxiliar.Any(a => a.competenciaId == competencia.CompetenciaID
+                             && a.tipoEvaluador.Equals(tipoEvaluador));
+                        if (!existeTipoEvaluador)
+                        {
+                            ListaAux listaElemento = new ListaAux(competencia.CompetenciaID, tipoEvaluador, competencia.Nota, 1);
+                            listaAuxiliar.Add(listaElemento);
+                        }
+                        else
+                        {
+                            ListaAux listaElemento = listaAuxiliar.Single(a=>a.tipoEvaluador.Equals(tipoEvaluador)
+                                && a.competenciaId == competencia.CompetenciaID);
+                            listaElemento.sumaNota += competencia.Nota;
+                            listaElemento.count++;
+                        }
+                    }
+                }
+            }
+
+            //Aquí se armará la estructura final
+            List<CompetenciasEvualuadasDTO> listaCompetenciasEvaluadas = new List<CompetenciasEvualuadasDTO>();
+            CompetenciasEvualuadasDTO competenciaEvaluada;
+            //Obtener las competencias que son distintas en codigo
+            foreach(ListaAux listaElemento in listaAuxiliar)
+            {
+                bool existeCompetencia = listaCompetenciasEvaluadas.Any(a=>a.competenciaId == listaElemento.competenciaId);
+                if (!existeCompetencia)
+                {
+                    competenciaEvaluada = new CompetenciasEvualuadasDTO();
+                    competenciaEvaluada.competenciaId = listaElemento.competenciaId;
+                    competenciaEvaluada.competenciaNombre = new DP2Context().TablaCompetencias.One(a => a.ID == listaElemento.competenciaId).Nombre;
+                    //Nota parcial
+                    NotaXTipoEvaluadorDTO notaParcial;
+                    notaParcial = new NotaXTipoEvaluadorDTO();
+                    notaParcial.tipoEvaluador = listaElemento.tipoEvaluador;
+                    notaParcial.notaParcial = listaElemento.sumaNota/listaElemento.count;
+                    competenciaEvaluada.notasParciales = new List<NotaXTipoEvaluadorDTO>();
+                    //Agregar la nota parcial de la competencia
+                    competenciaEvaluada.notasParciales.Add(notaParcial);
+                    //--
+                    competenciaEvaluada.notaFinal = 0;
+                    //Agregar la competenciaEvaluada
+                    listaCompetenciasEvaluadas.Add(competenciaEvaluada);
+                }
+                else
+                {
+                    var competenciaEvaluadaAux = listaCompetenciasEvaluadas.Single(a=>a.competenciaId == listaElemento.competenciaId);
+                    //Nota parcial
+                    NotaXTipoEvaluadorDTO notaParcial;
+                    notaParcial = new NotaXTipoEvaluadorDTO();
+                    notaParcial.tipoEvaluador = listaElemento.tipoEvaluador;
+                    notaParcial.notaParcial = listaElemento.sumaNota/listaElemento.count;
+                    //Agregar la nota parcial de la competencia
+                    competenciaEvaluadaAux.notasParciales.Add(notaParcial);
+                }
+            }
+
+            return listaCompetenciasEvaluadas;
+        }
+
+        public static ICollection<NotaXTipoEvaluadorDTO> ListaNotasParcialesProcesoToDTO(ICollection<Evaluador> evaluadores)
         {
             //en la lista evaluadores, se tienen todas las evaluaciones del colaborador en un solo proceso
             List<NotaXTipoEvaluadorDTO> ListaNotasDTO = new List<NotaXTipoEvaluadorDTO>();
@@ -148,5 +312,13 @@ namespace KendoDP2.Areas.Reportes.Models
         }
     }
 
+    public class CompetenciasEvualuadasDTO
+    {
+        public int competenciaId { get; set; }
+        public string competenciaNombre { get; set; }
+        public ICollection<NotaXTipoEvaluadorDTO> notasParciales { get; set; }
+        public int notaFinal { get; set; }
 
+        public CompetenciasEvualuadasDTO() { }
+    }
 }
