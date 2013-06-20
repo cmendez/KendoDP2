@@ -8,8 +8,10 @@
 
 @model KendoDP2.Areas.Organizacion.Models.ColaboradorXPuestoDTO
 
+
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     
     <div style="width: 900px;">
@@ -28,10 +30,7 @@
                 </div>
                 <div class="span7">
                     <div class="editor-field" style="width: 100%; text-align: left;">
-                            @(Html.Kendo().DatePickerFor(model => model.FechaIngresoPuesto)
-                                .Name("datepicker_FechaIngresoPuesto")
-                                .HtmlAttributes(new { style = "width:150px" })
-                            )
+                            @Html.EditorFor(model => model.FechaIngresoPuesto)
                     </div>
                 </div>
             </div>
@@ -44,10 +43,7 @@
                 </div>
                 <div class="span7">
                     <div class="editor-field" style="width: 100%; text-align: left;">
-                        @(Html.Kendo().DatePickerFor(model => model.FechaSalidaPuesto)
-                                .Name("datepicker_FechaSalidaPuesto")
-                                .HtmlAttributes(new { style = "width:150px" })
-                            )
+                        @Html.EditorFor(model => model.FechaSalidaPuesto)
                     </div>
                 </div>
             </div>
@@ -73,7 +69,7 @@
                 <script>
                     $("#AreaID").change(function () {
                         var areaID = $(this).val();
-                        $.getJSON("@Url.Action("_GetPuestos", "Historial", new { Area = "Organizacion" })", { areaID: areaID },
+                        $.getJSON('@Url.Action("_GetPuestos", "Historial", new { Area = "Organizacion" })', { areaID: areaID },
                function (puestos) {
                    var select = $("#PuestoID");
                    select.find('option').remove().end();
