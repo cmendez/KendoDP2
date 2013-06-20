@@ -120,8 +120,15 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 if (o.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Pendiente"))
                 {
                     o.EstadoSolicitudOfertaLaboral = context.TablaEstadosSolicitudes.One(p=> p.Descripcion.Equals("Aprobado"));
-                    o.FechaAprobacion = DateTime.Now.ToShortDateString();
-                    ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = o.AscendidoID, PuestoID = o.PuestoID, Sueldo = o.SueldoTentativo };
+                    DateTime ahora = DateTime.Now;
+                    o.FechaAprobacion = ahora.ToString("dd/MM/yyyy");
+                    var ultimoCruce = context.TablaColaboradoresXPuestos.One(x => x.FechaSalidaPuesto == null && x.ColaboradorID == o.AscendidoID);
+                    if (ultimoCruce != null)
+                    {
+                        ultimoCruce.FechaSalidaPuesto = DateTime.Now.AddDays(-1);
+                        context.TablaColaboradoresXPuestos.ModifyElement(ultimoCruce);
+                    }
+                    ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = o.AscendidoID, PuestoID = o.PuestoID, Sueldo = o.SueldoTentativo, FechaIngresoPuesto = ahora  };
 
                     context.TablaColaboradoresXPuestos.AddElement(cruce);
                 }

@@ -29,9 +29,8 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 int idEstado = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(a => a.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID;
                 //Obtengo los procesos
                 var procesos = context.TablaColaboradorXProcesoEvaluaciones.Where(a=>a.ColaboradorID == colaboradorActual.ID 
-                    && a.EstadoColaboradorXProcesoEvaluacionID == idEstado);
-                var procesosReportados = procesos.Select(a=>a.toProcesoReportadoDTO()).ToList();
-                return Json(procesosReportados, JsonRequestBehavior.AllowGet);
+                    && a.EstadoColaboradorXProcesoEvaluacionID == idEstado).Select(a=>a.toProcesoReportadoDTO()).ToList();
+                return Json(procesos, JsonRequestBehavior.AllowGet);
             }
         }
     

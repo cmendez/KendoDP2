@@ -85,6 +85,7 @@ namespace KendoDP2.Models.Generic
             SeedTiposEventos();
             SeedEvento();
             SeedInvitado();
+            SeedImagenes();
         }
         
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -104,8 +105,8 @@ namespace KendoDP2.Models.Generic
         }
     }
 
-    public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
-    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
+    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
+    public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
     {
         protected override void Seed(DP2Context context)
         {

@@ -167,6 +167,21 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Aprobado Fase 1"));
                     postulanteOferta.FechaEvaluacionPrimeraFase = fecha;
                     context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
+
+                    int fpID = context.TablaFasePostulacion.One(x => x.Descripcion.Equals("Registrado")).ID;
+                    var aux = context.TablaFasePostulacionXOfertaLaboralXPostulante
+                        .One(x =>   x.FasePostulacionID == fpID && 
+                                    x.OfertaLaboralXPostulanteID == postulanteXOfertaID);
+                    if (aux == null) //Si dicho registro no existe
+                    {//Entonces lo agrego
+                        context.TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante
+                        {
+                            FasePostulacionID = fpID,
+                            OfertaLaboralXPostulanteID = postulanteXOfertaID,
+
+                        });
+                    }
+
                     if (postulanteOferta.OfertaLaboral.ModoSolicitudOfertaLaboral.Descripcion.Equals("Convocatoria Interna"))
                     {
                         if(postulanteOferta.Postulante.Colaborador.CorreoElectronico != null)
@@ -221,6 +236,21 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Aprobado Fase 2"));
                     postulanteOferta.FechaEvaluacionSegundaFase = fecha;
                     context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
+
+                    int fpID = context.TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado Externo")).ID;
+                    var aux = context.TablaFasePostulacionXOfertaLaboralXPostulante
+                        .One(x => x.FasePostulacionID == fpID &&
+                                    x.OfertaLaboralXPostulanteID == postulanteXOfertaID);
+                    if (aux == null) //Si dicho registro no existe
+                    {//Entonces lo agrego
+                        context.TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante
+                        {
+                            FasePostulacionID = fpID,
+                            OfertaLaboralXPostulanteID = postulanteXOfertaID,
+
+                        });
+                    }
+
                     if (postulanteOferta.OfertaLaboral.ModoSolicitudOfertaLaboral.Descripcion.Equals("Convocatoria Interna"))
                     {
                         if (postulanteOferta.Postulante.Colaborador.CorreoElectronico != null)
@@ -278,7 +308,21 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Aprobado Fase 3"));
                     postulanteOferta.FechaEvaluacionTerceraFase = fecha;
                     context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
-                    
+
+                    int fpID = context.TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado RRHH")).ID;
+                    var aux = context.TablaFasePostulacionXOfertaLaboralXPostulante
+                        .One(x => x.FasePostulacionID == fpID &&
+                                    x.OfertaLaboralXPostulanteID == postulanteXOfertaID);
+                    if (aux == null) //Si dicho registro no existe
+                    {//Entonces lo agrego
+                        context.TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante
+                        {
+                            FasePostulacionID = fpID,
+                            OfertaLaboralXPostulanteID = postulanteXOfertaID,
+
+                        });
+                    }
+
                     if (postulanteOferta.OfertaLaboral.ModoSolicitudOfertaLaboral.Descripcion.Equals("Convocatoria Interna"))
                     {
                         if (postulanteOferta.Postulante.Colaborador.CorreoElectronico != null)
@@ -440,8 +484,17 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Contratado"));
                     context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
 
+                    // asigno fecha fin al puesto
+                    var ultimoCruce = context.TablaColaboradoresXPuestos.One(x => x.FechaSalidaPuesto == null && x.ColaboradorID == postulanteOferta.Postulante.Colaborador.ID);
+                    if (ultimoCruce != null)
+                    {
+                        ultimoCruce.FechaSalidaPuesto = DateTime.Now.AddDays(-1);
+                        context.TablaColaboradoresXPuestos.ModifyElement(ultimoCruce);
+                    }
+
+
                     // se crea el nuevo puesto
-                    ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = postulanteOferta.Postulante.Colaborador.ID, PuestoID = oferta.PuestoID, Sueldo = oferta.SueldoTentativo };
+                    ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = postulanteOferta.Postulante.Colaborador.ID, PuestoID = oferta.PuestoID, Sueldo = oferta.SueldoTentativo, FechaIngresoPuesto = DateTime.Now};
 
                     context.TablaColaboradoresXPuestos.AddElement(cruce);
 
