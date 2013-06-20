@@ -179,8 +179,6 @@ namespace KendoDP2.Areas.Reportes.Models
                     competenciaEvaluada.notasParciales = new List<NotaXTipoEvaluadorDTO>();
                     //Agregar la nota parcial de la competencia
                     competenciaEvaluada.notasParciales.Add(notaParcial);
-                    //--
-                    competenciaEvaluada.notaFinal = 0;
                     //Agregar la competenciaEvaluada
                     listaCompetenciasEvaluadas.Add(competenciaEvaluada);
                 }
@@ -317,7 +315,6 @@ namespace KendoDP2.Areas.Reportes.Models
         public int competenciaId { get; set; }
         public string competenciaNombre { get; set; }
         public ICollection<NotaXTipoEvaluadorDTO> notasParciales { get; set; }
-        public int notaFinal { get; set; }
 
         public CompetenciasEvualuadasDTO() { }
     }
