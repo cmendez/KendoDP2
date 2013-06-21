@@ -498,16 +498,16 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 //int PuestoID = context.TablaColaboradoresXPuestos.One(cxp => cxp.Colaborador.ID == idJefe && !cxp.FechaSalidaPuesto.HasValue).ToDTO().PuestoID;
                 List<ColaboradorRDTO> ListaEquipo = new List<ColaboradorRDTO>();
 
-                List<PuestoDTO> Puestoshijos =context.TablaPuestos.Where(p => p.PuestoSuperiorID.HasValue && p.PuestoSuperiorID == PuestoID2).Select(p=>p.ToDTO()).ToList();
+                //List<PuestoDTO> Puestoshijos =context.TablaPuestos.Where(p => p.PuestoSuperior!=null && p.PuestoSuperiorID == PuestoID2).Select(p=>p.ToDTO()).ToList();
                 //return Json(ListaEquipo, JsonRequestBehavior.AllowGet);
-                //ListaEquipo = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.PuestoSuperiorID== PuestoID2 && !cxp.FechaSalidaPuesto.HasValue).Select(a => a.Colaborador.ToRDTO(context)).ToList();
+                ListaEquipo = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.PuestoSuperiorID.HasValue && cxp.Puesto.PuestoSuperiorID == PuestoID2 && !cxp.FechaSalidaPuesto.HasValue).Select(a => a.Colaborador.ToRDTO(context)).ToList();
 
-                foreach (PuestoDTO phijo in Puestoshijos)
-                {
-                    //ColaboradorRDTO colhijo;
-                    ///colhijo =
-                    ListaEquipo.AddRange(context.TablaColaboradores.Where(c => c.ToDTO().PuestoID == phijo.ID).Select(p => p.ToRDTO(context)));
-                }
+                //foreach (PuestoDTO phijo in Puestoshijos)
+                //{
+                //    //ColaboradorRDTO colhijo;
+                //    ///colhijo =
+                //    ListaEquipo.AddRange(context.TablaColaboradores.Where(c => c.ToDTO().PuestoID == phijo.ID).Select(p => p.ToRDTO(context)));
+                //}
 
                 return Json(ListaEquipo, JsonRequestBehavior.AllowGet);
             }
