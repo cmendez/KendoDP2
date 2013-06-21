@@ -76,7 +76,8 @@
                             {
                                 foreach (KendoDP2.Areas.Objetivos.Models.AvanceObjetivoDTO unPaso in unoDeSusObjetivos.LosProgresos)
                                 {
-                                            items.Add().Text("El " + unPaso.FechaCreacion + " se alcanzó el " + unPaso.Valor + "%. Comentario: " + unPaso.Comentario);
+                                    string comentario = unPaso.Comentario == null || unPaso.Comentario.Length == 0 ? "Sin comentarios." : "Comentario: '" + unPaso.Comentario + "'.";
+                                    items.Add().Text("El " + unPaso.FechaCreacion + " se alcanzó el " + unPaso.Valor + "%.  " + comentario + "  Presione este elemento para aprobarlo.").Url("javascript:escogeOpcion(" + unPaso.ID + ", " + unPaso.Valor + ");");
                                 }
                             });
                         }
