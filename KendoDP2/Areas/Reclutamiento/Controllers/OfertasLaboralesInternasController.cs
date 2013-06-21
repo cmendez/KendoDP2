@@ -485,7 +485,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
 
                     // asigno fecha fin al puesto
-                    var ultimoCruce = context.TablaColaboradoresXPuestos.One(x => x.FechaSalidaPuesto == null);
+                    var ultimoCruce = context.TablaColaboradoresXPuestos.One(x => x.FechaSalidaPuesto == null && x.ColaboradorID == postulanteOferta.Postulante.Colaborador.ID);
                     if (ultimoCruce != null)
                     {
                         ultimoCruce.FechaSalidaPuesto = DateTime.Now.AddDays(-1);

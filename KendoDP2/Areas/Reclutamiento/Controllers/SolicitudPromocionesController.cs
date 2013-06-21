@@ -122,7 +122,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     o.EstadoSolicitudOfertaLaboral = context.TablaEstadosSolicitudes.One(p=> p.Descripcion.Equals("Aprobado"));
                     DateTime ahora = DateTime.Now;
                     o.FechaAprobacion = ahora.ToString("dd/MM/yyyy");
-                    var ultimoCruce = context.TablaColaboradoresXPuestos.One(x => x.FechaSalidaPuesto == null);
+                    var ultimoCruce = context.TablaColaboradoresXPuestos.One(x => x.FechaSalidaPuesto == null && x.ColaboradorID == o.AscendidoID);
                     if (ultimoCruce != null)
                     {
                         ultimoCruce.FechaSalidaPuesto = DateTime.Now.AddDays(-1);
