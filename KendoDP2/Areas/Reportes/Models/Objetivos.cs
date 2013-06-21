@@ -53,9 +53,11 @@ namespace KendoDP2.Areas.Reportes.Models
 
             puestoID = o.PuestoAsignadoID.GetValueOrDefault();
 
-            if (o.Dueño != null)
+            if (puestoID > 0)
             {
-                dueño = o.Dueño.ToDTO();
+                ColaboradorXPuesto cruce = context.TablaColaboradoresXPuestos.One(x => x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today);
+                if(cruce != null)
+                    dueño = cruce.Colaborador.ToDTO();
             }
 
             BSCID = o.GetBSCIDRaiz(context);
