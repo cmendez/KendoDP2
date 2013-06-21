@@ -262,6 +262,7 @@ namespace KendoDP2.Models.Generic
             TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 16, ColaboradorID = 16, Sueldo = 7000, FechaIngresoPuesto = new DateTime(2013, 3, 1), FechaSalidaPuesto = null, Comentarios = "Continua haciendo una gran labor", IsEliminado = false });
             TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 17, ColaboradorID = 17, Sueldo = 7000, FechaIngresoPuesto = new DateTime(2013, 3, 1), FechaSalidaPuesto = null, Comentarios = "Continua haciendo una gran labor", IsEliminado = false });
             TablaColaboradoresXPuestos.AddElement(new ColaboradorXPuesto { PuestoID = 18, ColaboradorID = 18, Sueldo = 7000, FechaIngresoPuesto = new DateTime(2013, 3, 1), FechaSalidaPuesto = null, Comentarios = "Continua haciendo una gran labor", IsEliminado = false });
+            
         }
 
 

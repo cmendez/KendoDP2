@@ -142,14 +142,20 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 //}
                 foreach (ColaboradorDTO c in ListaColaboradores)
                 {
-                    PersonaXObjetivoDTO pxo = new PersonaXObjetivoDTO();
-                    pxo.nombreColaborador = c.NombreCompleto;
-                    ObjetivoConPadreDTO obj = ListaObjetivosHijos.Find(o => o.puestoID == c.PuestoID);
-                    pxo.avance = obj.AvanceFinal;
-                    pxo.idObjetivo = obj.ID;
-                    //pxo.objetivos = context.TablaObjetivos.Where(ob => ob.ID==ListaObjetivosHijos.Find(o => o.puestoID == c.PuestoID).ID).Select(objj=> objj.ToRDTO(context)).ToList();
-                    pxo.objetivos = context.TablaObjetivos.Where(ob => ob.ObjetivoPadreID != 0 && context.TablaObjetivos.FindByID(ob.ObjetivoPadreID).PuestoAsignadoID == c.PuestoID).Select(objj => objj.ToRDTO(context)).ToList();
-                    PersonasXObjetivo.Add(pxo);
+                    foreach (ObjetivoConPadreDTO objetivohijo in ListaObjetivosHijos)
+                    {
+                        if (c.PuestoID == objetivohijo.puestoID)
+                        {
+                            PersonaXObjetivoDTO pxo = new PersonaXObjetivoDTO();
+                            pxo.nombreColaborador = c.NombreCompleto;
+                            ObjetivoConPadreDTO obj = ListaObjetivosHijos.Find(o => o.puestoID == c.PuestoID);
+                            pxo.avance = obj.AvanceFinal;
+                            pxo.idObjetivo = obj.ID;
+                            //pxo.objetivos = context.TablaObjetivos.Where(ob => ob.ID==ListaObjetivosHijos.Find(o => o.puestoID == c.PuestoID).ID).Select(objj=> objj.ToRDTO(context)).ToList();
+                            pxo.objetivos = context.TablaObjetivos.Where(ob => ob.ObjetivoPadreID != 0 && context.TablaObjetivos.FindByID(ob.ObjetivoPadreID).PuestoAsignadoID == c.PuestoID).Select(objj => objj.ToRDTO(context)).ToList();
+                            PersonasXObjetivo.Add(pxo);
+                        }
+                    }
                 }
 
                 return Json(PersonasXObjetivo, JsonRequestBehavior.AllowGet);

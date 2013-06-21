@@ -88,9 +88,10 @@ namespace KendoDP2.Areas.Reportes.Models
             descripcion = o.Nombre;
 
             List<ColaboradorDTO> ListaCOlaboradores= context.TablaColaboradores.All().Select(col => col.ToDTO()).ToList();
+            numPersonas = 0;
             foreach (ColaboradorDTO col in ListaCOlaboradores)
             {
-                numPersonas = 0;
+                
                 foreach (ObjetivoDTO obj in col.Objetivos)
                 {
                     if (obj.ObjetivoPadreID!=0 &&obj.ObjetivoPadreID == o.ID) numPersonas += 1; 
