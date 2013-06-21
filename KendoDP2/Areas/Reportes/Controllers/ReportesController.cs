@@ -503,7 +503,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 foreach (PuestoDTO phijo in Puestoshijos)
                 {
                     //ColaboradorRDTO colhijo;
-                    //colhijo =
+                    ///colhijo =
                     ListaEquipo.Add(context.TablaColaboradores.One(c => c.ToDTO().PuestoID == phijo.ID).ToRDTO(context));
                 }
 
