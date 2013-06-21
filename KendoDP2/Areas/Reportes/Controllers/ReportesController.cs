@@ -493,12 +493,13 @@ namespace KendoDP2.Areas.Reportes.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
+
                 int PuestoID2 = context.TablaColaboradores.One(c => c.ID == idJefe).ToDTO().PuestoID;
                 //int PuestoID = context.TablaColaboradoresXPuestos.One(cxp => cxp.Colaborador.ID == idJefe && !cxp.FechaSalidaPuesto.HasValue).ToDTO().PuestoID;
                 List<ColaboradorRDTO> ListaEquipo = new List<ColaboradorRDTO>();
 
                 List<PuestoDTO> Puestoshijos =context.TablaPuestos.Where(p => p.PuestoSuperiorID.HasValue && p.PuestoSuperiorID == PuestoID2).Select(p=>p.ToDTO()).ToList();
-                return Json(ListaEquipo, JsonRequestBehavior.AllowGet);
+                //return Json(ListaEquipo, JsonRequestBehavior.AllowGet);
                 //ListaEquipo = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.PuestoSuperiorID== PuestoID2 && !cxp.FechaSalidaPuesto.HasValue).Select(a => a.Colaborador.ToRDTO(context)).ToList();
 
                 foreach (PuestoDTO phijo in Puestoshijos)
