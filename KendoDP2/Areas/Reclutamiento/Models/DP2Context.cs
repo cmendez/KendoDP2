@@ -215,9 +215,9 @@ namespace KendoDP2.Models.Generic
         
         private void SeedFasePostulacion()
         {
-            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Registrado" }); // Fase 1
-            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado Externo" }); // Fase 2
-            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado RRHH" }); // Fase 3
+            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Registrado" }); // Aprobado para Fase 1 == Aprobado Fase 1
+            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado Externo" }); // Aprobado para Fase 2 == Aprobado Fase 2
+            TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado RRHH" }); // Aprobado para Fase 3 == Aprobado Fase 3
             TablaFasePostulacion.AddElement(new FasePostulacion { Descripcion = "Aprobado Jefe" });
         }
 
