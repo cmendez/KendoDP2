@@ -103,7 +103,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                     // se crea el nuevo puesto
 
                     Puesto p = context.TablaPuestos.FindByID(colaborador.PuestoID);
-                    ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo };
+                    ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo , FechaIngresoPuesto = DateTime.Now};
 
                     context.TablaColaboradoresXPuestos.AddElement(cruce);
                 }
