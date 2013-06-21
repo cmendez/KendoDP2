@@ -132,7 +132,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
 
                 foreach (ObjetivoConPadreDTO objhijo in ListaObjetivosHijos)
                 {
-                    ListaColaboradores.AddRange(context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == objhijo.puestoID && (cxp.FechaSalidaPuesto==null ||DateTime.Today<=cxp.FechaSalidaPuesto)).Select(p => p.ToDTO().Colaborador));
+                    ListaColaboradores.AddRange(context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == objhijo.puestoID && (!cxp.FechaSalidaPuesto.HasValue )).Select(p => p.ToDTO().Colaborador));
                 }
                 //List<ColaboradorXPuestoDTO> ListaColaboradoresXPuesto = context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == ListaObjetivosHijos[0].puestoID).Select(p => p.ToDTO()).ToList();
                 
@@ -493,7 +493,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                int PuestoID = context.TablaColaboradoresXPuestos.One(cxp => cxp.Colaborador.ID == idJefe && cxp.FechaSalidaPuesto == null).ToDTO().PuestoID;
+                int PuestoID = context.TablaColaboradoresXPuestos.One(cxp => cxp.Colaborador.ID == idJefe && !cxp.FechaSalidaPuesto.HasValue).ToDTO().PuestoID;
                 List<ColaboradorRDTO> ListaEquipo = new List<ColaboradorRDTO>();
                 ListaEquipo = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.PuestoSuperiorID== PuestoID && cxp.FechaSalidaPuesto == null).Select(a => a.Colaborador.ToRDTO(context)).ToList();
 
