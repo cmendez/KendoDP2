@@ -98,14 +98,14 @@
     function escogeOpcion(e) {
         console.log($(e));
         console.log($(e.item));
-        $("#CambioValor").data("kendoWindow").open();
+        $("#CambioValor").data("kendoWindow").center().open();
     }
 
     function escogeOpcion(progresoID, avance) {
         elPasoIDSeleccionado = progresoID;
         console.log("elPasoIDSeleccionado = " + elPasoIDSeleccionado);
         $('#percentage').data('kendoNumericTextBox').value(avance / 100);
-        $("#CambioValor").data("kendoWindow").open();
+        $("#CambioValor").data("kendoWindow").center().open();
     }
 
     $(document).ready(function () {
