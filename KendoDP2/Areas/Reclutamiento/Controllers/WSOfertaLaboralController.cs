@@ -86,8 +86,10 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 {
                     OfertaLaboral ol = context.TablaOfertaLaborales.FindByID(Convert.ToInt32(idOfertaLaboral));
                     if (ol == null) return JsonErrorGet("No existe la Oferta Laboral con ID = " + idOfertaLaboral);
+                    if (ol.Puesto == null) return JsonErrorGet("ERROR LOGICO -> La oferta laboral no tiene puesto asignado");
+                    if (ol.Puesto.Funciones == null || ol.Puesto.Funciones.Count() == 0) return JsonErrorGet("ERROR LOGICO -> El puesto de la oferta laboral no tiene funciones asignadas");
 
-                    List<FuncionDTO> funciones = ol.Puesto.Funciones.Select(x => x.ToDTO()).ToList();
+                    List<FuncionDTOWS> funciones = ol.Puesto.Funciones.Select(x => x.ToDTOWS()).ToList();
                     return JsonSuccessGet(new { funciones = funciones});
                 }
                 catch (Exception ex)

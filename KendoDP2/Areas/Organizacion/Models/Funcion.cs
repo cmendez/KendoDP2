@@ -34,6 +34,10 @@ namespace KendoDP2.Areas.Organizacion.Models
         {
             return new FuncionDTO(this);
         }
+        public FuncionDTOWS ToDTOWS()
+        {
+            return new FuncionDTOWS(this);
+        }
     }
 
     public class FuncionDTO
@@ -57,6 +61,24 @@ namespace KendoDP2.Areas.Organizacion.Models
             Nombre = f.Nombre;
             Peso = f.Peso;
             PuestoID = f.PuestoID;
+        }
+    }
+
+    public class FuncionDTOWS
+    {
+        public int ID { get; set; }
+        public string Nombre { get; set; }
+        public int PuestoID { get; set; }
+        public string Puesto { get; set; }
+
+        public FuncionDTOWS() { }
+        public FuncionDTOWS(Funcion f)
+        {
+            ID = f.ID;
+
+            Nombre = f.Nombre;
+            PuestoID = f.PuestoID;
+            Puesto = (f.PuestoID != 0 && f.Puesto != null) ? f.Puesto.Nombre : String.Empty;
         }
     }
 }
