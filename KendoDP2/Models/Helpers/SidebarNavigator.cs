@@ -27,18 +27,20 @@ namespace KendoDP2.Models.Helpers
                 new SidebarSuboption("Competencias", "Competencias", "Index", "icon-plus-sign"),
                 new SidebarSuboption("Capacidades", "Capacidades", "Index", "icon-check"),
 				//new SidebarSuboption("Evaluaciones", "Registrar Evaluaciones", "Index", "icon-check"),
-                new SidebarSuboption("Procesos de evaluación", "ProcesoEvaluacion", "Index", "icon-road"),
                 new SidebarSuboption("Evaluación de puestos de trabajo", "PuestosEvaluacion", "Index", "icon-ok-sign"),
+                new SidebarSuboption("Procesos de evaluación", "ProcesoEvaluacion", "Index", "icon-road"),
+                new SidebarSuboption("Mis evaluaciones", "ListarProcesosXEvaluado", "Index", "icon-ok-sign"),
             	new SidebarSuboption("Mis pendientes", "ListarProcesosXEvaluador", "Index", "icon-ok-sign"),
-            	new SidebarSuboption("Mis subordinados", "Subordinados", "Index", "icon-group"),
+            	new SidebarSuboption("Mis colaboradores", "Subordinados", "Index", "icon-group"),
+
             })));				
             
 
             // Objetivos
             Opciones.Add(new SidebarOption("Objetivos", "Objetivos", "icon-bookmark", new List<SidebarSuboption>(new SidebarSuboption[]{
                new SidebarSuboption("Objetivos de la empresa", "Objetivosempresa", "Index", "icon-ok"),
-               new SidebarSuboption("Monitoreo en mi Equipo de trabajo", "Acordion", "Index", "icon-ok"),
-               new SidebarSuboption("Mis Objetivos", "Misobjetivos", "Index", "icon-ok"),
+               new SidebarSuboption("Monitoreo en mi equipo de trabajo", "Acordion", "Index", "icon-ok"),
+               new SidebarSuboption("Mis objetivos", "Misobjetivos", "Index", "icon-ok"),
                new SidebarSuboption("Objetivos de subordinados", "Objetivossubordinados", "Index", "icon-ok")
             })));
 
@@ -49,9 +51,9 @@ namespace KendoDP2.Models.Helpers
 
             // Segiuridad
             Opciones.Add(new SidebarOption("Seguridad", "Seguridad", "icon-lock", new List<SidebarSuboption>(new SidebarSuboption[]{
-                new SidebarSuboption("Roles", "Roles", "Index", "icon-user-md"),
-                new SidebarSuboption("Usuarios", "Usuarios", "Index", "icon-user"),
-
+                new SidebarSuboption("Permisos a Roles", "Roles", "Index", "icon-user-md"),
+                new SidebarSuboption("Permisos a Usuarios", "Usuarios", "Index", "icon-user"),
+                new SidebarSuboption("Crear Usuario", "AsignacionUsuario", "Index", "icon-user")
             })));
 
             // Organizacion
@@ -68,6 +70,7 @@ namespace KendoDP2.Models.Helpers
 
             Opciones.Add(new SidebarOption("Reclutamiento", "Reclutamiento", "icon-group", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption("Ofertas Laborales","SolicitudOfertasLaborales","Index","icon-tag"),
+                new SidebarSuboption("Solicitud de Promoción", "SolicitudPromociones","Index","icon-meh"),
                 new SidebarSuboption("Administrar Ofertas Laborales Internas", "OfertasLaboralesInternas","Index","icon-book"),
                 new SidebarSuboption("Administrar Ofertas Laborales Externas", "OfertasLaboralesExternas","Index","icon-book")
             })));

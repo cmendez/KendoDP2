@@ -27,7 +27,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
                 //foreach (PuestoXEvaluadores puestoXEvaluador in puestoXEvaluadores) {
                 //    puestoXEvaluador.Cantidad = 1;
-                
+
                 //}
                 ViewBag.elEvaluado = colaborador.ToDTO();
 
@@ -50,8 +50,9 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
-        public ActionResult SeleccionarEvaluadores(int procesoEvaluacionID, int colaboradorID) {
-                                                          
+        public ActionResult SeleccionarEvaluadores(int procesoEvaluacionID, int colaboradorID)
+        {
+
             using (DP2Context context = new DP2Context())
             {
 
@@ -87,12 +88,11 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 List<ColaboradorDTO> elMismo = new List<ColaboradorDTO>();
                 elMismo.Add(colaborador.ToDTO());
                 ViewBag.elMismo = elMismo;
-                ViewBag.susSubordinados = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
+                //ViewBag.susSubordinados = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
+                //ViewBag.susSubordinados = consigueSubordinados(colaboradorID, context);
+                ViewBag.susSubordinados = consigueSubordinados(colaboradorID, context).Select(e => e.ToDTO()).ToList();
                 ViewBag.susPares = consigueSusPares(colaboradorID, context).Select(p => p.ToDTO()).ToList();
                 ViewBag.otros = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
-
-
-                
                 //ViewBag.susSubordinados = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
                 return View();
             }
@@ -104,17 +104,12 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             {
                 System.Collections.Specialized.NameObjectCollectionBase.KeysCollection llaves = form.Keys;
                 int controles = form.Keys.Count;
-                //string nombreControl = "ComboPares12";
-                //Regex patron = new Regex(@"Combo(<claseEntorno>)");
-                //Match coincidencias = patron.Match(nombreControl);
-                //string claseEntorno = coincidencias.Groups["claseEntorno"].Value;
-
+       
                 ProcesoXEvaluado evaluadores = new ProcesoXEvaluado();
                 ProcesoEvaluacion proceso = context.TablaProcesoEvaluaciones.FindByID(idDelProceso);
 
                 evaluadores.procesoID = idDelProceso;
                 evaluadores.evaluadoID = evaluadoId;
-                //evaluadores.evaluadores = new List<Colaborador>();
                 evaluadores.evaluadores = new List<Evaluador>();
 
                 CorreoController correoController = new CorreoController();
@@ -126,14 +121,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     string nro = palabras[1];
 
                     int evaluadorId = Int32.Parse(form[nombreControl].CompareTo("") == 0 ? "2" : form[nombreControl]);
-
-                    //evaluadores.evaluadores.Add(new Colaborador { ID = evaluadorId });
-                    //evaluadores.evaluadores.Add(context.TablaColaboradores.FindByID(evaluadorId));
-
-                    //evaluadores.evaluadores.Add(context.TablaColaboradores.FindByID(evaluadorId));
-
                     Colaborador elParticipante = context.TablaColaboradores.FindByID(evaluadorId);
-                    //Evaluador comoEvaluador = Evaluador.enrolarlo(elParticipante, idDelProceso);
                     Evaluador comoEvaluador = new Evaluador(evaluadoId, elParticipante, idDelProceso);
 
                     //Enviar email: katy agregó esto
@@ -144,59 +132,61 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     //Fin: Enviar email
 
                     evaluadores.evaluadores.Add(context.TablaEvaluadores.FindByID(evaluadorId));
-
                     context.TablaEvaluadores.AddElement(comoEvaluador);
                     CrearEvaluaciones(comoEvaluador, context);
                 }
 
-                //string nombreControl = "Pares_12_Combo";
-                //string[] palabras = nombreControl.Split('_');
-                //string claseEntorno = palabras[0];
-                //string nro = palabras[1];
-                //string nombreDeUnPar = form["ComboPares0_input"];
-
                 context.TablaProcesoXEvaluado.AddElement(evaluadores);
                 ProcesoXEvaluado enBaseDeDatos = context.TablaProcesoXEvaluado.FindByID(evaluadores.ID);
                 context.Entry(enBaseDeDatos).Collection(u => u.evaluadores).Load();
-                //ColaboradorXEvaluadores enBaseDeDatos = new DP2Context().InternalColaboradorXProcesoEvaluaciones.Include().TablaColaboradorXEvaluadores.FindByID(evaluadores.ID);
 
                 //Actualizar proceso 
-                EstadoProcesoEvaluacion enProceso  = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso));
+                EstadoProcesoEvaluacion enProceso = context.TablaEstadoProcesoEvaluacion.One(x => x.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.EnProceso));
                 proceso.EstadoProcesoEvaluacion = enProceso;
                 context.TablaProcesoEvaluaciones.ModifyElement(proceso);
-
                 ViewBag.Area = "";
                 return View();
 
             }
         }
 
-        public void CrearEvaluaciones(Evaluador evaluador, DP2Context context) {
+        public bool SeleccionEvaluadoresCompleta(int procesoID, DP2Context context) {
+            bool actualizarProceso = false;
+            int totalEvaluados = context.TablaColaboradorXProcesoEvaluaciones.Where(x=>x.ProcesoEvaluacionID == procesoID).Count();
+            int totalEvaluadosConfigurados = context.TablaEvaluadores.Where(x=>x.ProcesoEnElQueParticipanID==procesoID).GroupBy(y=>y.ElEvaluado).Count();
+            if (totalEvaluados>0 && totalEvaluadosConfigurados >0  && totalEvaluados == totalEvaluadosConfigurados)
+                actualizarProceso = true;
+            return actualizarProceso;
+        }
+
+        public void CrearEvaluaciones(Evaluador evaluador, DP2Context context)
+        {
 
             //Guardar la evaluación
             Examen examen = new Examen();
             examen.EvaluadorID = evaluador.ID;
 
-            int idcolEvaluado = context.TablaEvaluadores.FindByID(examen.EvaluadorID).ElEvaluado;
             examen.EstadoExamenID = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Pendiente)).ID;
             context.TablaExamenes.AddElement(examen);
 
             //Obtener capacidades y guardarlas para cada pregunta
-            int colaboradorID = idcolEvaluado;// evaluador.ElEvaluado;
-            ColaboradorDTO evaluado = context.TablaColaboradores.FindByID(colaboradorID, false).ToDTO();
-               
+            int idColaboradorEvaluado = evaluador.ElEvaluado;
+            ColaboradorDTO evaluado = context.TablaColaboradores.FindByID(idColaboradorEvaluado).ToDTO();
+
             // Obtener capacidades  
-            IList<CompetenciaXPuesto> cxp = context.TablaCompetenciaXPuesto.Where(x=> x.PuestoID == evaluado.PuestoID);
+            IList<CompetenciaXPuesto> cxp = context.TablaCompetenciaXPuesto.Where(x => x.PuestoID == evaluado.PuestoID);
             IList<Capacidad> listaCapacidades = new List<Capacidad>();
-            foreach (CompetenciaXPuesto c in cxp) {
+            foreach (CompetenciaXPuesto c in cxp)
+            {
                 int nivelID = c.NivelID;
                 //Guardar competencias por examen
                 CompetenciaXExamen cxe = new CompetenciaXExamen(c, examen);
-                context.TablaCompentenciaXExamen.AddElement(cxe);
-                
+                context.TablaCompetenciaXExamen.AddElement(cxe);
+
                 // Listar capacidades y guardarlas
-                listaCapacidades = context.TablaCapacidades.Where( x=> x.CompetenciaID == c.CompetenciaID && x.NivelCapacidadID == c.NivelID);
-                foreach(Capacidad capacidad in listaCapacidades) {
+                listaCapacidades = context.TablaCapacidades.Where(x => x.CompetenciaID == c.CompetenciaID && x.NivelCapacidadID == c.NivelID);
+                foreach (Capacidad capacidad in listaCapacidades)
+                {
                     Pregunta p = new Pregunta();
                     p.ExamenID = examen.ID;
                     p.CapacidadID = capacidad.ID;
@@ -206,30 +196,31 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     p.competenciaID = cxe.CompetenciaID;
                     context.TablaPreguntas.AddElement(p);
                 }
-            }   
+            }
         }
 
         private bool losEvaluadoresDeEsteColaboradorYaFueronElegidos(int procesoEvaluacionID, int colaboradorID, DP2Context context)
         {
             try
             {
-                    if (context.TablaEvaluadores.Where(e => e.ElEvaluado == colaboradorID && e.ProcesoEnElQueParticipanID == procesoEvaluacionID).Count == 0)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
+                if (context.TablaEvaluadores.Where(e => e.ElEvaluado == colaboradorID && e.ProcesoEnElQueParticipanID == procesoEvaluacionID).Count == 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
             }
-            catch (NullReferenceException aunSinEvaluadores)
+            catch (NullReferenceException )
             {
                 return false;
             }
 
         }
 
-        private Colaborador consigueAlEmpleado(int idEvaluado, DP2Context context) {
+        private Colaborador consigueAlEmpleado(int idEvaluado, DP2Context context)
+        {
             return context.TablaColaboradores.FindByID(idEvaluado);
         }
 
@@ -253,18 +244,63 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
         private Colaborador consigueSuJefe(int idEvaluado, DP2Context context)
         {
-            Colaborador colaborador = context.TablaColaboradores.FindByID(22);
-            return colaborador;
+            return GestorServiciosPrivados.consigueElJefe(idEvaluado, context);
         }
 
         private List<Colaborador> consigueSusPares(int idEvaluado, DP2Context context)
         {
-            Colaborador colaborador = context.TablaColaboradores.FindByID(idEvaluado);
-            List<Colaborador> colaboradores = new List<Colaborador>();
-            colaboradores.Add(colaborador);
-            colaboradores.Add(colaborador);
-            colaboradores.Add(colaborador);
-            return colaboradores;
+
+            return GestorServiciosPrivados.consigueSusCompañerosPares(idEvaluado, context);
+        }
+
+        private List<Colaborador> consigueSubordinados(int deEsteJefe, DP2Context contexto)
+        {
+            return GestorServiciosPrivados.consigueSusSubordinados(deEsteJefe, contexto);
+
         }
     }
 }
+
+
+
+
+
+
+//private List<Colaborador> retornaSubordinados(int deEsteJefe)
+
+
+//private Colaborador consigueSuJefe(int idEvaluado, DP2Context context)
+//{
+//    //Colaborador colaborador = context.TablaColaboradores.FindByID(22);
+//    //return colaborador;
+//    return GestorServiciosPrivados.consigueElJefe(idEvaluado, context);
+//}
+
+
+
+
+//private List<Colaborador> consigueSusPares(int idEvaluado, DP2Context context)
+//{
+//    Colaborador colaborador = context.TablaColaboradores.FindByID(idEvaluado);
+//    List<Colaborador> colaboradores = new List<Colaborador>();
+//    colaboradores.Add(colaborador);
+//    colaboradores.Add(colaborador);
+//    colaboradores.Add(colaborador);
+//    return colaboradores;
+//}
+
+
+
+
+
+//private List<Colaborador> consigueSusPares(int idEvaluado, DP2Context context)
+//{
+//    //Colaborador colaborador = context.TablaColaboradores.FindByID(idEvaluado);
+//    //List<Colaborador> colaboradores = new List<Colaborador>();
+//    //colaboradores.Add(colaborador);
+//    //colaboradores.Add(colaborador);
+//    //colaboradores.Add(colaborador);
+//    //return colaboradores;
+
+//    return GestorServiciosPrivados.consigueSusCompañerosPares(idEvaluado, context);
+//}

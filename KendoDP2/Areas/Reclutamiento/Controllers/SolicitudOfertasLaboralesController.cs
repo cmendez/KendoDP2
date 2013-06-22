@@ -120,7 +120,6 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 ViewBag.puesto = oferta.Puesto.ToDTO();
                 ViewBag.funciones = oferta.Puesto.Funciones.Select(c => c.ToDTO()).ToList();
                 ViewBag.capacidades = oferta.Puesto.GetCapacidadesAsociadas(context).Select(c => c.ToDTO()).ToList();
-                //ViewBag.funciones = oferta.Puesto. 
                return PartialView("ViewSolicitudOfertaLaboral", oferta.ToDTO());
             }
         }
@@ -177,8 +176,23 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
            return (!(oferta.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Pendiente")));
        }
 
+
+       public JsonResult _GetColaboradores(int areaID)
+       {
+           using (DP2Context context = new DP2Context())
+           {
+               List<ColaboradorDTO> p = new List<ColaboradorDTO>();
+               try
+               {
+                   p = context.TablaColaboradores.All().Select(m => m.ToDTO()).Where(n => n.AreaID == areaID).ToList();
+               }
+               catch (Exception) { }
+               return Json(p, JsonRequestBehavior.AllowGet);
+           }
+       }
+    
     }
 
-
+     
 
 }

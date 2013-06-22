@@ -48,28 +48,27 @@
                         columns.Bound(p => p.Postulante.CorreoElectronico);
                         columns.Bound(p => p.EstadoPostulantePorOfertaNombre);
                         columns.Bound(p => p.PuntajeTotal);
-                        columns.Template(@<text></text>).Title("Contratar").ClientTemplate(
-                        "<a class='k-button' href='" + Url.Action("Contratar", "OfertasLaboralesExternas") + "?postulanteXOfertaLaboralID=#=ID#&ofertaID="+ ofertaID + "'>Contratar</a>");
-
+                       
                         columns.Command(command =>
                         {
+                            command.Custom("Contratar").Click("Contratar");
                             command.Custom("Ver").Click("verPostulante").SendDataKeys(true);
                             command.Custom("Rechazar").Click("rechazarPase");
                         }).Width(300);
 
 
 
-                    }
-                                        )
-                                            .Editable(editable => editable
-                                            .Mode(GridEditMode.PopUp)
-                                            .Window(w => { w.Title("Ver Postulante"); w.Width(900); })
+                        }
+                        )
+                             .Editable(editable => editable
+                             .Mode(GridEditMode.PopUp)
+                             .Window(w => { w.Title("Ver Postulante"); w.Width(900); })
 
-                                        )
-                                        .Groupable()
-                                        .Pageable(paper => paper.Refresh(true))
-                                        .Filterable()
-                                        .Sortable()
+                            )
+                             .Groupable()
+                             .Pageable(paper => paper.Refresh(true))
+                             .Filterable()
+                             .Sortable()
                                         .Scrollable(p => p.Height(330))
                                         .DataSource(dataSource => dataSource
                                             .Ajax()
@@ -101,7 +100,7 @@
 
 )
 
-
+<a href="#" class="hidden" id="hiddena"></a>
 <script>
 
     function recargaGrid(){
@@ -117,10 +116,14 @@
             type: 'POST',
             data: {
                 ofertaID: @ofertaID,
-                postulanteXOfertaID: postulanteXOfertaID
+                postulanteXOfertaLaboralID: postulanteXOfertaID
             },
             success: function(response){
-                showError(response, "Cambiar el puesto del colaborador");
+                handleError(response, "Se creó un nuevo colaborador.");
+                if(response.Errors === null){
+                    $("#hiddena").attr("href", "@Url.Action("Index", "Colaboradores", new { Area = "Organizacion" })");
+                    $("a#hiddena")[0].click();
+                }
                 recargaGrid();
             }
         });

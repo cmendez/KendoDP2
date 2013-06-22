@@ -5,6 +5,7 @@
 @{
     ViewBag.Title = "Organigrama de la empresa";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int idFocus = ViewBag.idFocus;
 }
 
 <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/primitive/css/jquery-ui-1.10.3.custom.css")" />
@@ -13,7 +14,7 @@
 <link href="@Url.Content("~/Content/primitive/css/primitives.latest.css")" media="screen" rel="stylesheet" type="text/css" />
 
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Organigrama", "Navega en el organigrama de la empresa"));}
-
+@Html.Hidden("idFocus", idFocus)
 <div class="portlet box green">
     <div class="portlet-title">
         <div class="caption"><i class="icon-reorder"></i>Organigrama</div>
@@ -26,22 +27,24 @@
             <div style="text-align: center; vertical-align: middle">
                 <img id="loadingImage" src="http://grifocalpointblog.org/wp-content/themes/blogga/images/ajax-loader.gif" />
             </div>
-            <div class="basicdiagram" style="width: auto; height: 480px;" />
+            <div class="basicdiagram" style="width: auto; height: 630px;" />
         </div>
     </div>
 </div>
 
 <script type='text/javascript'>
-
+    var options = new primitives.orgdiagram.Config();
     function armarArbol(raiz) {
-        var options = new primitives.orgdiagram.Config();
+        
 
         var item = agregarNodo(raiz);
 
         options.onItemRender = onTemplateRender;
         options.templates = [getContactTemplate()];
         options.rootItem = item;
-        options.cursorItem = item;
+        options.itemTitleFirstFontColor = "white"
+        options.itemTitleSecondFontColor = "white"
+        //options.cursorItem = focus;
         options.hasSelectorCheckbox = primitives.common.Enabled.False;
 
         $(document).ajaxStop(function () {
@@ -58,7 +61,19 @@
         item.email = nodo.Correo;
         item.phone = nodo.Telefono
         item.image = nodo.ImagenURL;
+        item.itemTitleColor = nodo.Color;
+        item.groupTitleColor = nodo.Color;
         item.templateName = "contactTemplate";
+
+        if (nodo.IsAudit) {
+            if (nodo.IsAuditKid) {
+                item.itemType = primitives.orgdiagram.ItemType.Adviser;
+            } else {
+                item.itemType = primitives.orgdiagram.ItemType.Assistant;
+            }
+            
+            item.adviserPlacementType = primitives.orgdiagram.AdviserPlacementType.Right;
+        }
 
         if (nodo.HasChildren) {
             $.ajax({
@@ -75,6 +90,12 @@
                 }
             });
         }
+
+        if (nodo.Id == $("#idFocus").val())
+        {
+            options.cursorItem = item;
+        }
+
         return item;
     }
 

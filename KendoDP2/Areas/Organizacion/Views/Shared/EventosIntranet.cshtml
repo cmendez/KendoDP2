@@ -1,0 +1,72 @@
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Areas.Organizacion.Models
+@using KendoDP2.Areas.Eventos.Models
+@{
+    IList<AreaDTO> areas = ViewBag.areas;
+    IList<EstadoEventoDTO> estadosEventos = ViewBag.estadosEventos;
+    IList<PuestoDTO> puestos = ViewBag.puestos;
+    SelectList lista = new SelectList(areas, "ID", "Nombre");
+    SelectList listaEstados = new SelectList(estadosEventos, "ID", "Descripcion");
+    SelectList listaPuestos = new SelectList(puestos, "ID", "Nombre");
+    int colaboradorLogueado = ViewBag.colaboradorLogueado;
+}
+
+<!-- BEGIN PAGE CONTENT-->
+<div class="row-fluid">
+    <div class="portlet box green calendar">
+        <div class="portlet-title">
+            <div class="caption"><i class="icon-reorder"></i>Mis Eventos Personales</div>
+        </div>
+        <div class="portlet-body light-grey">
+            <div class="row-fluid">
+                <div class="span3 responsive span8" data-tablet="span12 fix-margin" data-desktop="span8">
+                    <!-- BEGIN DRAGGABLE EVENTS PORTLET-->
+                    <h3 class="event-form-title">Eventos</h3>
+                    <div id="detalleEvento2">
+                    </div>
+                    <!-- END DRAGGABLE EVENTS PORTLET-->
+                </div>
+                <div class="span9">
+                    <div id="calendar3" class="has-toolbar"></div>
+                </div>
+            </div>
+            <!-- END CALENDAR PORTLET-->
+        </div>
+    </div>
+</div>
+<!-- END CALENDAR PORTLET-->
+
+<!-- END PAGE CONTENT-->
+
+
+<style type="text/css">
+    #calendar3 {
+        width: 100%;
+        min-height: 600px;
+        margin: 0 auto;
+    }
+
+    .modo1,
+    .modo1 div,
+    .modo1 span {
+        background-color: green; /* background color */
+        border-color: green; /* border color */
+        color: white; /* text color */
+    }
+
+    .modo2,
+    .modo2 div,
+    .modo2 span {
+        background-color: purple;
+        border-color: purple;
+        color: white;
+    }
+
+    .modo3,
+    .modo3 div,
+    .modo3 span {
+        background-color: blue;
+        border-color: blue;
+        color: white;
+    }
+</style>

@@ -5,6 +5,7 @@ using System.Web;
 
 using KendoDP2.Models.Generic;
 using KendoDP2.Areas.Organizacion.Models;
+using KendoDP2.Areas.Evaluacion360.Models;
 
 namespace KendoDP2.Areas.Reclutamiento.Models
 {
@@ -17,8 +18,11 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public int EvaluacionXFaseXPostulacionID { get; set; }
         public virtual EvaluacionXFaseXPostulacion EvaluacionXFaseXPostulacion { get; set; }
 
-        public int FuncionID { get; set; }
+        public int? FuncionID { get; set; }
         public virtual Funcion Funcion { get; set; }
+
+        public int? CompetenciaID { get; set; }
+        public virtual Competencia Competencia { get; set; }
 
         public Respuesta() { }
 
@@ -33,7 +37,8 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             Comentario = r.Comentario;
             Puntaje = r.Puntaje;
             EvaluacionXFaseXPostulacionID = r.EvaluacionXFaseXPostulacionID;
-            FuncionID = r.FuncionID;
+            if (r.FuncionID != 0 && r.CompetenciaID == 0) FuncionID = r.FuncionID;
+            if (r.FuncionID == 0 && r.CompetenciaID != 0) CompetenciaID = r.CompetenciaID;
 
             return this;
         }
@@ -51,6 +56,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public int Puntaje { get; set; }
         public int EvaluacionXFaseXPostulacionID { get; set; }
         public int FuncionID { get; set; }
+        public int CompetenciaID { get; set; }
 
         public RespuestaDTO() { }
 
@@ -60,7 +66,8 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             Comentario = r.Comentario;
             Puntaje = r.Puntaje;
             EvaluacionXFaseXPostulacionID = r.EvaluacionXFaseXPostulacionID;
-            FuncionID = r.FuncionID;
+            if (r.FuncionID.HasValue) FuncionID = r.FuncionID.GetValueOrDefault();
+            if (r.CompetenciaID.HasValue) CompetenciaID = r.CompetenciaID.GetValueOrDefault();
         }
 
     }

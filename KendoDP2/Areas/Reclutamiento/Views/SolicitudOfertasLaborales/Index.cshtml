@@ -36,9 +36,10 @@
                         columns.ForeignKey(p => p.AreaID, lista);
                         columns.ForeignKey(p => p.PuestoID, listaPuestos);
                         columns.Command(command => {
-                                                     command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar");
+                                                     
                                                      command.Destroy().Text("Eliminar");
                                                      command.Custom("Aceptar").Click("aceptarSolicitud");
+                                                     command.Edit().CancelText("Cancelar").UpdateText("Guardar");
                                                    }).Width(300);                        
                     }
                 )
@@ -92,3 +93,9 @@
         });
     }
 </script>
+
+<style>
+    .k-grid-edit {
+        display: none;
+    }
+</style>

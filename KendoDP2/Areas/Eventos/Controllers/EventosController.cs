@@ -56,7 +56,7 @@ namespace KendoDP2.Areas.Eventos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                List<EventoDTO> eventos = context.TablaEvento.All().Where(p => (p.TipoEvento.Descripcion.Equals("Evento Empresa") || p.TipoEvento.Descripcion.Equals("Evento Fechas Especiales"))).Select(p => p.ToDTO()).OrderBy(x => x.ID).ToList();
+                List<EventoDTO> eventos = context.TablaEvento.All().Select(p => p.ToDTO()).OrderBy(x => x.ID).ToList();
                 return Json(eventos.ToDataSourceResult(request));
             }
         }
@@ -70,6 +70,19 @@ namespace KendoDP2.Areas.Eventos.Controllers
                 int creadorID = DP2MembershipProvider.GetPersonaID(this);
                 c.CreadorID = creadorID;
                 c.Creador = context.TablaColaboradores.FindByID(creadorID);
+                //probando
+                if (evento.TipoEventoID == 1)
+                {
+                    c.custom = "modo1";
+                }
+                if (evento.TipoEventoID == 3)
+                {
+                    c.custom = "modo2";
+                }
+                if (evento.TipoEventoID == 2)
+                {
+                    c.custom = "modo3";
+                }
                 context.TablaEvento.AddElement(c);
                 return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
 
@@ -83,6 +96,8 @@ namespace KendoDP2.Areas.Eventos.Controllers
             {
                 Evento p = context.TablaEvento.FindByID(evento.ID).LoadFromDTO(evento);
                 context.TablaEvento.ModifyElement(p);
+                foreach (var modelValue in ModelState.Values)
+                    modelValue.Errors.Clear();
                 return Json(new[] { p.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
         }
@@ -299,7 +314,9 @@ namespace KendoDP2.Areas.Eventos.Controllers
                                     title = e.Nombre,
                                     start = e.Inicio.ToString("s"),
                                     end = e.Fin.ToString("s"),
-                                    allDay = false
+                                    allDay = false,
+                                    className = e.custom              
+                                
                                 };
 
                 var rows = eventList.ToArray();
@@ -308,6 +325,32 @@ namespace KendoDP2.Areas.Eventos.Controllers
             }
 
             
+        }
+
+        public ActionResult ShowDetalleEvento(int eventoID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                EventoDTO eventoDTO = context.TablaEvento.FindByID(eventoID).ToDTO();
+                ViewBag.invitados = eventoDTO.Invitados.ToList();
+
+                return PartialView("DetalleEvento", eventoDTO);
+            }
+        }
+
+        public string RetornaMensajeInvitados(string nombre, string nombreEvento, string lugar, string fechaI, string fechaF, string creador)
+        {
+            string mensaje = "Estimado(a) " + nombre + ":\n\n" +
+                              "Queda usted invitado al siguiente evento:\n" +
+                              "Evento: " + nombreEvento + "\n" +
+                              "Lugar: " + lugar + "\n" +
+                              "Fecha Inicio: " + fechaI + "\n" +
+                              "Fecha Fin: " + fechaF + "\n\n" +
+                              "En caso surja algún inconveniente con la fecha y su disponibilidad, por favor comunicarse con el responsable del evento \n\n" +
+                              "Saludos Cordiales\n"+
+                              ""+ creador+"\n";
+  
+            return mensaje;
         }
     }
 }

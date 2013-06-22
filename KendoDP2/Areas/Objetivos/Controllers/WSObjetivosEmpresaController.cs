@@ -14,7 +14,9 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                return Json(context.TablaObjetivos.Where(o => o.TipoObjetivoBSCID == tipoObjetivoBSCID && o.BSCID == BSCID).Select(o => o.ToDTO(context)), JsonRequestBehavior.AllowGet);
+                var objetivos = context.TablaObjetivos.Where(o => o.TipoObjetivoBSCID == tipoObjetivoBSCID && o.BSCID == BSCID);
+                var res = objetivos.Select(c => c.ToDTO(context)).ToList();
+                return Json(res, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -22,7 +24,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                return Json(context.TablaObjetivos.Where(o => o.TipoObjetivoBSCID != null && o.BSCID == BSCID).Select(o => o.ToDTO(context)), JsonRequestBehavior.AllowGet);
+                return Json(context.TablaObjetivos.Where(o => o.TipoObjetivoBSCID != null && o.BSCID == BSCID).Select(o => o.ToDTO(context)).ToList(), JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -63,7 +65,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                context.TablaObjetivos.RemoveElementByID(objetivoID);
+                context.TablaObjetivos.RemoveElementByID(objetivoID, true);
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
         }

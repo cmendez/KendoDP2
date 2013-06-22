@@ -14,7 +14,7 @@
 
 <div class="portlet box green">
     <div class="portlet-title">
-        <div class="caption"><i class="icon-reorder"></i>Procesos de evaluación</div>
+        <div class="caption"><i class="icon-reorder"></i>Procesos de evaluación; @Model.Nombre</div>
         <div class="tools">
             <a href="javascript:;" class="collapse"></a>
         </div>
@@ -67,8 +67,9 @@
                         columns.ForeignKey((p => p.ColaboradorDTO.AreaID), lista);
                         //columns.Bound(p => p.ColaboradorDTO.Area);
                         columns.Bound(p => p.ColaboradorDTO.Puesto);
-                        columns.ForeignKey(p => p.EstadoColaboradorXProcesoEvaluacionID, new SelectList(estados, "ID", "Nombre"));      
-                        columns.Template(@<text></text>).Title("Evaluadores").ClientTemplate("<a class='k-button' href='" + Url.Action("SeleccionarEvaluadores", "Evaluadores") + "?procesoEvaluacionID="+procesoEvaluacionID+"&colaboradorID=#=ColaboradorDTO.ID#'>Elegir</a>");
+                        columns.ForeignKey(p => p.EstadoColaboradorXProcesoEvaluacionID, new SelectList(estados, "ID", "Nombre"));    
+                        if (!ViewBag.esAdmin)  
+                            columns.Template(@<text></text>).Title("Evaluadores").ClientTemplate("<a class='k-button' href='" + Url.Action("SeleccionarEvaluadores", "Evaluadores") + "?procesoEvaluacionID="+procesoEvaluacionID+"&colaboradorID=#=ColaboradorDTO.ID#'>Elegir</a>");
                         if (ViewBag.esAdmin) 
                             columns.Command(command =>
                             {
@@ -78,9 +79,11 @@
                 )
                 .ToolBar(toolbar => 
                     {
-                        toolbar.Custom().Text("Iniciar proceso").Action("IniciarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" });
-                        toolbar.Custom().Text("Cerrar Proceso").Action("CerrarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" });
-                        //toolbar.Template(@<text><a class='k-button'  id='btnIniciar' href='javascript:IniciarProcesoEvaluacionJS()'>Iniciar Proceso Evaluación </a><a class='k-button' id='btnCerrar' href='javascript:CerrarProcesoEvaluacionJS()'>Cerrar Proceso Evaluación </a></text>);
+                        if (ViewBag.esAdmin)
+                        {
+                            toolbar.Custom().Text("Iniciar proceso").Action("IniciarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" }); // cambia estado a "INICIADO"
+                            toolbar.Custom().Text("Cerrar Proceso").Action("CerrarProcesoEvaluacion", "ProcesoEvaluacion", new { Area = "Evaluacion360" });// cambia estado a "TERMINADO"
+                        }//toolbar.Template(@<text><a class='k-button'  id='btnIniciar' href='javascript:IniciarProcesoEvaluacionJS()'>Iniciar Proceso Evaluación </a><a class='k-button' id='btnCerrar' href='javascript:CerrarProcesoEvaluacionJS()'>Cerrar Proceso Evaluación </a></text>);
                     }
                         )
                         .Editable(
@@ -225,8 +228,12 @@
                     cargaTilesColaboradores();
                     $("#ColaboradoresDeProcesoEvaluacionGrid").data('kendoGrid').dataSource.read();
                 }
-                else
+                else{
+                    if (data.noTienePuesto){
+                        alert("El colaborador seleccionado no tiene un puesto asociado.");
+                    } else 
                     alert("El colaborador seleccionado ya se encuentra en la lista de evaluados");
+                }
             },
             error: function(){        
                 alert("Hubo un error en la operación");

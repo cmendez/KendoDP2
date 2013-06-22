@@ -14,6 +14,7 @@ namespace KendoDP2.Areas.Eventos.Controllers
     public class WSEventoController : WSController
     {
 
+        // /WSEvento/getEventos?colaboradorID=&fechaDesde=&fechaHasta=
         public JsonResult getEventos(string colaboradorID, string fechaDesde, string fechaHasta)
         {
             using (DP2Context context = new DP2Context())
@@ -21,7 +22,7 @@ namespace KendoDP2.Areas.Eventos.Controllers
                 try
                 {
                     Colaborador c = context.TablaColaboradores.FindByID(Convert.ToInt32(colaboradorID));
-                    if (c == null) throw new Exception("No existe el Colaborador con ID = " + colaboradorID);
+                    if (c == null) return JsonErrorGet("No existe el Colaborador con ID = " + colaboradorID);
 
                     DateTime inicio, fin;
                     try
@@ -30,7 +31,7 @@ namespace KendoDP2.Areas.Eventos.Controllers
                     }
                     catch (Exception)
                     {
-                        throw new Exception("Formato de la fecha de inicio incorrecto");
+                        return JsonErrorGet("Formato de la fecha de inicio incorrecto");
                     }
 
                     try
@@ -39,10 +40,10 @@ namespace KendoDP2.Areas.Eventos.Controllers
                     }
                     catch (Exception)
                     {
-                        throw new Exception("Formato de la fecha de fin incorrecto");                        
+                        return JsonErrorGet("Formato de la fecha de fin incorrecto");                        
                     }
 
-                    if (DateTime.Compare(inicio, fin) >= 0) throw new Exception("La fecha final no puede ser menor que la fecha inicial"); 
+                    if (DateTime.Compare(inicio, fin) >= 0) return JsonErrorGet("La fecha final no puede ser menor que la fecha inicial"); 
 
                     List<Evento> eventos = context.TablaEvento
                         .Where(x => x.CreadorID == c.ID &&
@@ -55,7 +56,7 @@ namespace KendoDP2.Areas.Eventos.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return JsonErrorGet("Error en la BD: " + ex.Message);
+                    return JsonErrorGet("Error en la BD: " + ex.Message + ex.InnerException);
                 }
             }
         }

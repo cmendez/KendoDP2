@@ -18,13 +18,15 @@
 
 <div class="portlet box green">
     <div class="portlet-title">
-        <div class="caption"><i class="icon-reorder"></i>Postúlate</h4>
-        <div class="tools">
-	        <a href="javascript:;" class="collapse"></a>
+        <div class="caption">
+            <i class="icon-reorder"></i>Postúlate
         </div>
-	</div>
+        <div class="tools">
+            <a href="javascript:;" class="collapse"></a>
+        </div>
+    </div>
     <div class="portlet-body">
-           <div class="row-fluid">
+        <div class="row-fluid">
             @(Html.Kendo().Grid<OfertaLaboralDTO>()
                 .Name("datagrid")
                 .Columns(columns =>
@@ -38,7 +40,7 @@
                         {
                             command.Custom("Ver").Click("verOferta");
                             command.Custom("Postular").Click("postularConvocatoria");
-                        }).Width(300);                       
+                        }).Width(300);
                     }
                 )
                     .Editable(editable => editable
@@ -66,7 +68,7 @@
     .Visible(false)
     .Modal(true)
     .Draggable(true)
-    .Width(1000)   
+    .Width(1000)
 )
 
 @(Html.Kendo().Window().Name("Details2")
@@ -74,7 +76,7 @@
     .Visible(false)
     .Modal(true)
     .Draggable(true)
-    .Width(1000)   
+    .Width(1000)
 )
 
 <script>
@@ -85,7 +87,7 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         ID = dataItem.ID;
         var wnd = $("#Details").data("kendoWindow");
-        $("#Details").load("@Url.Action("GetViewOferta","Public")?ofertaID=" + ID, function () {
+        $("#Details").load("@Url.Action("GetViewOferta", "Public")?ofertaID=" + ID, function () {
             wnd.center().open();
         });
     }
@@ -97,7 +99,7 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         ID = dataItem.ID;
         var wnd = $("#Details2").data("kendoWindow");
-        $("#Details2").load("@Url.Action("GetViewPostulante","Public")?ofertaID=" + ID, function () {
+        $("#Details2").load("@Url.Action("GetViewPostulante", "Public")?ofertaID=" + ID, function () {
             wnd.center().open();
         });
     }

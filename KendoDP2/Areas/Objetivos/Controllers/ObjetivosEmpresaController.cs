@@ -43,6 +43,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             using (DP2Context context = new DP2Context())
             {
                 Objetivo o = new Objetivo(objetivo, context);
+                o.PuestoAsignadoID = 1;
                 context.TablaObjetivos.AddElement(o);
                 return Json(new[] { o.ToDTO(context) }.ToDataSourceResult(request, ModelState));
             }
@@ -64,8 +65,8 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                context.TablaObjetivos.RemoveElementByID(objetivo.ID);
-                return Json(ModelState.ToDataSourceResult());
+                context.TablaObjetivos.RemoveElementByID(objetivo.ID, true);
+                return Json(new[] { objetivo }.ToDataSourceResult(request, ModelState));
             }
         }
 

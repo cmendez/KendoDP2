@@ -49,11 +49,13 @@
                         columns.Bound(p => p.Postulante.Colaborador.CorreoElectronico);
                         columns.Bound(p => p.EstadoPostulantePorOfertaNombre);
                         columns.Bound(p => p.PuntajeTotal);
-                        columns.Template(@<text></text>).Title("Contratar").ClientTemplate(
-                        "<a class='k-button' href='" + Url.Action("Contratar", "OfertasLaboralesInternas") + "?postulanteXOfertaLaboralID=#=ID#&ofertaID="+ ofertaID + "'>Cambiar Puesto</a>");
-
+                        /*columns.Template(@<text></text>).Title("Contratar").ClientTemplate(
+                        //"<a class='k-button' href='" + Url.Action("Contratar", "OfertasLaboralesInternas") + "?postulanteXOfertaLaboralID=#=ID#&ofertaID="+ ofertaID + "'>Cambiar Puesto</a>");
+                        "<a class='k-button' href='javascript:Contratar(#=ID#, "+ ofertaID + ");'>Cambiar Puesto</a>");*/
+                        
                         columns.Command(command =>
                         {
+                            command.Custom("Cambiar puesto").Click("Contratar").SendDataKeys(true);
                             command.Custom("Ver").Click("verPostulante").SendDataKeys(true);
                             command.Custom("Rechazar").Click("rechazarPase");
                         }).Width(300);
@@ -102,7 +104,7 @@
 
 )
 
-
+<a href="#" class="hidden" id="hiddena"></a>
 <script>
 
     function recargaGrid(){
@@ -118,10 +120,14 @@
             type: 'POST',
             data: {
                 ofertaID: @ofertaID,
-                postulanteXOfertaID: postulanteXOfertaID
+                postulanteXOfertaLaboralID: postulanteXOfertaID
             },
             success: function(response){
-                handleError(response, "Cambiar el puesto del colaborador");
+                handleError(response, "Se creó el puesto al colaborador.");
+                if(response.Errors === null){
+                    $("#hiddena").attr("href", "@Url.Action("Index", "Historial", new { Area = "Organizacion" })");
+                    $("a#hiddena")[0].click();
+                }
                 recargaGrid();
             }
         });

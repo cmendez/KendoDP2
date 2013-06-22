@@ -3,7 +3,7 @@
 @using KendoDP2.Areas.Organizacion.Models
 
 @{
-    ViewBag.Title = "Procesos de evaluación";
+    ViewBag.Title = "Mis pendientes";
     Layout = "~/Views/Shared/_Layout.cshtml";  
     IList<ColaboradorDTO> colaboradores = ViewBag.colaboradores;
     IList<EstadoProcesoEvaluacionDTO> estados = ViewBag.estados;
@@ -12,11 +12,11 @@
     
 }
 
-@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Procesos de evaluación", "Listar los procesos de evaluacion"));}
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Mis pendientes", "Pendientes por evaluar"));}
 
 <div class="portlet box green">
     <div class="portlet-title">
-        <div class="caption"><i class="icon-reorder"></i>Listar Procesos de evaluación</div>
+        <div class="caption"><i class="icon-reorder"></i>Procesos de evaluación</div>
         <div class="tools">
 	        <a href="javascript:;" class="collapse"></a>
         </div>

@@ -1,12 +1,13 @@
-﻿@*@{
-    ViewBag.Title = "Index";
-}*@
-
-@using KendoDP2.Areas.Evaluacion360.Models
+﻿@using KendoDP2.Areas.Evaluacion360.Models
+@using KendoDP2.Areas.Organizacion.Models
 
 @{
     ViewBag.Title = "Evaluacion 360 y Subordinados";
-    Layout = "~/Views/Shared/_Layout.cshtml";    
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IList<EstadoProcesoEvaluacionDTO> estados = ViewBag.estados;
+    IList<ColaboradorDTO> colaboradores = ViewBag.colaboradores;
+    SelectList lista = new SelectList(colaboradores, "ID", "NombreCompleto");
+    SelectList listaEstados = new SelectList(estados, "ID", "Descripcion");   
 }
 
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Evaluaciones 360 y Mis subordinados", ""));}
@@ -22,16 +23,16 @@
         </div>
     </div>
     <div class="portlet-body">
-
-        @*(Html.Kendo().Grid<CompetenciaDTO>()*@
-        @(Html.Kendo().Grid<EvaluadorSubordinadosDTO>()
-            .Name("SupervisionDeExamenes")
+        @(Html.Kendo().Grid<ProcesoEvaluacionDTO>()
+            .Name("ProcesosDeEvaluacionSubordinados")
             .Columns(columns =>
                 {
-                    columns.Bound(pxexe => pxexe.Proceso.Nombre).Title("Proceso");
-                    columns.Bound(pxexe => pxexe.Evaluado.Nombre).Title("Subordinado");
-                    columns.Bound(pxexe => pxexe.Evaluador.Nombre).Title("Evaluador");
-                    columns.Bound(pxexe => pxexe.FaseDeLaEvaluacion);
+                    columns.Bound(p => p.Nombre);
+                    columns.Bound(p => p.FechaCierre);
+                    columns.ForeignKey((p => p.AutorizadorID), lista);
+                    columns.ForeignKey(p => p.EstadoProcesoEvaluacionID, new SelectList(estados, "ID", "Descripcion")).Visible(true);
+ 
+                    columns.Template(@<text></text>).Title("Proceso").ClientTemplate("<a class='k-button' href='" + Url.Action("VerNotasSubordinados", "Subordinados") + "?procesoEvaluacionID=#=ID#'>Ver Resultados</a>");
                 }
             )
             .Pageable(paper => paper.Refresh(true))
@@ -45,6 +46,31 @@
                 .Read(read => read.Action("EditingInline_Read", "Subordinados"))
             )
         )
+        @*(Html.Kendo().Grid<CompetenciaDTO>()*@
+        @*(Html.Kendo().Grid<EvaluadorSubordinadosDTO>()*@
+        @*(Html.Kendo().Grid<ProcesoXEvaluadoXEvaluadorDTO>()
+            .Name("SupervisionDeExamenes")
+            .Columns(columns =>
+            {
+                columns.Bound(pxexe => pxexe.Proceso.Nombre).Title("Proceso");
+                columns.Bound(pxexe => pxexe.Evaluado.Nombre).Title("Subordinado");
+                columns.Bound(pxexe => pxexe.Evaluador.Nombre).Title("Evaluador");
+                //columns.Bound(pxexe => pxexe.FaseDeLaEvaluacion);
+                columns.Bound(pxexe => pxexe.Estado);
+                columns.Bound(pxexe => pxexe.Nota);
+            }
+            )
+            .Pageable(paper => paper.Refresh(true))
+            .Filterable()
+            .Sortable()
+            .Groupable()
+            .Scrollable(w => w.Height(330))
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .PageSize(20)
+                .Read(read => read.Action("EditingInline_Read", "Subordinados"))
+            )
+        )*@
 
     </div>
 

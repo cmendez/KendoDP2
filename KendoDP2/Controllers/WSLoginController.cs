@@ -12,28 +12,22 @@ namespace KendoDP2.Controllers
 {
     public class WSLoginController : WSController
     {
-        //
-        // GET: /WSLogin/
-
-        public ActionResult Index()
-        {
-            return View();
-        }
-
+        // /WSLogin/Login
         public ActionResult Login(string username, string password)
         {
             using (DP2Context context = new DP2Context())
             {
                 try
                 {
-                    UsuarioDTO usuario = context.TablaUsuarios.One(x => x.Username.Equals(username)).ToDTO();
-                    return usuario.Password.Equals(password) ? 
-                        JsonSuccessGet(new { usuario = usuario }) : 
-                        JsonErrorGet("No existe dicho usuario y password");
+                    var usuario = context.TablaUsuarios.One(x => x.Username.Equals(username));
+                    if (usuario == null) return JsonErrorGet("El usuario y/o la contraseña son invalidos");
+
+                    return usuario.Password.Equals(password) ?  JsonSuccessGet(new { usuario = usuario.ToDTO() }) : 
+                                                                JsonErrorGet("No existe dicho usuario y password");
                 }
                 catch (Exception ex)
                 {
-                    return JsonErrorGet("Error en la BD: " + ex.Message);
+                    return JsonErrorGet("Error en la BD: " + ex.Message + ex.InnerException);
                 }
             }
         }

@@ -134,6 +134,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         public int EstadoSolicitudOfertaLaboralID { get; set; }
 
         [DisplayName("Numero de Vacantes")]
+        [Range(1,5)]
         public int NumeroVacantes { get; set; }
 
         [DisplayName("Comentarios")]
@@ -156,14 +157,14 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         {
             ID = o.ID;
             PuestoID = o.PuestoID;
-            Puesto = o.Puesto.Nombre;
+            Puesto = o.Puesto != null ? o.Puesto.Nombre : String.Empty;
             AreaID = o.AreaID;
-            Area = o.Area.Nombre;
+            Area = o.Area != null ? o.Area.Nombre : String.Empty;
             ResponsableID = o.ResponsableID;
-            Responsable = o.Responsable.ToDTO().NombreCompleto;
+            Responsable = o.Responsable != null ? o.Responsable.ToDTO().NombreCompleto : String.Empty;
             EstadoSolicitudOfertaLaboralID = o.EstadoSolicitudOfertaLaboralID;
             ModoSolicitudID = o.ModoSolicitudOfertaLaboralID;
-            ModoSolicitud = o.ModoSolicitudOfertaLaboral.Descripcion;
+            ModoSolicitud = o.ModoSolicitudOfertaLaboral != null ? o.ModoSolicitudOfertaLaboral.Descripcion : String.Empty;
             FechaRequerimiento = o.FechaRequerimiento;
             FechaFinRequerimiento = o.FechaFinVigenciaSolicitud;
             Descripcion = o.Descripcion;
@@ -190,31 +191,23 @@ namespace KendoDP2.Areas.Reclutamiento.Models
 
     public class OfertaLaboralXPostulanteWSDTO //Para el WS getOfertaLaboral
     {
-        [ScaffoldColumn(false)]
         public int ID { get; set; }
         
         public string Puesto { get; set; }
         public string Area { get; set; }
         public string Responsable { get; set; }
-        //public int ModoPublicacionID { get; set; }
-        //public string Descripcion { get; set; }
         public string FechaRequerimiento { get; set; }
+        
         public int NumeroPostulantes { get; set; }
-        //public string FechaFinRequerimiento { get; set; }
-        //public int EstadoSolicitudOfertaLaboralID { get; set; }
-
-        //public string FechaUltimaEntrevista { get; set; } //pedido por el profe segun Cesarin
-
         public List<PostulanteDTO> Postulantes { get; set; }
 
         public OfertaLaboralXPostulanteWSDTO() { }
-
         public OfertaLaboralXPostulanteWSDTO(OfertaLaboral oflab, List<Postulante> lstPostulantes)
         {
             ID = oflab.ID;
-            Puesto = oflab.Puesto.Nombre;
-            Area = oflab.Area.Nombre;
-            Responsable = oflab.Responsable.Nombres + " " + oflab.Responsable.ApellidoPaterno + " " + oflab.Responsable.ApellidoMaterno;
+            Puesto = oflab.Puesto != null ? oflab.Puesto.Nombre : String.Empty;
+            Area = oflab.Area != null ? oflab.Area.Nombre : String.Empty;
+            Responsable = oflab.Responsable != null ? oflab.Responsable.Nombres + " " + oflab.Responsable.ApellidoPaterno + " " + oflab.Responsable.ApellidoMaterno : String.Empty;
             FechaRequerimiento = oflab.FechaRequerimiento;
             NumeroPostulantes = lstPostulantes.Count;
             Postulantes = lstPostulantes.Select(x => x.ToDTO()).ToList();
@@ -249,6 +242,7 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             var context = new DP2Context();
             Colaborador colaboradorActual = context.TablaColaboradores.Where(a => a.Username.Equals(userName)).First();
             Puesto puesto = context.TablaColaboradoresXPuestos.Where(a=>a.ColaboradorID == colaboradorActual.ID)
+                .Where(x=>x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto)
                 .Select(a=>a.Puesto).First();
             var CompetenciasPonderadasColaboradorAux = ListaCompetenciasConPonderadoToDTO(puesto.CompetenciasXPuesto);
             //Filtrar las competencias que me interesan matchear
@@ -352,8 +346,6 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             var postulantes = context.TablaPostulante.All();
             var ofertasXPostulantes = context.TablaOfertaLaboralXPostulante.Where(a=>a.OfertaLaboralID == oferta.ID);
             PostulantesConCompetencias = ListaPostulantesConCompetenciaToDTO(CompetenciasPonderadasPuesto, ofertasXPostulantes);
-
-            
         }
 
         public static ICollection<CompetenciaConPonderadoDTO> ListaCompetenciasConPonderadoToDTO(ICollection<CompetenciaXPuesto> competencias)

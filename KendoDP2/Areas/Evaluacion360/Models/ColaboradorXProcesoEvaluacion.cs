@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Web;
+using KendoDP2.Areas.Reportes.Models;
 
 namespace KendoDP2.Areas.Evaluacion360.Models
 {
@@ -28,22 +29,35 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         {
             return new ColaboradorXProcesoEvaluacionDTO(this);
         }
+
+        public ProcesoReportadoDTO toProcesoReportadoDTO()
+        {
+            return new ProcesoReportadoDTO(this);
+        }
     }
 
     public class ColaboradorXProcesoEvaluacionDTO
     {
         public ColaboradorDTO ColaboradorDTO { get; set; }
+        public int ColaboradorID {get; set;}
         [DisplayName("Estado")]
         public int EstadoColaboradorXProcesoEvaluacionID { get; set; }
         public int ID { get; set; }
         public ProcesoEvaluacion ProcesoEvaluacion { get; set; }
-
+        public int ProcesoID { get; set; }
+        public int? Nota { get; set; }
 
         public ColaboradorXProcesoEvaluacionDTO(ColaboradorXProcesoEvaluacion x)
         {
             ColaboradorDTO = x.Colaborador.ToDTO();
+            ColaboradorID = x.ColaboradorID;
             ID = x.ID;
             EstadoColaboradorXProcesoEvaluacionID = x.EstadoColaboradorXProcesoEvaluacionID;
+            if (x.Puntuacion == null)
+                Nota = 0;
+            else
+                Nota = x.Puntuacion;
+            ProcesoID = x.ProcesoEvaluacionID;
         }
 
         public ColaboradorXProcesoEvaluacionDTO() { }

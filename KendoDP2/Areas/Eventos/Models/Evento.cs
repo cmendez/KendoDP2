@@ -32,6 +32,9 @@ namespace KendoDP2.Areas.Eventos.Models
         [InverseProperty("Evento")]
         public virtual ICollection<Invitado> Invitados { get; set; }
 
+        //
+        public string custom { get; set; }
+
         public Evento() { }
         public Evento(EventoDTO e)
         {
@@ -101,7 +104,7 @@ namespace KendoDP2.Areas.Eventos.Models
         [DataType(DataType.DateTime), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm tt}", ApplyFormatInEditMode = true)]
         public string Inicio { get; set; }
 
-        [DisplayName("Fin Fin Evento")]
+        [DisplayName("Fecha Fin Evento")]
         [Required]
         [DataType(DataType.DateTime), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}", ApplyFormatInEditMode = true)]
         public string Fin { get; set; }
@@ -124,6 +127,9 @@ namespace KendoDP2.Areas.Eventos.Models
         [MaxLength(100)]
         public string LugarEvento { get; set; }
 
+        public string Area { get; set; }
+        public string Puesto { get; set; }
+        
         public List<ColaboradorDTO> Invitados { get; set; }
 
         public EventoDTO() { }
@@ -140,6 +146,14 @@ namespace KendoDP2.Areas.Eventos.Models
             CreadorID = e.CreadorID;
             Creador = e.Creador != null ? e.Creador.ToDTO().NombreCompleto : String.Empty;
             LugarEvento = e.LugarEvento;
+
+            if (e.Creador != null)
+            {
+                var aux = e.Creador.ColaboradoresPuesto.Single(x => !x.FechaSalidaPuesto.HasValue).Puesto;
+                Puesto = aux.Nombre;
+                Area = aux.Area.Nombre;
+            }
+
             if (e.Invitados != null && e.Invitados.Count > 0)
             {
                 Invitados = new List<ColaboradorDTO>();

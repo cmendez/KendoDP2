@@ -38,23 +38,26 @@ namespace KendoDP2.Areas.Reportes.Models
             Peso = o.Peso;
             AvanceFinal = o.AvanceFinal;
             TipoObjetivoBSCID = o.TipoObjetivoBSCID.GetValueOrDefault();
-            if (o.ObjetivoPadre != null)
+            if (o.ObjetivoPadreID != 0)
             {
-                padreEsIntermedio = o.ObjetivoPadre.IsObjetivoIntermedio;
-                ObjetivoPadreDTO = o.ObjetivoPadre.ToDTO(context);
+                Objetivo padre = context.TablaObjetivos.FindByID(o.ObjetivoPadreID);
+                padreEsIntermedio = padre.IsObjetivoIntermedio;
+                ObjetivoPadreDTO = padre.ToDTO(context);
             }
             else
             {
                 padreEsIntermedio = false;
                 ObjetivoPadreDTO = null;
             }
-            ObjetivoPadreID = o.ObjetivoPadreID.GetValueOrDefault();
+            ObjetivoPadreID = o.ObjetivoPadreID;
 
             puestoID = o.PuestoAsignadoID.GetValueOrDefault();
 
-            if (o.Dueño != null)
+            if (puestoID > 0)
             {
-                dueño = o.Dueño.ToDTO();
+                ColaboradorXPuesto cruce = context.TablaColaboradoresXPuestos.One(x => x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today);
+                if(cruce != null)
+                    dueño = cruce.Colaborador.ToDTO();
             }
 
             BSCID = o.GetBSCIDRaiz(context);
@@ -77,6 +80,8 @@ namespace KendoDP2.Areas.Reportes.Models
         public int idpadre { get; set; }
         public int idperiodo { get; set; }
         public int BSCId { get; set; }
+        public int ColaboradorID { get; set; }
+        public string ColaboradorNombre { get; set; }
 
         public ObjetivoRDTO(Objetivo o,DP2Context context)
         {
@@ -85,50 +90,104 @@ namespace KendoDP2.Areas.Reportes.Models
             descripcion = o.Nombre;
 
             List<ColaboradorDTO> ListaCOlaboradores= context.TablaColaboradores.All().Select(col => col.ToDTO()).ToList();
+            numPersonas = 0;
             foreach (ColaboradorDTO col in ListaCOlaboradores)
             {
-                numPersonas = 0;
+                
                 foreach (ObjetivoDTO obj in col.Objetivos)
                 {
-                    if (obj.ObjetivoPadreID == o.ID) numPersonas += 1; 
+                    if (obj.ObjetivoPadreID!=0 &&obj.ObjetivoPadreID == o.ID) numPersonas += 1; 
                 }
             }
             peso = o.Peso;
-            hijos = o.ObjetivosHijos.Count;            
+            hijos = o.ObjetivosHijos(context).Count;            
             avance = o.AvanceFinal;
             esIntermedio = o.IsObjetivoIntermedio;
-            if (o.ObjetivoPadreID != null)
+            if (o.ObjetivoPadreID != 0)
             {
-                idpadre = o.ObjetivoPadreID.Value;
+                idpadre = o.ObjetivoPadreID;
             }
             else
             {
                 idpadre = -1;
             }
-            BSCId = o.GetBSCIDRaiz(context);
-            if (o.BSC!= null)
-            {
-                idperiodo = o.BSCID.Value;
-            }
-            else
-            {
-                idperiodo = -1;
-            }
 
-            if (o.PuestoAsignado != null)
+            Objetivo ob = o;
+            while (ob.ObjetivoPadreID!=0 && ob.ObjetivoPadreID > 0)
             {
-                idPuesto = o.PuestoAsignado.ID;
+                ob = context.TablaObjetivos.FindByID(ob.ObjetivoPadreID);
+            }
+            BSCId = ob.TipoObjetivoBSCID.Value;
+
+            idperiodo = o.GetBSCIDRaiz(context);
+
+            if (o.PuestoAsignadoID != null)
+            {
+                idPuesto = o.PuestoAsignadoID.Value;
+                List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (cxp.FechaSalidaPuesto == null ));
+                if (cxpaux.Count > 0)
+                {
+
+                    List<Colaborador> cdtoaux = cxpaux.Select(p => p.Colaborador).ToList();
+
+                    ColaboradorDTO cdto = cdtoaux.Select(c => c.ToDTO()).ToList()[cdtoaux.Count - 1];
+
+                    ColaboradorID = cdto.ID;
+                    ColaboradorNombre = cdto.NombreCompleto;
+                }
             }
             else
             {
-                idPuesto = -1;
+                if (o.ObjetivoPadreID !=0 && context.TablaObjetivos.FindByID(o.ObjetivoPadreID).PuestoAsignadoID != null)
+                {
+                    idPuesto = context.TablaObjetivos.FindByID(o.ObjetivoPadreID).PuestoAsignado.ID;
+                    List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (cxp.FechaSalidaPuesto == null || DateTime.Today <= cxp.FechaSalidaPuesto));
+                    if (cxpaux.Count > 0)
+                    {
+
+                        List<Colaborador> cdtoaux = cxpaux.Select(p => p.Colaborador).ToList();
+
+                        ColaboradorDTO cdto = cdtoaux.Select(c => c.ToDTO()).ToList()[cdtoaux.Count - 1];
+
+                        ColaboradorID = cdto.ID;
+                        ColaboradorNombre = cdto.NombreCompleto;
+                    }
+                }
+                else
+                {
+                    if (o.ObjetivoPadreID==0)
+                    {
+                        idPuesto=1;
+                    }
+                    else
+                    {
+                        var padre = context.TablaObjetivos.FindByID(o.ObjetivoPadreID);
+                        if (padre.ObjetivoPadreID != 0)
+                        {
+                            var abuelo = context.TablaObjetivos.FindByID(padre.ObjetivoPadreID);
+                            idPuesto = abuelo.PuestoAsignadoID.Value;
+                        }
+                    }
+                }
+                
             }
+            //if (o.Dueño != null)
+            //{
+            //    idPuesto=context.
+            //}
+
         }
 
         public ObjetivoRDTO()
         {
             numPersonas = 10;
             avance = 50;
+        }
+        public bool esPropioColaborador(int idpadre, DP2Context context){
+            if (idpadre == -1) return true;
+            ObjetivoDTO padre=context.TablaObjetivos.FindByID(idpadre).ToDTO(context);
+            ObjetivoRDTO abuelo= context.TablaObjetivos.FindByID(padre.ObjetivoPadreID).ToRDTO(context);
+            return abuelo.esIntermedio;
         }
     }
 
@@ -139,6 +198,17 @@ namespace KendoDP2.Areas.Reportes.Models
         public string nombreColaborador { get; set; }
 
         public int idObjetivo { get; set; }
+
+        public List<ObjetivoRDTO> objetivos { get; set; }
+    }
+
+    public class HistoricoBSC
+    {
+        public int idperiodo { get; set; }
+
+        public string nombrePeriodo { get; set; }
+
+        public string nombreColaborador { get; set; }
 
         public List<ObjetivoRDTO> objetivos { get; set; }
     }
@@ -162,8 +232,50 @@ namespace KendoDP2.Areas.Reportes.Models
 
     }
 
-    public class SeleccionXUniversidadRDTO
-    {
 
+
+    public class ColaboradorRDTO
+    {
+        public int idColaborador { get; set; }
+        public string nombreColaborador { get; set; }
+        public string puesto { get; set; }
+        //public  List<ColaboradorRDTO> Subordinados;
+        
+        public ColaboradorRDTO(Colaborador c,DP2Context context)
+        {
+            idColaborador = c.ID;
+            nombreColaborador = c.Nombres + " "+c.ApellidoPaterno+" "+c.ApellidoMaterno;
+            puesto = context.TablaColaboradoresXPuestos.One(cxp => cxp.ColaboradorID == c.ID && cxp.FechaSalidaPuesto == null).Puesto.Nombre;
+            //PuestosHijos = context.TablaPuestos.Where(p=> p.PuestoSuperiorID==a.ID).Select(p=>p.ToRDTO(context)).ToList();
+        }
+    }
+
+    public class PuestoRDTO
+    {
+        public int idPuesto { get; set; }
+        public string nombrePuesto { get; set; }
+        //public List<PuestoRDTO> PuestosHijos { get; set; }
+
+        public PuestoRDTO(Puesto a,DP2Context context)
+        {
+            idPuesto = a.ID;
+            nombrePuesto = a.Nombre;
+           //  PuestosHijos = context.TablaPuestos.Where(p=> p.PuestoSuperiorID==a.ID).Select(p=>p.ToRDTO(context)).ToList();
+        }
+
+    }
+
+    public class AreaRDTO
+    {
+        public int idArea { get; set; }
+        public string nombreArea { get; set; }
+        public List<PuestoRDTO> Puestos { get; set; }
+
+        public AreaRDTO(Area a,DP2Context context)
+        {
+            idArea = a.ID;
+            nombreArea = a.Nombre;
+            Puestos = context.TablaPuestos.Where(p => p.AreaID == a.ID).Select(p=> p.ToRDTO(context)).ToList();
+        }
     }
 }

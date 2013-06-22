@@ -7,78 +7,56 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using KendoDP2.Areas.Objetivos.Models;
 using KendoDP2.Areas.Organizacion.Models;
+using KendoDP2.Areas.Evaluacion360.Models;
 using KendoDP2.Models.Generic;
+using KendoDP2.Models.Seguridad;
 
 namespace KendoDP2.Areas.Objetivos.Controllers
 {
     public class AcordionController : Controller
     {
-        //
-        // GET: /Evaluacion360/Acordion/
+        public AcordionController()
+        {
+            ViewBag.Area = "Objetivos";
+        }
 
         public ActionResult Index()
         {
-            using (DP2Context contexto = new DP2Context())
+            using (DP2Context context = new DP2Context())
             {
-                List<Colaborador> subordinadosBaseDeDatos = contexto.TablaColaboradores.All();
+                int ColaboradorID = DP2MembershipProvider.GetPersonaID(this);
+                Colaborador yo = context.TablaColaboradores.FindByID(ColaboradorID);
+                ColaboradorXPuesto cruce = yo.ColaboradoresPuesto.SingleOrDefault(x => x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today);
+                List<ColaboradorDTO> subordinadosCliente = new List<ColaboradorDTO>();
 
-                foreach (Colaborador subordinado in subordinadosBaseDeDatos)
+                if (cruce != null)
                 {
-                    contexto.Entry(subordinado).Collection(s => s.Objetivos).Load();
-                    contexto.Entry(subordinado).Collection(s => s.ColaboradoresPuesto).Load();
-                    contexto.Entry(subordinado).Collection(s => s.ColaboradorXProcesoEvaluaciones).Load();
-                    contexto.Entry(subordinado).Reference(s => s.EstadoColaborador).Load();
-                    contexto.Entry(subordinado).Reference(s => s.Pais).Load();
-                    contexto.Entry(subordinado).Collection(s => s.EsContactoDe).Load();
-                    contexto.Entry(subordinado).Collection(s => s.Contactos).Load();
-
+                    Puesto puesto = cruce.Puesto;
+                    foreach (var puestoHijo in puesto.Puestos)
+                    {
+                        ColaboradorXPuesto subordinado = puestoHijo.ColaboradorPuestos.SingleOrDefault(x => x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today);
+                        if (subordinado != null)
+                            subordinadosCliente.Add(subordinado.Colaborador.ToDTO());
+                    }
                 }
-
-                List<ColaboradorDTO> subordinadosCliente = subordinadosBaseDeDatos.Where(s => s.ID == 21 || s.ID == 22 || s.ID == 23).Select(s => s.ToDTO()).ToList();
 
                 ViewBag.Colaboradores = subordinadosCliente;
 
-                //Depuracion
-                //Las siguientes cuatro lineas imprimen, en formato XML, el objeto brindado a la vista
-                System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(subordinadosCliente.GetType());
-                StringWriter escritor = new StringWriter();
-                x.Serialize(escritor, subordinadosCliente);
-                System.Diagnostics.Debug.WriteLine(escritor.ToString());
-
-                ViewBag.Area = "";
                 return View();
             }
         }
 
+        [HttpPost]
         public JsonResult capturarValidacionDelJefe(int progresoID, int valorConsideradoPorElJefe)
         {
-
-            //Depuracion
-            System.Diagnostics.Debug.WriteLine("progresoID = " + progresoID);
-            System.Diagnostics.Debug.WriteLine("valorConsideradoPorElJefe = " + valorConsideradoPorElJefe);
 
             using (DP2Context contexto = new DP2Context())
             {
                 AvanceObjetivo adelanto = contexto.TablaAvanceObjetivo.FindByID(progresoID);
-
-                //Depuracion
-                System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(adelanto.enFormatoDTO().GetType());
-                StringWriter escritor = new StringWriter();
-                x.Serialize(escritor, adelanto.enFormatoDTO());
-                System.Diagnostics.Debug.WriteLine(escritor.ToString());
-
-
+                AvanceObjetivo revision = new AvanceObjetivo { Comentario = "(Revisado por jefe)", Valor = valorConsideradoPorElJefe, Objetivo = adelanto.Objetivo, FechaCreacion = DateTime.Now.ToString("dd/MM/yyy") };
                 adelanto.FueRevisado = true;
-                adelanto.ValorDelJefe = valorConsideradoPorElJefe;
-
                 contexto.TablaAvanceObjetivo.ModifyElement(adelanto);
-
-                //Depuracion
-                x = new System.Xml.Serialization.XmlSerializer(adelanto.enFormatoDTO().GetType());
-                escritor = new StringWriter();
-                x.Serialize(escritor, adelanto.enFormatoDTO());
-                System.Diagnostics.Debug.WriteLine(escritor.ToString());
-
+                contexto.TablaAvanceObjetivo.AddElement(revision);
             }
 
             return null;
@@ -86,3 +64,4 @@ namespace KendoDP2.Areas.Objetivos.Controllers
 
     }
 }
+

@@ -28,7 +28,7 @@ namespace KendoDP2.Models.Generic
         public void RemoveElementByID(int ID, bool isEliminadoFisico = false)
         {
             var elemento_a_eliminar = Dbset.Find(ID);
-            if (elemento_a_eliminar == null) throw new Exception("No existe el ID en la BD");
+            if (elemento_a_eliminar == null)  return;
             if (!isEliminadoFisico)
             {
                 elemento_a_eliminar.IsEliminado = true;

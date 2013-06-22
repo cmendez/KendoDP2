@@ -28,19 +28,18 @@ namespace KendoDP2.Areas.Objetivos.Models
         public int? TipoObjetivoBSCID { get; set; }
         public virtual TipoObjetivoBSC TipoObjetivoBSC { get; set; }
 
-        public int? ObjetivoPadreID { get; set; }
-        public Objetivo ObjetivoPadre { get; set; }
-        public virtual ICollection<Objetivo> ObjetivosHijos { get; set; }
+        public int ObjetivoPadreID { get; set; }
+        public List<Objetivo> ObjetivosHijos(DP2Context context)
+        {
+            return context.TablaObjetivos.Where(x => x.ObjetivoPadreID == this.ID).ToList();
+        }
         
         public int? BSCID { get; set; }
         public virtual BSC BSC { get; set; }
 
         public bool IsObjetivoIntermedio { get; set; }
 
-        [InverseProperty("Objetivos")]
-        public virtual Colaborador Dueño { get; set; }
-
-        public virtual ICollection<AvanceObjetivo> Avances { get; set; }
+        public virtual ICollection<AvanceObjetivo> LosProgresos { get; set; }
 
         public Objetivo() {
             FechaCreacion = DateTime.Now;
@@ -50,9 +49,9 @@ namespace KendoDP2.Areas.Objetivos.Models
         public int GetBSCIDRaiz(DP2Context context)
         {
             Objetivo o = this;
-            while (o.ObjetivoPadreID.GetValueOrDefault() > 0)
+            while (o.ObjetivoPadreID > 0)
             {
-                o = context.TablaObjetivos.FindByID(o.ObjetivoPadreID.GetValueOrDefault());
+                o = context.TablaObjetivos.FindByID(o.ObjetivoPadreID);
             }
             return o.BSCID.GetValueOrDefault();
         }
@@ -72,7 +71,7 @@ namespace KendoDP2.Areas.Objetivos.Models
         {
             Nombre = nombre;
             Peso = peso;
-            ObjetivoPadre = context.TablaObjetivos.FindByID(objetivoPadreID);
+            ObjetivoPadreID = objetivoPadreID;
             FechaCreacion = DateTime.Now;
 
         }
@@ -91,8 +90,7 @@ namespace KendoDP2.Areas.Objetivos.Models
             AvanceFinal = o.AvanceFinal;
             if (o.TipoObjetivoBSCID > 0)
                 TipoObjetivoBSC = context.TablaTipoObjetivoBSC.FindByID(o.TipoObjetivoBSCID);
-            if (o.ObjetivoPadreID > 0)
-                ObjetivoPadre = context.TablaObjetivos.FindByID(o.ObjetivoPadreID);
+            ObjetivoPadreID = o.ObjetivoPadreID;
             if (o.BSCID > 0)
                 BSC = context.TablaBSC.FindByID(o.BSCID);
 
@@ -113,6 +111,12 @@ namespace KendoDP2.Areas.Objetivos.Models
             return new ObjetivoConPadreDTO(this, context);
         }
 
+
+        internal void RegistrarAvance(DP2Context context, int valor, string comentario)
+        {
+            AvanceObjetivo avance = new AvanceObjetivo { Objetivo = this, Valor = valor, FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy"), Comentario = comentario };
+            context.TablaAvanceObjetivo.AddElement(avance);
+        }
     }
 
     //public class ObjetivoRDTO
@@ -155,10 +159,12 @@ namespace KendoDP2.Areas.Objetivos.Models
         public string FechaFinalizacion { get; set; }
 
         public List<AvanceObjetivoDTO> LosProgresos { get; set; }
-        
+
+        public string ComentarioUltimoAvance { get; set; }
+
         public ObjetivoDTO() { }
         
-
+        
 
         public ObjetivoDTO(Objetivo o, DP2Context context)
         {
@@ -168,7 +174,7 @@ namespace KendoDP2.Areas.Objetivos.Models
             AvanceFinal = o.AvanceFinal;
             TipoObjetivoBSCID = o.TipoObjetivoBSCID.GetValueOrDefault();
 
-            ObjetivoPadreID = o.ObjetivoPadreID.GetValueOrDefault();
+            ObjetivoPadreID = o.ObjetivoPadreID;
             BSCID = o.GetBSCIDRaiz(context);
 
             FechaCreacion = o.FechaCreacion.HasValue ? o.FechaCreacion.GetValueOrDefault().ToString("D", new CultureInfo("es-ES")) : String.Empty;
@@ -176,9 +182,26 @@ namespace KendoDP2.Areas.Objetivos.Models
 
             //PeriodoID = o.PeriodoID;
 
-            LosProgresos = o.Avances == null ? new List<AvanceObjetivoDTO>() : o.Avances.Select(a => a.enFormatoDTO()).ToList();
+            LosProgresos = o.LosProgresos == null ? new List<AvanceObjetivoDTO>() : o.LosProgresos.Select(a => a.enFormatoDTO()).ToList();
 
+            if (LosProgresos.Count > 0)
+                this.ComentarioUltimoAvance = LosProgresos.Last().Comentario;
+            else
+                this.ComentarioUltimoAvance = "";
         }
         
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+            //LosProgresos = o.Avances == null ? new List<AvanceObjetivoDTO>() : o.Avances.Select(a => a.enFormatoDTO()).ToList();

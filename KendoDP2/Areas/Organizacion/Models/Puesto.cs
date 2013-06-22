@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Web;
 using KendoDP2.Areas.Evaluacion360.Models;
 using KendoDP2.Areas.Objetivos.Models;
+using KendoDP2.Areas.Reportes.Models;
 
 namespace KendoDP2.Areas.Organizacion.Models
 {
@@ -17,13 +18,14 @@ namespace KendoDP2.Areas.Organizacion.Models
     {
 
         public virtual ICollection<ColaboradorXPuesto> ColaboradorPuestos { get; set; }
+        
         public int AreaID { get; set; }
         public virtual Area Area { get; set; }
+        
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
+        
         public int? PuestoSuperiorID { get; set; }
-        
-        
         public virtual Puesto PuestoSuperior { get; set; }
 
        public virtual ICollection<PuestoXArea> PuestosArea { get; set; }
@@ -50,12 +52,12 @@ namespace KendoDP2.Areas.Organizacion.Models
 
         public void ReparteObjetivosASubordinados(DP2Context context)
         {
-            foreach (var objetivoAbuelo in this.Objetivos) foreach (var objetivoPadre in objetivoAbuelo.ObjetivosHijos) 
-                foreach (var objetivoIntermedio in objetivoPadre.ObjetivosHijos.Where(c => c.IsObjetivoIntermedio))
+            foreach (var objetivoAbuelo in this.Objetivos) foreach (var objetivoPadre in objetivoAbuelo.ObjetivosHijos(context)) 
+                foreach (var objetivoIntermedio in objetivoPadre.ObjetivosHijos(context).Where(c => c.IsObjetivoIntermedio))
                     foreach (var puestoHijo in this.Puestos)
                         if (!puestoHijo.Objetivos.Any(x => x.ObjetivoPadreID == objetivoIntermedio.ID))
                         {
-                            Objetivo nuevo = new Objetivo { Nombre = objetivoIntermedio.Nombre, ObjetivoPadre = objetivoIntermedio, PuestoAsignado = puestoHijo };
+                            Objetivo nuevo = new Objetivo { Nombre = objetivoIntermedio.Nombre, ObjetivoPadreID = objetivoIntermedio.ID, PuestoAsignado = puestoHijo };
                             context.TablaObjetivos.AddElement(nuevo);
                         }
         }
@@ -90,6 +92,11 @@ namespace KendoDP2.Areas.Organizacion.Models
         public PuestoTreeDTO ToTreeDTO()
         {
             return new PuestoTreeDTO(this);
+        }
+
+        public PuestoRDTO ToRDTO(DP2Context context)
+        {
+            return new PuestoRDTO(this,context);
         }
 
         public NodoOrganigramaDTO ToNodoOrganigramaDTO()
@@ -170,6 +177,8 @@ namespace KendoDP2.Areas.Organizacion.Models
          }
 
     }
+
+
     public class PuestoTreeDTO
     {
         public int id { get; set; }

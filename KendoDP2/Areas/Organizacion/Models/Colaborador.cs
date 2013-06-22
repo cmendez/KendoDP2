@@ -12,7 +12,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using KendoDP2.Models.Generic;
 using KendoDP2.Areas.Eventos.Models;
 using System.Reflection;
-
+using KendoDP2.Areas.Reportes.Models;
 
 namespace KendoDP2.Areas.Organizacion.Models
 {
@@ -25,13 +25,10 @@ namespace KendoDP2.Areas.Organizacion.Models
         public string FechaIngresoEmpresa {get; set;}
         public string FechaSalidaEmpresa { get; set; }
 
-        public virtual ICollection<Objetivo> Objetivos { get; set; }
-
-        
         public virtual ICollection<ColaboradorXPuesto> ColaboradoresPuesto { get; set; }
 
         public virtual ICollection<ColaboradorXProcesoEvaluacion> ColaboradorXProcesoEvaluaciones { get; set; }
-
+        
         public int EstadosColaboradorID { get; set; }
         public virtual EstadosColaborador EstadoColaborador { get; set; }
 
@@ -44,8 +41,6 @@ namespace KendoDP2.Areas.Organizacion.Models
         public virtual ICollection<Contactos> EsContactoDe { get; set; }
         [InverseProperty("Colaborador")]
         public virtual ICollection<Contactos> Contactos { get; set; }
-
-        public virtual ICollection<Colaborador> ListaContactos { get; set; }
 
         public string ResumenEjecutivo { get; set; }
 
@@ -92,6 +87,8 @@ namespace KendoDP2.Areas.Organizacion.Models
             ResumenEjecutivo = c.ResumenEjecutivo;
             ImagenColaboradorID = c.ImagenColaboradorID;
             CurriculumVitaeID = c.CurriculumVitaeID;
+            Username = c.Usuario;
+            Password = c.Password;
             
             return this;
         }
@@ -106,11 +103,15 @@ namespace KendoDP2.Areas.Organizacion.Models
         {
             return new ColaboradorEvaluadorDTO(this);
         }
+
+        public ColaboradorRDTO ToRDTO(DP2Context context)
+        {
+            return new ColaboradorRDTO(this,context);
+        }
     }
 
     public class ColaboradorDTO
     {
-       
         public string NombreCompleto { get; set; }
         [DisplayName("Código")]
         public int ID { get; set; }
@@ -154,6 +155,10 @@ namespace KendoDP2.Areas.Organizacion.Models
 
         [DisplayName("Usuario")]
         public string Usuario { get; set; }
+
+        [DisplayName("Contraseña")]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
 
         [DisplayName("Estado")]
         public int EstadoColaboradorID { get; set; }
@@ -238,16 +243,18 @@ namespace KendoDP2.Areas.Organizacion.Models
             ResumenEjecutivo = c.ResumenEjecutivo;
 
             Usuario = c.Username;
-
+            Password = c.Password;
             Subordinados = listac;
 
+            Puesto puesto = null;
             try {
-                ColaboradorXPuesto cruce = c.ColaboradoresPuesto.OrderByDescending(a => a.ID).First();
+                ColaboradorXPuesto cruce = c.ColaboradoresPuesto.SingleOrDefault(x => x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today);
               AreaID = cruce.Puesto.AreaID;
             Area = cruce.Puesto.Area.Nombre;
           PuestoID = cruce.Puesto.ID;
            Puesto = cruce.Puesto.Nombre;
           Sueldo = cruce.Sueldo;
+                puesto = cruce.Puesto;
             } catch(Exception){
                 AreaID = 0;
                 PuestoID = 0;
@@ -259,7 +266,10 @@ namespace KendoDP2.Areas.Organizacion.Models
             try
             {
                 //Objetivos = c.Objetivos.Select(o => o.ToDTO()).ToList();
-                Objetivos = c.Objetivos.Select(o => o.ToDTO(new DP2Context())).ToList();
+                using (DP2Context context = new DP2Context())
+                {
+                    Objetivos = puesto.Objetivos.Select(o => o.ToDTO(context)).ToList();
+                }
                 Contactos = c.Contactos.Select(o => o.ToDTO()).ToList();
             }
             catch (Exception)

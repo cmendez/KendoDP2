@@ -25,7 +25,8 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             Nombre = postulante.Nombres + " " + postulante.ApellidoPaterno + " " + postulante.ApellidoMaterno;
             //Competencias
             var context = new DP2Context();
-            Puesto puesto = context.TablaColaboradoresXPuestos.Where(a => a.ID == postulante.Colaborador.ID)
+            Puesto puesto = context.TablaColaboradoresXPuestos.Where(a => a.ColaboradorID == postulante.Colaborador.ID)
+                .Where(x => x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto)
                 .Select(a => a.Puesto).First();
             var CompetenciasPostulanteAux = OfertaLaboralMobileJefeDTO.ListaCompetenciasConPonderadoToDTO(puesto.CompetenciasXPuesto);
             //Filtrar las competencias que me interesan matchear

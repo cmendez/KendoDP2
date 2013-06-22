@@ -60,7 +60,7 @@ namespace KendoDP2.Models.Seguridad
 
         public bool IsEliminado { get; set; }
 
-        [Required]
+        
         [StringLength(200)]
         public string Nombre { get; set; }
 
@@ -69,6 +69,7 @@ namespace KendoDP2.Models.Seguridad
 
         public RolDTO(Rol r)
         {
+            ID = r.ID;
             Nombre = r.Nombre;
             Permiso = r.Permiso;
             Area = r.Area;

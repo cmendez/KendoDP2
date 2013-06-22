@@ -14,7 +14,7 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         public int ElIDDelEvaluador { get; set; }
 
         public int ElEvaluado { get; set; }
-        
+
         public int ProcesoEnElQueParticipanID { get; set; }
 
         [ForeignKey("ProcesoEnElQueParticipanID")]
@@ -69,17 +69,17 @@ namespace KendoDP2.Areas.Evaluacion360.Models
             return new EvaluadorDTO(this);
         }
 
-        public Evaluador2DTO ToDTOEvaluacion()
+        public Evaluador2DTO ToDTOEvaluacion(DP2Context context)
         {
-            return new Evaluador2DTO(this);
+            return new Evaluador2DTO(this, context);
         }
 
         //public EvaluadorSubordinadosDTO enFormatoParaElCliente()
-        public EvaluadorSubordinadosDTO enFormatoParaElClienteVistaSubordinados()
+        public ProcesoXEvaluadoXEvaluadorDTO enFormatoParaElClienteVistaSubordinados()
         {
-            return new EvaluadorSubordinadosDTO(this);
+            return new ProcesoXEvaluadoXEvaluadorDTO(this);
         }
-    
+
     }
 
     public class EvaluadorDTO : ColaboradorDTO
@@ -107,33 +107,41 @@ namespace KendoDP2.Areas.Evaluacion360.Models
     }
 
     //Esta clase representa a un examen. Puede ser llamada tambien ProcesoXEvaluadoXEvaluadorDTO.
-    public class EvaluadorSubordinadosDTO
+    public class ProcesoXEvaluadoXEvaluadorDTO
     {
         public ColaboradorDTO Evaluador { get; set; }
         public ColaboradorDTO Evaluado { get; set; }
         public ProcesoEvaluacionDTO Proceso { get; set; }
-        public string FaseDeLaEvaluacion { get; set; }
+        public int ProcesoID { get; set; }
+        public int ID { get; set; }
+        public string Estado { get; set; }
+
+        public int Nota { get; set; }
 
 
-        public EvaluadorSubordinadosDTO()
+        public ProcesoXEvaluadoXEvaluadorDTO()
         {
 
 
         }
 
-        public EvaluadorSubordinadosDTO(Evaluador procesoXEvaluadoXEvaluador)
+        public ProcesoXEvaluadoXEvaluadorDTO(Evaluador procesoXEvaluadoXEvaluador)
         {
-            //Evaluador = procesoXEvaluadoXEvaluador.
-            //using ()
             using (DP2Context laBD = new DP2Context())
             {
+                ID = procesoXEvaluadoXEvaluador.ID;
                 Evaluador = laBD.TablaColaboradores.FindByID(procesoXEvaluadoXEvaluador.ElIDDelEvaluador).ToDTO();
                 Evaluado = laBD.TablaColaboradores.FindByID(procesoXEvaluadoXEvaluador.ElEvaluado).ToDTO();
-                //Proceso = laBD.TablaColaboradores
-                //Proceso = laBD.TablaProcesoEvaluaciones.FindByID(procesoXEvaluadoXEvaluador.ElProceso).ToDTO();
                 Proceso = laBD.TablaProcesoEvaluaciones.FindByID(procesoXEvaluadoXEvaluador.ProcesoEnElQueParticipanID).ToDTO();
-                //FaseDeLaEvaluacion = laBD.
-                FaseDeLaEvaluacion = procesoXEvaluadoXEvaluador.FaseDeLaEvaluacion;
+                Estado = procesoXEvaluadoXEvaluador.FaseDeLaEvaluacion;
+                ProcesoID = Proceso.ID;
+                //Nota = laBD.TablaExamenes.Where(p => p.EvaluadorID == procesoXEvaluadoXEvaluador.ID)
+                //Examen laPrueba = laBD.TablaExamenes.Where(p => p.EvaluadorID == procesoXEvaluadoXEvaluador.ID)
+                Examen laPrueba = laBD.TablaExamenes.One(p => p.EvaluadorID == procesoXEvaluadoXEvaluador.ID);
+
+                Estado = laBD.TablaEstadoColaboradorXProcesoEvaluaciones.FindByID(laPrueba.EstadoExamenID).Nombre;
+                Nota = laPrueba.NotaExamen;
+
 
             }
 
@@ -158,27 +166,63 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         public int ElEvaluado { get; set; }
 
         public int ProcesoEnElQueParticipanID { get; set; }
-        public  ColaboradorDTO colaborador { get; set; }
+        public ColaboradorDTO colaborador { get; set; }
+        public string Estado { get; set; }
 
-         public Evaluador2DTO()
+        public Evaluador2DTO()
         {
 
         }
 
-         public Evaluador2DTO(Evaluador evaluador)
-         {
-             // =evaluador
-             evaluado = (new DP2Context()).TablaColaboradores.FindByID(evaluador.ElEvaluado).ToDTO();
-             estadoevaluacion = (new DP2Context()).TablaEstadoProcesoEvaluacion.FindByID(evaluador.ProcesoEnElQueParticipanID).ToDTO();
-             ID = evaluador.ID;
-             ElIDDelEvaluador = evaluador.ElIDDelEvaluador;
-             ElEvaluado = evaluador.ElEvaluado;
-             ProcesoEnElQueParticipanID = evaluador.ProcesoEnElQueParticipanID;
-
-             procesoevaluacion = (new DP2Context()).TablaProcesoEvaluaciones.FindByID(evaluador.ProcesoEnElQueParticipanID).ToDTO();
-         }
+        public Evaluador2DTO(Evaluador evaluador, DP2Context context)
+        {
+            // =evaluador
+            evaluado = (new DP2Context()).TablaColaboradores.FindByID(evaluador.ElEvaluado).ToDTO();
+            //estadoevaluacion = (new DP2Context()).TablaEstadoProcesoEvaluacion.FindByID(evaluador.ProcesoEnElQueParticipanID).ToDTO();
+            ID = evaluador.ID;
+            ElIDDelEvaluador = evaluador.ElIDDelEvaluador;
+            ElEvaluado = evaluador.ElEvaluado;
+            ProcesoEnElQueParticipanID = evaluador.ProcesoEnElQueParticipanID;
+            var estadoExamenID = context.TablaExamenes.One(x => x.EvaluadorID == evaluador.ID).EstadoExamenID;
+            var estadoExamen = context.TablaEstadoColaboradorXProcesoEvaluaciones.FindByID(estadoExamenID);
+            Estado = estadoExamen.Nombre;
+            procesoevaluacion = (new DP2Context()).TablaProcesoEvaluaciones.FindByID(evaluador.ProcesoEnElQueParticipanID).ToDTO();
+        }
     }
 
 
-    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //    public ProcesoXEvaluadoXEvaluadorDTO(Evaluador procesoXEvaluadoXEvaluador)
+        //{
+        //    //Evaluador = procesoXEvaluadoXEvaluador.
+        //    //using ()
+        //    using (DP2Context laBD = new DP2Context())
+        //    {
+        //        Evaluador = laBD.TablaColaboradores.FindByID(procesoXEvaluadoXEvaluador.ElIDDelEvaluador).ToDTO();
+        //        Evaluado = laBD.TablaColaboradores.FindByID(procesoXEvaluadoXEvaluador.ElEvaluado).ToDTO();
+        //        //Proceso = laBD.TablaColaboradores
+        //        //Proceso = laBD.TablaProcesoEvaluaciones.FindByID(procesoXEvaluadoXEvaluador.ElProceso).ToDTO();
+        //        Proceso = laBD.TablaProcesoEvaluaciones.FindByID(procesoXEvaluadoXEvaluador.ProcesoEnElQueParticipanID).ToDTO();
+        //        //FaseDeLaEvaluacion = laBD.
+        //        Estado = procesoXEvaluadoXEvaluador.FaseDeLaEvaluacion;
+
+        //    }
+
+
+        //}

@@ -12,19 +12,24 @@ namespace KendoDP2.Areas.Objetivos.Controllers
     public class WSMisObjetivosController : Controller
     {
 
+        private List<ObjetivoDTO> _GetAllMisObjetivos(int idUsuario, int idPeriodo, DP2Context context)
+        {
+            ColaboradorDTO col = context.TablaColaboradores.FindByID(idUsuario).ToDTO();
+            int puestoID = col.PuestoID;
+            Puesto puesto = context.TablaPuestos.FindByID(puestoID);
+            List<ObjetivoDTO> objetivos = puesto.Objetivos.Select(c => c.ToDTO(context)).ToList();
+            List<ObjetivoDTO> ret = new List<ObjetivoDTO>();
+            foreach (ObjetivoDTO objetivo in objetivos)
+            {
+                ret.AddRange(context.TablaObjetivos.Where(o => o.ObjetivoPadreID == objetivo.ID && o.PuestoAsignadoID == null).Select(o => o.ToDTO(context)));
+            }
+            return ret.Where(x => x.BSCID == idPeriodo).ToList();
+        }
         public ActionResult GetAllMisObjetivos(int idUsuario, int idPeriodo)
         {
             using (DP2Context context = new DP2Context())
             {
-                ColaboradorDTO col = context.TablaColaboradores.FindByID(idUsuario).ToDTO();
-                int puestoID = col.PuestoID;
-                Puesto puesto = context.TablaPuestos.FindByID(puestoID);
-                List<ObjetivoDTO> objetivos = puesto.Objetivos.Select(c => c.ToDTO(context)).ToList();
-                List<ObjetivoDTO> ret = new List<ObjetivoDTO>();
-                foreach(ObjetivoDTO objetivo in objetivos){
-                    ret.AddRange(context.TablaObjetivos.Where(o => o.ObjetivoPadreID == objetivo.ID && o.PuestoAsignadoID == null).Select(o => o.ToDTO(context)));
-                }
-                return Json(ret.Where(x => x.BSCID == idPeriodo).ToList(), JsonRequestBehavior.AllowGet);
+                return Json(_GetAllMisObjetivos(idUsuario, idPeriodo, context), JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -51,7 +56,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             {
                 Objetivo o = new Objetivo(objetivo, context);
                 context.TablaObjetivos.AddElement(o);
-                return Json(new { idObjetivo = o.ID } , JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, ID = o.ID } , JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -78,7 +83,49 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             {
                 try
                 {
-                    context.TablaObjetivos.RemoveElementByID(objetivoID);
+                    context.TablaObjetivos.RemoveElementByID(objetivoID, true);
+                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception)
+                {
+                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
+
+        public ActionResult RegistrarAvance(int idObjetivo, int alcance, string descripcion)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                try
+                {
+                    AvanceObjetivo a = new AvanceObjetivo { FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy"), Comentario = descripcion, ObjetivoID = idObjetivo, Valor = alcance };
+                    context.TablaAvanceObjetivo.AddElement(a);
+                    Objetivo o = context.TablaObjetivos.FindByID(idObjetivo);
+                    o.AvanceFinal = a.Valor;
+                    context.TablaObjetivos.ModifyElement(o);
+                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception)
+                {
+                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
+
+        public ActionResult ModificarAvance(int idObjetivo, int alcance, string descripcion)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                try
+                {
+                    Objetivo o = context.TablaObjetivos.FindByID(idObjetivo);
+                    AvanceObjetivo a = o.LosProgresos.Last();
+                    a.Valor = alcance;
+                    a.Comentario = descripcion;
+                    o.AvanceFinal = alcance;
+                    context.TablaObjetivos.ModifyElement(o);
+                    context.TablaAvanceObjetivo.ModifyElement(a);
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception)
@@ -88,4 +135,5 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             }
         }
     }
+
 }

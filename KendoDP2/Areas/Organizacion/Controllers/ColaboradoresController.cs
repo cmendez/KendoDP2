@@ -89,8 +89,21 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 // crea un nuevo puesto en la tabla de cruce si algo cambio
                 if (colaboradorBD.PuestoID != colaborador.PuestoID || colaboradorBD.Sueldo != colaborador.Sueldo)
                 {
+
+
+                    // asigno fecha fin al puesto
+                    var ultimoCruce = context.TablaColaboradoresXPuestos.One(x => x.FechaSalidaPuesto == null && x.ColaboradorID == c.ID);
+                    if (ultimoCruce != null)
+                    {
+                        ultimoCruce.FechaSalidaPuesto = DateTime.Now.AddDays(-1);
+                        context.TablaColaboradoresXPuestos.ModifyElement(ultimoCruce);
+                    }
+
+
+                    // se crea el nuevo puesto
+
                     Puesto p = context.TablaPuestos.FindByID(colaborador.PuestoID);
-                    ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo };
+                    ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo , FechaIngresoPuesto = DateTime.Now};
 
                     context.TablaColaboradoresXPuestos.AddElement(cruce);
                 }
@@ -217,6 +230,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                         ColaboradorID = colaboradorID,
                         ContactoID = contactoID,
                         Relacion = "Equipo de Área",
+                        
                       
                     });
                 return esReferenciaDirecta;

@@ -5,12 +5,12 @@
 
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Monitoreo en mi equipo de trabajo";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ICollection<ColaboradorDTO> susSubordinados = ViewBag.Colaboradores; 
 }
 
-@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Mis subordinados", ""));}
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Monitoreo en mi equipo de trabajo", ""));}
 
 <div class="portlet box green">
     <div class="portlet-title">
@@ -76,29 +76,8 @@
                             {
                                 foreach (KendoDP2.Areas.Objetivos.Models.AvanceObjetivoDTO unPaso in unoDeSusObjetivos.LosProgresos)
                                 {
-                                    if (unPaso.FueRevisado)
-                                    {
-                                        if (unPaso.Valor == unPaso.ValorDelJefe)
-                                        {
-                                            //El jefe aprobo el avance presentado por el subordinado
-                                            items.Add().Text("El " + unPaso.FechaCreacion + " alcancé el " + unPaso.Valor + "%");
-
-                                        }
-                                        else
-                                        {
-                                            //El jefe modifico el valor a su criterio
-                                            items.Add().Text("El " + unPaso.FechaCreacion + " alcancé el " + unPaso.Valor + "%. El jefe dispuso un valor de " + unPaso.ValorDelJefe + "%.");
-
-                                        }
-
-                                    }
-                                    else
-                                    {
-                                        items.Add().Text("El " + unPaso.FechaCreacion + " alcancé el " + unPaso.Valor + "%. Presione este elemento para aprobarlo.").Url("javascript:escogeOpcion(" + unPaso.ID + ", " + unPaso.Valor + ");");
-                                        
-                                    }
-                                
-                                
+                                    string comentario = unPaso.Comentario == null || unPaso.Comentario.Length == 0 ? "Sin comentarios." : "Comentario: '" + unPaso.Comentario + "'.";
+                                    items.Add().Text("El " + unPaso.FechaCreacion + " se alcanzó el " + unPaso.Valor + "%.  " + comentario + "  Presione este elemento para aprobarlo.").Url("javascript:escogeOpcion(" + unPaso.ID + ", " + unPaso.Valor + ");");
                                 }
                             });
                         }
@@ -119,14 +98,14 @@
     function escogeOpcion(e) {
         console.log($(e));
         console.log($(e.item));
-        $("#CambioValor").data("kendoWindow").open();
+        $("#CambioValor").data("kendoWindow").center().open();
     }
 
     function escogeOpcion(progresoID, avance) {
         elPasoIDSeleccionado = progresoID;
         console.log("elPasoIDSeleccionado = " + elPasoIDSeleccionado);
         $('#percentage').data('kendoNumericTextBox').value(avance / 100);
-        $("#CambioValor").data("kendoWindow").open();
+        $("#CambioValor").data("kendoWindow").center().open();
     }
 
     $(document).ready(function () {

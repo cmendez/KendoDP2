@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using KendoDP2.Models.Seguridad;
 
 namespace KendoDP2.Areas.Evaluacion360.Models
 {
@@ -59,6 +60,8 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         [DisplayName("Estado")]
         [ScaffoldColumn(false)]
         public int EstadoProcesoEvaluacionID { get; set; }
+        [ScaffoldColumn(false)]
+        public string EstadoNombre { get; set; }
 
         [DisplayName("Fecha de cierre a evaluadores")]
         [Required]
@@ -72,6 +75,9 @@ namespace KendoDP2.Areas.Evaluacion360.Models
 
         public ICollection<ColaboradorXProcesoEvaluacion> PersonaXProcesoEvaluaciones { get; set; }
         //public List<ColaboradorXProcesoEvaluacion> PersonaXProcesoEvaluaciones { get; set; }
+        
+        [ScaffoldColumn(false)]
+        public int Puntuacion { get; set; }
 
         public ProcesoEvaluacionDTO() { }
         public ProcesoEvaluacionDTO(ProcesoEvaluacion p)
@@ -80,7 +86,11 @@ namespace KendoDP2.Areas.Evaluacion360.Models
             Nombre = p.Nombre;
             FechaCierre = p.FechaCierre.GetValueOrDefault().ToShortDateString();
             AutorizadorID = p.AutorizadorID;
-            EstadoProcesoEvaluacionID = p.EstadoProcesoEvaluacionID; 
+            EstadoProcesoEvaluacionID = p.EstadoProcesoEvaluacionID;
+            //Puntuacion = (new DP2Context()).TablaColaboradorXProcesoEvaluaciones.FindByID(evaluador.ElEvaluado).ToDTO();
+
+            if (p.EstadoProcesoEvaluacion != null)
+                EstadoNombre = p.EstadoProcesoEvaluacion.Descripcion;
         }
     }
 
@@ -138,6 +148,16 @@ namespace KendoDP2.Areas.Evaluacion360.Models
         {
 
         }
+
+    }
+
+    public class ProcesoXCompetenciasDTO
+    {
+        //public ProcesoEvaluacionDTO proceso;
+        //public ICollection<CompetenciaXExamenDTO> resultadosCompetencias;
+
+        public ProcesoEvaluacionDTO Proceso { get; set; }
+        public ICollection<CompetenciaXExamenDTO> ResultadosCompetencias { get; set; }
 
     }
 
