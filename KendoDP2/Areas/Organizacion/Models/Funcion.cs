@@ -11,7 +11,7 @@ namespace KendoDP2.Areas.Organizacion.Models
     public class Funcion : DBObject
     {
         public string Nombre { get; set; }
-        public int Peso { get; set; }
+        //public int Peso { get; set; }
         
         public int PuestoID { get; set; }
         public virtual Puesto Puesto { get; set; }
@@ -27,7 +27,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             Nombre = f.Nombre;
 
             PuestoID = f.PuestoID;
-            Peso = f.Peso;
+            //Peso = f.Peso;
             return this;
         }
         public FuncionDTO ToDTO()
@@ -59,7 +59,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             ID = f.ID;
             
             Nombre = f.Nombre;
-            Peso = f.Peso;
+           // Peso = f.Peso;
             PuestoID = f.PuestoID;
         }
     }

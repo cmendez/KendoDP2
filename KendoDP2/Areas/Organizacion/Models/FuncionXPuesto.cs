@@ -18,14 +18,14 @@ namespace KendoDP2.Areas.Organizacion.Models
         public Puesto Puesto { get; set; }
 
        
-        public int Peso { get; set; }
+        //public int Peso { get; set; }
 
         public FuncionXPuesto cargaConDatosDelCliente(FuncionXPuestoDTO cxpDTO, int puestoID)
         {
             PuestoID = puestoID;
             FuncionID = cxpDTO.FuncionID;
             
-            Peso = cxpDTO.Peso;
+            //Peso = cxpDTO.Peso;
 
             return this;
         }
@@ -58,7 +58,7 @@ namespace KendoDP2.Areas.Organizacion.Models
             FuncionID = x.FuncionID;
             PuestoID = x.PuestoID;
           
-            Peso = x.Peso;
+            //Peso = x.Peso;
         }
 
     }

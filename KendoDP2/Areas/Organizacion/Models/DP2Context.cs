@@ -274,15 +274,44 @@ namespace KendoDP2.Models.Generic
             TablaFunciones.AddElement(new Funcion { Nombre = "Hacer muchas cosas", PuestoID = 1 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Presidir", PuestoID = 1 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Figurar", PuestoID = 1 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Gestionar los recursos", PuestoID = 1 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Liderar al equipo", PuestoID = 1 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Motivar a la organización", PuestoID = 1 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Dirigir a la junta directiva", PuestoID = 1 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Ganar mucho dinero", PuestoID = 1 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Delegar", PuestoID = 1 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Empoderar", PuestoID = 1 });
+
             TablaFunciones.AddElement(new Funcion { Nombre = "Gerenciar generalmente", PuestoID = 2 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Gestión de capital humano", PuestoID = 2 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Dar rumbo al negocio", PuestoID = 2 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Gestionar los recursos", PuestoID = 2 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Motivar al equipo", PuestoID = 2 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Ganar mucho dinero", PuestoID = 2 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Delegar", PuestoID = 2 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Empoderar", PuestoID = 2 });
+
+
             TablaFunciones.AddElement(new Funcion { Nombre = "Vender", PuestoID = 3 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Reducir gastos de venta", PuestoID = 3 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Cerrar negocios", PuestoID = 3 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Motivar al equipo", PuestoID = 3 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Ganar mucho dinero", PuestoID = 3 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Delegar", PuestoID = 3 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Empoderar", PuestoID = 3});
+            TablaFunciones.AddElement(new Funcion { Nombre = "Gestionar los recursos", PuestoID = 3 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Liderar al equipo", PuestoID = 3 });
+
             TablaFunciones.AddElement(new Funcion { Nombre = "Gobernar su TI", PuestoID = 4 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Seguridad", PuestoID = 4 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Gestión de activos", PuestoID = 4 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Motivar al equipo", PuestoID = 4 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Ganar mucho dinero", PuestoID = 4 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Delegar", PuestoID = 4 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Empoderar", PuestoID = 4 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Gestionar los recursos", PuestoID = 4 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Liderar al equipo", PuestoID = 4 });
+
             TablaFunciones.AddElement(new Funcion { Nombre = "Ganar clientes", PuestoID = 5 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Desperdiciar dinero", PuestoID = 5 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Creerse importante", PuestoID = 5 });

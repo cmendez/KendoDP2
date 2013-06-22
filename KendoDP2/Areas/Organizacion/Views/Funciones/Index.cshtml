@@ -76,7 +76,7 @@
                                     {
                                        
                                         columns.Bound(p => p.Nombre).ClientFooterTemplate("<strong>Cantidad:</strong> #=count#");
-                                        columns.Bound(p => p.Peso).ClientFooterTemplate("<strong>Suma:</strong> #=sum#");
+                                        //columns.Bound(p => p.Peso).ClientFooterTemplate("<strong>Suma:</strong> #=sum#");
                                         
                                         columns.Command(command => { command.Destroy().Text("Eliminar"); }).Width(200);
                                     }
@@ -97,7 +97,7 @@
                                     .Aggregates(a =>
                                     {
                                             a.Add(p => p.Nombre).Count();
-                                            a.Add(p => p.Peso).Sum();
+                                            //a.Add(p => p.Peso).Sum();
                                     })
                                     .Model(model =>
                                     {
@@ -152,20 +152,10 @@
         }
     }
 
-    function getSumaPeso(data) {
-        var sumaPeso = 0;
-        for (var i = 0; i < data.length; i++) {
-            sumaPeso += data[i].Peso;
-        }
-        return sumaPeso;
-    }
+    
 
     function onSave(e) {
-        var sumaPeso = getSumaPeso(e.sender._data);
-        if (sumaPeso != 100) {
-            alert("La suma de los pesos no es 100, es " + sumaPeso + ".");
-            e.preventDefault();
-        }
+        
     }
 
     function afterRequest(e) {
