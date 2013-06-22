@@ -45,8 +45,8 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 {
                     FasePostulacion fp = context.TablaFasePostulacion.One(x => x.Descripcion.Equals(descripcionFase));
                     if (fp == null) return JsonErrorGet("No existe Fase de Postulacion cuya descripcion sea " + descripcionFase);
-                    if (fp.PostulacionesDeLaFase == null || fp.PostulacionesDeLaFase.Count == 0)
-                        return JsonErrorGet("La Fase de Postulacion " + fp.Descripcion + " no tiene asignada ninguna postulacion");
+                    //if (fp.PostulacionesDeLaFase == null || fp.PostulacionesDeLaFase.Count == 0)
+                    //    return JsonErrorGet("La Fase de Postulacion " + descripcionFase + " no tiene asignada ninguna postulacion");
 
                     Colaborador responsable = context.TablaColaboradores.FindByID(Convert.ToInt32(colaboradorID));
                     if (responsable == null) return JsonErrorGet("No existe el Colaborador cuyo ID = " + colaboradorID);
@@ -59,7 +59,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     else if (descripcionFase.Equals("Aprobado RRHH"))
                         estado = context.TablaEstadoPostulanteXOferta.One(x => x.Descripcion.Equals("Aprobado Fase 3"));
 
-                    if (estado == null) JsonErrorGet("La fase de postulacion " + fp.Descripcion + " no tiene asignada ninguna postulacion");
+                    if (estado == null) JsonErrorGet("No existe Fase de Postulacion cuya descripcion sea " + descripcionFase);
 
                     var listaOfertasLaboralesYPostulantes = new List<OfertaLaboralXPostulanteWSDTO>();
                     
@@ -79,7 +79,9 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 
                     foreach (OfertaLaboral oflab in lstOfertasLaboralesResponsable)
                     {
-                        var lstPostulante = oflab.Postulantes.Select(x => x.Postulante).ToList();
+                        var lstPostulante = oflab.Postulantes
+                            .Where(x => x.EstadoPostulantePorOfertaID == estado.ID) //Que esten en dicha etapa de la postulacion
+                            .Select(x => x.Postulante).ToList();
                         listaOfertasLaboralesYPostulantes.Add(new OfertaLaboralXPostulanteWSDTO(oflab, lstPostulante));
                     }
                     

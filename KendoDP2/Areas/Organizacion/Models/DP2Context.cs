@@ -273,101 +273,194 @@ namespace KendoDP2.Models.Generic
             TablaFunciones.AddElement(new Funcion { Nombre = "Hacer muchas cosas", PuestoID = 1 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Presidir", PuestoID = 1 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Figurar", PuestoID = 1 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Evaluar soluciones en la organización", PuestoID = 1 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Administrar planes de trabajo", PuestoID = 1 });
+
             TablaFunciones.AddElement(new Funcion { Nombre = "Gerenciar generalmente", PuestoID = 2 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Gestión de capital humano", PuestoID = 2 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Dar rumbo al negocio", PuestoID = 2 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 2 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 2 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Vender", PuestoID = 3 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Reducir gastos de venta", PuestoID = 3 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Cerrar negocios", PuestoID = 3 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Evaluar soluciones en la organización", PuestoID = 3 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Administrar planes de trabajo", PuestoID = 3 });
+
             TablaFunciones.AddElement(new Funcion { Nombre = "Gobernar su TI", PuestoID = 4 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Seguridad", PuestoID = 4 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Gestión de activos", PuestoID = 4 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 4 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 4 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Ganar clientes", PuestoID = 5 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Desperdiciar dinero", PuestoID = 5 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Creerse importante", PuestoID = 5 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 5 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 5 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Hacer", PuestoID = 6 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Operar", PuestoID = 6 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Producir", PuestoID = 6 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 6 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 6 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Negociar con comunidades", PuestoID = 7 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Promover programas de desarrollo", PuestoID = 7 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Responsabilizar", PuestoID = 7 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 7 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 7 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Administrar", PuestoID = 8 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Gestionar", PuestoID = 8 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Ordenar", PuestoID = 8 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 8 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 8 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Pedir", PuestoID = 9 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Proveer", PuestoID = 9 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Prever", PuestoID = 9 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 9 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 9 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Contratar", PuestoID = 10 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Ascender", PuestoID = 10 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Botar", PuestoID = 10 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 10 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 10 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Invertir", PuestoID = 11 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Presupuestar", PuestoID = 11 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Contar", PuestoID = 11 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 11 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 11 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Molestar 1", PuestoID = 12 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Molestar 2", PuestoID = 12 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Creerse muy importante", PuestoID = 12 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 12 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 12 });
 
             TablaFunciones.AddElement(new Funcion { Nombre = "Hacer muchas cosas", PuestoID = 13 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Presidir", PuestoID = 13 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Figurar", PuestoID = 13 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 13 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 13 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Gerenciar generalmente", PuestoID = 14 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Gestión de capital humano", PuestoID = 14 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Dar rumbo al negocio", PuestoID = 14 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 14 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 14 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Vender", PuestoID = 15 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Reducir gastos de venta", PuestoID = 15 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Cerrar negocios", PuestoID = 15 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 15 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 15 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Gobernar su TI", PuestoID = 16 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Seguridad", PuestoID = 16 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Gestión de activos", PuestoID = 16 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 16 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 16 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Ganar clientes", PuestoID = 17 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Desperdiciar dinero", PuestoID = 17 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Creerse importante", PuestoID = 17 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 17 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 17 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Hacer", PuestoID = 18 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Operar", PuestoID = 18 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Producir", PuestoID = 18 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 18 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 18 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Negociar con comunidades", PuestoID = 19 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Promover programas de desarrollo", PuestoID = 19 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Responsabilizar", PuestoID = 19 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 19 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 19 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Administrar", PuestoID = 20 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Gestionar", PuestoID = 20 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Ordenar", PuestoID = 20 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 20 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 20 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Pedir", PuestoID = 21 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Proveer", PuestoID = 21 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Prever", PuestoID = 21 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 21 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 21 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Contratar", PuestoID = 22 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Ascender", PuestoID = 22 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Botar", PuestoID = 22 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 22 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 22 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Invertir", PuestoID = 23 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Presupuestar", PuestoID = 23 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Contar", PuestoID = 23 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 23 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 23 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Molestar 1", PuestoID = 24 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Molestar 2", PuestoID = 24 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Creerse muy importante", PuestoID = 24 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 24 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 24 });
 
             TablaFunciones.AddElement(new Funcion { Nombre = "Hacer muchas cosas", PuestoID = 25 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Presidir", PuestoID = 25 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Figurar", PuestoID = 25 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 25 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 25 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Gerenciar generalmente", PuestoID = 26 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Gestión de capital humano", PuestoID = 26 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Dar rumbo al negocio", PuestoID = 26 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 26 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 26 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Vender", PuestoID = 27 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Reducir gastos de venta", PuestoID = 27 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Cerrar negocios", PuestoID = 27 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 27 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 27 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Gobernar su TI", PuestoID = 28 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Seguridad", PuestoID = 28 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Gestión de activos", PuestoID = 28 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 28 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 28 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Ganar clientes", PuestoID = 29 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Desperdiciar dinero", PuestoID = 29 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Creerse importante", PuestoID = 29 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 29 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 29 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Hacer", PuestoID = 30 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Operar", PuestoID = 30 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Producir", PuestoID = 30 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 30 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 30 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Negociar con comunidades", PuestoID = 31 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Promover programas de desarrollo", PuestoID = 31 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Responsabilizar", PuestoID = 31 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 31 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 31 });
+            
             TablaFunciones.AddElement(new Funcion { Nombre = "Administrar", PuestoID = 32 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Gestionar", PuestoID = 32 });
             TablaFunciones.AddElement(new Funcion { Nombre = "Ordenar", PuestoID = 32 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Medir el impacto", PuestoID = 32 });
+            TablaFunciones.AddElement(new Funcion { Nombre = "Brindar soporte", PuestoID = 32 });
             
         }
     }

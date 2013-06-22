@@ -76,17 +76,24 @@ namespace KendoDP2.Controllers
 
         public void SendEmail(String to, String subject, String message)
         {
-            MailMessage mail = new MailMessage();
-            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-            SmtpServer.Credentials = new System.Net.NetworkCredential("pruebas.rhpp@gmail.com", "desarrollo");
-            SmtpServer.Port = 587;
-            SmtpServer.EnableSsl = true;
+            try
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                SmtpServer.Credentials = new System.Net.NetworkCredential("pruebas.rhpp@gmail.com", "desarrollo");
+                SmtpServer.Port = 587;
+                SmtpServer.EnableSsl = true;
 
-            mail.From = new MailAddress("pruebas.rhpp@gmail.com");
-            mail.Subject = subject;
-            mail.To.Add(to);
-            mail.Body = message;
-            SmtpServer.Send(mail);
+                mail.From = new MailAddress("pruebas.rhpp@gmail.com");
+                mail.Subject = subject;
+                mail.To.Add(to);
+                mail.Body = message;
+                SmtpServer.Send(mail);
+            }
+            catch (Exception e)
+            {
+
+            }
         }
     }
 }
