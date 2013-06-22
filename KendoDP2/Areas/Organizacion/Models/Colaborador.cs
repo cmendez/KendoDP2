@@ -243,11 +243,11 @@ namespace KendoDP2.Areas.Organizacion.Models
 
             try {
                 ColaboradorXPuesto cruce = c.ColaboradoresPuesto.OrderByDescending(a => a.ID).First();
-                AreaID = cruce.Puesto.AreaID;
-                Area = cruce.Puesto.Area.Nombre;
-                PuestoID = cruce.Puesto.ID;
-                Puesto = cruce.Puesto.Nombre;
-                Sueldo = cruce.Sueldo;
+              AreaID = cruce.Puesto.AreaID;
+            Area = cruce.Puesto.Area.Nombre;
+          PuestoID = cruce.Puesto.ID;
+           Puesto = cruce.Puesto.Nombre;
+          Sueldo = cruce.Sueldo;
             } catch(Exception){
                 AreaID = 0;
                 PuestoID = 0;
