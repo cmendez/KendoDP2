@@ -58,7 +58,6 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             using (DP2Context context = new DP2Context())
             {
                 Objetivo o = new Objetivo(objetivo, context);
-                o.Dueño = context.TablaColaboradores.FindByID(elUsuarioQueInicioSesion);
                 context.TablaObjetivos.AddElement(o);
                 if (o.AvanceFinal != 0) o.RegistrarAvance(context, o.AvanceFinal, objetivo.ComentarioUltimoAvance);
                 return Json(new[] { o.ToDTO(context) }.ToDataSourceResult(request, ModelState));
@@ -93,15 +92,8 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                try
-                {
                     context.TablaObjetivos.RemoveElementByID(objetivo.ID, true);
-                    return Json(ModelState.ToDataSourceResult());
-                }
-                catch (Exception)
-                {
-                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-                }
+                    return Json(new []{objetivo}.ToDataSourceResult(request, ModelState));
             }
         }
 

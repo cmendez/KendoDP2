@@ -39,9 +39,6 @@ namespace KendoDP2.Areas.Objetivos.Models
 
         public bool IsObjetivoIntermedio { get; set; }
 
-        [InverseProperty("Objetivos")]
-        public virtual Colaborador Dueño { get; set; }
-
         public virtual ICollection<AvanceObjetivo> LosProgresos { get; set; }
 
         public Objetivo() {
