@@ -508,7 +508,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 {
                     //ColaboradorRDTO colhijo;
                     ///colhijo =
-                    ListaEquipo.Add(context.TablaColaboradoresXPuestos.Where(c => c.PuestoID == phijo.ID && !cxp.FechaSalidaPuesto.HasValue).Last().Colaborador.ToRDTO());
+                    ListaEquipo.Add(context.TablaColaboradoresXPuestos.Where(c => c.PuestoID == phijo.ID && !c.FechaSalidaPuesto.HasValue).Last().Colaborador.ToRDTO(context));
                 }
 
                 return Json(ListaEquipo, JsonRequestBehavior.AllowGet);
