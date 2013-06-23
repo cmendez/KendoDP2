@@ -184,7 +184,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                List<ColaboradorDTO> p = new List<ColaboradorDTO>();
                try
                {
-                   p = context.TablaColaboradores.All().Select(m => m.ToDTO()).Where(n => n.AreaID == areaID).ToList();
+                   p = context.TablaColaboradores.All().Select(m => m.ToDTO()).Where(n => n.AreaID == areaID || n.AreaID == 12).ToList();
                }
                catch (Exception) { }
                return Json(p, JsonRequestBehavior.AllowGet);
