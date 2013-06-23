@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Globalization;
 
 namespace KendoDP2.Areas.Evaluacion360.Controllers
 {
@@ -35,10 +36,17 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 //ViewBag.rendirEvaluacion=false;
 
                 Boolean auxiliar = false;
+                Boolean auxiliarFecha = false;
 
                 //int estado = context.TablaExamenes.One(x => x.EvaluadorID.Equals(ConstantsEstadoProcesoEvaluacion.Terminado)).EstadoExamenID;
 
                 Examen examen = context.TablaExamenes.One(x => x.EvaluadorID == instanciaEvaluadores);
+
+                Evaluador evaluador = context.TablaEvaluadores.One(x => x.ID == instanciaEvaluadores);
+
+                ProcesoEvaluacion proceso = context.TablaProcesoEvaluaciones.One(x => x.ID == evaluador.ProcesoEnElQueParticipanID);
+
+                DateTime dateahora= DateTime.Now;                
 
                 if (examen.EstadoExamenID == context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID)
                 {
@@ -48,7 +56,15 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 {
                     auxiliar = true;
                 }
+
+                //DateTime fin = DateTime.ParseExact(proceso.FechaCierre, "dd/MM/yyyy HH:mm:ss", CultureInfo.CurrentCulture);
+                DateTime fechacierre = (DateTime)proceso.FechaCierre;
+
+                if (fechacierre.CompareTo(dateahora) > 0) { auxiliarFecha = true; }
+                else { auxiliarFecha = false; }
+
                 ViewBag.rendirEvaluacion = auxiliar;
+                ViewBag.fechaEvaluacion = auxiliarFecha;
 
                 return View();
             }
