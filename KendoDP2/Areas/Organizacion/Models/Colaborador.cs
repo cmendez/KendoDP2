@@ -25,8 +25,6 @@ namespace KendoDP2.Areas.Organizacion.Models
         public string FechaIngresoEmpresa {get; set;}
         public string FechaSalidaEmpresa { get; set; }
 
-        public virtual ICollection<Objetivo> Objetivos { get; set; }
-        
         public virtual ICollection<ColaboradorXPuesto> ColaboradoresPuesto { get; set; }
 
         public virtual ICollection<ColaboradorXProcesoEvaluacion> ColaboradorXProcesoEvaluaciones { get; set; }
@@ -248,13 +246,15 @@ namespace KendoDP2.Areas.Organizacion.Models
             Password = c.Password;
             Subordinados = listac;
 
+            Puesto puesto = null;
             try {
-                ColaboradorXPuesto cruce = c.ColaboradoresPuesto.OrderByDescending(a => a.ID).First();
+                ColaboradorXPuesto cruce = c.ColaboradoresPuesto.SingleOrDefault(x => x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today);
                 AreaID = cruce.Puesto.AreaID;
                 Area = cruce.Puesto.Area.Nombre;
                 PuestoID = cruce.Puesto.ID;
                 Puesto = cruce.Puesto.Nombre;
                 Sueldo = cruce.Sueldo;
+                puesto = cruce.Puesto;
             } catch(Exception){
                 AreaID = 0;
                 PuestoID = 0;
@@ -266,7 +266,10 @@ namespace KendoDP2.Areas.Organizacion.Models
             try
             {
                 //Objetivos = c.Objetivos.Select(o => o.ToDTO()).ToList();
-                Objetivos = c.Objetivos.Select(o => o.ToDTO(new DP2Context())).ToList();
+                using (DP2Context context = new DP2Context())
+                {
+                    Objetivos = puesto.Objetivos.Select(o => o.ToDTO(context)).ToList();
+                }
                 Contactos = c.Contactos.Select(o => o.ToDTO()).ToList();
             }
             catch (Exception)

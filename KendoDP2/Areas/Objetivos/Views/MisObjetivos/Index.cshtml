@@ -164,6 +164,7 @@
     }
 
     function afterRequest(e) {
+        console.log(e);
         if (e.type == 'create')
             e.sender.read();
     }

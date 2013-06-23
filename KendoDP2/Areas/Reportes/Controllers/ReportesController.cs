@@ -132,7 +132,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
 
                 foreach (ObjetivoConPadreDTO objhijo in ListaObjetivosHijos)
                 {
-                    ListaColaboradores.AddRange(context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == objhijo.puestoID && (cxp.FechaSalidaPuesto==null ||DateTime.Today<=cxp.FechaSalidaPuesto)).Select(p => p.ToDTO().Colaborador));
+                    ListaColaboradores.AddRange(context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == objhijo.puestoID && (!cxp.FechaSalidaPuesto.HasValue )).Select(p => p.ToDTO().Colaborador));
                 }
                 //List<ColaboradorXPuestoDTO> ListaColaboradoresXPuesto = context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == ListaObjetivosHijos[0].puestoID).Select(p => p.ToDTO()).ToList();
                 
@@ -142,14 +142,20 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 //}
                 foreach (ColaboradorDTO c in ListaColaboradores)
                 {
-                    PersonaXObjetivoDTO pxo = new PersonaXObjetivoDTO();
-                    pxo.nombreColaborador = c.NombreCompleto;
-                    ObjetivoConPadreDTO obj = ListaObjetivosHijos.Find(o => o.puestoID == c.PuestoID);
-                    pxo.avance = obj.AvanceFinal;
-                    pxo.idObjetivo = obj.ID;
-                    //pxo.objetivos = context.TablaObjetivos.Where(ob => ob.ID==ListaObjetivosHijos.Find(o => o.puestoID == c.PuestoID).ID).Select(objj=> objj.ToRDTO(context)).ToList();
-                    pxo.objetivos = context.TablaObjetivos.Where(ob => ob.ObjetivoPadreID != 0 && context.TablaObjetivos.FindByID(ob.ObjetivoPadreID).PuestoAsignadoID == c.PuestoID).Select(objj => objj.ToRDTO(context)).ToList();
-                    PersonasXObjetivo.Add(pxo);
+                    foreach (ObjetivoConPadreDTO objetivohijo in ListaObjetivosHijos)
+                    {
+                        if (c.PuestoID == objetivohijo.puestoID)
+                        {
+                            PersonaXObjetivoDTO pxo = new PersonaXObjetivoDTO();
+                            pxo.nombreColaborador = c.NombreCompleto;
+                            ObjetivoConPadreDTO obj = ListaObjetivosHijos.Find(o => o.puestoID == c.PuestoID);
+                            pxo.avance = obj.AvanceFinal;
+                            pxo.idObjetivo = obj.ID;
+                            //pxo.objetivos = context.TablaObjetivos.Where(ob => ob.ID==ListaObjetivosHijos.Find(o => o.puestoID == c.PuestoID).ID).Select(objj=> objj.ToRDTO(context)).ToList();
+                            pxo.objetivos = context.TablaObjetivos.Where(ob => ob.ObjetivoPadreID != 0 && context.TablaObjetivos.FindByID(ob.ObjetivoPadreID).PuestoAsignadoID == c.PuestoID).Select(objj => objj.ToRDTO(context)).ToList();
+                            PersonasXObjetivo.Add(pxo);
+                        }
+                    }
                 }
 
                 return Json(PersonasXObjetivo, JsonRequestBehavior.AllowGet);
@@ -309,13 +315,13 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 List<OfertaLaboral> ListaOfertasaux = context.TablaOfertaLaborales.All();
                 DateTime parser=new System.DateTime();
                 //DateTime dateinicio = System.DateTime.ParseExact(finicio, "dd/MM/yyyy", CultureInfo.CurrentCulture) ;
-                DateTime dateinicio = System.DateTime.ParseExact(ListaOfertasaux[0].FechaPublicacion, "dd/MM/yyyy", CultureInfo.CurrentCulture);
+                DateTime dateinicio = System.DateTime.ParseExact(ListaOfertasaux[0].FechaRequerimiento, "dd/MM/yyyy", CultureInfo.CurrentCulture);
                 int leng= finicio.Length;
                 DateTime dateinicio2 = System.DateTime.ParseExact(finicio, "dd/MM/yyyy", CultureInfo.CurrentCulture); 
                 //List<OfertaLaboralDTO> ListaOfertas = context.TablaOfertaLaborales.Where(p => p.PuestoID==idpuesto && Convert.ToDateTime(p.FechaFinVigenciaSolicitud)<=Convert.ToDateTime(ffin) && Convert.ToDateTime(p.FechaPublicacion)>Convert.ToDateTime(finicio)).Select(of=>of.ToDTO()).ToList();
                 List<OfertaLaboral> ListaOfertasaux2 = ListaOfertasaux.Where(p => p.PuestoID == idpuesto && p.EstadoSolicitudOfertaLaboral.Descripcion == "Aprobado" &&
-                    DateTime.ParseExact(p.FechaPublicacion, "dd/MM/yyyy", CultureInfo.CurrentCulture).CompareTo(dateinicio2)>=0
-                    && DateTime.ParseExact(p.FechaPublicacion, "dd/MM/yyyy", CultureInfo.CurrentCulture).CompareTo(DateTime.ParseExact(ffin, "dd/MM/yyyy", CultureInfo.CurrentCulture))<=0).ToList();
+                    DateTime.ParseExact(p.FechaRequerimiento, "dd/MM/yyyy", CultureInfo.CurrentCulture).CompareTo(dateinicio2) >= 0
+                    && DateTime.ParseExact(p.FechaRequerimiento, "dd/MM/yyyy", CultureInfo.CurrentCulture).CompareTo(DateTime.ParseExact(ffin, "dd/MM/yyyy", CultureInfo.CurrentCulture)) <= 0).ToList();
                     
                     ;
                 
@@ -487,13 +493,29 @@ namespace KendoDP2.Areas.Reportes.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                int PuestoID = context.TablaColaboradoresXPuestos.One(cxp => cxp.Colaborador.ID == idJefe && cxp.FechaSalidaPuesto == null).ToDTO().PuestoID;
+
+                Puesto Puesto = context.TablaColaboradoresXPuestos.Where(cxp => cxp.ColaboradorID == idJefe && !cxp.FechaSalidaPuesto.HasValue).Last().Puesto;
+                //int PuestoID = context.TablaColaboradoresXPuestos.One(cxp => cxp.Colaborador.ID == idJefe && !cxp.FechaSalidaPuesto.HasValue).ToDTO().PuestoID;
                 List<ColaboradorRDTO> ListaEquipo = new List<ColaboradorRDTO>();
-                ListaEquipo = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.PuestoSuperiorID== PuestoID && cxp.FechaSalidaPuesto == null).Select(a => a.Colaborador.ToRDTO(context)).ToList();
+
+                //List<PuestoDTO> Puestoshijos =context.TablaPuestos.Where(p=>p. !=null && p.PuestoSuperiorID == PuestoID2).Select(p=>p.ToDTO()).ToList();
+                //Puesto Puesto =context.TablaPuestos.One(p=>p.ID==Puesto.);
+                List<PuestoDTO> Puestoshijos = Puesto.Puestos.Select(p => p.ToDTO()).ToList();
+                //return Json(ListaEquipo, JsonRequestBehavior.AllowGet);
+                //ListaEquipo = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.PuestoSuperiorID.HasValue && cxp.Puesto.PuestoSuperiorID == PuestoID2 && !cxp.FechaSalidaPuesto.HasValue).Select(a => a.Colaborador.ToRDTO(context)).ToList();
+
+                foreach (PuestoDTO phijo in Puestoshijos)
+                {
+                    //ColaboradorRDTO colhijo;
+                    ///colhijo =
+                    ListaEquipo.Add(context.TablaColaboradoresXPuestos.Where(c => c.PuestoID == phijo.ID && !c.FechaSalidaPuesto.HasValue).Last().Colaborador.ToRDTO(context));
+                }
 
                 return Json(ListaEquipo, JsonRequestBehavior.AllowGet);
             }
         }
+
+
 
         //public ActionResult SeleccionXUniversidades(int idPuesto, string fecha)
         //{
