@@ -58,7 +58,9 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 }
 
                 //DateTime fin = DateTime.ParseExact(proceso.FechaCierre, "dd/MM/yyyy HH:mm:ss", CultureInfo.CurrentCulture);
-                DateTime fechacierre = (DateTime)proceso.FechaCierre;
+                
+                //DateTime fechacierre = (DateTime)proceso.FechaCierre;
+                DateTime fechacierre = proceso.FechaCierre.GetValueOrDefault();
 
                 if (fechacierre.CompareTo(dateahora) > 0) { auxiliarFecha = true; }
                 else { auxiliarFecha = false; }
