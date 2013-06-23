@@ -101,9 +101,17 @@ namespace KendoDP2.Areas.Organizacion.Controllers
 
 
                     // se crea el nuevo puesto
-
+                    DateTime fechaInicio;
+                    try
+                    {
+                        fechaInicio = DateTime.ParseExact(colaborador.FechaIngreso, "yyyy-MM-dd", System.Globalization.CultureInfo.CurrentCulture);
+                    }
+                    catch
+                    {
+                        fechaInicio = DateTime.Now;
+                    }
                     Puesto p = context.TablaPuestos.FindByID(colaborador.PuestoID);
-                    ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo , FechaIngresoPuesto = DateTime.Now};
+                    ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo , FechaIngresoPuesto = fechaInicio};
 
                     context.TablaColaboradoresXPuestos.AddElement(cruce);
                 }
@@ -284,7 +292,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                     var ultimoCruce = context.TablaColaboradoresXPuestos.One(x => x.FechaSalidaPuesto == null && x.ColaboradorID == c.ID);
                     if (ultimoCruce != null)
                     {
-                        ultimoCruce.FechaSalidaPuesto = DateTime.Now.AddDays(1);
+                        ultimoCruce.FechaSalidaPuesto = DateTime.Now.AddDays(-1);
                         context.TablaColaboradoresXPuestos.ModifyElement(ultimoCruce);
                     }
 
