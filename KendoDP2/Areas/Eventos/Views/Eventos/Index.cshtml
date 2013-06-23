@@ -44,7 +44,7 @@
                             command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar");
                             command.Custom("Notificar").Click("enviarNotificacion").SendDataKeys(true);
                             command.Destroy().Text("Eliminar");
-                        }).Width(200);
+                        }).Width(300);
 
                     }
                 )
@@ -110,7 +110,6 @@
                  if(response.Errors === null){
                  handleError(response, "No se pudieron enviar las notificaciones, Revisar detalles");
                 }
-                recargaGrid();
             }
          });
 
