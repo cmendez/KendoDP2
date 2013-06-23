@@ -16,7 +16,7 @@
     SelectList listaEstados = new SelectList(estadosEventos, "ID", "Descripcion");
     SelectList listaPuestos = new SelectList(puestos, "ID", "Nombre");
     int colaboradorLogueado = ViewBag.colaboradorLogueado;
-    
+   
 
     
 }
@@ -50,12 +50,12 @@
                     <div class="span9">
                         <div class="row-fluid">
                             <div class="span8 profile-info">
-                                <h1>Mario Moreno</h1>
-                                <p>Administrador General del sistema. Sabe que esto es una prueba :D</p>
+                                <h1>@colaboradorDTO.NombreCompleto</h1>
+                                <p>@colaboradorDTO.ResumenEjecutivo</p>
                                 <ul class="unstyled inline">
-                                    <li><i class="icon-map-marker"></i>Perú</li>
-                                    <li><i class="icon-calendar"></i>19 Abril 1980</li>
-                                    <li><i class="icon-star"></i>Cantinflas </li>
+                                    <li><i class="icon-map-marker"></i>@colaboradorDTO.Puesto</li>
+                                    <li><i class="icon-calendar"></i>@colaboradorDTO.Area</li>
+                                    <li><i class="icon-star"></i>@colaboradorDTO.CorreoElectronico </li>
                                 </ul>
                             </div>
                             <!--end span8-->
@@ -622,9 +622,9 @@
 		
         $('#calendar3').fullCalendar({
             header: {
-                left: 'title',
-                center: '',
-                right: 'prev,next,today,month,agendaWeek,agendaDay'
+                //left: 'title',
+                //center: '',
+                //right: 'prev,next,today,month,agendaWeek,agendaDay'
             },
             editable: true,
             events: '@Url.Action("GetEventosPersonales", "Intranet", new {Area = "Organizacion"})?colaboradorID=@colaboradorLogueado',
@@ -644,7 +644,7 @@
                         header: {
                             left: 'title',
                             center: '',
-                            right: 'prev,next,today,month,agendaWeek,agendaDay'
+                           right: 'prev,next,today,month,agendaWeek,agendaDay'
                         },
                         editable: true,
                         events: '@Url.Action("GetEventosPersonales", "Intranet", new {Area = "Organizacion"})?colaboradorID=@colaboradorLogueado',

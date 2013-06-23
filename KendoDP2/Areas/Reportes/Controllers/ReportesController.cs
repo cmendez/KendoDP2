@@ -307,6 +307,53 @@ namespace KendoDP2.Areas.Reportes.Controllers
         //        return Json(context.TablaOfertaLaboralXPostulante.All()., JsonRequestBehavior.AllowGet);
         //    }
         //}
+        public ActionResult OfertasLaborales(int puesto)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                List<OfertaLaboral> ListaOfertasaux = context.TablaOfertaLaborales.Where(o=> o.PuestoID == puesto);
+
+                List<ROferta> OfertasPuesto = new List<ROferta>();
+
+                foreach (OfertaLaboral Oferta in ListaOfertasaux)
+                {
+                    ROferta Ofertapuesto = new ROferta();
+                    Ofertapuesto.descripcion = Oferta.Descripcion;
+                    Ofertapuesto.fecha = Oferta.FechaRequerimiento;
+                   
+                    List<FasePostulacionXOfertaLaboralXPostulante> FasesPostulacionXOfertaXPostulante = context.TablaFasePostulacionXOfertaLaboralXPostulante .Where(f=>f.OfertaLaboralXPostulante.OfertaLaboralID==Oferta.ID).ToList();
+
+                    for (int i = 1; i <= 3; i++)
+                    {
+                        RFase fase = new RFase();
+                        FasePostulacionDTO fasedto ;
+                        FasePostulacion faseaux=new FasePostulacion();
+                        fasedto = faseaux.ToDTO(context.TablaFasePostulacion.FindByID(i));
+
+
+                        fase.nombreFase = fasedto.Descripcion;
+                        fase.numPostulantes = FasesPostulacionXOfertaXPostulante.Where(f => f.FasePostulacionID == 1).Count();
+                        fase.Postulantes= new List<RPostulante>();
+                        FasesPostulacionXOfertaXPostulante.Where(f => f.FasePostulacionID == 1).ToList().ForEach(f => fase.Postulantes.Add(new RPostulante
+                        {
+                            Proveniencia = f.OfertaLaboralXPostulante.Postulante.CentroEstudios,
+                            gradoAcademico = f.OfertaLaboralXPostulante.Postulante.GradoAcademico.Descripcion,
+                            nombre = f.OfertaLaboralXPostulante.Postulante.Nombres + " " + f.OfertaLaboralXPostulante.Postulante.ApellidoPaterno + " " + f.OfertaLaboralXPostulante.Postulante.ApellidoMaterno
+                        }));
+
+                        Ofertapuesto.Fases.Add(fase);
+
+                    }
+
+                    OfertasPuesto.Add(Ofertapuesto);
+                    List<FasePostulacion> FasesPostulacion = context.TablaFasePostulacion.All();
+                    //List<fa> FasesPostulacion = context.TablaFasePostulacion.All();
+                }
+
+                return Json(OfertasPuesto, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult PostulacionySeleccion(int idpuesto,string finicio,string ffin)
         {
             using (DP2Context context = new DP2Context())
@@ -494,12 +541,12 @@ namespace KendoDP2.Areas.Reportes.Controllers
             using (DP2Context context = new DP2Context())
             {
 
-                int PuestoID2 = context.TablaColaboradores.One(c => c.ID == idJefe).ToDTO().PuestoID;
+                Puesto Puesto = context.TablaColaboradoresXPuestos.Where(cxp => cxp.ColaboradorID == idJefe && !cxp.FechaSalidaPuesto.HasValue).Last().Puesto;
                 //int PuestoID = context.TablaColaboradoresXPuestos.One(cxp => cxp.Colaborador.ID == idJefe && !cxp.FechaSalidaPuesto.HasValue).ToDTO().PuestoID;
                 List<ColaboradorRDTO> ListaEquipo = new List<ColaboradorRDTO>();
 
                 //List<PuestoDTO> Puestoshijos =context.TablaPuestos.Where(p=>p. !=null && p.PuestoSuperiorID == PuestoID2).Select(p=>p.ToDTO()).ToList();
-                Puesto Puesto =context.TablaPuestos.One(p=>p.ID==PuestoID2);
+                //Puesto Puesto =context.TablaPuestos.One(p=>p.ID==Puesto.);
                 List<PuestoDTO> Puestoshijos = Puesto.Puestos.Select(p => p.ToDTO()).ToList();
                 //return Json(ListaEquipo, JsonRequestBehavior.AllowGet);
                 //ListaEquipo = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.PuestoSuperiorID.HasValue && cxp.Puesto.PuestoSuperiorID == PuestoID2 && !cxp.FechaSalidaPuesto.HasValue).Select(a => a.Colaborador.ToRDTO(context)).ToList();
@@ -508,7 +555,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 {
                     //ColaboradorRDTO colhijo;
                     ///colhijo =
-                    ListaEquipo.AddRange(context.TablaColaboradores.Where(c => c.ToDTO().PuestoID == phijo.ID).Select(p => p.ToRDTO(context)));
+                    ListaEquipo.Add(context.TablaColaboradoresXPuestos.Where(c => c.PuestoID == phijo.ID && !c.FechaSalidaPuesto.HasValue).Last().Colaborador.ToRDTO(context));
                 }
 
                 return Json(ListaEquipo, JsonRequestBehavior.AllowGet);

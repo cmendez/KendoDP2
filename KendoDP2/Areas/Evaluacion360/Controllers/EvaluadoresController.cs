@@ -8,6 +8,7 @@ using Kendo.Mvc.UI;
 using KendoDP2.Areas.Evaluacion360.Models;
 using KendoDP2.Areas.Organizacion.Models;
 using KendoDP2.Models.Generic;
+using KendoDP2.Models.Seguridad;
 
 namespace KendoDP2.Areas.Evaluacion360.Controllers
 {
@@ -58,13 +59,20 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
                 ViewBag.Area = ""; //Solo es temporal
                 ViewBag.elProceso = procesoEvaluacionID;
+                ViewBag.EsJefe = true;
 
+                Colaborador jefe = consigueSuJefe(colaboradorID, context);
+                int idUsuario = DP2MembershipProvider.GetPersonaID(this);
+                if (jefe.ID != idUsuario)
+                {
+                    ViewBag.EsJefe = false; 
+                } else
                 if (losEvaluadoresDeEsteColaboradorYaFueronElegidos(procesoEvaluacionID, colaboradorID, context))
                 {
                     Colaborador elEmpleado = consigueAlEmpleado(colaboradorID, context);
                     ViewBag.elEvaluado = elEmpleado.ToDTO();
                     ViewBag.losEvaluadoresYaFueronSeleccionados = true;
-
+                    
                     return View();
                 }
 
@@ -250,7 +258,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         private List<Colaborador> consigueSusPares(int idEvaluado, DP2Context context)
         {
 
-            return GestorServiciosPrivados.consigueSusCompañerosPares(idEvaluado, context);
+            return GestorServiciosPrivados.consigueSusCompañerosPares(idEvaluado, context, idEvaluado);
         }
 
         private List<Colaborador> consigueSubordinados(int deEsteJefe, DP2Context contexto)

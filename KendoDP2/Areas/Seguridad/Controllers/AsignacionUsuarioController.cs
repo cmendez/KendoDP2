@@ -7,6 +7,7 @@ using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
 using KendoDP2.Areas.Organizacion.Models;
 using KendoDP2.Models.Generic;
+using KendoDP2.Models.Seguridad;
 
 namespace KendoDP2.Areas.Seguridad.Controllers
 {
@@ -25,28 +26,66 @@ namespace KendoDP2.Areas.Seguridad.Controllers
             return View();
         }
 
+        private List<UsuarioDTO> ObtenerUsuarios()
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                var query = from usuarios in context.TablaUsuarios.All()
+                            where !(from o in context.TablaColaboradores.All()
+                                    select o.Username)
+                                .Contains(usuarios.Username)
+                            &&
+                            !(from o in context.TablaPostulante.All()
+                              select o.Username)
+                                .Contains(usuarios.Username)
+                            select usuarios;
+                List<UsuarioDTO> salida = new List<UsuarioDTO>();
+
+                foreach (Usuario US in query)
+                {
+                    UsuarioDTO aux = new UsuarioDTO();
+                    aux.Password = US.ToDTO().Password;
+                    aux.Username = US.ToDTO().Username;
+                    aux.ID = US.ToDTO().ID;
+                    aux.IsEliminado = US.ToDTO().IsEliminado;
+                    aux.Roles = US.ToDTO().Roles;
+                    salida.Add(aux);
+                }
+                return salida;
+            }
+        }
+
         public ActionResult _Read([DataSourceRequest] DataSourceRequest request)
         {
             using (DP2Context context = new DP2Context())
             {
-                var X=context.TablaColaboradores.Where(c => c.Username != "admin");
-                return Json(X.Select(I => I.ToDTO()).ToDataSourceResult(request));
+                return Json(ObtenerUsuarios().Where(c => c.Username != "admin").ToDataSourceResult(request));
             }
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult _Update([DataSourceRequest] DataSourceRequest request, ColaboradorDTO colaborador)
+        public ActionResult _Create([DataSourceRequest] DataSourceRequest request, UsuarioDTO usuario)
         {
             using (DP2Context context = new DP2Context())
             {
-                Colaborador c = context.TablaColaboradores.One(o => o.ID == colaborador.ID);
-                c.Username = colaborador.Usuario;
-                c.Password = colaborador.Password;
-                context.TablaColaboradores.ModifyElement(c);
-                return Json(context.TablaColaboradores.Where(f => f.Username != "admin").Select(I => I.ToDTO()).ToDataSourceResult(request));
+                Usuario u = new Usuario(usuario);
+                u.Username = usuario.Username;
+                u.Password = usuario.Password;
+                u.Roles=context.TablaRoles.All();
+                context.TablaUsuarios.AddElement(u);
+                return Json(ObtenerUsuarios().Where(c => c.Username != "admin").ToDataSourceResult(request));
             }
         }
 
-        
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult _Update([DataSourceRequest] DataSourceRequest request, UsuarioDTO usuario)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                Usuario u = new Usuario();
+                context.TablaUsuarios.ModifyElement(u.LoadFromDTO(usuario));
+                return Json(ObtenerUsuarios().Where(c => c.Username != "admin").ToDataSourceResult(request));
+            }
+        }
     }
 }

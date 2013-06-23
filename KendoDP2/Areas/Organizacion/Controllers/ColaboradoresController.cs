@@ -101,9 +101,17 @@ namespace KendoDP2.Areas.Organizacion.Controllers
 
 
                     // se crea el nuevo puesto
-
+                    DateTime fechaInicio;
+                    try
+                    {
+                        fechaInicio = DateTime.ParseExact(colaborador.FechaIngreso, "yyyy-MM-dd", System.Globalization.CultureInfo.CurrentCulture);
+                    }
+                    catch
+                    {
+                        fechaInicio = DateTime.Now;
+                    }
                     Puesto p = context.TablaPuestos.FindByID(colaborador.PuestoID);
-                    ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo , FechaIngresoPuesto = DateTime.Now};
+                    ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo , FechaIngresoPuesto = fechaInicio};
 
                     context.TablaColaboradoresXPuestos.AddElement(cruce);
                 }
@@ -267,6 +275,32 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 return PartialView("ViewContacto", contacto.ToDTO());
 
             }
+        }
+
+        public ActionResult DespideColaborador([DataSourceRequest] DataSourceRequest request, int colaboradorID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                Colaborador c = context.TablaColaboradores.FindByID(colaboradorID);
+                c.EstadoColaborador = context.TablaEstadosColaboradores.All().Where(p => p.Descripcion.Equals("Despedido")).FirstOrDefault();
+                context.TablaColaboradores.ModifyElement(c);
+                ColaboradorDTO colaboradorBD = c.ToDTO(); // lee el ultimo puesto de la bd
+                // crea un nuevo puesto en la tabla de cruce si algo cambio
+                if (colaboradorBD.PuestoID != null)
+                {
+                    //asigno fecha fin al puesto
+                    var ultimoCruce = context.TablaColaboradoresXPuestos.One(x => x.FechaSalidaPuesto == null && x.ColaboradorID == c.ID);
+                    if (ultimoCruce != null)
+                    {
+                        ultimoCruce.FechaSalidaPuesto = DateTime.Now.AddDays(-1);
+                        context.TablaColaboradoresXPuestos.ModifyElement(ultimoCruce);
+                    }
+
+                                    }
+
+                return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
+            }
+
         }
 
 

@@ -76,38 +76,6 @@ namespace KendoDP2.Models.Generic
         {
             TablaOfertaLaborales.AddElement(new OfertaLaboral
             {
-                PuestoID = 20,
-                AreaID = TablaPuestos.One(a => a.ID == 20).AreaID,
-                ResponsableID = TablaColaboradores.One(a => a.ApellidoPaterno.Equals("Solorzano")).ID,
-                EstadoSolicitudOfertaLaboralID = TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID,
-                FechaPublicacion = DateTime.Now.AddDays(-10).ToString("dd/MM/yyyy"),
-                FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"),
-                FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
-                Descripcion = "Trabajo en el directorio",
-                ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
-                SueldoTentativo = 15000,
-                Comentarios = "",
-                NumeroVacantes = 3
-            });
-
-            TablaOfertaLaborales.AddElement(new OfertaLaboral
-            {
-                PuestoID = 21,
-                AreaID = TablaPuestos.One(a => a.ID == 21).AreaID,
-                ResponsableID = TablaColaboradores.One(a => a.ApellidoPaterno.Equals("Solorzano")).ID,
-                EstadoSolicitudOfertaLaboralID = 1,
-                FechaPublicacion = DateTime.Now.AddDays(-10).ToString("dd/MM/yyyy"),
-                FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"),
-                FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
-                Descripcion = "Trabajo de gerencia",
-                ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
-                SueldoTentativo = 15000,
-                Comentarios = "",
-                NumeroVacantes = 3
-            });
-
-            TablaOfertaLaborales.AddElement(new OfertaLaboral
-            {
                 PuestoID = 3,
                 AreaID = TablaPuestos.One(a => a.ID == 3).AreaID,
                 ResponsableID = TablaColaboradores.One(a => a.Username.Equals("cperez")).ID,
@@ -157,42 +125,6 @@ namespace KendoDP2.Models.Generic
 
         private void SeedPostulante()
         {
-            TablaPostulante.AddElement(new Postulante
-            {
-                Nombres = "Postulante 1",
-                ApellidoPaterno = "XXX",
-                ApellidoMaterno = "YYY",
-                CentroEstudios = "PUCP",
-                CorreoElectronico = "algo@rhplusplus.com",
-                TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID,
-                NumeroDocumento = "70705645",
-                GradoAcademicoID = TablaGradosAcademicos.One(ga => ga.Descripcion.Equals("Licenciado")).ID,
-            });
-
-            TablaPostulante.AddElement(new Postulante
-            {
-                Nombres = "Postulante 2",
-                ApellidoPaterno = "XXX",
-                ApellidoMaterno = "YYY",
-                CentroEstudios = "PUCP",
-                CorreoElectronico = "algo@rhplusplus.com",
-                TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID,
-                NumeroDocumento = "70455645",
-                GradoAcademicoID = TablaGradosAcademicos.One(ga => ga.Descripcion.Equals("Licenciado")).ID,
-            });
-
-            TablaPostulante.AddElement(new Postulante
-            {
-                Nombres = "Postulante 3",
-                ApellidoPaterno = "XXX",
-                ApellidoMaterno = "YYY",
-                CentroEstudios = "PUCP",
-                CorreoElectronico = "algo@rhplusplus.com",
-                TipoDocumentoID = TablaTiposDocumentos.One(d => d.Descripcion.Equals("DNI")).ID,
-                NumeroDocumento = "70708445",
-                GradoAcademicoID = TablaGradosAcademicos.One(ga => ga.Descripcion.Equals("Licenciado")).ID,
-            });
-
             //Colaborador como postulante (Mono): CORRIGE DESPUES DEL CAMBIO QUE VOY A HACER
             TablaPostulante.AddElement(new Postulante(TablaColaboradores.One(x => x.Username.Equals("jcahuin"))));
             TablaPostulante.AddElement(new Postulante(TablaColaboradores.One(x => x.Username.Equals("amontoya"))));
@@ -223,30 +155,6 @@ namespace KendoDP2.Models.Generic
 
         private void SeedOfertaLaboralXPostulante()
         {
-            TablaOfertaLaboralXPostulante.AddElement(new OfertaLaboralXPostulante
-            {
-                OfertaLaboralID = 1,
-                PostulanteID = TablaPostulante.One(x => x.Nombres.Equals("Postulante 1")).ID,
-                EstadoPostulantePorOfertaID = 1,
-                FlagAprobado = false,
-                PuntajeTotal = 0,
-                MotivoRechazo = String.Empty,
-                Comentarios = String.Empty,
-                Observaciones = String.Empty
-            });
-
-            TablaOfertaLaboralXPostulante.AddElement(new OfertaLaboralXPostulante
-            {
-                OfertaLaboralID = 2,
-                PostulanteID = TablaPostulante.One(x => x.Nombres.Equals("Postulante 2")).ID,
-                EstadoPostulantePorOfertaID = 1,
-                FlagAprobado = false,
-                PuntajeTotal = 0,
-                MotivoRechazo = String.Empty,
-                Comentarios = String.Empty,
-                Observaciones = String.Empty
-            });
-
             //Colaborador como postulante (Mono):  CORRIGE DESPUES DEL CAMBIO QUE VOY A HACER
             //Oferta 5
             TablaOfertaLaboralXPostulante.AddElement(new OfertaLaboralXPostulante
@@ -354,15 +262,7 @@ namespace KendoDP2.Models.Generic
 
         private void SeedFasePostulacionXOfertaLaboralXPostulante()
         {
-            //ESTO SE TIENE QUE BORRAR O AL MENOS TODAS DEBERIAN QUEDAR COMO REGIRSTRADAS NADA MAS
-            TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Registrado")).ID, OfertaLaboralXPostulanteID = 1 });
-            TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado Externo")).ID, OfertaLaboralXPostulanteID = 1 });
-            TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado RRHH")).ID, OfertaLaboralXPostulanteID = 1 });
-            TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado Jefe")).ID, OfertaLaboralXPostulanteID = 1 });
-            TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Registrado")).ID, OfertaLaboralXPostulanteID = 2 });
-            TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado Externo")).ID, OfertaLaboralXPostulanteID = 2 });
-            TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado RRHH")).ID, OfertaLaboralXPostulanteID = 2 });
-            TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante { FasePostulacionID = TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado Jefe")).ID, OfertaLaboralXPostulanteID = 2 });
+            
         }
     }
 }

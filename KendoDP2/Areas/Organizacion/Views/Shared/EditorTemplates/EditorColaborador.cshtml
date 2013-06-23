@@ -193,7 +193,7 @@
                         },
                         async: {
                             saveUrl: '@Url.Action("UploadSingleFile", "Misc", new {Area = ""})',
-                            autoUpload: true,
+                            autoUpload: true
                         },
                         success: function (e) {
                             var archivoID = e.response.ID;
@@ -292,7 +292,7 @@
                         },
                         async: {
                             saveUrl: '@Url.Action("UploadPDF", "Misc", new {Area = ""})',
-                            autoUpload: true,
+                            autoUpload: true
                         },
                         success: function (e) {
                             var archivoID = e.response.ID;
@@ -314,7 +314,7 @@
 <script>
     $("#AreaID").change(function () {
         var areaID = $(this).val();
-        $.getJSON("@Url.Action("_GetPuestos", "Colaboradores", new {Area = "Organizacion"})",
+        $.getJSON('@Url.Action("_GetPuestos", "Colaboradores", new {Area = "Organizacion"})',
                { areaID: areaID },
                function (puestos) {
                    var select = $("#PuestoID");
