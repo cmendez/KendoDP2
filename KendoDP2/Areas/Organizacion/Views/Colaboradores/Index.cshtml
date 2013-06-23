@@ -36,7 +36,8 @@
                         columns.ForeignKey(p => p.PuestoID, listaPuestos);
                         columns.Command(command => { command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar");
                                                      command.Destroy().Text("Eliminar");
-                                                   }).Width(200);
+                                                     command.Custom("Despedir").Click("despedir").SendDataKeys(true);
+                                                   }).Width(300);
                         
                     }
                 )
@@ -84,5 +85,27 @@
             });
             alert(message);
         }
+    }
+
+    function recargaGrid() {
+        $("#ColaboradorGrid").data('kendoGrid').dataSource.read();
+    }
+
+    function despedir(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+
+        $.ajax({
+            url: '@Url.Action("DespideColaborador", "Colaboradores", new { Area = "Organizacion" })',
+            dataType: 'JSON',
+            type: 'POST',
+            data: {
+                colaboradorID: dataItem.ID,
+            },
+            success: function (response) {
+                handleError(response, "Se despidió al colaborador");
+                recargaGrid();
+            }
+        });
     }
 </script>
