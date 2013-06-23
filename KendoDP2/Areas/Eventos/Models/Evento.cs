@@ -149,9 +149,19 @@ namespace KendoDP2.Areas.Eventos.Models
 
             if (e.Creador != null)
             {
-                var aux = e.Creador.ColaboradoresPuesto.Single(x => !x.FechaSalidaPuesto.HasValue).Puesto;
-                Puesto = aux.Nombre;
-                Area = aux.Area.Nombre;
+                using (DP2Context context = new DP2Context())
+                {
+                    var aux = context.TablaColaboradoresXPuestos.One(x => x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today);
+                    if (aux != null)
+                    {
+                        Puesto = aux.Puesto.Nombre;
+                        Area = aux.Puesto.Area.Nombre;
+                    }
+                    else
+                    {
+                        Puesto = Area = "";
+                    }
+                }
             }
 
             if (e.Invitados != null && e.Invitados.Count > 0)
