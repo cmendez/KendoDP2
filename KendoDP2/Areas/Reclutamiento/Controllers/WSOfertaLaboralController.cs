@@ -270,7 +270,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                         .Where(x => x.EstadoSolicitudOfertaLaboralID == esol.ID); //Que coincida con el estado de la oferta laboral que deseo
                     
                     Postulante p = context.TablaPostulante.One(x => x.ColaboradorID == c.ID);                   
-                    if (p == null) lstOL = lstOL.Where(x => !x.Postulantes.Select(y => y.PostulanteID).ToList().Contains(p.ID)).ToList(); //No sea una oferta ya postulada
+                    if (p != null) lstOL = lstOL.Where(x => !x.Postulantes.Select(y => y.PostulanteID).ToList().Contains(p.ID)).ToList(); //No sea una oferta ya postulada
                     
                     if (lstOL == null || lstOL.Count == 0)
                         return JsonErrorGet("No se encontraron ofertas laborales que cumplan los requisitos (Misma area que el postulante/Coincida con el estado/No hayan sido ya postuladas)");

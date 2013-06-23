@@ -299,7 +299,6 @@
     <Compile Include="Areas\Organizacion\Models\Funcion.cs" />
     <Compile Include="Areas\Organizacion\Models\NodoOrganigramaDTO.cs" />
     <Compile Include="Areas\Organizacion\Models\Organizacion.cs" />
-    <Compile Include="Areas\Organizacion\Models\PuestoXArea.cs" />
     <Compile Include="Areas\Organizacion\Models\EstadosPuesto.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\OfertasLaboralesExternasController.cs" />
     <Compile Include="Areas\Reclutamiento\Controllers\SolicitudPromocionesController.cs" />
