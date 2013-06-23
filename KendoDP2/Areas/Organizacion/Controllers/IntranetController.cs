@@ -54,9 +54,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 c.GradoAcademicoID = colaborador.GradoAcademicoID;
                 c.GradoAcademico = context.TablaGradosAcademicos.FindByID(colaborador.GradoAcademicoID);
                 c.Telefono = colaborador.Telefono;
-                c.CurriculumVitaeID = context.TablaArchivos.FindByID(colaborador.CurriculumVitaeID).ID;
-
-
+                c.CurriculumVitaeID = colaborador.CurriculumVitaeID;
 
                 //
                 context.TablaColaboradores.ModifyElement(c);
