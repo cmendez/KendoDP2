@@ -59,7 +59,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             using (DP2Context context = new DP2Context())
             {
                 context.TablaCompetencias.RemoveElementByID(competencia.ID);
-                return Json(ModelState.ToDataSourceResult());
+                return Json(new[] { competencia }.ToDataSourceResult(request, ModelState));
             }
         }
 
