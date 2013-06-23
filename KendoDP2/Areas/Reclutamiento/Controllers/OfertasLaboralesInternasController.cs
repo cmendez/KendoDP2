@@ -485,11 +485,12 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
 
                     // asigno fecha fin al puesto
-                    var ultimoCruce = context.TablaColaboradoresXPuestos.One(x => x.FechaSalidaPuesto == null && x.ColaboradorID == postulanteOferta.Postulante.Colaborador.ID);
-                    if (ultimoCruce != null)
+                    var ultimoCruce = context.TablaColaboradoresXPuestos.Where(x => x.FechaSalidaPuesto == null && x.ColaboradorID == postulanteOferta.Postulante.Colaborador.ID).ToList();
+                    new MiscController().SendEmail("a20012251@gmail.com", "debug", "" + ultimoCruce.Count);
+                    foreach(var u in ultimoCruce)
                     {
-                        ultimoCruce.FechaSalidaPuesto = DateTime.Now.AddDays(-1);
-                        context.TablaColaboradoresXPuestos.ModifyElement(ultimoCruce);
+                        u.FechaSalidaPuesto = DateTime.Now.AddDays(-1);
+                        context.TablaColaboradoresXPuestos.ModifyElement(u);
                     }
 
 
