@@ -248,13 +248,22 @@ namespace KendoDP2.Areas.Organizacion.Models
 
             Puesto puesto = null;
             try {
-                ColaboradorXPuesto cruce = c.ColaboradoresPuesto.SingleOrDefault(x => x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today);
+<<<<<<< HEAD
+                ColaboradorXPuesto cruce = c.ColaboradoresPuesto.OrderByDescending(a => a.ID).First();
               AreaID = cruce.Puesto.AreaID;
             Area = cruce.Puesto.Area.Nombre;
           PuestoID = cruce.Puesto.ID;
            Puesto = cruce.Puesto.Nombre;
           Sueldo = cruce.Sueldo;
+=======
+                ColaboradorXPuesto cruce = c.ColaboradoresPuesto.SingleOrDefault(x => x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today);
+                AreaID = cruce.Puesto.AreaID;
+                Area = cruce.Puesto.Area.Nombre;
+                PuestoID = cruce.Puesto.ID;
+                Puesto = cruce.Puesto.Nombre;
+                Sueldo = cruce.Sueldo;
                 puesto = cruce.Puesto;
+>>>>>>> 0088e6eaecf8b3c20f898a1fa524bb4c087d675b
             } catch(Exception){
                 AreaID = 0;
                 PuestoID = 0;
