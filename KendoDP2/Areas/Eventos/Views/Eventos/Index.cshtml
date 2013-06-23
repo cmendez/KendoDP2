@@ -42,8 +42,9 @@
                         columns.Command(command =>
                         {
                             command.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar");
+                            command.Custom("Notificar").Click("enviarNotificacion").SendDataKeys(true);
                             command.Destroy().Text("Eliminar");
-                        }).Width(200);
+                        }).Width(300);
 
                     }
                 )
@@ -91,5 +92,26 @@
             });
             alert(message);
         }
+    }
+
+    function enviarNotificacion(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+
+        $.ajax({
+            url: '@Url.Action("EnviarInvitacion", "Eventos", new { Area = "Eventos" })',
+             dataType: 'JSON',
+             type: 'POST',
+             data: {
+                        eventoID: dataItem.ID,
+            },
+             success: function(response){
+                 handleError(response, "Se envió la notificación exitosamente");
+                 if(response.Errors === null){
+                 handleError(response, "No se pudieron enviar las notificaciones, Revisar detalles");
+                }
+            }
+         });
+
     }
 </script>
