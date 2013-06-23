@@ -485,11 +485,16 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
 
                     // asigno fecha fin al puesto
-                    var ultimoCruce = context.TablaColaboradoresXPuestos.One(x => x.FechaSalidaPuesto == null && x.ColaboradorID == postulanteOferta.Postulante.Colaborador.ID);
-                    if (ultimoCruce != null)
+                    var todos = context.TablaColaboradoresXPuestos.All();
+                    ColaboradorXPuesto u = null;
+                    foreach (var crucex in todos)
+                        if (crucex.ColaboradorID == postulanteOferta.Postulante.ColaboradorID)
+                            if (crucex.FechaSalidaPuesto == null)
+                                u = crucex;
+                    if(u != null)
                     {
-                        ultimoCruce.FechaSalidaPuesto = DateTime.Now.AddDays(-1);
-                        context.TablaColaboradoresXPuestos.ModifyElement(ultimoCruce);
+                        u.FechaSalidaPuesto = DateTime.Now.AddDays(-1);
+                        context.TablaColaboradoresXPuestos.ModifyElement(u);
                     }
 
 

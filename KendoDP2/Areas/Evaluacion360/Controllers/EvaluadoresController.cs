@@ -258,7 +258,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         private List<Colaborador> consigueSusPares(int idEvaluado, DP2Context context)
         {
 
-            return GestorServiciosPrivados.consigueSusCompañerosPares(idEvaluado, context);
+            return GestorServiciosPrivados.consigueSusCompañerosPares(idEvaluado, context, idEvaluado);
         }
 
         private List<Colaborador> consigueSubordinados(int deEsteJefe, DP2Context contexto)
