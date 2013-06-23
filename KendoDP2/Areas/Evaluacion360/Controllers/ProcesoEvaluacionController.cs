@@ -432,8 +432,13 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     e.Puntuacion = 0;
                 }
                 else {
-                    notaEvaluadoXProceso = Math.Round((notaEvaluadoXProceso / acumuladoPesos),1);
-                    e.Puntuacion = Convert.ToInt32(notaEvaluadoXProceso);
+                    if (acumuladoPesos == 0)
+                        e.Puntuacion = 0;
+                    else
+                    {
+                        notaEvaluadoXProceso = Math.Round((notaEvaluadoXProceso / acumuladoPesos), 1);
+                        e.Puntuacion = Convert.ToInt32(notaEvaluadoXProceso);
+                    }
                 }
                 EstadoColaboradorXProcesoEvaluacion terminado = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x=>x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado));
                 e.EstadoColaboradorXProcesoEvaluacionID = terminado.ID;
