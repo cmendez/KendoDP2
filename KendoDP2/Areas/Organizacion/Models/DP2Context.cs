@@ -33,7 +33,7 @@ namespace KendoDP2.Models.Generic
         public DbSet<ColaboradorXPuesto> InternalColaboradoresXPuestos { get; set; }
         public DbSet<Organizacion> InternalOrganizaciones { get; set; }
         public DbSet<Funcion> InternalFunciones { get; set; }
-        public DbSet<FuncionXPuesto> InternalFuncionesXPuestos { get; set; }
+        //public DbSet<FuncionXPuesto> InternalFuncionesXPuestos { get; set; }
         public DbSet<AColor> InternalColores { get; set; }
 
         public DBGenericRequester<Area> TablaAreas { get; set; }
@@ -49,7 +49,7 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<ColaboradorXPuesto> TablaColaboradoresXPuestos { get; set; }
         public DBGenericRequester<Organizacion> TablaOrganizaciones { get; set; }
         public DBGenericRequester<Funcion> TablaFunciones { get; set; }
-        public DBGenericRequester<FuncionXPuesto> TablaFuncionesXPuestos { get; set; }
+        //public DBGenericRequester<FuncionXPuesto> TablaFuncionesXPuestos { get; set; }
         public DBGenericRequester<AColor> TablaColores { get; set; }
 
         private void RegistrarTablasOrganizacion()
@@ -67,7 +67,7 @@ namespace KendoDP2.Models.Generic
             TablaColaboradoresXPuestos = new DBGenericRequester<ColaboradorXPuesto>(this, InternalColaboradoresXPuestos);
             TablaOrganizaciones = new DBGenericRequester<Organizacion>(this, InternalOrganizaciones);
             TablaFunciones = new DBGenericRequester<Funcion>(this, InternalFunciones);
-            TablaFuncionesXPuestos = new DBGenericRequester<FuncionXPuesto>(this, InternalFuncionesXPuestos);
+            //TablaFuncionesXPuestos = new DBGenericRequester<FuncionXPuesto>(this, InternalFuncionesXPuestos);
             TablaColores = new DBGenericRequester<AColor>(this, InternalColores);
         }
 
