@@ -48,7 +48,7 @@
          </table>
     </script>
   
-@if (ViewBag.rendirEvaluacion)
+@if ((ViewBag.rendirEvaluacion == true) && (ViewBag.fechaEvaluacion == true))
 {
     <div id="divResult" style="display:none;"><h2>Su evaluación para <em>"@evaluado.NombreCompleto" </em> ha sido guardada con éxito</h2></div>
     <div id="divExamen" style="display:block;" class="portlet box green">
@@ -123,7 +123,14 @@
      
     </div>
 } else {
-    <h2>Esta evaluación ya fue terminada.</h2>
+    
+    if (ViewBag.rendirEvaluacion==false){
+    
+    <h2>Esta evaluación ya fue terminada.</h2>}
+
+    if (ViewBag.fechaEvaluacion == false) { 
+    <h2>Se vencio el plazo de rendir la evaluacion.</h2>
+    }
 }
 
 <script type="text/javascript">
@@ -132,7 +139,7 @@
             alert("Debe responder a todas las preguntas.");
         } else {
             $.ajax({
-                url: '@Url.Action("GuardarEvaluacion", "Evaluacion", new { Area = "Evaluacion360"})',
+                url: '@Url.Action("GuardarEvaluacion", "Evaluacion", new { Area = "Evaluacion360" })',
                 dataType: 'JSON',
                 type: 'POST',
                 data: { tablaEvaluadoresID: tablaEvaluadoresIDParam},
