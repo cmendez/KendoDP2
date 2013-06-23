@@ -16,12 +16,11 @@ namespace KendoDP2
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
     
-
     public class MvcApplication : System.Web.HttpApplication
     {
         public static bool IsDebug = System.Configuration.ConfigurationManager.AppSettings["Environment"].ToString().Equals("Debug");
 
-        public static string ConnectionString = "Server=19536994-9cde-4f02-8411-a1e6012055c5.sqlserver.sequelizer.com;Database=db195369949cde4f028411a1e6012055c5;User ID=lgkkmpwiepavymfu;Password=F84w8K6yYioJK4WneBeoJkdRG4H3WiZAcswkoJaYt8GtxsSqVUUCy7ou5mXdbcJP;";
+        public static string ConnectionString = "Server=f7ad2e4f-8abb-43c8-aeac-a1e6015b8531.sqlserver.sequelizer.com;Database=dbf7ad2e4f8abb43c8aeaca1e6015b8531;User ID=ocozrcrccmqawthl;Password=CiRuv3xcjvinXbrgEwiftxWvqJorLFF74LiMDsWPQFVu5ApfmFDDLmgeuvdUMfxK;";
 
         
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)

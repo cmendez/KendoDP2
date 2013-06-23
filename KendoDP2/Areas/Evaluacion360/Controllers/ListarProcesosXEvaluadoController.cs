@@ -140,7 +140,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 //evaluador, tiene evaluado, evaluador
                 //saco todos los evaluadores
 
-                IList<Evaluador> listaEvaluadores = (context.TablaEvaluadores.Where(a => a.ElEvaluado == ColaboradorID));
+                IList<Evaluador> listaEvaluadores = (context.TablaEvaluadores.Where(a => a.ElEvaluado == ColaboradorID && a.ElProceso.ID == procesoID));
                 IList<Examen> listaExamenes = new List<Examen>();
                 var estadoId = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x=>x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID;
                 for (int i = 0; i < listaEvaluadores.Count; i++)
@@ -328,7 +328,9 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     double auxnotaexam=(double)listaCompetenciaXExamenFinal.ElementAt(j).Nota;
                     double auxpesos=(double)Math.Max(1, sumaPesos[listaCompetenciaXExamenFinal[j].CompetenciaID]);
                     double auxnota=Math.Round(auxnotaexam/auxpesos,1);
-                    listaCompetenciaXExamenFinal.ElementAt(j).Nota = Convert.ToInt32(auxnota);                
+                    double auxnota2 = Math.Round(auxnota, 0, MidpointRounding.AwayFromZero);
+
+                    listaCompetenciaXExamenFinal.ElementAt(j).Nota = Convert.ToInt32(auxnota2);                
                 }                 
                  return Json(listaCompetenciaXExamenFinal.Select(x => x.ToDTO()).ToDataSourceResult(request));
             }

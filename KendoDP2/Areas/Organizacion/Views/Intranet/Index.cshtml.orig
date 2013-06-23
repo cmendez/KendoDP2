@@ -9,15 +9,20 @@
     ColaboradorDTO colaboradorDTO = ViewBag.ColaboradorDTO;
     int index = 0;
     IList<ColaboradorDTO> colaboradores = ViewBag.colaboradores;
-    IList<CompetenciaDTO> competencias = ViewBag.competencias;
+    IList<AreaDTO> areas = ViewBag.areas;
+    IList<KendoDP2.Areas.Eventos.Models.EstadoEventoDTO> estadosEventos = ViewBag.estadosEventos;
+    IList<PuestoDTO> puestos = ViewBag.puestos;
+    SelectList lista = new SelectList(areas, "ID", "Nombre");
+    SelectList listaEstados = new SelectList(estadosEventos, "ID", "Descripcion");
+    SelectList listaPuestos = new SelectList(puestos, "ID", "Nombre");
+    int colaboradorLogueado = ViewBag.colaboradorLogueado;
+    
 
     
 }
-
-
-
-
-
+<link href='@Url.Content("~/Content/assets/plugins/fullcalendar/css/fullcalendar.css")' rel='stylesheet' />
+<link href='@Url.Content("~/Content/assets/plugins/fullcalendar/css/fullcalendar.print.css")' rel='stylesheet' media='print' />
+<script src='@Url.Content("~/Content/assets/plugins/fullcalendar/scripts/fullcalendar.js")'></script>
 
 
 
@@ -301,108 +306,22 @@
                                             </form>
                                         </div>
 
-
                                      </div>
                                 </div>
                              </div>
 
-                                       
-                                             
-                        </div>
-                  </div>
 
-                 </div>
-                              
+                                          </div>
+                                       </div>
+
+                                    </div>
+                           
                             <!--end span9-->
              
                 <!--end tab-pane-->
                 <div class="tab-pane" id="tab_1_4">
-                    <div class="row-fluid add-portfolio">
-                        <div class="pull-left">
-                            <span>8 Eventos para esta semana</span>
-                        </div>
-                        <div class="pull-left">
-                            <a href="#" class="btn icn-only green">Agregar un nuevo evento <i class="m-icon-swapright m-icon-white"></i></a>
-                        </div>
-                    </div>
-                    <!--end add-portfolio-->
-                    <div class="row-fluid portfolio-block">
-                        <div class="span5 portfolio-text">
-                            <div class="portfolio-text-info">
-                                <h4>Día de la Empresa</h4>
-                                <p>Celebración y almuerzo general.</p>
-                            </div>
-                        </div>
-                        <div class="span5" style="overflow: hidden;">
-                            <div class="portfolio-info">
-                                Fecha del evento
-                                    <span>21/05/2013</span>
-                            </div>
-                            <div class="portfolio-info">
-                                Hora
-                                    <span>13:30</span>
-                            </div>
-                            <div class="portfolio-info">
-                                Lugar
-                                    <span>El gran chifa</span>
-                            </div>
-                        </div>
-                        <div class="span2 portfolio-btn">
-                            <a href="#" class="btn bigicn-only"><span>Editar</span></a>
-                        </div>
-                    </div>
-                    <!--end row-fluid-->
-                    <div class="row-fluid portfolio-block">
-                        <div class="span5 portfolio-text">
-                            <div class="portfolio-text-info">
-                                <h4>Reunión de Directorio</h4>
-                                <p>Queremos dirigir mejor la empresa</p>
-                            </div>
-                        </div>
-                        <div class="span5">
-                            <div class="portfolio-info">
-                                Fecha del evento
-                                    <span>21/05/2013</span>
-                            </div>
-                            <div class="portfolio-info">
-                                Hora
-                                    <span>18:00</span>
-                            </div>
-                            <div class="portfolio-info">
-                                Lugar
-                                    <span>Sala de reuniones</span>
-                            </div>
-                        </div>
-                        <div class="span2 portfolio-btn">
-                            <a href="#" class="btn bigicn-only"><span>Editar</span></a>
-                        </div>
-                    </div>
-                    <!--end row-fluid-->
-                    <div class="row-fluid portfolio-block">
-                        <div class="span5 portfolio-text">
-                            <div class="portfolio-text-info">
-                                <h4>Reunión Recursos Humanos</h4>
-                                <p>Discutir sobre nuevo sistema</p>
-                            </div>
-                        </div>
-                        <div class="span5" style="overflow: hidden;">
-                            <div class="portfolio-info">
-                                Fecha
-                                  <span>24/05/2013</span>
-                            </div>
-                            <div class="portfolio-info">
-                                Hora
-                                    <span>18:00</span>
-                            </div>
-                            <div class="portfolio-info">
-                                Lugar
-                                    <span>Sala de reuniones de Recursos Humanos</span>
-                            </div>
-                        </div>
-                        <div class="span2 portfolio-btn">
-                            <a href="#" class="btn bigicn-only"><span>Editar</span></a>
-                        </div>
-                    </div>
+
+                    @Html.Partial("EventosIntranet")
                     <!--end row-fluid-->
                 </div>
                 <!--end tab-pane-->
@@ -544,16 +463,21 @@
                 .Name("ContactosGrid")
                 .Columns(columns =>
                     {
-                        columns.Bound(p => p.ContactoDTO.Nombre);
-                        columns.Bound(p => p.ContactoDTO.ApellidoPaterno);
-                        columns.Bound(p => p.ContactoDTO.ApellidoMaterno);
+<<<<<<< HEAD
+                        columns.Bound(p  => p.ContactoID);
+=======
+                        columns.Bound(p => p.ContactoID);
+                        columns.Bound(p => p.Nombre);
+>>>>>>> 0088e6eaecf8b3c20f898a1fa524bb4c087d675b
+                        //columns.Bound(p => p.ContactoDTO.ApellidoPaterno);
+                        //columns.Bound(p => p.ContactoDTO.ApellidoMaterno);
                         columns.Bound(p => p.Relacion);
 
 
 
                         columns.Command(command =>
                         {
-                            command.Destroy().Text("Eliminar");
+                            command.Custom("Ver").Click("verContacto").SendDataKeys(true); command.Destroy().Text("Eliminar");
                         }).Width(200);
                     }
                 )
@@ -573,7 +497,6 @@
                             .Read(read => read.Action("EditingInline_Read2", "Colaboradores", new { colaboradorID = colaboradorDTO.ID }))
                             .Update(update => update.Action("EditingInline_Update", "Colaboradores"))
                             .Destroy(update => update.Action("EditingInline_Destroy", "Colaboradores"))
-                            .Events(e => e.Error("onError"))
                         )
                         )
                     </div>
@@ -593,28 +516,45 @@
     </div>
     </div>
 </div>
-                
+@(Html.Kendo().Window().Name("Details")
+    .Title("Contacto")
+    .Visible(false)
+    .Modal(true)
+    .Draggable(true)
+    .Width(900)
+
+)
+
+
+@(Html.Kendo().Window().Name("detalleEvento")
+    .Title("Detalle del evento")
+    .Visible(false)
+    .Modal(true)
+    .Draggable(true)
+    .Width(900)   
+
+)
 <script type="text/javascript">
     function loadImage(img_name) {
         $("#" + img_name).attr("src", "/Organizacion/Colaboradores/ViewImageDeColaborador?colaboradorID=" + '@colaboradorDTO.ID');
     }
 
     $(document).ready(function ready() {
-        comboPuestosSelection();
-        //comboColaboradoresSelection();
+        //comboPuestosSelection();
+        comboColaboradoresSelection();
     });
 
     var last_container = null;
     function comboColaboradoresSelection() {
         var comboPuestos = $("#ComboColaboradores").data("kendoComboBox");
         if (comboPuestos.selectedIndex == -1)
-            return;
+           return;
 
         var puestoID = comboPuestos.dataItem(comboPuestos.selectedIndex).ID;
 
-        if (last_container != null)
+       if (last_container != null)
             last_container.hide();
-        last_container = $("#container-" + puestoID);
+       last_container = $("#container-" + puestoID);
         last_container.show();
     }
 
@@ -635,12 +575,27 @@
         console.log("CambioEnFila");
     }
 
+
+    function verContacto(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        //ID = dataItem.ID;
+        var wnd = $("#Details").data("kendoWindow");
+        var contactoID = dataItem.ContactoID;
+        $("#Details").load("@Url.Action("GetViewContacto","Colaboradores", new{Area = "Organizacion"})", {contactoID :contactoID }, function () {
+            wnd.center().open();
+        });
+    }
+
+
     function comboColaboradoresSelection(e) {
         var comboColaboradores = $("#ComboColaboradores").data('kendoComboBox');
         if (comboColaboradores.selectedIndex == -1)
             return;
-        var colaboradorID = comboColaboradores.dataItem(comboColaboradores.selectedIndex).ID;
-        var colaboradorNombre = comboColaboradores.dataItem(comboColaboradores.selectedIndex).NombreCompleto;
+        var colaboradorID = @colaboradorDTO.ID;
+        var contactoID = comboColaboradores.dataItem(comboColaboradores.selectedIndex).ID;
+        //var contactoNombre = comboColaboradores.dataItem(comboColaboradores.selectedIndex).NombreCompleto;
         $.ajax({
             url: '@Url.Action("AddEvaluadosColaborador", "Colaboradores", new { Area = "Organizacion" })',
                     dataType: 'JSON',
@@ -651,11 +606,65 @@
                             $("#ContactosGrid").data('kendoGrid').dataSource.read();
                         }
                         else
-                            alert("El colaborador seleccionado ya se encuentra en la lista de evaluados");
+                            alert("El colaborador seleccionado ya se encuentra en la lista de contactos");
                     },
                     error: function () {
                         alert("Hubo un error en la operación");
                     }
                 });
             }
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        console.log('creando');
+	
+        var date = new Date();
+        var d = date.getDate();
+        var m = date.getMonth();
+        var y = date.getFullYear();
+		
+        $('#calendar3').fullCalendar({
+            header: {
+                left: 'title',
+                center: '',
+                right: 'prev,next,today,month,agendaWeek,agendaDay'
+            },
+            editable: true,
+            events: '@Url.Action("GetEventosPersonales", "Intranet", new {Area = "Organizacion"})?colaboradorID=@colaboradorLogueado',
+            eventClick: function (event) {
+                console.log(event);
+                $('#detalleEvento').load('@Url.Action("ShowDetalleEvento", "Intranet", new {Area= "Organizacion" })?eventoID=' + event.id);
+            },
+ 
+        });
+        
+        var listo = false;
+        function foo(){
+            $('#calendar3').each(function(){
+                if($(this).is(':visible') && !listo){
+                    listo = true;
+                    $('#calendar3').fullCalendar({
+                        header: {
+                            left: 'title',
+                            center: '',
+                            right: 'prev,next,today,month,agendaWeek,agendaDay'
+                        },
+                        editable: true,
+                        events: '@Url.Action("GetEventosPersonales", "Intranet", new {Area = "Organizacion"})?colaboradorID=@colaboradorLogueado',
+            eventClick: function (event) {
+                console.log(event);
+                //$("#detalleEvento").show();
+                $('#detalleEvento2').load('@Url.Action("ShowDetalleEvento", "Eventos", new {Area= "Eventos" })?eventoID=' + event.id);
+            },
+ 
+                    });
+                }
+            });
+            
+        } 
+        window.setInterval(foo, 2000);
+
+    });
+
 </script>

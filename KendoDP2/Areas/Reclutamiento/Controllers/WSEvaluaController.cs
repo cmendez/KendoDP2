@@ -48,12 +48,11 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                                 olxp.EstadoPostulantePorOferta.Descripcion == "Aprobado Fase 3")
                             {
                                 context.TablaFasePostulacionXOfertaLaboralXPostulante
-                                .AddElement(
-                                fpxolxp = new FasePostulacionXOfertaLaboralXPostulante
-                                {
-                                    FasePostulacionID = fp.ID,
-                                    OfertaLaboralXPostulanteID = olxp.ID
-                                });
+                                    .AddElement(fpxolxp = new FasePostulacionXOfertaLaboralXPostulante
+                                    {
+                                        FasePostulacionID = fp.ID,
+                                        OfertaLaboralXPostulanteID = olxp.ID
+                                    });
                             }
                         }
                         else
@@ -91,17 +90,21 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     e.Puntaje = puntajeTotal;
 
                     // ********************************** COMO SE QUE APROBO, NO SE COMO ASIGNARLO AQUI Y NO SE SI ES EL MOMENTO ADECUADO **********************************
-                    e.FlagAprobado = true; // ESTO DEBE CALCULARSE
+                    e.FlagAprobado = false; // ESTO DEBE CALCULARSE
 
                     //Guardar la evaluacion por fase por postulacion, es necesario reasignar el ID o ya se guarda
                     context.TablaEvaluacionXFaseXPostulacion.AddElement(e);
 
                     //El puntaje obtenido lo debo acumular el puntaje Total de la OfertaXPostulante
-                    var ofertaLaboralXPostulante = e.FasePostulacionXOfertaLaboralXPostulante.OfertaLaboralXPostulante;
-                    ofertaLaboralXPostulante.PuntajeTotal += (int)e.Puntaje;
-                    ofertaLaboralXPostulante.Comentarios = e.Comentarios; // Para que Diana no moleste XD!
-                    ofertaLaboralXPostulante.Observaciones = e.Observaciones; // Para que Diana no moleste XD!
-                    context.TablaOfertaLaboralXPostulante.ModifyElement(ofertaLaboralXPostulante);
+                    olxp.PuntajeTotal += (int)e.Puntaje;
+                    olxp.Comentarios = e.Comentarios;
+                    olxp.Observaciones = e.Observaciones;
+                    context.TablaOfertaLaboralXPostulante.ModifyElement(olxp);
+                    //var ofertaLaboralXPostulante = e.FasePostulacionXOfertaLaboralXPostulante.OfertaLaboralXPostulante;
+                    //ofertaLaboralXPostulante.PuntajeTotal += (int)e.Puntaje;
+                    //ofertaLaboralXPostulante.Comentarios = e.Comentarios; // Para que Diana no moleste XD!
+                    //ofertaLaboralXPostulante.Observaciones = e.Observaciones; // Para que Diana no moleste XD!
+                    //context.TablaOfertaLaboralXPostulante.ModifyElement(ofertaLaboralXPostulante);
 
                     // *************** UPDATE FasePostulacionXOfertaLaboralXPostulante con la EvaluacionXFaseXPostulacion ***************
                     fpxolxp.EvaluacionXFaseXPostulacionID = e.ID;
