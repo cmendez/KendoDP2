@@ -19,16 +19,16 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 try
                 {
                     Colaborador c = context.TablaColaboradores.FindByID(Convert.ToInt32(id));
-                    if (c == null) throw new Exception("No existe colaborador con ID = " + id);
-                    if (c.ColaboradoresPuesto == null || c.ColaboradoresPuesto.Count == 0) throw new Exception("El colaborador " + c.ToDTO().NombreCompleto + " no tiene puestos asignados");
+                    if (c == null) return JsonErrorGet("No existe colaborador con ID = " + id);
+                    if (c.ColaboradoresPuesto == null || c.ColaboradoresPuesto.Count == 0)
+                        return JsonErrorGet("El colaborador " + c.ToDTO().NombreCompleto + " no tiene puestos asignados");
                     ColaboradorDTO colaborador = c.ToDTO();
-
-
+                    
                     ColaboradorXPuesto actual = c.ColaboradoresPuesto.Single(x => !x.FechaSalidaPuesto.HasValue);
                     if (actual == null) throw new Exception("El colaborador " + colaborador.NombreCompleto + " no tiene un puesto actual determinado");
 
-                    PuestoDTO puesto = actual.Puesto.ToDTO();
-                    AreaDTO area = actual.Puesto.Area.ToDTO();
+                    PuestoDTO puesto = actual.Puesto != null ? actual.Puesto.ToDTO() : null;
+                    AreaDTO area = actual.Puesto.Area != null ? actual.Puesto.Area.ToDTO() : null;
                     
                     return JsonSuccessGet(new
                     {
@@ -135,11 +135,6 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                     else //Hago Nivel 1 al colaboradorID
                     {
                         colaboradorNivel1 = c;
-                        //colaboradorNivel1 = context.TablaColaboradores.FindByID(c.ID);
-                        //int puestoColaboradorID = ColaboradorPuesto_Actual.Puesto.ID;
-                        //int puestoColaboradorID = context.TablaColaboradoresXPuestos
-                        //    .One(x => x.ColaboradorID == c.ID && !x.FechaSalidaPuesto.HasValue)
-                        //    .Puesto.ID;
                         puestosNivel2 = context.TablaPuestos.Where(x => x.PuestoSuperiorID == ColaboradorPuesto_Actual.Puesto.ID);
                     }
 
@@ -183,22 +178,5 @@ namespace KendoDP2.Areas.Organizacion.Controllers
 
         }
 
-        // /WSColaborador/getEventos?colaboradorID=
-        public JsonResult getEventos(string colaboradorID)
-        {
-            using (DP2Context context = new DP2Context())
-            {
-                try
-                {
-
-                    return JsonSuccessGet();
-                }
-                catch (Exception ex)
-                {
-                    return JsonErrorGet("Error en la BD: " + ex.Message);
-                }
-
-            }
-        }
     }
 }
