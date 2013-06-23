@@ -42,15 +42,15 @@ namespace KendoDP2.Areas.Evaluacion360.Models
             return elJefe;
         }
 
-        public static List<Colaborador> consigueSusCompañerosPares(int deEsteEmpleado, DP2Context contexto)
+        public static List<Colaborador> consigueSusCompañerosPares(int deEsteEmpleado, DP2Context contexto, int incluirAlColaborador =0)
         {
             Colaborador suJefe = consigueElJefe(deEsteEmpleado, contexto);
             //List<Colaborador> losSubordinadosDeEseJefe = consigueSusSubordinados(deEsteEmpleado, contexto);
-            List<Colaborador> losSubordinadosDeEseJefe = consigueSusSubordinados(suJefe.ID, contexto);
+            List<Colaborador> losSubordinadosDeEseJefe = consigueSusSubordinados(suJefe.ID, contexto, incluirAlColaborador);
             return losSubordinadosDeEseJefe;
         }
 
-        public static List<Colaborador> consigueSusSubordinados(int deEsteColaborador, DP2Context contexto)
+        public static List<Colaborador> consigueSusSubordinados(int deEsteColaborador, DP2Context contexto, int incluirEsteColaborador = 0)
         {
             ColaboradorXPuesto cxp = contexto.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == deEsteColaborador && (x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto) && !x.IsEliminado);
             List<Puesto> puestosSubordinados = contexto.TablaPuestos.Where(c => c.PuestoSuperiorID == cxp.PuestoID);
@@ -59,12 +59,19 @@ namespace KendoDP2.Areas.Evaluacion360.Models
 
             foreach (Puesto cargo in puestosSubordinados)
             {
-                ColaboradorXPuesto subordinadoXPuesto = contexto.TablaColaboradoresXPuestos.One(c => c.PuestoID == cargo.ID && (c.FechaSalidaPuesto == null || DateTime.Today <= c.FechaSalidaPuesto));
-
+                ColaboradorXPuesto subordinadoXPuesto;
+                subordinadoXPuesto = contexto.TablaColaboradoresXPuestos.One(c => c.PuestoID == cargo.ID && (c.FechaSalidaPuesto == null || DateTime.Today <= c.FechaSalidaPuesto));
+                
                 if (subordinadoXPuesto != null)
-                {
-                    Colaborador subordinado = contexto.TablaColaboradores.FindByID(subordinadoXPuesto.ColaboradorID);
-                    empleadosASuCargo.Add(subordinado);
+                {   // no incluir al mismo colaborador
+                    if (incluirEsteColaborador != 0 && subordinadoXPuesto.ColaboradorID == incluirEsteColaborador)
+                    {
+                        continue;
+                    }
+                    else {
+                        Colaborador subordinado = contexto.TablaColaboradores.FindByID(subordinadoXPuesto.ColaboradorID);
+                        empleadosASuCargo.Add(subordinado);
+                    }
                 }
             }
 
