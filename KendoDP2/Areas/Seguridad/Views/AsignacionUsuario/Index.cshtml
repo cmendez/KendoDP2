@@ -13,7 +13,7 @@
     <div class="portlet-title">
         <div class="caption">
             <i class="icon-reorder"></i>
-            <h4>Colaboradores</h4>
+            <h4>Usuarios</h4>
             <div class="tools">
                 <a href="javascript:;" class="collapse"></a>
             </div>
@@ -22,15 +22,16 @@
         <div class="portlet-body">
             <div class="row-fluid">
                 <div class="span12 responsive">
-                    @(Html.Kendo().Grid<ColaboradorDTO>()
+                    @(Html.Kendo().Grid<UsuarioDTO>()
                     .Name("grid")
                     .Columns(columns =>
                     {
-                        columns.Bound(p => p.NombreCompleto);
-                        columns.Bound(p => p.Usuario);
+                        columns.Bound(p => p.Username);
                         columns.Bound(p => p.Password).ClientTemplate("****************").Title("Password");
                         columns.Command(command => { command.Edit(); command.Destroy(); });
                     })
+                    .ToolBar(toolbar => toolbar.Create())
+                    .Editable(editable => editable.Mode(GridEditMode.InLine))
                     .Pageable()
                     .Sortable()
                     .Scrollable()
@@ -41,6 +42,7 @@
                         .Model(model => model.Id(p => p.ID))
                         .Read(read => read.Action("_Read", "AsignacionUsuario"))
                         .Update(update => update.Action("_Update", "AsignacionUsuario"))
+                        .Create(create => create.Action("_Create", "AsignacionUsuario"))
                         .Destroy(update => update.Action("_Destroy", "AsignacionUsuario"))
                                 )
                     )
