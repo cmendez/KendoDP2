@@ -9,6 +9,7 @@ using Kendo.Mvc.Extensions;
 using KendoDP2.Areas.Organizacion.Models;
 using KendoDP2.Models.Seguridad;
 using KendoDP2.Areas.Eventos.Models;
+using KendoDP2.Controllers;
 
 
 
@@ -335,6 +336,27 @@ namespace KendoDP2.Areas.Eventos.Controllers
                 ViewBag.invitados = eventoDTO.Invitados.ToList();
 
                 return PartialView("DetalleEvento", eventoDTO);
+            }
+        }
+
+
+        public ActionResult EnviarInvitacion(int eventoID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                Evento evento = context.TablaEvento.FindByID(eventoID);
+                List<Invitado> i = evento.Invitados.ToList();
+                MiscController controlador = new MiscController();
+
+
+                foreach (Invitado c in i)
+                {
+                    Colaborador colaborador = context.TablaColaboradores.FindByID(c.ColaboradorID);
+                    controlador.SendEmail(colaborador.CorreoElectronico, "[Eventos]" + evento.Nombre, RetornaMensajeInvitados(colaborador.ToDTO().NombreCompleto, evento.Nombre, evento.LugarEvento, evento.Inicio.ToString(), evento.Fin.ToString(), evento.Creador.ToDTO().NombreCompleto));
+                }
+
+                return Content("Se envía la notificación exitosamente");
+
             }
         }
 
