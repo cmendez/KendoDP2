@@ -28,7 +28,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         public int? PuestoSuperiorID { get; set; }
         public virtual Puesto PuestoSuperior { get; set; }
 
-       public virtual ICollection<PuestoXArea> PuestosArea { get; set; }
+       //public virtual ICollection<PuestoXArea> PuestosArea { get; set; }
        public virtual ICollection<Area> Areas { get; set; }
        public virtual ICollection<Puesto> Puestos { get; set; }
        public virtual ICollection<Funcion> Funciones { get; set; }
@@ -160,8 +160,8 @@ namespace KendoDP2.Areas.Organizacion.Models
 
             try
             {
-                PuestoXArea cruce = p.PuestosArea.OrderByDescending(a => a.ID).First();
-                AreaID = cruce.Puesto.AreaID;
+                //PuestoXArea cruce = p.PuestosArea.OrderByDescending(a => a.ID).First();
+                //AreaID = cruce.Puesto.AreaID;
                 //necesitamos obtener el Puesto Superior mediante un artificio
                ////// PuestoSuperiorID = p.PuestoSuperiorID.Value ;
               
