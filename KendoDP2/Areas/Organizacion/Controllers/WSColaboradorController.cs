@@ -178,22 +178,5 @@ namespace KendoDP2.Areas.Organizacion.Controllers
 
         }
 
-        // /WSColaborador/getEventos?colaboradorID=
-        public JsonResult getEventos(string colaboradorID)
-        {
-            using (DP2Context context = new DP2Context())
-            {
-                try
-                {
-
-                    return JsonSuccessGet();
-                }
-                catch (Exception ex)
-                {
-                    return JsonErrorGet("Error en la BD: " + ex.Message);
-                }
-
-            }
-        }
     }
 }

@@ -23,7 +23,7 @@ namespace KendoDP2.Models.Generic
         public DbSet<Area> InternalAreas { get; set; }
         public DbSet<Puesto> InternalPuestos { get; set; }
         public DbSet<EstadosPuesto> InternalEstadosPuestos { get; set; }
-        public DbSet<PuestoXArea> InternalPuestosXAreas { get; set; }
+        //public DbSet<PuestoXArea> InternalPuestosXAreas { get; set; }
         public DbSet<Persona> InternalPersonas { get; set; }
         public DbSet<Colaborador> InternalColaboradores { get; set; }
         public DbSet<Contactos> InternalContactos { get; set; }
@@ -39,7 +39,7 @@ namespace KendoDP2.Models.Generic
         public DBGenericRequester<Area> TablaAreas { get; set; }
         public DBGenericRequester<Puesto> TablaPuestos { get; set; }
         public DBGenericRequester<EstadosPuesto> TablaEstadosPuestos { get; set; }
-        public DBGenericRequester<PuestoXArea> TablaPuestosXAreas { get; set; }
+        //public DBGenericRequester<PuestoXArea> TablaPuestosXAreas { get; set; }
         public DBGenericRequester<Persona> TablaPersonas { get; set; }
         public DBGenericRequester<Colaborador> TablaColaboradores { get; set; }
         public DBGenericRequester<Contactos> TablaContactos { get; set; }
@@ -57,7 +57,7 @@ namespace KendoDP2.Models.Generic
             TablaAreas = new DBGenericRequester<Area>(this, InternalAreas);
             TablaPuestos = new DBGenericRequester<Puesto>(this, InternalPuestos);
             TablaEstadosPuestos = new DBGenericRequester<EstadosPuesto>(this, InternalEstadosPuestos);
-            TablaPuestosXAreas = new DBGenericRequester<PuestoXArea>(this, InternalPuestosXAreas);
+            //TablaPuestosXAreas = new DBGenericRequester<PuestoXArea>(this, InternalPuestosXAreas);
             TablaPersonas = new DBGenericRequester<Persona>(this, InternalPersonas);
             TablaColaboradores = new DBGenericRequester<Colaborador>(this, InternalColaboradores);
             TablaContactos = new DBGenericRequester<Contactos>(this, InternalContactos);

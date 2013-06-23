@@ -66,9 +66,9 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                     puestoPapa.ReparteObjetivosASubordinados(context);
                 }
                 Area a = context.TablaAreas.FindByID(puesto.AreaID);
-                PuestoXArea cruce = new PuestoXArea { Area = a, Puesto = p };
+                //PuestoXArea cruce = new PuestoXArea { Area = a, Puesto = p };
                 
-                context.TablaPuestosXAreas.AddElement(cruce);
+                //context.TablaPuestosXAreas.AddElement(cruce);
 
                 //360:
                 //Se crea la base para la configuración de su evaluación:
