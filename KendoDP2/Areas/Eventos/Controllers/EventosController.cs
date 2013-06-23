@@ -138,7 +138,8 @@ namespace KendoDP2.Areas.Eventos.Controllers
         // devuelve si se cambio a true ReferenciaDirecta
         private bool AddColaboradorToEvento(int colaboradorID, int eventoID, DP2Context context, bool esReferenciaDirecta)
         {
-           
+            if (!ValidaCruceInvitados(colaboradorID, eventoID))
+                return false;
                 var cruce = context.TablaInvitado.One(x => x.ColaboradorID == colaboradorID && x.EventoID == eventoID);
                 if (cruce == null)
                 { // nuevo
