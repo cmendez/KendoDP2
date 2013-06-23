@@ -307,6 +307,53 @@ namespace KendoDP2.Areas.Reportes.Controllers
         //        return Json(context.TablaOfertaLaboralXPostulante.All()., JsonRequestBehavior.AllowGet);
         //    }
         //}
+        public ActionResult OfertasLaborales(int puesto)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                List<OfertaLaboral> ListaOfertasaux = context.TablaOfertaLaborales.Where(o=> o.PuestoID == puesto);
+
+                List<ROferta> OfertasPuesto = new List<ROferta>();
+
+                foreach (OfertaLaboral Oferta in ListaOfertasaux)
+                {
+                    ROferta Ofertapuesto = new ROferta();
+                    Ofertapuesto.descripcion = Oferta.Descripcion;
+                    Ofertapuesto.fecha = Oferta.FechaRequerimiento;
+                   
+                    List<FasePostulacionXOfertaLaboralXPostulante> FasesPostulacionXOfertaXPostulante = context.TablaFasePostulacionXOfertaLaboralXPostulante .Where(f=>f.OfertaLaboralXPostulante.OfertaLaboralID==Oferta.ID).ToList();
+
+                    for (int i = 1; i <= 3; i++)
+                    {
+                        RFase fase = new RFase();
+                        FasePostulacionDTO fasedto ;
+                        FasePostulacion faseaux=new FasePostulacion();
+                        fasedto = faseaux.ToDTO(context.TablaFasePostulacion.FindByID(i));
+
+
+                        fase.nombreFase = fasedto.Descripcion;
+                        fase.numPostulantes = FasesPostulacionXOfertaXPostulante.Where(f => f.FasePostulacionID == 1).Count();
+                        fase.Postulantes= new List<RPostulante>();
+                        FasesPostulacionXOfertaXPostulante.Where(f => f.FasePostulacionID == 1).ToList().ForEach(f => fase.Postulantes.Add(new RPostulante
+                        {
+                            Proveniencia = f.OfertaLaboralXPostulante.Postulante.CentroEstudios,
+                            gradoAcademico = f.OfertaLaboralXPostulante.Postulante.GradoAcademico.Descripcion,
+                            nombre = f.OfertaLaboralXPostulante.Postulante.Nombres + " " + f.OfertaLaboralXPostulante.Postulante.ApellidoPaterno + " " + f.OfertaLaboralXPostulante.Postulante.ApellidoMaterno
+                        }));
+
+                        Ofertapuesto.Fases.Add(fase);
+
+                    }
+
+                    OfertasPuesto.Add(Ofertapuesto);
+                    List<FasePostulacion> FasesPostulacion = context.TablaFasePostulacion.All();
+                    //List<fa> FasesPostulacion = context.TablaFasePostulacion.All();
+                }
+
+                return Json(OfertasPuesto, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult PostulacionySeleccion(int idpuesto,string finicio,string ffin)
         {
             using (DP2Context context = new DP2Context())
