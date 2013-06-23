@@ -37,6 +37,16 @@ namespace KendoDP2.Areas.Organizacion.Models
         {
             return new ColaboradorXPuestoDTO(this);
         }
+        public ColaboradorXPuesto LoadFromDTO(ColaboradorXPuestoDTO dto)
+        {
+            this.ID = dto.ID;
+            this.IsEliminado = dto.IsEliminado;
+            this.PuestoID = dto.PuestoID;
+            this.ColaboradorID =dto.PuestoID;
+            this.Sueldo=dto.Sueldo;
+            this.Comentarios = dto.Comentarios;
+            return this;    
+        }
 
         public ColaboradorXPuesto() { }
     }
@@ -46,13 +56,28 @@ namespace KendoDP2.Areas.Organizacion.Models
         [ScaffoldColumn(false)]
         public int ID { get; set; }
         public bool IsEliminado { get; set; }
+
+        [Display(Name = "Modificar")]
+        public bool ModificarPuesto { get; set; }
+
+        [Display(Name = "Nuevo")]
+        public bool AgregarPuesto { get; set; }
+
+        [Display(Name="Posee contrato indefinido")]
+        public bool ContratoIndefinido { get; set; }
+
         public ColaboradorDTO Colaborador { get; set; }
         public int PuestoID { get; set; }
         public int AreaID { get; set; }
         public PuestoDTO Puesto { get; set; }
         public int Sueldo { get; set; }
-        public DateTime? FechaIngresoPuesto { get; set; }
-        public DateTime? FechaSalidaPuesto { get; set; }
+
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public string FechaIngresoPuesto { get; set; }
+
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public string FechaSalidaPuesto { get; set; }
+
         public string Comentarios { get; set; }
         
         public ColaboradorXPuestoDTO(ColaboradorXPuesto cxp)
@@ -64,8 +89,8 @@ namespace KendoDP2.Areas.Organizacion.Models
             AreaID = Puesto.AreaID;
             IsEliminado = cxp.IsEliminado;
             Sueldo = cxp.Sueldo;
-            FechaIngresoPuesto = cxp.FechaIngresoPuesto;
-            FechaSalidaPuesto = cxp.FechaSalidaPuesto;
+            FechaIngresoPuesto = cxp.FechaIngresoPuesto.ToString();
+            FechaSalidaPuesto = cxp.FechaSalidaPuesto.ToString();
             Comentarios = cxp.Comentarios;
         }
 

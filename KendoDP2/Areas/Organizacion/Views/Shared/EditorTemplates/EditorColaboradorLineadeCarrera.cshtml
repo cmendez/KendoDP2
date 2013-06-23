@@ -8,8 +8,10 @@
 
 @model KendoDP2.Areas.Organizacion.Models.ColaboradorXPuestoDTO
 
+
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     
     <div style="width: 900px;">
@@ -19,7 +21,7 @@
             </div>
         </div>
 
-        <div class="span4">
+        <div class="span6">
             <div class="row-fluid">
                 <div class="span5">
                     <div class="editor-label" style="width: 100%; text-align: left;">
@@ -28,30 +30,39 @@
                 </div>
                 <div class="span7">
                     <div class="editor-field" style="width: 100%; text-align: left;">
-                            @(Html.Kendo().DatePickerFor(model => model.FechaIngresoPuesto)
-                                .Name("datepicker_FechaIngresoPuesto")
-                                .HtmlAttributes(new { style = "width:150px" })
-                            )
+                            @Html.EditorFor(model => model.FechaIngresoPuesto)
+                            @Html.ValidationMessageFor(model => model.FechaIngresoPuesto)
                     </div>
                 </div>
             </div>
 
-            <div class="row-fluid">
-                <div class="span5">
-                    <div class="editor-label" style="width: 100%; text-align: left;">
-                        @Html.LabelFor(model => model.FechaSalidaPuesto)
-                    </div>
-                </div>
-                <div class="span7">
-                    <div class="editor-field" style="width: 100%; text-align: left;">
-                        @(Html.Kendo().DatePickerFor(model => model.FechaSalidaPuesto)
-                                .Name("datepicker_FechaSalidaPuesto")
-                                .HtmlAttributes(new { style = "width:150px" })
-                            )
-                    </div>
-                </div>
-            </div>
-
+                            <div class="row-fluid">
+                                <div class="span5">
+                                    <div class="editor-label" style="width: 100%; text-align: left;">
+                                        @Html.LabelFor(model => model.FechaSalidaPuesto)
+                                    </div>
+                                </div>
+                                <div class="span7">
+                                    <div class="editor-field" style="width: 100%; text-align: left;">
+                                        @Html.EditorFor(model => model.FechaSalidaPuesto)
+                                        @Html.ValidationMessageFor(model => model.FechaSalidaPuesto)
+                                    </div>
+                                </div>
+                            </div>
+     
+                            <div class="row-fluid">
+                                <div class="span5">
+                                    <div class="editor-label" style="width: 100%; text-align: left;">
+                                        @Html.LabelFor(model => model.ContratoIndefinido)
+                                    </div>
+                                </div>
+                                <div class="span7">
+                                    <div class="editor-field" style="width: 100%; text-align: left;">
+                                        @Html.CheckBoxFor(model => model.ContratoIndefinido)
+                                    </div>
+                                </div>
+                            </div>
+                
             <div class="row-fluid">
                 <div class="span5">
                     <div class="editor-label" style="width: 100%; text-align: left;">
@@ -70,30 +81,6 @@
                 <div class="span7">
                     @Html.DropDownListFor(model => model.PuestoID, new SelectList(puestos, "ID", "Nombre"), new { style = "width:100%" })
                 </div>
-                <script>
-                    $("#AreaID").change(function () {
-                        var areaID = $(this).val();
-                        $.getJSON("@Url.Action("_GetPuestos", "Historial", new { Area = "Organizacion" })", { areaID: areaID },
-               function (puestos) {
-                   var select = $("#PuestoID");
-                   select.find('option').remove().end();
-                   select.append($('<option/>', {
-                       value: 0,
-                       text: ""
-                   }));
-                   $.each(puestos, function (index, itemData) {
-                       select.append($('<option/>', {
-                           value: itemData.ID,
-                           text: itemData.Nombre
-                       }));
-                   });
-                   if (puestos.length > 0)
-                       select.find('option:first').attr('selected', 'selected');
-
-               });
-                    });
-
-                </script>
             </div>
 
             <div class="row-fluid">
@@ -104,7 +91,7 @@
                 </div>
                 <div class="span7">
                     <div class="editor-field" style="width: 100%; text-align: left;">
-                        @Html.Kendo().NumericTextBoxFor(model => model.Sueldo)
+                        @Html.EditorFor(model => model.Sueldo)
                     </div>
                 </div>
             </div>
@@ -121,7 +108,67 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row-fluid">
+                <br /> <b>Seleccione una acción</b><br />
+                <table>
+                    <tr>
+                        <td>
+                            <div class="span11">
+                                <div class="editor-label" style="width: 100%; text-align: left;">
+                                    @Html.LabelFor(model => model.AgregarPuesto)
+                                </div>
+                            </div>
+                            <div class="span1">
+                                <div class="editor-field" style="width: 100%; text-align: left;">
+                                    @Html.CheckBoxFor(model => model.AgregarPuesto)
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="span11">
+                                <div class="editor-label" style="width: 100%; text-align: left;">
+                                    @Html.LabelFor(model => model.ModificarPuesto)
+                                </div>
+                            </div>
+                            <div class="span1">
+                                <div class="editor-field" style="width: 100%; text-align: right;">
+                                    @Html.CheckBoxFor(model => model.ModificarPuesto)
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
     <!-- fin contenedor inferior: campos -->
+    
+    <script>
+        $("#AreaID").change(function () {
+        var areaID = $(this).val();
+        $.getJSON('@Url.Action("_GetPuestos", "Historial", new { Area = "Organizacion" })', { areaID: areaID },
+            function (puestos) {
+                var select = $("#PuestoID");
+                select.find('option').remove().end();
+                select.append($('<option/>', {
+                    value: 0,
+                    text: ""
+                    }));
+                    $.each(puestos, function (index, itemData) {
+                        select.append($('<option/>', {
+                            value: itemData.ID,
+                            text: itemData.Nombre
+                        }));
+                    });
+                    if (puestos.length > 0)
+                        select.find('option:first').attr('selected', 'selected');
+
+                });
+                        });
+                </script>
+    
 }
+
