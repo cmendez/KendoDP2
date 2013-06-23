@@ -99,7 +99,7 @@
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
 
         $.ajax({
-            url: '@Url.Action("EnviarNotificacion", "Eventos", new { Area = "Eventos" })',
+            url: '@Url.Action("EnviarInvitacion", "Eventos", new { Area = "Eventos" })',
              dataType: 'JSON',
              type: 'POST',
              data: {

@@ -339,7 +339,7 @@ namespace KendoDP2.Areas.Eventos.Controllers
             }
         }
 
-
+       [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult EnviarInvitacion(int eventoID)
         {
             using (DP2Context context = new DP2Context())
