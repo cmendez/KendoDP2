@@ -95,31 +95,118 @@
     </div>
 </div>
     
+<div class="container-fluid">
 
 <h3><b>Linea de Carrera</b></h3>
-<div class="span12 column sortable">
-    @foreach (ColaboradorXPuesto _p in puestos)
+
+<div class="row-fluid" id="sortable_portlets">
+    @for (int i = 0; i <= puestos.Count;i+=3 )
     {
-        <!-- BEGIN Portlet PORTLET-->
-        <div class="portlet box green">
-            <div class="portlet-title">
-                <div class="caption"><i class="icon-reorder"></i><b>Area:</b>  @_p.Puesto.Area.Nombre <i class="icon-reorder"></i><b>Puesto:</b>  @_p.Puesto.Nombre</div>
+        <div class="span4 column sortable">
+
+            @try{
+                if (@puestos[i].ID == 0) { }
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <h4><i class="icon-reorder"></i>Area: @puestos[i].Puesto.Area.Nombre</h4>
+                    <h4><i class="icon-reorder"></i>Puesto: @puestos[i].Puesto.Nombre</h4>
+                </div>
+                <div class="portlet-body">
+                    <div>
+                        <table>
+                            <tr>
+                                <th>Fecha Inicio:</th>
+                                <td>@puestos[i].FechaIngresoPuesto</td>
+                            </tr>
+                            <tr>
+                                <th>Fecha Fin:</th>
+                                <td>@puestos[i].FechaSalidaPuesto</td>
+                            </tr>
+                            <tr>
+                                <th>Sueldo</th>
+                                <td>@puestos[i].Sueldo</td>
+                            </tr>
+                            <tr>
+                                <th>Comentario</th>
+                                <td>@puestos[i].Comentarios</td>
+                            </tr>
+                        </table>
+                    </div>
+		        </div>
             </div>
-            <div class="portlet-body span12">
-                <div class="span4">
-                    <div class="span12"><b>Fecha Inicio:</b></div>
-                    <div class="span12">@_p.FechaIngresoPuesto</div>
+            }
+            catch (Exception) { }
+
+
+            @try{
+                if (@puestos[i+1].ID == 0) { }
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <h4><i class="icon-reorder"></i>Area: @puestos[i+1].Puesto.Area.Nombre</h4>
+                    <h4><i class="icon-reorder"></i>Puesto: @puestos[i+1].Puesto.Nombre</h4>
                 </div>
-                <div class="span4">
-                    <div class="span12"><b>Fecha Fin:</b></div>
-                    <div class="span12">@_p.FechaSalidaPuesto</div>
-                </div>
-                <div class="span4">
-                    <div class="span12"><b>Sueldo:</b></div>
-                    <div class="span12">@_p.Sueldo</div>
-                </div>
+                <div class="portlet-body">
+                    <div>
+                        <table>
+                            <tr>
+                                <th>Fecha Inicio:</th>
+                                <td>@puestos[i+1].FechaIngresoPuesto</td>
+                            </tr>
+                            <tr>
+                                <th>Fecha Fin:</th>
+                                <td>@puestos[i+1].FechaSalidaPuesto</td>
+                            </tr>
+                            <tr>
+                                <th>Sueldo</th>
+                                <td>@puestos[i+1].Sueldo</td>
+                            </tr>
+                            <tr>
+                                <th>Comentario</th>
+                                <td>@puestos[i+1].Comentarios</td>
+                            </tr>
+                        </table>
+                    </div>
+		        </div>
             </div>
-        </div>
-        
+            }
+            catch (Exception) {  }
+
+            @try{
+                if (@puestos[i+2].ID == 0) { }
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <h4><i class="icon-reorder"></i>Area: @puestos[i+2].Puesto.Area.Nombre</h4>
+                    <h4><i class="icon-reorder"></i>Puesto: @puestos[i+2].Puesto.Nombre</h4>
+                </div>
+                <div class="portlet-body">
+                    <div>
+                        <table>
+                            <tr>
+                                <th>Fecha Inicio:</th>
+                                <td>@puestos[i+2].FechaIngresoPuesto</td>
+                            </tr>
+                            <tr>
+                                <th>Fecha Fin:</th>
+                                <td>@puestos[i+2].FechaSalidaPuesto</td>
+                            </tr>
+                            <tr>
+                                <th>Sueldo</th>
+                                <td>@puestos[i+2].Sueldo</td>
+                            </tr>
+                            <tr>
+                                <th>Comentario</th>
+                                <td>@puestos[i+2].Comentarios</td>
+                            </tr>
+                        </table>
+                    </div>
+		        </div>
+            </div>
+            }
+            catch (Exception) {  }
+    </div>
     }
+
+
+</div>
+
 </div>

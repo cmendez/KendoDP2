@@ -39,12 +39,21 @@ namespace KendoDP2.Areas.Organizacion.Models
     {
         public int ID { get; set; }
         public string NombreCompleto { get; set; }
+        //public string Username { get; set; }
+        //public string Password { get; set; }
+        //public virtual List<Rol> Roles { get; set; }
 
-        public PersonaDTO() { }
+        public PersonaDTO() {
+            //Roles = new List<Rol>();
+        }
         public PersonaDTO(Persona p)
         {
             ID = p.ID;
             NombreCompleto = p.ApellidoPaterno + " " + p.ApellidoMaterno + ", " + p.Nombres;
+            //Username = p.Username;
+            //Password = p.Password;
+            //Roles = new List<Rol>();
+            //Roles = p.Roles;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         public HistorialController()
             : base()
         {
-            ViewBag.Area = "Historial";
+            ViewBag.Area = "Organizacion";
         }
 
         //
@@ -33,52 +33,128 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             }
 
         }
-
-        
-        public ActionResult EditingInline_Read([DataSourceRequest] DataSourceRequest request)
+        private List<ColaboradorXPuestoDTO> ObtenerUltimosPuestos()
         {
+            List<ColaboradorXPuestoDTO> SALIDA = new List<ColaboradorXPuestoDTO>();
             using (DP2Context context = new DP2Context())
             {
-                return Json(context.TablaColaboradoresXPuestos.Where(f=>f.FechaSalidaPuesto==null).Select(i=>i.ToDTO()).ToDataSourceResult(request));
+                foreach (Colaborador c in context.TablaColaboradores.All())
+                {
+                    if (c.ID != 1)
+                    {
+                        int maximoID = (from cxp in context.TablaColaboradoresXPuestos.All()
+                                        where cxp.ColaboradorID == c.ID
+                                        select cxp.ID).Max();
+                        ColaboradorXPuestoDTO SAL = new ColaboradorXPuestoDTO();
+                        SAL = context.TablaColaboradoresXPuestos.Where(cc => (cc.ColaboradorID == c.ID && cc.ID == maximoID)).Select(D => D.ToDTO()).FirstOrDefault();
+                        SALIDA.Add(SAL);                        
+                    }
+
+                }
             }
+            return SALIDA;
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditingInline_Read([DataSourceRequest] DataSourceRequest request)
+        {
+            List<ColaboradorXPuestoDTO> SALIDA = new List<ColaboradorXPuestoDTO>();
+            SALIDA = ObtenerUltimosPuestos();               
+            return Json(SALIDA.ToDataSourceResult(request));
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult EditingInline_Update([DataSourceRequest] DataSourceRequest request, ColaboradorXPuestoDTO cxp)
         {
-            ColaboradorXPuestoDTO cc= new ColaboradorXPuestoDTO();
-            TryUpdateModel(cc);
-            using (DP2Context context = new DP2Context())
+            List<ColaboradorXPuestoDTO> SALIDA = new List<ColaboradorXPuestoDTO>();
+
+            try
             {
-                ColaboradorXPuesto anterior=context.TablaColaboradoresXPuestos.Where(i => i.ID == cxp.Colaborador.ID).Where(u => u.FechaSalidaPuesto == null).FirstOrDefault();
-                anterior.FechaSalidaPuesto = DateTime.Now;
-                context.TablaColaboradoresXPuestos.ModifyElement(anterior);
+                using (DP2Context context = new DP2Context())
+                {
+                    if ((cxp.AgregarPuesto) && (!cxp.ModificarPuesto))
+                    {
+                        ColaboradorXPuesto cc = context.TablaColaboradoresXPuestos.One(o => o.ID == cxp.ID);
+                        ColaboradorXPuesto nuevo = new ColaboradorXPuesto();
+                        nuevo.LoadFromDTO(cxp);
+                        if (cxp.FechaIngresoPuesto != null)
+                        {
+                            nuevo.FechaIngresoPuesto = DateTime.Parse(cxp.FechaIngresoPuesto);
+                        }
 
-                Colaborador colab = context.TablaColaboradores.One(CL => CL.ID == cxp.Colaborador.ID);
-                ColaboradorXPuesto C = new ColaboradorXPuesto();
-                C.Colaborador = context.TablaColaboradores.One(CL => CL.ID == cxp.Colaborador.ID);
-                C.ColaboradorID = cxp.Colaborador.ID;
-                C.Comentarios = cxp.Comentarios;
-                C.FechaIngresoPuesto = cxp.FechaIngresoPuesto;
-                C.FechaSalidaPuesto = cxp.FechaSalidaPuesto;
-                C.Sueldo = cxp.Sueldo;
-                C.Puesto = context.TablaPuestos.One(CL => CL.ID == cxp.PuestoID);
-                C.PuestoID = cxp.PuestoID;
+                        if ((cxp.FechaSalidaPuesto != null) && (!cxp.ContratoIndefinido))
+                        {
+                            nuevo.FechaSalidaPuesto = DateTime.Parse(cxp.FechaSalidaPuesto);
+                        }
 
-                colab.ColaboradoresPuesto.Add(C);
+                        if ((!cxp.ContratoIndefinido))
+                        {
+                            if ((DateTime.Parse(cxp.FechaSalidaPuesto).Year * 10000 + DateTime.Parse(cxp.FechaSalidaPuesto).Month * 100 + DateTime.Parse(cxp.FechaSalidaPuesto).Day) - (DateTime.Parse(cxp.FechaIngresoPuesto).Year * 10000 + DateTime.Parse(cxp.FechaIngresoPuesto).Month * 100 + DateTime.Parse(cxp.FechaIngresoPuesto).Day) <= 0)
+                            {
+                                SALIDA = new List<ColaboradorXPuestoDTO>();
+                                SALIDA = ObtenerUltimosPuestos();
+                                return Json(SALIDA.ToDataSourceResult(request));
+                            }
+                        }
+                        nuevo.Colaborador = cc.Colaborador;
+                        nuevo.Puesto = context.TablaPuestos.One(i => i.ID == cxp.PuestoID);
+                        if (cc.FechaSalidaPuesto == null)
+                        {
+                            cc.FechaSalidaPuesto = DateTime.Now;
+                            context.TablaColaboradoresXPuestos.ModifyElement(cc);
+                        }
+                        context.TablaColaboradoresXPuestos.AddElement(nuevo);
+                    }
+                    else
+                    {
+                        if ((!cxp.AgregarPuesto) && (cxp.ModificarPuesto))
+                        {
+                            ColaboradorXPuesto cc = context.TablaColaboradoresXPuestos.One(o => o.ID == cxp.ID);
+                            ColaboradorXPuesto actualizado = new ColaboradorXPuesto();
+                            actualizado.LoadFromDTO(cxp);
 
+                            if (cxp.FechaIngresoPuesto != null)
+                            {
+                                actualizado.FechaIngresoPuesto = DateTime.Parse(cxp.FechaIngresoPuesto);
+                            }
 
-                context.TablaColaboradoresXPuestos.AddElement(C);
-                context.TablaColaboradores.ModifyElement(colab);
-                return Json(context.TablaColaboradoresXPuestos.Where(f => f.FechaSalidaPuesto == null).Select(i => i.ToDTO()).ToDataSourceResult(request));
+                            if ((cxp.FechaSalidaPuesto != null) && (!cxp.ContratoIndefinido))
+                            {
+                                actualizado.FechaSalidaPuesto = DateTime.Parse(cxp.FechaSalidaPuesto);
+                            }
+
+                            if ((!cxp.ContratoIndefinido))
+                            {
+                                if ((DateTime.Parse(cxp.FechaSalidaPuesto).Year * 10000 + DateTime.Parse(cxp.FechaSalidaPuesto).Month * 100 + DateTime.Parse(cxp.FechaSalidaPuesto).Day) - (DateTime.Parse(cxp.FechaIngresoPuesto).Year * 10000 + DateTime.Parse(cxp.FechaIngresoPuesto).Month * 100 + DateTime.Parse(cxp.FechaIngresoPuesto).Day) <= 0)
+                                {
+                                    SALIDA = new List<ColaboradorXPuestoDTO>();
+                                    SALIDA = ObtenerUltimosPuestos();
+                                    return Json(SALIDA.ToDataSourceResult(request));
+                                }
+                            }
+                            actualizado.Puesto = cc.Puesto;
+                            actualizado.Colaborador = cc.Colaborador;
+                            context.TablaColaboradoresXPuestos.RemoveElementByID(cc.ID);
+                            context.TablaColaboradoresXPuestos.AddElement(actualizado);
+                        }
+                    }
+                    SALIDA = ObtenerUltimosPuestos();
+                    return Json(SALIDA.ToDataSourceResult(request));
+                }
             }
-        }
+            catch (Exception) {
+                SALIDA = ObtenerUltimosPuestos();
+                return Json(SALIDA.ToDataSourceResult(request));
+            }
+            }
 
         public ActionResult Linea(int ID)
         {
             using (DP2Context context = new DP2Context())
             {
                 ColaboradorDTO C = context.TablaColaboradores.One(x=>x.ID==ID).ToDTO();
+                C.Puesto = ObtenerUltimosPuestos().Where(ccc => ccc.Colaborador.ID == C.ID).FirstOrDefault().Puesto.Nombre;
+                C.Sueldo = ObtenerUltimosPuestos().Where(ccc => ccc.Colaborador.ID == C.ID).FirstOrDefault().Sueldo;
                 List<ColaboradorXPuesto> CXP = context.TablaColaboradoresXPuestos.Where(X => X.ColaboradorID == C.ID).ToList();
                 List<ColaboradorXPuesto> salida = new List<ColaboradorXPuesto>();
                 foreach(ColaboradorXPuesto x in CXP)
@@ -89,7 +165,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                     aux.Puesto.Area = context.TablaAreas.One(a => a.ID == aux.Puesto.AreaID);
                     salida.Add(aux);
                 }
-                ViewBag.ColaboradorXPuesto = salida; ;
+                ViewBag.ColaboradorXPuesto = salida;
                 ViewBag.ColaboradorDTO = C;
                 return View();
             }
@@ -116,7 +192,17 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 List<Puesto> p = new List<Puesto>();
                 try
                 {
-                    p = context.TablaPuestos.Where(i=>i.AreaID==areaID).ToList();
+                    var query =
+                                from puestos in context.TablaPuestos.Where(i=>i.AreaID==areaID).ToList()
+                                where !(from o in ObtenerUltimosPuestos()
+                                select o.PuestoID)
+                                    .Contains(puestos.ID)
+                                select puestos;
+
+                    foreach(var q in query)
+                    {
+                        p.Add(q);
+                    }
                 }
                 catch (Exception) { }
                 return Json(p.Select(x => x.ToDTO()).ToList(), JsonRequestBehavior.AllowGet);

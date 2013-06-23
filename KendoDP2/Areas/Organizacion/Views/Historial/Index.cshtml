@@ -27,16 +27,17 @@
                 .Columns(columns =>
                     {
                         columns.Bound(p => p.ID);
-                        columns.Bound(P => P.Colaborador.ID);
                         columns.Bound(P=>P.Colaborador.Nombre);
                         columns.Bound(P => P.Colaborador.ApellidoPaterno);
-                        columns.Bound(P => P.Colaborador.ApellidoMaterno);
                         columns.ForeignKey(p => p.AreaID,listaAreas);
                         columns.ForeignKey(p => p.PuestoID, listaPuestos);
+                        columns.Bound(P => P.FechaIngresoPuesto);
+                        columns.Bound(P => P.FechaSalidaPuesto);
                         columns.Template(@<text></text>).ClientTemplate("<a class='btn btn-success'href='" + Url.Action("Linea", "Historial") + "/#=Colaborador.ID#'>Linea</a>");
+                
                         columns.Command(command =>
                         {
-                            command.Edit().Text("Agregar Puesto").UpdateText("Guardar").CancelText("Cancelar");
+                            command.Edit().Text("Gestionar Puesto").UpdateText("Aceptar").CancelText("Cancelar");
                         }).Width(200);
 
                     }
@@ -44,10 +45,11 @@
                         .Editable(editable => editable
                             .Mode(GridEditMode.PopUp)
                             .TemplateName("EditorColaboradorLineadeCarrera")
-                            .Window(w => { w.Title("Ingrese los datos del nuevo puesto"); w.Width(800); })
+                            .Window(w => { w.Title("Ingrese los datos"); w.Width(800); })
                         )
 
                         .Groupable()
+                        .Pageable(paper => paper.Refresh(true))
                         .Filterable()
                         .Sortable()
                         .Scrollable(p => p.Height(330))
@@ -57,9 +59,25 @@
                             .Model(model => model.Id(p => p.ID))
                             .Read(read => read.Action("EditingInline_Read", "Historial"))
                             .Update(update => update.Action("EditingInline_Update", "Historial"))
+                            .Events(e => e.Error("onError"))
                         )
                        )
         </div>
     </div>
 </div>
 
+<script>
+    function onError(e) {
+        if (e.errors) {
+            var message = "Error:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>
