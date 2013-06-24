@@ -89,18 +89,10 @@ namespace KendoDP2.Areas.Reportes.Models
             idObjetivo = o.ID;
             descripcion = o.Nombre;
 
-            List<ColaboradorDTO> ListaCOlaboradores= context.TablaColaboradores.All().Select(col => col.ToDTO()).ToList();
-            numPersonas = 0;
-            foreach (ColaboradorDTO col in ListaCOlaboradores)
-            {
-                
-                foreach (ObjetivoDTO obj in col.Objetivos)
-                {
-                    if (obj.ObjetivoPadreID!=0 &&obj.ObjetivoPadreID == o.ID) numPersonas += 1; 
-                }
-            }
+            
             peso = o.Peso;
-            hijos = o.ObjetivosHijos(context).Count;            
+            hijos = o.ObjetivosHijos(context).Count;
+            numPersonas = hijos;
             avance = o.AvanceFinal;
             esIntermedio = o.IsObjetivoIntermedio;
             if (o.ObjetivoPadreID != 0)
@@ -124,7 +116,7 @@ namespace KendoDP2.Areas.Reportes.Models
             if (o.PuestoAsignadoID != null)
             {
                 idPuesto = o.PuestoAsignadoID.Value;
-                List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (cxp.FechaSalidaPuesto == null ));
+                List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (!cxp.FechaSalidaPuesto.HasValue));
                 if (cxpaux.Count > 0)
                 {
 
@@ -141,7 +133,7 @@ namespace KendoDP2.Areas.Reportes.Models
                 if (o.ObjetivoPadreID !=0 && context.TablaObjetivos.FindByID(o.ObjetivoPadreID).PuestoAsignadoID != null)
                 {
                     idPuesto = context.TablaObjetivos.FindByID(o.ObjetivoPadreID).PuestoAsignado.ID;
-                    List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (cxp.FechaSalidaPuesto == null || DateTime.Today <= cxp.FechaSalidaPuesto));
+                    List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (!cxp.FechaSalidaPuesto.HasValue));
                     if (cxpaux.Count > 0)
                     {
 

@@ -292,7 +292,9 @@ namespace KendoDP2.Areas.Reportes.Controllers
             using (DP2Context context = new DP2Context())
             {
                 List<Objetivo> ObjetivosPeriodoaux = context.TablaObjetivos.Where(obj => obj.GetBSCIDRaiz(context) == idperiodo);
-                List<ObjetivoRDTO> ObjetivosPeriodo = ObjetivosPeriodoaux.Select(oxp => oxp.ToRDTO(context)).ToList();
+                List<ObjetivoRDTO> ObjetivosPeriodo = new List<ObjetivoRDTO>();
+                ObjetivosPeriodo.AddRange(ObjetivosPeriodoaux.Select(oxp => oxp.ToRDTO(context)).ToList());
+                //List<ObjetivoRDTO> ObjetivosPeriodo = ObjetivosPeriodoaux.Select(oxp => oxp.ToRDTO(context)).ToList();
                 //List<ObjetivoRDTO> ObjetivosPeriodo = context.TablaObjetivos.Where(obj => obj.ToRDTO(context).idperiodo==idperiodo).Select(ob => ob.ToRDTO(context)).ToList();
                 
                 return Json(ObjetivosPeriodo, JsonRequestBehavior.AllowGet);
@@ -317,7 +319,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
 
                 //if (ListaOfertasaux2.Any() > 0)
                 //{
-                    ListaOfertasaux = ListaOfertasaux2.Select(ol => ol.ToDTO()).ToList();
+                ListaOfertasaux = ListaOfertasaux2.Select(ol => ol.ToDTO()).ToList();
                 //}
                 List<ROferta> OfertasPuesto = new List<ROferta>();
 
