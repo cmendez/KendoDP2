@@ -164,9 +164,9 @@ namespace KendoDP2.Areas.Eventos.Models
                 }
             }
 
+            Invitados = new List<ColaboradorDTOWS>();
             if (e.Invitados != null && e.Invitados.Count > 0)
             {
-                Invitados = new List<ColaboradorDTOWS>();
                 foreach (var invitado in e.Invitados)
                 {
                     Invitados.Add(invitado.Asistente.ToDTOWS());
