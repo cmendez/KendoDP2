@@ -83,7 +83,76 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             }
         }
 
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Copy([DataSourceRequest] DataSourceRequest request, int puestoID)
+        {
+        //  Obtiene el nuevo nombre del puesto
+            using (DP2Context context = new DP2Context())
+            {
+                Puesto puestoBase = context.TablaPuestos.FindByID(puestoID);
+                string sPuesto = "";
 
+                if (puestoBase.Nombre.Contains("-"))
+                {
+                    int num = puestoBase.Nombre.IndexOf("-") + 2;
+                    sPuesto = puestoBase.Nombre.Substring(0, num);
+                }
+                else
+                {
+                    sPuesto = puestoBase.Nombre + " - ";
+                }
+
+                Puesto puestoMax = context.TablaPuestos.Where(p => p.Nombre.StartsWith(sPuesto)).OrderBy(p => p.Nombre).LastOrDefault();
+
+
+                if (puestoMax == null)
+                {
+                    sPuesto = sPuesto + "2";
+                }
+                else
+                {
+                    int num = puestoMax.Nombre.IndexOf("-") + 2;
+                    string sNum = puestoMax.Nombre.Substring(num);
+                    int next = int.Parse(sNum) + 1;
+                    sPuesto = sPuesto + next;
+                }
+    
+            //  Crea el nuevo puesto
+                Puesto puestoCopia = new Puesto(puestoBase, sPuesto);
+                context.TablaPuestos.AddElement(puestoCopia);
+
+            //  Copia las funciones
+                var funciones = context.TablaFunciones.Where(f => f.PuestoID == puestoBase.ID);
+                foreach (Funcion funcion in funciones)
+                {
+                    context.TablaFunciones.AddElement(new Funcion { PuestoID = puestoCopia.ID, Nombre = funcion.Nombre });
+                }
+
+            //  Copia las competencias
+                var competenciasxpuesto = context.TablaCompetenciaXPuesto.Where(c => c.PuestoID == puestoBase.ID);
+                foreach (CompetenciaXPuesto cxp in competenciasxpuesto)
+                {
+                    context.TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto { PuestoID = puestoCopia.ID, CompetenciaID = cxp.CompetenciaID, NivelID = cxp.NivelID, Peso = cxp.Peso });
+                }
+
+            //  Hereda los objetivos del padre
+                if (puestoCopia.PuestoSuperiorID.GetValueOrDefault() > 0)
+                {
+                    Puesto puestoPapa = context.TablaPuestos.FindByID(puestoCopia.PuestoSuperiorID.GetValueOrDefault());
+                    puestoPapa.ReparteObjetivosASubordinados(context);
+                }
+
+            //  Se crea la base para la configuración de su evaluación:
+                context.TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoCopia.ID, true, "El mismo", 1, 50));
+                context.TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoCopia.ID, true, "Jefe", 1, 50));
+                context.TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoCopia.ID, false, "Pares", 0, 0));
+                context.TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoCopia.ID, false, "Subordinados", 0, 0));
+                context.TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoCopia.ID, false, "Clientes", 0, 0));
+                context.TablaPuestoXEvaluadores.AddElement(new PuestoXEvaluadores(puestoCopia.ID, false, "Otros", 0, 0));
+
+                return Json(new[] { puestoCopia.ToDTO() }.ToDataSourceResult(request, ModelState));
+            }
+        }
        
 
         [AcceptVerbs(HttpVerbs.Post)]
