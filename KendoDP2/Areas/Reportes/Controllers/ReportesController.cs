@@ -62,7 +62,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 ListaObjetivos3 = context.TablaObjetivos.All().Select(o => o.ToDTO(context)).ToList();
                 foreach (ObjetivoDTO obj in ListaObjetivos3)
                 {
-                    if (obj.BSCID ==idperiodo && obj.TipoObjetivoBSCID==BSCId){
+                    if (obj.AvanceFinal!=null && obj.BSCID ==idperiodo && obj.TipoObjetivoBSCID!=null && obj.TipoObjetivoBSCID==BSCId){
                         ListaObjetivos2.AddRange(context.TablaObjetivos.Where(o => o.ID == obj.ID).Select(oo => oo.ToRDTO(context)));
                     }
                 }
@@ -311,43 +311,102 @@ namespace KendoDP2.Areas.Reportes.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                List<OfertaLaboral> ListaOfertasaux = context.TablaOfertaLaborales.Where(o=> o.PuestoID == puesto);
+                List<OfertaLaboralDTO> ListaOfertasaux = context.TablaOfertaLaborales.Where(o=> o.PuestoID == puesto && o.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Aprobado")).Select(ol=>ol.ToDTO()).ToList();
 
                 List<ROferta> OfertasPuesto = new List<ROferta>();
 
-                foreach (OfertaLaboral Oferta in ListaOfertasaux)
+                foreach (OfertaLaboralDTO Oferta in ListaOfertasaux)
                 {
                     ROferta Ofertapuesto = new ROferta();
                     Ofertapuesto.descripcion = Oferta.Descripcion;
                     Ofertapuesto.fecha = Oferta.FechaRequerimiento;
-                   
-                    List<FasePostulacionXOfertaLaboralXPostulante> FasesPostulacionXOfertaXPostulante = context.TablaFasePostulacionXOfertaLaboralXPostulante .Where(f=>f.OfertaLaboralXPostulante.OfertaLaboralID==Oferta.ID).ToList();
+                    Ofertapuesto.Fases = new List<RFase>();
 
-                    for (int i = 1; i <= 3; i++)
-                    {
-                        RFase fase = new RFase();
-                        FasePostulacionDTO fasedto ;
-                        FasePostulacion faseaux=new FasePostulacion();
-                        fasedto = faseaux.ToDTO(context.TablaFasePostulacion.FindByID(i));
+                    
+
+                    RFase faseini = new RFase();
+                    faseini.nombreFase = "Inscripción";
+                    faseini.numPostulantes = context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboral.ID == Oferta.ID).Count;
+                    faseini.Postulantes = new List<RPostulante>();
 
 
-                        fase.nombreFase = fasedto.Descripcion;
-                        fase.numPostulantes = FasesPostulacionXOfertaXPostulante.Where(f => f.FasePostulacionID == 1).Count();
-                        fase.Postulantes= new List<RPostulante>();
-                        FasesPostulacionXOfertaXPostulante.Where(f => f.FasePostulacionID == 1).ToList().ForEach(f => fase.Postulantes.Add(new RPostulante
+
+                    context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboral.ID == Oferta.ID).ForEach
+                    (oxp => faseini.Postulantes.Add(new RPostulante{
+                        Proveniencia =oxp.Postulante.CentroEstudios,
+                        gradoAcademico =oxp.Postulante.GradoAcademico.Descripcion,
+                        nombre=oxp.Postulante.Nombres + " " + oxp.Postulante.ApellidoPaterno + " " + oxp.Postulante.ApellidoMaterno
+                    })
+                    );
+
+                    Ofertapuesto.Fases.Add(faseini);
+                                   
+                
+                   for (int i = 1; i <= 3; i++)
+                   {
+                       //Fases de la postulaciones
+                        List<FasePostulacionXOfertaLaboralXPostulante> FasesPostulacionXOfertaXPostulante = context.TablaFasePostulacionXOfertaLaboralXPostulante .Where(f => f.FasePostulacionID == i && f.OfertaLaboralXPostulante.OfertaLaboralID==Oferta.ID).ToList();
+                       
+                        //Datos de la fase 
+                        RFase fase= new RFase();
+                        
+                        fase.nombreFase = context.TablaFasePostulacion.FindByID(i+1).Descripcion;
+                        fase.numPostulantes = FasesPostulacionXOfertaXPostulante.Count();
+                        fase.Postulantes = new List<RPostulante>();
+
+                        //Datos de los postulantes
+                        FasesPostulacionXOfertaXPostulante.Where(f => f.FasePostulacionID == i).ToList().ForEach(f => fase.Postulantes.Add(new RPostulante
                         {
+                            ID =f.OfertaLaboralXPostulante.Postulante.ID,
                             Proveniencia = f.OfertaLaboralXPostulante.Postulante.CentroEstudios,
                             gradoAcademico = f.OfertaLaboralXPostulante.Postulante.GradoAcademico.Descripcion,
                             nombre = f.OfertaLaboralXPostulante.Postulante.Nombres + " " + f.OfertaLaboralXPostulante.Postulante.ApellidoPaterno + " " + f.OfertaLaboralXPostulante.Postulante.ApellidoMaterno
                         }));
 
+                        //Puntajes postulantes
+                        foreach (RPostulante pos in fase.Postulantes)
+                        {
+                            List<EvaluacionXFaseXPostulacionDTO> eva= context.TablaEvaluacionXFaseXPostulacion.Where(ev => ev.FasePostulacionXOfertaLaboralXPostulante.OfertaLaboralXPostulante.OfertaLaboral.ID == Oferta.ID
+                                                && ev.FasePostulacionXOfertaLaboralXPostulante.OfertaLaboralXPostulante.Postulante.ID == pos.ID).Select (ev=>ev.ToDTO()).ToList();
+                            if  (eva.Count>0){
+                                pos.puntaje=eva[0].Puntaje;
+                            }
+                        }
+
+                        if (fase.Postulantes.Count>0){
+                            fase.PuntajeMaximo = fase.Postulantes.Max(x=>x.puntaje);
+                            fase.PuntajeMinimo = fase.Postulantes.Min(x => x.puntaje);
+                            fase.PuntajePromedio = fase.Postulantes.Average(x => x.puntaje);
+                        }
+                        
                         Ofertapuesto.Fases.Add(fase);
 
-                    }
+                        
+                    
+                   }
+                   //Selección
+                   RFase fasefin = new RFase();
+                   fasefin.nombreFase = "Selección";
+                   fasefin.numPostulantes = context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboral.ID == Oferta.ID && oxp.EstadoPostulantePorOferta.Descripcion.Equals("Contratado")).Count;
+                   fasefin.Postulantes = new List<RPostulante>();
 
-                    OfertasPuesto.Add(Ofertapuesto);
-                    List<FasePostulacion> FasesPostulacion = context.TablaFasePostulacion.All();
-                    //List<fa> FasesPostulacion = context.TablaFasePostulacion.All();
+
+
+                   context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboral.ID == Oferta.ID && oxp.EstadoPostulantePorOferta.Descripcion.Equals("Contratado")).ForEach
+                   (oxp => fasefin.Postulantes.Add(new RPostulante
+                   {
+                       Proveniencia = oxp.Postulante.CentroEstudios,
+                       gradoAcademico = oxp.Postulante.GradoAcademico.Descripcion,
+                       nombre = oxp.Postulante.Nombres + " " + oxp.Postulante.ApellidoPaterno + " " + oxp.Postulante.ApellidoMaterno
+                   })
+                   );
+
+                   Ofertapuesto.Fases.Add(fasefin); 
+
+
+                   OfertasPuesto.Add(Ofertapuesto);
+                
+                
                 }
 
                 return Json(OfertasPuesto, JsonRequestBehavior.AllowGet);

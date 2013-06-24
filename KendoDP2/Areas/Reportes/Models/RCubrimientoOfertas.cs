@@ -24,18 +24,24 @@ namespace KendoDP2.Areas.Reportes.Models
         public string Proveniencia;
         public string gradoAcademico;
         public string nombre;
+        public double puntaje;
+        public int ID;
     }
     public class RFase
     {
         public string nombreFase;
         public int numPostulantes;
         public List<RPostulante>  Postulantes;
+        public double PuntajeMaximo;
+        public double PuntajeMinimo;
+        public double PuntajePromedio;
     }
     public class ROferta
     {
         public string descripcion;
         public string fecha;
         public List<RFase> Fases;
+        
     }
 
 
