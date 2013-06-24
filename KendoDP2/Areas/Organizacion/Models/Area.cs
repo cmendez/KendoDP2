@@ -15,6 +15,7 @@ namespace KendoDP2.Areas.Organizacion.Models
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public bool IsAudit { get; set; }
+        public bool IsRRHH { get; set; }
 
         public int ColorID { get; set; }
 
@@ -44,6 +45,8 @@ namespace KendoDP2.Areas.Organizacion.Models
             Descripcion = a.Descripcion;
             if(a.AreaSuperiorID > 0) AreaSuperiorID = a.AreaSuperiorID;
             ColorID = a.ColorID;
+            IsAudit = a.IsAudit;
+            IsRRHH = a.IsRRHH;
 
             return this;
         }
@@ -92,6 +95,9 @@ namespace KendoDP2.Areas.Organizacion.Models
         [DisplayName("Es auditoría")]
         public bool IsAudit { get; set; }
 
+        [DisplayName("Es RRHH")]
+        public bool IsRRHH { get; set; }
+        
         [DisplayName("Descripción")]
         [MaxLength(200)]
         public string Descripcion { get; set; }
@@ -109,6 +115,8 @@ namespace KendoDP2.Areas.Organizacion.Models
             Descripcion = a.Descripcion;
             AreaSuperiorID = a.AreaSuperiorID.GetValueOrDefault();
             ColorID = a.ColorID;
+            IsAudit = a.IsAudit;
+            IsRRHH = a.IsRRHH;
             
         }
     }
