@@ -13,6 +13,7 @@ using System.Web.Mvc;
 
 namespace KendoDP2.Areas.Objetivos.Controllers
 {
+    [Authorize()]
     public class MisObjetivosController : Controller
     {
         public MisObjetivosController()
@@ -72,16 +73,18 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 Objetivo o = context.TablaObjetivos.FindByID(objetivo.ID);
                 bool avanceRegistrdo = o.AvanceFinal != objetivo.AvanceFinal;
                 bool cambioDeNombreRegistrado = false;
-                if (o.LosProgresos.Count > 0 && !objetivo.ComentarioUltimoAvance.Equals(o.LosProgresos.Last().Comentario))
+                string comment = objetivo.ComentarioUltimoAvance == null ? "" : objetivo.ComentarioUltimoAvance;
+                if (o.LosProgresos.Count > 0 && !comment.Equals(o.LosProgresos.Last().Comentario))
                     cambioDeNombreRegistrado = true;
                 o.LoadFromDTO(objetivo, context);
                 context.TablaObjetivos.ModifyElement(o);
-                if (avanceRegistrdo) o.RegistrarAvance(context, o.AvanceFinal, objetivo.ComentarioUltimoAvance);
+                if (avanceRegistrdo) o.RegistrarAvance(context, o.AvanceFinal, comment);
                 else if (cambioDeNombreRegistrado)
                 {
                     AvanceObjetivo a = o.LosProgresos.Last();
-                    a.Comentario = objetivo.ComentarioUltimoAvance;
+                    a.Comentario = comment;
                     context.TablaAvanceObjetivo.ModifyElement(a);
+                    a.ActualizarPesos(context);
                 }
                 return Json(new[] { o.ToDTO(context) }.ToDataSourceResult(request, ModelState));
             }

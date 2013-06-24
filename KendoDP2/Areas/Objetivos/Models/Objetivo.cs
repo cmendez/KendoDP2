@@ -116,6 +116,38 @@ namespace KendoDP2.Areas.Objetivos.Models
         {
             AvanceObjetivo avance = new AvanceObjetivo { Objetivo = this, Valor = valor, FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy"), Comentario = comentario };
             context.TablaAvanceObjetivo.AddElement(avance);
+            avance.ActualizarPesos(context);
+        }
+
+        internal void ActualizarPesos(DP2Context context)
+        {
+            List<Objetivo> Hijos = this.ObjetivosHijos(context);
+            int total = Hijos.Count();
+            int sumaPesos = 0;
+            Hijos.ForEach(x => sumaPesos += x.Peso);
+            if (total == 0)
+            {
+                AvanceFinal = 0;
+            }
+            else if (sumaPesos == 0)
+            {
+                double peso = 1.0 / total;
+                double res = 0;
+                Hijos.ForEach(x => res += peso * x.AvanceFinal);
+                AvanceFinal = (int)Math.Round(res);
+            }
+            else
+            {
+                double res = 0;
+                Hijos.ForEach(x => res += x.Peso * x.AvanceFinal);
+                res /= sumaPesos;
+                AvanceFinal = (int)Math.Round(res);
+            }
+            context.TablaObjetivos.ModifyElement(this);
+            Objetivo padre = context.TablaObjetivos.FindByID(ObjetivoPadreID);
+            if(padre != null)
+                padre.ActualizarPesos(context);
+
         }
     }
 

@@ -210,6 +210,4 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
     
     }
 
-     
-
 }

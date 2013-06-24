@@ -87,6 +87,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         public ActionResult Copy([DataSourceRequest] DataSourceRequest request, int puestoID)
         {
         //  Obtiene el nuevo nombre del puesto
+            int id;
             using (DP2Context context = new DP2Context())
             {
                 Puesto puestoBase = context.TablaPuestos.FindByID(puestoID);
@@ -119,8 +120,11 @@ namespace KendoDP2.Areas.Organizacion.Controllers
     
             //  Crea el nuevo puesto
                 Puesto puestoCopia = new Puesto(puestoBase, sPuesto);
-                context.TablaPuestos.AddElement(puestoCopia);
-
+                id = context.TablaPuestos.AddElement(puestoCopia);
+            }
+            using(DP2Context context = new DP2Context()){
+                Puesto puestoBase = context.TablaPuestos.FindByID(puestoID);
+                Puesto puestoCopia = context.TablaPuestos.FindByID(id);
             //  Copia las funciones
                 var funciones = context.TablaFunciones.Where(f => f.PuestoID == puestoBase.ID);
                 foreach (Funcion funcion in funciones)
