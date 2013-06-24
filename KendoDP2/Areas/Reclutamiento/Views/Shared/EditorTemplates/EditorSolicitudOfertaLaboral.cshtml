@@ -160,7 +160,7 @@
 <script>
     $("#AreaID").change(function () {
         var areaID = $(this).val();
-        $.getJSON("@Url.Action("_GetPuestos", "Colaboradores", new {Area = "Organizacion"})",
+        $.getJSON("@Url.Action("_GetPuestos", "SolicitudOfertasLaborales", new {Area = "Reclutamiento"})",
                { areaID: areaID },
                function (puestos) {
                    var select = $("#PuestoID");

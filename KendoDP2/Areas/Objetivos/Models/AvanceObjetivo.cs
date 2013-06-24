@@ -53,6 +53,13 @@ namespace KendoDP2.Areas.Objetivos.Models
             return new AvanceObjetivoDTO(this);
 
         }
+
+        internal void ActualizarPesos(DP2Context context)
+        {
+            Objetivo padre = Objetivo;
+            Objetivo abuelo = context.TablaObjetivos.FindByID(padre.ObjetivoPadreID);
+            abuelo.ActualizarPesos(context);
+        }
     }
 
     public class AvanceObjetivoDTO
