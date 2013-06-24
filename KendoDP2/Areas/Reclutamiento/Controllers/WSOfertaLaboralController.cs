@@ -71,17 +71,58 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     if (lstPostulacionesDeLaFase == null || lstPostulacionesDeLaFase.Count == 0)
                         return JsonErrorGet("No existe postulaciones que hayan llegado a la fase " + descripcionFase);
 
-                    //De esas postulaciones filtro por aquellas cuyo responsable es "colaboradorID"
-                    var lstOfertasLaboralesResponsable = lstPostulacionesDeLaFase
-                                                        .Select(x => x.OfertaLaboral).Distinct()
+                    var lstOfertasLaboralesResponsable = new List<OfertaLaboral>();
+                    if (descripcionFase.Equals("Registrado"))
+                    {
+                        // Quien evalua es el de RRHH
+                        var gerenteRRHH = context.TablaColaboradoresXPuestos.One(x => x.Puesto.Nombre.Equals("Gerente de RRHH") && !x.FechaSalidaPuesto.HasValue).Colaborador;
+                        lstOfertasLaboralesResponsable = lstPostulacionesDeLaFase
+                                                        .Select(x => x.OfertaLaboral)
+                                                        .Distinct()
+                                                        .Where(x => gerenteRRHH.ID == responsable.ID)
+                                                        .ToList();
+                    }
+                    else if (descripcionFase.Equals("Aprobado RRHH"))
+                    {
+                        // Quien evalua es el responsable
+                        lstOfertasLaboralesResponsable = lstPostulacionesDeLaFase
+                                                        .Select(x => x.OfertaLaboral)
+                                                        .Distinct()
                                                         .Where(x => x.ResponsableID == responsable.ID) //Ofertas laborales cuyo responsable sea colaboradorID
                                                         .ToList();
+                    }
+
+                    
+                    //De esas postulaciones filtro por aquellas cuyo responsable es "colaboradorID"
+                    //var lstOfertasLaboralesResponsable = lstPostulacionesDeLaFase
+                    //                                    .Select(x => x.OfertaLaboral).Distinct()
+                    //                                    .Where(x => x.ResponsableID == responsable.ID) //Ofertas laborales cuyo responsable sea colaboradorID
+                    //                                    .ToList();
 
                     foreach (OfertaLaboral oflab in lstOfertasLaboralesResponsable)
                     {
-                        var lstPostulante = oflab.Postulantes
-                            .Where(x => x.EstadoPostulantePorOfertaID == estado.ID) //Que esten en dicha etapa de la postulacion
-                            .Select(x => x.Postulante).ToList();
+                        var lstPostulacionesAux = oflab.Postulantes.Where(x => x.EstadoPostulantePorOfertaID == estado.ID);
+                        var lstPostulante = new List<Postulante>();
+                        foreach (var item in lstPostulacionesAux)
+                        {
+                            var fpXolXp = context.TablaFasePostulacionXOfertaLaboralXPostulante
+                                            .One(x => x.OfertaLaboralXPostulanteID == item.ID && 
+                                                        x.FasePostulacionID == fp.ID);
+                            if (fpXolXp == null)
+                            {
+                                //Esta mal porque deberia existir ya que lo unico que falta meterle es la evaluacion que se realizara
+                            }
+                            else
+                            {
+                                //Si no tiene evaluacion asignada entonces si se debe considerar pero si ya tiene, por las
+                                if (!fpXolXp.EvaluacionXFaseXPostulacionID.HasValue)
+                                    lstPostulante.Add(item.Postulante);
+                            }
+                        }
+
+                        //var lstPostulante = oflab.Postulantes
+                        //    .Where(x => x.EstadoPostulantePorOfertaID == estado.ID) //Que esten en dicha etapa de la postulacion
+                        //    .Select(x => x.Postulante).ToList();
                         listaOfertasLaboralesYPostulantes.Add(new OfertaLaboralXPostulanteWSDTO(oflab, lstPostulante));
                     }
                     
@@ -268,6 +309,18 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     //List<OfertaLaboral> lstOL = context.TablaOfertaLaborales.All();
                     List<OfertaLaboral> lstOL = context.TablaOfertaLaborales
                         .Where(x => x.EstadoSolicitudOfertaLaboralID == esol.ID); //Que coincida con el estado de la oferta laboral que deseo
+
+                    //de las ofertas laborales debo quitar las que tienen una postulacion con estado "Contratado"
+                    foreach (var ofertalaboral in lstOL)
+                    {
+                        var postulaciones = context.TablaOfertaLaboralXPostulante
+                                            .Where(x => x.OfertaLaboralID == ofertalaboral.ID &&
+                                                        x.EstadoPostulantePorOferta.Descripcion.Equals("Contratado"));
+                        if (!(postulaciones == null || postulaciones.Count == 0))
+                            //Si tiene alguna postulacion que ya ha sido Contratado en dicha oferta laboral, esta ya no debe salir como posible para postular
+                            lstOL.Remove(ofertalaboral);
+
+                    }
                     
                     Postulante p = context.TablaPostulante.One(x => x.ColaboradorID == c.ID);                   
                     if (p != null) lstOL = lstOL.Where(x => !x.Postulantes.Select(y => y.PostulanteID).ToList().Contains(p.ID)).ToList(); //No sea una oferta ya postulada
