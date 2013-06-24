@@ -93,7 +93,7 @@ namespace KendoDP2.Models.Generic
             {
                 path = HostingEnvironment.ApplicationPhysicalPath + "Images\\rhcv\\" + filename + ".pdf";
                 byte[] bytes = System.IO.File.ReadAllBytes(path);
-                Archivo a = new Archivo { Data = bytes, Nombre = filename, Mime = "cv" };
+                Archivo a = new Archivo { Data = bytes, Nombre = filename, Mime = "application/pdf" };
                 TablaArchivos.AddElement(a);
             }
         
