@@ -13,6 +13,7 @@ using System.Web.Mvc;
 
 namespace KendoDP2.Areas.Objetivos.Controllers
 {
+    [Authorize()]
     public class MisObjetivosController : Controller
     {
         public MisObjetivosController()
@@ -82,6 +83,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                     AvanceObjetivo a = o.LosProgresos.Last();
                     a.Comentario = objetivo.ComentarioUltimoAvance;
                     context.TablaAvanceObjetivo.ModifyElement(a);
+                    a.ActualizarPesos(context);
                 }
                 return Json(new[] { o.ToDTO(context) }.ToDataSourceResult(request, ModelState));
             }
