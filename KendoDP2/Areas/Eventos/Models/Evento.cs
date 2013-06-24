@@ -130,7 +130,7 @@ namespace KendoDP2.Areas.Eventos.Models
         public string Area { get; set; }
         public string Puesto { get; set; }
         
-        public List<ColaboradorDTO> Invitados { get; set; }
+        public List<ColaboradorDTOWS> Invitados { get; set; }
 
         public EventoDTO() { }
         public EventoDTO(Evento e)
@@ -166,10 +166,10 @@ namespace KendoDP2.Areas.Eventos.Models
 
             if (e.Invitados != null && e.Invitados.Count > 0)
             {
-                Invitados = new List<ColaboradorDTO>();
+                Invitados = new List<ColaboradorDTOWS>();
                 foreach (var invitado in e.Invitados)
                 {
-                    Invitados.Add(invitado.Asistente.ToDTO());
+                    Invitados.Add(invitado.Asistente.ToDTOWS());
                 }
             }
         }

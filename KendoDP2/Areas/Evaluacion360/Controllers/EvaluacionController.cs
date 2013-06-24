@@ -84,14 +84,14 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 int acumuladoPesos = 0;
                 foreach (CompetenciaXExamen c in competenciasEvaluadas) {
                     IList<Pregunta> preguntasXCompetencia = context.TablaPreguntas.Where(x => x.competenciaID==c.CompetenciaID && x.ExamenID == examen.ID);
-                    c.Nota = Convert.ToInt32(preguntasXCompetencia.Sum(x => x.Puntuacion));
+                    c.Nota = Convert.ToInt32(Math.Round(preguntasXCompetencia.Sum(x => x.Puntuacion), 0, MidpointRounding.AwayFromZero));
 
                     notaExamen+= (c.Nota * c.Peso);
                     acumuladoPesos+= c.Peso;
                     context.TablaCompetenciaXExamen.ModifyElement(c);
                 }
                 if (competenciasEvaluadas != null && competenciasEvaluadas.Count>0) {
-                    notaExamen = Convert.ToInt32(Decimal.Floor(notaExamen/ acumuladoPesos));
+                    notaExamen = Convert.ToInt32(Math.Round((double)notaExamen / (double)acumuladoPesos, 0, MidpointRounding.AwayFromZero));
                     examen.NotaExamen = notaExamen;
 
                     EstadoColaboradorXProcesoEvaluacion terminado = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado));

@@ -172,7 +172,8 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 c.EstadoColaborador = context.TablaEstadosColaboradores.One(x => x.Descripcion.Equals("Contratado"));
                 context.TablaColaboradores.AddElement(c);
                 Puesto pe = context.TablaPuestos.FindByID(colaboradorDTO.PuestoID);
-                ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = pe.ID, Sueldo = colaboradorDTO.Sueldo };
+                //hasta mientras fecha de ingreso = datetime.now
+                ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = pe.ID, Sueldo = colaboradorDTO.Sueldo, FechaIngresoPuesto = DateTime.Now };
                 context.TablaColaboradoresXPuestos.AddElement(cruce);
 
                 postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Contratado"));

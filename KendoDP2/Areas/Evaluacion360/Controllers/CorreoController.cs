@@ -63,7 +63,10 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 to = "pruebas.rhpp+RHColaboradorSINEMAIL@gmail.com";
             mail.To.Add(to);
             mail.Body = message;
-            SmtpServer.Send(mail);
+            try
+            {
+                SmtpServer.Send(mail);
+            }catch(Exception e){}
         } 
 
 
