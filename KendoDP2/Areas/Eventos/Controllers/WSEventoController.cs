@@ -43,12 +43,20 @@ namespace KendoDP2.Areas.Eventos.Controllers
                         return JsonErrorGet("Formato de la fecha de fin incorrecto");                        
                     }
 
-                    if (DateTime.Compare(inicio, fin) >= 0) return JsonErrorGet("La fecha final no puede ser menor que la fecha inicial"); 
+                    if (DateTime.Compare(inicio, fin) >= 0) return JsonErrorGet("La fecha final no puede ser menor que la fecha inicial");
 
-                    List<Evento> eventos = context.TablaEvento.Where(x => 
-                        (x.CreadorID == c.ID || x.Invitados.Select(y => y.Asistente).Select(z => z.ID).ToList().Contains(c.ID)) &&
-                        DateTime.Compare(inicio,x.Inicio) <= 0 && DateTime.Compare(fin, x.Fin) >= 0);
-                    
+                    List<Evento> eventos;
+                    try
+                    {
+                        eventos = context.TablaEvento.Where(x =>
+                            (x.CreadorID == c.ID || x.Invitados.Select(y => y.Asistente).Select(z => z.ID).ToList().Contains(c.ID)) &&
+                            DateTime.Compare(inicio, x.Inicio) <= 0 && DateTime.Compare(fin, x.Fin) >= 0);
+                    }
+                    catch (Exception ex)
+                    {
+                        return JsonErrorGet("Fallo el query de shettttt xD!");
+                    }
+
                     List<EventoDTO> eventosDTO = eventos.Select(x => x.ToDTO()).ToList();
                     return JsonSuccessGet(new { eventos = eventosDTO });
                 }
