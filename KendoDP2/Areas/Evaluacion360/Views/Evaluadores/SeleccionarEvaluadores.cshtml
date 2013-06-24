@@ -24,8 +24,11 @@
 
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Evaluadores", "Seleccione los evaluadores para el evaluado"));}
 
- 
-    @if (!ViewBag.EsJefe){
+    @if (!ViewBag.Iniciado) { 
+        <h3>El proceso no está iniciado o ha culminado.  No puede seleccionar evaluadores para el colaborador.</h3>
+    
+    } else
+    if (!ViewBag.EsJefe){
           <h3>Ud no cuenta con los permisos necesarios para seleccionar a los evaluadores del colaborador : @elEvaluado.NombreCompleto .</h3>
     } else if (ViewBag.losEvaluadoresYaFueronSeleccionados)
     {
