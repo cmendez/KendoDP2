@@ -133,12 +133,13 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     Evaluador comoEvaluador = new Evaluador(evaluadoId, elParticipante, idDelProceso);
 
                     //Enviar email: katy agregó esto
-                    correoController.SendEmailRH("pruebas.rhpp+RHADMIN@gmail.com",
-                                                elParticipante.CorreoElectronico,
-                                                "Inicio Proceso evaluacion: " + proceso.Nombre.ToUpper(),
-                                                correoController.getMensajeParaEvaluador(elParticipante.ToDTO().NombreCompleto));
+                  
+                      correoController.SendEmailRH("pruebas.rhpp+RHADMIN@gmail.com",
+                                                    elParticipante.CorreoElectronico,
+                                                    "Inicio Proceso evaluacion: " + proceso.Nombre.ToUpper(),
+                                                    correoController.getMensajeParaEvaluador(elParticipante.ToDTO().NombreCompleto));
                     //Fin: Enviar email
-
+                    
                     evaluadores.evaluadores.Add(context.TablaEvaluadores.FindByID(evaluadorId));
                     context.TablaEvaluadores.AddElement(comoEvaluador);
                     CrearEvaluaciones(comoEvaluador, context);
