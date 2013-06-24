@@ -118,12 +118,17 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 else if (colaboradorBD.PuestoID == colaborador.PuestoID && colaboradorBD.Sueldo == colaborador.Sueldo)
                 {
                     var ultimoCruce = context.TablaColaboradoresXPuestos.One(x => (x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today) && x.ColaboradorID == c.ID);
-                    var fechaInicio = DateTime.ParseExact(colaborador.FechaIngreso, "yyyy-MM-dd", System.Globalization.CultureInfo.CurrentCulture);
-                    if (ultimoCruce != null)
+                    try
                     {
-                        ultimoCruce.FechaIngresoPuesto = fechaInicio;
-                        context.TablaColaboradoresXPuestos.ModifyElement(ultimoCruce);
+                        var fechaInicio = DateTime.ParseExact(colaborador.FechaIngreso, "yyyy-MM-dd", System.Globalization.CultureInfo.CurrentCulture);
+                        if (ultimoCruce != null)
+                        {
+                            ultimoCruce.FechaIngresoPuesto = fechaInicio;
+                            context.TablaColaboradoresXPuestos.ModifyElement(ultimoCruce);
+                        }
                     }
+                    catch (Exception)
+                    { }
                 }
                 
                 return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
