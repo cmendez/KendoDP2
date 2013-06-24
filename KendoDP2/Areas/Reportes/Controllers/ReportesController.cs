@@ -311,7 +311,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                List<OfertaLaboralDTO> ListaOfertasaux = context.TablaOfertaLaborales.Where(o=> o.PuestoID == puesto && o.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Aprobado")).Select(ol=>ol.ToDTO()).ToList();
+                List<OfertaLaboralDTO> ListaOfertasaux = context.TablaOfertaLaborales.Where(o=> o.Puesto.ID== puesto && o.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Aprobado")).Select(ol=>ol.ToDTO()).ToList();
 
                 List<ROferta> OfertasPuesto = new List<ROferta>();
 
