@@ -315,10 +315,10 @@ namespace KendoDP2.Areas.Reportes.Controllers
 
                 List<OfertaLaboralDTO> ListaOfertasaux  = new List<OfertaLaboralDTO>();
 
-                if (ListaOfertasaux2.Count > 0)
-                {
+                //if (ListaOfertasaux2.Any() > 0)
+                //{
                     ListaOfertasaux = ListaOfertasaux2.Select(ol => ol.ToDTO()).ToList();
-                }
+                //}
                 List<ROferta> OfertasPuesto = new List<ROferta>();
 
                 foreach (OfertaLaboralDTO Oferta in ListaOfertasaux)
