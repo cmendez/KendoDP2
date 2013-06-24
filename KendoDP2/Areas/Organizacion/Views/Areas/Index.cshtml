@@ -45,6 +45,7 @@
                         c.ForeignKey((a => a.AreaSuperiorID), comboAreas);
                         c.ForeignKey((a => a.ColorID), comboColores);
                         c.Bound(a => a.IsAudit);
+                        c.Bound(a => a.IsRRHH);
                         c.Command(cmd =>
                             
                         {
