@@ -48,8 +48,9 @@
                         c.Command(cmd =>
                         {
                             cmd.Edit().Text("Editar").UpdateText("Guardar").CancelText("Cancelar");
+                            cmd.Custom("Copiar").Click("copiar").SendDataKeys(true);
                             cmd.Destroy().Text("Eliminar");
-                        }).Width(200);
+                        }).Width(300);
                     })
                     .ToolBar(toolbar => { toolbar.Create().Text("Registrar"); toolbar.Custom().Name("Ver todos").Url("javascript:verTodos();"); })
                     .Editable(editable => editable
@@ -131,5 +132,23 @@
     }
     function expandNodes() {
         $("#treeview").data("kendoTreeView").expand(".k-item");
+    }
+
+    function copiar(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+
+        $.ajax({
+            url: '@Url.Action("Copy", "Puestos", new { Area = "Organizacion" })',
+            dataType: 'JSON',
+            type: 'POST',
+            data: {
+                puestoID: dataItem.ID,
+            },
+            success: function (response) {
+                handleError(response, "Se copió el puesto");
+                $("#grid").data('kendoGrid').dataSource.read();
+            }
+        });
     }
 </script>

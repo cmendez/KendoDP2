@@ -60,7 +60,14 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 ViewBag.Area = ""; //Solo es temporal
                 ViewBag.elProceso = procesoEvaluacionID;
                 ViewBag.EsJefe = true;
-
+                ViewBag.Iniciado = true;
+                ProcesoEvaluacion proceso = context.TablaProcesoEvaluaciones.FindByID(procesoEvaluacionID);
+                EstadoProcesoEvaluacion enProceso  = context.TablaEstadoProcesoEvaluacion.One(e=>e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Iniciado));
+                if (enProceso.ID != proceso.EstadoProcesoEvaluacionID) {
+                    ViewBag.Iniciado = false;
+                    return View();
+                }
+                
                 Colaborador jefe = consigueSuJefe(colaboradorID, context);
                 int idUsuario = DP2MembershipProvider.GetPersonaID(this);
                 if (jefe.ID != idUsuario)

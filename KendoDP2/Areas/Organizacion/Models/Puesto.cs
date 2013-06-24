@@ -40,6 +40,15 @@ namespace KendoDP2.Areas.Organizacion.Models
         public int? EstadosPuestoID { get; set; }
         public virtual EstadosPuesto EstadoPuesto { get; set; }
 
+        public Puesto(Puesto puesto, string copia)
+        {
+            this.Nombre = copia;
+            this.PuestoSuperiorID = puesto.PuestoSuperiorID;
+            this.AreaID = puesto.AreaID;
+            //this.EstadosPuestoID = 2;
+            this.Descripcion = puesto.Descripcion;
+        }
+
         public List<Capacidad> GetCapacidadesAsociadas(DP2Context context)
         {
             List<Capacidad> capacidades = new List<Capacidad>();
