@@ -65,7 +65,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     
                     // Obtengo las postulaciones que SEAN DE esa fase
                     //var lstPostulacionesDeLaFase = context.TablaOfertaLaboralXPostulante.All();
-                    var lstPostulacionesDeLaFase = context.TablaOfertaLaboralXPostulante.Where(x => x.EstadoPostulantePorOferta == estado);
+                    var lstPostulacionesDeLaFase = context.TablaOfertaLaboralXPostulante.Where(x => x.EstadoPostulantePorOfertaID == estado.ID);
                     // Obtengo las postulaciones que HAN PASADO por esa fase
                     //var lstPostulacionesDeLaFase = fp.PostulacionesDeLaFase.Select(x => x.OfertaLaboralXPostulante).Distinct().ToList();
                     if (lstPostulacionesDeLaFase == null || lstPostulacionesDeLaFase.Count == 0)
@@ -75,7 +75,8 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     if (descripcionFase.Equals("Registrado"))
                     {
                         // Quien evalua es el de RRHH
-                        var gerenteRRHH = context.TablaColaboradoresXPuestos.One(x => x.Puesto.Nombre.Equals("Gerente de RRHH") && !x.FechaSalidaPuesto.HasValue).Colaborador;
+                        var puestoGerenteRRHH = context.TablaPuestos.One(x => x.Nombre.Equals("Gerente de RRHH"));
+                        var gerenteRRHH = context.TablaColaboradoresXPuestos.One(x => x.PuestoID == puestoGerenteRRHH.ID && x.FechaSalidaPuesto == null).Colaborador;
                         lstOfertasLaboralesResponsable = lstPostulacionesDeLaFase
                                                         .Select(x => x.OfertaLaboral)
                                                         .Distinct()
