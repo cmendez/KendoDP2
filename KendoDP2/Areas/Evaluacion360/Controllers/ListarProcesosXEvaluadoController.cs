@@ -140,7 +140,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 //evaluador, tiene evaluado, evaluador
                 //saco todos los evaluadores
 
-                IList<Evaluador> listaEvaluadores = (context.TablaEvaluadores.Where(a => a.ElEvaluado == ColaboradorID && a.ElProceso.ID == procesoID));
+                IList<Evaluador> listaEvaluadores = (context.TablaEvaluadores.Where(a => a.ElEvaluado == ColaboradorID && a.ProcesoEnElQueParticipanID == procesoID));
                 IList<Examen> listaExamenes = new List<Examen>();
                 var estadoId = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x=>x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID;
                 for (int i = 0; i < listaEvaluadores.Count; i++)

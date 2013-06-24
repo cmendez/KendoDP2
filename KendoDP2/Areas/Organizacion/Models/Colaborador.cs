@@ -99,6 +99,11 @@ namespace KendoDP2.Areas.Organizacion.Models
             return new ColaboradorDTO(this);
         }
 
+        public ColaboradorDTOWS ToDTOWS()
+        {
+            return new ColaboradorDTOWS(this);
+        }
+
         public ColaboradorDTO paraObservacion360()
         {
             return new ColaboradorEvaluadorDTO(this);
@@ -311,5 +316,37 @@ namespace KendoDP2.Areas.Organizacion.Models
 
     }
 
-    
+    public class ColaboradorDTOWS
+    {
+        public int ID { get; set; }
+
+        public string NombreCompleto { get; set; }
+        public string Nombres { get; set; }
+        public string ApellidoPaterno { get; set; }
+        public string ApellidoMaterno { get; set; }
+        public string Area { get; set; }
+        public string Puesto { get; set; }
+        public string Telefono { get; set; }
+        public string CorreoElectronico { get; set; }
+
+        public ColaboradorDTOWS() { }
+        public ColaboradorDTOWS(Colaborador c)
+        {
+            ID = c.ID;
+
+            NombreCompleto = c.ApellidoPaterno + " " + c.ApellidoMaterno + ", " + c.Nombres;
+            Nombres = c.Nombres;
+            ApellidoMaterno = c.ApellidoMaterno;
+            ApellidoPaterno = c.ApellidoPaterno;
+            Telefono = c.Telefono;
+            CorreoElectronico = c.CorreoElectronico;
+            try
+            {
+                var puestoActual = c.ColaboradoresPuesto.Single(x => x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today);
+                Area = puestoActual.Puesto.Area.Nombre;
+                Puesto = puestoActual.Puesto.Nombre;
+            }
+            catch (Exception) { }
+        }
+    }
 }

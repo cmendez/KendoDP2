@@ -181,10 +181,12 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
        {
            using (DP2Context context = new DP2Context())
            {
+               AreaDTO areaRRHH = context.TablaAreas.All().Where(a => a.IsRRHH).FirstOrDefault().ToDTO();
+
                List<ColaboradorDTO> p = new List<ColaboradorDTO>();
                try
                {
-                   p = context.TablaColaboradores.All().Select(m => m.ToDTO()).Where(n => n.AreaID == areaID).ToList();
+                   p = context.TablaColaboradores.All().Select(m => m.ToDTO()).Where(n => n.AreaID == areaID || n.AreaID == areaRRHH.ID ).ToList();
                }
                catch (Exception) { }
                return Json(p, JsonRequestBehavior.AllowGet);

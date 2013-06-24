@@ -193,7 +193,7 @@ namespace KendoDP2.Models.Generic
             TablaAreas.AddElement(new Area { Nombre = "RRSS", Descripcion = "No hace nada", AreaSuperiorID = 2, ColorID = 5 });
             TablaAreas.AddElement(new Area { Nombre = "Administración", Descripcion = "Administra", AreaSuperiorID = 2, ColorID = 3 });
             TablaAreas.AddElement(new Area { Nombre = "Finanzas", Descripcion = "Financia", AreaSuperiorID = 2, ColorID = 5 });
-            TablaAreas.AddElement(new Area { Nombre = "RRHH", Descripcion = "Molesta", AreaSuperiorID = 2, ColorID = 3 });
+            TablaAreas.AddElement(new Area { Nombre = "RRHH", Descripcion = "Molesta", AreaSuperiorID = 2, ColorID = 3, IsRRHH = true });
 
         }
 

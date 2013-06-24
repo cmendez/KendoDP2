@@ -95,10 +95,7 @@ namespace KendoDP2.Controllers
                 mail.Body = message;
                 SmtpServer.Send(mail);
             }
-            catch (Exception e)
-            {
-
-            }
+            catch (Exception) { }
         }
     }
 }

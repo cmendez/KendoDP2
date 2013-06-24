@@ -60,7 +60,14 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 ViewBag.Area = ""; //Solo es temporal
                 ViewBag.elProceso = procesoEvaluacionID;
                 ViewBag.EsJefe = true;
-
+                ViewBag.Iniciado = true;
+                ProcesoEvaluacion proceso = context.TablaProcesoEvaluaciones.FindByID(procesoEvaluacionID);
+                EstadoProcesoEvaluacion enProceso  = context.TablaEstadoProcesoEvaluacion.One(e=>e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Iniciado));
+                if (enProceso.ID != proceso.EstadoProcesoEvaluacionID) {
+                    ViewBag.Iniciado = false;
+                    return View();
+                }
+                
                 Colaborador jefe = consigueSuJefe(colaboradorID, context);
                 int idUsuario = DP2MembershipProvider.GetPersonaID(this);
                 if (jefe.ID != idUsuario)
@@ -133,12 +140,13 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     Evaluador comoEvaluador = new Evaluador(evaluadoId, elParticipante, idDelProceso);
 
                     //Enviar email: katy agregó esto
-                    correoController.SendEmailRH("pruebas.rhpp+RHADMIN@gmail.com",
-                                                elParticipante.CorreoElectronico,
-                                                "Inicio Proceso evaluacion: " + proceso.Nombre.ToUpper(),
-                                                correoController.getMensajeParaEvaluador(elParticipante.ToDTO().NombreCompleto));
+                  
+                      correoController.SendEmailRH("pruebas.rhpp+RHADMIN@gmail.com",
+                                                    elParticipante.CorreoElectronico,
+                                                    "Inicio Proceso evaluacion: " + proceso.Nombre.ToUpper(),
+                                                    correoController.getMensajeParaEvaluador(elParticipante.ToDTO().NombreCompleto));
                     //Fin: Enviar email
-
+                    
                     evaluadores.evaluadores.Add(context.TablaEvaluadores.FindByID(evaluadorId));
                     context.TablaEvaluadores.AddElement(comoEvaluador);
                     CrearEvaluaciones(comoEvaluador, context);

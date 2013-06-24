@@ -92,7 +92,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
 
 
                     // asigno fecha fin al puesto
-                    var ultimoCruce = context.TablaColaboradoresXPuestos.One(x => x.FechaSalidaPuesto == null && x.ColaboradorID == c.ID);
+                    var ultimoCruce = context.TablaColaboradoresXPuestos.One(x => (x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today) && x.ColaboradorID == c.ID);
                     if (ultimoCruce != null)
                     {
                         ultimoCruce.FechaSalidaPuesto = DateTime.Now.AddDays(-1);
@@ -114,6 +114,21 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                     ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo , FechaIngresoPuesto = fechaInicio};
 
                     context.TablaColaboradoresXPuestos.AddElement(cruce);
+                }
+                else if (colaboradorBD.PuestoID == colaborador.PuestoID && colaboradorBD.Sueldo == colaborador.Sueldo)
+                {
+                    var ultimoCruce = context.TablaColaboradoresXPuestos.One(x => (x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today) && x.ColaboradorID == c.ID);
+                    try
+                    {
+                        var fechaInicio = DateTime.ParseExact(colaborador.FechaIngreso, "yyyy-MM-dd", System.Globalization.CultureInfo.CurrentCulture);
+                        if (ultimoCruce != null)
+                        {
+                            ultimoCruce.FechaIngresoPuesto = fechaInicio;
+                            context.TablaColaboradoresXPuestos.ModifyElement(ultimoCruce);
+                        }
+                    }
+                    catch (Exception)
+                    { }
                 }
                 
                 return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
