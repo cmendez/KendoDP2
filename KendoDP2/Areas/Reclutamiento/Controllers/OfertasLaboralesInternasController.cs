@@ -654,19 +654,8 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                Puesto p = context.TablaPuestos.FindByID(puestoID);
-                if (p != null)
-                {
-                   
-                        if (p.EstadoPuesto.Equals("Vacante"))
-                        {
-                            return true;
-                        }
-                        else
-                            return false;
-                   
-                }
-                return false;
+                ColaboradorXPuesto cruce = context.TablaColaboradoresXPuestos.One(x => (x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today) && x.PuestoID == puestoID);
+                return cruce == null;
             }
         }
 
