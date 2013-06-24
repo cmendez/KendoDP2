@@ -48,6 +48,7 @@ namespace KendoDP2.Areas.Eventos.Controllers
                     List<Evento> eventos = context.TablaEvento.Where(x =>
                         (x.CreadorID == c.ID || x.Invitados.Select(y => y.Asistente).Select(z => z.ID).ToList().Contains(c.ID)) &&
                         DateTime.Compare(inicio, x.Inicio) <= 0 && DateTime.Compare(fin, x.Fin) >= 0);
+                    if (eventos == null || eventos.Count == 0) return JsonSuccessGet(new { eventos = eventos });
 
                     List<EventoDTO> eventosDTO = eventos.Select(x => x.ToDTO()).ToList();
                     return JsonSuccessGet(new { eventos = eventosDTO });
