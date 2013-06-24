@@ -140,6 +140,8 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 //evaluador, tiene evaluado, evaluador
                 //saco todos los evaluadores
 
+                int idPuesto = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == ColaboradorID).PuestoID;
+
                 IList<Evaluador> listaEvaluadores = (context.TablaEvaluadores.Where(a => a.ElEvaluado == ColaboradorID && a.ProcesoEnElQueParticipanID == procesoID));
                 IList<Examen> listaExamenes = new List<Examen>();
                 var estadoId = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x=>x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID;
@@ -191,9 +193,9 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                        }
                      }
 
-                     int idPuesto = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == IDevaluador1).PuestoID;
+                     //int idPuesto = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == IDevaluador1).PuestoID;
 
-                     
+
                      int cantidad = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == idPuesto && x.ClaseEntorno.Equals(claseentorno)).Cantidad;
 
                      for (int k = 0; k < listaCompetenciaXExamenFinal.Count; k++)
@@ -240,9 +242,9 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                             }
                         }
 
-                        idPuesto = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == IDevaluador).PuestoID;
+                        //idPuesto = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == IDevaluador).PuestoID;
 
-                        
+
                         cantidad = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == idPuesto && x.ClaseEntorno.Equals(claseentorno)).Cantidad;
 
                         for (int j = 0; j < listaCompetenciaXExamenParcial.Count; j++)
@@ -296,16 +298,16 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                             }
                         }
 
-                        int idPuesto2 = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == IDevaluador2).PuestoID;
+                       // int idPuesto2 = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == IDevaluador2).PuestoID;
 
-                        
-                        int cantidad = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == idPuesto2 && x.ClaseEntorno.Equals(claseentorno)).Cantidad;
+
+                        int cantidad = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == idPuesto && x.ClaseEntorno.Equals(claseentorno)).Cantidad;
                         for (int k = 0; k < listaCompetenciaXExamenFinal.Count; k++)
                         {
                             var IDCompetencia = listaCompetenciaXExamenFinal.ElementAt(k).CompetenciaID;
                             var pesoCompetencia = listaCompetenciaXExamenFinal.ElementAt(k).Peso;
 
-                            int pesoPuesto = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == idPuesto2 && x.ClaseEntorno.Equals(claseentorno)).Peso;
+                            int pesoPuesto = context.TablaPuestoXEvaluadores.One(x => x.PuestoID == idPuesto && x.ClaseEntorno.Equals(claseentorno)).Peso;
                             if (cantidad > 1) { pesoPuesto = pesoPuesto / cantidad; }
 
                             if (!sumaPesos.ContainsKey(IDCompetencia)) sumaPesos.Add(IDCompetencia, pesoPuesto * pesoCompetencia);
