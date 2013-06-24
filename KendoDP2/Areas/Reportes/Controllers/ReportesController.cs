@@ -291,7 +291,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                List<Objetivo> ObjetivosPeriodoaux = context.TablaObjetivos.Where(obj => obj.GetBSCIDRaiz(context) == idperiodo);
+                List<Objetivo> ObjetivosPeriodoaux = context.TablaObjetivos.Where(obj => obj.GetBSCIDRaiz(context) == idperiodo).ToList();
                 List<ObjetivoRDTO> ObjetivosPeriodo = new List<ObjetivoRDTO>();
                 ObjetivosPeriodo.AddRange(ObjetivosPeriodoaux.Select(oxp => oxp.ToRDTO(context)).ToList());
                 //List<ObjetivoRDTO> ObjetivosPeriodo = ObjetivosPeriodoaux.Select(oxp => oxp.ToRDTO(context)).ToList();
