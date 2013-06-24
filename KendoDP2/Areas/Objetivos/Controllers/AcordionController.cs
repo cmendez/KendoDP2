@@ -57,6 +57,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 adelanto.FueRevisado = true;
                 contexto.TablaAvanceObjetivo.ModifyElement(adelanto);
                 contexto.TablaAvanceObjetivo.AddElement(revision);
+                revision.ActualizarPesos(contexto);
             }
 
             return null;

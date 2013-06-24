@@ -74,7 +74,7 @@
                        {
                            foreach (var objetivo in objetivos.Where(x => x.BSCID == periodos[i].ID))
                            {
-                               panelbar.Add().Text(objetivo.Nombre)
+                               panelbar.Add().Text(objetivo.Nombre + ": " + objetivo.AvanceFinal + "%")
                                .Content(
                                    Html.Kendo().Grid<ObjetivoDTO>()
                                    .Name("Grid-" + objetivo.ID)
