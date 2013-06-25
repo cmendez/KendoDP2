@@ -55,6 +55,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 Objetivo padre2 = context.TablaObjetivos.FindByID(padre1.ObjetivoPadreID);
                 Puesto puesto = context.TablaPuestos.FindByID(padre2.PuestoAsignadoID.GetValueOrDefault());
                 puesto.ReparteObjetivosASubordinados(context);
+                o.ActualizarPesos(context, 0);
                 return Json(new[] { o.ToDTO(context) }.ToDataSourceResult(request, ModelState));
             }
         }
@@ -70,6 +71,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 {
                     o2.Nombre = o.Nombre;
                     context.TablaObjetivos.ModifyElement(o2);
+                    o.ActualizarPesos(context, 0);
                 }
                 return Json(new[] { o.ToDTO(context) }.ToDataSourceResult(request, ModelState));
             }

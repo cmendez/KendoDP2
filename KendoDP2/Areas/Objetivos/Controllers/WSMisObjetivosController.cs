@@ -72,6 +72,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             {
                 Objetivo o = context.TablaObjetivos.FindByID(objetivo.ID).LoadFromDTO(objetivo, context);
                 context.TablaObjetivos.ModifyElement(o);
+                o.ActualizarPesos(context, 0);
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
         }
