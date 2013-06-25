@@ -26,7 +26,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             {
                 int ColaboradorID = DP2MembershipProvider.GetPersonaID(this);
                 Colaborador yo = context.TablaColaboradores.FindByID(ColaboradorID);
-                ColaboradorXPuesto cruce = yo.ColaboradoresPuesto.SingleOrDefault(x => x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today);
+                ColaboradorXPuesto cruce = context.TablaColaboradoresXPuestos.One(x => (x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today) && x.ColaboradorID == yo.ID);
                 List<ColaboradorDTO> subordinadosCliente = new List<ColaboradorDTO>();
 
                 if (cruce != null)
@@ -34,7 +34,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                     Puesto puesto = cruce.Puesto;
                     foreach (var puestoHijo in puesto.Puestos)
                     {
-                        ColaboradorXPuesto subordinado = puestoHijo.ColaboradorPuestos.SingleOrDefault(x => x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today);
+                        ColaboradorXPuesto subordinado = context.TablaColaboradoresXPuestos.One(x => (x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today) && x.PuestoID == puestoHijo.ID);
                         if (subordinado != null)
                             subordinadosCliente.Add(subordinado.Colaborador.ToDTO());
                     }
