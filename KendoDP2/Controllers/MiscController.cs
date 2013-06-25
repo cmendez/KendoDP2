@@ -23,23 +23,33 @@ namespace KendoDP2.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                /*Esta parte se cae cuando se logea con un usuario de invitado 
-                 El usuario de invitado solo tiene username, password y roles solo eso
-                 cuando quiere leer la imagen asociada al usuario ocaciona un error pero sigue funcionando el sw
-                 recomiendo que se cree una imagen defaul o se coloque un try catch pero yo no lo hice 
-                 xq no entiendo muy bien lo q devuelve*/
-                var archivo = context.TablaArchivos.FindByID(archivoID);
-                    if (archivo.Data != null)
-                        return File(archivo.Data, archivo.Mime);
-                var file = Server.MapPath("~/Images/unknown-person.jpg");
-                using (var stream = new FileStream(file, FileMode.Open))
-                {
-                    using (MemoryStream memoryStream = new MemoryStream())
+
+             try{   
+                    var archivo = context.TablaArchivos.FindByID(archivoID);
+                        if (archivo.Data != null)
+                            return File(archivo.Data, archivo.Mime);
+                        var file = Server.MapPath("~/Images/unknown-person.jpg");
+                        using (var stream = new FileStream(file, FileMode.Open))
+                        {
+                            using (MemoryStream memoryStream = new MemoryStream())
+                            {
+                                stream.CopyTo(memoryStream);
+                                return File(memoryStream.ToArray(), "image/jpg");
+                            }
+                        }
+            }
+             catch{
+
+                 var file = Server.MapPath("~/Images/unknown-person.jpg");
+                    using (var stream = new FileStream(file, FileMode.Open))
                     {
-                        stream.CopyTo(memoryStream);
-                        return File(memoryStream.ToArray(), "image/jpg");
+                        using (MemoryStream memoryStream = new MemoryStream())
+                        {
+                            stream.CopyTo(memoryStream);
+                            return File(memoryStream.ToArray(), "image/PNG");
+                        }
                     }
-                }
+            }
             }
         }
 

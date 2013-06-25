@@ -11,11 +11,11 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 {
     public class WSEvaluacionController : Controller
     {
-        public ActionResult ReadPreguntas(int idEvaluado, int idProcesoEvaluacion, int idColaboradorEvaluado)
+        public ActionResult ReadPreguntas(int idEvaluador, int idProcesoEvaluacion, int idColaboradorEvaluado)
         {
             using (DP2Context context = new DP2Context())
             {
-                Evaluador e = context.TablaEvaluadores.FindByID(idEvaluado);//.One(x => x.ProcesoEnElQueParticipanID== idProcesoEvaluacion && x.ElEvaluado == idEvaluado);
+                Evaluador e = context.TablaEvaluadores.One(x => x.ProcesoEnElQueParticipanID == idProcesoEvaluacion && x.ElEvaluado == idColaboradorEvaluado && x.ElIDDelEvaluador== idEvaluador);
                 int tablaEvaluadoresID = e.ID;
                 int puestoID = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == idColaboradorEvaluado && !x.IsEliminado && (x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto)).PuestoID;
                 return Json(new ProcesoEvaluacionController()._Editing_ReadCapEvaluacion(puestoID, tablaEvaluadoresID, context), JsonRequestBehavior.AllowGet);
@@ -23,7 +23,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         }
 
         
-        public ActionResult ResponderPreguntas(string respuestas)
+        public ActionResult ResponderPreguntas(string respuestas, int tablaEvaluadorID)
         {
             using (DP2Context context = new DP2Context())
             {
@@ -33,6 +33,8 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     var contr = new ProcesoEvaluacionController();
                     foreach (var resp in resps)
                         contr._GuardarPuntuacionPregunta(resp.PreguntaID, resp.Puntaje, context);
+                    var cntrEvaluacion = new EvaluacionController();
+                    cntrEvaluacion._GuardarEvaluacion_ws(tablaEvaluadorID, context);
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception)
