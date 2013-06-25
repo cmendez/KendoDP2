@@ -301,7 +301,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 var objetivos = context.TablaObjetivos.Where(x => true);
                 //var objetivos = objetivos.Select(obj=>obj.ToDTO(context));
                 var objetivosRDTO = objetivos.Select(x => x.ToRDTO(context));
-                return JsonSuccessGet(objetivosRDTO);
+                return Json(objetivosRDTO, JsonRequestBehavior.AllowGet);
             }
             
         }
@@ -317,7 +317,8 @@ namespace KendoDP2.Areas.Reportes.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                List<OfertaLaboral> ListaOfertasaux2 = context.TablaOfertaLaborales.Where(o=> o.Puesto.ID== puesto && o.EstadoSolicitudOfertaLaboral!=null && o.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Aprobado"));
+                List<OfertaLaboral> ListaOfertasaux2 = context.TablaOfertaLaborales.All().Where(o=> o.Puesto.ID== puesto && o.EstadoSolicitudOfertaLaboral!=null 
+                    && o.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Aprobado")).ToList();
 
                 List<OfertaLaboralDTO> ListaOfertasaux  = new List<OfertaLaboralDTO>();
 
