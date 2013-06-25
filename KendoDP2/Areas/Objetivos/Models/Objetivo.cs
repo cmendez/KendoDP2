@@ -119,7 +119,7 @@ namespace KendoDP2.Areas.Objetivos.Models
             avance.ActualizarPesos(context);
         }
 
-        internal void ActualizarPesos(DP2Context context)
+        internal void ActualizarPesos(DP2Context context, int? valorAvance = null)
         {
             List<Objetivo> Hijos = this.ObjetivosHijos(context);
             int total = Hijos.Count();
@@ -142,6 +142,12 @@ namespace KendoDP2.Areas.Objetivos.Models
                 Hijos.ForEach(x => res += x.Peso * x.AvanceFinal);
                 res /= sumaPesos;
                 AvanceFinal = (int)Math.Round(res);
+            }
+            if (valorAvance != null)
+            {
+                int valor = valorAvance.GetValueOrDefault();
+                if (total == 0) AvanceFinal = valor;
+                else AvanceFinal = (int)Math.Round(AvanceFinal / 2.0 + valor / 2.0);
             }
             context.TablaObjetivos.ModifyElement(this);
             Objetivo padre = context.TablaObjetivos.FindByID(ObjetivoPadreID);
