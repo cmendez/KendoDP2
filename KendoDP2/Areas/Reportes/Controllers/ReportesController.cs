@@ -400,8 +400,11 @@ namespace KendoDP2.Areas.Reportes.Controllers
                    //Selección
                    RFase fasefin = new RFase();
                    fasefin.nombreFase = "Selección";
+
+                   if (context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboral.ID == Oferta.ID && oxp.EstadoPostulantePorOferta.Descripcion.Equals("Contratado"))!=null)
                    fasefin.numPostulantes = context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboral.ID == Oferta.ID && oxp.EstadoPostulantePorOferta.Descripcion.Equals("Contratado")).Count;
-                   fasefin.Postulantes = new List<RPostulante>();
+                   
+                    fasefin.Postulantes = new List<RPostulante>();
 
 
 
