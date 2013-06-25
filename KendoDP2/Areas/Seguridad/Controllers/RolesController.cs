@@ -65,7 +65,7 @@ namespace KendoDP2.Areas.Seguridad.Controllers
                     r.IsEliminado = rol.IsEliminado;
                     context.TablaRoles.ModifyElement(r);
 
-                    foreach(Usuario u in context.TablaUsuarios.All(true))
+                    foreach(Usuario u in context.TablaUsuarios.Where(p=>p.Username!="admin",true))
                     {
                         //si elimino un rol entonces a todos mis colaboradores se le desactiva el rol
                         if(rol.IsEliminado==true && u.Username != null)
@@ -88,11 +88,6 @@ namespace KendoDP2.Areas.Seguridad.Controllers
                         aux.Nombre = r.Nombre;
                         aux.IsEliminado = r.IsEliminado;
                         aux.Area = r.Area;
-                        aux.Usuarios = new List<Usuario>();
-                            foreach(UsuarioDTO u in r.Usuarios.Select(EE=>EE.ToDTO()))
-                            {
-                                aux.Usuarios.Add(new Usuario(u));
-                            }
                         if(r.Nombre==rol.Nombre)
                         {
                             aux.Permiso = rol.Permiso;

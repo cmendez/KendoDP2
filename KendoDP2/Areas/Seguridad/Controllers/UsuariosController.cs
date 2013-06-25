@@ -15,7 +15,7 @@ namespace KendoDP2.Areas.Seguridad.Controllers
     {
         public UsuariosController()
         {
-            ViewBag.Area = "Usuarios";
+            ViewBag.Area = "Seguridad";
         }
 
         public ActionResult Index()
@@ -28,7 +28,7 @@ namespace KendoDP2.Areas.Seguridad.Controllers
             using (DP2Context context = new DP2Context())
             {
                 List<UsuarioDTO> salida = new List<UsuarioDTO>();
-                foreach(Usuario dto in context.TablaUsuarios.All())
+                foreach(Usuario dto in context.TablaUsuarios.Where(p=>p.Username!=null))
                 {
                     if (dto.Username != "admin")
                     {

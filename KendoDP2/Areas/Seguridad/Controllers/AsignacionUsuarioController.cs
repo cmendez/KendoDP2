@@ -59,7 +59,7 @@ namespace KendoDP2.Areas.Seguridad.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                return Json(ObtenerUsuarios().Where(c => c.Username != "admin").ToDataSourceResult(request));
+                return Json(ObtenerUsuarios().Where(c => c.Username != "admin").Distinct().ToDataSourceResult(request));
             }
         }
 
@@ -71,6 +71,7 @@ namespace KendoDP2.Areas.Seguridad.Controllers
                 Usuario u = new Usuario(usuario);
                 u.Username = usuario.Username;
                 u.Password = usuario.Password;
+                u.Roles = new List<Rol>();
                 u.Roles=context.TablaRoles.All();
                 context.TablaUsuarios.AddElement(u);
                 return Json(ObtenerUsuarios().Where(c => c.Username != "admin").ToDataSourceResult(request));
