@@ -57,8 +57,8 @@ namespace KendoDP2.Areas.Objetivos.Models
         internal void ActualizarPesos(DP2Context context)
         {
             Objetivo padre = Objetivo;
-            Objetivo abuelo = context.TablaObjetivos.FindByID(padre.ObjetivoPadreID);
-            abuelo.ActualizarPesos(context);
+           // Objetivo abuelo = context.TablaObjetivos.FindByID(padre.ObjetivoPadreID);
+           padre.ActualizarPesos(context, this.Valor);
         }
     }
 
