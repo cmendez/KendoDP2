@@ -18,7 +18,8 @@ namespace KendoDP2
     
     public class MvcApplication : System.Web.HttpApplication
     {
-        public static bool IsDebug = System.Configuration.ConfigurationManager.AppSettings["Environment"].ToString().Equals("Debug");
+        //public static bool IsDebug = System.Configuration.ConfigurationManager.AppSettings["Environment"].ToString().Equals("Debug");
+        public static bool IsDebug = false;
 
         public static string ConnectionString = "Server=d8e2367a-7ecd-45e2-a275-a1e80017c0df.sqlserver.sequelizer.com;Database=dbd8e2367a7ecd45e2a275a1e80017c0df;User ID=busqgtagmyaswegs;Password=5vkceTiaAW7P8gVepEyxpuW2UngqscU2RPh4Yk7tMSmBUtqwk5BvVYBJFrqZLZPy;";
                 
@@ -53,8 +54,8 @@ namespace KendoDP2
             if (IsDebug) {
                 Database.SetInitializer<DP2Context>(new DP2ContextInitializerDEBUG());
             } else {
-                //Database.SetInitializer(new MigrateDatabaseToLatestVersion<DP2Context, Configuration>());
-                Database.SetInitializer<DP2Context>(new DP2ContextInitializerRELEASE());
+                Database.SetInitializer(new MigrateDatabaseToLatestVersion<DP2Context, Configuration>());
+                //Database.SetInitializer<DP2Context>(new DP2ContextInitializerRELEASE());
             }
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);

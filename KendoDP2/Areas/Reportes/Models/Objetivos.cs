@@ -83,64 +83,48 @@ namespace KendoDP2.Areas.Reportes.Models
         public int ColaboradorID { get; set; }
         public string ColaboradorNombre { get; set; }
 
-        public ObjetivoRDTO(Objetivo o,DP2Context context)
+        public ObjetivoRDTO(Objetivo o)
         {
-
-            idObjetivo = o.ID;
-            descripcion = o.Nombre;
-
-            
-            peso = o.Peso;
-
-            if (context.TablaObjetivos.Any(x => x.ObjetivoPadreID == o.ID))
+            using (DP2Context context = new DP2Context())
             {
-                hijos = context.TablaObjetivos.Where(x => x.ObjetivoPadreID == o.ID).ToList().Count;
-            }
+                idObjetivo = o.ID;
+                descripcion = o.Nombre;
 
-            numPersonas = hijos;
-            
-            avance = o.AvanceFinal;
-            esIntermedio = o.IsObjetivoIntermedio;
-            if (o.ObjetivoPadreID != 0)
-            {
-                idpadre = o.ObjetivoPadreID;
-                
-            }
-            else
-            {
-                idpadre = -1;
-            }
 
-            
+                peso = o.Peso;
 
-            if (o.ObjetivoPadreID == -1)
-            {
-                BSCId = o.TipoObjetivoBSCID.Value;
-                idperiodo = o.BSC.PeriodoID;
-            }
-
-            if (o.PuestoAsignadoID != null)
-            {
-                idPuesto = o.PuestoAsignadoID.Value;
-                List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (!cxp.FechaSalidaPuesto.HasValue));
-                if (cxpaux!=null && cxpaux.Count > 0)
+                if (context.TablaObjetivos.Any(x => x.ObjetivoPadreID == o.ID))
                 {
-
-                    List<Colaborador> cdtoaux = cxpaux.Select(p => p.Colaborador).ToList();
-
-                    ColaboradorDTO cdto = cdtoaux.Select(c => c.ToDTO()).ToList()[cdtoaux.Count - 1];
-
-                    ColaboradorID = cdto.ID;
-                    ColaboradorNombre = cdto.NombreCompleto;
+                    hijos = context.TablaObjetivos.Where(x => x.ObjetivoPadreID == o.ID).ToList().Count;
                 }
-            }
-            else
-            {
-                if (o.ObjetivoPadreID !=0 && context.TablaObjetivos.FindByID(o.ObjetivoPadreID)!=null && context.TablaObjetivos.FindByID(o.ObjetivoPadreID).PuestoAsignadoID != null)
+
+                numPersonas = hijos;
+
+                avance = o.AvanceFinal;
+                esIntermedio = o.IsObjetivoIntermedio;
+                if (o.ObjetivoPadreID != 0)
                 {
-                    idPuesto = context.TablaObjetivos.FindByID(o.ObjetivoPadreID).PuestoAsignado.ID;
+                    idpadre = o.ObjetivoPadreID;
+
+                }
+                else
+                {
+                    idpadre = -1;
+                }
+
+
+
+                if (o.ObjetivoPadreID == 0)
+                {
+                    BSCId = o.TipoObjetivoBSCID.Value;
+                    idperiodo = o.BSCID.Value;
+                }
+
+                if (o.PuestoAsignadoID != null)
+                {
+                    idPuesto = o.PuestoAsignadoID.Value;
                     List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (!cxp.FechaSalidaPuesto.HasValue));
-                    if (cxpaux.Count > 0)
+                    if (cxpaux != null && cxpaux.Count > 0)
                     {
 
                         List<Colaborador> cdtoaux = cxpaux.Select(p => p.Colaborador).ToList();
@@ -153,21 +137,40 @@ namespace KendoDP2.Areas.Reportes.Models
                 }
                 else
                 {
-                    if (o.ObjetivoPadreID==0)
+                    Objetivo objetivopadre=context.TablaObjetivos.FindByID(o.ObjetivoPadreID) ;
+                    if (o.ObjetivoPadreID != 0 && objetivopadre!= null && objetivopadre.PuestoAsignadoID != null)
                     {
-                        idPuesto=1;
+                        idPuesto = objetivopadre.PuestoAsignadoID.Value;
+                        List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (!cxp.FechaSalidaPuesto.HasValue));
+                        if (cxpaux.Count > 0)
+                        {
+
+                            List<Colaborador> cdtoaux = cxpaux.Select(p => p.Colaborador).ToList();
+
+                            ColaboradorDTO cdto = cdtoaux.Select(c => c.ToDTO()).ToList()[cdtoaux.Count - 1];
+
+                            ColaboradorID = cdto.ID;
+                            ColaboradorNombre = cdto.NombreCompleto;
+                        }
                     }
                     else
                     {
-                        var padre = context.TablaObjetivos.FindByID(o.ObjetivoPadreID);
-                        if (padre!=null && padre.ObjetivoPadreID != 0)
+                        if (o.ObjetivoPadreID == 0)
                         {
-                            var abuelo = context.TablaObjetivos.FindByID(padre.ObjetivoPadreID);
-                            idPuesto = abuelo.PuestoAsignadoID.Value;
+                            idPuesto = 1;
+                        }
+                        else
+                        {
+                            var padre = context.TablaObjetivos.FindByID(o.ObjetivoPadreID);
+                            if (padre != null && padre.ObjetivoPadreID != 0)
+                            {
+                                var abuelo = context.TablaObjetivos.FindByID(padre.ObjetivoPadreID);
+                                idPuesto = abuelo.PuestoAsignadoID.Value;
+                            }
                         }
                     }
+
                 }
-                
             }
             //if (o.Dueño != null)
             //{

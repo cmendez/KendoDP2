@@ -104,7 +104,7 @@ namespace KendoDP2.Areas.Objetivos.Models
 
         public ObjetivoRDTO ToRDTO(DP2Context context)
         {
-            return new ObjetivoRDTO(this,context);
+            return new ObjetivoRDTO(this);
         }
 
         public ObjetivoConPadreDTO ObjetivoConPadreDTO( DP2Context context){
