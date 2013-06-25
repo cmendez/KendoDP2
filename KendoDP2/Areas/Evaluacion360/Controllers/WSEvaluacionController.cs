@@ -34,7 +34,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     foreach (var resp in resps)
                         contr._GuardarPuntuacionPregunta(resp.PreguntaID, resp.Puntaje, context);
                     var cntrEvaluacion = new EvaluacionController();
-                    cntrEvaluacion.GuardarEvaluacion(tablaEvaluadorID);
+                    cntrEvaluacion._GuardarEvaluacion_ws(tablaEvaluadorID, context);
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception)
