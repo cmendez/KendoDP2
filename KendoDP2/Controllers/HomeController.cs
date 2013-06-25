@@ -23,8 +23,9 @@ namespace KendoDP2.Controllers
             ViewBag.Message = "Welcome to ASP.NET MVC!";
             using (DP2Context context = new DP2Context())
             {
-                var T=  context.TablaUsuarios.One(o => o.Username == User.Identity.Name).ToDTO();
-                Session["enlinea"]=T;
+                var T = context.TablaUsuarios.One(o => o.Username.Equals(User.Identity.Name));
+                var user = T != null ? T.ToDTO() : null;
+                Session["enlinea"] = user;
                 return View();    
             }
             

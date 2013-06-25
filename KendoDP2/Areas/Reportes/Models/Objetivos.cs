@@ -92,7 +92,7 @@ namespace KendoDP2.Areas.Reportes.Models
             
             peso = o.Peso;
 
-            if (context.TablaObjetivos.Where(x => x.ObjetivoPadreID == o.ID)!=null)
+            if (context.TablaObjetivos.Any(x => x.ObjetivoPadreID == o.ID))
             {
                 hijos = context.TablaObjetivos.Where(x => x.ObjetivoPadreID == o.ID).ToList().Count;
             }
