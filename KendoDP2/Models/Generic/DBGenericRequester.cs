@@ -75,7 +75,7 @@ namespace KendoDP2.Models.Generic
         {
             try
             {
-                return Dbset.Where(predicate).Where(p => !p.IsEliminado || incluyeEliminadoLogico).LastOrDefault();
+                return Dbset.Where(predicate).Where(p => !p.IsEliminado || incluyeEliminadoLogico).FirstOrDefault();
             }
             catch (Exception)
             {

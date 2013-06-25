@@ -27,7 +27,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             using (DP2Context context = new DP2Context())
             {
                 //ViewBag.ofertasLaborales = context.TablaOfertaLaborales.All().Select(p => p.ToDTO()).ToList();
-                ViewBag.colaboradores = context.TablaColaboradores.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.colaboradores = context.TablaColaboradores.All().Where(x => !x.EstadoColaborador.Equals("Despedido")).Select(p => p.ToDTO()).ToList();
                 ViewBag.estadosSolicitudOferta = context.TablaEstadosSolicitudes.All().Select(p => p.ToDTO()).ToList();
                 ViewBag.areas = context.TablaAreas.All().Select(p => p.ToDTO()).ToList();
                 ViewBag.puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).ToList();
@@ -119,24 +119,36 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 SolicitudPromocion o = context.TablaSolicitudPromociones.FindByID(solicitudID);
                 if (o.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Pendiente"))
                 {
-                    o.EstadoSolicitudOfertaLaboral = context.TablaEstadosSolicitudes.One(p=> p.Descripcion.Equals("Aprobado"));
-                    DateTime ahora = DateTime.Now;
-                    o.FechaAprobacion = ahora.ToString("dd/MM/yyyy");
-                    var ultimoCruce = context.TablaColaboradoresXPuestos.One(x => x.FechaSalidaPuesto == null && x.ColaboradorID == o.AscendidoID);
-                    if (ultimoCruce != null)
+                    if (PuestoEstaVacante(o.PuestoID))
                     {
-                        ultimoCruce.FechaSalidaPuesto = DateTime.Now.AddDays(-1);
-                        context.TablaColaboradoresXPuestos.ModifyElement(ultimoCruce);
+                        o.EstadoSolicitudOfertaLaboral = context.TablaEstadosSolicitudes.One(p => p.Descripcion.Equals("Aprobado"));
+                        DateTime ahora = DateTime.Now;
+                        o.FechaAprobacion = ahora.ToString("dd/MM/yyyy");
+                        var ultimoCruce = context.TablaColaboradoresXPuestos.One(x => x.FechaSalidaPuesto == null && x.ColaboradorID == o.AscendidoID);
+                        if (ultimoCruce != null)
+                        {
+                            ultimoCruce.FechaSalidaPuesto = DateTime.Now.AddDays(-1);
+                            context.TablaColaboradoresXPuestos.ModifyElement(ultimoCruce);
+                        }
+                        ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = o.AscendidoID, PuestoID = o.PuestoID, Sueldo = o.SueldoTentativo, FechaIngresoPuesto = ahora };
+
+                        context.TablaColaboradoresXPuestos.AddElement(cruce);
+                        context.TablaSolicitudPromociones.ModifyElement(o);
+
+                        return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
                     }
-                    ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = o.AscendidoID, PuestoID = o.PuestoID, Sueldo = o.SueldoTentativo, FechaIngresoPuesto = ahora  };
-
-                    context.TablaColaboradoresXPuestos.AddElement(cruce);
+                    else
+                    {
+                        ModelState.AddModelError("Puesto", "El puesto está ocupado por otra persona, verificar");
+                        return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
+                    }
                 }
-                context.TablaSolicitudPromociones.ModifyElement(o);
 
+   //             ModelState.AddModelError("Puesto", "No es posible aprobar esta solicitud");
                 return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
-            }
 
+
+            }
         }
 
        [AcceptVerbs(HttpVerbs.Post)]
@@ -173,5 +185,13 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
            return (!(solicitud.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Pendiente")));
        }
 
+       public bool PuestoEstaVacante(int puestoID)
+       {
+           using (DP2Context context = new DP2Context())
+           {
+               ColaboradorXPuesto cruce = context.TablaColaboradoresXPuestos.One(x => (x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today) && x.PuestoID == puestoID);
+               return cruce == null;
+           }
+       }
     }
 }
