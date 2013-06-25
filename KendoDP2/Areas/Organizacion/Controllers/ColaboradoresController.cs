@@ -56,15 +56,24 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                     Colaborador c = new Colaborador(colaborador);
                     if (ValidaColaboradores(c.TipoDocumentoID, c.NumeroDocumento)== 0)
                     {
-                        c.EstadoColaborador = context.TablaEstadosColaboradores.One(x => x.Descripcion.Equals("Contratado"));
-                        context.TablaColaboradores.AddElement(c);
+                        if (PuestoEstaVacante(colaborador.PuestoID))
+                        {
 
-                        Puesto p = context.TablaPuestos.FindByID(colaborador.PuestoID);
-                        ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo };
+                            c.EstadoColaborador = context.TablaEstadosColaboradores.One(x => x.Descripcion.Equals("Contratado"));
+                            context.TablaColaboradores.AddElement(c);
 
-                        context.TablaColaboradoresXPuestos.AddElement(cruce);
+                            Puesto p = context.TablaPuestos.FindByID(colaborador.PuestoID);
+                            ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo };
 
-                        return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
+                            context.TablaColaboradoresXPuestos.AddElement(cruce);
+
+                            return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("Puesto", "El puesto está ocupado por otra persona, verificar");
+                            return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
+                        }
                     }
                     else
                     {
@@ -90,30 +99,37 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 if (colaboradorBD.PuestoID != colaborador.PuestoID || colaboradorBD.Sueldo != colaborador.Sueldo)
                 {
 
-
-                    // asigno fecha fin al puesto
-                    var ultimoCruce = context.TablaColaboradoresXPuestos.One(x => (x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today) && x.ColaboradorID == c.ID);
-                    if (ultimoCruce != null)
+                    if (PuestoEstaVacante(colaborador.PuestoID))
                     {
-                        ultimoCruce.FechaSalidaPuesto = DateTime.Now.AddDays(-1);
-                        context.TablaColaboradoresXPuestos.ModifyElement(ultimoCruce);
+                        // asigno fecha fin al puesto
+                        var ultimoCruce = context.TablaColaboradoresXPuestos.One(x => (x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today) && x.ColaboradorID == c.ID);
+                        if (ultimoCruce != null)
+                        {
+                            ultimoCruce.FechaSalidaPuesto = DateTime.Now.AddDays(-1);
+                            context.TablaColaboradoresXPuestos.ModifyElement(ultimoCruce);
+                        }
+
+                        // se crea el nuevo puesto
+                        DateTime fechaInicio;
+                        try
+                        {
+                            fechaInicio = DateTime.ParseExact(colaborador.FechaIngreso, "yyyy-MM-dd", System.Globalization.CultureInfo.CurrentCulture);
+                        }
+                        catch
+                        {
+                            fechaInicio = DateTime.Now;
+                        }
+                        Puesto p = context.TablaPuestos.FindByID(colaborador.PuestoID);
+                        ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo, FechaIngresoPuesto = fechaInicio };
+
+                        context.TablaColaboradoresXPuestos.AddElement(cruce);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Puesto", "El puesto está ocupado por otra persona, verificar");
+                        return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
                     }
 
-
-                    // se crea el nuevo puesto
-                    DateTime fechaInicio;
-                    try
-                    {
-                        fechaInicio = DateTime.ParseExact(colaborador.FechaIngreso, "yyyy-MM-dd", System.Globalization.CultureInfo.CurrentCulture);
-                    }
-                    catch
-                    {
-                        fechaInicio = DateTime.Now;
-                    }
-                    Puesto p = context.TablaPuestos.FindByID(colaborador.PuestoID);
-                    ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = p.ID, Sueldo = colaborador.Sueldo , FechaIngresoPuesto = fechaInicio};
-
-                    context.TablaColaboradoresXPuestos.AddElement(cruce);
                 }
                 else if (colaboradorBD.PuestoID == colaborador.PuestoID && colaboradorBD.Sueldo == colaborador.Sueldo)
                 {
@@ -318,6 +334,14 @@ namespace KendoDP2.Areas.Organizacion.Controllers
 
         }
 
+        public bool PuestoEstaVacante(int puestoID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                ColaboradorXPuesto cruce = context.TablaColaboradoresXPuestos.One(x => (x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today) && x.PuestoID == puestoID);
+                return cruce == null;
+            }
+        }
 
     }
 }
