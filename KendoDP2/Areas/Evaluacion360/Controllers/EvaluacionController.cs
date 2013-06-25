@@ -72,6 +72,36 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             }
         }
 
+        public ActionResult _GuardarEvaluacion_ws(int tablaEvaluadoresID, DP2Context context)
+        {
+            Examen examen = context.TablaExamenes.One(x => x.EvaluadorID == tablaEvaluadoresID);
+            IList<CompetenciaXExamen> competenciasEvaluadas = context.TablaCompetenciaXExamen.Where(x => x.ExamenID == examen.ID);
+
+            int notaExamen = 0;
+            int acumuladoPesos = 0;
+            foreach (CompetenciaXExamen c in competenciasEvaluadas)
+            {
+                IList<Pregunta> preguntasXCompetencia = context.TablaPreguntas.Where(x => x.competenciaID == c.CompetenciaID && x.ExamenID == examen.ID);
+                c.Nota = Convert.ToInt32(Math.Round(preguntasXCompetencia.Sum(x => x.Puntuacion), 0, MidpointRounding.AwayFromZero));
+
+                notaExamen += (c.Nota * c.Peso);
+                acumuladoPesos += c.Peso;
+                context.TablaCompetenciaXExamen.ModifyElement(c);
+            }
+            if (competenciasEvaluadas != null && competenciasEvaluadas.Count > 0)
+            {
+                notaExamen = Convert.ToInt32(Math.Round((double)notaExamen / (double)acumuladoPesos, 0, MidpointRounding.AwayFromZero));
+                examen.NotaExamen = notaExamen;
+
+                EstadoColaboradorXProcesoEvaluacion terminado = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(x => x.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado));
+                examen.EstadoExamenID = terminado.ID;
+
+                context.TablaExamenes.ModifyElement(examen);
+            }
+
+            return Json(new { success = true });//View();
+        }
+
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult GuardarEvaluacion(int tablaEvaluadoresID)
         {
