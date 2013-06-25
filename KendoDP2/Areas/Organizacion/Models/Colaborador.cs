@@ -321,6 +321,9 @@ namespace KendoDP2.Areas.Organizacion.Models
         public int ID { get; set; }
 
         public string NombreCompleto { get; set; }
+        public string Nombres { get; set; }
+        public string ApellidoPaterno { get; set; }
+        public string ApellidoMaterno { get; set; }
         public string Area { get; set; }
         public string Puesto { get; set; }
         public string Telefono { get; set; }
@@ -332,6 +335,9 @@ namespace KendoDP2.Areas.Organizacion.Models
             ID = c.ID;
 
             NombreCompleto = c.ApellidoPaterno + " " + c.ApellidoMaterno + ", " + c.Nombres;
+            Nombres = c.Nombres;
+            ApellidoMaterno = c.ApellidoMaterno;
+            ApellidoPaterno = c.ApellidoPaterno;
             Telefono = c.Telefono;
             CorreoElectronico = c.CorreoElectronico;
             try

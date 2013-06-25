@@ -89,43 +89,41 @@ namespace KendoDP2.Areas.Reportes.Models
             idObjetivo = o.ID;
             descripcion = o.Nombre;
 
-            List<ColaboradorDTO> ListaCOlaboradores= context.TablaColaboradores.All().Select(col => col.ToDTO()).ToList();
-            numPersonas = 0;
-            foreach (ColaboradorDTO col in ListaCOlaboradores)
-            {
-                
-                foreach (ObjetivoDTO obj in col.Objetivos)
-                {
-                    if (obj.ObjetivoPadreID!=0 &&obj.ObjetivoPadreID == o.ID) numPersonas += 1; 
-                }
-            }
+            
             peso = o.Peso;
-            hijos = o.ObjetivosHijos(context).Count;            
+
+            if (context.TablaObjetivos.Where(x => x.ObjetivoPadreID == o.ID)!=null)
+            {
+                hijos = context.TablaObjetivos.Where(x => x.ObjetivoPadreID == o.ID).ToList().Count;
+            }
+
+            numPersonas = hijos;
+            
             avance = o.AvanceFinal;
             esIntermedio = o.IsObjetivoIntermedio;
             if (o.ObjetivoPadreID != 0)
             {
                 idpadre = o.ObjetivoPadreID;
+                
             }
             else
             {
                 idpadre = -1;
             }
 
-            Objetivo ob = o;
-            while (ob.ObjetivoPadreID!=0 && ob.ObjetivoPadreID > 0)
-            {
-                ob = context.TablaObjetivos.FindByID(ob.ObjetivoPadreID);
-            }
-            BSCId = ob.TipoObjetivoBSCID.Value;
+            
 
-            idperiodo = o.GetBSCIDRaiz(context);
+            if (o.ObjetivoPadreID == -1)
+            {
+                BSCId = o.TipoObjetivoBSCID.Value;
+                idperiodo = o.BSC.PeriodoID;
+            }
 
             if (o.PuestoAsignadoID != null)
             {
                 idPuesto = o.PuestoAsignadoID.Value;
-                List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (cxp.FechaSalidaPuesto == null ));
-                if (cxpaux.Count > 0)
+                List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (!cxp.FechaSalidaPuesto.HasValue));
+                if (cxpaux!=null && cxpaux.Count > 0)
                 {
 
                     List<Colaborador> cdtoaux = cxpaux.Select(p => p.Colaborador).ToList();
@@ -138,10 +136,10 @@ namespace KendoDP2.Areas.Reportes.Models
             }
             else
             {
-                if (o.ObjetivoPadreID !=0 && context.TablaObjetivos.FindByID(o.ObjetivoPadreID).PuestoAsignadoID != null)
+                if (o.ObjetivoPadreID !=0 && context.TablaObjetivos.FindByID(o.ObjetivoPadreID)!=null && context.TablaObjetivos.FindByID(o.ObjetivoPadreID).PuestoAsignadoID != null)
                 {
                     idPuesto = context.TablaObjetivos.FindByID(o.ObjetivoPadreID).PuestoAsignado.ID;
-                    List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (cxp.FechaSalidaPuesto == null || DateTime.Today <= cxp.FechaSalidaPuesto));
+                    List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (!cxp.FechaSalidaPuesto.HasValue));
                     if (cxpaux.Count > 0)
                     {
 
@@ -162,7 +160,7 @@ namespace KendoDP2.Areas.Reportes.Models
                     else
                     {
                         var padre = context.TablaObjetivos.FindByID(o.ObjetivoPadreID);
-                        if (padre.ObjetivoPadreID != 0)
+                        if (padre!=null && padre.ObjetivoPadreID != 0)
                         {
                             var abuelo = context.TablaObjetivos.FindByID(padre.ObjetivoPadreID);
                             idPuesto = abuelo.PuestoAsignadoID.Value;

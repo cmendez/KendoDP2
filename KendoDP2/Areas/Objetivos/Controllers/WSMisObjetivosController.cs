@@ -104,6 +104,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                     Objetivo o = context.TablaObjetivos.FindByID(idObjetivo);
                     o.AvanceFinal = a.Valor;
                     context.TablaObjetivos.ModifyElement(o);
+                    a.ActualizarPesos(context);
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception)
@@ -126,6 +127,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                     o.AvanceFinal = alcance;
                     context.TablaObjetivos.ModifyElement(o);
                     context.TablaAvanceObjetivo.ModifyElement(a);
+                    a.ActualizarPesos(context);
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception)

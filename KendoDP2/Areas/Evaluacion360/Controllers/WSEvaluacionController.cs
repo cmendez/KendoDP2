@@ -11,13 +11,13 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 {
     public class WSEvaluacionController : Controller
     {
-        public ActionResult ReadPreguntas(int idEvaluado, int idProcesoEvaluacion)
+        public ActionResult ReadPreguntas(int idEvaluado, int idProcesoEvaluacion, int idColaboradorEvaluado)
         {
             using (DP2Context context = new DP2Context())
             {
                 Evaluador e = context.TablaEvaluadores.FindByID(idEvaluado);//.One(x => x.ProcesoEnElQueParticipanID== idProcesoEvaluacion && x.ElEvaluado == idEvaluado);
                 int tablaEvaluadoresID = e.ID;
-                int puestoID = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == idEvaluado && !x.IsEliminado && (x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto)).PuestoID;
+                int puestoID = context.TablaColaboradoresXPuestos.One(x => x.ColaboradorID == idColaboradorEvaluado && !x.IsEliminado && (x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto)).PuestoID;
                 return Json(new ProcesoEvaluacionController()._Editing_ReadCapEvaluacion(puestoID, tablaEvaluadoresID, context), JsonRequestBehavior.AllowGet);
             }
         }
