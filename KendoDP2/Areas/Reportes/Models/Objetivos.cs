@@ -142,7 +142,7 @@ namespace KendoDP2.Areas.Reportes.Models
                     {
                         idPuesto = objetivopadre.PuestoAsignadoID.Value;
                         List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (!cxp.FechaSalidaPuesto.HasValue));
-                        if (cxpaux.Count > 0)
+                        if (cxpaux!=null && cxpaux.Count > 0)
                         {
 
                             List<Colaborador> cdtoaux = cxpaux.Select(p => p.Colaborador).ToList();
