@@ -23,7 +23,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         }
 
         
-        public ActionResult ResponderPreguntas(string respuestas)
+        public ActionResult ResponderPreguntas(string respuestas, int tablaEvaluadorID)
         {
             using (DP2Context context = new DP2Context())
             {
@@ -33,6 +33,8 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                     var contr = new ProcesoEvaluacionController();
                     foreach (var resp in resps)
                         contr._GuardarPuntuacionPregunta(resp.PreguntaID, resp.Puntaje, context);
+                    var cntrEvaluacion = new EvaluacionController();
+                    cntrEvaluacion.GuardarEvaluacion(tablaEvaluadorID);
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception)
