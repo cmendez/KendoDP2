@@ -23,6 +23,7 @@ namespace KendoDP2.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
+
              try{   
                     var archivo = context.TablaArchivos.FindByID(archivoID);
                         if (archivo.Data != null)
