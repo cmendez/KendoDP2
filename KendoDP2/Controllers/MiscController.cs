@@ -29,7 +29,7 @@ namespace KendoDP2.Controllers
                  recomiendo que se cree una imagen defaul o se coloque un try catch pero yo no lo hice 
                  xq no entiendo muy bien lo q devuelve*/
                 var archivo = context.TablaArchivos.FindByID(archivoID);
-                    if (archivo.Data != null)
+                    if (archivo != null && archivo.Data != null)
                         return File(archivo.Data, archivo.Mime);
                 var file = Server.MapPath("~/Images/unknown-person.jpg");
                 using (var stream = new FileStream(file, FileMode.Open))

@@ -26,7 +26,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             {
                 int ColaboradorID = DP2MembershipProvider.GetPersonaID(this);
                 Colaborador yo = context.TablaColaboradores.FindByID(ColaboradorID);
-                ColaboradorXPuesto cruce = yo.ColaboradoresPuesto.SingleOrDefault(x => x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today);
+                ColaboradorXPuesto cruce = context.TablaColaboradoresXPuestos.One(x => (x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today) && x.ColaboradorID == yo.ID);
                 List<ColaboradorDTO> subordinadosCliente = new List<ColaboradorDTO>();
 
                 if (cruce != null)
