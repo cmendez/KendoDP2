@@ -151,49 +151,68 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 MiscController controladorGeneral = new MiscController();
                 var org = context.TablaOrganizaciones.All().FirstOrDefault();
                 // aca asignar el nuevo puesto
-                ColaboradorDTO colaboradorDTO = new ColaboradorDTO
+                int puestoPadre = oferta.PuestoID;
+                List<PuestoDTO> puestos = BuscoPuestoPapaEHijos(puestoPadre);
+
+                if (puestos != null)
                 {
-                    Nombre = postulanteOferta.Postulante.Nombres,
-                    ApellidoPaterno = postulanteOferta.Postulante.ApellidoPaterno,
-                    ApellidoMaterno = postulanteOferta.Postulante.ApellidoMaterno,
-                    TipoDocumentoID = postulanteOferta.Postulante.TipoDocumentoID,
-                    NumeroDocumento = postulanteOferta.Postulante.NumeroDocumento,
-                    CorreoElectronico = postulanteOferta.Postulante.CorreoElectronico,
-                    CentroEstudios = postulanteOferta.Postulante.CentroEstudios,
-                    GradoAcademicoID = (int)postulanteOferta.Postulante.GradoAcademicoID,
-                    CurriculumVitaeID = postulanteOferta.Postulante.CurriculumVitaeID,
-                    AreaID = oferta.AreaID,
-                    PuestoID = oferta.PuestoID,
-                    Sueldo = oferta.SueldoTentativo
-                    
-                };
+                    PuestoDTO puestoEncontrado = BuscaPuestoLibreAsignar(puestos);
 
-                Colaborador c = new Colaborador(colaboradorDTO);
-                c.EstadoColaborador = context.TablaEstadosColaboradores.One(x => x.Descripcion.Equals("Contratado"));
-                context.TablaColaboradores.AddElement(c);
-                Puesto pe = context.TablaPuestos.FindByID(colaboradorDTO.PuestoID);
-                //hasta mientras fecha de ingreso = datetime.now
-                ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = pe.ID, Sueldo = colaboradorDTO.Sueldo, FechaIngresoPuesto = DateTime.Now };
-                context.TablaColaboradoresXPuestos.AddElement(cruce);
+                    if (puestoEncontrado != null)
+                    {
 
-                postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Contratado"));
-                context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
+                        ColaboradorDTO colaboradorDTO = new ColaboradorDTO
+                        {
+                            Nombre = postulanteOferta.Postulante.Nombres,
+                            ApellidoPaterno = postulanteOferta.Postulante.ApellidoPaterno,
+                            ApellidoMaterno = postulanteOferta.Postulante.ApellidoMaterno,
+                            TipoDocumentoID = postulanteOferta.Postulante.TipoDocumentoID,
+                            NumeroDocumento = postulanteOferta.Postulante.NumeroDocumento,
+                            CorreoElectronico = postulanteOferta.Postulante.CorreoElectronico,
+                            CentroEstudios = postulanteOferta.Postulante.CentroEstudios,
+                            GradoAcademicoID = (int)postulanteOferta.Postulante.GradoAcademicoID,
+                            CurriculumVitaeID = postulanteOferta.Postulante.CurriculumVitaeID,
+                            //AreaID = oferta.AreaID,
+                            //PuestoID = oferta.PuestoID,
 
-                if (postulanteOferta.Postulante.CorreoElectronico != null)
-                {
-                    controladorGeneral.SendEmail(postulanteOferta.Postulante.CorreoElectronico, "[" + org.RazonSocial + "] Aviso de Seleccion",
-                            RetornaMensajeContrato(postulanteOferta.Postulante.ToDTO().NombreCompleto, postulanteOferta.OfertaLaboral.Area.Nombre, postulanteOferta.OfertaLaboral.Puesto.Nombre));
+                            Sueldo = oferta.SueldoTentativo
 
+                        };
+
+                        Colaborador c = new Colaborador(colaboradorDTO);
+                        c.EstadoColaborador = context.TablaEstadosColaboradores.One(x => x.Descripcion.Equals("Contratado"));
+                        context.TablaColaboradores.AddElement(c);
+                        Puesto pe = context.TablaPuestos.FindByID(puestoEncontrado.ID);
+                        //hasta mientras fecha de ingreso = datetime.now
+                        ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = c.ID, PuestoID = pe.ID, Sueldo = colaboradorDTO.Sueldo, FechaIngresoPuesto = DateTime.Now };
+                        context.TablaColaboradoresXPuestos.AddElement(cruce);
+
+                        postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Contratado"));
+                        context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
+
+                        if (postulanteOferta.Postulante.CorreoElectronico != null)
+                        {
+                            controladorGeneral.SendEmail(postulanteOferta.Postulante.CorreoElectronico, "[" + org.RazonSocial + "] Aviso de Seleccion",
+                                    RetornaMensajeContrato(postulanteOferta.Postulante.ToDTO().NombreCompleto, postulanteOferta.OfertaLaboral.Area.Nombre, postulanteOferta.OfertaLaboral.Puesto.Nombre));
+
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("Alerta", "Se selecciona y cambia el puesto del postulante, pero no se envía la notificación. Revise los datos e intente comunicarse por otro medio");
+                        }
+
+                        return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Este puesto está ocupado, por favor revisar el contrato del colaborador en el puesto actual o si existe dentro de la estructura");
+                        return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
+                    }
                 }
                 else
                 {
-                    ModelState.AddModelError("Alerta", "Se selecciona y cambia el puesto del postulante, pero no se envía la notificación. Revise los datos e intente comunicarse por otro medio");
-                    //return Json(new[] { ModelState });
-                    
-                    //return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+                    ModelState.AddModelError("", "No existe el puesto");
                 }
-
-                //return RedirectToAction("Index", "Colaboradores", new { Area = "Organizacion" });
                 return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
 
             }
@@ -228,6 +247,41 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             }
         }
 
-      
-    }
+
+        public bool PuestoEstaVacante(int puestoID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                ColaboradorXPuesto cruce = context.TablaColaboradoresXPuestos.One(x => (x.FechaSalidaPuesto == null || x.FechaSalidaPuesto >= DateTime.Today) && x.PuestoID == puestoID);
+                return cruce == null;
+            }
+        }
+
+        public List<PuestoDTO> BuscoPuestoPapaEHijos(int puestoID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                Puesto p = context.TablaPuestos.FindByID(puestoID);
+
+                List<PuestoDTO> lista = context.TablaPuestos.Where(x => x.Nombre.Equals(p.Nombre) || x.Nombre.StartsWith(p.Nombre)).Select(m => m.ToDTO()).ToList();
+                return lista;
+
+            }
+
+        }
+
+        public PuestoDTO BuscaPuestoLibreAsignar(List<PuestoDTO> todosPuestos)
+        {
+            foreach (PuestoDTO p in todosPuestos)
+            {
+                if (PuestoEstaVacante(p.ID))
+                    return p;
+            }
+
+            return null;
+        }
+
+        
+
+     }
 }

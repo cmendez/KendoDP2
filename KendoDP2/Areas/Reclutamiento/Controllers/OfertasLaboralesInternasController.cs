@@ -691,6 +691,17 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             return null;
         }
 
+        public bool ValidoExistenciaExamenFase1(int puntaje)
+        {
+            if (puntaje > 0) return true;
+            else return false;
+        }
+
+        public bool ValidoExistenciaExamenFase2Fase3(int puntajeAnterior, int puntajeActual)
+        {
+            if (puntajeActual > puntajeAnterior) return true;
+            else return false;
+        }
 
 
         }
