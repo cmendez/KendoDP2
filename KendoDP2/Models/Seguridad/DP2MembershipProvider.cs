@@ -168,16 +168,10 @@ namespace KendoDP2.Models.Seguridad
         {
             using (DP2Context db = new DP2Context())
             {
-                try
-                {
-                    return db.TablaPersonas.One(p => p.Username.Equals(username)).ToDTO();
-                }catch
-                {
-                    PersonaDTO p= new PersonaDTO();
-                    p.NombreCompleto="Invitado";
-                    return p;
-                }
-
+                var personaDTO = db.TablaPersonas.One(x => x.Username != null && x.Username.Equals(username));
+                
+                if (personaDTO != null) return personaDTO.ToDTO();
+                else return new PersonaDTO() { NombreCompleto = "Invitado"};
             }
         }
 

@@ -9,13 +9,24 @@
     {
         if(option.Suboptions.Count == 0)
         {
-            <li class="@GetOptionArea(option.Area)">
-		        <a href="@Url.Action(option.Method, option.Controller, new {Area = option.Area })">
-			        <i class="@option.Icon"></i> 
-				    <span class="title">@option.Title</span>
-				    <span class="selected"></span>
-			    </a>
-		    </li>   
+            if(option.Method!=null)
+            {
+                <li class="@GetOptionArea(option.Area)">
+		            <a href="@Url.Action(option.Method, option.Controller, new {Area = option.Area })">
+			            <i class="@option.Icon"></i> 
+    				    <span class="title">@option.Title</span>
+				        <span class="selected"></span>
+			        </a>
+		        </li>   
+            }else{
+                <li class="@GetOptionArea(option.Area)">
+		            <a href="#">
+			            <i class="@option.Icon"></i> 
+    				    <span class="title">@option.Title</span>
+				        <span class="selected"></span>
+			        </a>
+		        </li>   
+            }
         }else
         {
             <li class="@GetOptionArea(option.Area)">

@@ -26,9 +26,8 @@ namespace KendoDP2.Controllers
                 var T = context.TablaUsuarios.One(o => o.Username.Equals(User.Identity.Name));
                 var user = T != null ? T.ToDTO() : null;
                 Session["enlinea"] = user;
-                return View();    
             }
-            
+            return View();                
         }
 
         [Authorize()]

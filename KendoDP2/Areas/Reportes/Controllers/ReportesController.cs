@@ -287,19 +287,21 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 return Json(ListaAvanceBSC, JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult ObjetivosOffline(int idperiodo)
+        
+        public JsonResult ObjetivosOffline(int idperiodo)
         {
             using (DP2Context context = new DP2Context())
             {
-               
-               
                 //ObjetivosPeriodoaux.AddRange(ObjetivosTodos.Where(obj=> obj.GetBSCIDRaiz(context) == idperiodo).ToList());
                 //List<ObjetivoRDTO> ObjetivosPeriodo = new List<ObjetivoRDTO>();
                 //ObjetivosPeriodo.AddRange(ObjetivosPeriodoaux.Select(oxp => oxp.ToRDTO(context)).ToList());
                 //List<ObjetivoRDTO> ObjetivosPeriodo = ObjetivosPeriodoaux.Select(oxp => oxp.ToRDTO(context)).ToList();
                 //List<ObjetivoRDTO> ObjetivosPeriodo = context.TablaObjetivos.Where(obj => obj.ToRDTO(context).idperiodo==idperiodo).Select(ob => ob.ToRDTO(context)).ToList();
                 
-                return Json(context.TablaObjetivos.All().Select(o=>o.ToRDTO(context)), JsonRequestBehavior.AllowGet);
+                var objetivos = context.TablaObjetivos.Where(x => true);
+                //var objetivos = objetivos.Select(obj=>obj.ToDTO(context));
+                var objetivosRDTO = objetivos.Select(x => x.ToRDTO(context));
+                return JsonSuccessGet(objetivosRDTO);
             }
             
         }
