@@ -400,24 +400,30 @@ namespace KendoDP2.Areas.Reportes.Controllers
                    //Selección
                    RFase fasefin = new RFase();
                    fasefin.nombreFase = "Selección";
+                   fasefin.Postulantes = new List<RPostulante>();
 
-                   if (context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboral.ID == Oferta.ID && oxp.EstadoPostulantePorOferta.Descripcion.Equals("Contratado"))!=null)
-                   fasefin.numPostulantes = context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboral.ID == Oferta.ID && oxp.EstadoPostulantePorOferta.Descripcion.Equals("Contratado")).Count;
-                   
-                    fasefin.Postulantes = new List<RPostulante>();
-
-
-
-                   context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboral.ID == Oferta.ID && oxp.EstadoPostulantePorOferta.Descripcion.Equals("Contratado")).ForEach
-                   (oxp => fasefin.Postulantes.Add(new RPostulante
+                   if (context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboral.ID == Oferta.ID && oxp.EstadoPostulantePorOferta.Descripcion.Equals("Contratado")) != null)
                    {
-                       Proveniencia = oxp.Postulante.CentroEstudios,
-                       gradoAcademico = oxp.Postulante.GradoAcademico.Descripcion,
-                       nombre = oxp.Postulante.Nombres + " " + oxp.Postulante.ApellidoPaterno + " " + oxp.Postulante.ApellidoMaterno
-                   })
-                   );
+                       fasefin.numPostulantes = context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboral.ID == Oferta.ID && oxp.EstadoPostulantePorOferta.Descripcion.Equals("Contratado")).Count;
 
-                   Ofertapuesto.Fases.Add(fasefin); 
+                       
+
+
+
+                       context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboral.ID == Oferta.ID && oxp.EstadoPostulantePorOferta.Descripcion.Equals("Contratado")).ForEach
+                       (oxp => fasefin.Postulantes.Add(new RPostulante
+                       {
+                           Proveniencia = oxp.Postulante.CentroEstudios,
+                           gradoAcademico = oxp.Postulante.GradoAcademico.Descripcion,
+                           nombre = oxp.Postulante.Nombres + " " + oxp.Postulante.ApellidoPaterno + " " + oxp.Postulante.ApellidoMaterno
+                       })
+                       );
+
+                       Ofertapuesto.Fases.Add(fasefin); 
+                   }
+
+
+                   
 
 
                    OfertasPuesto.Add(Ofertapuesto);
