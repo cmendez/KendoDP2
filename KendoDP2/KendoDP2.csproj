@@ -343,6 +343,7 @@
     <Compile Include="Areas\Reportes\ReportesAreaRegistration.cs" />
     <Compile Include="Areas\Seguridad\Controllers\AsignacionUsuarioController.cs" />
     <Compile Include="Areas\Seguridad\Controllers\RolesController.cs" />
+    <Compile Include="Areas\Seguridad\Controllers\RolesMovilController.cs" />
     <Compile Include="Areas\Seguridad\Controllers\UsuariosController.cs" />
     <Compile Include="Areas\Seguridad\Controllers\WSUsuariosController.cs" />
     <Compile Include="Areas\Seguridad\Models\Area.cs" />

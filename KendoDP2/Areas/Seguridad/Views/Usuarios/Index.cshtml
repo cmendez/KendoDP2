@@ -27,7 +27,8 @@
                 {
                     columns.Bound(p => p.ID);
                     columns.Bound(p => p.Username);
-                    columns.Template(@<text></text>).ClientTemplate("<a class='btn btn-success' href='" + Url.Action("Index", "Roles") + "?ID=#=ID#'>Roles</a>");
+                    columns.Template(@<text></text>).ClientTemplate("<a class='btn btn-success' href='" + Url.Action("Index", "Roles") + "?ID=#=ID#'>Roles Web</a>");
+                    columns.Template(@<text></text>).ClientTemplate("<a class='btn btn-success' href='" + Url.Action("Index", "RolesMovil") + "?ID=#=ID#'>Roles Movil</a>");
                 })
                 .Editable(editable => editable.Mode(GridEditMode.PopUp))
                 .Pageable()
