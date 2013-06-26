@@ -12,6 +12,7 @@ namespace KendoDP2.Models.Seguridad
         public string Password { get; set; }
 
         public virtual List<Rol> Roles { get; set; }
+        public virtual List<Rol> RolesAndroid { get; set; }
 
         public Usuario(string username, string password, IList<Rol> roles)
         {
