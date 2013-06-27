@@ -51,19 +51,19 @@ namespace KendoDP2.Models.Generic
                 }
             }
 
-            TablaRoles.AddElement(new Rol { Area = "Mi información", Nombre = "Información personal", EsWeb = false, Permiso = true });
-            TablaRoles.AddElement(new Rol { Area = "Mi información", Nombre = "Mi equipo de trabajo", EsWeb = false, Permiso = true });
-            TablaRoles.AddElement(new Rol { Area = "Mi información", Nombre = "Mis contactos", EsWeb = false, Permiso = true });
-            TablaRoles.AddElement(new Rol { Area = "Mi información", Nombre = "Agenda", EsWeb = false, Permiso = true });
+            TablaRoles.AddElement(new Rol { Area = "Mi informacion", Nombre = "Informacion personal", EsWeb = false, Permiso = true });
+            TablaRoles.AddElement(new Rol { Area = "Mi informacion", Nombre = "Mi equipo de trabajo", EsWeb = false, Permiso = true });
+            TablaRoles.AddElement(new Rol { Area = "Mi informacion", Nombre = "Mis contactos", EsWeb = false, Permiso = true });
+            TablaRoles.AddElement(new Rol { Area = "Mi informacion", Nombre = "Agenda", EsWeb = false, Permiso = true });
             
             TablaRoles.AddElement(new Rol { Area = "Reclutamiento", Nombre = "Aprobar solicitudes de oferta laboral", EsWeb = false, Permiso = true });
             TablaRoles.AddElement(new Rol { Area = "Reclutamiento", Nombre = "Evaluar postulantes 1ra fase", EsWeb = false, Permiso = true });
             TablaRoles.AddElement(new Rol { Area = "Reclutamiento", Nombre = "Evaluar postulantes 3ra fase", EsWeb = false, Permiso = true });
             TablaRoles.AddElement(new Rol { Area = "Reclutamiento", Nombre = "Postular a oferta laboral", EsWeb = false, Permiso = true });
             
-            TablaRoles.AddElement(new Rol { Area = "Evaluación 360", Nombre = "Mis Pendientes", EsWeb = false, Permiso = true });
-            TablaRoles.AddElement(new Rol { Area = "Evaluación 360", Nombre = "Rol de Evaluado", EsWeb = false, Permiso = true });
-            TablaRoles.AddElement(new Rol { Area = "Evaluación 360", Nombre = "Mis subordinados", EsWeb = false, Permiso = true });
+            TablaRoles.AddElement(new Rol { Area = "Evaluacion 360", Nombre = "Mis Pendientes", EsWeb = false, Permiso = true });
+            TablaRoles.AddElement(new Rol { Area = "Evaluacion 360", Nombre = "Rol de Evaluado", EsWeb = false, Permiso = true });
+            TablaRoles.AddElement(new Rol { Area = "Evaluacion 360", Nombre = "Mis subordinados", EsWeb = false, Permiso = true });
             
             TablaRoles.AddElement(new Rol { Area = "Objetivos", Nombre = "Objetivos Empresariales", EsWeb = false, Permiso = true });
             TablaRoles.AddElement(new Rol { Area = "Objetivos", Nombre = "Objetivos Propios", EsWeb = false, Permiso = true });
@@ -75,8 +75,8 @@ namespace KendoDP2.Models.Generic
             TablaRoles.AddElement(new Rol { Area = "LineaDeCarrera", Nombre = "Comparar capacidades", EsWeb = false, Permiso = true });
             TablaRoles.AddElement(new Rol { Area = "LineaDeCarrera", Nombre = "Candidatos por puesto", EsWeb = false, Permiso = true });
 
-            TablaRoles.AddElement(new Rol { Area = "Reportes", Nombre = "Reporte de Evaluación 360", EsWeb = false, Permiso = true });
-            TablaRoles.AddElement(new Rol { Area = "Reportes", Nombre = "Reporte histórico de Objetivos", EsWeb = false, Permiso = true });
+            TablaRoles.AddElement(new Rol { Area = "Reportes", Nombre = "Reporte de Evaluacion 360", EsWeb = false, Permiso = true });
+            TablaRoles.AddElement(new Rol { Area = "Reportes", Nombre = "Reporte historico de Objetivos", EsWeb = false, Permiso = true });
             TablaRoles.AddElement(new Rol { Area = "Reportes", Nombre = "Reporte de Cubrimiento de Puestos", EsWeb = false, Permiso = true });
             TablaRoles.AddElement(new Rol { Area = "Reportes", Nombre = "Reporte de Objetivos BSC", EsWeb = false, Permiso = true });
 
