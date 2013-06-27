@@ -301,7 +301,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 var objetivos = context.TablaObjetivos.Where(x => true);
                 //var objetivos = objetivos.Select(obj=>obj.ToDTO(context));
                 var objetivosRDTO = objetivos.Select(x => x.ToRDTO(context));
-                return JsonSuccessGet(objetivosRDTO);
+                return Json(objetivosRDTO, JsonRequestBehavior.AllowGet);
             }
             
         }
@@ -317,7 +317,8 @@ namespace KendoDP2.Areas.Reportes.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                List<OfertaLaboral> ListaOfertasaux2 = context.TablaOfertaLaborales.Where(o=> o.Puesto.ID== puesto && o.EstadoSolicitudOfertaLaboral!=null && o.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Aprobado"));
+                List<OfertaLaboral> ListaOfertasaux2 = context.TablaOfertaLaborales.All().Where(o=> o.Puesto.ID== puesto && o.EstadoSolicitudOfertaLaboral!=null 
+                    && o.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Aprobado")).ToList();
 
                 List<OfertaLaboralDTO> ListaOfertasaux  = new List<OfertaLaboralDTO>();
 
@@ -399,21 +400,30 @@ namespace KendoDP2.Areas.Reportes.Controllers
                    //Selección
                    RFase fasefin = new RFase();
                    fasefin.nombreFase = "Selección";
-                   fasefin.numPostulantes = context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboral.ID == Oferta.ID && oxp.EstadoPostulantePorOferta.Descripcion.Equals("Contratado")).Count;
                    fasefin.Postulantes = new List<RPostulante>();
 
-
-
-                   context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboral.ID == Oferta.ID && oxp.EstadoPostulantePorOferta.Descripcion.Equals("Contratado")).ForEach
-                   (oxp => fasefin.Postulantes.Add(new RPostulante
+                   if (context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboral.ID == Oferta.ID && oxp.EstadoPostulantePorOferta.Descripcion.Equals("Contratado")) != null)
                    {
-                       Proveniencia = oxp.Postulante.CentroEstudios,
-                       gradoAcademico = oxp.Postulante.GradoAcademico.Descripcion,
-                       nombre = oxp.Postulante.Nombres + " " + oxp.Postulante.ApellidoPaterno + " " + oxp.Postulante.ApellidoMaterno
-                   })
-                   );
+                       fasefin.numPostulantes = context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboral.ID == Oferta.ID && oxp.EstadoPostulantePorOferta.Descripcion.Equals("Contratado")).Count;
 
-                   Ofertapuesto.Fases.Add(fasefin); 
+                       
+
+
+
+                       context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboral.ID == Oferta.ID && oxp.EstadoPostulantePorOferta.Descripcion.Equals("Contratado")).ForEach
+                       (oxp => fasefin.Postulantes.Add(new RPostulante
+                       {
+                           Proveniencia = oxp.Postulante.CentroEstudios,
+                           gradoAcademico = oxp.Postulante.GradoAcademico.Descripcion,
+                           nombre = oxp.Postulante.Nombres + " " + oxp.Postulante.ApellidoPaterno + " " + oxp.Postulante.ApellidoMaterno
+                       })
+                       );
+
+                       Ofertapuesto.Fases.Add(fasefin); 
+                   }
+
+
+                   
 
 
                    OfertasPuesto.Add(Ofertapuesto);

@@ -50,7 +50,6 @@ namespace KendoDP2.Models.Generic
             SeedPuestoXEvaluadores();
             SeedCapacidad();
             SeedCompetenciasXPuesto();
-            
             // Area Objetivos
             SeedTipoObjetivoBSC();
             // Area Organizacion (segunda parte)
@@ -106,8 +105,8 @@ namespace KendoDP2.Models.Generic
         }
     }
 
-    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
-    public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
+    public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
+    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
     {
         protected override void Seed(DP2Context context)
         {

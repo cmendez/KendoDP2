@@ -28,7 +28,7 @@ namespace KendoDP2.Areas.Seguridad.Controllers
             using (DP2Context context = new DP2Context())
             {
                 List<UsuarioDTO> salida = new List<UsuarioDTO>();
-                foreach(Usuario dto in context.TablaUsuarios.Where(p=>p.Username!=null))
+                foreach(Usuario dto in context.TablaUsuarios.Where(p=>p.Username!=null,true))
                 {
                     if (dto.Username != "admin")
                     {

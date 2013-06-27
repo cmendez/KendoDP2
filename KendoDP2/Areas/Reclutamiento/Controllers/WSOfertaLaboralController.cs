@@ -121,6 +121,8 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                             }
                         }
 
+                        if (lstPostulante.Count == 0) continue;
+
                         //var lstPostulante = oflab.Postulantes
                         //    .Where(x => x.EstadoPostulantePorOfertaID == estado.ID) //Que esten en dicha etapa de la postulacion
                         //    .Select(x => x.Postulante).ToList();

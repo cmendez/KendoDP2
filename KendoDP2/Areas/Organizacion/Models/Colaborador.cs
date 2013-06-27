@@ -13,6 +13,7 @@ using KendoDP2.Models.Generic;
 using KendoDP2.Areas.Eventos.Models;
 using System.Reflection;
 using KendoDP2.Areas.Reportes.Models;
+using KendoDP2.Models.Seguridad;
 
 namespace KendoDP2.Areas.Organizacion.Models
 {
@@ -112,6 +113,12 @@ namespace KendoDP2.Areas.Organizacion.Models
         public ColaboradorRDTO ToRDTO(DP2Context context)
         {
             return new ColaboradorRDTO(this,context);
+        }
+
+        internal Colaborador AddRoles(List<Rol> allRoles)
+        {
+            allRoles.ForEach(x => Roles.Add(x));
+            return this;
         }
     }
 

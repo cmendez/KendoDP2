@@ -111,9 +111,7 @@ namespace KendoDP2.Areas.Reportes.Models
                 {
                     idpadre = -1;
                 }
-
-
-
+                
                 if (o.ObjetivoPadreID == 0)
                 {
                     BSCId = o.TipoObjetivoBSCID.Value;

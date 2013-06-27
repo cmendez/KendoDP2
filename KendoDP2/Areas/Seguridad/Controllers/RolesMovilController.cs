@@ -11,10 +11,11 @@ using KendoDP2.Areas.Seguridad.Models;
 
 namespace KendoDP2.Areas.Seguridad.Controllers
 {
-    [Authorize()]
-    public class RolesController : Controller
+    public class RolesMovilController : Controller
     {
-        public RolesController()
+        //
+        // GET: /Seguridad/RolesMovil/
+        public RolesMovilController()
         {
             ViewBag.Area = "Seguridad";
         }
@@ -22,17 +23,17 @@ namespace KendoDP2.Areas.Seguridad.Controllers
         public ActionResult Index(int? ID)
         {
             Session["CAMBIARROLESAUSUARIOS"] = ID;
-            return View();  
+            return View();
         }
 
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
             if (Session["CAMBIARROLESAUSUARIOS"] == null)
             {
-                    // Roles en general
+                // Roles en general
                 using (DP2Context context = new DP2Context())
                 {
-                    return Json(context.TablaRoles.Where(p => p.EsWeb == true).Select(r => r.ToDTO()).ToDataSourceResult(request));
+                    return Json(context.TablaRoles.Where(p=>p.EsWeb==false).Select(r => r.ToDTO()).ToDataSourceResult(request));
                 }
             }
             else
@@ -44,12 +45,13 @@ namespace KendoDP2.Areas.Seguridad.Controllers
                     List<RolDTO> salida = new List<RolDTO>();
                     foreach (Rol r in usuario.Roles)
                     {
-                        if (r.EsWeb == true)
+                        if (r.EsWeb == false)
                         {
                             RolDTO aux = new RolDTO(r);
                             salida.Add(aux);
                         }
                     }
+
                     return Json(salida.ToDataSourceResult(request));
                 }
             }
