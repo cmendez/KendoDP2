@@ -43,7 +43,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             {
                 try
                 {
-                    FasePostulacion fp = context.TablaFasePostulacion.One(x => x.Descripcion.Equals(descripcionFase));
+                    FasePostulacion fp = context.TablaFasePostulacion.One(x => x.Descripcion != null && x.Descripcion.Equals(descripcionFase));
                     if (fp == null) return JsonErrorGet("No existe Fase de Postulacion cuya descripcion sea " + descripcionFase);
                     //if (fp.PostulacionesDeLaFase == null || fp.PostulacionesDeLaFase.Count == 0)
                     //    return JsonErrorGet("La Fase de Postulacion " + descripcionFase + " no tiene asignada ninguna postulacion");
@@ -53,21 +53,18 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 
                     EstadoPostulantePorOferta estado = null;
                     if (descripcionFase.Equals("Registrado"))
-                        estado = context.TablaEstadoPostulanteXOferta.One(x => x.Descripcion.Equals("Aprobado Fase 1"));
+                        estado = context.TablaEstadoPostulanteXOferta.One(x => x.Descripcion != null && x.Descripcion.Equals("Aprobado Fase 1"));
                     else if (descripcionFase.Equals("Aprobado Externo"))
-                        estado = context.TablaEstadoPostulanteXOferta.One(x => x.Descripcion.Equals("Aprobado Fase 2"));
+                        estado = context.TablaEstadoPostulanteXOferta.One(x => x.Descripcion != null && x.Descripcion.Equals("Aprobado Fase 2"));
                     else if (descripcionFase.Equals("Aprobado RRHH"))
-                        estado = context.TablaEstadoPostulanteXOferta.One(x => x.Descripcion.Equals("Aprobado Fase 3"));
+                        estado = context.TablaEstadoPostulanteXOferta.One(x => x.Descripcion != null && x.Descripcion.Equals("Aprobado Fase 3"));
 
                     if (estado == null) JsonErrorGet("No existe Fase de Postulacion cuya descripcion sea " + descripcionFase);
 
                     var listaOfertasLaboralesYPostulantes = new List<OfertaLaboralXPostulanteWSDTO>();
                     
                     // Obtengo las postulaciones que SEAN DE esa fase
-                    //var lstPostulacionesDeLaFase = context.TablaOfertaLaboralXPostulante.All();
                     var lstPostulacionesDeLaFase = context.TablaOfertaLaboralXPostulante.Where(x => x.EstadoPostulantePorOfertaID == estado.ID);
-                    // Obtengo las postulaciones que HAN PASADO por esa fase
-                    //var lstPostulacionesDeLaFase = fp.PostulacionesDeLaFase.Select(x => x.OfertaLaboralXPostulante).Distinct().ToList();
                     if (lstPostulacionesDeLaFase == null || lstPostulacionesDeLaFase.Count == 0)
                         return JsonErrorGet("No existe postulaciones que hayan llegado a la fase " + descripcionFase);
 
@@ -92,14 +89,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                                                         .Where(x => x.ResponsableID == responsable.ID) //Ofertas laborales cuyo responsable sea colaboradorID
                                                         .ToList();
                     }
-
                     
-                    //De esas postulaciones filtro por aquellas cuyo responsable es "colaboradorID"
-                    //var lstOfertasLaboralesResponsable = lstPostulacionesDeLaFase
-                    //                                    .Select(x => x.OfertaLaboral).Distinct()
-                    //                                    .Where(x => x.ResponsableID == responsable.ID) //Ofertas laborales cuyo responsable sea colaboradorID
-                    //                                    .ToList();
-
                     foreach (OfertaLaboral oflab in lstOfertasLaboralesResponsable)
                     {
                         var lstPostulacionesAux = oflab.Postulantes.Where(x => x.EstadoPostulantePorOfertaID == estado.ID);
@@ -107,7 +97,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                         foreach (var item in lstPostulacionesAux)
                         {
                             var fpXolXp = context.TablaFasePostulacionXOfertaLaboralXPostulante
-                                            .One(x => x.OfertaLaboralXPostulanteID == item.ID && 
+                                            .One(x =>   x.OfertaLaboralXPostulanteID == item.ID && 
                                                         x.FasePostulacionID == fp.ID);
                             if (fpXolXp == null)
                             {
@@ -121,11 +111,8 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                             }
                         }
 
-                        if (lstPostulante.Count == 0) continue;
+                        if (lstPostulante.Count == 0) continue; // En caso no hayan postulantes a dicha oferta laboral, no debe salir
 
-                        //var lstPostulante = oflab.Postulantes
-                        //    .Where(x => x.EstadoPostulantePorOfertaID == estado.ID) //Que esten en dicha etapa de la postulacion
-                        //    .Select(x => x.Postulante).ToList();
                         listaOfertasLaboralesYPostulantes.Add(new OfertaLaboralXPostulanteWSDTO(oflab, lstPostulante));
                     }
                     

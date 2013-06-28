@@ -19,10 +19,12 @@ namespace KendoDP2.Controllers
             {
                 try
                 {
-                    var usuario = context.TablaUsuarios.One(x => x.Username.Equals(username));
+                    var usuario = context.TablaUsuarios.One(x => x.Username != null && x.Username.Equals(username));
                     if (usuario == null) return JsonErrorGet("El usuario y/o la contraseña son invalidos");
-                    return usuario.Password.Equals(password) ?  JsonSuccessGet(new { usuario = usuario.ToDTO() }) : 
-                                                                JsonErrorGet("No existe dicho usuario y password");
+
+                    return usuario.Password != null && usuario.Password.Equals(password) ?  
+                        JsonSuccessGet(new { usuario = usuario.ToDTO() }) : 
+                        JsonErrorGet("No existe dicho usuario y password");
                 }
                 catch (Exception ex)
                 {
