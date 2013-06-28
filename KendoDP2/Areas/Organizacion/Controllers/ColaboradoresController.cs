@@ -42,7 +42,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                List<ColaboradorDTO> colaboradores = context.TablaColaboradores.All().Select(p => p.ToDTO()).OrderBy(x => x.ID).ToList();
+                List<ColaboradorDTO> colaboradores = context.TablaColaboradores.All(true).Where(x => !x.IsEliminado || x.IsEliminado && x.EstadoColaborador.Descripcion.Equals("Despedido")).Select(p => p.ToDTO()).OrderBy(x => x.ID).ToList();
                 return Json(colaboradores.ToDataSourceResult(request));
             }
         }
@@ -328,7 +328,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                     }
 
                                     }
-
+                context.TablaColaboradores.RemoveElementByID(colaboradorID);
                 return Json(new[] { c.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
 
