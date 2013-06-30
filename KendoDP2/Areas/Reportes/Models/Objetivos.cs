@@ -111,17 +111,18 @@ namespace KendoDP2.Areas.Reportes.Models
                 {
                     idpadre = -1;
                 }
-                
+
                 if (o.ObjetivoPadreID == 0)
                 {
                     BSCId = o.TipoObjetivoBSCID.Value;
                     idperiodo = o.BSCID.Value;
                 }
+                
 
                 if (o.PuestoAsignadoID != null)
                 {
                     idPuesto = o.PuestoAsignadoID.Value;
-                    List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (!cxp.FechaSalidaPuesto.HasValue));
+                    List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == idPuesto && (!cxp.FechaSalidaPuesto.HasValue));
                     if (cxpaux != null && cxpaux.Count > 0)
                     {
 
@@ -139,7 +140,7 @@ namespace KendoDP2.Areas.Reportes.Models
                     if (o.ObjetivoPadreID != 0 && objetivopadre!= null && objetivopadre.PuestoAsignadoID != null)
                     {
                         idPuesto = objetivopadre.PuestoAsignadoID.Value;
-                        List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.Puesto.ID == idPuesto && (!cxp.FechaSalidaPuesto.HasValue));
+                        List<ColaboradorXPuesto> cxpaux = context.TablaColaboradoresXPuestos.Where(cxp => cxp.PuestoID == idPuesto && (!cxp.FechaSalidaPuesto.HasValue));
                         if (cxpaux!=null && cxpaux.Count > 0)
                         {
 

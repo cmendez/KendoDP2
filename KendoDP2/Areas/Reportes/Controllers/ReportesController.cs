@@ -405,11 +405,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
                    if (context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboral.ID == Oferta.ID && oxp.EstadoPostulantePorOferta.Descripcion.Equals("Contratado")) != null)
                    {
                        fasefin.numPostulantes = context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboral.ID == Oferta.ID && oxp.EstadoPostulantePorOferta.Descripcion.Equals("Contratado")).Count;
-
                        
-
-
-
                        context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboral.ID == Oferta.ID && oxp.EstadoPostulantePorOferta.Descripcion.Equals("Contratado")).ForEach
                        (oxp => fasefin.Postulantes.Add(new RPostulante
                        {
@@ -572,6 +568,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 int puestoID = context.TablaColaboradores.FindByID(Colaborador.ID).ToDTO().PuestoID;
                 if (puestoID > 0)
                 {
+
                     Puesto puesto = context.TablaPuestos.FindByID(puestoID);
                     ObjetivosColaborador = puesto.Objetivos.Select(c => c.ToRDTO(context)).ToList();
                 }
@@ -580,13 +577,17 @@ namespace KendoDP2.Areas.Reportes.Controllers
                 foreach (ObjetivoRDTO objpadre in ObjetivosColaborador)
                 {
                     ObjetivosColaborador2.AddRange(context.TablaObjetivos.Where(oo=>oo.ObjetivoPadreID==objpadre.idObjetivo).Select(ooo => ooo.ToRDTO(context)));
-                }
+                } 
                 //List<ObjetivoRDTO> ObjetivosColaborador2 = ObjetivosColaborador.Where( o1=> o1.esPropioColaborador(o1.idpadre,context)).ToList();
                 ObjetivosColaborador =ObjetivosColaborador2;
 
                 foreach (ObjetivoRDTO o in ObjetivosColaborador)
                 {
-                    HistoricoBSC PeriodoPersona = ObjetivosHistoricosXPersona.Find(oh => oh.idperiodo == o.idperiodo && o.ColaboradorNombre==oh.nombreColaborador);
+                    //Periodo del objetivo
+                    int bscid = context.TablaObjetivos.FindByID(o.idObjetivo).GetBSCIDRaiz(context);
+                    int idperiodo = context.TablaBSC.FindByID(bscid).PeriodoID;
+
+                    HistoricoBSC PeriodoPersona = ObjetivosHistoricosXPersona.Find(oh => idperiodo == idperiodo && o.ColaboradorNombre==oh.nombreColaborador);
                     if (PeriodoPersona != null)
                     {
                         PeriodoPersona.objetivos.Add(o);
@@ -594,8 +595,8 @@ namespace KendoDP2.Areas.Reportes.Controllers
                     else
                     {
                         HistoricoBSC NuevoPeriodoPersona = new HistoricoBSC();
-                        NuevoPeriodoPersona.idperiodo = o.idperiodo;
-                        NuevoPeriodoPersona.nombrePeriodo = context.TablaPeriodos.One(per => per.ID == o.idperiodo).ToDTO().Nombre;
+                        NuevoPeriodoPersona.idperiodo = idperiodo;
+                        NuevoPeriodoPersona.nombrePeriodo = context.TablaPeriodos.One(per => per.ID == idperiodo).ToDTO().Nombre;
                         NuevoPeriodoPersona.nombreColaborador = Colaborador.NombreCompleto;
                         NuevoPeriodoPersona.objetivos = new List<ObjetivoRDTO>();
                         NuevoPeriodoPersona.objetivos.Add(o);
