@@ -415,12 +415,9 @@ namespace KendoDP2.Areas.Reportes.Controllers
                        })
                        );
 
-                       Ofertapuesto.Fases.Add(fasefin); 
+                       
                    }
-
-
-                   
-
+                   Ofertapuesto.Fases.Add(fasefin); 
 
                    OfertasPuesto.Add(Ofertapuesto);
                 
