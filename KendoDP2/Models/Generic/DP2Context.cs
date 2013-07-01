@@ -40,7 +40,6 @@ namespace KendoDP2.Models.Generic
             SeedPuestos();
             SeedOrganizacion();
             // Area Seguridad
-            SeedRoles();
             // Area Evaluacion360
             SeedPerfiles();
             SeedCompetencias();
@@ -57,6 +56,7 @@ namespace KendoDP2.Models.Generic
             SeedEstadosColaborador();
             SeedGradosAcademicos();
             SeedColaboradores();
+
             SeedContactos();
             SeedFunciones();
             // Reclutamiento
@@ -105,8 +105,8 @@ namespace KendoDP2.Models.Generic
         }
     }
 
-    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
-    public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
+    public class DP2ContextInitializerDEBUG : DropCreateDatabaseAlways<DP2Context>
+    //public class DP2ContextInitializerDEBUG : DropCreateDatabaseIfModelChanges<DP2Context>
     {
         protected override void Seed(DP2Context context)
         {

@@ -3,11 +3,11 @@
 @using KendoDP2.Areas.Seguridad.Models
 
 @{
-    ViewBag.Title = "Roles Web";
+    ViewBag.Title = "Roles Móvil";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Roles - Web", "Administre los niveles de accesos a los roles"));}
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Roles - Movil", "Administre los niveles de accesos a los roles"));}
 
 <div class="portlet box green">
     <div class="portlet-title">
@@ -16,7 +16,7 @@
             <a href="javascript:;" class="collapse"></a>
         </div>
     </div>
-   <div class="portlet-body">
+    <div class="portlet-body">
             @(Html.Kendo().Grid<RolDTO>()
                 .Name("RolGrid")
                 .Columns(columns =>
@@ -36,8 +36,8 @@
                 .Ajax()
                     .PageSize(20)
                     .Model(model => model.Id(p => p.ID))
-                    .Read(read => read.Action("Read", "Roles"))
-                    .Update(update => update.Action("Update", "Roles"))
+                    .Read(read => read.Action("Read", "RolesMovil"))
+                    .Update(update => update.Action("Update", "RolesMovil"))
                     ))
     </div>
 </div>

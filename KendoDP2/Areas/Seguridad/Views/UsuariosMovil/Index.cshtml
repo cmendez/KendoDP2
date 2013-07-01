@@ -4,11 +4,11 @@
 @using KendoDP2.Models.Seguridad
 
 @{
-    ViewBag.Title = "Usuarios Web";
+    ViewBag.Title = "Usuarios Móvil";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Asignacion de Usuario - WEB", "Administre los permisos al sistema"));}
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Asignacion de Usuario - Móvil", "Administre los permisos al sistema"));}
 <div class="portlet box green">
     <div class="portlet-title">
         <div class="caption"><i class="icon-reorder"></i>Roles</div>
@@ -26,7 +26,7 @@
                 {
                     columns.Bound(p => p.ID);
                     columns.Bound(p => p.Username);
-                    columns.Template(@<text></text>).ClientTemplate("<a class='btn btn-success' href='" + Url.Action("Index", "Roles") + "?IDWEB=#=ID#'>Roles en Web</a>");
+                    columns.Template(@<text></text>).ClientTemplate("<a class='btn btn-success' href='" + Url.Action("Index", "RolesMovil") + "?IDMOVIL=#=ID#'>Roles en Móvil</a>");
                     })
                 .Editable(editable => editable.Mode(GridEditMode.PopUp))
                 .Pageable()

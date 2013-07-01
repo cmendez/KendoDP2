@@ -15,22 +15,20 @@ namespace KendoDP2.Models.Seguridad
         public bool Permiso { get; set; }
         public bool EsWeb { get; set; }
 
-        public virtual List<Usuario> Usuarios { get; set; }
+
 
         public Rol(string nombre, string area)
         {
             Nombre = nombre;
-            Permiso = true; // esto debe cambiarse xq todos deben inicar con false(ningun acceso a nada)
+            Permiso = false; // esto debe cambiarse xq todos deben inicar con false(ningun acceso a nada)
             IsEliminado = false;
             Area = area;
-            Usuarios = new List<Usuario>();
             EsWeb = true;
         }
 
         public Rol()
         {
-            Usuarios = new List<Usuario>();
-            Permiso = true; // esto debe cambiarse xq todos deben inicar con false(ningun acceso a nada)
+            Permiso = false; // esto debe cambiarse xq todos deben inicar con false(ningun acceso a nada)
             IsEliminado = false;
             EsWeb = true;
         }
@@ -84,7 +82,7 @@ namespace KendoDP2.Models.Seguridad
         {
             Nombre = String.Empty;
             Area = String.Empty;
-            Permiso = true; // esto debe cambiarse xq todos deben inicar con false(ningun acceso a nada)
+            Permiso = false; // esto debe cambiarse xq todos deben inicar con false(ningun acceso a nada)
             IsEliminado = false;
             EsWeb = true;
         }
