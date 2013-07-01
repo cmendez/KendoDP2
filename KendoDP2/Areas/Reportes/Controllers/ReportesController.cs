@@ -590,7 +590,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
                     int bscid = context.TablaObjetivos.FindByID(o.idObjetivo).GetBSCIDRaiz(context);
                     int idperiodo = context.TablaBSC.FindByID(bscid).PeriodoID;
 
-                    HistoricoBSC PeriodoPersona = ObjetivosHistoricosXPersona.Find(oh => idperiodo == idperiodo && o.ColaboradorNombre==oh.nombreColaborador);
+                    HistoricoBSC PeriodoPersona = ObjetivosHistoricosXPersona.Find(oh => oh.idperiodo == idperiodo && o.ColaboradorNombre==oh.nombreColaborador);
                     if (PeriodoPersona != null)
                     {
                         PeriodoPersona.objetivos.Add(o);
