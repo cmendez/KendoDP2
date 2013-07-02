@@ -341,10 +341,14 @@
     <Compile Include="Areas\Reportes\Models\RCubrimientoOfertas.cs" />
     <Compile Include="Areas\Reportes\Models\Reporte360Model.cs" />
     <Compile Include="Areas\Reportes\ReportesAreaRegistration.cs" />
-    <Compile Include="Areas\Seguridad\Controllers\AsignacionUsuarioController.cs" />
+    <Compile Include="Areas\Seguridad\Controllers\AsignarCredencialesController.cs" />
+    <Compile Include="Areas\Seguridad\Controllers\CrearUsuarioController.cs" />
     <Compile Include="Areas\Seguridad\Controllers\RolesController.cs" />
     <Compile Include="Areas\Seguridad\Controllers\RolesMovilController.cs" />
-    <Compile Include="Areas\Seguridad\Controllers\UsuariosController.cs" />
+    <Compile Include="Areas\Seguridad\Controllers\UsuariosController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Seguridad\Controllers\UsuariosMovilController.cs" />
     <Compile Include="Areas\Seguridad\Controllers\WSUsuariosController.cs" />
     <Compile Include="Areas\Seguridad\Models\Area.cs" />
     <Compile Include="Areas\Seguridad\Models\DP2Context.cs" />
@@ -371,6 +375,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Seguridad\Views\Usuarios\Index.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Assets\consolr\css\consolr.css" />
     <Content Include="Assets\consolr\css\vendor\bootstrap-2.0.2.css" />
     <Content Include="Assets\consolr\css\vendor\codemirror-2.23.css" />
@@ -1951,8 +1958,6 @@
     <Content Include="Areas\Evaluacion360\Views\Evaluadores\SeleccionarEvaluadores.cshtml" />
     <Content Include="Areas\Eventos\Views\Web.config" />
     <Content Include="Areas\Evaluacion360\Views\Evaluacion\GuardarEvaluacion.cshtml" />
-    <Content Include="Areas\Seguridad\Views\Usuarios\Index.cshtml" />
-    <Content Include="Areas\Seguridad\Views\Roles\UsuarioRoles.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesExternas\Index.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesExternas\ListaPostulantesExternos.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\OfertasLaboralesExternas\PostulantesExternosFase1.cshtml" />
@@ -1986,7 +1991,6 @@
     <Content Include="Areas\Reclutamiento\Views\SolicitudPromociones\Index.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\EditorTemplates\EditorSolicitudPromocion.cshtml" />
     <Content Include="Areas\Reclutamiento\Views\Shared\ViewSolicitudPromocion.cshtml" />
-    <Content Include="Areas\Seguridad\Views\AsignacionUsuario\Index.cshtml" />
     <Content Include="Images\rhcv\CVCMENDEZ.pdf" />
     <Content Include="Images\rhcv\CVCVASQUEZ.pdf" />
     <Content Include="Images\rhcv\CVMSOLORZANO.pdf" />
@@ -2005,6 +2009,10 @@
     <Content Include="Images\rhcv\CVKTUCTO.pdf" />
     <Content Include="Images\rhcv\CVWERQUINIGO.pdf" />
     <Content Include="Images\rhcv\CVMFORTINO.pdf" />
+    <Content Include="Areas\Seguridad\Views\RolesMovil\Index.cshtml" />
+    <Content Include="Areas\Seguridad\Views\UsuariosMovil\Index.cshtml" />
+    <Content Include="Areas\Seguridad\Views\AsignarCredenciales\Index.cshtml" />
+    <Content Include="Areas\Seguridad\Views\CrearUsuario\Index.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\areas_icon.png" />
     <Content Include="Images\favicon.ico" />
@@ -2179,6 +2187,7 @@
     <Folder Include="Areas\Personal\Views\Colaboradores\" />
     <Folder Include="Areas\Personal\Views\Shared\EditorTemplates\" />
     <Folder Include="Areas\Reportes\Views\Shared\" />
+    <Folder Include="Areas\Seguridad\Views\Shared\" />
     <Folder Include="Content\assets\plugins\jquery-file-upload\server\php\files\thumbnail\" />
   </ItemGroup>
   <ItemGroup>

@@ -2,25 +2,10 @@
 @using KendoDP2.Models.Seguridad
 @using KendoDP2.Areas.Organizacion.Models
 @{
-    ViewBag.Title = "Asignacion";
+    ViewBag.Title = "Crear Usuarios de Auditoria";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script type="text/javascript">
-
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-35323543-1']);
-        _gaq.push(['_setDomainName', 'apphb.com']);
-        _gaq.push(['_setAllowLinker', true]);
-        _gaq.push(['_trackPageview']);
-
-        (function () {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-
-    </script>
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Creacion de Usuarios", "Administre los usuarios de los colaboradores"));}
 
 <div class="portlet box green">
@@ -54,12 +39,13 @@
                         .Ajax()
                         .PageSize(20)
                         .Model(model => model.Id(p => p.ID))
-                        .Read(read => read.Action("_Read", "AsignacionUsuario"))
-                        .Update(update => update.Action("_Update", "AsignacionUsuario"))
-                        .Create(create => create.Action("_Create", "AsignacionUsuario"))
-                        .Destroy(update => update.Action("_Destroy", "AsignacionUsuario"))
+                        .Read(read => read.Action("_Read", "CrearUsuario"))
+                        .Update(update => update.Action("_Update", "CrearUsuario"))
+                        .Create(create => create.Action("_Create", "CrearUsuario"))
+                        .Destroy(update => update.Action("_Destroy", "CrearUsuario"))
                                 )
                     )
+
                 </div>
             </div>
         </div>

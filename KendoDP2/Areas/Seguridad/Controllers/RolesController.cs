@@ -19,28 +19,18 @@ namespace KendoDP2.Areas.Seguridad.Controllers
             ViewBag.Area = "Seguridad";
         }
 
-        public ActionResult Index(int? ID)
+        public ActionResult Index(int IDWEB)
         {
-            Session["CAMBIARROLESAUSUARIOS"] = ID;
+            Session["CAMBIARROLESAUSUARIOS"] = IDWEB;
             return View();  
         }
 
         public ActionResult Read([DataSourceRequest] DataSourceRequest request)
         {
-            if (Session["CAMBIARROLESAUSUARIOS"] == null)
-            {
-                    // Roles en general
-                using (DP2Context context = new DP2Context())
-                {
-                    return Json(context.TablaRoles.Where(p => p.EsWeb == true).Select(r => r.ToDTO()).ToDataSourceResult(request));
-                }
-            }
-            else
-            {
                 using (DP2Context context = new DP2Context())
                 {
                     // Roles de un usuario
-                    Usuario usuario = context.TablaUsuarios.One(u => u.ID == (int)Session["CAMBIARROLESAUSUARIOS"], true);
+                    Usuario usuario = context.TablaUsuarios.One(u => u.ID == (int)Session["CAMBIARROLESAUSUARIOS"]);
                     List<RolDTO> salida = new List<RolDTO>();
                     foreach (Rol r in usuario.Roles)
                     {
@@ -52,7 +42,6 @@ namespace KendoDP2.Areas.Seguridad.Controllers
                     }
                     return Json(salida.ToDataSourceResult(request));
                 }
-            }
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
@@ -60,27 +49,7 @@ namespace KendoDP2.Areas.Seguridad.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                if (Session["CAMBIARROLESAUSUARIOS"]==null)
-                {
-                    Rol r = context.TablaRoles.One(o => o.ID == rol.ID);
-                    r.IsEliminado = rol.IsEliminado;
-                    context.TablaRoles.ModifyElement(r);
-
-                    foreach(Usuario u in context.TablaUsuarios.Where(p=>p.Username!="admin",true))
-                    {
-                        //si elimino un rol entonces a todos mis colaboradores se le desactiva el rol
-                        if(rol.IsEliminado==true && u.Username != null)
-                        {
-                            u.Roles.Where(i => i.ID == rol.ID).FirstOrDefault().Permiso = false;
-                            context.TablaUsuarios.ModifyElement(u);
-                        }
-
-                    }
-                    return View("Index");
-                    //return Json(context.TablaRoles.All(true).Select(er => er.ToDTO()).ToDataSourceResult(request));
-
-                }else{
-                    Usuario usuario = context.TablaUsuarios.One(u => u.ID == (int)Session["CAMBIARROLESAUSUARIOS"], true);
+                    Usuario usuario = context.TablaUsuarios.One(u => u.ID == (int)Session["CAMBIARROLESAUSUARIOS"]);
                     List<Rol> nuevo = new List<Rol>();
                     foreach(Rol r in usuario.Roles)
                     {
@@ -88,7 +57,9 @@ namespace KendoDP2.Areas.Seguridad.Controllers
                         aux.ID = r.ID;
                         aux.Nombre = r.Nombre;
                         aux.IsEliminado = r.IsEliminado;
+                        aux.EsWeb = r.EsWeb;
                         aux.Area = r.Area;
+
                         if(r.Nombre==rol.Nombre)
                         {
                             aux.Permiso = rol.Permiso;
@@ -102,7 +73,6 @@ namespace KendoDP2.Areas.Seguridad.Controllers
                     context.TablaUsuarios.ModifyElement(usuario);
                     return View("Index");
                     //return Json(new[] { usuario.Roles }.ToDataSourceResult(request, ModelState));
-                }
             }
         }
     }

@@ -1,0 +1,44 @@
+﻿@using Kendo.Mvc.UI
+@using KendoDP2.Models.Seguridad
+@using KendoDP2.Areas.Seguridad.Models
+
+
+@{
+    ViewBag.Title = "Asignación de Credenciales";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Asignación de Credenciales", "Asigne usuario y contraseña"));}
+
+<div class="portlet box green">
+    <div class="portlet-title">
+        <div class="caption"><i class="icon-reorder"></i>Asignacion de Usuarios</div>
+        <div class="tools">
+            <a href="javascript:;" class="collapse"></a>
+        </div>
+    </div>
+    <div class="portlet-body">
+            @(Html.Kendo().Grid<KendoDP2.Areas.Organizacion.Models.ColaboradorDTO>()
+                .Name("AsignarCredencialesGrid")
+                .Columns(columns =>
+                {
+                    columns.Bound(p => p.NombreCompleto);
+                    columns.Bound(p => p.Usuario);
+                    columns.Bound(p => p.Password).ClientTemplate("****************").Title("Clave"); ;
+                    columns.Command(command => { command.Edit().Text("Asignar"); });
+                })
+                .Editable(editable => editable.Mode(GridEditMode.InLine))
+                .Pageable()
+                .Sortable()
+                .Scrollable()
+                .Filterable()  
+                .HtmlAttributes(new { style = "height:430px;" })
+                .DataSource(dataSource => dataSource
+                .Ajax()
+                    .PageSize(20)
+                    .Model(model => model.Id(p => p.ID))
+                    .Read(read => read.Action("_Read", "AsignarCredenciales"))
+                    .Update(update => update.Action("_Update", "AsignarCredenciales"))
+                    ))
+    </div>
+</div>

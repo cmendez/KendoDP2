@@ -9,18 +9,17 @@ using KendoDP2.Areas.Organizacion.Models;
 using KendoDP2.Models.Generic;
 using KendoDP2.Models.Seguridad;
 
+
 namespace KendoDP2.Areas.Seguridad.Controllers
 {
-    public class AsignacionUsuarioController : Controller
+    public class CrearUsuarioController : Controller
     {
-
-        public AsignacionUsuarioController()
+        //
+        // GET: /Seguridad/CrearUsuario/
+        public CrearUsuarioController()
         {
             ViewBag.Area = "Seguridad";
         }
-        //
-        // GET: /Seguridad/AsignacionUsuario/
-
         public ActionResult Index()
         {
             return View();
@@ -72,21 +71,12 @@ namespace KendoDP2.Areas.Seguridad.Controllers
                 u.Username = usuario.Username;
                 u.Password = usuario.Password;
                 u.Roles = new List<Rol>();
-                u.Roles=context.TablaRoles.All();
+                u.Roles = context.SeedRolesAdmin();
                 context.TablaUsuarios.AddElement(u);
-                return Json(ObtenerUsuarios().Where(c => c.Username != "admin").ToDataSourceResult(request));
+                return View("Index");
             }
         }
+        
 
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult _Update([DataSourceRequest] DataSourceRequest request, UsuarioDTO usuario)
-        {
-            using (DP2Context context = new DP2Context())
-            {
-                Usuario u = new Usuario();
-                context.TablaUsuarios.ModifyElement(u.LoadFromDTO(usuario));
-                return Json(ObtenerUsuarios().Where(c => c.Username != "admin").ToDataSourceResult(request));
-            }
-        }
     }
 }

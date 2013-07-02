@@ -34,9 +34,8 @@ namespace KendoDP2.Models.Generic
 
         private void SeedEstadoEvento()
         {
-            TablaEstadoEvento.AddElement(new EstadoEvento { Descripcion = "Estado 1" });
-            TablaEstadoEvento.AddElement(new EstadoEvento { Descripcion = "Estado 2" });
-            TablaEstadoEvento.AddElement(new EstadoEvento { Descripcion = "Estado 3" });
+            TablaEstadoEvento.AddElement(new EstadoEvento { Descripcion = "Creado" });
+            TablaEstadoEvento.AddElement(new EstadoEvento { Descripcion = "Eliminado" });
         }
 
         private void SeedTiposEventos()
