@@ -322,10 +322,10 @@ namespace KendoDP2.Areas.Reportes.Controllers
 
                 List<OfertaLaboralDTO> ListaOfertasaux  = new List<OfertaLaboralDTO>();
 
-                //if (ListaOfertasaux2.Any() > 0)
-                //{
+
+                
                 ListaOfertasaux = ListaOfertasaux2.Select(ol => ol.ToDTO()).ToList();
-                //}
+                
                 List<ROferta> OfertasPuesto = new List<ROferta>();
 
                 foreach (OfertaLaboralDTO Oferta in ListaOfertasaux)
@@ -353,7 +353,10 @@ namespace KendoDP2.Areas.Reportes.Controllers
                     );
 
                     Ofertapuesto.Fases.Add(faseini);
-                                   
+
+                   //List<FasePostulacionXOfertaLaboralXPostulante> FasesPostulacionXOfertaXPostulanteaux = context.TablaFasePostulacionXOfertaLaboralXPostulante.All();
+                   //List<OfertaLaboralXPostulante> OfertaLaboralXPostulanteaux = context.TablaOfertaLaboralXPostulante.All();
+                   //List<EvaluacionXFaseXPostulacion> evaaux = context.TablaEvaluacionXFaseXPostulacion.Where(ev=>ev.FasePostulacionXOfertaLaboralXPostulante.FasePostulacionID==1);
                 
                    for (int i = 1; i <= 3; i++)
                    {
@@ -379,8 +382,8 @@ namespace KendoDP2.Areas.Reportes.Controllers
                         //Puntajes postulantes
                         foreach (RPostulante pos in fase.Postulantes)
                         {
-                            int idaux = FasesPostulacionXOfertaXPostulante.Find(f => f.OfertaLaboralXPostulante.PostulanteID == pos.ID).ID;
-                            
+                            int idaux = FasesPostulacionXOfertaXPostulante.Find(f => f.OfertaLaboralXPostulante.PostulanteID == pos.ID && f.FasePostulacionID == i).ID;
+
                             List<EvaluacionXFaseXPostulacionDTO> eva= context.TablaEvaluacionXFaseXPostulacion.Where(ev => ev.FasePostulacionXOfertaLaboralXPostulante.OfertaLaboralXPostulante.OfertaLaboral.ID == Oferta.ID
                                                 && ev.FasePostulacionXOfertaLaboralXPostulanteID==idaux).Select(ev => ev.ToDTO()).ToList();
                             
