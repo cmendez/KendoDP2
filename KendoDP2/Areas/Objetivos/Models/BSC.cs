@@ -24,7 +24,7 @@ namespace KendoDP2.Areas.Objetivos.Models
             double res = 0;
             os.ForEach(x => { res += x.AvanceFinal * x.Peso; pesos += x.Peso; });
             if(pesos == 0) return 0;
-            return (int)Math.Round(res / pesos);
+            return (int)Math.Floor(res / pesos);
         }
 
         public int NotaFinalFinanciero { get { return GetPromedio(1); } }

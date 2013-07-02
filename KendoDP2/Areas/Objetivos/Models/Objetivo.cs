@@ -134,21 +134,21 @@ namespace KendoDP2.Areas.Objetivos.Models
                 double peso = 1.0 / total;
                 double res = 0;
                 Hijos.ForEach(x => res += peso * x.AvanceFinal);
-                AvanceFinal = (int)Math.Round(res);
+                AvanceFinal = (int)Math.Floor(res);
             }
             else
             {
                 double res = 0;
                 Hijos.ForEach(x => res += x.Peso * x.AvanceFinal);
                 res /= sumaPesos;
-                AvanceFinal = (int)Math.Round(res);
+                AvanceFinal = (int)Math.Floor(res);
             }
             if (PesoMiObjetivo > 0)
             {
                 int valor = LosProgresos == null || LosProgresos.Count > 0 ? LosProgresos.Last().Valor : 0;
                 double peso1 = PesoMiObjetivo / 100.0;
                 double peso2 = 1 - peso1;
-                AvanceFinal = (int)Math.Round(AvanceFinal * peso2 + valor * peso1);
+                AvanceFinal = (int)Math.Floor(AvanceFinal * peso2 + valor * peso1);
             }
             context.TablaObjetivos.ModifyElement(this);
             Objetivo padre = context.TablaObjetivos.FindByID(ObjetivoPadreID);
