@@ -9,7 +9,7 @@
     IList<PuestoDTO> puestos = ViewBag.puestos;
     IList<TipoEventoDTO> tipoEventos = ViewBag.tipoEventos;
     SelectList lista = new SelectList(areas, "ID", "Nombre");
-    SelectList listaEstados = new SelectList(estadosEventos, "ID", "Descripcion");
+    SelectList listaTipoEventos = new SelectList(tipoEventos, "ID", "Descripcion");
     SelectList listaPuestos = new SelectList(puestos, "ID", "Nombre");
 }
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Eventos", "Administre los Eventos de la empresa"));}
@@ -36,7 +36,7 @@
                         columns.Bound(p => p.Nombre);
                         columns.Bound(p => p.Inicio);
                         columns.Bound(p => p.Fin);
-                        columns.ForeignKey(p => p.EstadoID, listaEstados);
+                        columns.ForeignKey(p => p.TipoEventoID, listaTipoEventos);
                         columns.Template(@<text></text>).Title("Invitados").ClientTemplate(
                         "<a class='k-button' href='" + Url.Action("ListaInvitados", "Eventos") + "?eventoID=#=ID#'>Agregar Invitados</a>");
                         columns.Command(command =>
