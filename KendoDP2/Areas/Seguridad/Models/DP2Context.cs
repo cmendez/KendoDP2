@@ -121,7 +121,7 @@ namespace KendoDP2.Models.Generic
 
             tablaRoles.Add(new Rol { Titulo = "Orgazacion", ID = x + 17, Area = "Organizacion", Nombre = "Organizaciones", EsWeb = true, Permiso = true });
             tablaRoles.Add(new Rol { Titulo = "Organigrama", ID = x + 18, Area = "Organizacion", Nombre = "Organigrama", EsWeb = true, Permiso = true });
-            tablaRoles.Add(new Rol { Titulo = "Areas", ID = x + 19, Area = "Organizacion", Nombre = "Area", EsWeb = true, Permiso = true });
+            tablaRoles.Add(new Rol { Titulo = "Areas", ID = x + 19, Area = "Organizacion", Nombre = "Areas", EsWeb = true, Permiso = true });
             tablaRoles.Add(new Rol { Titulo = "Colaboradores", ID = x + 20, Area = "Organizacion", Nombre = "Colaboradores", EsWeb = true, Permiso = true });
             tablaRoles.Add(new Rol { Titulo = "Funciones", ID = x + 21, Area = "Organizacion", Nombre = "Funciones", EsWeb = true, Permiso = true });
             tablaRoles.Add(new Rol { Titulo = "Puestos", ID = x + 22, Area = "Organizacion", Nombre = "Puestos", EsWeb = true, Permiso = true });
