@@ -61,7 +61,7 @@ namespace KendoDP2.Models.Helpers
             Opciones.Add(new SidebarOption("Organizacion", "Organizacion", "icon-globe", new List<SidebarSuboption>(new SidebarSuboption[]{
                 new SidebarSuboption("Organización","Organizaciones","Index","icon-cogs"),
                 new SidebarSuboption("Organigrama", "Organigrama", "Index", "icon-sitemap"),
-                new SidebarSuboption("Áreas", "Areas", "Index", "icon-certificate"),
+                new SidebarSuboption("Areas", "Areas", "Index", "icon-certificate"),
                 new SidebarSuboption("Colaboradores", "Colaboradores", "Index", "icon-user"),
                 new SidebarSuboption("Funciones", "Funciones", "Index", "icon-check"),
                 new SidebarSuboption("Puestos", "Puestos", "Index", "icon-tag"),

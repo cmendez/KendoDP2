@@ -72,7 +72,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             {
                 Objetivo o = context.TablaObjetivos.FindByID(objetivo.ID).LoadFromDTO(objetivo, context);
                 context.TablaObjetivos.ModifyElement(o);
-                o.ActualizarPesos(context, 0);
+                o.ActualizarPesos(context);
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -96,45 +96,48 @@ namespace KendoDP2.Areas.Objetivos.Controllers
 
         public ActionResult RegistrarAvance(int idObjetivo, int alcance, string descripcion)
         {
-            using (DP2Context context = new DP2Context())
+            try
             {
-                try
+                using (DP2Context context = new DP2Context())
                 {
                     AvanceObjetivo a = new AvanceObjetivo { FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy"), Comentario = descripcion, ObjetivoID = idObjetivo, Valor = alcance };
                     context.TablaAvanceObjetivo.AddElement(a);
+                }
+                using (DP2Context context = new DP2Context())
+                {
                     Objetivo o = context.TablaObjetivos.FindByID(idObjetivo);
-                    o.AvanceFinal = a.Valor;
-                    context.TablaObjetivos.ModifyElement(o);
-                    a.ActualizarPesos(context);
+                    o.ActualizarPesos(context);
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                 }
-                catch (Exception)
-                {
-                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-                }
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
         }
 
         public ActionResult ModificarAvance(int idObjetivo, int alcance, string descripcion)
         {
-            using (DP2Context context = new DP2Context())
+            try
             {
-                try
+                using (DP2Context context = new DP2Context())
                 {
                     Objetivo o = context.TablaObjetivos.FindByID(idObjetivo);
                     AvanceObjetivo a = o.LosProgresos.Last();
                     a.Valor = alcance;
                     a.Comentario = descripcion;
-                    o.AvanceFinal = alcance;
-                    context.TablaObjetivos.ModifyElement(o);
                     context.TablaAvanceObjetivo.ModifyElement(a);
-                    a.ActualizarPesos(context);
-                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                 }
-                catch (Exception)
+                using (DP2Context context = new DP2Context())
                 {
-                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                    Objetivo o = context.TablaObjetivos.FindByID(idObjetivo);
+                    o.ActualizarPesos(context);
                 }
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
         }
     }
