@@ -60,7 +60,12 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             {
                 Objetivo o = new Objetivo(objetivo, context);
                 context.TablaObjetivos.AddElement(o);
-                if (o.AvanceFinal != 0) o.RegistrarAvance(context, o.AvanceFinal, objetivo.ComentarioUltimoAvance);
+                if (o.AvanceFinal != 0) o.RegistrarAvancex(context, o.AvanceFinal, objetivo.ComentarioUltimoAvance);
+            }
+            using (DP2Context context = new DP2Context())
+            {
+                Objetivo o = new Objetivo(objetivo, context);
+                o.ActualizarPesos(context);
                 return Json(new[] { o.ToDTO(context) }.ToDataSourceResult(request, ModelState));
             }
         }
@@ -71,21 +76,25 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             using (DP2Context context = new DP2Context())
             {
                 Objetivo o = context.TablaObjetivos.FindByID(objetivo.ID);
-                bool avanceRegistrdo = o.AvanceFinal != objetivo.AvanceFinal;
+                bool avanceRegistrdo = objetivo.AvanceFinalDeAlgunProgeso != (o.LosProgresos.Count > 0 ? o.LosProgresos.Last().Valor : 0);
                 bool cambioDeNombreRegistrado = false;
                 string comment = objetivo.ComentarioUltimoAvance == null ? "" : objetivo.ComentarioUltimoAvance;
                 if (o.LosProgresos.Count > 0 && !comment.Equals(o.LosProgresos.Last().Comentario))
                     cambioDeNombreRegistrado = true;
                 o.LoadFromDTO(objetivo, context);
                 context.TablaObjetivos.ModifyElement(o);
-                if (avanceRegistrdo) o.RegistrarAvance(context, o.AvanceFinal, comment);
+                if (avanceRegistrdo) o.RegistrarAvancex(context, objetivo.AvanceFinalDeAlgunProgeso, comment);
                 else if (cambioDeNombreRegistrado)
                 {
                     AvanceObjetivo a = o.LosProgresos.Last();
                     a.Comentario = comment;
                     context.TablaAvanceObjetivo.ModifyElement(a);
-                    a.ActualizarPesos(context);
                 }
+            }
+            using (DP2Context context = new DP2Context())
+            {
+                Objetivo o = context.TablaObjetivos.FindByID(objetivo.ID);
+                o.ActualizarPesos(context);
                 return Json(new[] { o.ToDTO(context) }.ToDataSourceResult(request, ModelState));
             }
         }

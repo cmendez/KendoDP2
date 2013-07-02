@@ -39,6 +39,8 @@ namespace KendoDP2.Areas.Objetivos.Models
 
         public bool IsObjetivoIntermedio { get; set; }
 
+        public int PesoMiObjetivo { get; set; }
+
         public virtual ICollection<AvanceObjetivo> LosProgresos { get; set; }
 
         public Objetivo() {
@@ -87,13 +89,12 @@ namespace KendoDP2.Areas.Objetivos.Models
             ID = o.ID;
             Peso = o.Peso;
             Nombre = o.Nombre;
-            AvanceFinal = o.AvanceFinal;
             if (o.TipoObjetivoBSCID > 0)
                 TipoObjetivoBSC = context.TablaTipoObjetivoBSC.FindByID(o.TipoObjetivoBSCID);
             ObjetivoPadreID = o.ObjetivoPadreID;
             if (o.BSCID > 0)
                 BSC = context.TablaBSC.FindByID(o.BSCID);
-
+            PesoMiObjetivo = o.PesoMiObjetivo;
             return this;
         }
 
@@ -112,14 +113,13 @@ namespace KendoDP2.Areas.Objetivos.Models
         }
 
 
-        internal void RegistrarAvance(DP2Context context, int valor, string comentario)
+        internal void RegistrarAvancex(DP2Context context, int valor, string comentario)
         {
             AvanceObjetivo avance = new AvanceObjetivo { Objetivo = this, Valor = valor, FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy"), Comentario = comentario };
             context.TablaAvanceObjetivo.AddElement(avance);
-            avance.ActualizarPesos(context);
         }
 
-        internal void ActualizarPesos(DP2Context context, int? valorAvance = null)
+        internal void ActualizarPesos(DP2Context context)
         {
             List<Objetivo> Hijos = this.ObjetivosHijos(context);
             int total = Hijos.Count();
@@ -143,11 +143,12 @@ namespace KendoDP2.Areas.Objetivos.Models
                 res /= sumaPesos;
                 AvanceFinal = (int)Math.Round(res);
             }
-            if (valorAvance != null)
+            if (PesoMiObjetivo > 0)
             {
-                int valor = valorAvance.GetValueOrDefault();
-                if (total == 0) AvanceFinal = valor;
-                else AvanceFinal = (int)Math.Round(AvanceFinal / 2.0 + valor / 2.0);
+                int valor = LosProgresos == null || LosProgresos.Count > 0 ? LosProgresos.Last().Valor : 0;
+                double peso1 = PesoMiObjetivo / 100.0;
+                double peso2 = 1 - peso1;
+                AvanceFinal = (int)Math.Round(AvanceFinal * peso2 + valor * peso1);
             }
             context.TablaObjetivos.ModifyElement(this);
             Objetivo padre = context.TablaObjetivos.FindByID(ObjetivoPadreID);
@@ -200,9 +201,11 @@ namespace KendoDP2.Areas.Objetivos.Models
 
         public string ComentarioUltimoAvance { get; set; }
 
+        public int PesoMiObjetivo { get; set; }
+
         public ObjetivoDTO() { }
-        
-        
+
+        public int AvanceFinalDeAlgunProgeso { get; set; }
 
         public ObjetivoDTO(Objetivo o, DP2Context context)
         {
@@ -217,7 +220,7 @@ namespace KendoDP2.Areas.Objetivos.Models
 
             FechaCreacion = o.FechaCreacion.HasValue ? o.FechaCreacion.GetValueOrDefault().ToString("D", new CultureInfo("es-ES")) : String.Empty;
             FechaFinalizacion = o.FechaFinalizacion.HasValue ? o.FechaFinalizacion.GetValueOrDefault().ToString("D", new CultureInfo("es-ES")) : String.Empty;
-
+            PesoMiObjetivo = o.PesoMiObjetivo;
             //PeriodoID = o.PeriodoID;
 
             LosProgresos = o.LosProgresos == null ? new List<AvanceObjetivoDTO>() : o.LosProgresos.Select(a => a.enFormatoDTO()).ToList();
@@ -226,6 +229,7 @@ namespace KendoDP2.Areas.Objetivos.Models
                 this.ComentarioUltimoAvance = LosProgresos.Last().Comentario;
             else
                 this.ComentarioUltimoAvance = "";
+            AvanceFinalDeAlgunProgeso = o.LosProgresos.Count > 0 ? o.LosProgresos.Last().Valor : 0;
         }
         
     }
