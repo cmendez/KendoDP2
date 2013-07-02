@@ -2010,8 +2010,6 @@
     <Content Include="Images\rhcv\CVWERQUINIGO.pdf" />
     <Content Include="Images\rhcv\CVMFORTINO.pdf" />
     <Content Include="Areas\Seguridad\Views\RolesMovil\Index.cshtml" />
-    <Content Include="Areas\Seguridad\Views\Shared\EditorTemplates\RolTemplate.cshtml" />
-    <Content Include="Areas\Seguridad\Views\Shared\EditorTemplates\UsuarioRoles.cshtml" />
     <Content Include="Areas\Seguridad\Views\UsuariosMovil\Index.cshtml" />
     <Content Include="Areas\Seguridad\Views\AsignarCredenciales\Index.cshtml" />
     <Content Include="Areas\Seguridad\Views\CrearUsuario\Index.cshtml" />
@@ -2189,6 +2187,7 @@
     <Folder Include="Areas\Personal\Views\Colaboradores\" />
     <Folder Include="Areas\Personal\Views\Shared\EditorTemplates\" />
     <Folder Include="Areas\Reportes\Views\Shared\" />
+    <Folder Include="Areas\Seguridad\Views\Shared\" />
     <Folder Include="Content\assets\plugins\jquery-file-upload\server\php\files\thumbnail\" />
   </ItemGroup>
   <ItemGroup>
