@@ -12,6 +12,7 @@ using KendoDP2.Areas.Objetivos.Models;
 
 namespace KendoDP2.Areas.Objetivos.Controllers
 {
+   
     [Authorize()]
     public class ObjetivosSubordinadosController : Controller
     {
@@ -32,6 +33,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 List<Objetivo> objetivos = new List<Objetivo>();
                 objetivosPuesto.ForEach(x => objetivos.AddRange(x.ObjetivosHijos(context)));
                 ViewBag.objetivos = objetivos.Select(c => c.ToDTO(context)).ToList();
+
                 return View();
             }
         }
