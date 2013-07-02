@@ -14,6 +14,7 @@ namespace KendoDP2.Models.Seguridad
         public string Nombre { get; set; }
         public bool Permiso { get; set; }
         public bool EsWeb { get; set; }
+        public string Titulo { get; set; }
 
 
 
@@ -45,6 +46,7 @@ namespace KendoDP2.Models.Seguridad
             Permiso = dto.Permiso;
             Area = dto.Area;
             IsEliminado = dto.IsEliminado;
+            Titulo = dto.Titulo;
             return this;
         }
 
@@ -69,6 +71,9 @@ namespace KendoDP2.Models.Seguridad
         public bool Permiso { get; set; }
         public string Area { get; set; }
 
+        
+        public string Titulo { get; set; }
+
         public RolDTO(Rol r)
         {
             ID = r.ID;
@@ -77,6 +82,7 @@ namespace KendoDP2.Models.Seguridad
             Area = r.Area;
             IsEliminado = r.IsEliminado;
             EsWeb = r.EsWeb;
+            Titulo = r.Titulo;
         }
         public RolDTO()
         {
@@ -85,6 +91,7 @@ namespace KendoDP2.Models.Seguridad
             Permiso = false; // esto debe cambiarse xq todos deben inicar con false(ningun acceso a nada)
             IsEliminado = false;
             EsWeb = true;
+            Titulo = String.Empty;
         }
     }
 }
