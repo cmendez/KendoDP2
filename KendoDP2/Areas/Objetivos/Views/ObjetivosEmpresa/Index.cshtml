@@ -10,6 +10,7 @@
     IList<PeriodoDTO> periodos = ViewBag.periodos;
     IList<TipoObjetivoBSC> tipoObjetivosBSC = ViewBag.tipoObjetivosBSC;
     IList<ColaboradorDTO> colaboradores = ViewBag.colaboradores;
+    Dictionary<KeyValuePair<int, int>, int> avancesFinales = ViewBag.avancesFinales;
 }
 
 @{Html.RenderPartial("Titulo", new KendoDP2.Models.Helpers.PageTitle("Objetivos BSC de la empresa", "Administre el BSC de la empresa."));}
@@ -52,6 +53,8 @@
                         @for (int j = 0; j < tipoObjetivosBSC.Count(); j++)
                         {
                             <div class="tab-pane @(j == 0 ? "active" : "")" id ="tab-@(periodos[i].ID)-@(tipoObjetivosBSC[j].ID)">
+                            <strong>Avance total: @avancesFinales[new KeyValuePair<int,int>(periodos[i].ID, tipoObjetivosBSC[j].ID)]</strong>
+                                <br />
                             @(Html.Kendo().Grid<ObjetivoDTO>()
                                     .Name("ObjetivoGrid-" + periodos[i].ID + "-" + tipoObjetivosBSC[j].ID)
                                     .Columns(columns =>

@@ -22,9 +22,9 @@
                 .Columns(columns =>
                 {
                     columns.Bound(p => p.Area);
-                    columns.Bound(p => p.Nombre);
+                    columns.Bound(p => p.Titulo);
                     columns.Bound(p => p.Permiso);
-                    columns.Command(command => { command.Edit(); });
+                    columns.Command(command => { command.Edit().CancelText("Cancelar").UpdateText("Guardar").Text("Editar"); });
                 })
                 .Editable(editable => editable.Mode(GridEditMode.InLine))
                 .Pageable()

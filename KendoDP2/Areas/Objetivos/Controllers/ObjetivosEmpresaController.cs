@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using KendoDP2.Areas.Objetivos.Models;
+using KendoDP2.Areas.Configuracion.Models;
 
 
 namespace KendoDP2.Areas.Objetivos.Controllers
@@ -25,6 +26,17 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 ViewBag.periodos = context.TablaPeriodos.All().Select(p => p.ToDTO()).ToList();
                 ViewBag.tipoObjetivosBSC = context.TablaTipoObjetivoBSC.All();
                 ViewBag.colaboradores = context.TablaColaboradores.All().Select(p => p.ToDTO()).ToList();
+                List<BSC> bscss = context.TablaBSC.All();
+                Dictionary<KeyValuePair<int, int>, int> avancesFinales = new Dictionary<KeyValuePair<int,int>,int>();
+                foreach (PeriodoDTO periodo in ViewBag.periodos)
+                {
+                    BSC bsc = bscss.Single(x => x.PeriodoID == periodo.ID);
+                    avancesFinales.Add(new KeyValuePair<int, int>(periodo.ID, 3), bsc.NotaFinalAprendizaje);
+                    avancesFinales.Add(new KeyValuePair<int, int>(periodo.ID, 2), bsc.NotaFinalCliente);
+                    avancesFinales.Add(new KeyValuePair<int, int>(periodo.ID, 1), bsc.NotaFinalFinanciero);
+                    avancesFinales.Add(new KeyValuePair<int, int>(periodo.ID, 4), bsc.NoteFinalProcesosInternos);
+                }
+                ViewBag.avancesFinales = avancesFinales;
                 return View();
             }
         }

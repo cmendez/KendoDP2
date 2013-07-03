@@ -38,6 +38,10 @@ namespace KendoDP2.Areas.Reclutamiento.Models
 
         public string FechaPostulacion { get; set; }
 
+        public int PuntajeFase2 { get; set; }
+        public int PuntajeAnterior { get; set; }
+
+
         public OfertaLaboralXPostulanteDTO ToDTO()
         {
             return new OfertaLaboralXPostulanteDTO(this);
@@ -83,6 +87,10 @@ namespace KendoDP2.Areas.Reclutamiento.Models
         [DisplayName("Fecha Postulación")]
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public string FechaPostulacion { get; set; }
+
+        [DisplayName("Puntaje de Fase")]
+        [Range(1,20)]
+        public int PuntajeFase2 { get; set; }
         
         public OfertaLaboralXPostulanteDTO()
         {
@@ -111,6 +119,9 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             FechaEvaluacionSegundaFase = op.FechaEvaluacionSegundaFase;
             FechaEvaluacionTerceraFase = op.FechaEvaluacionTerceraFase;
             FechaPostulacion = op.FechaPostulacion;
+
+            PuntajeFase2 = op.PuntajeFase2;
+
 
         }
     }

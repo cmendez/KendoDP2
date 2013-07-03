@@ -15,10 +15,22 @@ namespace KendoDP2.Areas.Objetivos.Models
     {
         public virtual ICollection<Objetivo> objetivos { get; set; }
 
-        public double NotaFinalFinanciero { get; set; }
-        public double NotaFinalAprendizaje { get; set; }
-        public double NotaFinalCliente { get; set; }
-        public double NoteFinalProcesosInternos { get; set; }
+        public int GetPromedio(int tipoID)
+        {
+            if(objetivos == null) return 0;
+            List<Objetivo> os = objetivos.Where(x => x.TipoObjetivoBSCID == tipoID).ToList();
+            if(os.Count == 0) return 0;
+            double pesos = 0;
+            double res = 0;
+            os.ForEach(x => { res += x.AvanceFinal * x.Peso; pesos += x.Peso; });
+            if(pesos == 0) return 0;
+            return (int)Math.Floor(res / pesos);
+        }
+
+        public int NotaFinalFinanciero { get { return GetPromedio(1); } }
+        public int NotaFinalAprendizaje { get { return GetPromedio(2); } }
+        public int NotaFinalCliente { get { return GetPromedio(3); } }
+        public int NoteFinalProcesosInternos { get { return GetPromedio(4); } }
 
         public int PeriodoID { get; set; }
         [Required]
