@@ -391,7 +391,8 @@ namespace KendoDP2.Areas.Reportes.Controllers
                         }
                         //Fases de la postulaciones
                         List<FasePostulacionXOfertaLaboralXPostulante> FasesPostulacionXOfertaXPostulante = context.TablaFasePostulacionXOfertaLaboralXPostulante .Where(f => f.FasePostulacionID == idfaseparapos
-                             && f.OfertaLaboralXPostulante.EstadoPostulantePorOfertaID >= idestado && f.OfertaLaboralXPostulante.EstadoPostulantePorOfertaID <=4 && f.OfertaLaboralXPostulante.OfertaLaboralID == Oferta.ID).ToList();
+                             && (f.OfertaLaboralXPostulante.EstadoPostulantePorOfertaID ==9 || (f.OfertaLaboralXPostulante.EstadoPostulantePorOfertaID >= idestado && f.OfertaLaboralXPostulante.EstadoPostulantePorOfertaID <= 4))
+                             && f.OfertaLaboralXPostulante.OfertaLaboralID == Oferta.ID).ToList();
                        
                         //Datos de la fase 
                         RFase fase= new RFase();
