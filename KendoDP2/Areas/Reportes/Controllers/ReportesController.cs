@@ -397,7 +397,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
                         //Datos de la fase 
                         RFase fase= new RFase();
                         
-                        fase.nombreFase = context.TablaFasePostulacion.FindByID(idfaseparaev).Descripcion;
+                        fase.nombreFase = context.TablaEstadoPostulanteXOferta.FindByID(i+1).Descripcion;
                         fase.numPostulantes = FasesPostulacionXOfertaXPostulante.Count();
                         fase.Postulantes = new List<RPostulante>();
 
