@@ -248,7 +248,11 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             using (DP2Context context = new DP2Context())
             {
                 OfertaLaboralXPostulante o = context.TablaOfertaLaboralXPostulante.FindByID(ofertaPostulante.ID);
-                o.PuntajeTotal = ofertaPostulante.PuntajeTotal;
+                if (o.PuntajeFase2 == 0)
+                {
+                    o.PuntajeFase2 = ofertaPostulante.PuntajeFase2;
+                    o.PuntajeTotal = o.PuntajeTotal + ofertaPostulante.PuntajeFase2;
+                }
                 context.TablaOfertaLaboralXPostulante.ModifyElement(o);
                 return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
