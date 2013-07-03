@@ -235,6 +235,9 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 {
                     postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Aprobado Fase 2"));
                     postulanteOferta.FechaEvaluacionSegundaFase = fecha;
+                    //para la validacion
+                    postulanteOferta.PuntajeAnterior = postulanteOferta.PuntajeTotal;
+                    
                     context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
 
                     int fpID = context.TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado Externo")).ID;
@@ -307,6 +310,9 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 {
                     postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Aprobado Fase 3"));
                     postulanteOferta.FechaEvaluacionTerceraFase = fecha;
+                    //para validacion                    
+                    postulanteOferta.PuntajeAnterior = postulanteOferta.PuntajeTotal;
+
                     context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
 
                     int fpID = context.TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado RRHH")).ID;
@@ -652,7 +658,8 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             using (DP2Context context = new DP2Context())
             {
                 OfertaLaboralXPostulante o = context.TablaOfertaLaboralXPostulante.FindByID(ofertaPostulante.ID);
-                o.PuntajeTotal = ofertaPostulante.PuntajeTotal;
+                o.PuntajeFase2 = ofertaPostulante.PuntajeFase2;
+                o.PuntajeTotal = o.PuntajeTotal + ofertaPostulante.PuntajeFase2;
                 context.TablaOfertaLaboralXPostulante.ModifyElement(o);
                 return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
