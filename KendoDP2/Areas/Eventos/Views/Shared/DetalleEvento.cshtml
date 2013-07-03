@@ -5,7 +5,7 @@
 
 @model KendoDP2.Areas.Eventos.Models.EventoDTO
 @{
-    IEnumerable<ColaboradorDTO> invitados = ViewBag.invitados;
+    IEnumerable<ColaboradorDTOWS> invitados = ViewBag.invitados;
     string invitadosJson = Json.Encode(invitados);
 }
 

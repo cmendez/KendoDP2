@@ -23,6 +23,26 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             using (DP2Context context = new DP2Context())
             {
                 int ColaboradorID = DP2MembershipProvider.GetPersonaID(this);
+
+                string nombreE = "No hay eventos programados";
+                string lugarE = "No hay eventos programados";
+
+                /*ICollection<Invitado> i = context.TablaInvitado.Where(m => m.ColaboradorID == ColaboradorID).ToList();
+                ICollection<Invitado> invReciente = i.Where(p => p.Evento.Inicio >= DateTime.Today || p.Evento.Inicio <= DateTime.Today.AddDays(7)).ToList();
+                
+                Evento evActual = null; 
+                
+                if (invReciente != null)
+                {
+                        evActual = invReciente.FirstOrDefault().Evento;
+                        if (evActual != null)
+                        {
+                            nombreE = evActual.Nombre;
+                            lugarE = evActual.LugarEvento;
+                        }
+                }
+                 */
+
                 ViewBag.ColaboradorDTO = context.TablaColaboradores.FindByID(ColaboradorID).ToDTO();
                 ViewBag.tipoDocumentos = context.TablaTiposDocumentos.All().Select(c => c.ToDTO()).ToList();
                 ViewBag.gradoAcademico = context.TablaGradosAcademicos.All().Select(c => c.ToDTO()).ToList();
@@ -33,6 +53,10 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 ViewBag.colaboradores = context.TablaColaboradores.All().Select(c => c.ToDTO()).ToList();
                 ViewBag.colaboradorLogueado = DP2MembershipProvider.GetPersonaID(this);
                 ViewBag.estadosEventos = context.TablaEstadoEvento.All().Select(c => c.ToDTO()).ToList();
+                ViewBag.nombreEvento = nombreE;
+                ViewBag.lugarEvento = lugarE;
+                ViewBag.ultimasOfertas = context.TablaOfertaLaborales.All().Select(c => c.ToDTO()).ToList();
+
                 return View();
             }
 

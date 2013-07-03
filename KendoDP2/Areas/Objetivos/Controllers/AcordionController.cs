@@ -51,7 +51,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         [HttpPost]
         public JsonResult capturarValidacionDelJefe(int progresoID, int valorConsideradoPorElJefe)
         {
-
+            int id;
             using (DP2Context contexto = new DP2Context())
             {
                 AvanceObjetivo adelanto = contexto.TablaAvanceObjetivo.FindByID(progresoID);
@@ -59,7 +59,12 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 //adelanto.FueRevisado = true;
                 //contexto.TablaAvanceObjetivo.ModifyElement(adelanto);
                 contexto.TablaAvanceObjetivo.AddElement(revision);
-                revision.ActualizarPesos(contexto);
+                id = adelanto.ObjetivoID;
+            }
+            using (DP2Context context = new DP2Context())
+            {
+                Objetivo o = context.TablaObjetivos.FindByID(id);
+                o.ActualizarPesos(context);
             }
 
             return null;

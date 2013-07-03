@@ -139,7 +139,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("Puesto", "El puesto está ocupado por otra persona, verificar");
+                        ModelState.AddModelError("Puesto", "El puesto está ocupado por otra persona. Verificar. De lo contrario Rechazar la solicitud");
                         return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
                     }
                 }

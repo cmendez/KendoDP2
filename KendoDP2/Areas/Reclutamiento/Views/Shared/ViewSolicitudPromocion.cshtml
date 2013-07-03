@@ -229,6 +229,7 @@
             type: 'POST',
             data: { solicitudID : @Model.ID},
                 success: function(response){
+                    handleError(response, "Se promovió al colaborador. Verificar su línea de carrera");
                     $("#SolicitudPromocionGrid").data('kendoGrid').dataSource.read();
                     $("#Details").data('kendoWindow').close();
                 }

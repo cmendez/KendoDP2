@@ -71,6 +71,8 @@ namespace KendoDP2.Areas.Eventos.Controllers
                 int creadorID = DP2MembershipProvider.GetPersonaID(this);
                 c.CreadorID = creadorID;
                 c.Creador = context.TablaColaboradores.FindByID(creadorID);
+                c.EstadoID = context.TablaEstadoEvento.All().First().ID;
+
                 //probando
                 if (evento.TipoEventoID == 1)
                 {
@@ -108,6 +110,9 @@ namespace KendoDP2.Areas.Eventos.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
+                evento.EstadoID = context.TablaEstadoEvento.All().Last().ID;
+                Evento e = context.TablaEvento.FindByID(evento.ID);
+                context.TablaEvento.ModifyElement(e);
                 context.TablaEvento.RemoveElementByID(evento.ID, true);
                 return Json(ModelState.ToDataSourceResult());
             }

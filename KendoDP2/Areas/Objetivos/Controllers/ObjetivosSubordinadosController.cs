@@ -12,6 +12,8 @@ using KendoDP2.Areas.Objetivos.Models;
 
 namespace KendoDP2.Areas.Objetivos.Controllers
 {
+   
+    [Authorize()]
     public class ObjetivosSubordinadosController : Controller
     {
         public ObjetivosSubordinadosController()
@@ -31,6 +33,7 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 List<Objetivo> objetivos = new List<Objetivo>();
                 objetivosPuesto.ForEach(x => objetivos.AddRange(x.ObjetivosHijos(context)));
                 ViewBag.objetivos = objetivos.Select(c => c.ToDTO(context)).ToList();
+
                 return View();
             }
         }
@@ -46,16 +49,22 @@ namespace KendoDP2.Areas.Objetivos.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create([DataSourceRequest] DataSourceRequest request, ObjetivoDTO objetivo)
         {
+            int id;
             using (DP2Context context = new DP2Context())
             {
                 Objetivo o = new Objetivo(objetivo, context);
                 o.IsObjetivoIntermedio = true;
-                context.TablaObjetivos.AddElement(o);
+                id = context.TablaObjetivos.AddElement(o);
                 Objetivo padre1 = context.TablaObjetivos.FindByID(o.ObjetivoPadreID);
                 Objetivo padre2 = context.TablaObjetivos.FindByID(padre1.ObjetivoPadreID);
                 Puesto puesto = context.TablaPuestos.FindByID(padre2.PuestoAsignadoID.GetValueOrDefault());
                 puesto.ReparteObjetivosASubordinados(context);
-                o.ActualizarPesos(context, 0);
+                o.ActualizarPesos(context);
+            }
+            using (DP2Context context = new DP2Context())
+            {
+                Objetivo o = context.TablaObjetivos.FindByID(id);
+                o.ActualizarPesos(context);
                 return Json(new[] { o.ToDTO(context) }.ToDataSourceResult(request, ModelState));
             }
         }
@@ -71,8 +80,8 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 {
                     o2.Nombre = o.Nombre;
                     context.TablaObjetivos.ModifyElement(o2);
-                    o.ActualizarPesos(context, 0);
                 }
+                o.ActualizarPesos(context);
                 return Json(new[] { o.ToDTO(context) }.ToDataSourceResult(request, ModelState));
             }
         }

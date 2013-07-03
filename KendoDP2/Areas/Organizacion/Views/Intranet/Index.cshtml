@@ -1,6 +1,7 @@
 ﻿@using Kendo.Mvc.UI
 @using KendoDP2.Areas.Organizacion.Models
 @using KendoDP2.Areas.Evaluacion360.Models
+@using KendoDP2.Areas.Eventos.Models
 
 @{
     ViewBag.Title = "Intranet";
@@ -16,7 +17,10 @@
     SelectList listaEstados = new SelectList(estadosEventos, "ID", "Descripcion");
     SelectList listaPuestos = new SelectList(puestos, "ID", "Nombre");
     int colaboradorLogueado = ViewBag.colaboradorLogueado;
-   
+    string nombreEvento = ViewBag.nombreEvento;
+    string lugarEvento = ViewBag.lugarEvento;
+    IList<KendoDP2.Areas.Reclutamiento.Models.OfertaLaboralDTO> ultimasOfertas = ViewBag.ultimasOfertas;
+       
 
     
 }
@@ -60,28 +64,18 @@
                             <div class="span4">
                                 <div class="portlet sale-summary">
                                     <div class="portlet-title">
-                                        <div class="caption">Eventos</div>
+                                        <div class="caption">Próximo evento</div>
                                         <div class="tools">
                                             <a class="reload" href="javascript:;"></a>
                                         </div>
                                     </div>
                                     <ul class="unstyled">
                                         <li>
-                                            <span class="sale-info">Eventos especiales<i class="icon-img-up"></i></span>
-                                            <span class="sale-num">2</span>
+                                            
+                                            <span>Nombre: @nombreEvento<i class="icon-img-up"></i></span>
+                                            <span>Lugar: @lugarEvento<i class="icon-img-up"></i></span>
                                         </li>
-                                        <li>
-                                            <span class="sale-info">Eventos especiales semana <i class="icon-img-down"></i></span>
-                                            <span class="sale-num">5</span>
-                                        </li>
-                                        <li>
-                                            <span class="sale-info">Eventos programados</span>
-                                            <span class="sale-num">3</span>
-                                        </li>
-                                        <li>
-                                            <span class="sale-info">Eventos programados semana</span>
-                                            <span class="sale-num">4</span>
-                                        </li>
+                                                                                                                        
                                     </ul>
                                 </div>
                             </div>
@@ -90,7 +84,7 @@
                         <!--end row-fluid-->
                         <div class="tabbable tabbable-custom tabbable-custom-profile">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a href="#tab_1_11" data-toggle="tab">Últimas Evaluaciones</a></li>
+                                <li class="active"><a href="#tab_1_11" data-toggle="tab">Últimas Convocatorias</a></li>
                                 <li class=""><a href="#tab_1_22" data-toggle="tab">Tareas</a></li>
                             </ul>
                             <div class="tab-content">
