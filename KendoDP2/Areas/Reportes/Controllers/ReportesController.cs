@@ -428,8 +428,8 @@ namespace KendoDP2.Areas.Reportes.Controllers
                             if (i == 2)
                             {
 
-                                if (context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboralID == Oferta.ID && oxp.PostulanteID == pos.ID)!=null) {
-                                    pos=context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboralID == Oferta.ID && oxp.PostulanteID == pos.ID)[0].
+                                if (context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.EstadoPostulantePorOfertaID==4 && oxp.OfertaLaboralID == Oferta.ID && oxp.PostulanteID == pos.ID)!=null) {
+                                    pos.puntaje = context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboralID == Oferta.ID && oxp.PostulanteID == pos.ID)[0].PuntajeFase2;
                                 }
                             }
                         }
