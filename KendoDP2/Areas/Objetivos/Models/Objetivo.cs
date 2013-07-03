@@ -231,7 +231,7 @@ namespace KendoDP2.Areas.Objetivos.Models
                 this.ComentarioUltimoAvance = LosProgresos.Last().Comentario;
             else
                 this.ComentarioUltimoAvance = "";
-            AvanceFinalDeAlgunProgeso = o.LosProgresos.Count > 0 ? o.LosProgresos.Last().Valor : 0;
+            AvanceFinalDeAlgunProgeso = LosProgresos.Count > 0 ? LosProgresos.Last().Valor : 0;
         }
         
     }
