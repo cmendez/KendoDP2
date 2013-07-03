@@ -114,7 +114,9 @@ namespace KendoDP2.Areas.Objetivos.Models
 
         internal void RegistrarAvance(DP2Context context, int valor, string comentario)
         {
-            AvanceObjetivo avance = new AvanceObjetivo { Objetivo = this, Valor = valor, FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy"), Comentario = comentario };
+            //this.LosProgresos.Select(a => a.FueRevisado = true);
+            //context.TablaObjetivos.ModifyElement(this);
+            AvanceObjetivo avance = new AvanceObjetivo { Objetivo = this, Valor = valor, FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy"), Comentario = comentario, EsRevision = false };
             context.TablaAvanceObjetivo.AddElement(avance);
             avance.ActualizarPesos(context);
         }

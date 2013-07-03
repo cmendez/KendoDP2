@@ -280,7 +280,15 @@ namespace KendoDP2.Areas.Organizacion.Models
                 //Objetivos = c.Objetivos.Select(o => o.ToDTO()).ToList();
                 using (DP2Context context = new DP2Context())
                 {
-                    Objetivos = puesto.Objetivos.Select(o => o.ToDTO(context)).ToList();
+                    //Objetivos = puesto.Objetivos.Select(o => o.ToDTO(context)).ToList();
+                    //Objetivos = puesto.Ob
+                    //Objetivos = puesto.Objetivos.Select()
+                    Objetivos = new List<ObjetivoDTO>();
+                    foreach (Objetivo objetivo in puesto.Objetivos) {
+                        //Objetivos.Add(objetivo.ObjetivosHijos(context).Select(o => o.ToDTO(context)).ToList());
+                        Objetivos.AddRange(objetivo.ObjetivosHijos(context).Select(o => o.ToDTO(context)).ToList());
+                    }
+                    
                 }
                 Contactos = c.Contactos.Select(o => o.ToDTO()).ToList();
             }
