@@ -671,6 +671,10 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     o.PuntajeTotal = o.PuntajeTotal + ofertaPostulante.PuntajeFase2;
                 }
                 context.TablaOfertaLaboralXPostulante.ModifyElement(o);
+                foreach (var modelValue in ModelState.Values)
+                {
+                    modelValue.Errors.Clear();
+                }
                 return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
         }
