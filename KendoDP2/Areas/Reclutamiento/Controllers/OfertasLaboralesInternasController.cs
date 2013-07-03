@@ -96,6 +96,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 List<OfertaLaboralXPostulante> postulantesOferta = oferta.Postulantes.ToList();
                 ViewBag.postulantesOferta = postulantesOferta.Select(p => p.ToDTO());
                 ViewBag.ofertaID = ofertaLaboralID;
+                ViewBag.oferta = oferta.ToDTO();
              
                     return View("PostulantesFase3Contratar");
                 
@@ -487,63 +488,69 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 if (postulanteOferta.EstadoPostulantePorOferta.Descripcion.Equals("Aprobado Fase 3"))
                 {
 
-                    // se crea el nuevo puesto
-                    //modificacion para casos de mas vacantes y puestos duplicados
+                    if (oferta.NumeroVacantes > oferta.NumeroVacantesContratadas)
+                    {// se crea el nuevo puesto
+                        //modificacion para casos de mas vacantes y puestos duplicados
 
-                    int puestoPadre = oferta.PuestoID;
-                    List<PuestoDTO> puestos = BuscoPuestoPapaEHijos(puestoPadre);
+                        int puestoPadre = oferta.PuestoID;
+                        List<PuestoDTO> puestos = BuscoPuestoPapaEHijos(puestoPadre);
 
-                    if (puestos != null)
-                    {
-                        PuestoDTO puestoEncontrado = BuscaPuestoLibreAsignar(puestos);
-
-                        if (puestoEncontrado != null)
+                        if (puestos != null)
                         {
-                            var todos = context.TablaColaboradoresXPuestos.All();
-                            ColaboradorXPuesto u = null;
-                            foreach (var crucex in todos)
-                                if (crucex.ColaboradorID == postulanteOferta.Postulante.ColaboradorID)
-                                    if (crucex.FechaSalidaPuesto == null)
-                                        u = crucex;
-                            if (u != null)
+                            PuestoDTO puestoEncontrado = BuscaPuestoLibreAsignar(puestos);
+
+                            if (puestoEncontrado != null)
                             {
-                                u.FechaSalidaPuesto = DateTime.Now.AddDays(-1);
-                                context.TablaColaboradoresXPuestos.ModifyElement(u);
-                            }
+                                var todos = context.TablaColaboradoresXPuestos.All();
+                                ColaboradorXPuesto u = null;
+                                foreach (var crucex in todos)
+                                    if (crucex.ColaboradorID == postulanteOferta.Postulante.ColaboradorID)
+                                        if (crucex.FechaSalidaPuesto == null)
+                                            u = crucex;
+                                if (u != null)
+                                {
+                                    u.FechaSalidaPuesto = DateTime.Now.AddDays(-1);
+                                    context.TablaColaboradoresXPuestos.ModifyElement(u);
+                                }
 
-                            //cambia estado
-                            postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Contratado"));
-                            context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
+                                //cambia estado
+                                postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Contratado"));
+                                context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
+                                oferta.NumeroVacantesContratadas = oferta.NumeroVacantesContratadas + 1;
+                                ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = postulanteOferta.Postulante.Colaborador.ID, PuestoID = puestoEncontrado.ID, Sueldo = oferta.SueldoTentativo, FechaIngresoPuesto = DateTime.Now };
+                                context.TablaColaboradoresXPuestos.AddElement(cruce);
+                                context.TablaOfertaLaborales.ModifyElement(oferta);
 
-                            ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = postulanteOferta.Postulante.Colaborador.ID, PuestoID = puestoEncontrado.ID, Sueldo = oferta.SueldoTentativo, FechaIngresoPuesto = DateTime.Now };
-                            context.TablaColaboradoresXPuestos.AddElement(cruce);
 
+                                //Se envia notificacion
+                                if (postulanteOferta.Postulante.Colaborador.CorreoElectronico != null)
+                                {
+                                    controladorGeneral.SendEmail(postulanteOferta.Postulante.Colaborador.CorreoElectronico, "[" + org.RazonSocial + "] Aviso de Seleccion",
+                                            RetornaMensajeCorreoCambioPuesto(postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto, postulanteOferta.OfertaLaboral.Area.Nombre, postulanteOferta.OfertaLaboral.Puesto.Nombre));
+                                }
+                                else
+                                {
+                                    ModelState.AddModelError("Alerta", "Cambio de puesto satisfactorio. Sin embargo: Se selecciona y cambia el puesto del postulante, pero no se envía la notificación. Revise los datos e intente comunicarse por otro medio");
+                                }
 
-
-                            //Se envia notificacion
-                            if (postulanteOferta.Postulante.Colaborador.CorreoElectronico != null)
-                            {
-                                controladorGeneral.SendEmail(postulanteOferta.Postulante.Colaborador.CorreoElectronico, "[" + org.RazonSocial + "] Aviso de Seleccion",
-                                        RetornaMensajeCorreoCambioPuesto(postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto, postulanteOferta.OfertaLaboral.Area.Nombre, postulanteOferta.OfertaLaboral.Puesto.Nombre));
                             }
                             else
                             {
-                                ModelState.AddModelError("Alerta", "La creación del puesto fue satisfactoria. Sin embargo: Se selecciona y cambia el puesto del postulante, pero no se envía la notificación. Revise los datos e intente comunicarse por otro medio");
+                                ModelState.AddModelError("", "Este puesto está ocupado, por favor revisar el contrato del colaborador en el puesto actual o si existe dentro de la estructura");
+                                return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
                             }
 
                         }
                         else
                         {
-                            ModelState.AddModelError("", "Este puesto está ocupado, por favor revisar el contrato del colaborador en el puesto actual o si existe dentro de la estructura");
-                            return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
+                            ModelState.AddModelError("", "No existe el puesto");
                         }
-
                     }
                     else
                     {
-                        ModelState.AddModelError("", "No existe el puesto");
+                        ModelState.AddModelError("Puestos: Vacantes", "Ya se han cubierto todas las vacantes de esta convocatoria, proceder al cierre");
+                        return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
                     }
-
                 }
                     
                 else
@@ -713,8 +720,19 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             else return false;
         }
 
+        /*public ActionResult CerrarConvocatoria(int OfertaLaboralID)
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                OfertaLaboral o = context.TablaOfertaLaborales.FindByID(OfertaLaboralID);
+                
+                
+                return null;
 
-        }
+            }
+        }*/
+    
+    }
       
 
     
