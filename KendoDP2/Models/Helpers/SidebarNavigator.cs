@@ -38,10 +38,10 @@ namespace KendoDP2.Models.Helpers
 
             // Objetivos
             Opciones.Add(new SidebarOption("Objetivos", "Objetivos", "icon-bookmark", new List<SidebarSuboption>(new SidebarSuboption[]{
-               new SidebarSuboption("Objetivos de la empresa", "Objetivosempresa", "Index", "icon-ok"),
-               new SidebarSuboption("Monitoreo en mi equipo de trabajo", "Acordion", "Index", "icon-ok"),
-               new SidebarSuboption("Mis objetivos", "Misobjetivos", "Index", "icon-ok"),
-               new SidebarSuboption("Objetivos de subordinados", "Objetivossubordinados", "Index", "icon-ok")
+               new SidebarSuboption("Objetivos de la empresa", "Objetivosempresa", "Index", "icon-building"),
+               new SidebarSuboption("Monitoreo en mi equipo de trabajo", "Acordion", "Index", "icon-check"),
+               new SidebarSuboption("Mis objetivos", "Misobjetivos", "Index", "icon-road"),
+               new SidebarSuboption("Objetivos de subordinados", "Objetivossubordinados", "Index", "icon-group")
             })));
 
             // Configuracion

@@ -61,10 +61,10 @@ namespace KendoDP2.Areas.Objetivos.Controllers
                 Objetivo o = new Objetivo(objetivo, context);
                 context.TablaObjetivos.AddElement(o);
                 if (o.AvanceFinal != 0) o.RegistrarAvancex(context, o.AvanceFinal, objetivo.ComentarioUltimoAvance);
-            }
-            using (DP2Context context = new DP2Context())
-            {
-                Objetivo o = new Objetivo(objetivo, context);
+            //}
+            //using (DP2Context context = new DP2Context())
+            //{
+                //Objetivo o = new Objetivo(objetivo, context);
                 o.ActualizarPesos(context);
                 return Json(new[] { o.ToDTO(context) }.ToDataSourceResult(request, ModelState));
             }

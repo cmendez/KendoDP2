@@ -42,6 +42,8 @@ namespace KendoDP2.Areas.Objetivos.Controllers
 
                 ViewBag.Colaboradores = subordinadosCliente;
 
+                ViewBag.periodos = context.TablaPeriodos.All().Select(p => p.ToDTO()).ToList();
+
                 return View();
             }
         }
@@ -53,9 +55,9 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             using (DP2Context contexto = new DP2Context())
             {
                 AvanceObjetivo adelanto = contexto.TablaAvanceObjetivo.FindByID(progresoID);
-                AvanceObjetivo revision = new AvanceObjetivo { Comentario = "(Revisado por jefe)", Valor = valorConsideradoPorElJefe, Objetivo = adelanto.Objetivo, FechaCreacion = DateTime.Now.ToString("dd/MM/yyy") };
-                adelanto.FueRevisado = true;
-                contexto.TablaAvanceObjetivo.ModifyElement(adelanto);
+                AvanceObjetivo revision = new AvanceObjetivo { Comentario = "(Revisado por jefe)", Valor = valorConsideradoPorElJefe, Objetivo = adelanto.Objetivo, FechaCreacion = DateTime.Now.ToString("dd/MM/yyy"), EsRevision = true };
+                //adelanto.FueRevisado = true;
+                //contexto.TablaAvanceObjetivo.ModifyElement(adelanto);
                 contexto.TablaAvanceObjetivo.AddElement(revision);
                 id = adelanto.ObjetivoID;
             }
