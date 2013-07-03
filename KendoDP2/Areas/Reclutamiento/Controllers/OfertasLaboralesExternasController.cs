@@ -41,7 +41,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                List<OfertaLaboralDTO> ofertasPosibles = context.TablaOfertaLaborales.All().Where(p => (p.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Aprobado")) && (p.ModoSolicitudOfertaLaboral.Descripcion.Equals("Convocatoria Pública"))).Select(p => p.ToDTO()).ToList();
+                List<OfertaLaboralDTO> ofertasPosibles = context.TablaOfertaLaborales.All().Where(p => (p.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Aprobado") || (p.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Cerrado"))) && (p.ModoSolicitudOfertaLaboral.Descripcion.Equals("Convocatoria Pública"))).Select(p => p.ToDTO()).ToList();
                 return Json(ofertasPosibles.ToDataSourceResult(request));
             
             }

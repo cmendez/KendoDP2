@@ -43,7 +43,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
-                List<OfertaLaboralDTO> ofertasPosibles = context.TablaOfertaLaborales.All().Where(p => (p.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Aprobado")) && (p.ModoSolicitudOfertaLaboral.Descripcion.Equals("Convocatoria Interna"))).Select(p => p.ToDTO()).ToList();
+                List<OfertaLaboralDTO> ofertasPosibles = context.TablaOfertaLaborales.All().Where(p => (p.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Aprobado") || (p.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Cerrado"))) && (p.ModoSolicitudOfertaLaboral.Descripcion.Equals("Convocatoria Interna"))).Select(p => p.ToDTO()).ToList();
                 return Json(ofertasPosibles.ToDataSourceResult(request));
             
             }
@@ -309,59 +309,67 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 
                 if (postulanteOferta.EstadoPostulantePorOferta.Descripcion.Equals("Aprobado Fase 2"))
                 {
-                    postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Aprobado Fase 3"));
-                    postulanteOferta.FechaEvaluacionTerceraFase = fecha;
-                    //para validacion                    
-                    postulanteOferta.PuntajeAnterior = postulanteOferta.PuntajeTotal;
-
-                    context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
-
-                    int fpID = context.TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado RRHH")).ID;
-                    var aux = context.TablaFasePostulacionXOfertaLaboralXPostulante
-                        .One(x => x.FasePostulacionID == fpID &&
-                                    x.OfertaLaboralXPostulanteID == postulanteXOfertaID);
-                    if (aux == null) //Si dicho registro no existe
-                    {//Entonces lo agrego
-                        context.TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante
-                        {
-                            FasePostulacionID = fpID,
-                            OfertaLaboralXPostulanteID = postulanteXOfertaID,
-
-                        });
-                    }
-
-                    if (postulanteOferta.OfertaLaboral.ModoSolicitudOfertaLaboral.Descripcion.Equals("Convocatoria Interna"))
+                    if(ValidoExistenciaExamenFase2Fase3(postulanteOferta.PuntajeAnterior,postulanteOferta.PuntajeTotal))
                     {
-                        if (postulanteOferta.Postulante.Colaborador.CorreoElectronico != null)
-                        {
-                            controladorGeneral.SendEmail(postulanteOferta.Postulante.Colaborador.CorreoElectronico, "[" + org.RazonSocial + "] Entrevista Final",
-                                    RetornaMensajeCorreoFase3(postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto, fecha, org.Direccion, postulanteOferta.OfertaLaboral.Area.Nombre, postulanteOferta.OfertaLaboral.Puesto.Nombre));
+                        postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Aprobado Fase 3"));
+                        postulanteOferta.FechaEvaluacionTerceraFase = fecha;
+                        //para validacion                    
+                        postulanteOferta.PuntajeAnterior = postulanteOferta.PuntajeTotal;
 
+                        context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
+
+                        int fpID = context.TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado RRHH")).ID;
+                        var aux = context.TablaFasePostulacionXOfertaLaboralXPostulante
+                            .One(x => x.FasePostulacionID == fpID &&
+                                        x.OfertaLaboralXPostulanteID == postulanteXOfertaID);
+                        if (aux == null) //Si dicho registro no existe
+                        {//Entonces lo agrego
+                            context.TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante
+                            {
+                                FasePostulacionID = fpID,
+                                OfertaLaboralXPostulanteID = postulanteXOfertaID,
+
+                            });
+                        }
+
+                        if (postulanteOferta.OfertaLaboral.ModoSolicitudOfertaLaboral.Descripcion.Equals("Convocatoria Interna"))
+                        {
+                            if (postulanteOferta.Postulante.Colaborador.CorreoElectronico != null)
+                            {
+                                controladorGeneral.SendEmail(postulanteOferta.Postulante.Colaborador.CorreoElectronico, "[" + org.RazonSocial + "] Entrevista Final",
+                                        RetornaMensajeCorreoFase3(postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto, fecha, org.Direccion, postulanteOferta.OfertaLaboral.Area.Nombre, postulanteOferta.OfertaLaboral.Puesto.Nombre));
+
+                            }
+                            else
+                            {
+                                ModelState.AddModelError("Alerta", "Se aprueba el pase del postulante, pero no se envía la notificación. Revise los datos e intente comunicarse por otro medio");
+                                return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+                            }
                         }
                         else
                         {
-                            ModelState.AddModelError("Alerta", "Se aprueba el pase del postulante, pero no se envía la notificación. Revise los datos e intente comunicarse por otro medio");
-                            return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+                            if (postulanteOferta.Postulante.CorreoElectronico != null)
+                            {
+                                controladorGeneral.SendEmail(postulanteOferta.Postulante.CorreoElectronico, "[" + org.RazonSocial + "] Entrevista Final",
+                                    RetornaMensajeCorreoFase3(postulanteOferta.Postulante.Nombres, fecha, org.Direccion, postulanteOferta.OfertaLaboral.Area.Nombre, postulanteOferta.OfertaLaboral.Puesto.Nombre));
+                            }
+                            else
+                            {
+                                ModelState.AddModelError("Alerta", "Se aprueba el pase del postulante, pero no se envía la notificación. Revise los datos e intente comunicarse por otro medio");
+                                return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+
+                            }
                         }
-                    }
+
+
+
+                        return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+                }
                     else
                     {
-                        if (postulanteOferta.Postulante.CorreoElectronico != null)
-                        {
-                            controladorGeneral.SendEmail(postulanteOferta.Postulante.CorreoElectronico, "[" + org.RazonSocial + "] Entrevista Final",
-                                RetornaMensajeCorreoFase3(postulanteOferta.Postulante.Nombres, fecha, org.Direccion, postulanteOferta.OfertaLaboral.Area.Nombre, postulanteOferta.OfertaLaboral.Puesto.Nombre));
-                        }
-                        else
-                        {
-                            ModelState.AddModelError("Alerta", "Se aprueba el pase del postulante, pero no se envía la notificación. Revise los datos e intente comunicarse por otro medio");
-                            return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
-
-                        }
+                        ModelState.AddModelError("", "El postulante no ha rendido evaluación");
+                        return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
                     }
-
-
-
-                    return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
                 }
                 else
                 {
@@ -724,17 +732,35 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             else return false;
         }
 
-        /*public ActionResult CerrarConvocatoria(int OfertaLaboralID)
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult CerrarConvocatoria([DataSourceRequest] DataSourceRequest request, int OfertaLaboralID)
         {
             using (DP2Context context = new DP2Context())
             {
                 OfertaLaboral o = context.TablaOfertaLaborales.FindByID(OfertaLaboralID);
-                
-                
-                return null;
+                if (o.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Aprobado"))
+                {
+                    EstadosSolicitudOfertaLaboral estado = null;
+
+                    estado = context.TablaEstadosSolicitudes.One(p => p.Descripcion.Equals("Cerrado"));
+                    if (estado != null)
+                    {
+                        o.EstadoSolicitudOfertaLaboral = estado;
+                        o.EstadoSolicitudOfertaLaboralID = estado.ID;
+                        context.TablaOfertaLaborales.ModifyElement(o);
+                        ModelState.AddModelError("", "Se cerró la convocatoria al público");
+                        return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
+                    }
+                }
+                else 
+                {
+                  ModelState.AddModelError("", "La oferta laboral está cerrada");
+                }
+
+                return Json(new[] { o.ToDTO() }.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
 
             }
-        }*/
+        }
     
     }
       
