@@ -371,7 +371,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
                         if (i == 1)
                         {
                             idfaseparapos = 1;
-                            idfaseparaev = 3;
+                            idfaseparaev = 1;
                             idestado = 2;
                         }
                         else
@@ -385,7 +385,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
                             else
                             {
                                 idfaseparapos = 2;
-                                idfaseparaev = 4;
+                                idfaseparaev = 3;
                                 idestado = 4;
                             }
                         }

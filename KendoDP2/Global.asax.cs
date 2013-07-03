@@ -19,7 +19,7 @@ namespace KendoDP2
     public class MvcApplication : System.Web.HttpApplication
     {
         public static bool IsDebug = System.Configuration.ConfigurationManager.AppSettings["Environment"].ToString().Equals("Debug");
-
+        
         public static string ConnectionString = "Server=1ce856d6-11a7-49cb-9efa-a1f00048e69f.sqlserver.sequelizer.com;Database=db1ce856d611a749cb9efaa1f00048e69f;User ID=bvaaeoazbmoagvwu;Password=zbQnQd7D4pZbNkcANDnxvoUJ2pSKTPmLoKtPcz7a3Df5S7p2zgvSMDAkpfuztvSo;";
 
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
