@@ -265,6 +265,15 @@ namespace KendoDP2.Models.Generic
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(4,24,1, 30));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5,24,2, 30));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(6,24,3, 40));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1, 25, 1, 100));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1, 26, 1, 100));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1, 27, 1, 100));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1, 28, 1, 100));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1, 29, 1, 100));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1, 30, 1, 100));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1, 31, 1, 100));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1, 32, 1, 100));
+
         }
 
         private void SeedPuestoXEvaluadores()

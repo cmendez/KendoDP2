@@ -75,61 +75,10 @@ namespace KendoDP2.Models.Generic
 
         private void SeedOfertaLaboral()
         {
-            TablaOfertaLaborales.AddElement(new OfertaLaboral
-            {
-                PuestoID = 3,
-                AreaID = TablaPuestos.One(a => a.ID == 3).AreaID,
-                ResponsableID = TablaColaboradores.One(a => a.Username.Equals("cperez")).ID,
-                EstadoSolicitudOfertaLaboralID = TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID,
-                FechaPublicacion = DateTime.Now.AddDays(-10).ToString("dd/MM/yyyy"),
-                FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"),
-                FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
-                Descripcion = "Trabajo en ventas",
-                ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
-                SueldoTentativo = 15000,
-                Comentarios = "Todo bien.",
-                NumeroVacantes = 3,
-            });
-
-            TablaOfertaLaborales.AddElement(new OfertaLaboral
-            {
-                PuestoID = 1,
-                AreaID = TablaPuestos.One(a=>a.ID == 1).AreaID,
-                ResponsableID = TablaColaboradores.One(a => a.Username.Equals("cperez")).ID,
-                EstadoSolicitudOfertaLaboralID = TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID,
-                FechaPublicacion = DateTime.Now.AddDays(-10).ToString("dd/MM/yyyy"),
-                FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"),
-                FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
-                Descripcion = "Trabajo importante en el directorio",
-                ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
-                SueldoTentativo = 15000,
-                Comentarios = "Todo bien.",
-                NumeroVacantes = 3
-            });
-
-            TablaOfertaLaborales.AddElement(new OfertaLaboral
-            {
-                PuestoID = 6,
-                AreaID = TablaPuestos.One(a => a.ID == 6).AreaID,
-                ResponsableID = TablaColaboradores.One(a => a.Username.Equals("cperez")).ID,
-                EstadoSolicitudOfertaLaboralID = TablaEstadosSolicitudes.One(a => a.Descripcion.Equals("Aprobado")).ID,
-                FechaPublicacion = DateTime.Now.AddDays(-10).ToString("dd/MM/yyyy"),
-                FechaRequerimiento = DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"),
-                FechaFinVigenciaSolicitud = DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
-                Descripcion = "Trabajo en operaciones",
-                ModoSolicitudOfertaLaboralID = TablaModosSolicitudes.One(a => a.Descripcion.Equals("Convocatoria Interna")).ID,
-                SueldoTentativo = 15000,
-                Comentarios = "Todo bien.",
-                NumeroVacantes = 3
-            });
         }
 
         private void SeedPostulante()
         {
-            //Colaborador como postulante (Mono): CORRIGE DESPUES DEL CAMBIO QUE VOY A HACER
-            TablaPostulante.AddElement(new Postulante(TablaColaboradores.One(x => x.Username.Equals("jcahuin"))));
-            TablaPostulante.AddElement(new Postulante(TablaColaboradores.One(x => x.Username.Equals("amontoya"))));
-            TablaPostulante.AddElement(new Postulante(TablaColaboradores.One(x => x.Username.Equals("hespinoza"))));
         }
 
         private void SeedEstadoPostulantePorOferta()
