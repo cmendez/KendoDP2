@@ -187,6 +187,9 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                                 };
 
                                 Colaborador c = new Colaborador(colaboradorDTO);
+                                //cambio seguridad y roles
+                                c.Roles = context.SeedRolesGenerales();
+                                //
                                 c.EstadoColaborador = context.TablaEstadosColaboradores.One(x => x.Descripcion.Equals("Contratado"));
                                 context.TablaColaboradores.AddElement(c);
                                 Puesto pe = context.TablaPuestos.FindByID(puestoEncontrado.ID);

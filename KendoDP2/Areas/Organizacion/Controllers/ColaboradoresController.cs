@@ -53,7 +53,10 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             using (DP2Context context = new DP2Context())
             {
                 //en caso no funcione solo se sacan los if's y se deja tal como esta
+                    
                     Colaborador c = new Colaborador(colaborador);
+                //cambio seguridad
+                    c.Roles = context.SeedRolesGenerales();
                     if (ValidaColaboradores(c.TipoDocumentoID, c.NumeroDocumento)== 0)
                     {
                         if (PuestoEstaVacante(colaborador.PuestoID))
