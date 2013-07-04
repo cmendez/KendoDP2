@@ -2,6 +2,7 @@
 @using KendoDP2.Areas.Organizacion.Models
 @using KendoDP2.Areas.Evaluacion360.Models
 @using KendoDP2.Areas.Eventos.Models
+@using KendoDP2.Areas.Reclutamiento.Models
 
 @{
     ViewBag.Title = "Intranet";
@@ -19,10 +20,7 @@
     int colaboradorLogueado = ViewBag.colaboradorLogueado;
     string nombreEvento = ViewBag.nombreEvento;
     string lugarEvento = ViewBag.lugarEvento;
-    IList<KendoDP2.Areas.Reclutamiento.Models.OfertaLaboralDTO> ultimasOfertas = ViewBag.ultimasOfertas;
        
-
-    
 }
 <link href='@Url.Content("~/Content/assets/plugins/fullcalendar/css/fullcalendar.css")' rel='stylesheet' />
 <link href='@Url.Content("~/Content/assets/plugins/fullcalendar/css/fullcalendar.print.css")' rel='stylesheet' media='print' />
@@ -45,7 +43,8 @@
             <div class="tab-content">
                 <div class="tab-pane row-fluid active" id="tab_1_1">
                     <ul class="unstyled profile-nav span3">
-                        <li><a href='Url.Action("RedireccionEventos","Intranet")'>Eventos</a></li>
+                        <li><a href='@Url.Action("RedireccionEventos","Intranet")'>Eventos</a></li>
+
                         <li><a href="#">Equipo de Trabajo</a></li>
                         <li><a href="#">Bolsa de trabajo</a></li>
                     </ul>
@@ -84,8 +83,8 @@
                         <!--end row-fluid-->
                         <div class="tabbable tabbable-custom tabbable-custom-profile">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a href="#tab_1_11" data-toggle="tab">Últimas Convocatorias</a></li>
-                                <li class=""><a href="#tab_1_22" data-toggle="tab">Tareas</a></li>
+                                <li class="active"><a href="#tab_1_11" data-toggle="tab">Instrucciones</a></li>
+                                <li class=""><a href="#tab_1_22" data-toggle="tab">Objetivos</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="tab_1_11">
@@ -93,36 +92,36 @@
                                         <table class="table table-striped table-bordered table-advance table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th><i class="icon-briefcase"></i>Nombre de Evaluación </th>
+                                                    <th><i class="icon-briefcase"></i>Opción </th>
                                                     <th class="hidden-phone"><i class="icon-question-sign"></i>Descripción </th>
-                                                    <th><i class="icon-bookmark"></i>Puntaje </th>
+                                                    <th><i class="icon-bookmark"></i>Adicional </th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td><a href="#">Evaluación 1</a></td>
-                                                    <td class="hidden-phone">Evaluar porque sí...</td>
-                                                    <td>75 <span class="label label-success label-mini">Bueno</span></td>
-                                                    <td><a class="btn mini green-stripe" href="#">Ver</a></td>
+                                                    <td>Crear Eventos</td>
+                                                    <td class="hidden-phone">Ir a la opción Eventos</td>
+                                                    <td><span class="label label-success label-mini">Invitar y notificar </span></td>
+                                                    <td><a class="btn mini blue-stripe" href="#">Ver Eventos</a></td>
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <a href="#">Evaluación 3
-                                                        </a>
+                                                        Ver Calendario
+                                                        
                                                     </td>
-                                                    <td class="hidden-phone">Evaluar nuevamente</td>
-                                                    <td>50 <span class="label label-warning label-mini">Pendiente</span></td>
-                                                    <td><a class="btn mini blue-stripe" href="#">Ver</a></td>
+                                                    <td class="hidden-phone">Ir a la opción Eventos de intranet</td>
+                                                    <td> <span class="label label-success label-mini">Ver detalle</span></td>
+                                                    <td><a class="btn mini blue-stripe" href="#">Ver Calendario</a></td>
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <a href="#">Evaluación 4
-                                                        </a>
+                                                        Administrar Contactos
+                                                        
                                                     </td>
-                                                    <td class="hidden-phone">Evaluación de practicantes</td>
-                                                    <td>70<span class="label label-success label-mini">Bueno</span></td>
-                                                    <td><a class="btn mini blue-stripe" href="#">Ver</a></td>
+                                                    <td class="hidden-phone">Ir opción contactos Intranet</td>
+                                                    <td><span class="label label-success label-mini">Agregar</span></td>
+                                                    <td><a class="btn mini blue-stripe" href="#">Ver Contactos</a></td>
                                                 </tr>
                                             </tbody>
                                         </table>
