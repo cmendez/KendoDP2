@@ -141,34 +141,37 @@
     function Contratar(e) {
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         var postulanteXOfertaID = dataItem.ID;
-        $.ajax({
-            url: '@Url.Action("Contratar", "OfertasLaboralesInternas", new { Area = "Reclutamiento" })',
-            dataType: 'JSON',
-            type: 'POST',
-            data: {
-                ofertaID: @ofertaID,
-                postulanteXOfertaLaboralID: postulanteXOfertaID
-            },
-            success: function(response){
-                handleError(response, "Se creó el puesto al colaborador.");
-                if(response.Errors === null){
-                    $("#hiddena").attr("href", "@Url.Action("Index", "Historial", new { Area = "Organizacion" })");
-                    $("a#hiddena")[0].click();
+        if(confirm("¿Desea usted cambiar de puestor a este bicho?")){
+            $.ajax({
+                url: '@Url.Action("Contratar", "OfertasLaboralesInternas", new { Area = "Reclutamiento" })',
+                dataType: 'JSON',
+                type: 'POST',
+                data: {
+                    ofertaID: @ofertaID,
+                    postulanteXOfertaLaboralID: postulanteXOfertaID
+                },
+                success: function(response){
+                    handleError(response, "Se creó el puesto al colaborador.");
+                    if(response.Errors === null){
+                        $("#hiddena").attr("href", "@Url.Action("Index", "Historial", new { Area = "Organizacion" })");
+                        $("a#hiddena")[0].click();
+                    }
+                    recargaGrid();
                 }
-                recargaGrid();
-            }
-        });
+            });
+        }
     }
 
     function rechazarPase(e) {
         e.preventDefault();
-
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        ID = dataItem.ID;
-        var wnd = $("#Details").data("kendoWindow");
-        $("#Details").load("@Url.Action("GetViewMotivosRechazo", "OfertasLaboralesInternas", new { Area = "Reclutamiento" })", {ofertaID : @ofertaID, postulanteXOfertaID : ID }, function () {
-            wnd.center().open();
-        });
+        if(confirm("¿Esta seguro que desea rechazar a este postulante?")){
+            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+            ID = dataItem.ID;
+            var wnd = $("#Details").data("kendoWindow");
+            $("#Details").load("@Url.Action("GetViewMotivosRechazo", "OfertasLaboralesInternas", new { Area = "Reclutamiento" })", {ofertaID : @ofertaID, postulanteXOfertaID : ID }, function () {
+                wnd.center().open();
+            });
+        }
     }
 
     function verPostulante(e) {
@@ -184,14 +187,16 @@
 
     function CerrarConvocatoria(){
 
-        $.ajax({
-            url: '@Url.Action("CerrarConvocatoria", "OfertasLaboralesInternas", new { Area = "Reclutamiento" })',
-            dataType: 'JSON',
-            type: 'POST',
-            data: { OfertaLaboralID : @ofertaID},
-            success: function(response){
-                handleError(response);
-            }
-        });
+        if(confirm("¿Está seguro que desea cerrar esta oferta? Tenga en cuenta que no se admiten más postulantes y que puede no cubrir todas las vacantes requeridas.")){
+            $.ajax({
+                url: '@Url.Action("CerrarConvocatoria", "OfertasLaboralesInternas", new { Area = "Reclutamiento" })',
+                dataType: 'JSON',
+                type: 'POST',
+                data: { OfertaLaboralID : @ofertaID},
+                success: function(response){
+                    handleError(response);
+                }
+            });
+        }
     }
 </script>
