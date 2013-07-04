@@ -138,6 +138,11 @@
         e.preventDefault();
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
 
+        if (dataItem.PuestoSuperiorID == "") {
+            alert("No se puede copiar un puesto sin puesto de trabajo superior.");
+            return;
+        }
+
         $.ajax({
             url: '@Url.Action("Copy", "Puestos", new { Area = "Organizacion" })',
             dataType: 'JSON',

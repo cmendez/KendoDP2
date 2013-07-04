@@ -16,6 +16,7 @@
     string funcionesJson = Json.Encode(funciones);
     string capacidadesJson = Json.Encode(capacidades);
     bool yaValidado = ViewBag.yaValido;
+    bool isAprobador = ViewBag.isAprobador;
 }
 
 @using (Html.BeginForm())
@@ -190,14 +191,19 @@
             </div>
         </div>
     </div>
-    if (!yaValidado)
+    if ((!yaValidado) && isAprobador)
     {
         <a class="btn green" href="javascript:CambiaEstadoAceptar();"> Aceptar </a>
         <a class="btn green" href="javascript:CambiaEstadoRechazar();"> Rechazar </a>
     }
     else
     {
-        <label class="label">Esta oferta laboral ya fue publicada.</label>
+        if (!isAprobador)
+        {
+            <label class="label">Usted no puede aprobar una oferta laboral.</label>
+        } else {
+            <label class="label">Esta oferta laboral ya fue publicada.</label>
+        }
         <br />
     }
     <!-- fin contenedor inferior: campos -->

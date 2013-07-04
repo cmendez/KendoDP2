@@ -38,7 +38,7 @@
                         columns.Command(command => {
                                                      
                                                      command.Destroy().Text("Eliminar");
-                                                     command.Custom("Aceptar").Click("aceptarSolicitud");
+                                                     command.Custom("Ver").Click("aceptarSolicitud");
                                                      command.Edit().CancelText("Cancelar").UpdateText("Guardar");
                                                    }).Width(300);                        
                     }
@@ -67,6 +67,7 @@
                     .Read(read => read.Action("Read", "SolicitudOfertasLaborales"))
                     .Destroy(update => update.Action("Destroy", "SolicitudOfertasLaborales"))
                     .Update(update => update.Action("Update", "SolicitudOfertasLaborales"))
+                    .Events(e => e.Error("onError"))
                 )
                )
         </div>
@@ -91,6 +92,21 @@
         $("#Details").load("@Url.Action("GetViewOferta","SolicitudOfertasLaborales", new{Area = "Reclutamiento"})?ofertaID=" + ID, function () {
             wnd.center().open();
         });
+    }
+
+    function onError(e) {
+        if (e.errors) {
+            var message = "Error:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+            $('#SolicitudOfertaGrid').data('kendoGrid').dataSource.read();
+        }
     }
 </script>
 

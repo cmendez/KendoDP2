@@ -163,11 +163,11 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                     else
                     {
                         OfertaLaboral ol = context.TablaOfertaLaborales.FindByID(Convert.ToInt32(idOfertaLaboral));
-                        if (ol == null) throw new Exception("No existe la Oferta Laboral con ID = " + idOfertaLaboral);
-                        if (ol.PuestoID == 0 || ol.Puesto == null) throw new Exception("La Oferta Laboral no tiene asignado un puesto");
+                        if (ol == null) return JsonErrorGet("No existe la Oferta Laboral con ID = " + idOfertaLaboral);
+                        if (ol.PuestoID == 0 || ol.Puesto == null) return JsonErrorGet("La Oferta Laboral no tiene asignado un puesto");
 
                         var competenciaAux = context.TablaCompetenciaXPuesto.Where(x => x.PuestoID == ol.PuestoID);
-                        if (competenciaAux.Count == 0) throw new Exception("No existen competencias asignadas al puesto : " + ol.Puesto.Nombre);
+                        if (competenciaAux.Count == 0) return JsonErrorGet("No existen competencias asignadas al puesto : " + ol.Puesto.Nombre);
 
                         List<CompetenciaDTO> competencias = competenciaAux.Select(x => x.Competencia).Select(x => x.ToDTO()).ToList();
                         return JsonSuccessGet(new { competencias = competencias });

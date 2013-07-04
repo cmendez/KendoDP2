@@ -56,6 +56,13 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                     ModelState.AddModelError("Area", "Ya existe otra área con el mismo nombre.");
                     return Json(new[] { area }.ToDataSourceResult(request, ModelState));
                 }
+
+                if (area.AreaSuperiorID == 0)
+                {
+                    ModelState.AddModelError("Area", "No se puede crear un área sin área superior.");
+                    return Json(new[] { area }.ToDataSourceResult(request, ModelState));
+                }
+
                 Area a = new Area(area);
                 a.ID = context.TablaAreas.AddElement(a);
                 return Json(new[] { a.ToDTO() }.ToDataSourceResult(request, ModelState));
@@ -68,6 +75,11 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             using (DP2Context context = new DP2Context())
             {
                 Area a = context.TablaAreas.FindByID(area.ID).LoadFromDTO(area);
+                if (area.AreaSuperiorID == 0)
+                {
+                    ModelState.AddModelError("Area", "No se puede crear un área sin área superior.");
+                    return Json(new[] { area }.ToDataSourceResult(request, ModelState));
+                }
                 context.TablaAreas.ModifyElement(a);
                 return Json(new[] { a.ToDTO() }.ToDataSourceResult(request, ModelState));
             }

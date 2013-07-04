@@ -141,7 +141,7 @@
     function Contratar(e) {
         var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
         var postulanteXOfertaID = dataItem.ID;
-        if(confirm("¿Desea usted cambiar de puestor a este bicho?")){
+        if(confirm("¿Desea usted cambiar de puesto a este postulante?")){
             $.ajax({
                 url: '@Url.Action("Contratar", "OfertasLaboralesInternas", new { Area = "Reclutamiento" })',
                 dataType: 'JSON',
