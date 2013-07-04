@@ -31,8 +31,8 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 for (int i = 0; i < 3 && i < ofertasEnFecha.Count; i++)
                     res.Add(ofertasEnFecha[i]);    
             
-            while(ofertasEnFecha.Count < 0)
-                ofertasEnFecha.Add( new OfertaLaboralDTO { Area = "-", Puesto = "-", SueldoTentativo = 0 } );
+            while(res.Count < 3)
+                res.Add( new OfertaLaboralDTO { Area = "-", Puesto = "-", SueldoTentativo = 0 } );
             return res;
         }
         public ActionResult Index()
