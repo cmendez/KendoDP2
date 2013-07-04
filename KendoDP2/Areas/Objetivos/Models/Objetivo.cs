@@ -115,7 +115,9 @@ namespace KendoDP2.Areas.Objetivos.Models
 
         internal void RegistrarAvancex(DP2Context context, int valor, string comentario)
         {
-            AvanceObjetivo avance = new AvanceObjetivo { Objetivo = this, Valor = valor, FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy"), Comentario = comentario };
+            //this.LosProgresos.Select(a => a.FueRevisado = true);
+            //context.TablaObjetivos.ModifyElement(this);
+            AvanceObjetivo avance = new AvanceObjetivo { Objetivo = this, Valor = valor, FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy"), Comentario = comentario, EsRevision = false };
             context.TablaAvanceObjetivo.AddElement(avance);
         }
 
@@ -229,7 +231,7 @@ namespace KendoDP2.Areas.Objetivos.Models
                 this.ComentarioUltimoAvance = LosProgresos.Last().Comentario;
             else
                 this.ComentarioUltimoAvance = "";
-            AvanceFinalDeAlgunProgeso = o.LosProgresos.Count > 0 ? o.LosProgresos.Last().Valor : 0;
+            AvanceFinalDeAlgunProgeso = LosProgresos.Count > 0 ? LosProgresos.Last().Valor : 0;
         }
         
     }

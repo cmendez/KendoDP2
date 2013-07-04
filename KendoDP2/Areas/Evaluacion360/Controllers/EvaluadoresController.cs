@@ -63,7 +63,10 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 ViewBag.Iniciado = true;
                 ProcesoEvaluacion proceso = context.TablaProcesoEvaluaciones.FindByID(procesoEvaluacionID);
                 EstadoProcesoEvaluacion enProceso  = context.TablaEstadoProcesoEvaluacion.One(e=>e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Iniciado));
-                if (enProceso.ID != proceso.EstadoProcesoEvaluacionID) {
+                EstadoProcesoEvaluacion terminado  = context.TablaEstadoProcesoEvaluacion.One(e=>e.Descripcion.Equals(ConstantsEstadoProcesoEvaluacion.Terminado));
+
+                if (proceso.EstadoProcesoEvaluacionID < enProceso.ID || proceso.EstadoProcesoEvaluacionID==terminado.ID)
+                {
                     ViewBag.Iniciado = false;
                     return View();
                 }

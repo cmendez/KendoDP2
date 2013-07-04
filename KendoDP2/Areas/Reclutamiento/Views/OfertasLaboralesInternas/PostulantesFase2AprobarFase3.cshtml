@@ -17,7 +17,7 @@
                            <h4 class="alert-heading">Información</h4>
                            <p>
                               Apruebe a los postulantes calificados para la fase 3 tras la evaluación psicotécnica.
-                              En caso quiera ver la lista general de postulantes de esta oferta presionar el boton "Ver Todos".
+                              En caso quiera ver la lista general de postulantes de esta oferta presionar el botón "Ver Todos".
                            </p>
  </div>
 
@@ -37,6 +37,7 @@
                <div class="span2">@Html.ActionLink("Ir a fase 1", "VerPostulantesFase1", "OfertasLaboralesInternas", new { ofertaLaboralID = ofertaID },  new {@class = "btn yellow" })</div>
                <div class="span2">@Html.ActionLink("Ir a fase 3", "VerPostulantesFase3", "OfertasLaboralesInternas", new { ofertaLaboralID = ofertaID },  new {@class = "btn red" })</div>
                <div class="span2">@Html.ActionLink("Ver todos", "VerPostulantes", "OfertasLaboralesInternas", new { ofertaLaboralID = ofertaID},  new {@class = "btn green" })</div>
+                
            </div>
            <div class="row-fluid">
             @(Html.Kendo().Grid<OfertaLaboralXPostulanteDTO>()
@@ -134,12 +135,14 @@
     function rechazarPase(e) {
         e.preventDefault();
 
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        ID = dataItem.ID;
-        var wnd = $("#Details").data("kendoWindow");
-        $("#Details").load("@Url.Action("GetViewMotivosRechazo","OfertasLaboralesInternas", new{Area = "Reclutamiento"})", {ofertaID : @ofertaID, postulanteXOfertaID : ID }, function () {
-            wnd.center().open();
-        });
+        if(confirm("¿Esta seguro que desea rechazar a este postulante?")){
+            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+            ID = dataItem.ID;
+            var wnd = $("#Details").data("kendoWindow");
+            $("#Details").load("@Url.Action("GetViewMotivosRechazo","OfertasLaboralesInternas", new{Area = "Reclutamiento"})", {ofertaID : @ofertaID, postulanteXOfertaID : ID }, function () {
+                wnd.center().open();
+            });
+        }
     }
 
     function verPostulante(e) {

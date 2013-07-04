@@ -354,24 +354,56 @@ namespace KendoDP2.Areas.Reportes.Controllers
 
                     Ofertapuesto.Fases.Add(faseini);
 
-                   //List<FasePostulacionXOfertaLaboralXPostulante> FasesPostulacionXOfertaXPostulanteaux = context.TablaFasePostulacionXOfertaLaboralXPostulante.All();
-                   //List<OfertaLaboralXPostulante> OfertaLaboralXPostulanteaux = context.TablaOfertaLaboralXPostulante.All();
-                   //List<EvaluacionXFaseXPostulacion> evaaux = context.TablaEvaluacionXFaseXPostulacion.Where(ev=>ev.FasePostulacionXOfertaLaboralXPostulante.FasePostulacionID==1);
+                   List<FasePostulacionXOfertaLaboralXPostulante> FasesPostulacionXOfertaXPostulanteaux = context.TablaFasePostulacionXOfertaLaboralXPostulante.All();
+                   List<OfertaLaboralXPostulante> OfertaLaboralXPostulanteaux = context.TablaOfertaLaboralXPostulante.All();
+                   List<EvaluacionXFaseXPostulacion> evaaux = context.TablaEvaluacionXFaseXPostulacion.All();
+                   List<EstadoPostulantePorOferta> estado = context.TablaEstadoPostulanteXOferta.All();
                 
+                  
+                   int idfaseparapos ;
+                   int idfaseparaev ;
+                   int idestado ;
+
+
                    for (int i = 1; i <= 3; i++)
                    {
-                       //Fases de la postulaciones
-                        List<FasePostulacionXOfertaLaboralXPostulante> FasesPostulacionXOfertaXPostulante = context.TablaFasePostulacionXOfertaLaboralXPostulante .Where(f => f.FasePostulacionID == i && f.OfertaLaboralXPostulante.OfertaLaboralID==Oferta.ID).ToList();
+                        //IDs para busqueda
+                        if (i == 1)
+                        {
+                            idfaseparapos = 1;
+                            idfaseparaev = 1;
+                            idestado = 2;
+                        }
+                        else
+                        {
+                            if (i==2)
+                            {
+                                idfaseparapos = 1;
+                                idfaseparaev = 2;
+                                idestado = 3;
+                            }
+                            else
+                            {
+                                idfaseparapos = 2;
+                                idfaseparaev = 3;
+                                idestado = 4;
+                            }
+                        }
+                        //Fases de la postulaciones
+                        List<FasePostulacionXOfertaLaboralXPostulante> FasesPostulacionXOfertaXPostulante = context.TablaFasePostulacionXOfertaLaboralXPostulante .Where(f => f.FasePostulacionID==idfaseparapos
+                              && ((f.OfertaLaboralXPostulante.EstadoPostulantePorOfertaID >= idestado+4 && f.OfertaLaboralXPostulante.EstadoPostulantePorOfertaID <= 9)
+                              || (f.OfertaLaboralXPostulante.EstadoPostulantePorOfertaID >= idestado && f.OfertaLaboralXPostulante.EstadoPostulantePorOfertaID <=4 ))
+                             && f.OfertaLaboralXPostulante.OfertaLaboralID == Oferta.ID).ToList();
                        
                         //Datos de la fase 
                         RFase fase= new RFase();
                         
-                        fase.nombreFase = context.TablaFasePostulacion.FindByID(i+1).Descripcion;
+                        fase.nombreFase = context.TablaEstadoPostulanteXOferta.FindByID(i+1).Descripcion;
                         fase.numPostulantes = FasesPostulacionXOfertaXPostulante.Count();
                         fase.Postulantes = new List<RPostulante>();
 
                         //Datos de los postulantes
-                        FasesPostulacionXOfertaXPostulante.Where(f => f.FasePostulacionID == i).ToList().ForEach(f => fase.Postulantes.Add(new RPostulante
+                        FasesPostulacionXOfertaXPostulante.ForEach(f => fase.Postulantes.Add(new RPostulante
                         {
                             ID =f.OfertaLaboralXPostulante.Postulante.ID,
                             Proveniencia = f.OfertaLaboralXPostulante.Postulante.CentroEstudios,
@@ -382,17 +414,28 @@ namespace KendoDP2.Areas.Reportes.Controllers
                         //Puntajes postulantes
                         foreach (RPostulante pos in fase.Postulantes)
                         {
-                            int idaux = FasesPostulacionXOfertaXPostulante.Find(f => f.OfertaLaboralXPostulante.PostulanteID == pos.ID && f.FasePostulacionID == i).ID;
+                            FasePostulacionXOfertaLaboralXPostulante fasepos =context.TablaFasePostulacionXOfertaLaboralXPostulante.One(f => f.OfertaLaboralXPostulante.OfertaLaboral.ID == Oferta.ID && f.OfertaLaboralXPostulante.PostulanteID == pos.ID && f.FasePostulacionID == idfaseparaev);
+                            if (fasepos != null)
+                            {
+                                int idaux = fasepos.ID;
+                                List<EvaluacionXFaseXPostulacionDTO> eva = context.TablaEvaluacionXFaseXPostulacion.Where(ev => 
+                                                    ev.FasePostulacionXOfertaLaboralXPostulanteID == idaux).Select(ev => ev.ToDTO()).ToList();
 
-                            List<EvaluacionXFaseXPostulacionDTO> eva= context.TablaEvaluacionXFaseXPostulacion.Where(ev => ev.FasePostulacionXOfertaLaboralXPostulante.OfertaLaboralXPostulante.OfertaLaboral.ID == Oferta.ID
-                                                && ev.FasePostulacionXOfertaLaboralXPostulanteID==idaux).Select(ev => ev.ToDTO()).ToList();
-                            
-                            
-                            if  (eva.Count>0){
-                                pos.puntaje=eva[0].Puntaje;
+
+                                if (eva.Count > 0)
+                                {
+                                    pos.puntaje = eva[0].Puntaje;
+                                }
+                            }
+                            if (i == 2)
+                            {
+
+                                if (context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.EstadoPostulantePorOfertaID==4 && oxp.OfertaLaboralID == Oferta.ID && oxp.PostulanteID == pos.ID)!=null) {
+                                    pos.puntaje = context.TablaOfertaLaboralXPostulante.Where(oxp => oxp.OfertaLaboralID == Oferta.ID && oxp.PostulanteID == pos.ID)[0].PuntajeFase2;
+                                }
                             }
                         }
-
+                        
                         if (fase.Postulantes.Count>0){
                             fase.PuntajeMaximo = fase.Postulantes.Max(x=>x.puntaje);
                             fase.PuntajeMinimo = fase.Postulantes.Min(x => x.puntaje);

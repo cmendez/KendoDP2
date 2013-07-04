@@ -26,6 +26,9 @@ namespace KendoDP2.Areas.Objetivos.Models
 
         public string Comentario { get; set; }
 
+        //public bool esRevision { }
+        public bool EsRevision { get; set; }
+
         public AvanceObjetivo() { }
 
         public AvanceObjetivo(AvanceObjetivoDTO avance)
@@ -68,6 +71,8 @@ namespace KendoDP2.Areas.Objetivos.Models
         public bool FueRevisado { get; set; }
         public int ValorDelJefe { get; set; }
 
+        public bool EsRevision { get; set; }
+
         public string Comentario { get; set; }
 
         public AvanceObjetivoDTO() { }
@@ -83,6 +88,8 @@ namespace KendoDP2.Areas.Objetivos.Models
             FueRevisado = avance.FueRevisado;
             ValorDelJefe = avance.ValorDelJefe;
             Comentario = avance.Comentario;
+
+            EsRevision = avance.EsRevision;
         }
     }
 

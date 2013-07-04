@@ -17,7 +17,7 @@
                            <h4 class="alert-heading">Información</h4>
                            <p>
                               Apruebe a los postulantes internos calificados para la fase 2 tras la evaluación por competencias.
-                              En caso quiera ver la lista general de postulantes de esta oferta presionar el boton "Ver Todos".
+                              En caso quiera ver la lista general de postulantes de esta oferta presionar el botón "Ver Todos".
                            </p>
  </div>
 <div class="progress progress-warning">
@@ -125,12 +125,14 @@
     function rechazarPase(e) {
         e.preventDefault();
 
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        ID = dataItem.ID;
-        var wnd = $("#Details").data("kendoWindow");
-        $("#Details").load("@Url.Action("GetViewMotivosRechazo","OfertasLaboralesInternas", new{Area = "Reclutamiento"})", {ofertaID : @ofertaID, postulanteXOfertaID : ID, motivoRechazo : "" }, function () {
-            wnd.center().open();
-        });
+        if(confirm("¿Esta seguro que desea rechazar a este postulante?")){
+            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+            ID = dataItem.ID;
+            var wnd = $("#Details").data("kendoWindow");
+            $("#Details").load("@Url.Action("GetViewMotivosRechazo","OfertasLaboralesInternas", new{Area = "Reclutamiento"})", {ofertaID : @ofertaID, postulanteXOfertaID : ID, motivoRechazo : "" }, function () {
+                wnd.center().open();
+            });
+        }
     }
 
     function verPostulante(e) {
