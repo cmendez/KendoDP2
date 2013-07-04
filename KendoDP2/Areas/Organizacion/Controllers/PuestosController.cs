@@ -57,6 +57,12 @@ namespace KendoDP2.Areas.Organizacion.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
+                if (puesto.PuestoSuperiorID == 0)
+                {
+                    ModelState.AddModelError("Puesto", "No se puede crear un puesto sin puesto superior.");
+                    return Json(new[] { puesto }.ToDataSourceResult(request, ModelState));
+                }
+
                 Puesto p = new Puesto(puesto);
                 p.EstadoPuesto = context.TablaEstadosPuestos.One(x => x.Descripcion.Equals("Vacante"));
                 context.TablaPuestos.AddElement(p);
@@ -160,27 +166,44 @@ namespace KendoDP2.Areas.Organizacion.Controllers
        
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Update([DataSourceRequest] DataSourceRequest request, AreaDTO area)
+        public ActionResult Update([DataSourceRequest] DataSourceRequest request, PuestoDTO puesto)
         {
             using (DP2Context context = new DP2Context())
             {
-                Area a = context.TablaAreas.FindByID(area.ID).LoadFromDTO(area);
-                context.TablaAreas.ModifyElement(a);
-                return Json(new[] { a.ToDTO() }.ToDataSourceResult(request, ModelState));
+                Puesto p = context.TablaPuestos.FindByID(puesto.ID).LoadFromDTO(puesto);
+                if (puesto.PuestoSuperiorID == 0)
+                {
+                    ModelState.AddModelError("Puesto", "No se puede crear un puesto sin puesto superior.");
+                    return Json(new[] { puesto }.ToDataSourceResult(request, ModelState));
+                }
+                context.TablaPuestos.ModifyElement(p);
+                return Json(new[] { p.ToDTO() }.ToDataSourceResult(request, ModelState));
             }
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Destroy([DataSourceRequest] DataSourceRequest request, AreaDTO area)
+        public ActionResult Destroy([DataSourceRequest] DataSourceRequest request, PuestoDTO puesto)
         {
             using (DP2Context context = new DP2Context())
             {
-                Area a = context.TablaAreas.FindByID(area.ID);
-                if (!a.Puestos.Any(i => !i.IsEliminado) && !a.Areas.Any(i => !i.IsEliminado))
-                    context.TablaAreas.RemoveElementByID(area.ID);
-                else
-                    ModelState.AddModelError("Area", "No se puede eliminar un área con áreas o puestos subordinados.");
+                Puesto p = context.TablaPuestos.FindByID(puesto.ID);
+
+                if (p.ColaboradorPuestos.Any(c => c.FechaIngresoPuesto <= DateTime.Now && (c.FechaSalidaPuesto == null || c.FechaSalidaPuesto > DateTime.Today)))
+                {
+                    ModelState.AddModelError("Puesto", "No se puede eliminar un puesto con un colaborador activo.");
+                    return Json(ModelState.IsValid ? new object() : ModelState.ToDataSourceResult());
+                }
+
+                if (p.Puestos.Any(i => !i.IsEliminado)){
+                     ModelState.AddModelError("Puesto", "No se puede eliminar un puesto con puestos subordinados.");
+                    return Json(ModelState.IsValid ? new object() : ModelState.ToDataSourceResult());
+                }
+
+                context.TablaPuestos.RemoveElementByID(puesto.ID);
                 return Json(ModelState.IsValid ? new object() : ModelState.ToDataSourceResult());
+                
+
+                
             }
         }
 
