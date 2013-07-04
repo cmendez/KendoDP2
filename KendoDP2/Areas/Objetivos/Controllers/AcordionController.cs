@@ -70,6 +70,23 @@ namespace KendoDP2.Areas.Objetivos.Controllers
             return null;
         }
 
+
+        public ActionResult guardaValidacion(int progresoID, int valor)
+        {
+            try
+            {
+                using (DP2Context context = new DP2Context())
+                {
+                    capturarValidacionDelJefe(progresoID, valor);
+                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }
 
