@@ -22,18 +22,19 @@ namespace KendoDP2.Areas.Organizacion.Controllers
 
         private List<OfertaLaboralDTO> GetOfertasRecientes(DP2Context context)
         {
-            List<OfertaLaboralDTO> ofertasPosibles = context.TablaOfertaLaborales.Where(p => (p.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Aprobado")) && (p.ModoSolicitudOfertaLaboral.Descripcion.Equals("Convocatoria Interna"))).Select(p => p.ToDTO()).ToList();
-            DateTime now = DateTime.Now;
-            List<OfertaLaboralDTO> ofertasEnFecha = ofertasPosibles.Where(x => DateTime.ParseExact(x.FechaFinRequerimiento, "dd/MM/yyyy", CultureInfo.CurrentCulture).CompareTo(now) >= 1).ToList();
-            int indice = 1;
-            List<OfertaLaboralDTO> res = new List<OfertaLaboralDTO>();
-            if (ofertasEnFecha != null)
-                for (int i = 0; i < 3 && i < ofertasEnFecha.Count; i++)
-                    res.Add(ofertasEnFecha[i]);    
+            //List<OfertaLaboralDTO> ofertasPosibles = context.TablaOfertaLaborales.Where(p => (p.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Aprobado")) && (p.ModoSolicitudOfertaLaboral.Descripcion.Equals("Convocatoria Interna"))).Select(p => p.ToDTO()).ToList();
+            //DateTime now = DateTime.Now;
+            //List<OfertaLaboralDTO> ofertasEnFecha = ofertasPosibles.Where(x => DateTime.ParseExact(x.FechaFinRequerimiento, "dd/MM/yyyy", CultureInfo.CurrentCulture).CompareTo(now) >= 1).ToList();
+            //int indice = 1;
+            //List<OfertaLaboralDTO> res = new List<OfertaLaboralDTO>();
+            //if (ofertasEnFecha != null)
+            //    for (int i = 0; i < 3 && i < ofertasEnFecha.Count; i++)
+            //        res.Add(ofertasEnFecha[i]);    
             
-            while(res.Count < 3)
-                res.Add( new OfertaLaboralDTO { Area = "-", Puesto = "-", SueldoTentativo = 0 } );
-            return res;
+            //while(res.Count < 3)
+            //    res.Add( new OfertaLaboralDTO { Area = "-", Puesto = "-", SueldoTentativo = 0 } );
+            //return res;
+            return new List<OfertaLaboralDTO>();
         }
         public ActionResult Index()
         {
