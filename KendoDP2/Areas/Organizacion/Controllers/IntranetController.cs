@@ -166,5 +166,18 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 return PartialView("DetalleEvento", eventoDTO);
             }
         }
+
+        public ActionResult RedireccionEventos()
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                ViewBag.areas = context.TablaAreas.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.estadosEventos = context.TablaEstadoEvento.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.tipoEventos = context.TablaTiposEvento.All().Select(p => p.ToDTO()).ToList();
+
+                return View("Index", new {Area= "Eventos"});
+            }
+        }
     }
 }
