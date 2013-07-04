@@ -1,9 +1,11 @@
 ﻿using KendoDP2.Areas.Eventos.Models;
 using KendoDP2.Areas.Organizacion.Models;
+using KendoDP2.Areas.Reclutamiento.Models;
 using KendoDP2.Models.Generic;
 using KendoDP2.Models.Seguridad;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -26,7 +28,8 @@ namespace KendoDP2.Areas.Organizacion.Controllers
 
                 string nombreE = "No hay eventos programados";
                 string lugarE = "No hay eventos programados";
-
+                
+                
                 /*ICollection<Invitado> i = context.TablaInvitado.Where(m => m.ColaboradorID == ColaboradorID).ToList();
                 ICollection<Invitado> invReciente = i.Where(p => p.Evento.Inicio >= DateTime.Today || p.Evento.Inicio <= DateTime.Today.AddDays(7)).ToList();
                 
@@ -43,6 +46,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 }
                  */
 
+              
                 ViewBag.ColaboradorDTO = context.TablaColaboradores.FindByID(ColaboradorID).ToDTO();
                 ViewBag.tipoDocumentos = context.TablaTiposDocumentos.All().Select(c => c.ToDTO()).ToList();
                 ViewBag.gradoAcademico = context.TablaGradosAcademicos.All().Select(c => c.ToDTO()).ToList();
@@ -55,8 +59,9 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 ViewBag.estadosEventos = context.TablaEstadoEvento.All().Select(c => c.ToDTO()).ToList();
                 ViewBag.nombreEvento = nombreE;
                 ViewBag.lugarEvento = lugarE;
-                ViewBag.ultimasOfertas = context.TablaOfertaLaborales.All().Select(c => c.ToDTO()).ToList();
+                
 
+                
                 return View();
             }
 
@@ -164,6 +169,21 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 ViewBag.invitados = eventoDTO.Invitados.ToList();
 
                 return PartialView("DetalleEvento", eventoDTO);
+            }
+        }
+
+        
+
+        public ActionResult RedireccionEventos()
+        {
+            using (DP2Context context = new DP2Context())
+            {
+                ViewBag.areas = context.TablaAreas.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.puestos = context.TablaPuestos.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.estadosEventos = context.TablaEstadoEvento.All().Select(p => p.ToDTO()).ToList();
+                ViewBag.tipoEventos = context.TablaTiposEvento.All().Select(p => p.ToDTO()).ToList();
+
+                return View("Index", new {Area= "Eventos"});
             }
         }
     }
