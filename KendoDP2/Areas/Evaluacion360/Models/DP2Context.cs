@@ -228,18 +228,20 @@ namespace KendoDP2.Models.Generic
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(6,16,3, 30));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1,17,1, 100));
             //Puesto de clengua
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(3, 18, 2, 35));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(2, 18, 2, 65));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(3, 18, 2, 100));
             //Jefe Logística
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(3,19,3, 55));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(4, 19, 1, 45));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(3, 19, 3, 55));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(4, 19, 1, 40));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5, 19, 2, 5));
             //Jefe RRHH
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5,20,2, 30));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(6,20,3, 70));
             //Jefe Finanzas
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5, 21, 3, 10));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(6, 21, 3, 10));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(1, 21, 1, 60));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(2, 21, 2, 20));
-            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(3, 21, 3, 20));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(2, 21, 2, 10));
+            TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(3, 21, 3, 10));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(4,22,1, 20));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(5,22,2, 40));
             TablaCompetenciaXPuesto.AddElement(new CompetenciaXPuesto(6,22,3, 40));
