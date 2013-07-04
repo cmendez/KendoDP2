@@ -95,11 +95,11 @@ namespace KendoDP2.Controllers
             {
                 MailMessage mail = new MailMessage();
                 SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                SmtpServer.Credentials = new System.Net.NetworkCredential("pruebas.rhpp@gmail.com", "desarrollo");
+                SmtpServer.Credentials = new System.Net.NetworkCredential("dp2.rhpp@gmail.com", "somoslindos"); 
                 SmtpServer.Port = 587;
                 SmtpServer.EnableSsl = true;
 
-                mail.From = new MailAddress("pruebas.rhpp@gmail.com");
+                mail.From = new MailAddress("dp2.rhpp@gmail.com");
                 mail.Subject = subject;
                 mail.To.Add(to);
                 mail.Body = message;

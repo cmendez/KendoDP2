@@ -19,11 +19,13 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
             MailMessage mail = new MailMessage();
             mail.IsBodyHtml = true;
             SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-            SmtpServer.Credentials = new System.Net.NetworkCredential("pruebas.rhpp@gmail.com", "desarrollo");
+            //SmtpServer.Credentials = new System.Net.NetworkCredential("pruebas.rhpp@gmail.com", "desarrollo");
+            SmtpServer.Credentials = new System.Net.NetworkCredential("dp2.rhpp@gmail.com", "somoslindos");
+            
             SmtpServer.Port = 587;
             SmtpServer.EnableSsl = true;
             String to = "";
-            String from = "pruebas.rhpp@gmail.com";
+            String from = "dp2.rhpp@gmail.com";
 
             mail.From = new MailAddress(from);
             mail.Subject = "[RH++] Proceso Evaluación:" + proceso.Nombre.ToUpper() + " - Elegir evaluadores ";
@@ -38,7 +40,7 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
                 if (c.CorreoElectronico != null)
                     to = c.CorreoElectronico;
                 else
-                    to = "pruebas.rhpp+RHSE_JEFES@gmail.com";
+                    to = "dp2.rhpp+RHSE_JEFES@gmail.com";
                 mail.To.Add(to);
                 mail.Body = "<strong> "+ c.ToDTO().NombreCompleto + "</strong> " + messageText;
                 try
@@ -53,14 +55,14 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
         public void SendEmailRH(String from, String to, String subject, String message){
             MailMessage mail = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-            SmtpServer.Credentials = new System.Net.NetworkCredential("pruebas.rhpp@gmail.com", "desarrollo");
+            SmtpServer.Credentials = new System.Net.NetworkCredential("dp2.rhpp@gmail.com", "somoslindos");
             SmtpServer.Port = 587;
             SmtpServer.EnableSsl = true;
             mail.IsBodyHtml = true;
             mail.From = new MailAddress(from);
             mail.Subject = subject;
             if (String.IsNullOrEmpty(to))
-                to = "pruebas.rhpp+RHColaboradorSINEMAIL@gmail.com";
+                to = "dp2.rhpp+RHColaboradorSINEMAIL@gmail.com";
             mail.To.Add(to);
             mail.Body = message;
             try
@@ -78,11 +80,11 @@ namespace KendoDP2.Areas.Evaluacion360.Controllers
 
             MailMessage mail = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-            SmtpServer.Credentials = new System.Net.NetworkCredential("pruebas.rhpp@gmail.com", "desarrollo");
+            SmtpServer.Credentials = new System.Net.NetworkCredential("dp2.rhpp@gmail.com", "somoslindos");
             SmtpServer.Port = 587;
             SmtpServer.EnableSsl = true;
             String to = "";
-            String from = "pruebas.rhpp@gmail.com";
+            String from = "dp2.rhpp@gmail.com";
             mail.From = new MailAddress(from);
             mail.To.Add(to);
 
