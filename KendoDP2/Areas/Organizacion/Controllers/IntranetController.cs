@@ -30,21 +30,19 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 string lugarE = "No hay eventos programados";
                 
                 
-                /*ICollection<Invitado> i = context.TablaInvitado.Where(m => m.ColaboradorID == ColaboradorID).ToList();
-                ICollection<Invitado> invReciente = i.Where(p => p.Evento.Inicio >= DateTime.Today || p.Evento.Inicio <= DateTime.Today.AddDays(7)).ToList();
-                
-                Evento evActual = null; 
+                ICollection<Invitado> i = context.TablaInvitado.Where(m => m.ColaboradorID == ColaboradorID).ToList();
+                ICollection<Invitado> invReciente = i.Where(p => p.Evento.Inicio >= DateTime.Today).OrderBy(x => x.Evento.Inicio).ToList();
                 
                 if (invReciente != null)
                 {
-                        evActual = invReciente.FirstOrDefault().Evento;
+                        var evActual = invReciente.FirstOrDefault();
                         if (evActual != null)
                         {
-                            nombreE = evActual.Nombre;
-                            lugarE = evActual.LugarEvento;
+                            nombreE = evActual.Evento.Nombre;
+                            lugarE = evActual.Evento.LugarEvento;
                         }
                 }
-                 */
+                
 
               
                 ViewBag.ColaboradorDTO = context.TablaColaboradores.FindByID(ColaboradorID).ToDTO();
