@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
 using KendoDP2.Areas.Organizacion.Models;
+using KendoDP2.Models.Seguridad;
 
 namespace KendoDP2.Areas.Reclutamiento.Controllers
 {
@@ -86,6 +87,28 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
         {
             using (DP2Context context = new DP2Context())
             {
+                OfertaLaboral o = context.TablaOfertaLaborales.FindByID(oferta.ID).LoadFromDTO(oferta);
+                int userId = DP2MembershipProvider.GetPersonaID(this);
+                Colaborador colaborador = context.TablaColaboradores.FindByID(userId);
+                bool isaprobador = false;
+
+                if (colaborador != null)
+                {
+                    isaprobador = colaborador.Roles.Any(r => r.Nombre.Equals("Aprobar solicitudes de oferta laboral") && r.Permiso);
+                    
+                    if (!isaprobador)
+                    {
+                        ModelState.AddModelError("Oferta", "Usted no puede eliminar ofertas laborales.");
+                        return Json(ModelState.IsValid ? new object() : ModelState.ToDataSourceResult());
+                    }
+                }
+
+                if(YaValido(o))
+                {
+                    ModelState.AddModelError("Oferta", "No se puede eliminar una oferta ya publicada.");
+                    return Json(ModelState.IsValid ? new object() : ModelState.ToDataSourceResult());
+                }
+
                 context.TablaOfertaLaborales.RemoveElementByID(oferta.ID);
                 return Json(ModelState.ToDataSourceResult());
             }
@@ -112,6 +135,17 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
             using (DP2Context context = new DP2Context())
             {
                 OfertaLaboral oferta = context.TablaOfertaLaborales.FindByID(ofertaID);
+
+                int userId = DP2MembershipProvider.GetPersonaID(this);
+                Colaborador colaborador = context.TablaColaboradores.FindByID(userId);
+                bool isaprobador = false;
+
+                if (colaborador != null)
+                {
+                    isaprobador = colaborador.Roles.Any(r => r.Nombre.Equals("Aprobar solicitudes de oferta laboral") && r.Permiso);
+                }
+
+                ViewBag.isAprobador = isaprobador;
                 ViewBag.yaValido = YaValido(oferta);
                 ViewBag.responsable = oferta.Responsable.ToDTO();
                 ViewBag.modoSolicitudOferta = oferta.ModoSolicitudOfertaLaboralID >= 1 ? oferta.ModoSolicitudOfertaLaboral.ToDTO() : new ModoSolicitudOfertaLaboralDTO();
