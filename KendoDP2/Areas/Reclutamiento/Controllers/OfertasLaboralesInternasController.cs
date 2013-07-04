@@ -234,54 +234,63 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
 
                 if (postulanteOferta.EstadoPostulantePorOferta.Descripcion.Equals("Aprobado Fase 1"))
                 {
-                    postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Aprobado Fase 2"));
-                    postulanteOferta.FechaEvaluacionSegundaFase = fecha;
-                    //para la validacion
-                    postulanteOferta.PuntajeAnterior = postulanteOferta.PuntajeTotal;
-                    
-                    context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
-
-                    int fpID = context.TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado Externo")).ID;
-                    var aux = context.TablaFasePostulacionXOfertaLaboralXPostulante
-                        .One(x => x.FasePostulacionID == fpID &&
-                                    x.OfertaLaboralXPostulanteID == postulanteXOfertaID);
-                    if (aux == null) //Si dicho registro no existe
-                    {//Entonces lo agrego
-                        context.TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante
-                        {
-                            FasePostulacionID = fpID,
-                            OfertaLaboralXPostulanteID = postulanteXOfertaID,
-
-                        });
-                    }
-
-                    if (postulanteOferta.OfertaLaboral.ModoSolicitudOfertaLaboral.Descripcion.Equals("Convocatoria Interna"))
+                    //validacion rendir examen
+                    if (ValidoExistenciaExamenFase1(postulanteOferta.PuntajeTotal))
                     {
-                        if (postulanteOferta.Postulante.Colaborador.CorreoElectronico != null)
-                        {
-                            controladorGeneral.SendEmail(postulanteOferta.Postulante.Colaborador.CorreoElectronico, "[" + org.RazonSocial + "] Entrevista Fase 2",
-                                    RetornaMensajeCorreoFase2(postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto, fecha, org.Direccion, postulanteOferta.OfertaLaboral.Area.Nombre, postulanteOferta.OfertaLaboral.Puesto.Nombre));
+                        postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Aprobado Fase 2"));
+                        postulanteOferta.FechaEvaluacionSegundaFase = fecha;
+                        //para la validacion
+                        postulanteOferta.PuntajeAnterior = postulanteOferta.PuntajeTotal;
 
+                        context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
+
+                        int fpID = context.TablaFasePostulacion.One(x => x.Descripcion.Equals("Aprobado Externo")).ID;
+                        var aux = context.TablaFasePostulacionXOfertaLaboralXPostulante
+                            .One(x => x.FasePostulacionID == fpID &&
+                                        x.OfertaLaboralXPostulanteID == postulanteXOfertaID);
+                        if (aux == null) //Si dicho registro no existe
+                        {//Entonces lo agrego
+                            context.TablaFasePostulacionXOfertaLaboralXPostulante.AddElement(new FasePostulacionXOfertaLaboralXPostulante
+                            {
+                                FasePostulacionID = fpID,
+                                OfertaLaboralXPostulanteID = postulanteXOfertaID,
+
+                            });
+                        }
+
+                        if (postulanteOferta.OfertaLaboral.ModoSolicitudOfertaLaboral.Descripcion.Equals("Convocatoria Interna"))
+                        {
+                            if (postulanteOferta.Postulante.Colaborador.CorreoElectronico != null)
+                            {
+                                controladorGeneral.SendEmail(postulanteOferta.Postulante.Colaborador.CorreoElectronico, "[" + org.RazonSocial + "] Entrevista Fase 2",
+                                        RetornaMensajeCorreoFase2(postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto, fecha, org.Direccion, postulanteOferta.OfertaLaboral.Area.Nombre, postulanteOferta.OfertaLaboral.Puesto.Nombre));
+
+                            }
+                            else
+                            {
+                                ModelState.AddModelError("Alerta", "Se aprueba el pase del postulante, pero no se envía la notificación. Revise los datos e intente comunicarse por otro medio");
+                                return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+                            }
                         }
                         else
                         {
-                            ModelState.AddModelError("Alerta", "Se aprueba el pase del postulante, pero no se envía la notificación. Revise los datos e intente comunicarse por otro medio");
-                            return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+                            if (postulanteOferta.Postulante.CorreoElectronico != null)
+                            {
+                                controladorGeneral.SendEmail(postulanteOferta.Postulante.CorreoElectronico, "[" + org.RazonSocial + "] Entrevista Fase 2",
+                                    RetornaMensajeCorreoFase2(postulanteOferta.Postulante.Nombres, fecha, org.Direccion, postulanteOferta.OfertaLaboral.Area.Nombre, postulanteOferta.OfertaLaboral.Puesto.Nombre));
+                            }
+                            else
+                            {
+                                ModelState.AddModelError("Alerta", "Se aprueba el pase del postulante, pero no se envía la notificación. Revise los datos e intente comunicarse por otro medio");
+                                return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
+
+                            }
                         }
                     }
                     else
                     {
-                        if (postulanteOferta.Postulante.CorreoElectronico != null)
-                        {
-                            controladorGeneral.SendEmail(postulanteOferta.Postulante.CorreoElectronico, "[" + org.RazonSocial + "] Entrevista Fase 2",
-                                RetornaMensajeCorreoFase2(postulanteOferta.Postulante.Nombres, fecha, org.Direccion, postulanteOferta.OfertaLaboral.Area.Nombre, postulanteOferta.OfertaLaboral.Puesto.Nombre));
-                        }
-                        else
-                        {
-                            ModelState.AddModelError("Alerta", "Se aprueba el pase del postulante, pero no se envía la notificación. Revise los datos e intente comunicarse por otro medio");
-                            return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
-
-                        }
+                        ModelState.AddModelError("Alerta", "El postulante no ha rendido evaluación correspondiente a la fase 1");
+                        return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
                     }
                     
                     
@@ -367,7 +376,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 }
                     else
                     {
-                        ModelState.AddModelError("", "El postulante no ha rendido evaluación");
+                        ModelState.AddModelError("Alerta", "El postulante no ha rendido evaluación correspondiente a la fase 2");
                         return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
                     }
                 }
@@ -495,69 +504,78 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 // aca asignar el nuevo puesto
                 if (postulanteOferta.EstadoPostulantePorOferta.Descripcion.Equals("Aprobado Fase 3"))
                 {
+                    //validacion rendir examen
 
-                    if (oferta.NumeroVacantes > oferta.NumeroVacantesContratadas)
-                    {// se crea el nuevo puesto
-                        //modificacion para casos de mas vacantes y puestos duplicados
+                    if (ValidoExistenciaExamenFase2Fase3(postulanteOferta.PuntajeAnterior, postulanteOferta.PuntajeTotal))
+                    {
+                        if (oferta.NumeroVacantes > oferta.NumeroVacantesContratadas)
+                        {// se crea el nuevo puesto
+                            //modificacion para casos de mas vacantes y puestos duplicados
 
-                        int puestoPadre = oferta.PuestoID;
-                        List<PuestoDTO> puestos = BuscoPuestoPapaEHijos(puestoPadre);
+                            int puestoPadre = oferta.PuestoID;
+                            List<PuestoDTO> puestos = BuscoPuestoPapaEHijos(puestoPadre);
 
-                        if (puestos != null)
-                        {
-                            PuestoDTO puestoEncontrado = BuscaPuestoLibreAsignar(puestos);
-
-                            if (puestoEncontrado != null)
+                            if (puestos != null)
                             {
-                                var todos = context.TablaColaboradoresXPuestos.All();
-                                ColaboradorXPuesto u = null;
-                                foreach (var crucex in todos)
-                                    if (crucex.ColaboradorID == postulanteOferta.Postulante.ColaboradorID)
-                                        if (crucex.FechaSalidaPuesto == null)
-                                            u = crucex;
-                                if (u != null)
+                                PuestoDTO puestoEncontrado = BuscaPuestoLibreAsignar(puestos);
+
+                                if (puestoEncontrado != null)
                                 {
-                                    u.FechaSalidaPuesto = DateTime.Now.AddDays(-1);
-                                    context.TablaColaboradoresXPuestos.ModifyElement(u);
-                                }
+                                    var todos = context.TablaColaboradoresXPuestos.All();
+                                    ColaboradorXPuesto u = null;
+                                    foreach (var crucex in todos)
+                                        if (crucex.ColaboradorID == postulanteOferta.Postulante.ColaboradorID)
+                                            if (crucex.FechaSalidaPuesto == null)
+                                                u = crucex;
+                                    if (u != null)
+                                    {
+                                        u.FechaSalidaPuesto = DateTime.Now.AddDays(-1);
+                                        context.TablaColaboradoresXPuestos.ModifyElement(u);
+                                    }
 
-                                //cambia estado
-                                postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Contratado"));
-                                context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
-                                oferta.NumeroVacantesContratadas = oferta.NumeroVacantesContratadas + 1;
-                                ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = postulanteOferta.Postulante.Colaborador.ID, PuestoID = puestoEncontrado.ID, Sueldo = oferta.SueldoTentativo, FechaIngresoPuesto = DateTime.Now };
-                                context.TablaColaboradoresXPuestos.AddElement(cruce);
-                                context.TablaOfertaLaborales.ModifyElement(oferta);
+                                    //cambia estado
+                                    postulanteOferta.EstadoPostulantePorOferta = context.TablaEstadoPostulanteXOferta.One(p => p.Descripcion.Equals("Contratado"));
+                                    context.TablaOfertaLaboralXPostulante.ModifyElement(postulanteOferta);
+                                    oferta.NumeroVacantesContratadas = oferta.NumeroVacantesContratadas + 1;
+                                    ColaboradorXPuesto cruce = new ColaboradorXPuesto { ColaboradorID = postulanteOferta.Postulante.Colaborador.ID, PuestoID = puestoEncontrado.ID, Sueldo = oferta.SueldoTentativo, FechaIngresoPuesto = DateTime.Now };
+                                    context.TablaColaboradoresXPuestos.AddElement(cruce);
+                                    context.TablaOfertaLaborales.ModifyElement(oferta);
 
 
-                                //Se envia notificacion
-                                if (postulanteOferta.Postulante.Colaborador.CorreoElectronico != null)
-                                {
-                                    controladorGeneral.SendEmail(postulanteOferta.Postulante.Colaborador.CorreoElectronico, "[" + org.RazonSocial + "] Aviso de Seleccion",
-                                            RetornaMensajeCorreoCambioPuesto(postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto, postulanteOferta.OfertaLaboral.Area.Nombre, postulanteOferta.OfertaLaboral.Puesto.Nombre));
+                                    //Se envia notificacion
+                                    if (postulanteOferta.Postulante.Colaborador.CorreoElectronico != null)
+                                    {
+                                        controladorGeneral.SendEmail(postulanteOferta.Postulante.Colaborador.CorreoElectronico, "[" + org.RazonSocial + "] Aviso de Seleccion",
+                                                RetornaMensajeCorreoCambioPuesto(postulanteOferta.Postulante.Colaborador.ToDTO().NombreCompleto, postulanteOferta.OfertaLaboral.Area.Nombre, postulanteOferta.OfertaLaboral.Puesto.Nombre));
+                                    }
+                                    else
+                                    {
+                                        ModelState.AddModelError("Alerta", "Cambio de puesto satisfactorio. Sin embargo: Se selecciona y cambia el puesto del postulante, pero no se envía la notificación. Revise los datos e intente comunicarse por otro medio");
+                                    }
+
                                 }
                                 else
                                 {
-                                    ModelState.AddModelError("Alerta", "Cambio de puesto satisfactorio. Sin embargo: Se selecciona y cambia el puesto del postulante, pero no se envía la notificación. Revise los datos e intente comunicarse por otro medio");
+                                    ModelState.AddModelError("", "Este puesto está ocupado, por favor revisar el contrato del colaborador en el puesto actual o si existe dentro de la estructura");
+                                    return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
                                 }
 
                             }
                             else
                             {
-                                ModelState.AddModelError("", "Este puesto está ocupado, por favor revisar el contrato del colaborador en el puesto actual o si existe dentro de la estructura");
-                                return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
+                                ModelState.AddModelError("", "No existe el puesto");
                             }
-
                         }
                         else
                         {
-                            ModelState.AddModelError("", "No existe el puesto");
+                            ModelState.AddModelError("Puestos: Vacantes", "Ya se han cubierto todas las vacantes de esta convocatoria, proceder al cierre");
+                            return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
                         }
                     }
                     else
                     {
-                        ModelState.AddModelError("Puestos: Vacantes", "Ya se han cubierto todas las vacantes de esta convocatoria, proceder al cierre");
-                        return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
+                        ModelState.AddModelError("Alerta", "El postulante no ha rendido evaluación correspondiente a la fase 3");
+                        return Json(new[] { postulanteOferta.ToDTO() }.ToDataSourceResult(request, ModelState));
                     }
                 }
                     
