@@ -110,7 +110,7 @@ namespace KendoDP2.Areas.Reclutamiento.Controllers
                 }
 
                 context.TablaOfertaLaborales.RemoveElementByID(oferta.ID);
-                return Json(ModelState.ToDataSourceResult());
+                return Json(ModelState.IsValid ? new object() : ModelState.ToDataSourceResult());
             }
         }
 
