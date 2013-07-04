@@ -20,6 +20,8 @@
     int colaboradorLogueado = ViewBag.colaboradorLogueado;
     string nombreEvento = ViewBag.nombreEvento;
     string lugarEvento = ViewBag.lugarEvento;
+
+    IList<OfertaLaboralDTO> ofertas = ViewBag.ofertas;
        
 }
 <link href='@Url.Content("~/Content/assets/plugins/fullcalendar/css/fullcalendar.css")' rel='stylesheet' />
@@ -84,11 +86,11 @@
                         <!--end row-fluid-->
                         <div class="tabbable tabbable-custom tabbable-custom-profile">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a href="#tab_1_11" data-toggle="tab">Instrucciones</a></li>
-                                <li class=""><a href="#tab_1_22" data-toggle="tab">Objetivos</a></li>
+                                <li class="active"><a href="#tab_1_22" data-toggle="tab">Proximas ofertas laborales</a></li>
+                                <li class=""><a href="#tab_1_11" data-toggle="tab">Instrucciones</a></li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane active" id="tab_1_11">
+                                <div class="tab-pane" id="tab_1_11">
                                     <div class="portlet-body" style="display: block;">
                                         <table class="table table-striped table-bordered table-advance table-hover">
                                             <thead>
@@ -129,106 +131,29 @@
                                     </div>
                                 </div>
                                 <!--tab-pane-->
-                                <div class="tab-pane" id="tab_1_22">
+                                <div class="tab-pane active" id="tab_1_22">
                                     <div class="tab-pane active" id="tab_1_1_1">
-                                        <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 290px;">
-                                            <div class="scroller" data-height="290px" data-always-visible="1" data-rail-visible1="1" style="overflow: hidden; width: auto; height: 290px;">
-                                                <ul class="feeds">
-                                                    <li>
-                                                        <div class="col1">
-                                                            <div class="cont">
-                                                                <div class="cont-col1">
-                                                                    <div class="label label-success">
-                                                                        <i class="icon-bell"></i>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="cont-col2">
-                                                                    <div class="desc">
-                                                                        Tiene 3 evaluaciones pendientes.
-                                                                   <span class="label label-important label-mini">Evaluar 
-                                                                   <i class="icon-share-alt"></i>
-                                                                   </span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col2">
-                                                            <div class="date">
-                                                                Ahora
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">
-                                                            <div class="col1">
-                                                                <div class="cont">
-                                                                    <div class="cont-col1">
-                                                                        <div class="label label-success">
-                                                                            <i class="icon-bell"></i>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="cont-col2">
-                                                                        <div class="desc">
-                                                                            Nuevos objetivos empresariales   
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col2">
-                                                                <div class="date">
-                                                                    1 día
-                                                                </div>
-                                                            </div>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <div class="col1">
-                                                            <div class="cont">
-                                                                <div class="cont-col1">
-                                                                    <div class="label label-important">
-                                                                        <i class="icon-bolt"></i>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="cont-col2">
-                                                                    <div class="desc">
-                                                                        Error en ciertos sistemas. Revisar                      
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col2">
-                                                            <div class="date">
-                                                                2 días
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="col1">
-                                                            <div class="cont">
-                                                                <div class="cont-col1">
-                                                                    <div class="label label-info">
-                                                                        <i class="icon-bullhorn"></i>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="cont-col2">
-                                                                    <div class="desc">
-                                                                        Realizar la evaluación de objetivos de este periodo.                 
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col2">
-                                                            <div class="date">
-                                                                1 semana
-                                                            </div>
-                                                        </div>
-                                                    </li>
-
-                                                </ul>
-                                            </div>
-                                            <div class="slimScrollBar ui-draggable" style="background-color: rgb(161, 178, 189); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; z-index: 99; right: 1px; background-position: initial initial; background-repeat: initial initial;"></div>
-                                            <div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; background-color: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px; background-position: initial initial; background-repeat: initial initial;"></div>
-                                        </div>
+                                       <div class="portlet-body" style="display: block;">
+                                        <table class="table table-striped table-bordered table-advance table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th><i class="icon-briefcase"></i>Area </th>
+                                                    <th class="hidden-phone"><i class="icon-question-sign"></i>Puesto </th>
+                                                    <th><i class="icon-bookmark"></i>Sueldo tentativo </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach(OfertaLaboralDTO oferta in ofertas){
+                                                    <tr>
+                                                        <td>@oferta.Area</td>
+                                                        <td class="hidden-phone">@oferta.Puesto</td>
+                                                        <td><span class="label label-success label-mini">@oferta.SueldoTentativo </span></td>
+                                                    </tr>
+                                                }
+                                              
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     </div>
                                 </div>
                                 <!--tab-pane-->

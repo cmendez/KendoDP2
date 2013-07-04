@@ -20,6 +20,21 @@ namespace KendoDP2.Areas.Organizacion.Controllers
             ViewBag.Area = "Organizacion";
         }
 
+        private List<OfertaLaboralDTO> GetOfertasRecientes(DP2Context context)
+        {
+            List<OfertaLaboralDTO> ofertasPosibles = context.TablaOfertaLaborales.Where(p => (p.EstadoSolicitudOfertaLaboral.Descripcion.Equals("Aprobado")) && (p.ModoSolicitudOfertaLaboral.Descripcion.Equals("Convocatoria Interna"))).Select(p => p.ToDTO()).ToList();
+            DateTime now = DateTime.Now;
+            List<OfertaLaboralDTO> ofertasEnFecha = ofertasPosibles.Where(x => DateTime.ParseExact(x.FechaFinRequerimiento, "dd/MM/yyyy", CultureInfo.CurrentCulture).CompareTo(now) >= 1).ToList();
+            int indice = 1;
+            List<OfertaLaboralDTO> res = new List<OfertaLaboralDTO>();
+            if (ofertasEnFecha != null)
+                for (int i = 0; i < 3 && i < ofertasEnFecha.Count; i++)
+                    res.Add(ofertasEnFecha[i]);    
+            
+            while(ofertasEnFecha.Count < 0)
+                ofertasEnFecha.Add( new OfertaLaboralDTO { Area = "-", Puesto = "-", SueldoTentativo = 0 } );
+            return res;
+        }
         public ActionResult Index()
         {
             using (DP2Context context = new DP2Context())
@@ -43,6 +58,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                         }
                 }
                 
+                
 
               
                 ViewBag.ColaboradorDTO = context.TablaColaboradores.FindByID(ColaboradorID).ToDTO();
@@ -57,7 +73,7 @@ namespace KendoDP2.Areas.Organizacion.Controllers
                 ViewBag.estadosEventos = context.TablaEstadoEvento.All().Select(c => c.ToDTO()).ToList();
                 ViewBag.nombreEvento = nombreE;
                 ViewBag.lugarEvento = lugarE;
-                
+                ViewBag.ofertas = GetOfertasRecientes(context);
 
                 
                 return View();
