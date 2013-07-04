@@ -125,12 +125,14 @@
     function rechazarPase(e) {
         e.preventDefault();
 
-        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-        ID = dataItem.ID;
-        var wnd = $("#Details").data("kendoWindow");
-        $("#Details").load("@Url.Action("GetViewMotivosRechazo","OfertasLaboralesInternas", new{Area = "Reclutamiento"})", {ofertaID : @ofertaID, postulanteXOfertaID : ID, motivoRechazo : "" }, function () {
-            wnd.center().open();
-        });
+        if(confirm("¿Esta seguro que desea rechazar a este postulante?")){
+            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+            ID = dataItem.ID;
+            var wnd = $("#Details").data("kendoWindow");
+            $("#Details").load("@Url.Action("GetViewMotivosRechazo","OfertasLaboralesInternas", new{Area = "Reclutamiento"})", {ofertaID : @ofertaID, postulanteXOfertaID : ID, motivoRechazo : "" }, function () {
+                wnd.center().open();
+            });
+        }
     }
 
     function verPostulante(e) {
