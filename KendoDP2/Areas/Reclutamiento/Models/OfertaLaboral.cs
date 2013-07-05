@@ -247,10 +247,13 @@ namespace KendoDP2.Areas.Reclutamiento.Models
             CompetenciasPonderadasPuesto = ListaCompetenciasConPonderadoToDTO(oferta.Puesto.CompetenciasXPuesto);
             //Las competencias colaborador (se obtienen del puesto de este):
             var context = new DP2Context();
-            Colaborador colaboradorActual = context.TablaColaboradores.Where(a => a.Username.Equals(userName)).First();
-            Puesto puesto = context.TablaColaboradoresXPuestos.Where(a=>a.ColaboradorID == colaboradorActual.ID)
-                .Where(x=>x.FechaSalidaPuesto == null || DateTime.Today <= x.FechaSalidaPuesto)
-                .Select(a=>a.Puesto).First();
+            Colaborador colaboradorActual = context.TablaColaboradores.One(a => a.Username.Equals(userName));//.First();
+            Puesto puesto;
+            var aux = context.TablaColaboradoresXPuestos
+                .One(a =>   a.ColaboradorID == colaboradorActual.ID && 
+                            (a.FechaSalidaPuesto == null || DateTime.Today <= a.FechaSalidaPuesto));
+            if (aux == null) return;
+            puesto = aux.Puesto;
             var CompetenciasPonderadasColaboradorAux = ListaCompetenciasConPonderadoToDTO(puesto.CompetenciasXPuesto);
             //Filtrar las competencias que me interesan matchear
             var CompetenciasPonderadasColaboradorFiltrado = new List<CompetenciaConPonderadoDTO>();

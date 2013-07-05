@@ -25,7 +25,7 @@ namespace KendoDP2.Areas.Reportes.Controllers
 
             using (DP2Context context = new DP2Context())
             {
-                Colaborador colaboradorActual = context.TablaColaboradores.Where(a => a.Username.Equals(userName)).First();
+                Colaborador colaboradorActual = context.TablaColaboradores.One(a => a.Username.Equals(userName));
                 int idEstado = context.TablaEstadoColaboradorXProcesoEvaluaciones.One(a => a.Nombre.Equals(ConstantsEstadoColaboradorXProcesoEvaluacion.Terminado)).ID;
                 //Obtengo los procesos
                 var procesos = context.TablaColaboradorXProcesoEvaluaciones.Where(a=>a.ColaboradorID == colaboradorActual.ID 
